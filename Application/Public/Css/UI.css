@@ -63,7 +63,7 @@ div[aria-controls="side"] {
 
 header {
     text-align: center;
-    text-shadow: 
+    text-shadow: #000 0 0 15px;
     height: 15em;
     line-height: 10em;
     margin-bottom: 6em;
