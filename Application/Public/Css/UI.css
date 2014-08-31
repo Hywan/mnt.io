@@ -1,0 +1,211 @@
+@font-face {
+    font-family: Text;
+    src: url('../Font/Palladio.woff') format('woff'),
+         url('../Font/Palladio.otf')  format('otf'),
+         url('../Font/Palladio.eot')  format('eot'),
+         url('../Font/Palladio.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Pre;
+    src: url('../Font/DroidSansMono.woff') format('woff'),
+         url('../Font/DroidSansMono.eot')  format('eot'),
+         url('../Font/DroidSansMono.ttf')  format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    color: rgb(0, 43, 54);
+    font: 1.2em/1.4em Text;
+    text-align: left;
+    background: rgb(253, 246, 227);
+}
+
+aside {
+    color: rgb(243, 243, 243);
+    background: rgb(145, 155, 161);
+}
+
+div[aria-controls="side"] {
+    transform: rotate(-360deg);
+    border-radius: 50%;
+    background: rgb(253, 246, 227);
+}
+
+    aside[aria-selected="true"] ~ div[aria-controls="side"] {
+        transform: rotate(45deg);
+    }
+
+@supports ( pointer-events: none ) {
+
+    #body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        opacity: 0;
+        background: #000;
+
+        transition: opacity 300ms ease-out;
+    }
+
+    aside[aria-selected="true"] ~ #body::after {
+        pointer-events: auto;
+        opacity: .7;
+    }
+}
+
+header {
+    text-align: center;
+    text-shadow: 
+    height: 15em;
+    line-height: 10em;
+    margin-bottom: 6em;
+    background: url('https://farm4.staticflickr.com/3858/14511660597_ce9e9a919a_h.jpg') no-repeat;
+    background-size: cover;
+    border: rgb(211,54,130) solid;
+    border-width: 2px 0 .75em 0;
+}
+
+    header a {
+        color: #fff;
+    }
+
+article {
+    counter-reset: h1 h2 h3 h4;
+    text-align: justify;
+    margin: 1em 8em 0 8em;
+}
+
+    article h1,
+    article h2,
+    article h3,
+    article h4 {
+        color: rgb(7, 54, 66);
+    }
+
+        article h1 {
+            counter-reset: h2 h3 h4;
+            text-align: center;
+        }
+
+        article h2 {
+            counter-reset: h3 h4;
+            counter-increment: h2;
+        }
+
+        article h3 {
+            counter-reset: h4;
+            counter-increment: h3;
+        }
+
+        article h4 {
+            counter-increment: h4;
+        }
+
+    article h2::before,
+    article h3::before,
+    article h4::before {
+        color: rgb(101, 123, 131);
+        display: inline-block;
+        width: 3rem;
+    }
+
+        article h1::before,
+        article h1::after {
+            content: '';
+            width: 4.5em;
+            height: 1em;
+            display: inline-block;
+            background: url('../Image/Ornament.svg') 50% 50% no-repeat;
+            background-size: contain;
+        }
+
+        article h1::before {
+            margin-left: 1em;
+            transform: rotateY(180deg);
+        }
+
+        article h1::after {
+            margin-right: 1em;
+        }
+
+        article h2::before {
+            content: counter(h2);
+        }
+
+        article h3::before {
+            content: counter(h2) '.' counter(h3);
+        }
+
+        article h4::before {
+            content: counter(h2) '.' counter(h3) '.' counter(h4);
+        }
+
+footer {
+    text-align: center;
+}
+
+a {
+    color: rgb(38, 139, 210);
+    text-decoration: none;
+}
+
+img { }
+
+    img.icon {
+        height: 1em;
+    }
+
+p {
+    clear: both;
+}
+
+em em {
+    font-style: normal;
+}
+
+
+li {
+    position: relative;
+    list-style: none;
+    margin-left: 1em;
+}
+
+    li::before {
+        position: absolute;
+        left: -1.5em;
+        cursor: default;
+        height: 100%;
+        width: 1.3em;
+        text-align: center;
+    }
+
+ul { }
+
+    ul > li::before {
+        content: "•";
+        color: rgb(147, 161, 161);
+    }
+
+    ul > li[data-item]::before {
+        content: attr(data-item);
+    }
+
+ol {
+    counter-reset: ol 0;
+}
+
+    ol > li {
+        counter-increment: ol;
+    }
+
+    ol > li::before {
+        content: counter(ol);
+    }

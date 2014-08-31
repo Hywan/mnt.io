@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xyl-stylesheet href="hoa://Application/Public/Css/Layout.css"?>
+<?xyl-stylesheet href="hoa://Application/Public/Css/UI.css"?>
 
 <document xmlns="http://hoa-project.net/xyl/xylophone">
   <title bind="?title" />
 
-  <header>
-    <h1>Hoa blog</h1>
-  </header>
+  <script src="hoa://Library/Xyl/Javascript/Hoa.js"></script>
 
-  <article id="main" />
+  <aside id="side" aria-selected="false">
+    <img src="hoa://Application/Public/Image/Avatar.png" alt="My avatar" />
+    <ul>
+      <li>Ivan Enderlin</li>
+      <li>PhD computer scientist</li>
+      <li>hacker</li>
+      <li><a href="http://cv.mnt.io/">CV</a></li>
+      <li>father of
+          <a href="http://hoa-project.net/">
+            <img src="http://static.hoa-project.net/Image/Hoa.svg"
+                 alt="Hoa project"
+                 class="icon" />
+          </a></li>
+    </ul>
+  </aside>
 
-  <footer>
-    <p>This blog is powered by <a href="http://hoa-project.net/">Hoa</a> and
-    <a href="http://php.net/">PHP</a>.</p>
-  </footer>
+  <div aria-controls="side">
+    <img src="hoa://Application/Public/Image/Icon/Circled_plus.svg"
+         alt="Menu" />
+  </div>
+
+  <div id="body">
+    <header>
+      <h1><a href="/"><code>mnt.io</code></a></h1>
+    </header>
+
+    <article id="main" />
+
+    <footer>
+      <p>This blog is powered by <a href="http://hoa-project.net/">Hoa</a> and
+      <a href="http://php.net/">PHP</a>.</p>
+    </footer>
+  </div>
+
+  <script>
+    Hoa.Document.onReady(function ( ) {
+
+        var aside = Hoa.$('#side');
+
+        Hoa.$('div[aria-controls="side"]')
+           .addEventListener('click', function ( ) {
+
+               if('false' === aside.getAttribute('aria-selected'))
+                   aside.setAttribute('aria-selected', true);
+               else
+                   aside.setAttribute('aria-selected', false);
+           }, false);
+    });
+  </script>
 </document>

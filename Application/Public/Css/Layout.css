@@ -1,0 +1,67 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+aside {
+    position: fixed;
+    top: 0;
+    left: -50px;
+    padding-left: 50px;
+    height: 100%;
+    width: 200px;
+    transform: translateX(-200px);
+}
+
+    aside[aria-selected="true"] {
+        transform: translateX(0);
+    }
+
+#body {
+    position: relative;
+    min-height: 100%;
+    margin: -1px;
+    border-top: 1px transparent solid;
+}
+
+    aside[aria-selected="true"] ~ #body {
+        transform: translateX(200px);
+    }
+
+    aside,
+    #body,
+    div[aria-controls="side"] {
+        transition: 500ms cubic-bezier(.26, 1.59, .64, 1)
+    }
+
+div[aria-controls="side"] {
+    z-index: 1;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    margin-left: 10px;
+    width: 2.5em;
+    height: 2.5em;
+}
+
+    aside[aria-selected="true"] ~ div[aria-controls="side"] {
+        margin-left: 210px;
+        background: rgb(253, 246, 227);
+    }
+
+#main {
+    padding-bottom: 4em;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

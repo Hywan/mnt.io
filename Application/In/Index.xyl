@@ -4,7 +4,7 @@
   <article id="main">
     <ul>
       <li bind="?posts">
-        <a href="(?url)" bind="?title" />
+        <a href="/P/(?url)" bind="?title" />
       </li>
     </ul>
   </article>

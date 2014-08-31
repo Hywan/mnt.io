@@ -7,7 +7,7 @@ from('Hoa')
 -> import('Stringbuffer.Read')
 -> import('Xyl.~')
 -> import('Xyl.Interpreter.Html.~')
--> import('Http.Response');
+-> import('Http.Response.~');
 
 }
 
@@ -23,10 +23,13 @@ class Post {
 
   private $_metas    = array();
 
+  private $_router   = null;
+
   public function __construct( \Hoa\File\SplFileInfo $file ) {
 
+    $this->_router   = require 'hoa://Application/In/Router.php';
     $path            = pathinfo($file->getRelativePathname());
-    $this->_filename = $path['dirname'] . DS . $path['filename'];
+    $this->_filename = trim(trim($path['dirname'], '.') . DS . $path['filename'], DS);
 
     if(!is_dir($path['dirname'])) {
 
@@ -36,10 +39,11 @@ class Post {
     $this->extractMetas();
 
     $this->_xyl =  new \Hoa\Xyl(
-                      new \Hoa\File\Read('hoa://Application/In/Layouts/' . $this->getLayoutFileName()),
-                      new \Hoa\File\Write('hoa://Application/Out/' . $this->getOutputFilename()),
-                      new \Hoa\Xyl\Interpreter\Html()
-                    );
+      new \Hoa\File\Read('hoa://Application/In/Layouts/' . $this->getLayoutFileName()),
+      new \Hoa\File\Write('hoa://Application/Out/' . $this->getOutputFilename()),
+      new \Hoa\Xyl\Interpreter\Html(),
+      $this->_router
+    );
     $this->_xyl->addOverlay($this->_streamName);
 
     $data = $this->_xyl->getData();
@@ -74,7 +78,8 @@ class Post {
     $xyl = new \Hoa\Xyl(
         new \Hoa\File\Read('hoa://Application/In/Posts/' . $this->getInputFilename()),
         new \Hoa\Http\Response(),
-        new \Hoa\Xyl\Interpreter\Html()
+        new \Hoa\Xyl\Interpreter\Html(),
+        $this->_router
     );
 
     $ownerDocument = $xyl->readDOM()->ownerDocument;
@@ -104,5 +109,11 @@ class Post {
   }
 
 }
+
+}
+
+namespace {
+
+Hoa\Core\Consistency::flexEntity('Jekxyl\Post\Post');
 
 }

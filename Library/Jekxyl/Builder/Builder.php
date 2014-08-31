@@ -21,8 +21,11 @@ class Builder {
 
   private $_posts = array();
 
+  private $_router = null;
+
   public function __construct() {
 
+    $this->_router = require 'hoa://Application/In/Router.php';
   }
 
   public function build() {
@@ -69,10 +72,11 @@ class Builder {
 
     // Render the index
     $index =  new \Hoa\Xyl(
-              new \Hoa\File\Read('hoa://Application/In/Layouts/Main.xyl'),
-              new \Hoa\File\Write('hoa://Application/Out/index.html'),
-              new \Hoa\Xyl\Interpreter\Html()
-            );
+      new \Hoa\File\Read('hoa://Application/In/Layouts/Main.xyl'),
+      new \Hoa\File\Write('hoa://Application/Out/index.html'),
+      new \Hoa\Xyl\Interpreter\Html(),
+      $this->_router
+    );
 
     $posts = array();
     foreach($this->_posts as $post) {
@@ -91,5 +95,11 @@ class Builder {
   }
 
 }
+
+}
+
+namespace {
+
+Hoa\Core\Consistency::flexEntity('Jekxyl\Builder\Builder');
 
 }

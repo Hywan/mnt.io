@@ -5,7 +5,7 @@ require_once '/usr/local/lib/Hoa/Core/Core.php';
 $core = Hoa\Core::getInstance();
 $core->initialize(array(
     'root.application'        => '(:cwd:h:)/Application',
-    'namespace.prefix.Jekxyl' => '(:cwd:h:)/Library/',
+    'namespace.prefix.Jekxyl' => '(:cwd:h:)/Library',
     'protocol.Library'        => '(:%namespace.prefix.Jekxyl:)/Jekxyl/;' .
                                  $core->getParameters()->getParameter('protocol.Library'),
 ));
