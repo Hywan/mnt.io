@@ -121,7 +121,7 @@ class Post {
 
   private function getLayoutFileName() {
 
-    $layout_name = empty($this->_metas['layout']) ? 'main' : $this->_metas['layout'];
+    $layout_name = empty($this->_metas['layout']) ? 'Main' : $this->_metas['layout'];
 
     return $layout_name . '.xyl';
   }
