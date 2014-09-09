@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/Layout.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/UI.css"?>
+<?xyl-meta name="viewport" content="initial-scale=1.0"?>
 
 <document xmlns="http://hoa-project.net/xyl/xylophone">
   <title bind="?title" />
