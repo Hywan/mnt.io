@@ -9,17 +9,18 @@ body {
     overflow-x: hidden;
 }
 
-aside {
+#side {
+    z-index: 1;
     position: fixed;
     top: 0;
     left: -50px;
     padding-left: 50px;
     height: 100%;
-    width: 200px;
-    transform: translateX(-200px);
+    width: 250px;
+    transform: translateX(-250px);
 }
 
-    aside[aria-selected="true"] {
+    #side[aria-selected="true"] {
         transform: translateX(0);
     }
 
@@ -30,11 +31,11 @@ aside {
     border-top: 1px transparent solid;
 }
 
-    aside[aria-selected="true"] ~ #body {
-        transform: translateX(200px);
+    #side[aria-selected="true"] ~ #body {
+        transform: translateX(250px);
     }
 
-    aside,
+    #side,
     #body,
     div[aria-controls="side"] {
         transition: 500ms cubic-bezier(.26, 1.59, .64, 1)
@@ -50,8 +51,8 @@ div[aria-controls="side"] {
     height: 2.5em;
 }
 
-    aside[aria-selected="true"] ~ div[aria-controls="side"] {
-        margin-left: 210px;
+    #side[aria-selected="true"] ~ div[aria-controls="side"] {
+        margin-left: 260px;
         background: rgb(253, 246, 227);
     }
 

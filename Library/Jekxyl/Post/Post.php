@@ -15,6 +15,8 @@ namespace Jekxyl\Post {
 
 class Post {
 
+  private $_fileinfo = null;
+
   private $_xyl      = null;
 
   private $_filename = '';
@@ -27,6 +29,7 @@ class Post {
 
   public function __construct( \Hoa\File\SplFileInfo $file ) {
 
+    $this->_fileinfo = $file;
     $this->_router   = require 'hoa://Application/In/Router.php';
     $path            = pathinfo($file->getRelativePathname());
     $this->_filename = trim(trim($path['dirname'], '.') . DS . $path['filename'], DS);
@@ -70,6 +73,21 @@ class Post {
   private function getInputFilename() {
 
     return $this->_filename . '.xyl';
+  }
+
+  public function getTimestamp() {
+
+    if(isset($this->_metas['date'])) {
+
+        $format = \DateTime::createFromFormat(
+            \DateTime::ISO8601,
+            $this->_metas['date']
+        );
+
+        return $format->format('U');
+    }
+
+    return $this->_fileinfo->getMTime();
   }
 
   private function extractMetas() {

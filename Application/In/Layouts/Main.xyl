@@ -8,8 +8,11 @@
   <script src="hoa://Library/Xyl/Javascript/Hoa.js"></script>
 
   <aside id="side" aria-selected="false">
-    <img src="hoa://Application/Public/Image/Avatar.png" alt="My avatar" />
-    <ul>
+    <div class="avatar">
+      <img src="http://gravatar.com/avatar/c9eaecd38c8fa34ce638520112017f9a"
+           alt="My avatar" />
+    </div>
+    <ul class="raw">
       <li>Ivan Enderlin</li>
       <li>PhD computer scientist</li>
       <li>hacker</li>
@@ -18,7 +21,7 @@
           <a href="http://hoa-project.net/">
             <img src="http://static.hoa-project.net/Image/Hoa.svg"
                  alt="Hoa project"
-                 class="icon" />
+                 class="icon solid" />
           </a></li>
     </ul>
   </aside>
@@ -36,8 +39,7 @@
     <article id="main" />
 
     <footer>
-      <p>This blog is powered by <a href="http://hoa-project.net/">Hoa</a> and
-      <a href="http://php.net/">PHP</a>.</p>
+      <p>Copyright © 2014, Ivan Enderlin. All rights reserved.</p>
     </footer>
   </div>
 

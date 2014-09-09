@@ -57,7 +57,11 @@ class Builder {
     $finder = new \Hoa\File\Finder();
     $finder->in('hoa://Application/In/Posts/')
            ->files()
-           ->name('#\.xyl$#');
+           ->name('#\.xyl$#')
+           ->sort(function ( $a, $b ) {
+
+                return -1 * strcmp($a->getPathname(), $b->getPathname());
+           });
 
     foreach ($finder as $name) {
 
@@ -82,8 +86,10 @@ class Builder {
     foreach($this->_posts as $post) {
 
       $posts[] = array(
-        'title' => $post->getTitle(),
-        'url'   => $post->getOutputFilename()
+        'title'     => $post->getTitle(),
+        'url'       => $post->getOutputFilename(),
+        'timestamp' => $post->getTimestamp(),
+        'date'      => date('c', $post->getTimestamp())
       );
     }
 

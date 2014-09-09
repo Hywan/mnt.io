@@ -2,9 +2,16 @@
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
-    <ul>
+    <ul class="raw tabular">
       <li bind="?posts">
-        <a href="/P/(?url)" bind="?title" />
+        <aside class="detail">
+          <time datetime="(?date)">
+            <value formatter="date"
+                   formatter-format="jS M. Y"
+                   formatter-timestamp="(?timestamp)" />
+          </time>
+        </aside>
+        <a href="@post:url=(?url)" bind="?title" />
       </li>
     </ul>
   </article>
