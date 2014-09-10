@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <h1 position="0" bind="?title" />
+
+    <p position="1"><small>Written the
+      <time datetime="(?date)">
+        <value formatter="date"
+               formatter-format="jS F Y"
+               formatter-timestamp="(?timestamp)"
+      /></time>.</small></p>
+  </article>
+</overlay>
