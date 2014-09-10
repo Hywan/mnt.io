@@ -18,10 +18,12 @@ body {
     height: 100%;
     width: 250px;
     transform: translateX(-250px);
+    -webkit-transform: translateX(-250px);
 }
 
     #side[aria-selected="true"] {
         transform: translateX(0);
+        -webkit-transform: translateX(0);
     }
 
 #body {
@@ -33,6 +35,7 @@ body {
 
     #side[aria-selected="true"] ~ #body {
         transform: translateX(250px);
+        -webkit-transform: translateX(250px);
     }
 
     #side,

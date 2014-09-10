@@ -59,10 +59,12 @@ div[aria-controls="side"] {
     border-radius: 50%;
     background: rgb(253, 246, 227);
     transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
 }
 
     #side[aria-selected="true"] ~ div[aria-controls="side"] {
         transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
     }
 
 #body {
@@ -187,6 +189,7 @@ article {
         article h1::before {
             left: 0;
             transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
         }
 
         article h1::after {
