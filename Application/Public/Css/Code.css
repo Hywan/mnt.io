@@ -1,0 +1,64 @@
+pre {
+    margin: 0 -10em;
+    padding: 0 10em;
+    overflow-x: scroll;
+    background: rgb(238, 232, 213);
+}
+
+code[class*="language-"] {
+    color: #000;
+}
+
+.language-php {
+    color: rgb(38, 139, 210) !important;
+}
+
+.language-pp {
+    color: #549848 !important;
+}
+
+.token.comment,
+.token.icomment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: rgb(147, 161, 161);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string {
+    color: rgb(133, 153, 0);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: rgb(38, 139, 210);
+}
+
+.token.property,
+.token.tag,
+.token.number,
+.token.constant {
+    color: rgb(211, 54, 130);
+}
+
+.token.php,
+.token.operator {
+    color: rgb(108, 113, 196);
+}
+
+.token.url,
+.token.special_variable,
+.token.variable {
+    color: rgb(181, 137, 0);
+}
+
+.token.punctuation {
+    color: rgb(147, 161, 161);
+}
+
+.token.input {
+    text-decoration: blink;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="Hello world!"?>
+<?xyl-meta name="date" value="2014-09-09T17:37:46+02:00"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <h1>Hello world!</h1>
+
+    <p>This is my first post of my first public and Computer Science-oriented
+    blog. When I started <a href="http://hoa-project.net/">Hoa</a> few years
+    ago, along with other projects, there all were mainly a pretext to learn
+    about numerous domains of Computer Science. All the acquired knowledges have
+    taken the form of libraries or programs, go hand in hand with detailed
+    documentations and <code>README</code>. However, while I always like to
+    write an introduction to my documentation chapters (examples with
+    <a href="http://hoa-project.net/Literature/Hack/Websocket.html#Introduction"><code>Hoa\Websocket</code></a>
+    or
+    <a href="http://hoa-project.net/Literature/Hack/Compiler.html#Introduction"><code>Hoa\Compiler</code></a>),
+    these are not the place where to write the making-of or the behind the
+    scenes, i.e. all the implementation details and choices. Consequently, this
+    blog will be Computer Science-oriented and especially
+    technical-oriented.</p>
+    <p>Moreover, this blog will be a place where I can freely talk about the
+    future of projects where I am involved. For instance, we are going to land a
+    new special release system for Hoa and the
+    <a href="http://blog.hoa-project.net/">official blog of Hoa</a> is not the
+    place where to make pre-announcements. Similarly, Hoa's blog is still not
+    the place where to talk about current works and advancements. Consequently,
+    this blog will fill those needs.</p>
+    <p>To conclude:</p>
+    <pre><code class="language-php">echo 'Hello world!';</code></pre>
+  </article>
+</overlay>

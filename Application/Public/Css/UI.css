@@ -21,7 +21,6 @@ body {
     color: rgb(0, 43, 54);
     font: 1.2em/1.4em Text;
     text-align: left;
-    background: rgb(253, 246, 227);
 }
 
 #side {
@@ -65,6 +64,10 @@ div[aria-controls="side"] {
     #side[aria-selected="true"] ~ div[aria-controls="side"] {
         transform: rotate(45deg);
     }
+
+#body {
+    background: rgb(253, 246, 227);
+}
 
 @supports ( pointer-events: none ) {
 
@@ -203,6 +206,7 @@ article {
         }
 
 footer {
+    font-size: .8em;
     text-align: center;
 }
 
