@@ -321,10 +321,38 @@ ol {
         content: counter(ol);
     }
 
+q {
+    font-style: italic;
+}
+
+    q::before, q::after {
+        content: '';
+    }
+
 .detail { }
 
     @media all and (max-width: 600px) {
         .detail {
             display: none !important;
         }
+    }
+
+.abstract {
+    font-size: .95em;
+    font-style: italic;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3em;
+}
+
+    .abstract::before {
+        content: 'Abstract';
+        padding-right: 3em;
+        font-style: normal;
+        font-weight: bolder;
+    }
+
+    .abstract > em {
+        font-style: normal;
     }
