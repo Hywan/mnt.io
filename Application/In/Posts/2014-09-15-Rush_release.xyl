@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="Rüsh Release"?>
+<?xyl-meta name="date" value="2014-09-15T16:08:09+02:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <div class="abstract">We, at <a href="http://hoa-project.net/">at Hoa</a>,
+    have defined a new release process called <strong>Rüsh Release</strong>,
+    standing for <em>Rolling Ünd ScHeduled Release</em>. From the user point of
+    view, it will allow to get rid off the <code
+    class="language-json">"minimum-stability": "dev"</code> in
+    <code>composer.json</code> files, while keeping the pros and flexibility of
+    rolling release.</div>
+
+    <p>Since 2 years, at <a href="http://hoa-project.net/">Hoa</a>, we are
+    looking for the perfect release process. Today, we have finalized the last
+    thing related to this new process: we have found a name. It is called
+    <strong>Rüsh Release</strong>, standing for <em>Rolling Ünd ScHeduled
+    Release</em>.</p>
+    <p>The following explanations are useful from the user point of view, not
+    from the developer point of view. It means that we do not explain all the
+    branches and the workflow between all of them. We will settle for the user
+    final impact.</p>
+
+    <h2>Rolling Release</h2>
+
+    <p>On one hand, Hoa is not and will never be finished. We will never reach
+    the “Holy 1.0 Grail”. So, one might reckon that Hoa is rolling-released?
+    Let's dive into this direction. There are plenty
+    <a href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
+    types</a> out there, such as:</p>
+    <ul>
+      <li>partially rolling,</li>
+      <li>fully rolling,</li>
+      <li>truly rolling,</li>
+      <li>pseudo-rolling,</li>
+      <li>optionally rolling,</li>
+      <li>cyclically rolling,</li>
+      <li>and synonyms…</li>
+    </ul>
+    <p>I am not going to explain all of them. All you need to know is that Hoa
+    is partly and truly rolling released, or <em>part-</em> and
+    <em>true-</em>rolling released for short. Why? Firstly, <q>“Part-rolling
+    [project] has a subset of software packages that are not rolling”</q>. If we
+    look at Hoa only, it is fully rolling but Hoa depends on PHP virtual
+    machines to be executed, which are not rolling released (for the most
+    popular ones at least). Thus, Hoa is partly rolling released. Secondly,
+    <q>“True-rolling [project] are developed solely using a rolling release
+    software development model”</q>, which is the case of Hoa. Consequently and
+    finally, the <code>master</code> branch is the final public branch, it means
+    that it <strong>always</strong> contains the latest version, and users
+    constantly fetch updates from it.</p>
+
+    <h2>Versioning</h2>
+
+    <p>Sounds good. On the other hand, the majority of programs that
+    are using Hoa use tools called dependency managers. The most popular in PHP
+    is <a href="http://getcomposer.org/">Composer</a>. This is a fantastic tool
+    but with a little spine that hurts us a lot: it does not support
+    rolling release! Most of the time, dependency managers work with version
+    numbers, mainly of the form <code><em>x</em>.<em>y</em>.<em>z</em></code>,
+    with a specific semantics for <code><em>x</em></code>,
+    <code><em>y</em></code> and <code><em>z</em></code>. For instance, some
+    people have agreed about <a href="http://semver.org/">semver</a>, standing
+    for <em>Semantic Versioning</em>.</p>
+    <p>Also, we are not extremist. We understand the challenges and the needs
+    behind versioning. So, how to mix both: rolling release and versioning?
+    Before answering this question, let's progress a little step forward and
+    learn more about an alternative versioning approach.</p>
+
+    <h3>Scheduled-based release</h3>
+
+    <p>Scheduled-based, also known as date-based, release allows to define
+    releases at regular periods of time. This approach is widely adopted for
+    projects that progress quickly, such as Firefox or PHP (see the
+    <a href="https://wiki.php.net/rfc/releaseprocess">PHP RFC: Release
+    Process</a> for example). For Firefox, every 6 weeks, a new version is
+    released. Note that we should say <em>a new update</em> to be honest: the
+    term <em>version</em> has an unclear meaning here.</p>
+    <p>The scheduled-based release seems a good candidate to be mixed with
+    rolling release, isn't it?</p>
+
+    <h2>Rüsh Release</h2>
+
+    <p>Rüsh Release is a mix between part- and true-rolling release and
+    scheduled-based release. The <code>master</code> branch is part- and
+    true-rolling release, but with a semi-automatically versioning:</p>
+    <ul>
+      <li>each 6 weeks, if at least one new patch has been merged into the
+      <code>master</code>, a new version is created,</li>
+      <li>before 6 weeks, if several critical or significant patches have been
+      applied, a new version is created.</li>
+    </ul>
+    <p>What is the version format then? We have proposed
+    <code><em>YY</em><sup>{2,4}</sup>.<em>mm</em>.<em>dd</em></code>, starting
+    from 2000, our “Rüsh Epoch”.</p>
+    <p>Nevertheless, we are not <strong>infallible</strong> and we can
+    potentially break backward compatibility. It never happened but we have to
+    face it. This is a problem because neither the part- and true-rolling
+    release nor the scheduled-based release holds the information that the
+    backward compatibility has been broken. Therefore, the <code>master</code>
+    branch must have a <strong>compatibility number</strong>
+    <code><em>x</em></code>, starting from 1 with step of 1. Consequently, the
+    new and last version format is
+    <code><em>x</em>.<em>Y</em><sup>{2,4}</sup>.<em>mm</em>.<em>dd</em></code>.
+    For today for instance, it is <code>1.14.09.15</code>.</p>
+    <p>With the Rüsh Release process, we can freely rolling release our
+    libraries while ensuring the safety and embracing the pros of
+    versioning.</p>
+    <p>So, now, you will be able to change your <code>composer.json</code> files
+    from:</p>
+    <pre><code class="language-json">{
+    "require": {
+        "hoa/websocket": "dev-master"
+    },
+    "minimum-stability": "dev"
+}</code></pre>
+    <p>to (<a href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn
+    more about the tilde operator</a>):</p>
+    <pre><code class="language-json">{
+    "require": {
+        "hoa/websocket": "~1.0"
+    }
+}</code></pre>
+    <p>\o/</p>
+  </article>
+</overlay>
+
