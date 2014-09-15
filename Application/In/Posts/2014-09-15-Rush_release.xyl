@@ -5,7 +5,7 @@
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
-    <div class="abstract">We, at <a href="http://hoa-project.net/">at Hoa</a>,
+    <div class="abstract">We, at <a href="http://hoa-project.net/">Hoa</a>,
     have defined a new release process called <strong>Rüsh Release</strong>,
     standing for <em>Rolling Ünd ScHeduled Release</em>. From the user point of
     view, it will allow to get rid off the <code
