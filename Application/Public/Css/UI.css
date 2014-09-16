@@ -283,6 +283,11 @@ li {
         padding-right: 1em;
     }
 
+    li > aside.end {
+        text-align: left;
+        padding-left: 1em;
+    }
+
 ul {
     margin: 0;
     padding: 0;

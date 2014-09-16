@@ -69,3 +69,7 @@ footer {
     right: 0;
     bottom: 0;
 }
+
+#comments {
+    margin-top: 5em;
+}

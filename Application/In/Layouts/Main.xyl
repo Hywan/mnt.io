@@ -45,34 +45,40 @@
     </footer>
   </div>
 
-  <script>
-    Hoa.Document.onReady(function ( ) {
+  <yield id="scripts">
+    <script>
+      Hoa.Document.onReady(function ( ) {
 
-        var aside = Hoa.$('#side');
+          var aside = Hoa.$('#side');
 
-        Hoa.$('div[aria-controls="side"]')
-           .addEventListener('click', function ( ) {
+          Hoa.$('div[aria-controls="side"]')
+             .addEventListener('click', function ( ) {
 
-               if('false' === aside.getAttribute('aria-selected'))
-                   aside.setAttribute('aria-selected', true);
-               else
-                   aside.setAttribute('aria-selected', false);
-           }, false);
-    });
-  </script>
-  <script src="http://static.hoa-project.net/Javascript/Prism.js"></script>
-  <script src="http://static.hoa-project.net/Javascript/Prism.hoa.js"></script>
-  <script src="http://static.hoa-project.net/Javascript/Prism.plugin.line.js"></script>
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.hoa-project.net/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', 5]);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-      g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
+                 if('false' === aside.getAttribute('aria-selected'))
+                     aside.setAttribute('aria-selected', true);
+                 else
+                     aside.setAttribute('aria-selected', false);
+             }, false);
+      });
+    </script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.js"></script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.hoa.js"></script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.plugin.line.js"></script>
+    <script>
+      var _paq = _paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.hoa-project.net/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 5]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <script>
+      var disqus_shortname = 'mntio';
+    </script>
+    <script src="http://mntio.disqus.com/count.js"></script>
+  </yield>
 </document>

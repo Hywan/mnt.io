@@ -12,6 +12,7 @@
           </time>
         </aside>
         <a href="@post:url=(?url)" bind="?title" />
+        <aside class="end detail"><small>(<a href="@post:url=(?url)#disqus_thread">? comment</a>)</small></aside>
       </li>
     </ul>
   </article>
