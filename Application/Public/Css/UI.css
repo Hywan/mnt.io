@@ -1,18 +1,18 @@
 @font-face {
     font-family: Text;
-    src: url('../Font/Palladio.woff') format('woff'),
-         url('../Font/Palladio.otf')  format('otf'),
-         url('../Font/Palladio.eot')  format('eot'),
-         url('../Font/Palladio.ttf')  format('truetype');
+    src: url('http://static.hoa-project.net/Font/Palladio.woff') format('woff'),
+         url('http://static.hoa-project.net/Font/Palladio.otf')  format('otf'),
+         url('http://static.hoa-project.net/Font/Palladio.eot')  format('eot'),
+         url('http://static.hoa-project.net/Font/Palladio.ttf')  format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: Pre;
-    src: url('../Font/DroidSansMono.woff') format('woff'),
-         url('../Font/DroidSansMono.eot')  format('eot'),
-         url('../Font/DroidSansMono.ttf')  format('truetype');
+    src: url('http://static.hoa-project.net/Font/DroidSansMono.woff') format('woff'),
+         url('http://static.hoa-project.net/Font/DroidSansMono.eot')  format('eot'),
+         url('http://static.hoa-project.net/Font/DroidSansMono.ttf')  format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -361,3 +361,7 @@ q {
     .abstract > em {
         font-style: normal;
     }
+
+.tex {
+    font-size: .95em;
+}

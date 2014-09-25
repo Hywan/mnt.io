@@ -2,6 +2,7 @@
 <?xyl-stylesheet href="hoa://Application/Public/Css/Layout.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/UI.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/Code.css"?>
+<?xyl-stylesheet href="hoa://Application/Public/Css/Katex.min.css"?>
 <?xyl-meta name="viewport" content="initial-scale=1.0"?>
 
 <document xmlns="http://hoa-project.net/xyl/xylophone">
@@ -64,6 +65,7 @@
     <script src="http://static.hoa-project.net/Javascript/Prism.js"></script>
     <script src="http://static.hoa-project.net/Javascript/Prism.hoa.js"></script>
     <script src="http://static.hoa-project.net/Javascript/Prism.plugin.line.js"></script>
+    <script src="hoa://Application/Public/Javascript/Katex.min.js"></script>
     <script>
       var _paq = _paq || [];
       _paq.push(['trackPageView']);
