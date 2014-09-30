@@ -14,7 +14,8 @@
     expressions (lex, parse and get an AST of them), and second we see how to
     visit the produced AST in order to generate strings. Finally, we see how
     this algorithm is implemented and can be used in
-    <a href="http://atoum.org/">atoum</a>, a unit test framework.</div>
+    <a href="http://atoum.org/">atoum</a>, a unit test framework, in order to
+    generate test data.</div>
 
     <p>During my PhD thesis, I have partly worked on the problem of the
     automatic accurate test data generation. In order to be complete and
