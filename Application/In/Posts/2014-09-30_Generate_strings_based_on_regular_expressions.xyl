@@ -442,7 +442,96 @@ echo $generator->visit($ast);</code></pre>
     <p>Finally, with <code class="language-php">$expression =
     'ab(c|d){2,4}e?';</code> we can have the following strings:
     <code>abdcce</code>, <code>abdc</code>, <code>abddcd</code>,
-    <code>abcde</code> etc. Nice isn't it?</p>
+    <code>abcde</code> etc. Nice isn't it? Want more?</p>
+    <pre><code class="language-php">for($i = 0; $i &amp;lt; 42; ++$i)
+    echo $generator->visit($ast), "\n";
+
+/**
+ * Could output:
+ *     abdce
+ *     abdcc
+ *     abcdde
+ *     abcdcd
+ *     abcde
+ *     abcc
+ *     abddcde
+ *     abddcce
+ *     abcde
+ *     abcc
+ *     abdcce
+ *     abcde
+ *     abdce
+ *     abdd
+ *     abcdce
+ *     abccd
+ *     abdcdd
+ *     abcdcce
+ *     abcce
+ *     abddc
+ */</code></pre>
+
+    <h2>Performance</h2>
+
+    <p>This is difficult to give numbers because it depends of a lot of
+    parameters: your machine configuration, the PHP VM, if other programs run
+    etc. But I have generated 1 million (<tex>10^9</tex>) strings in less than
+    25 seconds on my machine (an old MacBook Pro), which is pretty
+    reasonable.</p>
+    <figure>
+      <div id="chart"></div>
+      <figcaption>Log scale</figcaption>
+    </figure>
+    <script>
+      Hoa.Document.onReady(function ( ) {
+
+          var x     = [10, 100, 1000, 100000, 1000000];
+          var _data = [0, 3, 27, 2601, 27650];
+          var data1 = ['data1'];
+
+          for(var i = 1; i &amp;lt; _data.length; ++i) {
+              data1[i] = Math.log(_data[i]) / Math.LN10;
+          }
+
+          var chart = c3.generate({
+              bindto: '#chart',
+              data: {
+                  columns: [
+                      data1
+                  ],
+                  types: {
+                      data1: 'bar'
+                  }
+              },
+              axis: {
+                  rotated: true,
+                  x: {
+                      label: {
+                          text: 'number of generated strings',
+                          position: 'outer-middle'
+                      },
+                      tick: {
+                          format: function ( d, i ) {
+
+                              return x[d];
+                          }
+                      }
+                  },
+                  y: {
+                      label: {
+                          text: 'generation time (ms)',
+                          position: 'outer-middle'
+                      },
+                      tick: {
+                          format: function ( d ) {
+
+                              return Math.pow(10, d).toFixed(2);
+                          }
+                      }
+                  }
+              }
+          });
+      });
+    </script>
 
     <h2>Conclusion</h2>
   </article>
