@@ -54,6 +54,13 @@ div[aria-controls="side"] {
     height: 2.5em;
 }
 
+    @media all and (max-width: 600px) {
+        div[aria-controls="side"] {
+            width: 2em;
+            height: 2em;
+        }
+    }
+
     #side[aria-selected="true"] ~ div[aria-controls="side"] {
         margin-left: 260px;
         background: rgb(253, 246, 227);

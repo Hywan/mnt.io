@@ -2,22 +2,8 @@
 
 <definition xmlns="http://hoa-project.net/xyl/xylophone">
   <yield name="tex">
-    <span class="tex">
-      <span data-type="tex" yield-select="?x:@*"></span>
-      <script>
-      Hoa.Document.onReady(function ( ) {
-
-          katex.render(
-              "\\displaystyle <value formatter="str_replace"
-                                     formatter-search="\"
-                                     formatter-replace="\\"><yield select="?x:text()" /></value>",
-              Hoa.$(
-                '[data-type="tex"][data-id="<value of="attribute-values"
-                                                   yield-select="?x:@data-id" />"]'
-              )
-          );
-      });
-      </script>
+    <span data-type="tex" yield-select="?x:@*">
+      \displaystyle <yield select="?x:text()" />
     </span>
   </yield>
 </definition>

@@ -8,15 +8,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: Pre;
-    src: url('http://static.hoa-project.net/Font/DroidSansMono.woff') format('woff'),
-         url('http://static.hoa-project.net/Font/DroidSansMono.eot')  format('eot'),
-         url('http://static.hoa-project.net/Font/DroidSansMono.ttf')  format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 body {
     color: rgb(0, 43, 54);
     font: 1.2em/1.4em Text;
@@ -117,8 +108,8 @@ article {
 
     @media all and (max-width: 800px) {
         article {
-            margin-left: 3.5em;
-            margin-right: 3.5em;
+            margin-left: 2.8em;
+            margin-right: 2.8em;
         }
     }
 
@@ -288,6 +279,12 @@ li {
         padding-left: 1em;
     }
 
+    @media all and (max-width: 600px) {
+        li {
+            margin-left: 0em;
+        }
+    }
+
 ul {
     margin: 0;
     padding: 0;
@@ -303,6 +300,7 @@ ul {
     }
 
     ul.tabular {
+        table-layout: auto;
         display: table;
     }
 
@@ -362,6 +360,11 @@ q {
         font-style: normal;
     }
 
-.tex {
-    font-size: .95em;
+[data-type="tex"] {
+    font-size: .85em;
 }
+
+    [data-type="tex"].\24\24 /* $$ */ {
+        display: block;
+        text-align: center;
+    }
