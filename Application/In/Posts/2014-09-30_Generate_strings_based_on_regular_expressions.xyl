@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="Generate strings based on regular expressions"?>
+<?xyl-meta name="date" value="2014-09-30T09:14:19+02:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <div class="abstract"></div>
+
+    <p>During my PhD thesis, I have partly worked on the problem of the
+    automatic accurate test data generation. In order to be complete and
+    self-contained, I have addressed all kinds of data types, including strings.
+    This article is the first one of a little series that aims at showing how do
+    generate accurate and relevant strings under several constraints.</p>
+
+    <h2>What is a regular expression?</h2>
+
+    <p>We are talking about formal language theory here. In the known world,
+    there are four kinds of languages. More formally, in 1956, the
+    <a href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky
+    hierarchy</a> has been formulated, classifying grammars (which define
+    languages) in four levels:</p>
+    <ol>
+      <li>unrestricted grammars, matching langages known as Turing languages,
+      no restriction,</li>
+      <li>context-sensitive grammars, matching contextual languages,</li>
+      <li>context-free grammars, matching algebraic languages, based on stacked
+      automata,</li>
+      <li>regular grammars, matching regular languages.</li>
+    </ol>
+    <p>Each level includes the next level. The last level is the “weaker”, which
+    must not sound negative here.
+    <a href="https://en.wikipedia.org/wiki/Regular_expression">Regular
+    expressions</a> are used often because of their simplicity and also because
+    it solves most problems we encounter daily.</p>
+    <p>A regular expression is a small language with very few operators and,
+    most of the time, a simple semantics. For instance <code>ab(c|d)</code>
+    means: a word (a data) starting by <code>ab</code> and followed by
+    <code>c</code> or <code>d</code>. We also have quantification operators
+    (also known as repetition operators), such as <code>?</code>, <code>*</code>
+    and <code>+</code>. We also have <code>{<em>x</em>,<em>y</em>}</code> to
+    define a repetition between <code><em>x</em></code> and
+    <code><em>y</em></code>.  Thus, <code>?</code> is equivalent to
+    <code>{0,1}</code>, <code>*</code> to <code>{0,}</code> and <code>+</code>
+    to <code>{1,}</code>. When <code><em>y</em></code> is missing, it means
+    <tex>+\infty</tex>, so unbounded (or more exactly, bounded by the limits of
+    the machine). So, for instance <code>ab(c|d){2,4}e?</code> means: a word
+    starting by <code>ab</code>, followed 2, 3 or 4 times by <code>c</code> or
+    <code>d</code> (so <code>cc</code>, <code>cd</code>, <code>dc</code>,
+    <code>ccc</code>, <code>ccd</code>, <code>cdc</code> and so on) and
+    potentially followed by <code>e</code>.</p>
+    <p>The goal here is not to teach you regular expressions but this is kind of
+    a tiny reminder. There are planty of regular languages. You might know
+    <a href="http://www.unix.com/man-page/Linux/7/regex/">POSIX regular
+    expression</a> or <a href="http://pcre.org/">Perl Compatible Regular
+    Expressions (PCRE)</a>. Forget the first one, please. The syntax and the
+    semantics are too much limited. PCRE is the regular language I recommend all
+    the time.</p>
+    <p>Behind every formal language there is a graph. Regular expression is
+    compiled into a
+    <a href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite State
+    Machine (FSM)</a>. I am not going to draw and explain them, but it is
+    interesting to know that behind a regular expression there is a basic
+    automaton. No magic.</p>
+
+    <h2>Why focussing regular expressions?</h2>
+
+    <p>This article focuses on regular languages instead of other kind of
+    languages because we use them very often (even daily). I am going to address
+    context-free languages in another article, be patient young padawan. The
+    needs and constraints with other kind of languages are not the same and more
+    complex algorithms must be involved. So we are going easy for the first
+    step.</p>
+
+    <h2>Understanding PCRE: lex and parse them</h2>
+
+    <p><a href="http://central.hoa-project.net/Resource/Library/Compiler"><code>Hoa\Compiler</code>
+    library</a> provides both <tex>LL(1)</tex> and <tex>LL(k)</tex>
+    compiler-compilers. The
+    <a href="http://hoa-project.net/Literature/Hack/Compiler.html">documentation</a>
+    describes how to use it. We discover that the <tex>LL(k)</tex> compiler
+    comes with a grammar description language called PP. What does it mean? It
+    means for instance that the grammar of the PCRE can be written with the PP
+    language and that <code>Hoa\Compiler\Llk</code> will transform this grammar
+    into a compiler. That's why we call them “compiler of compiler”.</p>
+    <p>Fortunately, the
+    <a href="http://central.hoa-project.net/Resource/Library/Regex"><code>Hoa\Regex</code>
+    library</a> provides the grammar of the PCRE language in the
+    <a href="http://central.hoa-project.net/Resource/Library/Regex/Grammar.pp"><code>hoa://Library/Regex/Grammar.pp</code></a>
+    file. Consequently, we are able to analyze regular expressions written in
+    the PCRE language! Let's try in a shell at first with the <code>hoa
+    compiler:pp</code> tool:</p>
+    <pre><code class="language-shell">$ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --visitor dump
+>  #expression
+>  >  #concatenation
+>  >  >  token(literal, a)
+>  >  >  token(literal, b)
+>  >  >  #quantification
+>  >  >  >  #alternation
+>  >  >  >  >  token(literal, c)
+>  >  >  >  >  token(literal, d)
+>  >  >  >  token(n_to_m, {2,4})
+>  >  >  #quantification
+>  >  >  >  token(literal, e)
+>  >  >  >  token(zero_or_one, ?)</code></pre>
+    <p>We read that the whole expression is composed of a single concatenation
+    of two tokens: <code>a</code> and <code>b</code>, followed by a
+    quantification, followed by another quantification. The first quantification
+    is an alternation of (a choice betwen) two tokens: <code>c</code> and
+    <code>d</code>, between 2 to 4 times. The second quantification is the
+    <code>e</code> token that can appear zero or one time. Pretty simple.</p>
+    <p>The final output of the <code>Hoa\Compiler\Llk\Parser</code> class is an
+    <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax
+    Tree (AST)</a>. The documentation of <code>Hoa\Compiler</code> explains all
+    that stuff, you should read it. The <tex>LL(k)</tex> compiler is cut out
+    into very distinct layers in order to improve hackability. Again, the
+    documentation teach us we have
+    <a href="http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process">four
+    levels in the compilation process</a>: lexical analyzer, syntactic analyzer,
+    trace and AST. The lexical analyzer (also known as lexer) transforms the
+    textual data being analyzed into a sequence of tokens (formally known as
+    lexemes). It checks whether the data is composed of the good pieces. Then,
+    the syntactic analyzer (also known as parser) checks that the order of
+    tokens in this sequence is correct (formally we say that it derives the
+    sequence, see the
+    <a href="http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words"><cite>Matching
+    words</cite> section</a> to learn more).</p>
+    <p>Still in the shell, we can get the result of the lexical analyzer by
+    using the <code>--token-sequence</code> option; thus:</p>
+    <pre><code class="language-shell">$ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --token-sequence
+
+  #  …  token name   token value  offset
+-----------------------------------------
+  1  …  literal      a                 0
+  2  …  literal      b                 1
+  3  …  capturing_   (                 2
+  4  …  literal      c                 3
+  5  …  alternation  |                 4
+  6  …  literal      d                 5
+  7  …  _capturing   )                 6
+  8  …  n_to_m       {2,4}             7
+  9  …  literal      e                12
+ 10  …  zero_or_one  ?                13
+ 11  …  EOF                           15</code></pre>
+    <p>This is the sequence of tokens produced by the lexical analyzer. The tree
+    is not yet build because this is the first step of the compilation process.
+    However this is always interesting to understand these different steps and
+    see how it works.</p>
+    <p>Now we are able to analyze any regular expressions in the PCRE format!
+    The result of this analysis is a tree. You know what is fun with trees?
+    <a href="https://en.wikipedia.org/wiki/Visitor_pattern">Visiting
+    them</a>.</p>
+
+    <h2>Visiting the AST</h2>
+
+    <p>Unsurprisingly, each node of the AST can be visited thanks to the
+    <a href="http://central.hoa-project.net/Resource/Library/Visitor"><code>Hoa\Visitor</code>
+    library</a>. Here is an example with the “dump” visitor:</p>
+    <pre><code class="language-php">use Hoa\Compiler;
+use Hoa\File;
+
+// 1. Load grammar.
+$compiler = Compiler\Llk\Llk::load(
+    new File\Read('hoa://Library/Regex/Grammar.pp')
+);
+
+// 2. Parse a data.
+$ast      = $compiler->parse('ab(c|d){2,4}e?');
+
+// 3. Dump the AST.
+$dump     = new Compiler\Visitor\Dump();
+echo $dump->visit($ast);</code></pre>
+    <p>This program will print the same AST dump we have previously saw in the
+    shell.</p>
+    <p>How to write our own visitor? A visitor is a class with a single
+    <code>visit</code> method. Let's try a visitor that pretty print a regular
+    expression, i.e. transform:</p>
+    <pre><code>ab(c|d){2,4}e?</code></pre>
+    <p>into:</p>
+    <pre><code>a
+b
+(
+    c
+    |
+    d
+){2,4}
+e?</code></pre>
+    <p>Why a pretty printer? First, it shows how to visit a tree. Second, it
+    shows the structure of the visitor: we filter by node ID
+    (<code>#expression</code>, <code>#quantification</code>, <code>token</code>
+    etc.) and we apply respective computations. A pretty printer is often a good
+    way for being familiarized with the structure of an AST.</p>
+    <p>Here is the class. It catches only useful constructions for the given
+    example:</p>
+    <pre><code class="language-php">use Hoa\Visitor;
+
+class PrettyPrinter implements Visitor\Visit {
+
+    public function visit ( Visitor\Element $element,
+                            &amp;amp;$handle = null,
+                            $eldnah  = null ) {
+
+        static $_indent = 0;
+
+        $out    = null;
+        $nodeId = $element->getId();
+
+        switch($nodeId) {
+
+            // Reset indentation and…
+            case '#expression':
+                $_indent = 0;
+
+            // … visit all the children.
+            case '#quantification':
+                foreach($element->getChildren() as $child)
+                    $out .= $child->accept($this, $handle, $eldnah);
+              break;
+
+            // One new line between each children of the concatenation.
+            case '#concatenation':
+                foreach($element->getChildren() as $child)
+                    $out .= $child->accept($this, $handle, $eldnah) . "\n";
+              break;
+
+            // Add parenthesis and increase indentation.
+            case '#alternation':
+                $oout = [];
+
+                $pIndent = str_repeat('    ', $_indent);
+                ++$_indent;
+                $cIndent = str_repeat('    ', $_indent);
+
+                foreach($element->getChildren() as $child)
+                    $oout[] = $cIndent . $child->accept($this, $handle, $eldnah);
+
+                --$_indent;
+                $out .= $pIndent . '(' . "\n" .
+                        implode("\n" . $cIndent . '|' . "\n", $oout) . "\n" .
+                        $pIndent . ')';
+              break;
+
+            // Print token value verbatim.
+            case 'token':
+                $tokenId    = $element->getValueToken();
+                $tokenValue = $element->getValueValue();
+
+                switch($tokenId) {
+
+                    case 'literal':
+                    case 'n_to_m':
+                    case 'zero_or_one':
+                        $out .= $tokenValue;
+                       break;
+
+                    default:
+                        throw new RuntimeException(
+                            'Token ID ' . $tokenId . ' is not well-handled.'
+                        );
+                }
+              break;
+
+            default:
+                throw new RuntimeException(
+                    'Node ID ' . $nodeId . ' is not well-handled.'
+                );
+        }
+
+        return $out;
+    }
+}</code></pre>
+    <p>And finally, we apply the pretty printer on the AST like we previously
+    seen:</p>
+    <pre><code class="language-php">$compiler    = Compiler\Llk\Llk::load(
+    new File\Read('hoa://Library/Regex/Grammar.pp')
+);
+$ast         = $compiler->parse('ab(c|d){2,4}e?');
+$prettyprint = new PrettyPrinter();
+echo $prettyprint->visit($ast);</code></pre>
+    <p><em lang="fr">Et voilà !</em></p>
+    <p>Now, put all that stuff together!</p>
+
+    <h2>Isotropic generation</h2>
+
+    <p>We can <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get the
+    AST of any regular expressions written in the PCRE format. We can use
+    <code>Hoa\Visitor</code> to traverse the AST and apply computations
+    according to the type of nodes. Our goal is to generate string based on
+    regular expressions. What kind of generation are we going to use? There are
+    planty of them: uniform random, smallest, coverage based…</p>
+    <p>The simplest is isotropic generation, also known as random generation.
+    But random says nothing: what is the repartition, or do we have any
+    uniformity? Isotropic means each choice will be solved randomly and
+    uniformly. Uniformity has to be defined: does it include the whole set of
+    nodes or just the immediate children of the node? Isotropic means we
+    consider only immediate children. For instance, a node
+    <code>#alternation</code> has <tex>c^1</tex> immediate children, the
+    probability <tex>C</tex> to choose one child is:</p>
+    <tex class="$$">P(C) = \frac{1}{c^1}</tex>
+    <p>Yes, simple as that!</p>
+    <p>We can use the
+    <a href="http://central.hoa-project.net/Resource/Library/Math"><code>Hoa\Math</code>
+    library</a> that provides the <code>Hoa\Math\Sampler\Random</code> class to
+    sample uniform random integers and floats. Ready?</p>
+
+    <h3>Structure of the visitor</h3>
+
+    <p>The structure of the visitor is the following:</p>
+    <pre><code class="language-php">use Hoa\Visitor;
+use Hoa\Math;
+
+class IsotropicSampler implements Visitor\Visit {
+
+    protected $_sampler = null;
+
+    public function __construct ( Math\Sampler $sampler ) {
+
+        $this->_sampler = $sampler;
+
+        return;
+    }
+
+    public function visit ( Visitor\Element $element,
+                            &amp;amp;$handle = null,
+                            $eldnah  = null ) {
+
+        switch($element->getId()) {
+
+            // …
+        }
+    }
+}</code></pre>
+    <p>We set a sampler and we start visiting and filtering nodes by their node
+    ID. The following code will generate a string based on the regular
+    expression contained in the <code class="language-php">$expression</code>
+    variable:</p>
+    <pre><code class="language-php">$expression  = '…';
+$ast         = $compiler->parse($expression);
+$generator   = new IsotropicSampler(new Math\Sampler\Random());
+echo $generator->visit($ast);</code></pre>
+    <p>We are going to change the value of
+    <code class="language-php">$expression</code> step by step until having
+    <code>ab(c|d){2,4}e?</code>.</p>
+
+    <h3>Case of <code>#expression</code></h3>
+
+    <p>A node of type <code>#expression</code> has only one child. Thus, we
+    simply return the computation of this node:</p>
+    <pre><code class="language-php">case '#expression':
+    return $element->getChild(0)->accept($this, $handle, $eldnah);
+  break;</code></pre>
+
+    <h3>Case of <code>token</code></h3>
+
+    <p>We consider only one type of token for now: <code>literal</code>. A
+    literal can contain an escaped character, can be a single character or can
+    be <code>.</code> (which means everything). We consider only a single
+    character for this example (spoil: the whole visitor already exists).
+    Thus:</p>
+    <pre><code class="language-php">case 'token':
+    return $element->getValueValue();
+  break;</code></pre>
+    <p>Here, with <code class="language-php">$expression = 'a';</code> we get
+    the string <code>a</code>.</p>
+
+    <h3>Case of <code>#concatenation</code></h3>
+
+    <p>A concatenation is just the computation of all children joined in a
+    single piece of string. Thus:</p>
+    <pre><code class="language-php">case '#concatenation':
+    $out = null;
+
+    foreach($element->getChildren() as $child)
+        $out .= $child->accept($this, $handle, $eldnah);
+
+    return $out;
+  break;</code></pre>
+    <p>At this step, with <code class="language-php">$expression = 'ab';</code>
+    we get the string <code>ab</code>. Totally crazy.</p>
+
+    <h3>Case of <code>#alternation</code></h3>
+
+    <p>An alternation is a choice between several children. All we have to do is
+    to select a child based on the probability given above. The number of
+    children for the current node can be known thanks to the
+    <code>getChildrenNumber</code> number. We are also going to use the sampler
+    of integers. Thus:</p>
+    <pre><code class="language-php">case '#alternation':
+    $childIndex = $this->_sampler->getInteger(
+        0,
+        $element->getChildrenNumber() - 1
+    );
+
+    return $element->getChild($childIndex)
+                   ->accept($this, $handle, $eldnah);
+  break;</code></pre>
+    <p>Now, with <code class="language-php">$expression = 'ab(c|d)';</code> we
+    get the strings <code>abc</code> or <code>abd</code> at random. Try several
+    times to see by yourself.</p>
+
+    <h3>Case of <code>#quantification</code></h3>
+
+    <p>A quantification is an alternation of concatenations. Indeed,
+    <code>e{2,4}</code> is strictly equivalent to <code>ee|eee|eeee</code>. We
+    have only two quantification our example: <code>?</code> and
+    <code>{<em>x</em>,<em>y</em>}</code>. We are going to find the value for
+    <code><em>x</em></code> and <code><em>y</em></code> and then choose at
+    random between these bounds. Let's go:</p>
+    <pre><code class="language-php">case '#quantification':
+    $out = null;
+    $x   = 0;
+    $y   = 0;
+
+    // Filter the type of quantification.
+    switch($element->getChild(1)->getValueToken()) {
+
+        // ?
+        case 'zero_or_one':
+            $y = 1;
+          break;
+
+        // {x,y}
+        case 'n_to_m':
+            $xy = explode(
+                ',',
+                trim($element->getChild(1)->getValueValue(), '{}')
+            );
+            $x  = (int) trim($xy[0]);
+            $y  = (int) trim($xy[1]);
+          break;
+    }
+
+    // Choose the number of repetition.
+    $max = $this->_sampler->getInteger($x, $y);
+
+    // Concatenate.
+    for($i = 0; $i &amp;lt; $max; ++$i)
+        $out .= $element->getChild(0)->accept($this, $handle, $eldnah);
+
+    return $out;
+  break;</code></pre>
+    <p>Finally, with <code class="language-php">$expression =
+    'ab(c|d){2,4}e?';</code> we can have the following strings:
+    <code>abdcce</code>, <code>abdc</code>, <code>abddcd</code>,
+    <code>abcde</code> etc. Nice isn't it?</p>
+
+    <h2>Conclusion</h2>
+  </article>
+</overlay>
+
