@@ -20,13 +20,8 @@
       <li>Ivan Enderlin</li>
       <li>PhD computer scientist</li>
       <li>hacker</li>
-      <li><a href="http://cv.mnt.io/">CV</a></li>
-      <li>father of
-          <a href="http://hoa-project.net/">
-            <img src="http://static.hoa-project.net/Image/Hoa.svg"
-                 alt="Hoa project"
-                 class="icon solid" />
-          </a></li>
+      <li><a href="http://cv.mnt.io/">CV and contact</a></li>
+      <li>father of <a href="http://hoa-project.net/">Hoa</a></li>
     </ul>
   </aside>
 
