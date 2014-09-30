@@ -483,7 +483,7 @@ echo $generator->visit($ast);</code></pre>
 
     <p>This is difficult to give numbers because it depends of a lot of
     parameters: your machine configuration, the PHP VM, if other programs run
-    etc. But I have generated 1 million (<tex>10^9</tex>) strings in less than
+    etc. But I have generated 1 million (<tex>10^6</tex>) strings in less than
     25 seconds on my machine (an old MacBook Pro), which is pretty
     reasonable.</p>
     <figure>
