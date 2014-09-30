@@ -5,12 +5,21 @@
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
-    <div class="abstract"></div>
+    <div class="abstract">This article explains how to generate strings based on
+    regular expressions. To make it possible, we will use the
+    <a href="http://central.hoa-project.net/Resource/Library/Compiler"><code>Hoa\Compiler</code></a>
+    and
+    <a href="http://central.hoa-project.net/Resource/Library/Regex"><code>Hoa\Regex</code></a>
+    libraries. The goal is twofold: first it helps to analyze regular
+    expressions (lex, parse and get an AST of them), and second we see how to
+    visit the produced AST in order to generate strings. Finally, we see how
+    this algorithm is implemented and can be used in
+    <a href="http://atoum.org/">atoum</a>, a unit test framework.</div>
 
     <p>During my PhD thesis, I have partly worked on the problem of the
     automatic accurate test data generation. In order to be complete and
     self-contained, I have addressed all kinds of data types, including strings.
-    This article is the first one of a little series that aims at showing how do
+    This article is the first one of a little series that aims at showing how to
     generate accurate and relevant strings under several constraints.</p>
 
     <h2>What is a regular expression?</h2>
@@ -32,7 +41,7 @@
     must not sound negative here.
     <a href="https://en.wikipedia.org/wiki/Regular_expression">Regular
     expressions</a> are used often because of their simplicity and also because
-    it solves most problems we encounter daily.</p>
+    they solve most problems we encounter daily.</p>
     <p>A regular expression is a small language with very few operators and,
     most of the time, a simple semantics. For instance <code>ab(c|d)</code>
     means: a word (a data) starting by <code>ab</code> and followed by
@@ -50,20 +59,20 @@
     <code>ccc</code>, <code>ccd</code>, <code>cdc</code> and so on) and
     potentially followed by <code>e</code>.</p>
     <p>The goal here is not to teach you regular expressions but this is kind of
-    a tiny reminder. There are planty of regular languages. You might know
+    a tiny reminder. There are plenty of regular languages. You might know
     <a href="http://www.unix.com/man-page/Linux/7/regex/">POSIX regular
     expression</a> or <a href="http://pcre.org/">Perl Compatible Regular
     Expressions (PCRE)</a>. Forget the first one, please. The syntax and the
     semantics are too much limited. PCRE is the regular language I recommend all
     the time.</p>
-    <p>Behind every formal language there is a graph. Regular expression is
+    <p>Behind every formal language there is a graph. A regular expression is
     compiled into a
     <a href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite State
     Machine (FSM)</a>. I am not going to draw and explain them, but it is
     interesting to know that behind a regular expression there is a basic
     automaton. No magic.</p>
 
-    <h2>Why focussing regular expressions?</h2>
+    <h3>Why focussing regular expressions?</h3>
 
     <p>This article focuses on regular languages instead of other kind of
     languages because we use them very often (even daily). I am going to address
@@ -74,7 +83,7 @@
 
     <h2>Understanding PCRE: lex and parse them</h2>
 
-    <p><a href="http://central.hoa-project.net/Resource/Library/Compiler"><code>Hoa\Compiler</code>
+    <p>The <a href="http://central.hoa-project.net/Resource/Library/Compiler"><code>Hoa\Compiler</code>
     library</a> provides both <tex>LL(1)</tex> and <tex>LL(k)</tex>
     compiler-compilers. The
     <a href="http://hoa-project.net/Literature/Hack/Compiler.html">documentation</a>
@@ -82,7 +91,7 @@
     comes with a grammar description language called PP. What does it mean? It
     means for instance that the grammar of the PCRE can be written with the PP
     language and that <code>Hoa\Compiler\Llk</code> will transform this grammar
-    into a compiler. That's why we call them “compiler of compiler”.</p>
+    into a compiler. That's why we call them “compiler of compilers”.</p>
     <p>Fortunately, the
     <a href="http://central.hoa-project.net/Resource/Library/Regex"><code>Hoa\Regex</code>
     library</a> provides the grammar of the PCRE language in the
@@ -128,22 +137,21 @@
     <p>Still in the shell, we can get the result of the lexical analyzer by
     using the <code>--token-sequence</code> option; thus:</p>
     <pre><code class="language-shell">$ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --token-sequence
-
   #  …  token name   token value  offset
 -----------------------------------------
-  1  …  literal      a                 0
-  2  …  literal      b                 1
-  3  …  capturing_   (                 2
-  4  …  literal      c                 3
-  5  …  alternation  |                 4
-  6  …  literal      d                 5
-  7  …  _capturing   )                 6
-  8  …  n_to_m       {2,4}             7
-  9  …  literal      e                12
- 10  …  zero_or_one  ?                13
- 11  …  EOF                           15</code></pre>
+  0  …  literal      a                 0
+  1  …  literal      b                 1
+  2  …  capturing_   (                 2
+  3  …  literal      c                 3
+  4  …  alternation  |                 4
+  5  …  literal      d                 5
+  6  …  _capturing   )                 6
+  7  …  n_to_m       {2,4}             7
+  8  …  literal      e                12
+  9  …  zero_or_one  ?                13
+ 10  …  EOF                           15</code></pre>
     <p>This is the sequence of tokens produced by the lexical analyzer. The tree
-    is not yet build because this is the first step of the compilation process.
+    is not yet built because this is the first step of the compilation process.
     However this is always interesting to understand these different steps and
     see how it works.</p>
     <p>Now we are able to analyze any regular expressions in the PCRE format!
@@ -170,7 +178,7 @@ $ast      = $compiler->parse('ab(c|d){2,4}e?');
 // 3. Dump the AST.
 $dump     = new Compiler\Visitor\Dump();
 echo $dump->visit($ast);</code></pre>
-    <p>This program will print the same AST dump we have previously saw in the
+    <p>This program will print the same AST dump we have previously seen in the
     shell.</p>
     <p>How to write our own visitor? A visitor is a class with a single
     <code>visit</code> method. Let's try a visitor that pretty print a regular
@@ -269,7 +277,7 @@ class PrettyPrinter implements Visitor\Visit {
         return $out;
     }
 }</code></pre>
-    <p>And finally, we apply the pretty printer on the AST like we previously
+    <p>And finally, we apply the pretty printer on the AST like previously
     seen:</p>
     <pre><code class="language-php">$compiler    = Compiler\Llk\Llk::load(
     new File\Read('hoa://Library/Regex/Grammar.pp')
@@ -282,12 +290,12 @@ echo $prettyprint->visit($ast);</code></pre>
 
     <h2>Isotropic generation</h2>
 
-    <p>We can <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get the
-    AST of any regular expressions written in the PCRE format. We can use
+    <p>We can use <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get
+    the AST of any regular expressions written in the PCRE format. We can use
     <code>Hoa\Visitor</code> to traverse the AST and apply computations
-    according to the type of nodes. Our goal is to generate string based on
+    according to the type of nodes. Our goal is to generate strings based on
     regular expressions. What kind of generation are we going to use? There are
-    planty of them: uniform random, smallest, coverage based…</p>
+    plenty of them: uniform random, smallest, coverage based…</p>
     <p>The simplest is isotropic generation, also known as random generation.
     But random says nothing: what is the repartition, or do we have any
     uniformity? Isotropic means each choice will be solved randomly and
@@ -383,7 +391,7 @@ echo $generator->visit($ast);</code></pre>
     <p>An alternation is a choice between several children. All we have to do is
     to select a child based on the probability given above. The number of
     children for the current node can be known thanks to the
-    <code>getChildrenNumber</code> number. We are also going to use the sampler
+    <code>getChildrenNumber</code> method. We are also going to use the sampler
     of integers. Thus:</p>
     <pre><code class="language-php">case '#alternation':
     $childIndex = $this->_sampler->getInteger(
@@ -402,7 +410,7 @@ echo $generator->visit($ast);</code></pre>
 
     <p>A quantification is an alternation of concatenations. Indeed,
     <code>e{2,4}</code> is strictly equivalent to <code>ee|eee|eeee</code>. We
-    have only two quantification our example: <code>?</code> and
+    have only two quantifications in our example: <code>?</code> and
     <code>{<em>x</em>,<em>y</em>}</code>. We are going to find the value for
     <code><em>x</em></code> and <code><em>y</em></code> and then choose at
     random between these bounds. Let's go:</p>
@@ -430,7 +438,7 @@ echo $generator->visit($ast);</code></pre>
           break;
     }
 
-    // Choose the number of repetition.
+    // Choose the number of repetitions.
     $max = $this->_sampler->getInteger($x, $y);
 
     // Concatenate.
@@ -478,62 +486,135 @@ echo $generator->visit($ast);</code></pre>
     25 seconds on my machine (an old MacBook Pro), which is pretty
     reasonable.</p>
     <figure>
-      <div id="chart"></div>
-      <figcaption>Log scale</figcaption>
+      <div id="chart_performance"></div>
+      <figcaption>Time (in milliseconds) to generate a certain number of
+      strings (log-scaled).</figcaption>
+      <script>
+        Hoa.Document.onReady(function ( ) {
+
+            var x     = [10, 100, 1000, 100000, 1000000];
+            var _data = [0, 3, 25, 2451, 24650];
+            var data1 = ['Generation_time'];
+
+            for(var i = 1; i &amp;lt; _data.length; ++i)
+                data1[i] = Math.log(_data[i]) / Math.LN10;
+
+            var chart = c3.generate({
+                bindto: '#chart_performance',
+                data: {
+                    columns: [
+                        data1
+                    ],
+                    types: {
+                        Generation_time: 'bar'
+                    },
+                    labels: {
+                        format: {
+                            y: function ( d ) {
+
+                                return Math.pow(10, d).toFixed(0);
+                            }
+                        }
+                    }
+                },
+                axis: {
+                    rotated: true,
+                    x: {
+                        label: {
+                            text: 'number of generated strings',
+                            position: 'outer-middle'
+                        },
+                        tick: {
+                            format: function ( d, i ) {
+
+                                return x[d];
+                            }
+                        }
+                    },
+                    y: {
+                        label: {
+                            text: 'generation time (ms)',
+                            position: 'outer-middle'
+                        },
+                        tick: {
+                            format: function ( d ) {
+
+                                return Math.pow(10, d).toFixed(0);
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    show: false
+                },
+                legend: {
+                    show: false
+                }
+            });
+        });
+      </script>
     </figure>
-    <script>
-      Hoa.Document.onReady(function ( ) {
 
-          var x     = [10, 100, 1000, 100000, 1000000];
-          var _data = [0, 3, 27, 2601, 27650];
-          var data1 = ['data1'];
+    <h2>Conclusion and surprise</h2>
 
-          for(var i = 1; i &amp;lt; _data.length; ++i) {
-              data1[i] = Math.log(_data[i]) / Math.LN10;
-          }
+    <p>So, yes, now we know how to generate strings based on regular
+    expressions! Supporting all the PCRE format is difficult. That's why the
+    <a href="http://central.hoa-project.net/Resource/Library/Regex"><code>Hoa\Regex</code>
+    library</a> provides the <code>Hoa\Regex\Visitor\Isotropic</code> class that
+    is a more advanced visitor. This latter supports classes, negative classes,
+    ranges, all quantifications, all kinds of literals (characters, escaped
+    characters, types of characters —<code>\w</code>, <code>\d</code>,
+    <code>\h</code>…—) etc. Consequently, all you have to do is:</p>
+    <pre><code class="language-php">use Hoa\Regex;
 
-          var chart = c3.generate({
-              bindto: '#chart',
-              data: {
-                  columns: [
-                      data1
-                  ],
-                  types: {
-                      data1: 'bar'
-                  }
-              },
-              axis: {
-                  rotated: true,
-                  x: {
-                      label: {
-                          text: 'number of generated strings',
-                          position: 'outer-middle'
-                      },
-                      tick: {
-                          format: function ( d, i ) {
+// …
+$generator = new Regex\Visitor\Isotropic(new Math\Sampler\Random());
+echo $generator->visit($ast);</code></pre>
+    <p>This algorithm is used in
+    <a href="http://central.hoa-project.net/Resource/Library/Praspel">Praspel</a>,
+    a specification language I have designed during my PhD thesis. More
+    specifically, this algorithm is used inside realistic domains. I am not
+    going to explain it today but it allows me to introduce the “surprise”.</p>
 
-                              return x[d];
-                          }
-                      }
-                  },
-                  y: {
-                      label: {
-                          text: 'generation time (ms)',
-                          position: 'outer-middle'
-                      },
-                      tick: {
-                          format: function ( d ) {
+    <h3>Generate strings based on regular expressions in atoum</h3>
 
-                              return Math.pow(10, d).toFixed(2);
-                          }
-                      }
-                  }
-              }
-          });
-      });
-    </script>
+    <p><a href="http://atoum.org/">atoum</a> is an awesome unit test
+    framework. You can use the
+    <a href="http://central.hoa-project.net/Resource/Contributions/Atoum/PraspelExtension"><code>Atoum\PraspelExtension</code>
+    extension</a> to use Praspel and therefore realistic domains inside atoum.
+    You can use realistic domains to validate <strong>and</strong> to generate
+    data, they are designed for that. Obviously, we can use the
+    <code>Regex</code> realistic domain. This extension provides several
+    features including <code>sample</code>, <code>sampleMany</code> and
+    <code>predicate</code> to respectively generate one datum, generate many
+    data and validate a datum based on a realistic domain. To declare a regular
+    expression, we must write:</p>
+    <pre><code class="language-php">$regex = $this->realdom->regex('/ab(c|d){2,4}e?');</code></pre>
+    <p>And to generate a datum, all we have to do is:</p>
+    <pre><code class="language-php">$datum = $this->sample($regex);</code></pre>
+    <p>For instance, imagine you are writing a test called
+    <code>test_mail</code> and you need an email address:</p>
+    <pre><code class="language-php">public function test_mail ( ) {
 
-    <h2>Conclusion</h2>
+    $this
+        ->given(
+            $regex   = $this->realdom->regex('/[\w\-_]+(\.[\w\-\_]+)*@\w\.(net|org)/'),
+            $address = $this->sample($regex),
+            $mailer  = new \Mock\Mailer(…),
+        )
+        ->when($mailer->sendTo($address))
+        ->then
+            ->…
+}</code></pre>
+    <p>Easy to read, fast to execute and help to focus on the logic of the test
+    instead of test data (also known as fixtures). Note that most of the time
+    the regular expressions are already in the code (maybe as constants). It is
+    therefore easier to write and to maintain the tests.</p>
+    <p>I hope you enjoyed this first part of the series :-)! This work has been
+    published in the International Conference on Software Testing, Verification
+    and Validation:
+    <a href="http://hoa-project.net/Event/Amost12.html"><cite>Grammar-Based
+    Testing using Realistic Domains in PHP</cite></a>.</p>
   </article>
 </overlay>
 
