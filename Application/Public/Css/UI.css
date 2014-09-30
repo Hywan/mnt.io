@@ -101,7 +101,7 @@ header {
     }
 
 article {
-    counter-reset: h1 h2 h3 h4;
+    counter-reset: h1 h2 h3 h4 figure;
     text-align: justify;
     margin: 1em 8em 0 8em;
 }
@@ -126,6 +126,7 @@ article {
             padding-left: 33%;
             padding-right: 33%;
             text-align: center;
+            line-height: 1.2em;
         }
 
             @media all and (max-width: 600px) {
@@ -255,7 +256,7 @@ em em {
 li {
     position: relative;
     list-style: none;
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
     li::before {
@@ -332,6 +333,30 @@ q {
         content: '';
     }
 
+figure {
+    margin: 0 -8em;
+    padding: .5em 8em;
+    background: rgb(238, 232, 213);
+}
+
+    figure > *:first-child {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    figcaption {
+        counter-increment: figure;
+        font-size: .9em;
+        text-align: center;
+        margin-top: 1em;
+    }
+
+        figcaption::before {
+            content: 'Figure ' counter(figure) '.';
+            color: rgb(101, 123, 131);
+            padding-right: 1em;
+        }
+
 .detail { }
 
     @media all and (max-width: 600px) {
@@ -368,3 +393,23 @@ q {
         display: block;
         text-align: center;
     }
+
+.c3 * {
+    font-family: Text !important;
+    font-size: .75rem;
+}
+
+.c3 path.domain,
+.c3 line {
+    stroke: rgb(101, 123, 131);
+}
+
+.c3 .c3-chart-bar > g:nth-of-type(1) > .c3-bar {
+    fill: rgb(133, 153, 0) !important;
+    stroke: transparent !important;
+    stroke-width: 0 !important;
+}
+
+.c3 .c3-text {
+    fill: rgb(0, 43, 54) !important;
+}
