@@ -136,23 +136,23 @@ article {
                 }
             }
 
-        article h2 {
+        article h2:not(.raw) {
             counter-reset: h3 h4;
             counter-increment: h2;
         }
 
-        article h3 {
+        article h3:not(.raw) {
             counter-reset: h4;
             counter-increment: h3;
         }
 
-        article h4 {
+        article h4:not(.raw) {
             counter-increment: h4;
         }
 
-    article h2::before,
-    article h3::before,
-    article h4::before {
+    article h2:not(.raw)::before,
+    article h3:not(.raw)::before,
+    article h4:not(.raw)::before {
         color: rgb(101, 123, 131);
         display: inline-block;
         width: 3rem;
@@ -188,15 +188,15 @@ article {
             right: 0;
         }
 
-        article h2::before {
+        article h2:not(.raw)::before {
             content: counter(h2);
         }
 
-        article h3::before {
+        article h3:not(.raw)::before {
             content: counter(h2) '.' counter(h3);
         }
 
-        article h4::before {
+        article h4:not(.raw)::before {
             content: counter(h2) '.' counter(h3) '.' counter(h4);
         }
 
