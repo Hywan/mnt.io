@@ -13,16 +13,16 @@ code {
 }
 
 pre {
-    font-size: .95rem;
+    font-size: .95em;
     line-height: 1.25em;
-    margin: 0 -10em;
-    padding: .5em 10em;
+    margin: 0 -11em;
+    padding: .5em 11em;
     overflow-x: scroll;
     background: rgb(238, 232, 213);
 }
 
-    pre > code {
-        font-size: .95rem;
+    pre code {
+        font-size: .95em;
     }
 
 code[class*="language-"] {
