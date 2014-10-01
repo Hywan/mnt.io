@@ -590,7 +590,7 @@ echo $generator->visit($ast);</code></pre>
     <code>predicate</code> to respectively generate one datum, generate many
     data and validate a datum based on a realistic domain. To declare a regular
     expression, we must write:</p>
-    <pre><code class="language-php">$regex = $this->realdom->regex('/ab(c|d){2,4}e?');</code></pre>
+    <pre><code class="language-php">$regex = $this->realdom->regex('/ab(c|d){2,4}e?/');</code></pre>
     <p>And to generate a datum, all we have to do is:</p>
     <pre><code class="language-php">$datum = $this->sample($regex);</code></pre>
     <p>For instance, imagine you are writing a test called
