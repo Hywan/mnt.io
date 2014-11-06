@@ -13,7 +13,9 @@
     },
     "installs_allowed_from": ["*"],
     "permissions"          : {
-        "systemXHR": {}
+        "systemXHR": {
+            "description": "This is a website, so we need this permission ;-)."
+        }
     },
     "fullscreen": "true"
 }
