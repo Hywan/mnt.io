@@ -1,0 +1,19 @@
+{
+    "version"    : "0.1",
+    "name"       : "mnt.io",
+    "description": "Website of Ivan Enderlin",
+    "launch_path": "/index.html",
+    "icons"      : {
+        "512": "/Image/Icon/App_x512.png",
+        "128": "/Image/Icon/App_x128.png"
+    },
+    "developer": {
+        "name": "Ivan Enderlin",
+        "url" : "http://mnt.io/"
+    },
+    "installs_allowed_from": ["*"],
+    "permissions"          : {
+        "systemXHR": {}
+    },
+    "fullscreen": "true"
+}
