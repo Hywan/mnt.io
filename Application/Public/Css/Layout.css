@@ -70,6 +70,16 @@ div[aria-controls="side"] {
     padding-bottom: 4em;
 }
 
+header {
+    height: 15em;
+}
+
+    @media all and (max-width: 600px) {
+        header {
+            height: 4em;
+        }
+    }
+
 footer {
     position: absolute;
     left: 0;
