@@ -16,6 +16,5 @@
         "systemXHR": {
             "description": "This is a website, so we need this permission ;-)."
         }
-    },
-    "fullscreen": "true"
+    }
 }
