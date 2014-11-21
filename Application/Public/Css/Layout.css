@@ -90,3 +90,20 @@ footer {
 #comments {
     margin-top: 5em;
 }
+
+.map {
+    width: 600px;
+    height: 400px;
+}
+
+figure.contain,
+figure.cover {
+    position: relative;
+}
+
+    figure.contain > figcaption,
+    figure.cover > figcaption {
+        position: absolute;
+        left: 0;
+        right: 0;
+    }

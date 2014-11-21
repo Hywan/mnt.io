@@ -357,8 +357,8 @@ figure {
     figcaption {
         counter-increment: figure;
         font-size: .9em;
+        line-height: 2.5em;
         text-align: center;
-        margin-top: 1em;
     }
 
         figcaption::before {
@@ -366,6 +366,30 @@ figure {
             color: rgb(101, 123, 131);
             padding-right: 1em;
         }
+
+    figure.contain,
+    figure.cover {
+        padding: 0;
+        max-height: 80vh;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    figure.contain > *:first-child,
+    figure.cover > *:first-child {
+        width: 100%;
+    }
+
+    figure.contain > *:first-child {
+        max-width: 1200px;
+        max-width: calc(80vh * (3 / 2));
+    }
+
+    figure.contain > figcaption,
+    figure.cover > figcaption {
+        bottom: 0em;
+        background: rgb(238, 232, 213);
+    }
 
 .detail { }
 
