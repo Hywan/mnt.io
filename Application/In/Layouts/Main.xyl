@@ -4,6 +4,7 @@
 <?xyl-stylesheet href="hoa://Application/Public/Css/Code.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/Katex.min.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/C3.css"?>
+<?xyl-stylesheet href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"?>
 <?xyl-meta name="viewport" content="initial-scale=1.0"?>
 
 <document xmlns="http://hoa-project.net/xyl/xylophone">
@@ -88,6 +89,34 @@
         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
         g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
       })();
+    </script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script>
+      function map ( id, options ) {
+
+        options                 = options || {};
+        options.scrollWheelZoom = false;
+
+        var map = L.map(id, options);
+
+        L.tileLayer(
+          'https://{s}.tiles.mapbox.com/v3/dennisl.map-dfbkqsr2/{z}/{x}/{y}.png',
+          {
+            attribution: '© Mapbox',
+            minZoom: 1,
+            maxZoom: 15
+          }
+        ).addTo(map);
+        L.tileLayer(
+          'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+          {
+            attribution: '© OpenStreetMap contributors',
+            minZoom: 15
+          }
+        ).addTo(map);
+
+        return map;
+      }
     </script>
     <script>
       var disqus_shortname = 'mntio';
