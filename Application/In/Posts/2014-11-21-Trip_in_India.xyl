@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="Trip in India"?>
+<?xyl-meta name="date" value="2014-11-21T09:16:47+01:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <div class="abstract">During October, my wife and I have been visited the
+    south of India. This post quickly shows our trip, some photos and some
+    anecdotes. All photos can be seen on
+    <a href="https://www.flickr.com/photos/hywan/sets/72157648894718638/">my
+    Flickr account</a>.</div>
+
+    <h2>Backpacks and homestays</h2>
+
+    <p>I have always travelled by camping. I don't like hotel so much, except
+    for 1 or 2 nights, for a “weekend escape”. With my wife, we like to travel a
+    lot also, and this is one of our biggest affinity I think. We have
+    travelled in most of continents: north and south of America, north and
+    middle of Africa, Europe of course, but we have never visited Asia. What
+    is the best place to start visiting Asia? India of course. And to be
+    frank, she has decided to visit India so all I had to do was to acquiesce
+    😉.</p>
+    <p>Even if we travel in campsites, we use a car most of the time. For the
+    first time, we have travelled only with backpacks, no car, no bags.
+    Moreover, since campsites are not very common in India (for several reasons,
+    like security and just because of cultural aspects) we have decided to visit
+    homestays. Every time we have travelled in a specific country, we have spent
+    time in someone's house. This is by far the best way to discover people,
+    their cultures, their passions, their style of life and also to speak about
+    politics, economics etc.</p>
+    <p>Thus, with 4 bags (<tex>1 \times 35</tex>L, <tex>1 \times 60</tex>L and
+    <tex>2 \times 8</tex>L), we have left our home to go to Basel airport,
+    direction Dubaï and then Ernakulam.</p>
+
+    <h2>Trip</h2>
+
+    <p>Months before starting, we have sketched a “big tour”. Our goal was to
+    avoid massive touristic tours and spots. So we have asked indian friends on
+    Twitter or Facebook or even in IRL (oh!) about interesting spots. Then we
+    have only booked for the first homestay. For the rest of the trip, we booked
+    the next homestays 2 or 3 days before. It was a very nice experience. This
+    way of travel offers a <strong>huge feeling of freedom</strong>. You do
+    whatever you want whenever you want. And because it was the average
+    touristic season, most of the homestays had at least one room available.</p>
+    <p>Our plan was (and has more or less been) the following:</p>
+    <ol>
+      <li>arriving at Ernakulam (<em lang="ml">എറണാകുളം</em>),</li>
+      <li>first stop at Alappuzha (<em lang="ml">ആലപ്പുഴ</em>),</li>
+      <li>second stop at Kozhikode (<em lang="ml">കോഴിക്കോട്</em>),</li>
+      <li>third stop at Wayanad,</li>
+      <li>fourth stop at Mysore (<em lang="hi">ಮೈಸೂರು</em>),</li>
+      <li>fifth stop at Kotagiri (<em lang="ta">கோத்தகிரி</em>),</li>
+      <li>last stop at Fort Kochi before going back (<em lang="ml">ഫോർട്ട്
+          കൊച്ചി</em>).</li>
+    </ol>
+    <p>This trip covers 3 states: Kerala (<em lang="ml">കേരളം</em>), Karnataka
+    (<em lang="hi">ಕರ್ನಾಟಕ</em>) and Tamil Nadu (<em lang="ta">தமிழ் நாடு</em>), and
+    is about 1200km, in 18 days.</p>
+
+    <figure class="cover">
+      <div id="m" class="map"></div>
+      <script>
+        Hoa.Document.onReady(function ( ) {
+
+          var m = map('m').setView([51.505, -0.09], 13);
+          var p = L.polyline([
+            [9.4968740025835, 76.332887646848],
+            [11.250617713528, 75.775331494521],
+            [11.832889607127, 76.066469189817],
+            [12.307194665444, 76.656469342381],
+            [11.423600138020, 76.865810391568],
+            [9.9649517193173, 76.240447995353]
+          ]).addTo(m);
+          m.fitBounds(p.getBounds());
+        });
+      </script>
+    </figure>
+
+    <h3>Camera</h3>
+
+    <p>I have a
+    <a href="http://www.juzaphoto.com/recensione.php?l=en&amp;t=nikon_d600">Nikon
+    D600</a>. Even if I have several lens, I don't like to visit countries with
+    a bag full of lens, which represents more money than people from the
+    countries could never have. So I took only one lens: the
+    <a href="http://www.juzaphoto.com/recensione.php?l=en&amp;t=nikon_24-85vr">Nikon
+    AF-S 24-85mm f/3.5-4.5 G ED VR</a>. This is not the best lens I ever used,
+    however the 24mm is beautiful (especially on a FF) and the price was very
+    low (thanks to the refurb of Nikon USA!).</p>
+    <p>All photos are handheld. No flash and no filter. The post-production has
+    been very slight.</p>
+
+    <h3>Alappuzha</h3>
+
+    <p>Alappuzha is a very nice place. A lot of nature and a lot of water. This
+    place is very calm, and hopefully for us because my wife's arm was
+    damaged several days. The doctor visit was also very funny by the way 😉.</p>
+    <p>The following photo has been taken while a birds walk, at the
+    sunrise.</p>
+
+    <figure class="contain">
+      <img src="https://farm9.staticflickr.com/8119/15624227178_a96e7db14e_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15624227178/in/set-72157648894718638/">Alappuzha
+        in one photo</a>
+      </figcaption>
+    </figure>
+
+    <p>The following photo has been taken at the sunset, on a boat, in one of
+    the numerous canals.</p>
+
+    <figure class="contain">
+      <img src="https://farm6.staticflickr.com/5606/15609755610_0204a46172_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15609755610/in/set-72157648894718638">Landscape
+        art</a>
+      </figcaption>
+    </figure>
+
+    <h3>Kozhikode</h3>
+
+    <p>Second stop. <a href="http://harikt.com/">Hari</a> and I met on Github.
+    He is a contributor of the <a href="http://auraphp.com/">Aura project</a>
+    and this trip was a good opportunity to finally meet him in real life! He
+    has gently welcomed us in its home, with its wife and family.</p>
+
+    <figure class="contain">
+      <img src="https://farm6.staticflickr.com/5602/15792727291_e7cfdb59f4_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15792727291/in/set-72157648894718638">When
+        Hoa meets Aura</a>
+      </figcaption>
+    </figure>
+
+    <p>We didn't see a lot of places at Kozhikode but we have shared precious
+    moments with this family, both in the kitchen and in the living room or even
+    in the homes of other family's members. Another precious moment was during
+    the “shopping day” (we always try to bring back some gifts to our family).
+    Oh, by the way, I will have a surprise for the public of my next conference,
+    I have a bet to win!</p>
+    <p>We have even been published in the “local” newspapers!</p>
+
+    <figure class="contain">
+      <img src="https://farm8.staticflickr.com/7498/15608776149_035aac0589_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15608776149/in/set-72157648894718638">Published
+        in the newspaper!</a>
+      </figcaption>
+    </figure>
+
+    <p>This is definitively a souvenir that only few people can have 😉.</p>
+
+    <h3>Wayanad</h3>
+
+    <p>Next step. We left the city for nature again. We have visited an old
+    temple, some spicy plantations, waterfalls etc.</p>
+
+    <figure class="contain">
+      <img src="https://farm6.staticflickr.com/5612/15175168803_dde7da8850_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15175168803/in/set-72157648894718638">Old
+        temple</a>
+      </figcaption>
+    </figure>
+
+    <figure class="contain">
+      <img src="https://farm9.staticflickr.com/8541/15794611765_25799f009a_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15794611765/in/set-72157648894718638">Coffee</a>
+      </figcaption>
+    </figure>
+
+    <p>As in the first stop, we have slept in a farm. This is an unrivalled
+    opportunity to learn a <strong>lot</strong> about plants, spicies, fruits,
+    cooking and history.</p>
+
+    <h3>Mysore</h3>
+
+    <p>Third stop. Mysore is big city. Do not go there for the food or for the
+    cleanliness of the street. However, Mysore holds an old market and one of
+    the most beautiful palace of India.</p>
+
+    <figure class="contain">
+      <img src="https://farm6.staticflickr.com/5614/15794619085_6c6ef07d75_b.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15794619085/in/set-72157648894718638">Powder
+        pyramids</a>
+      </figcaption>
+    </figure>
+
+    <figure class="contain">
+      <img src="https://farm8.staticflickr.com/7484/15175193153_731a53fdc4_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15175193153/in/set-72157648894718638">The
+        Mysore Palace</a>
+      </figcaption>
+    </figure>
+
+    <figure class="contain">
+      <img src="https://farm8.staticflickr.com/7489/15794633825_0ffe741611_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15794633825/in/set-72157648894718638">The
+        Mysore Palace illuminated</a>
+      </figcaption>
+    </figure>
+
+    <p>Unfortunately, it is not allowed to take photos inside the palace.
+    Nevertheless, when the night comes, you can appreciate the palace
+    illumination. And this is a <strong>real</strong> experience. My wife was
+    saying all the time: “We are in India, in front of an illuminated palace,
+    surrounded by temples!” with a big smile on its face 😄.</p>
+
+    <h3>Kotagiri</h3>
+
+    <p>After a big city like Mysore, we enjoyed to reach Kotagiri. At 2000m with
+    a temperature around 5/10°C, it contrasts a lot with all the other regions
+    and places we have visited. You can enjoy endless tea plantations.</p>
+
+    <figure class="contain">
+      <img src="https://farm9.staticflickr.com/8138/15175199183_aed9f63831_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15175199183/in/set-72157648894718638">Tea
+        plantation everywhere</a>
+      </figcaption>
+    </figure>
+
+    <h3>Fort Kochi</h3>
+
+    <p>Finally, before taking the airplane to go back, we have spent few days at
+    Fort Kochi. This is definitively a touristic spot and it was quite shocking
+    for us. This was the only place where we have seen strangers.</p>
+
+    <figure class="contain">
+      <img src="https://farm9.staticflickr.com/8402/15609234178_c7b0c6d2d9_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15609234178/in/set-72157648894718638">Chinese
+        square dipping net</a>
+      </figcaption>
+    </figure>
+
+    <p>The last night was a cultural one. We have attended to a theater
+    representation, called Kathakali. No word. Just music and moves. One thing
+    to definitively see is the make-up.</p>
+
+    <figure class="contain">
+      <img src="https://farm8.staticflickr.com/7527/15174693824_f1f860784a_h.jpg" />
+      <figcaption>
+        <a href="https://www.flickr.com/photos/hywan/15174693824/in/set-72157648894718638">Kathakali</a>
+      </figcaption>
+    </figure>
+
+    <h2>Conclusion</h2>
+
+    <p>This was a quick summary of our trip in India with few photos. You can
+    see more on
+    <a href="https://www.flickr.com/photos/hywan/sets/72157648894718638/">my
+    Flickr account</a>. And now, it's time to leave the research world and start
+    a job 😄  <code class="language-markup">&amp;lt;/bad_teasing&amp;gt;</code>.</p>
+
+  </article>
+</overlay>
+
