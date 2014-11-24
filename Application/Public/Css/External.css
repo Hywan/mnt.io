@@ -1,0 +1,35 @@
+@import url('C3.css');
+@import url('Katex.min.css');
+
+/**
+ * C3
+ */
+
+.c3 * {
+    font-family: Text !important;
+    font-size: .75rem;
+}
+
+.c3 path.domain,
+.c3 line {
+    stroke: rgb(101, 123, 131);
+}
+
+.c3 .c3-chart-bar > g:nth-of-type(1) > .c3-bar {
+    fill: rgb(133, 153, 0) !important;
+    stroke: transparent !important;
+    stroke-width: 0 !important;
+}
+
+.c3 .c3-text {
+    fill: rgb(0, 43, 54) !important;
+}
+
+/**
+ * Twitter.
+ */
+
+.twitter-tweet {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

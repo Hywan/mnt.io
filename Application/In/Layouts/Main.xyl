@@ -2,8 +2,7 @@
 <?xyl-stylesheet href="hoa://Application/Public/Css/Layout.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/UI.css"?>
 <?xyl-stylesheet href="hoa://Application/Public/Css/Code.css"?>
-<?xyl-stylesheet href="hoa://Application/Public/Css/Katex.min.css"?>
-<?xyl-stylesheet href="hoa://Application/Public/Css/C3.css"?>
+<?xyl-stylesheet href="hoa://Application/Public/Css/External.css"?>
 <?xyl-stylesheet href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"?>
 <?xyl-meta name="viewport" content="initial-scale=1.0"?>
 

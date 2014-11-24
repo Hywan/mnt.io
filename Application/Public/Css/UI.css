@@ -346,6 +346,7 @@ q {
 figure {
     margin: 0 -8em;
     padding: .5em 8em;
+    text-align: center;
     background: rgb(238, 232, 213);
 }
 
@@ -358,7 +359,6 @@ figure {
         counter-increment: figure;
         font-size: .9em;
         line-height: 2.5em;
-        text-align: center;
     }
 
         figcaption::before {
@@ -427,23 +427,3 @@ figure {
         display: block;
         text-align: center;
     }
-
-.c3 * {
-    font-family: Text !important;
-    font-size: .75rem;
-}
-
-.c3 path.domain,
-.c3 line {
-    stroke: rgb(101, 123, 131);
-}
-
-.c3 .c3-chart-bar > g:nth-of-type(1) > .c3-bar {
-    fill: rgb(133, 153, 0) !important;
-    stroke: transparent !important;
-    stroke-width: 0 !important;
-}
-
-.c3 .c3-text {
-    fill: rgb(0, 43, 54) !important;
-}
