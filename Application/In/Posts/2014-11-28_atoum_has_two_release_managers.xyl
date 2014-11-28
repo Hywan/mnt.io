@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="atoum has two release managers"?>
+<?xyl-meta name="date" value="2014-11-28T18:08:19+01:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <div class="abstract">Managing open-source projects is always a challenge.
+    <a href="http://atoum.org/atoum">atoum</a>, an awesome unit testing
+    framework, is making one step forward with the election of 2 release
+    managers: <a href="https://twitter.com/mikaelrandy">Mikaël Randy</a> and
+    I. This will help to reinforce the organization of the project. Oh, and you
+    will have tags!</div>
+
+    <h2>What is atoum?</h2>
+
+    <p>Short introduction: atoum is a simple, modern and intuitive unit testing
+    framework for PHP.  Originally created by
+    <a href="http://blog.mageekbox.net/">Frédéric Hardy</a>, a good friend, it
+    has grown thanks to
+    <a href="https://github.com/atoum/atoum/graphs/contributors">many
+    contributors</a>.</p>
+
+    <figure>
+      <img src="http://downloads.atoum.org/images/logo.png"
+           style="max-width: 180px" />
+      <figcaption>atoum's logo.</figcaption>
+    </figure>
+
+    <p>No one can say that atoum is not simple or intuitive. The framework
+    offers several awesome features and is more like a meta unit testing
+    framework. Indeed, the “user-land” of atoum, I mean all the assertions API
+    (“this is an integer and it is equal to…”) is based on a very flexible
+    mechanism, handled or embedded in runners, reporters etc. Thus, the
+    framework is very extensible.</p>
+    <p>Several important projects or companies use atoum. For instance,
+    <a href="https://github.com/FriendsOfPHP/pickle/">Pickle</a>, the PHP
+    Extension installer, created by
+    <a href="https://twitter.com/PierreJoye">Pierre Joye</a>, another friend
+    (the world is very small 😉) use atoum for its unit tests. Another example
+    with <a href="https://github.com/M6Web">M6Web</a>, the geeks working at
+    <a href="https://en.wikipedia.org/wiki/M6_%28TV_channel%29">M6</a>, the most
+    profitable private national French TV channel, also use atoum. Another
+    example, <a href="http://mozilla.org/">Mozilla</a> is using atoum to test
+    some of their applications.</p>
+
+    <h2>Where is the cap'tain?</h2>
+
+    <p>Since the beginning, Frédéric has been a great leader for the project. He
+    has inspired many people, users and contributors. In real life, on stage, on
+    IRC… its personality and charisma were helpful in all aspects. However,
+    leading such a project is a challenging and nerve-wracking daily work. I
+    know what I am talking about with <a href="http://hoa-project.net/">Hoa</a>.
+    Hopefully for Frédéric, some contributors were here to help.</p>
+
+    <h2>Where to go cap'tain?</h2>
+
+    <p>However, having contributors do not create a community. A community is a
+    group of people that share something together. A project needs a community
+    with strong connections. They do no need to all look at the same direction,
+    but they have to share something. In the case of atoum, I would say the
+    project has been <strong>victim of its own success</strong>. We have seen
+    the number of users increasing very quickly and the project was not yet
+    ready for such a massive use. The documentation was not ready, a lot of
+    features were not finalized, there were few contributors and the absence of
+    a real community did not help. Put all these things together, blend them
+    together and you obtain a bomb 😄. The project leaders were under a terrible
+    pressure.</p>
+    <p>In these conditions, this is not easy to work. Especially when users ask
+    for new features. The needs to have a roadmap and people taking decisions
+    were very strong.</p>
+
+    <h2>When the community acts</h2>
+
+    <p>After a couple of months under the sea, we have decided that we need to
+    create a structure around the project. An organization. Frédéric is not able
+    to do everything by himself. That's why <strong>2 release managers have been
+    elected</strong>: Mikaël Randy and I. Thank you to
+    <a href="http://jubianchi.fr/">Julien Bianchi</a>, another friend 😉, for
+    having organized these elections and being one of the most active
+    contributor of atoum!</p>
+    <p>Our goal is to define the roadmap of atoum:</p>
+    <ul>
+      <li>what will be included in the next version and what will not,</li>
+      <li>what features need work,</li>
+      <li>what bugs or issues need to be solved,</li>
+      <li>etc.</li>
+    </ul>
+    <p>Well, a release manager is a pretty common job.</p>
+    <p>Why 2? To avoid the bus effect and delegate. We all have a family,
+    friends, jobs and side projects. With 2 release managers, we have 2 times
+    more time to organize this project, and it deserves such an amount of
+    time.</p>
+    <p>The goal is also to organize the community if it is possible. New great
+    features are coming and they will allow more people to contribute and build
+    their “own atoum”. See below.</p>
+
+    <h2>Features to port!</h2>
+
+    <p>Everything is not defined at 100% but here is an overview of what is
+    coming.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/0Z6Sasx.png"
+           style="max-width: 250px" />
+      <figcaption>Baba, from Astérix and Obélix.</figcaption>
+    </figure>
+
+    <p>First of all, you will find the
+    <a href="https://github.com/atoum/atoum/milestones/1.0.0">latest issues and
+    bugs</a> we have to close before the first release.</p>
+    <p>Second, you will notice the version number… 1.0.0. Yes! atoum will have
+    tags! After several discussions
+    (<a href="https://github.com/atoum/atoum/issues/261">#261</a>,
+     <a href="https://github.com/atoum/atoum/issues/300">#300</a>,
+     <a href="https://github.com/atoum/atoum/issues/342">#342</a>,
+     <a href="https://github.com/atoum/atoum/issues/349">#349</a>…), even if
+    atoum is rolling-released, it will have tags. Probably with the
+    <a href="http://semver.org/">semver format</a>.</p>
+    <p>Finally, a big feature is the
+    <a href="https://github.com/atoum/atoum/pull/330">Extension API</a>, that
+    allows to write extension, such as:</p>
+    <ul>
+      <li><a href="https://github.com/atoum/visibility-extension"><code>atoum/visibility-extension</code></a>,
+          allows to override methods visibility; example:</li>
+    </ul>
+    <pre><code class="language-php">class Foo {
+
+    protected function bar ( $arg ) {
+
+        return $arg;
+    }
+}
+
+// and…
+
+class Foo extends atoum\test {
+
+    public function testBaz ( ) {
+
+        $this
+            ->if($sut = new \Foo())
+            ->and($arg = 'bar')
+            ->then
+                ->variable($this->invoke($sut)->bar($arg))->isEqualTo($arg);
+    }
+}</code></pre>
+    <p>Now you will be able to test your protected and private methods!</p>
+    <ul>
+      <li><a href="https://github.com/atoum/bdd-extension"><code>atoum/bdd-extension</code></a>,
+          allows to write tests with the behavior-driven development style and
+          vocabulary; example:</li>
+    </ul>
+    <pre><code class="language-php">class Formatter extends atoum\spec {
+
+    public function should_format_underscore_separated_method_name ( ) {
+
+        $this
+            ->given($formatter = new testedClass())
+            ->then
+                ->invoking->format(__FUNCTION__)->on($formatter)
+                    ->shouldReturn('should format underscore separated method name');
+    }
+}</code></pre>
+    <p>Even the output looks familiar:</p>
+    <figure>
+      <img src="https://cloud.githubusercontent.com/assets/327237/4967400/28cfc6fc-680f-11e4-9446-ee67eda69622.png" />
+      <figcaption>Possible output with the
+      <code>atoum/bdd-extension</code>.</figcaption>
+    </figure>
+    <ul>
+      <li><a href="https://github.com/atoum/json-schema-extension"><code>atoum/json-schema-extension</code></a>,
+          allows to validate JSON payloads against a schema; example:</li>
+    </ul>
+    <pre><code class="language-php">class Foo extends atoum\test {
+
+    public function testIsJson ( ) {
+
+        $this
+            ->given($string = '{"foo": "bar"}')
+            ->then
+                ->json($string);
+    }
+
+    public function testValidatesSchema ( ) {
+
+        $this
+            ->given($string = '["foo", "bar"]')
+            ->then
+                ->json($string)->validates('{"title": "test", "type": "array"}')
+                ->json($string)->validates('/path/to/json.schema');
+    }
+}</code></pre>
+    <ul>
+      <li><a href="http://central.hoa-project.net/Resource/Contributions/Atoum/PraspelExtension"><code>atoum/praspel-extension</code></a>,
+          allows to use
+          <a href="https://en.wikipedia.org/wiki/Praspel">Praspel</a> inside
+          atoum: automatically generate and validate advanced test data and unit
+          tests; example:</li>
+    </ul>
+    <pre><code class="language-php">class Foo extends atoum\test {
+
+    public function testFoo ( ) {
+
+        $this->if($regex  = $this->realdom->regex('/[\w\-_]+(\.[\w\-\_]+)*@\w\.(net|org)/'))
+             ->and($email = $this->sample($regex))
+             ->then
+                …
+    }
+}</code></pre>
+    <p>Here, we have generated a string based on its regular expression.
+    Reminder, you might have seen this on this blog:
+    <a href="@post:url=2014-09-30_Generate_strings_based_on_regular_expressions.html">Generate
+    strings based on regular expressions</a>.</p>
+    <p>Fun fact: the <code>atoum/json-schema-extension</code> is tested with
+    atoum obviously and… <code>atoum/praspel-extension</code>!</p>
+
+    <h2>Conclusion</h2>
+
+    <p>atoum has a bright future with exciting features! We sincerely hope this
+    new direction will gather existing and new contributors 😄.</p>
+    <p>❤️ open-source!</p>
+  </article>
+</overlay>
