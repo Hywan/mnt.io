@@ -32,12 +32,15 @@
     framework. Indeed, the “user-land” of atoum, I mean all the assertions API
     (“this is an integer and it is equal to…”) is based on a very flexible
     mechanism, handled or embedded in runners, reporters etc. Thus, the
-    framework is very extensible.</p>
+    framework is very extensible. You can find more informations in the
+    <code>README.md</code> of the project:
+    <a href="https://github.com/atoum/atoum#why-atoum"><cite>Why
+    atoum?</cite></a>.</p>
     <p>Several important projects or companies use atoum. For instance,
     <a href="https://github.com/FriendsOfPHP/pickle/">Pickle</a>, the PHP
     Extension installer, created by
     <a href="https://twitter.com/PierreJoye">Pierre Joye</a>, another friend
-    (the world is very small 😉) use atoum for its unit tests. Another example
+    (the world is very small 😉) use atoum for its unit tests. Another example
     with <a href="https://github.com/M6Web">M6Web</a>, the geeks working at
     <a href="https://en.wikipedia.org/wiki/M6_%28TV_channel%29">M6</a>, the most
     profitable private national French TV channel, also use atoum. Another
@@ -64,7 +67,7 @@
     ready for such a massive use. The documentation was not ready, a lot of
     features were not finalized, there were few contributors and the absence of
     a real community did not help. Put all these things together, blend them
-    together and you obtain a bomb 😄. The project leaders were under a terrible
+    together and you obtain a bomb 😄. The project leaders were under a terrible
     pressure.</p>
     <p>In these conditions, this is not easy to work. Especially when users ask
     for new features. The needs to have a roadmap and people taking decisions
@@ -76,7 +79,7 @@
     create a structure around the project. An organization. Frédéric is not able
     to do everything by himself. That's why <strong>2 release managers have been
     elected</strong>: Mikaël Randy and I. Thank you to
-    <a href="http://jubianchi.fr/">Julien Bianchi</a>, another friend 😉, for
+    <a href="http://jubianchi.fr/">Julien Bianchi</a>, another friend 😉, for
     having organized these elections and being one of the most active
     contributor of atoum!</p>
     <p>Our goal is to define the roadmap of atoum:</p>
@@ -115,8 +118,11 @@
      <a href="https://github.com/atoum/atoum/issues/300">#300</a>,
      <a href="https://github.com/atoum/atoum/issues/342">#342</a>,
      <a href="https://github.com/atoum/atoum/issues/349">#349</a>…), even if
-    atoum is rolling-released, it will have tags. Probably with the
-    <a href="http://semver.org/">semver format</a>.</p>
+    atoum is rolling-released, it will have tags. And with the
+    <a href="http://semver.org/">semver format</a>. More informations on the
+    blog of Julien Bianchi:
+    <a href="http://jubianchi.fr/atoum-release.htm"><cite>atoum embraces
+    semver</cite></a>.</p>
     <p>Finally, a big feature is the
     <a href="https://github.com/atoum/atoum/pull/330">Extension API</a>, that
     allows to write extension, such as:</p>
@@ -210,15 +216,15 @@ class Foo extends atoum\test {
 }</code></pre>
     <p>Here, we have generated a string based on its regular expression.
     Reminder, you might have seen this on this blog:
-    <a href="@post:url=2014-09-30_Generate_strings_based_on_regular_expressions.html">Generate
-    strings based on regular expressions</a>.</p>
+    <a href="@post:url=2014-09-30_Generate_strings_based_on_regular_expressions.html"><cite>Generate
+    strings based on regular expressions</cite></a>.</p>
     <p>Fun fact: the <code>atoum/json-schema-extension</code> is tested with
     atoum obviously and… <code>atoum/praspel-extension</code>!</p>
 
     <h2>Conclusion</h2>
 
     <p>atoum has a bright future with exciting features! We sincerely hope this
-    new direction will gather existing and new contributors 😄.</p>
+    new direction will gather existing and new contributors 😄.</p>
     <p>❤️ open-source!</p>
   </article>
 </overlay>
