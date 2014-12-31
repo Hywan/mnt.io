@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="Control the terminal, the right way"?>
+<?xyl-meta name="date" value="2014-12-30T08:51:18+01:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <p class="abstract">… we will see how to control the cursor, the window and
+    even the mouse in a croos-terminals way.</p>
+
+    <h2>Introduction</h2>
+
+    <p>Terminals. They are the ancient interfaces, still not yet put out of
+    fashion. They are fast, efficient, work remotely with a low bandwidth,
+    secured and very simple to use.</p>
+    <p>A terminal is a canvas composed of columns and lines. Only one character
+    fits at a position. According to the terminal, we have some features
+    enabled. For instance, a character might be stylized with a colour, a
+    decoration, a weight etc. Let's consider the former. A colour belongs to a
+    palette, which contains either 2, 8, 256 or more colours. One may
+    wonders:</p>
+    <ul>
+      <li>How many colours a terminal supports?</li>
+      <li>How to control the style of a character?</li>
+      <li>How to control more than style, like the cursor or the window?</li>
+    </ul>
+    <p>Well, this article is going to explain how a terminal works and how we
+    interact with it. We are going to talk about terminal capabilities, terminal
+    information (stored in database) and
+    <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code></a>,
+    a PHP library that brings advanced terminal controls.</p>
+
+    <!--
+    <figure>
+      <dot style="width: 160px; height: 260px">
+        digraph {
+            node [shape="circle"];
+
+            A -> B;
+            B -> D;
+            C -> D;
+        }
+      </dot>
+      <figcaption>foo</figcaption>
+    </figure>
+    -->
+
+    <h2>What is a terminal?</h2>
+
+    <p>A terminal, or a console, is an interface that allows to interact with
+    the computer. This interface is textual. Like a graphical interface, there
+    is inputs: The keyboard and the mouse, and ouputs: The screen or a file (a
+    real file, a socket, a FIFO, something else…).</p>
+    <p>There is a bunch of terminals. The most famous ones are:</p>
+    <ul>
+      <li><a href="http://invisible-island.net/xterm/xterm.html">xterm</a>,</li>
+      <li><a href="http://iterm2.com/">iTerm2</a>,</li>
+      <li><a href="http://software.schmorp.de/pkg/rxvt-unicode.html">urxvt</a>,</li>
+      <li><a href="http://ttssh2.sourceforge.jp/">TeraTerm</a>.</li>
+    </ul>
+    <p>Whatever the terminal you use, inputs are handled by programs (or
+    processus) and outputs are produced by these latters. We said outputs can be
+    the screen or a file. Actually, everything is a file, so the screen is also
+    a file. However, the user is able to use
+    <a href="http://gnu.org/software/bash/manual/bashref.html#Redirections">redirections</a>
+    to choose where the ouputs must go.</p>
+    <p>Let's consider the <code>echo</code> program that prints all its
+    options/arguments on its output. Thus, in the following example,
+    <code>foobar</code> is printed on the screen:</p>
+    <pre><code class="language-shell">$ echo 'foobar'</code></pre>
+    <p>And in the following example, <code>foobar</code> is redirected to a file
+    called <code>log</code>:</p>
+    <pre><code class="language-shell">$ echo 'foobar' > log</code></pre>
+    <p>We are also able to redirect the output to another program, like
+    <code>wc</code> that counts stuff:</p>
+    <pre><code class="language-shell">$ echo 'foobar' | wc -c
+7</code></pre>
+    <p>Now we know there is 7 characters in <code>foobar</code>… no!
+    <code>echo</code> automatically adds a new-line (<code>\n</code>) after each
+    line; so:</p>
+    <pre><code class="language-shell">$ echo -n 'foobar' | wc -c
+6</code></pre>
+    <p>This is more correct!</p>
+
+    <h2>Detecting type of pipes</h2>
+
+    <p>Inputs and outputs are called <strong>pipes</strong>. Yes, trivial,
+    this is no more than basic pipes!</p>
+
+    <figure>
+      <img src="http://i.imgur.com/pg4qrLC.jpg" />
+      <figcaption>Pipes are like a game, see Mario 😉!</figcaption>
+    </figure>
+
+    <p>There is 3 standard pipes:</p>
+    <ul>
+      <li><code>STDIN</code>, standing for the standard input pipe,</li>
+      <li><code>STDOUT</code>, standing for the standard output pipe and</li>
+      <li><code>STDERR</code>, standing for the standard error pipe (also an
+      output one).</li>
+    </ul>
+    <p>If the output is attached to the screen, we say this is a “direct
+    output”. Why is it important? Because if we stylize a text, this is only for
+    the screen, not for a file. A file should receive regular text, not all the
+    decorations and styles.</p>
+    <p>Hopefully, the
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Console.php"><code>Hoa\Console\Console</code></a>
+    class provides the <code>isDirect</code>, <code>isPipe</code> and
+    <code>isRedirection</code> static methods to know whether the pipe is
+    respectively direct, a pipe or a redirection (damn naming…!). Thus, let
+    <code>Type.php</code> be the following program:</p>
+    <pre><code class="language-php">echo 'is direct:      ';
+var_dump(Hoa\Console\Console::isDirect(STDOUT));
+
+echo 'is pipe:        ';
+var_dump(Hoa\Console\Console::isPipe(STDOUT));
+
+echo 'is redirection: ';
+var_dump(Hoa\Console\Console::isRedirection(STDOUT));</code></pre>
+    <p>Now, let's test our program:</p>
+    <pre><code class="language-shell">$ php Type.php
+is direct:      bool(true)
+is pipe:        bool(false)
+is redirection: bool(false)
+
+$ php Type.php | xargs -I@ echo @
+is direct:      bool(false)
+is pipe:        bool(true)
+is redirection: bool(false)
+
+$ php Type.php > /tmp/foo; cat /tmp/foo
+is direct:      bool(false)
+is pipe:        bool(false)
+is redirection: bool(true)</code></pre>
+    <p>The first execution is very classic. <code>STDOUT</code>, the standard
+    output, is direct. The second execution redirects the output to another
+    program, then <code>STDOUT</code> is of kind pipe. Finally, the last
+    execution redirects the output to a file called <code>/tmp/foo</code>, so
+    <code>STDOUT</code> is a redirection.</p>
+    <p>Yes, this is useful to enable styles on text but also to define the
+    default verbosity level. For instance, if a program outputs the result of a
+    computation with some explanations around, the highest verbosity level would
+    output everything (the result and the explanations) while the lowest level
+    would output only the result. Let's try with the
+    <code>toUpperCase.php</code> program:</p>
+    <pre><code class="language-php">$verbose = Hoa\Console\Console::isDirect(STDOUT);
+$string  = $argv[1];
+$result  = (new Hoa\String\String($string))->toUpperCase();
+
+if(true === $verbose)
+    echo $string, ' becomes ', $result, ' in upper case!', "\n";
+else
+    echo $result, "\n";</code></pre>
+    <p>Then, let's execute this program:</p>
+    <pre><code class="language-shell">$ php toUpperCase.php 'Hello world!'
+Hello world! becomes HELLO WORLD! in upper case!
+$ php toUpperCase.php 'Hello world!' | xargs -I@ echo @
+HELLO WORLD!</code></pre>
+    <p>Useful and very simple, isn't it?</p>
+
+    <h2>Terminal capabilities</h2>
+
+    <p>We can control the terminal with the inputs, like the keyboard, but we
+    can also control the outputs. How? With the text itself. Actually, an output
+    does not contain only the text but it includes <strong>control
+    functions</strong>. It's like HTML: Around a text, you can have an
+    <code>&amp;amp;lt;a></code> element, specifying that the text is a link.
+    It's exactly the same for terminals! To specify that a text must be in red,
+    we must add a control function around it.</p>
+    <p>Hopefully, these control functions have been standardized in the
+    <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf">ECMA-48</a>
+    document: <cite>Control Functions for Coded Character Set</cite>. However,
+    not all terminals implement all this standard, and for historical reasons,
+    some terminals use slightly different control functions. Moreover, some
+    information does not belong to this standard (because this is out of its
+    scope), like: How many colours the terminal support? or does the terminal
+    support the <kbd>meta</kbd> key?</p>
+    <p>Consequently, each terminal has a list of <strong>capabilities</strong>.
+    This list is splitted in <strong>3 categories</strong>:</p>
+    <ul>
+      <li>boolean capabilities,</li>
+      <li>number capabilities,</li>
+      <li>string capabilities.</li>
+    </ul>
+    <p>For instance:</p>
+    <ul>
+      <li>the “does the terminal support the <kbd>meta</kbd> key” is a boolean
+      capability called <code>meta_key</code> where its value is
+      <code>true</code> or <code>false</code>,</li>
+      <li>the “number of colours supported by the terminal” is a… number
+      capability called <code>max_colors</code> where its value can be
+      <code>2</code>, <code>8</code>, <code>256</code> or more,</li>
+      <li>the “clear screen control function” is a string capability called
+      <code>clear_screen</code> where its value might be
+      <code>\e[H\e[2J</code>,</li>
+      <li>the “move the cursor one column to the right” is also a string
+      capability called <code>cursor_right</code> where its value might be
+      <code>\e[C</code>.</li>
+    </ul>
+    <p>All the capabilities can be found in the
+    <a href="http://man.cx/terminfo%285%29">documentation of <code>terminfo(5)</code></a>
+    or in the
+    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html">documentation
+    of xcurses</a>. I encourage you to follow these links and see how rich the
+    terminal capabilities are!</p>
+
+    <h2>Terminal information</h2>
+
+    <p>Terminal capabilities are stored as <strong>information</strong> in
+    <strong>databases</strong>. Where these databases are located? In files with
+    a binary format. Favorite locations are:</p>
+    <ul>
+      <li><code>/usr/share/terminfo</code>,</li>
+      <li><code>/usr/share/lib/terminfo</code>,</li>
+      <li><code>/lib/terminfo</code>,</li>
+      <li><code>/usr/lib/terminfo</code>,</li>
+      <li><code>/usr/local/share/terminfo</code>,</li>
+      <li><code>/usr/local/share/lib/terminfo</code>,</li>
+      <li>etc.</li>
+      <li>or the <code>TERMINFO</code> or <code>TERMINFO_DIRS</code> environment
+      variables.</li>
+    </ul>
+    <p>Inside these directories, we have a tree of the form:
+    <code><em>xx</em>/<em>name</em></code>, where <code><em>xx</em></code> is
+    the ASCII value in hexadecimal of the first letter of the terminal name
+    <code><em>name</em></code>, or <code><em>n</em>/<em>name</em></code> where
+    <code><em>n</em></code> is the first letter of the terminal name. The
+    terminal name is stored in the <code>TERM</code> environment variable. For
+    instance, on my computer:</p>
+    <pre><code class="language-shell">$ echo $TERM
+xterm-256color
+$ file /usr/share/terminfo/78/xterm-256color
+/usr/share/terminfo/78/xterm-256color: Compiled terminfo entry</code></pre>
+    <p>We can use the
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Tput.php"><code>Hoa\Console\Tput</code></a>
+    class to retrieve these information. The <code>getTerminfo</code> static
+    method allows to get the path of the terminal information file. The
+    <code>getTerm</code> static method allows to get the terminal name. Finally,
+    the whole class allows to parse a terminal information database (it will use
+    the file returned by <code>getTerminfo</code> by default). For instance:</p>
+    <pre><code class="language-php">$tput = new Hoa\Console\Tput();
+var_dump($tput->count('max_colors'));
+
+/**
+ * Will output:
+ *     int(256)
+ */</code></pre>
+    <p>On my computer, with <code>xterm-256color</code>, I have 256 colours, as
+    expected. If we parse the information of <code>xterm</code> and not
+    <code>xterm-256color</code>, we will have:</p>
+    <pre><code class="language-php">$tput = new Hoa\Console\Tput(Hoa\Console\Tput::getTerminfo('xterm'));
+var_dump($tput->count('max_colors'));
+
+/**
+ * Will output:
+ *     int(8)
+ */</code></pre>
+
+    <h2>The power in your hand: control the cursor</h2>
+
+    <p>Let's summarize. We are able to parse and know all the terminal
+    capabilities of a specific terminal (including the one of the current
+    user). If we would like a powerful terminal API, we need to control the
+    basis, like the cursor.</p>
+    <p>Remember. We said that the terminal is a canvas of columns and lines. The
+    cursor is like a pen. We can move it and write something. We are going to
+    (partly) see how the
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Cursor.php"><code>Hoa\Console\Cursor</code></a>
+    class works.</p>
+
+    <h3><q>I like to move it!</q></h3>
+
+    <p>The <code>moveTo</code> static method allows to move the cursor to an
+    absolute position. For example:</p>
+    <pre><code class="language-php">Hoa\Console\Cursor::moveTo(7, 7);</code></pre>
+    <p>The control function is <code>cursor_address</code>, so all we need to do
+    is to use the <code>Hoa\Console\Tput</code> class and call the
+    <code>get</code> method on it to get this string capability. This is a
+    parameterized one: On <code>xterm-256color</code>, its value is
+    <code>e[%i%p1%d;%p2%dH</code>. We replace the parameters by
+    <code class="language-php">$x</code> and
+    <code class="language-php">$y</code> and we output the result. That's
+    all! We are able to move to cursor on an absolute position on
+    <strong>all terminals</strong>! This is the right way to do it.</p>
+    <p>We use the same strategy for the <code>move</code> static method that
+    moves the cursor relatively to its current position. For example:</p>
+    <pre><code class="language-php">Hoa\Console\Cursor::move('right up');</code></pre>
+    <p>We split the steps and for each step we read the appropriated string
+    capability using the <code>Hoa\Console\Tput</code> class. For
+    <code>right</code>, we read the <code>parm_right_cursor</code> string
+    capability, for <code>up</code>, we read <code>parm_up_cursor</code>
+    etc. Note that <code>parm_right_cursor</code> is different of
+    <code>cursor_right</code>: The first one is used to move the cursor a
+    certain number of times while the second one is used to move the cursor only
+    one time. With performances in mind, we should use the first one if we have
+    to move the cursor several times.</p>
+    <p>The <code>getPosition</code> static method returns the position of the
+    cursor. This way to interact is a little bit different. We must write a
+    control function on the output, and then, the terminal writes the answer on
+    the input. See the implementation by yourself.</p>
+    <p>In the same way, we have the <code>save</code> and <code>restore</code>
+    static methods that save the current position of the cursor and restore
+    it. This is very useful. We use the <code>save_cursor</code> and
+    <code>restore_cursor</code> string capabitilies.</p>
+    <p>See what we learnt in action:</p>
+    <pre><code class="language-php">echo 'Foobar', "\n",
+     'Foobar', "\n",
+     'Foobar', "\n",
+     'Foobar', "\n",
+     'Foobar', "\n";
+
+           Hoa\Console\Cursor::save();
+sleep(1);  Hoa\Console\Cursor::move('LEFT');
+sleep(1);  Hoa\Console\Cursor::move('↑');
+sleep(1);  Hoa\Console\Cursor::move('↑');
+sleep(1);  Hoa\Console\Cursor::move('↑');
+sleep(1);  Hoa\Console\Cursor::clear('↔');
+sleep(1);  echo 'Hahaha!';
+sleep(1);  Hoa\Console\Cursor::restore();
+
+echo "\n", 'Bye!', "\n";</code></pre>
+    <figure>
+      <figcaption>Saving, moving, clearing and restoing the cursor with
+      <code>Hoa\Console</code>.</figcaption>
+    </figure>
+
+    <h3>Colours</h3>
+
+    <p>To get more information, please,
+    <a href="http://hoa-project.net/Literature/Hack/Console.html#Cursor" title="Documentation of Hoa\Console\Cursor">read
+    the documentation</a>.</p>
+
+    <h2>The power in your hand: control the window</h2>
+
+    <p>To get more information, please,
+    <a href="http://hoa-project.net/Literature/Hack/Console.html#Window" title="Documentation of Hoa\Console\Window">read
+    the documentation</a>.</p>
+
+    <h2>The power in your hand: readline</h2>
+
+    <p>A more complete usage of <code>Hoa\Console\Cursor</code> and even
+    <code>Hoa\Console\Window</code> is <code>Hoa\Console\Readline</code> that is
+    a powerful readline. More than autocompleters, history, key bindings etc.,
+    it has an advanced use of cursors. See this in action:</p>
+
+    <figure>
+      <img src="http://central.hoa-project.net/Resource/Library/Console/Documentation/Image/Readline_autocompleters.gif?format=raw" />
+      <figcaption>An autocompletion menu, made with
+      <code>Hoa\Console\Cursor</code> and
+      <code>Hoa\Console\Window</code>.</figcaption>
+    </figure>
+
+    <p>To get more information, please,
+    <a href="http://hoa-project.net/Literature/Hack/Console.html#Readline" title="Documentation of Hoa\Console\Readline">read
+    the documentation</a>.</p>
+
+    <h2>Conclusion</h2>
+  </article>
+</overlay>
