@@ -77,6 +77,51 @@
     </script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="hoa://Application/Public/Javascript/C3.min.js"></script>
+    <script src="http://cpettitt.github.io/project/graphlib-dot/v0.5.2/graphlib-dot.js"></script>
+    <script src="http://cpettitt.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+    <script>
+      Hoa.Document.onReady(function ( ) {
+
+          var dot    = Hoa.$$('[data-type = "dot"]');
+          var render = dagreD3.render();
+
+          dot.hoa.forEach(function ( i ) {
+
+              var dotContent = dot[i].textContent;
+              dot[i].textContent = null;
+              var svg = Hoa.DOM.element(
+                  'svg',
+                  undefined,
+                  undefined,
+                  'http://www.w3.org/2000/svg'
+              );
+              var svg_g = Hoa.DOM.element(
+                  'g',
+                  undefined,
+                  undefined,
+                  'http://www.w3.org/2000/svg'
+              );
+              svg.appendChild(svg_g);
+              dot[i].appendChild(svg);
+
+              var graph = graphlibDot.read(dotContent);
+
+              if(   !graph.graph().hasOwnProperty("marginx")
+                 &amp;amp;&amp;amp; !graph.graph().hasOwnProperty("marginy")) {
+
+                  graph.graph().marginx = 10;
+                  graph.graph().marginy = 10;
+              }
+
+              graph.graph().transition = function ( selection ) {
+
+                  return selection.transition().duration(500);
+              };
+
+              d3.select('svg g').call(render, graph);
+          });
+      });
+    </script>
     <script>
       var _paq = _paq || [];
       _paq.push(['trackPageView']);

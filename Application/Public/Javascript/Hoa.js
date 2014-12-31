@@ -301,7 +301,7 @@ Hoa.ℙ(1) && (Hoa.DOM = Hoa.DOM || new function ( ) {
         var node = null;
 
         if(undefined !== ns)
-            node = document.createElementNS(name);
+            node = document.createElementNS(ns, name);
         else
             node = document.createElement(name);
 
@@ -576,6 +576,18 @@ Hoa.Event = Hoa.Event || new function ( ) {
 
                     return;
                 },
+                undefined === useCapture ? false : useCapture
+            );
+        },
+
+        bareOn: function ( type, handler, useCapture ) {
+
+            var handle = delegator;
+            delegator  = document;
+
+            return handle.addEventListener(
+                type,
+                handler,
                 undefined === useCapture ? false : useCapture
             );
         },

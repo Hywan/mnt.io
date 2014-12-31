@@ -33,3 +33,29 @@
     margin-left: auto !important;
     margin-right: auto !important;
 }
+
+/**
+ * DOT
+ */
+[data-type="dot"] svg {
+    width: inherit;
+    height: inherit;
+}
+
+[data-type="dot"] svg .node {
+    white-space: nowrap;
+}
+
+[data-type="dot"] .node rect,
+[data-type="dot"] .node circle,
+[data-type="dot"] .node ellipse {
+    fill: none;
+    stroke: rgb(101,123,131);
+    stroke-width: 1;
+}
+
+[data-type="dot"] .edgePath path.path {
+    fill: none;
+    stroke: rgb(101,123,131);
+    stroke-width: 1;
+}

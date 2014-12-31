@@ -6,4 +6,10 @@
       \displaystyle <yield select="?x:text()" />
     </span>
   </yield>
+
+  <yield name="dot">
+    <span data-type="dot" yield-select="?x:@*">
+      <yield select="?x:text()" />
+    </span>
+  </yield>
 </definition>
