@@ -10,8 +10,8 @@
     supports? How to control the style of a character? How to control more than
     style, like the cursor or the window? In this article, we are going to
     explain and show in action the right ways to control your terminal with a
-    <strong>portable</strong> and <strong>easy to maintain API</strong>. We are
-    going to talk about <code>stat</code>, tput, <code>terminfo</code>,
+    <strong>portable</strong> and an <strong>easy to maintain API</strong>. We
+    are going to talk about <code>stat</code>, tput, <code>terminfo</code>,
     <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code></a>…
     but do not be afraid, it's easy and fun!</p>
 
@@ -25,7 +25,7 @@
     enabled. For instance, a character might be stylized with a colour, a
     decoration, a weight etc. Let's consider the former. A colour belongs to a
     palette, which contains either 2, 8, 256 or more colours. One may
-    wonders:</p>
+    wonder:</p>
     <ul>
       <li>How many colours a terminal supports?</li>
       <li>How to control the style of a character?</li>
