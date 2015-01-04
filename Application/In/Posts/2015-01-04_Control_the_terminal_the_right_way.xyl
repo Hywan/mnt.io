@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xyl-meta name="title" value="Control the terminal, the right way"?>
-<?xyl-meta name="date" value="2014-12-30T08:51:18+01:00"?>
+<?xyl-meta name="date" value="2015-01-04T14:48:21+01:00"?>
 <?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
