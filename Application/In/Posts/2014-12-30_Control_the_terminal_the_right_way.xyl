@@ -37,21 +37,6 @@
     <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code></a>,
     a PHP library that brings advanced terminal controls.</p>
 
-    <!--
-    <figure>
-      <dot style="width: 160px; height: 260px">
-        digraph {
-            node [shape="circle"];
-
-            A -> B;
-            B -> D;
-            C -> D;
-        }
-      </dot>
-      <figcaption>foo</figcaption>
-    </figure>
-    -->
-
     <h2>The basis of a terminal</h2>
 
     <p>A terminal, or a console, is an interface that allows to interact with
