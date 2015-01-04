@@ -5,8 +5,15 @@
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
-    <p class="abstract">… we will see how to control the cursor, the window and
-    even the mouse in a croos-terminals way.</p>
+    <p class="abstract">Nowadays, there is plenty of terminal emulators in the
+    wild. Each one has a specific way to handle controls. How many colours it
+    supports? How to control the style of a character? How to control more than
+    style, like the cursor or the window? In this article, we are going to
+    explain and show in action the right ways to control your terminal with a
+    <strong>portable</strong> and <strong>easy to maintain API</strong>. We are
+    going to talk about <code>stat</code>, tput, <code>terminfo</code>,
+    <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code></a>…
+    but do not be afraid, it's easy and fun!</p>
 
     <h2>Introduction</h2>
 
@@ -45,7 +52,7 @@
     </figure>
     -->
 
-    <h2>What is a terminal?</h2>
+    <h2>The basis of a terminal</h2>
 
     <p>A terminal, or a console, is an interface that allows to interact with
     the computer. This interface is textual. Like a graphical interface, there
@@ -85,11 +92,11 @@
     <h2>Detecting type of pipes</h2>
 
     <p>Inputs and outputs are called <strong>pipes</strong>. Yes, trivial,
-    this is no more than basic pipes!</p>
+    this is nothing more than basic pipes!</p>
 
     <figure>
       <img src="http://i.imgur.com/pg4qrLC.jpg" />
-      <figcaption>Pipes are like a game, see Mario 😉!</figcaption>
+      <figcaption><p>Pipes are like a game, see Mario 😉!</p></figcaption>
     </figure>
 
     <p>There is 3 standard pipes:</p>
@@ -100,12 +107,12 @@
       output one).</li>
     </ul>
     <p>If the output is attached to the screen, we say this is a “direct
-    output”. Why is it important? Because if we stylize a text, this is only for
-    the screen, not for a file. A file should receive regular text, not all the
-    decorations and styles.</p>
+    output”. Why is it important? Because if we stylize a text, this is
+    <strong>only for the screen</strong>, not for a file. A file should receive
+    regular text, not all the decorations and styles.</p>
     <p>Hopefully, the
-    <a href="http://central.hoa-project.net/Resource/Library/Console/Console.php"><code>Hoa\Console\Console</code></a>
-    class provides the <code>isDirect</code>, <code>isPipe</code> and
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Console.php"><code>Hoa\Console\Console</code>
+    class</a> provides the <code>isDirect</code>, <code>isPipe</code> and
     <code>isRedirection</code> static methods to know whether the pipe is
     respectively direct, a pipe or a redirection (damn naming…!). Thus, let
     <code>Type.php</code> be the following program:</p>
@@ -118,7 +125,7 @@ var_dump(Hoa\Console\Console::isPipe(STDOUT));
 echo 'is redirection: ';
 var_dump(Hoa\Console\Console::isRedirection(STDOUT));</code></pre>
     <p>Now, let's test our program:</p>
-    <pre><code class="language-shell">$ php Type.php
+    <pre data-line="2,8,14"><code class="language-shell">$ php Type.php
 is direct:      bool(true)
 is pipe:        bool(false)
 is redirection: bool(false)
@@ -128,7 +135,7 @@ is direct:      bool(false)
 is pipe:        bool(true)
 is redirection: bool(false)
 
-$ php Type.php > /tmp/foo; cat /tmp/foo
+$ php Type.php > /tmp/foo; cat !!$
 is direct:      bool(false)
 is pipe:        bool(false)
 is redirection: bool(true)</code></pre>
@@ -137,7 +144,86 @@ is redirection: bool(true)</code></pre>
     program, then <code>STDOUT</code> is of kind pipe. Finally, the last
     execution redirects the output to a file called <code>/tmp/foo</code>, so
     <code>STDOUT</code> is a redirection.</p>
-    <p>Yes, this is useful to enable styles on text but also to define the
+    <p>How does it work? We use
+    <a href="http://php.net/fstat"><code>fstat</code></a> to read the
+    <code>mode</code> of the file. The underlying <code>fstat</code>
+    implementation is defined in C, so let's take a look at the
+    <a href="http://man.cx/fstat%282%29">documentation of
+    <code>fstat(2)</code></a>. <code>stat</code> is a C structure that looks
+    like:</p>
+    <pre><code class="language-clike">struct stat {
+    dev_t    st_dev;              /* device inode resides on             */
+    ino_t    st_ino;              /* inode's number                      */
+    mode_t   st_mode;             /* inode protection mode               */
+    nlink_t  st_nlink;            /* number of hard links to the file    */
+    uid_t    st_uid;              /* user-id of owner                    */
+    gid_t    st_gid;              /* group-id of owner                   */
+    dev_t    st_rdev;             /* device type, for special file inode */
+    struct timespec st_atimespec; /* time of last access                 */
+    struct timespec st_mtimespec; /* time of last data modification      */
+    struct timespec st_ctimespec; /* time of last file status change     */
+    off_t    st_size;             /* file size, in bytes                 */
+    quad_t   st_blocks;           /* blocks allocated for file           */
+    u_long   st_blksize;          /* optimal file sys I/O ops blocksize  */
+    u_long   st_flags;            /* user defined flags for file         */
+    u_long   st_gen;              /* file generation number              */
+}</code></pre>
+    <p>The value of <code>mode</code> returned by the PHP <code>fstat</code>
+    function is equal to <code>st_mode</code> in this structure. And
+    <code>st_mode</code> has the following bits:</p>
+    <pre data-line="1-9"><code class="language-clike">#define S_IFMT   0170000 /* type of file mask                */
+#define S_IFIFO  0010000 /* named pipe (fifo)                */
+#define S_IFCHR  0020000 /* character special                */
+#define S_IFDIR  0040000 /* directory                        */
+#define S_IFBLK  0060000 /* block special                    */
+#define S_IFREG  0100000 /* regular                          */
+#define S_IFLNK  0120000 /* symbolic link                    */
+#define S_IFSOCK 0140000 /* socket                           */
+#define S_IFWHT  0160000 /* whiteout                         */
+#define S_ISUID  0004000 /* set user id on execution         */
+#define S_ISGID  0002000 /* set group id on execution        */
+#define S_ISVTX  0001000 /* save swapped text even after use */
+#define S_IRWXU  0000700 /* RWX mask for owner               */
+#define S_IRUSR  0000400 /* read permission, owner           */
+#define S_IWUSR  0000200 /* write permission, owner          */
+#define S_IXUSR  0000100 /* execute/search permission, owner */
+#define S_IRWXG  0000070 /* RWX mask for group               */
+#define S_IRGRP  0000040 /* read permission, group           */
+#define S_IWGRP  0000020 /* write permission, group          */
+#define S_IXGRP  0000010 /* execute/search permission, group */
+#define S_IRWXO  0000007 /* RWX mask for other               */
+#define S_IROTH  0000004 /* read permission, other           */
+#define S_IWOTH  0000002 /* write permission, other          */
+#define S_IXOTH  0000001 /* execute/search permission, other */</code></pre>
+    <p>Awesome, we have everything we need! We mask <code>mode</code> with
+    <code>S_IFMT</code> to get the file data. Then we just have to check whether
+    it is a named pipe <code>S_IFIFO</code>, a character special
+    <code>S_IFCHR</code> etc. Concretly:</p>
+    <ul>
+      <li><code>isDirect</code> checks that the mode is equal to
+      <code>S_IFCHR</code>, it means it is attached to the screen (in our
+      case),</li>
+      <li><code>isPipe</code> checks that the mode is equal to
+      <code>S_IFIFO</code>: This is a special file that behaves like a FIFO
+      stack (see the
+      <a href="http://www.freebsd.org/cgi/man.cgi?query=mkfifo&amp;sektion=1">documentation
+      of <code>mkfifo(1)</code></a>), everything which is written is directly
+      read just after and the reading order is defined by the writing order
+      (first-in, first-out!),</li>
+      <li><code>isRedirection</code> checks that the mode is equal to
+      <code>S_IFREG</code>, <code>S_IFDIR</code>, <code>S_IFLNK</code>,
+      <code>S_IFSOCK</code> or <code>S_IFBLK</code>, in other words: All kind of
+      files on which we can apply a redirection. Why? Because the
+      <code>STDOUT</code> (or another <code>STD<em>*</em></code> pipe) of the
+      current processus is defined as a file pointer to the redirection
+      destination and it can be only a file, a directory, a link, a socket or a
+      block file.</li>
+    </ul>
+    <p>I encourage you the read the
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Console.php">implementation
+    of the <code>Hoa\Console\Console::getMode</code> method</a>.</p>
+
+    <p>So yes, this is useful to enable styles on text but also to define the
     default verbosity level. For instance, if a program outputs the result of a
     computation with some explanations around, the highest verbosity level would
     output everything (the result and the explanations) while the lowest level
@@ -153,8 +239,9 @@ else
     echo $result, "\n";</code></pre>
     <p>Then, let's execute this program:</p>
     <pre><code class="language-shell">$ php toUpperCase.php 'Hello world!'
-Hello world! becomes HELLO WORLD! in upper case!
-$ php toUpperCase.php 'Hello world!' | xargs -I@ echo @
+Hello world! becomes HELLO WORLD! in upper case!</code></pre>
+    <p>And now, let's execute this program with a pipe:</p>
+    <pre><code class="language-shell">$ php toUpperCase.php 'Hello world!' | xargs -I@ echo @
 HELLO WORLD!</code></pre>
     <p>Useful and very simple, isn't it?</p>
 
@@ -198,7 +285,7 @@ HELLO WORLD!</code></pre>
       <code>\e[C</code>.</li>
     </ul>
     <p>All the capabilities can be found in the
-    <a href="http://man.cx/terminfo%285%29">documentation of <code>terminfo(5)</code></a>
+    <a href="http://www.freebsd.org/cgi/man.cgi?query=terminfo&amp;sektion=5">documentation of <code>terminfo(5)</code></a>
     or in the
     <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html">documentation
     of xcurses</a>. I encourage you to follow these links and see how rich the
@@ -207,7 +294,7 @@ HELLO WORLD!</code></pre>
     <h2>Terminal information</h2>
 
     <p>Terminal capabilities are stored as <strong>information</strong> in
-    <strong>databases</strong>. Where these databases are located? In files with
+    <strong>databases</strong>. Where are these databases located? In files with
     a binary format. Favorite locations are:</p>
     <ul>
       <li><code>/usr/share/terminfo</code>,</li>
@@ -232,8 +319,8 @@ xterm-256color
 $ file /usr/share/terminfo/78/xterm-256color
 /usr/share/terminfo/78/xterm-256color: Compiled terminfo entry</code></pre>
     <p>We can use the
-    <a href="http://central.hoa-project.net/Resource/Library/Console/Tput.php"><code>Hoa\Console\Tput</code></a>
-    class to retrieve these information. The <code>getTerminfo</code> static
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Tput.php"><code>Hoa\Console\Tput</code>
+    class</a> to retrieve these information. The <code>getTerminfo</code> static
     method allows to get the path of the terminal information file. The
     <code>getTerm</code> static method allows to get the terminal name. Finally,
     the whole class allows to parse a terminal information database (it will use
@@ -256,7 +343,7 @@ var_dump($tput->count('max_colors'));
  *     int(8)
  */</code></pre>
 
-    <h2>The power in your hand: control the cursor</h2>
+    <h2>The power in your hand: Control the cursor</h2>
 
     <p>Let's summarize. We are able to parse and know all the terminal
     capabilities of a specific terminal (including the one of the current
@@ -265,8 +352,8 @@ var_dump($tput->count('max_colors'));
     <p>Remember. We said that the terminal is a canvas of columns and lines. The
     cursor is like a pen. We can move it and write something. We are going to
     (partly) see how the
-    <a href="http://central.hoa-project.net/Resource/Library/Console/Cursor.php"><code>Hoa\Console\Cursor</code></a>
-    class works.</p>
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Cursor.php"><code>Hoa\Console\Cursor</code>
+    class</a> works.</p>
 
     <h3><q>I like to move it!</q></h3>
 
@@ -280,8 +367,8 @@ var_dump($tput->count('max_colors'));
     <code>e[%i%p1%d;%p2%dH</code>. We replace the parameters by
     <code class="language-php">$x</code> and
     <code class="language-php">$y</code> and we output the result. That's
-    all! We are able to move to cursor on an absolute position on
-    <strong>all terminals</strong>! This is the right way to do it.</p>
+    all! We are able to move the cursor on an absolute position on
+    <strong>all terminals</strong>! This is the right way to do.</p>
     <p>We use the same strategy for the <code>move</code> static method that
     moves the cursor relatively to its current position. For example:</p>
     <pre><code class="language-php">Hoa\Console\Cursor::move('right up');</code></pre>
@@ -297,11 +384,29 @@ var_dump($tput->count('max_colors'));
     <p>The <code>getPosition</code> static method returns the position of the
     cursor. This way to interact is a little bit different. We must write a
     control function on the output, and then, the terminal writes the answer on
-    the input. See the implementation by yourself.</p>
+    the input.
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Cursor.php">See
+    the implementation by yourself</a>.</p>
+    <pre><code class="language-php">print_r(Hoa\Console\Cursor::getPosition());
+
+/**
+ * Will output:
+ *     Array
+ *     (
+ *         [x] => 7
+ *         [y] => 42
+ *     )
+ */</code></pre>
     <p>In the same way, we have the <code>save</code> and <code>restore</code>
     static methods that save the current position of the cursor and restore
     it. This is very useful. We use the <code>save_cursor</code> and
-    <code>restore_cursor</code> string capabitilies.</p>
+    <code>restore_cursor</code> string capabilities.</p>
+    <p>Also, the <code>clear</code> static method splits some parts to clear.
+    For each part (direction or way), we read from <code>Hoa\Console\Tput</code>
+    the appropriated string capabilities: <code>clear_screen</code> to clear all
+    the screen, <code>clr_eol</code> to clear everything on the right of the
+    cursor, <code>clr_eos</code> to clear everything bellow the cursor etc.</p>
+    <pre><code class="language-php">Hoa\Console\Cursor::clear('left');</code></pre>
     <p>See what we learnt in action:</p>
     <pre><code class="language-php">echo 'Foobar', "\n",
      'Foobar', "\n",
@@ -319,41 +424,160 @@ sleep(1);  echo 'Hahaha!';
 sleep(1);  Hoa\Console\Cursor::restore();
 
 echo "\n", 'Bye!', "\n";</code></pre>
+    <p>The result is presented in the following figure.</p>
     <figure>
-      <figcaption>Saving, moving, clearing and restoing the cursor with
-      <code>Hoa\Console</code>.</figcaption>
+      <img src="http://i.imgur.com/6t1zMJb.gif"
+           style="max-width: 400px" />
+      <figcaption><p>Saving, moving, clearing and restoring the cursor with
+      <code>Hoa\Console</code>.</p></figcaption>
     </figure>
 
-    <h3>Colours</h3>
-
+    <p>The resulting API is portable, clean, simple to read and very easy to
+    maintain! This is the right way to do.</p>
     <p>To get more information, please,
     <a href="http://hoa-project.net/Literature/Hack/Console.html#Cursor" title="Documentation of Hoa\Console\Cursor">read
     the documentation</a>.</p>
 
-    <h2>The power in your hand: control the window</h2>
+    <h3>Colours and decorations</h3>
+
+    <p>Now: Colours. This is mainly the reason why I have decided to write this
+    article. We see the same and the same libraries, again and again, doing only
+    colours in the terminal, but unfortunately not in the right way 😞.</p>
+    <p>A terminal has a palette of colours. Each colour is indexed by an
+    integer, from <tex>0</tex> to potentially <tex>+\infty</tex>. The size of
+    the palette is described by the <code>max_colors</code> number capability.
+    Usually, a palette contains 1, 2, 8, 256 or 16 million colours.</p>
+
+    <figure>
+      <img src="http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg"
+           style="width: auto; max-height: 80vh" />
+      <figcaption><p>The <code>xterm-256color</code> palette.</p></figcaption>
+    </figure>
+
+    <p>So first thing to do is to check whether we have more than 1 colour. If
+    not, we must not colorize the given text. Next, if we have less than
+    256 colours, we have to convert the style into a palette containing
+    8 colours. Same with less than 16 million colours, we have to convert into
+    256 colours.</p>
+    <p>Moreover, we can define the style of the foreground or of the background
+    with respectively the <code>set_a_foreground</code> and
+    <code>set_a_background</code> string capabilities. Finally, in addition to
+    colours, we can define other decorations like bold, underline, blink or even
+    inverse the foreground and the background colours.</p>
+    <p>One thing to remember is: With this capability, we only define the style
+    at a given “pixel” and it will apply on the text following. In this case, it
+    is not exactly like HTML where we have a beginning and an end. Here we only
+    have a beginning. Let's try!</p>
+    <pre><code class="language-php">Hoa\Console\Cursor::colorize('underlined foreground(yellow) background(#932e2e)');
+echo 'foo';
+Hoa\Console\Cursor::colorize('!underlined background(normal)');
+echo 'bar', "\n";</code></pre>
+    <p>The API is pretty simple: We start to underline the text, we set the
+    foreground to yellow and we set the background to <code>#932e2e</code>
+    <span style="display: inline-block;
+                 width: 1em;
+                 height: 1em;
+                 border-radius: 50%;
+                 background: #932e2e"> </span>. Then we output something. We
+    continue with cancelling the underline decoration in addition to resetting
+    the background. Finally we output something else. Here is the result:</p>
+
+    <figure>
+      <img src="http://i.imgur.com/4UKuyTq.png"
+           style="max-width: 303px" />
+      <figcaption><p>Fun with
+      <code>Hoa\Console\Cursor::colorize</code>.</p></figcaption>
+    </figure>
+
+    <p>What do we observe? My terminal does not support more than 256 colours.
+    Thus, <code>#932e2e</code> is <strong>automatically converted into the
+    closest colour</strong> in my actual palette! This is the right way to
+    do.</p>
+    <p>For fun, you can change the colours in the palette with the
+    <code>Hoa\Console\Cursor::changeColor</code> static method. You can also
+    change the style of the cursor, like <code>▋</code>, <code>_</code> or
+    <code>|</code>.</p>
+    <p>To get more information, please,
+    <a href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content" title="Documentation of Hoa\Console\Cursor">read
+    the documentation</a>.</p>
+
+    <h2>The power in your hand: Readline</h2>
+
+    <p>A more complete usage of <code>Hoa\Console\Cursor</code> and even
+    <code>Hoa\Console\Window</code> is the
+    <a href="http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php"><code>Hoa\Console\Readline</code>
+    class</a> that is a powerful readline. More than autocompleters, history,
+    key bindings etc., it has an advanced use of cursors. See this in
+    action:</p>
+
+    <figure>
+      <img src="http://central.hoa-project.net/Resource/Library/Console/Documentation/Image/Readline_autocompleters.gif?format=raw"
+           style="max-width: 600px" />
+      <figcaption><p>An autocompletion menu, made with
+      <code>Hoa\Console\Cursor</code> and
+      <code>Hoa\Console\Window</code>.</p></figcaption>
+    </figure>
+
+    <p>We use <code>Hoa\Console\Cursor</code> to move the cursor or change the
+    colours and <code>Hoa\Console\Window</code> to get the dimensions of the
+    window, scroll some text in it etc. I encourage you to read the
+    implementation.</p>
+    <p>To get more information, please,
+    <a href="http://hoa-project.net/Literature/Hack/Console.html#Readline" title="Documentation of Hoa\Console\Readline">read
+    the documentation</a>.</p>
+
+    <h2>The power in your hand: Sound 🎵</h2>
+
+    <p>Yes, even sound is defined by terminal capabilities. The famous
+    <q>bip</q> is given by the <code>bell</code> string capability. You would
+    like to make a <q>bip</q>? Easy:</p>
+    <pre><code class="language-php">$tput = new Hoa\Console\Tput();
+echo $tput->get('bell');</code></pre>
+    <p>That's it!</p>
+
+    <h2>Bonus: Window</h2>
+
+    <p>As a bonus, a quick demo of <code>Hoa\Console\Window</code> because it's
+    fun.</p>
+    <p>The video shows the execution of the following code:</p>
+    <pre><code class="language-php">Hoa\Console\Window::setSize(80, 35);
+var_dump(Hoa\Console\Window::getPosition());
+
+foreach([[100, 100], [150, 150], [200, 100], [200, 80],
+         [200,  60], [200, 100]] as list($x, $y)) {
+
+    sleep(1);  Hoa\Console\Window::moveTo($x, $y);
+}
+
+sleep(2);  Hoa\Console\Window::minimize();
+sleep(2);  Hoa\Console\Window::restore();
+sleep(2);  Hoa\Console\Window::lower();
+sleep(2);  Hoa\Console\Window::raise();</code></pre>
+    <p>We resize the window, we get its position, we move the window on the
+    screen, we minimize and restore it, and finally we put it behind all other
+    windows just before raising it.</p>
+
+    <figure>
+      <iframe src="//player.vimeo.com/video/115901611" width="800" height="460"></iframe>
+      <figcaption><p><code>Hoa\Console\Window</code> in action</p></figcaption>
+    </figure>
 
     <p>To get more information, please,
     <a href="http://hoa-project.net/Literature/Hack/Console.html#Window" title="Documentation of Hoa\Console\Window">read
     the documentation</a>.</p>
 
-    <h2>The power in your hand: readline</h2>
-
-    <p>A more complete usage of <code>Hoa\Console\Cursor</code> and even
-    <code>Hoa\Console\Window</code> is <code>Hoa\Console\Readline</code> that is
-    a powerful readline. More than autocompleters, history, key bindings etc.,
-    it has an advanced use of cursors. See this in action:</p>
-
-    <figure>
-      <img src="http://central.hoa-project.net/Resource/Library/Console/Documentation/Image/Readline_autocompleters.gif?format=raw" />
-      <figcaption>An autocompletion menu, made with
-      <code>Hoa\Console\Cursor</code> and
-      <code>Hoa\Console\Window</code>.</figcaption>
-    </figure>
-
-    <p>To get more information, please,
-    <a href="http://hoa-project.net/Literature/Hack/Console.html#Readline" title="Documentation of Hoa\Console\Readline">read
-    the documentation</a>.</p>
-
     <h2>Conclusion</h2>
+
+    <p>In this article, we saw how to control the terminal by: Firstly,
+    detecting the type of pipes, and secondly, reading and using the terminal
+    capabilities. We know where these capabilities are stored and we saw few of
+    them in action.</p>
+    <p>This approach ensures your code will be <strong>portable</strong>, easy
+    to maintain and <strong>easy to use</strong>. The portability is very
+    important because, like browsers and user devices, we have a lot of terminal
+    emulators released in the wild. We have to care about them.</p>
+    <p>I encourage you to take a look at the
+    <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code>
+    library</a> and to contribute to make it even more awesome 😄.</p>
   </article>
 </overlay>
