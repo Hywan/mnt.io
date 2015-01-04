@@ -352,6 +352,7 @@ figure {
 
     figure > *:first-child {
         width: 90%;
+        max-width: 100%;
         margin: 0 auto;
     }
 
@@ -365,6 +366,10 @@ figure {
             content: 'Figure ' counter(figure) '.';
             color: rgb(101, 123, 131);
             padding-right: 1em;
+        }
+
+        figcaption > * {
+            display: inline;
         }
 
     figure.contain,
@@ -427,3 +432,7 @@ figure {
         display: block;
         text-align: center;
     }
+
+iframe {
+    border: 0;
+}
