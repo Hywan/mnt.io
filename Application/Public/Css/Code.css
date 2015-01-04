@@ -13,7 +13,8 @@ code {
 }
 
 pre {
-    font-size: .95em;
+    position: relative;
+    font-size: .95rem;
     line-height: 1.25em;
     margin: 0 -11em;
     padding: .5em 11em;
@@ -21,64 +22,101 @@ pre {
     background: rgb(238, 232, 213);
 }
 
-    pre code {
-        font-size: .95em;
+    pre > code {
+        color: inherit;
+        font-size: .95rem;
     }
 
-code[class*="language-"] {
-    color: #000;
-}
+    code[class*="language-"] {
+        color: #000;
+    }
 
-.language-php {
-    color: rgb(38, 139, 210) !important;
-}
+    .language-php {
+        color: #07a !important;
+    }
 
-.language-pp {
-    color: #549848 !important;
-}
+    .language-pp {
+        color: #549848 !important;
+    }
 
-.token.comment,
-.token.icomment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-    color: rgb(147, 161, 161);
-}
+    .token.comment,
+    .token.icomment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #939393;
+    }
 
-.token.selector,
-.token.attr-name,
-.token.string {
-    color: rgb(133, 153, 0);
-}
+    .token.selector,
+    .token.attr-name,
+    .token.string {
+        color: #549848;
+    }
 
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-    color: rgb(38, 139, 210);
-}
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: #07a;
+    }
 
-.token.property,
-.token.tag,
-.token.number,
-.token.constant {
-    color: rgb(211, 54, 130);
-}
+    .token.property,
+    .token.tag,
+    .token.number,
+    .token.constant {
+        color: #994f78;
+    }
 
-.token.php,
-.token.operator {
-    color: rgb(108, 113, 196);
-}
+    .token.php,
+    .token.operator {
+        color: #926fa7;
+    }
 
-.token.url,
-.token.special_variable,
-.token.variable {
-    color: rgb(181, 137, 0);
-}
+    .token.url,
+    .token.special_variable,
+    .token.variable {
+        color: #c68f26;
+    }
 
-.token.punctuation {
-    color: rgb(147, 161, 161);
-}
+    .token.punctuation {
+        color: #999;
+    }
 
-.token.input {
-    text-decoration: blink;
-}
+    .token.input {
+        text-decoration: blink;
+    }
+
+    .line-highlight,
+    .line-marker {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin-top: .3em;
+        padding: .15em 0;
+        pointer-events: none;
+        background: hsla(24, 20%, 50%, .15);
+    }
+
+    .line-highlight::before,
+    .line-highlight[data-end]::after,
+    .line-marker::before {
+        content: attr(data-start);
+        position: absolute;
+        left: 5.5rem;
+        font-size: .8em;
+        text-align: center;
+        width: 2.7em;
+        color: #fff;
+        border-radius: 12px;
+        background: hsla(24, 20%, 50%, .4);
+    }
+
+    .line-highlight[data-end]::after {
+        content: attr(data-end);
+        bottom: .3em;
+    }
+
+    .line-marker[data-marker]::after {
+        content: attr(data-marker);
+        position: absolute;
+        left: 3em;
+    }
