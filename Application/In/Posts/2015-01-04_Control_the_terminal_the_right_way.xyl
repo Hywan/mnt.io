@@ -5,10 +5,10 @@
 
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
-    <p class="abstract">Nowadays, there is plenty of terminal emulators in the
-    wild. Each one has a specific way to handle controls. How many colours it
-    supports? How to control the style of a character? How to control more than
-    style, like the cursor or the window? In this article, we are going to
+    <p class="abstract">Nowadays, there are plenty of terminal emulators in the
+    wild. Each one has a specific way to handle controls. How many colours does
+    it support? How to control the style of a character? How to control more
+    than style, like the cursor or the window? In this article, we are going to
     explain and show in action the right ways to control your terminal with a
     <strong>portable</strong> and an <strong>easy to maintain API</strong>. We
     are going to talk about <code>stat</code>, tput, <code>terminfo</code>,
@@ -17,17 +17,17 @@
 
     <h2>Introduction</h2>
 
-    <p>Terminals. They are the ancient interfaces, still not yet put out of
-    fashion. They are fast, efficient, work remotely with a low bandwidth,
-    secured and very simple to use.</p>
+    <p>Terminals. They are the ancient interfaces, still not old fashioned yet.
+    They are fast, efficient, work remotely with a low bandwidth, secured and
+    very simple to use.</p>
     <p>A terminal is a canvas composed of columns and lines. Only one character
     fits at a position. According to the terminal, we have some features
-    enabled. For instance, a character might be stylized with a colour, a
+    enabled; for instance, a character might be stylized with a colour, a
     decoration, a weight etc. Let's consider the former. A colour belongs to a
     palette, which contains either 2, 8, 256 or more colours. One may
     wonder:</p>
     <ul>
-      <li>How many colours a terminal supports?</li>
+      <li>How many colours does a terminal support?</li>
       <li>How to control the style of a character?</li>
       <li>How to control more than style, like the cursor or the window?</li>
     </ul>
@@ -35,15 +35,15 @@
     interact with it. We are going to talk about terminal capabilities, terminal
     information (stored in database) and
     <a href="http://central.hoa-project.net/Resource/Library/Console"><code>Hoa\Console</code></a>,
-    a PHP library that brings advanced terminal controls.</p>
+    a PHP library that provides advanced terminal controls.</p>
 
     <h2>The basis of a terminal</h2>
 
     <p>A terminal, or a console, is an interface that allows to interact with
     the computer. This interface is textual. Like a graphical interface, there
-    is inputs: The keyboard and the mouse, and ouputs: The screen or a file (a
+    are inputs: The keyboard and the mouse, and ouputs: The screen or a file (a
     real file, a socket, a FIFO, something else…).</p>
-    <p>There is a bunch of terminals. The most famous ones are:</p>
+    <p>There is a ton of terminals. The most famous ones are:</p>
     <ul>
       <li><a href="http://invisible-island.net/xterm/xterm.html">xterm</a>,</li>
       <li><a href="http://iterm2.com/">iTerm2</a>,</li>
@@ -67,7 +67,7 @@
     <code>wc</code> that counts stuff:</p>
     <pre><code class="language-shell">$ echo 'foobar' | wc -c
 7</code></pre>
-    <p>Now we know there is 7 characters in <code>foobar</code>… no!
+    <p>Now we know there are 7 characters in <code>foobar</code>… no!
     <code>echo</code> automatically adds a new-line (<code>\n</code>) after each
     line; so:</p>
     <pre><code class="language-shell">$ echo -n 'foobar' | wc -c
@@ -84,7 +84,7 @@
       <figcaption><p>Pipes are like a game, see Mario 😉!</p></figcaption>
     </figure>
 
-    <p>There is 3 standard pipes:</p>
+    <p>There are 3 standard pipes:</p>
     <ul>
       <li><code>STDIN</code>, standing for the standard input pipe,</li>
       <li><code>STDOUT</code>, standing for the standard output pipe and</li>
@@ -204,7 +204,7 @@ is redirection: bool(true)</code></pre>
       destination and it can be only a file, a directory, a link, a socket or a
       block file.</li>
     </ul>
-    <p>I encourage you the read the
+    <p>I encourage you to read the
     <a href="http://central.hoa-project.net/Resource/Library/Console/Console.php">implementation
     of the <code>Hoa\Console\Console::getMode</code> method</a>.</p>
 
@@ -244,9 +244,9 @@ HELLO WORLD!</code></pre>
     document: <cite>Control Functions for Coded Character Set</cite>. However,
     not all terminals implement all this standard, and for historical reasons,
     some terminals use slightly different control functions. Moreover, some
-    information does not belong to this standard (because this is out of its
-    scope), like: How many colours the terminal support? or does the terminal
-    support the <kbd>meta</kbd> key?</p>
+    information do not belong to this standard (because this is out of its
+    scope), like: How many colours does the terminal support? or does the
+    terminal support the <kbd>meta</kbd> key?</p>
     <p>Consequently, each terminal has a list of <strong>capabilities</strong>.
     This list is splitted in <strong>3 categories</strong>:</p>
     <ul>
@@ -344,16 +344,16 @@ var_dump($tput->count('max_colors'));
 
     <p>The <code>moveTo</code> static method allows to move the cursor to an
     absolute position. For example:</p>
-    <pre><code class="language-php">Hoa\Console\Cursor::moveTo(7, 7);</code></pre>
-    <p>The control function is <code>cursor_address</code>, so all we need to do
-    is to use the <code>Hoa\Console\Tput</code> class and call the
-    <code>get</code> method on it to get this string capability. This is a
-    parameterized one: On <code>xterm-256color</code>, its value is
+    <pre><code class="language-php">Hoa\Console\Cursor::moveTo($x, $y);</code></pre>
+    <p>The control function we use is <code>cursor_address</code>. So all we
+    need to do is to use the <code>Hoa\Console\Tput</code> class and call the
+    <code>get</code> method on it to get the value of this string capability.
+    This is a parameterized one: On <code>xterm-256color</code>, its value is
     <code>e[%i%p1%d;%p2%dH</code>. We replace the parameters by
     <code class="language-php">$x</code> and
-    <code class="language-php">$y</code> and we output the result. That's
-    all! We are able to move the cursor on an absolute position on
-    <strong>all terminals</strong>! This is the right way to do.</p>
+    <code class="language-php">$y</code> and we output the result. That's all!
+    We are able to move the cursor on an absolute position on <strong>all
+    terminals</strong>! This is the right way to do.</p>
     <p>We use the same strategy for the <code>move</code> static method that
     moves the cursor relatively to its current position. For example:</p>
     <pre><code class="language-php">Hoa\Console\Cursor::move('right up');</code></pre>
@@ -368,8 +368,7 @@ var_dump($tput->count('max_colors'));
     to move the cursor several times.</p>
     <p>The <code>getPosition</code> static method returns the position of the
     cursor. This way to interact is a little bit different. We must write a
-    control function on the output, and then, the terminal writes the answer on
-    the input.
+    control function on the output, and then, the terminal replies on the input.
     <a href="http://central.hoa-project.net/Resource/Library/Console/Cursor.php">See
     the implementation by yourself</a>.</p>
     <pre><code class="language-php">print_r(Hoa\Console\Cursor::getPosition());
@@ -419,13 +418,13 @@ echo "\n", 'Bye!', "\n";</code></pre>
 
     <p>The resulting API is portable, clean, simple to read and very easy to
     maintain! This is the right way to do.</p>
-    <p>To get more information, please,
+    <p>To get more information, please
     <a href="http://hoa-project.net/Literature/Hack/Console.html#Cursor" title="Documentation of Hoa\Console\Cursor">read
     the documentation</a>.</p>
 
     <h3>Colours and decorations</h3>
 
-    <p>Now: Colours. This is mainly the reason why I have decided to write this
+    <p>Now: Colours. This is mainly the reason why I decided to write this
     article. We see the same and the same libraries, again and again, doing only
     colours in the terminal, but unfortunately not in the right way 😞.</p>
     <p>A terminal has a palette of colours. Each colour is indexed by an
@@ -450,7 +449,7 @@ echo "\n", 'Bye!', "\n";</code></pre>
     colours, we can define other decorations like bold, underline, blink or even
     inverse the foreground and the background colours.</p>
     <p>One thing to remember is: With this capability, we only define the style
-    at a given “pixel” and it will apply on the text following. In this case, it
+    at a given “pixel” and it will apply on the following text. In this case, it
     is not exactly like HTML where we have a beginning and an end. Here we only
     have a beginning. Let's try!</p>
     <pre><code class="language-php">Hoa\Console\Cursor::colorize('underlined foreground(yellow) background(#932e2e)');
@@ -482,7 +481,7 @@ echo 'bar', "\n";</code></pre>
     <code>Hoa\Console\Cursor::changeColor</code> static method. You can also
     change the style of the cursor, like <code>▋</code>, <code>_</code> or
     <code>|</code>.</p>
-    <p>To get more information, please,
+    <p>To get more information, please
     <a href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content" title="Documentation of Hoa\Console\Cursor">read
     the documentation</a>.</p>
 
@@ -507,7 +506,7 @@ echo 'bar', "\n";</code></pre>
     colours and <code>Hoa\Console\Window</code> to get the dimensions of the
     window, scroll some text in it etc. I encourage you to read the
     implementation.</p>
-    <p>To get more information, please,
+    <p>To get more information, please
     <a href="http://hoa-project.net/Literature/Hack/Console.html#Readline" title="Documentation of Hoa\Console\Readline">read
     the documentation</a>.</p>
 
@@ -547,7 +546,7 @@ sleep(2);  Hoa\Console\Window::raise();</code></pre>
       <figcaption><p><code>Hoa\Console\Window</code> in action</p></figcaption>
     </figure>
 
-    <p>To get more information, please,
+    <p>To get more information, please
     <a href="http://hoa-project.net/Literature/Hack/Console.html#Window" title="Documentation of Hoa\Console\Window">read
     the documentation</a>.</p>
 
