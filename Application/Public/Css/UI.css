@@ -113,13 +113,13 @@ header {
 article {
     counter-reset: h1 h2 h3 h4 figure;
     text-align: justify;
-    margin: 1em 8em 0 8em;
+    margin: 1em 8rem 0 8rem;
 }
 
     @media all and (max-width: 800px) {
         article {
-            margin-left: 2.8em;
-            margin-right: 2.8em;
+            margin-left: 2.8rem;
+            margin-right: 2.8rem;
         }
     }
 
@@ -344,8 +344,8 @@ q {
     }
 
 figure {
-    margin: 0 -8em;
-    padding: .5em 8em;
+    margin: 0 -8rem;
+    padding: .5em 8rem;
     text-align: center;
     background: rgb(238, 232, 213);
 }
@@ -369,7 +369,8 @@ figure {
         }
 
         figcaption > * {
-            display: inline;
+            display: inline-block;
+            line-height: 1.2em;
         }
 
     figure.contain,
