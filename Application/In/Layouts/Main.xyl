@@ -57,15 +57,8 @@
                  else
                      aside.setAttribute('aria-selected', false);
              }, false);
-      });
-    </script>
-    <script src="http://static.hoa-project.net/Javascript/Prism.js"></script>
-    <script src="http://static.hoa-project.net/Javascript/Prism.hoa.js"></script>
-    <script src="http://static.hoa-project.net/Javascript/Prism.plugin.line.js"></script>
-    <script src="hoa://Application/Public/Javascript/Katex.min.js"></script>
-    <script>
-      Hoa.Document.onReady(function ( ) {
 
+          // TeX.
           var tex = Hoa.$$('[data-type="tex"]');
 
           tex.hoa.forEach(function ( i ) {
@@ -74,15 +67,8 @@
                   tex[i].textContent.trim()
               );
           });
-      });
-    </script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="hoa://Application/Public/Javascript/C3.min.js"></script>
-    <script src="http://cpettitt.github.io/project/graphlib-dot/v0.5.2/graphlib-dot.js"></script>
-    <script src="http://cpettitt.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
-    <script>
-      Hoa.Document.onReady(function ( ) {
 
+          // DOT.
           var dot    = Hoa.$$('[data-type = "dot"]');
           var render = dagreD3.render();
 
@@ -121,22 +107,20 @@
 
               d3.select('svg g').call(render, graph);
           });
+
+          // Piwik.
+          var _paq = _paq || [];
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.hoa-project.net/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 5]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+            g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
       });
-    </script>
-    <script>
-      var _paq = _paq || [];
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.hoa-project.net/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 5]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script>
+
       function map ( id, options ) {
 
         options                 = options || {};
@@ -163,6 +147,15 @@
         return map;
       }
     </script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.js"></script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.hoa.js"></script>
+    <script src="http://static.hoa-project.net/Javascript/Prism.plugin.line.js"></script>
+    <script src="hoa://Application/Public/Javascript/Katex.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="hoa://Application/Public/Javascript/C3.min.js"></script>
+    <script src="http://cpettitt.github.io/project/graphlib-dot/v0.5.2/graphlib-dot.js"></script>
+    <script src="http://cpettitt.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script>
       var disqus_shortname = 'mntio';
     </script>
