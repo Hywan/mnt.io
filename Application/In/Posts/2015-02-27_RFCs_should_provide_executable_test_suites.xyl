@@ -125,7 +125,7 @@ END:VCALENDAR</code></pre>
  &amp;lt;/vcalendar>
 &amp;lt;/icalendar></code></pre>
     <p>More semantics, more meaning, easier to read (from my point of view),
-    namespaces… It's is very easy to <strong>embed</strong> xCal and xCard
+    namespaces… It is very easy to <strong>embed</strong> xCal and xCard
     inside other XML formats.</p>
     <p>Managing all these formats is an extremely laborious task. I suggest you
     to take a look at
