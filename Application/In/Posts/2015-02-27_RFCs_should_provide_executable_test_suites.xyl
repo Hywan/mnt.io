@@ -7,12 +7,12 @@
   <article id="main">
     <p class="abstract">Recently, I implemented xCal and xCard formats inside
     the <a href="http://sabre.io/"><code>sabre/dav</code></a> libraries. While
-    testing the different RFC against my implementation, several errata have
+    testing the different RFCs against my implementation, several errata have
     been found. This article, first, quickly list them and, second, ask
     questions about how such errors can be present and how they can be easily
     revealed. If reading my dry humor about RFC errata is boring, the
     Sections 3, 4 and 5 are more interesting. The whole idea is:
-    <strong>Why RFC does not provide executable test suites</strong>?</p>
+    <strong>Why RFCs do not provide executable test suites</strong>?</p>
 
     <h2>What is xCal and xCard?</h2>
 
