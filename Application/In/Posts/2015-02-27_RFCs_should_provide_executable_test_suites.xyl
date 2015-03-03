@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xyl-meta name="title" value="xCal, xCard and RFC errata"?>
+<?xyl-meta name="title" value="RFCs should provide executable test suites"?>
 <?xyl-meta name="date" value="2015-02-27T14:33:36+01:00"?>
 <?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
 
@@ -164,9 +164,9 @@ echo Sabre\VObject\Writer::writeXml($document);</code></pre>
     </ul>
     <p>The 2 last ones are reported, not yet verified.</p>
     <p>4241, 4243 and 4246 are just typos in examples. “<em>just</em>” is a bit
-    of an under-statement when you're reading RFCs for days straight, you have
+    of an under-statement when you are reading RFCs for days straight, you have
     10 of them opened in your browser and trying to figure out how everything
-    fits together and if you're doing everything correctly.
+    fits together and if you are doing everything correctly.
     Finding typos at that point in your process can be very confusing…</p>
     <p>4247 is more subtle. The RFC about xCard comes with an
     <a href="https://en.wikipedia.org/wiki/XML_Schema_%28W3C%29">XML Schema</a>.
