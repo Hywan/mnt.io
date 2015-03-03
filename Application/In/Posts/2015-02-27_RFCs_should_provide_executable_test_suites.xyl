@@ -19,7 +19,7 @@
     <p>The Web is a read-only media. It is based on the HTTP protocol. However,
     there is the <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a>
     protocol, standing for Web Distributed Authoring and Versioning. This is an
-    extension to HTTP. <em lang="fr">Et voilà !</em>. The Web is a read and
+    extension to HTTP. <em lang="fr">Et voilà !</em> The Web is a read and
     write media. WebDAV is standardized in
     <a href="https://tools.ietf.org/html/rfc2518">RFC2518</a> and
     <a href="https://tools.ietf.org/html/rfc4918">RFC4918</a>.</p>
@@ -53,7 +53,7 @@ END:VEVENT
 END:VCALENDAR</code></pre>
     <p>Horrible, yes. You were warned. These formats are standardized in several
     RFCs, to list some of them:
-    <a href="https://tools.ietf.org/html/rfc5545">RFC5554</a>,
+    <a href="https://tools.ietf.org/html/rfc5545">RFC5545</a>,
     <a href="http://tools.ietf.org/html/rfc2426">RFC2426</a> and
     <a href="http://tools.ietf.org/html/rfc6350">RFC6350</a>.</p>
     <p>This format is impossible to read, even for a computer. That's why we
