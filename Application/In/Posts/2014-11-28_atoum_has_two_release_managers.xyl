@@ -24,7 +24,7 @@
     <figure>
       <img src="http://downloads.atoum.org/images/logo.png"
            style="max-width: 180px" />
-      <figcaption>atoum's logo.</figcaption>
+      <figcaption><p>atoum's logo.</p></figcaption>
     </figure>
 
     <p>No one can say that atoum is not simple or intuitive. The framework
@@ -106,7 +106,7 @@
     <figure>
       <img src="http://i.imgur.com/0Z6Sasx.png"
            style="max-width: 250px" />
-      <figcaption>Baba, from Astérix and Obélix.</figcaption>
+      <figcaption><p>Baba, from Astérix and Obélix.</p></figcaption>
     </figure>
 
     <p>First of all, you will find the
@@ -171,8 +171,8 @@ class Foo extends atoum\test {
     <p>Even the output looks familiar:</p>
     <figure>
       <img src="https://cloud.githubusercontent.com/assets/327237/4967400/28cfc6fc-680f-11e4-9446-ee67eda69622.png" />
-      <figcaption>Possible output with the
-      <code>atoum/bdd-extension</code>.</figcaption>
+      <figcaption><p>Possible output with the
+      <code>atoum/bdd-extension</code>.</p></figcaption>
     </figure>
     <ul>
       <li><a href="https://github.com/atoum/json-schema-extension"><code>atoum/json-schema-extension</code></a>,

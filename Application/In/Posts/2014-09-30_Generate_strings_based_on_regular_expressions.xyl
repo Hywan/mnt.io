@@ -488,8 +488,8 @@ echo $generator->visit($ast);</code></pre>
     reasonable.</p>
     <figure>
       <div id="chart_performance"></div>
-      <figcaption>Time (in milliseconds) to generate a certain number of
-      strings (log-scaled).</figcaption>
+      <figcaption><p>Time (in milliseconds) to generate a certain number of
+      strings (log-scaled).</p></figcaption>
       <script>
         Hoa.Document.onReady(function ( ) {
 

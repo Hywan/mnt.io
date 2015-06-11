@@ -54,7 +54,7 @@
 
     <figure>
       <img src="https://fruux.com/static/img/fruux/logo-big.png" />
-      <figcaption>fruux's logo.</figcaption>
+      <figcaption><p>fruux's logo.</p></figcaption>
     </figure>
 
     <p>Several things attract me at fruux:</p>
@@ -104,7 +104,7 @@
     <figure>
       <img src="http://fc05.deviantart.net/fs71/f/2013/004/d/c/portal__the_biggest_lie_that_ever_lived_by_flygon717-d5qfqup.png"
            style="max-width: 300px" />
-      <figcaption>… but the cake is a lie!</figcaption>
+      <figcaption><p>… but the cake is a lie!</p></figcaption>
     </figure>
 
     <h2><code>sabre/<em>*</em></code></h2>
