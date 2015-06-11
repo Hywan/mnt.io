@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="sabre/katana, a contact, calendar, task list and file server"?>
+<?xyl-meta name="date" value="2015-06-10T16:18:24+02:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <p class="abstract">Since several months, I am working on
+    <code>sabre/katana</code>: A contact, calendar, task list and file server,
+    synced, everywhere, all the time. Based on world-widely used standards
+    (respectively <a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>,
+    <a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a> and
+    <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a>),
+    <code>sabre/katana</code> will sync your data between any devices. This
+    article will explain what is this project, what features it offers and how
+    do we build it. More importantly, it provides a secure and safe way to
+    everyone to protect their private data in a minute.</p>
+
+    <figure>
+      <img src="http://sabre.io/img/logo-katana-hero.png"
+           alt="sabre/katana's logo"
+           style="max-width: 200px" />
+      <figcaption>
+        <p>Project's logo.</p>
+      </figcaption>
+    </figure>
+
+    <h2>Demonstration</h2>
+
+    <p>First, let's start by a demonstration. A video is worth than a long
+    speech.</p>
+
+    <h2>What is it?</h2>
+
+    <p><code>sabre/katana</code> is a contact, calendar, task list and file
+    server. What does it mean? Assuming nowadays you have multiple devices (PC,
+    phones, tablets, TVs…). If you would like to get your address books,
+    calendars, task lists and files synced between all these devices from
+    everywhere, you need a server. All your devices are then considered as
+    clients.</p>
+
+    <figure>
+      <dot style="width: 550px; height: 160px">
+        digraph {
+            node [rx=5, ry=5];
+
+            C_1 -> S;
+            C_2 -> S;
+            C_3 -> S;
+            C_4 -> S;
+
+            C_1 [label="Firefox OS"];
+            C_2 [label="iOS"];
+            C_3 [label="Android"];
+            C_4 [label="Mac OS X"];
+            S   [label="server"];
+        }
+      </dot>
+      <figcaption>
+        <p>Several devices connected to the same server.</p>
+      </figcaption>
+    </figure>
+
+    <p>But there is an issue with the server. Most of the time, you might choose
+    <a href="https://google.com/">Google</a> or maybe
+    <a href="https://apple.com/">Apple</a>, but one may wonder: Can we trust
+    these servers? Can we give them our private data, like all our contacts, our
+    calendars, all our photos…? What if you are a company or an association and
+    you have sensitive data that are really private or strategic? So, can you
+    still trust them?  Where the data are stored? Who can look at these data?
+    More and more, there is a huge need for “personal” server.</p>
+    <p><code>sabre/katana</code> is this kind of server. You can install it on
+    your machine and manage users in a minute. Each user will have a collection
+    of address books, calendars, task lists and files. This server can talk to a
+    <a href="https://fruux.com/supported-devices/">loong list of devices</a>,
+    mainly thanks to a scrupulous respect of industrial standards:</p>
+    <ul class="columns" data-columns="3" style="text-align: left">
+      <li>Mac OS X:
+        <ul>
+          <li>OS X 10.10 (Yosemite),</li>
+          <li>OS X 10.9 (Mavericks),</li>
+          <li>OS X 10.8 (Mountain Lion),</li>
+          <li>OS X 10.7 (Lion),</li>
+          <li>OS X 10.6 (Snow Leopard),</li>
+          <li>OS X 10.5 (Leopard),</li>
+          <li>BusyCal,</li>
+          <li>BusyContacts,</li>
+          <li>Fantastical,</li>
+          <li>Rainlendar,</li>
+          <li>ReminderFox,</li>
+          <li>SoHo Organizer,</li>
+          <li>Spotlife,</li>
+          <li>Thunderbird ,</li>
+        </ul>
+      </li>
+      <li>Windows:
+        <ul>
+          <li>eM Client,</li>
+          <li>Microsoft Outlook 2013,</li>
+          <li>Microsoft Outlook 2010,</li>
+          <li>Microsoft Outlook 2007,</li>
+          <li>Microsoft Outlook with Bynari WebDAV Collaborator,</li>
+          <li>Microsoft Outlook with iCal4OL,</li>
+          <li>Rainlendar,</li>
+          <li>ReminderFox,</li>
+          <li>Thunderbird,</li>
+        </ul>
+      </li>
+      <li>Linux:
+        <ul>
+          <li>Evolution,</li>
+          <li>Rainlendar,</li>
+          <li>ReminderFox,</li>
+          <li>Thunderbird,</li>
+        </ul>
+      </li>
+      <li>Mobile:
+        <ul>
+          <li>Android,</li>
+          <li>BlackBerry 10,</li>
+          <li>BlackBerry PlayBook,</li>
+          <li>Firefox OS,</li>
+          <li>iOS 8,</li>
+          <li>iOS 7,</li>
+          <li>iOS 6,</li>
+          <li>iOS 5,</li>
+          <li>iOS 4,</li>
+          <li>iOS 3,</li>
+          <li>Nokia N9,</li>
+          <li>Sailfish.</li>
+        </ul>
+      </li>
+    </ul>
+    <p>Did you find your device in this list? Probably yes 😉.</p>
+    <p><code>sabre/katana</code> sits in the middle of all your devices and
+    synced all your data. Of course, it is <strong>free</strong> and
+    <strong>open source</strong>.
+    <a href="https://github.com/fruux/sabre-katana/">Go check the
+    source</a>!</p>
+
+    <h2>List of features</h2>
+
+    <p>Here is a non-exhaustive list of features supported by
+    <code>sabre/katana</code>. Depending whether you are a user or a developer,
+    the features that might interest you are radically not the same. I decided
+    to show you a list from the user point of view. If you would like to get a
+    list from the developer point of view, please see this
+    <a href="http://sabre.io/dav/standards-support/">exhaustive list of
+    supported RFC</a> for more details.</p>
+
+    <h3>Contacts</h3>
+
+    <p>All usual fields are supported, like phone numbers, email addresses,
+    URLs, birthday, ringtone, texttone, related names, postal addresses, notes,
+    HD photos etc. Of course, groups of cards are also supported.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/DvpPp6E.png"
+           alt="My card on Mac OS X"
+           style="max-width: 340px" />
+      <figcaption>
+        <p>My card inside the native Contact application of Mac OS X.</p>
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="http://i.imgur.com/wYRGRWt.png"
+           alt="My card on Firefox OS"
+           style="max-width: 320px" />
+      <figcaption>
+        <p>My card inside the native Contact application of Firefox OS.</p>
+      </figcaption>
+    </figure>
+
+    <p>My photo is not in HD, I really have to update it!</p>
+    <p>Cards can be encoded into several formats. The most usual format is VCF.
+    <code>sabre/katana</code> allows you to download the whole address book of a
+    user as a single VCF file. You can also create, update and delete address
+    books.</p>
+
+    <h3>Calendars</h3>
+
+    <p>A calendar is just a set of events. Each event has several properties,
+    such as a title, a location, a date start, a date end, some notes, URLs,
+    alarms etc. <code>sabre/katana</code> also support recurring events (“each
+    last Monday of the month, at 11am…”), in addition to scheduling (see
+    bellow).</p>
+
+    <figure>
+      <img src="http://i.imgur.com/R9aSDR2.png"
+           alt="My calendars on Mac OS X"
+           style="max-width: 941px" />
+      <figcaption>
+        <p>My calendars inside the native Calendar application of Mac OS X.</p>
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="http://i.imgur.com/8Ud7ZpC.png"
+           alt="My calendars on Firefox OS"
+           style="max-width: 320px" />
+      <figcaption>
+        <p>My calendars inside the native Calendar application of
+        Firefox OS.</p>
+      </figcaption>
+    </figure>
+
+    <p>Few words about calendar scheduling. Let's say you are organizing an
+    event, like <cite>New release</cite> (we always enjoy release day!). You
+    would like to invite several people but you don't know if they could be
+    present or not. In your event, all you have to do is to add attendees. How
+    are they going to be notified about this event? Two situations:</p>
+    <ol>
+      <li>Either attendees are registered on your <code>sabre/katana</code>
+      server and they will receive an invite inside their calendar
+      application (we call this iTIP),</li>
+      <li>Or they are not registered on your server and they will receive an
+      email with the event as an attached file (we call this iMIP). All they
+      have to do is to open this event in their calendar application.</li>
+    </ol>
+    <figure>
+      <img src="https://farm1.staticflickr.com/360/18010516654_d406c92b50_z.jpg"
+           alt="Typical mail to invite an attendee to an event"
+           style="max-width: 499px" />
+      <figcaption>
+        <p>Invite an attendee by email because she is not registered on your
+        <code>sabre/katana</code> server.</p>
+      </figcaption>
+    </figure>
+
+    <p>Notice the gorgeous map embedded inside the email!</p>
+    <p>Once they received the event, they can accept, decline or “don't know”
+    (they will try to be present at) the event.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/F5Q41Xj.png"
+           alt="Receive an invite to an event"
+           style="max-width: 411px" />
+      <figcaption>
+        <p>Receive an invite to an event. Here: Gordon is inviting Hywan. Three
+        choices for Hywan: <button>Maybe</button>, <button>Decline</button> or
+        <button>Accept</button>.</p>
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="http://i.imgur.com/7qTuuyo.png"
+           alt="Status of all attendees"
+           style="max-width: 420px" />
+      <figcaption>
+        <p>Hywan has accepted the event. Here is what the event looks like.
+        Hywan can sees the response of each attendees.</p>
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="http://i.imgur.com/W3e9QXN.png"
+           alt="Notification from attendees"
+           style="max-width: 276px" />
+      <figcaption>
+        <p>Gordon is even notified that Hywan has accepted the event.</p>
+      </figcaption>
+    </figure>
+
+    <p>Of course, they will be notified too if the event has been moved,
+    canceled, refreshed etc.</p>
+    <p>Calendars can be encoded into several formats. The most usal format is
+    ICS. <code>sabre/katana</code> allows you to download the whole calendar of
+    a user as a single ICS file. You can also create, update and delete
+    calendars.</p>
+
+    <h3>Task lists</h3>
+
+    <p>A task list is exactly like a calendar (from a programatically point of
+    view). Instead of containg event objects, it contains todo objects.</p>
+    <p><code>sabre/katana</code> supports group of tasks, reminder, progression
+    etc.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/6prwPxe.png"
+           alt="My task lists on Mac OS X"
+           style="max-width: 549px" />
+      <figcaption>
+        <p>My task lists inside the native Reminder application of Mac OS X.</p>
+      </figcaption>
+    </figure>
+
+    <p>Just like calendars, task lists can be encoded into several formats,
+    whose ICS. <code>sabre/katana</code> allows you to download the whole task
+    list of a user as a single ICS file. You can also create, update and delete
+    task lists.</p>
+
+    <h3>Files</h3>
+
+    <p>Finally, <code>sabre/katana</code> creates a home collection per
+    user: A personal directory that can contain files and directories and…
+    synced between all your devices (as usual 😄).</p>
+    <p><code>sabre/katana</code> creates a special directory called
+    <code>public/</code> which is a public directory. Every files and
+    directories stored inside this directory are accessible to anyone that has
+    the correct link. No listing is prompted to protect your public data.</p>
+    <p>Just like contact, calendar and task list applications, you need a
+    client application to connect to your home collection on
+    <code>sabre/katana</code>.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/DJPMCkW.png"
+           alt="Connect to a server in Mac OS X"
+           style="max-width: 506px" />
+      <figcaption>
+        <p>Connect to a server with the Finder application of Mac OS X.</p>
+      </figcaption>
+    </figure>
+
+    <p>Then, your public directory on <code>sabre/katana</code> will be a
+    regular directory as every other.</p>
+
+    <figure>
+      <img src="http://i.imgur.com/bqRIbWh.png"
+           alt="List of my files"
+           style="max-width: 653px" />
+      <figcaption>
+        <p>List of my files, right here in the Finder application of
+        Mac OS X.</p>
+      </figcaption>
+    </figure>
+
+    <p><code>sabre/katana</code> is able to store any kind of files. Yes, any
+    kinds. It's just files. However, it white-lists the kind of files that can
+    be showed in the browser. Only images, audios, videos, texts, PDF and some
+    vendor formats (like Microsoft Office) are considered as safe (for the
+    server). This way, associations can share musics, videos or images,
+    companies can share PDF or Microsoft Word document etc. Maybe in the future
+    <code>sabre/katana</code> might white-list more formats. If a format is not
+    white-listed, the file will be forced to download.</p>
+
+    <h2>How is <code>sabre/katana</code> built?</h2>
+
+    <p><code>sabre/katana</code> is based on two big and solid projects:</p>
+    <ol>
+      <li><a href="http://sabre.io/"><code>sabre/dav</code></a>,</li>
+      <li><a href="http://hoa-project.net/">Hoa</a>.</li>
+    </ol>
+    <p><code>sabre/dav</code> is one of the most powerful
+    <a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>,
+    <a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a> and
+    <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> framework in the
+    planet. Trusted by the likes of
+    <a href="https://www.atmail.com/">Atmail</a>,
+    <a href="https://www.box.com/blog/in-search-of-an-open-source-webdav-solution/">Box</a>,
+    <a href="https://fruux.com/">fruux</a> and
+    <a href="http://owncloud.org/">ownCloud</a>, it powers millions of users
+    world-wide! It is written in PHP and is open source.</p>
+    <p>Hoa is a modular, extensible and structured set of PHP libraries. Fun
+    fact: This project is also trusted by
+    <a href="http://owncloud.org/">ownCloud</a>, in addition to
+    <a href="http://mozilla.org/">Mozilla</a>,
+    <a href="http://jolicode.com/">joliCode</a> etc. Recently, this project has
+    recently recorded more than 600,000 downloads and the community is about to
+    reach 1000 people.</p>
+    <p><code>sabre/katana</code> is then a program based on
+    <code>sabre/dav</code> for the DAV part and Hoa for everything else, like
+    the logic code inside the <code>sabre/dav</code>'s plugins. The result is
+    ready-to-use server with a nice interface for the administration.</p>
+
+    <h2>Conclusion</h2>
+
+    <p><code>sabre/katana</code> is a server for contacts, calendars, task lists
+    and files. Everything is synced, everytime and everywhere. It perfectly
+    connects to a lot of devices on the market. This is the easiest and more
+    secure way to host your own private data.</p>
+  </article>
+</overlay>
