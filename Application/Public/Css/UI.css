@@ -278,6 +278,10 @@ li {
         text-align: center;
     }
 
+    li li {
+        margin-left: 1.1em;
+    }
+
     li > aside {
         display: inline;
         color: rgb(147, 161, 161);
@@ -323,7 +327,7 @@ ul {
         display: table-cell;
     }
 
-ol {
+ol:not(.continue-counting) {
     counter-reset: ol 0;
 }
 
@@ -359,7 +363,6 @@ figure {
     figcaption {
         counter-increment: figure;
         font-size: .9em;
-        line-height: 2.5em;
     }
 
         figcaption::before {
@@ -369,8 +372,7 @@ figure {
         }
 
         figcaption > * {
-            display: inline-block;
-            line-height: 1.2em;
+            display: inline;
         }
 
     figure.contain,
@@ -436,4 +438,38 @@ figure {
 
 iframe {
     border: 0;
+}
+
+.columns { }
+
+    .columns[data-columns='2'] {
+        columns: 2;
+        -moz-columns: 2;
+        -webkit-columns: 2;
+    }
+
+    .columns[data-columns='3'] {
+        columns: 3;
+        -moz-columns: 3;
+        -webkit-columns: 3;
+    }
+
+    .columns[data-columns='4'] {
+        columns: 4;
+        -moz-columns: 4;
+        -webkit-columns: 4;
+    }
+
+    .columns[data-columns='5'] {
+        columns: 5;
+        -moz-columns: 5;
+        -webkit-columns: 5;
+    }
+
+@media all and (max-width: 800px) {
+    .columns[data-columns] {
+        columns: 1;
+        -moz-columns: 1;
+        -webkit-columns: 1;
+    }
 }
