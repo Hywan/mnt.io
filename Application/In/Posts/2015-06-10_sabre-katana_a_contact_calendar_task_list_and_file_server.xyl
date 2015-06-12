@@ -6,9 +6,10 @@
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
   <article id="main">
     <p class="abstract">Since several months, I am working on
-    <code>sabre/katana</code>: A contact, calendar, task list and file server,
-    synced, everywhere, all the time. Based on world-widely used standards
-    (respectively <a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>,
+    <a href="https://github.com/fruux/sabre-katana"><code>sabre/katana</code></a>:
+    A contact, calendar, task list and file server, synced, everywhere, all the
+    time. Based on world-widely used standards (respectively
+    <a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>,
     <a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a> and
     <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a>),
     <code>sabre/katana</code> will sync your data between any devices. This
@@ -52,7 +53,7 @@
             C_1 [label="Firefox OS"];
             C_2 [label="iOS"];
             C_3 [label="Android"];
-            C_4 [label="Mac OS X"];
+            C_4 [label="Windows"];
             S   [label="server"];
         }
       </dot>
@@ -69,6 +70,11 @@
     you have sensitive data that are really private or strategic? So, can you
     still trust them?  Where the data are stored? Who can look at these data?
     More and more, there is a huge need for “personal” server.</p>
+    <p>Moreover, servers like Google or Apple are often closed: You reach your
+    data with specific clients and they are not available in all platforms. This
+    is for strategic reasons of course. But with <code>sabre/katana</code>, you
+    are not limited. See the above schema: Firefox OS can talk to iOS or Android
+    at the same time.</p>
     <p><code>sabre/katana</code> is this kind of server. You can install it on
     your machine and manage users in a minute. Each user will have a collection
     of address books, calendars, task lists and files. This server can talk to a
@@ -246,7 +252,7 @@
            style="max-width: 420px" />
       <figcaption>
         <p>Hywan has accepted the event. Here is what the event looks like.
-        Hywan can sees the response of each attendees.</p>
+        Hywan can see the response of each attendees.</p>
       </figcaption>
     </figure>
     <figure>
@@ -258,7 +264,7 @@
       </figcaption>
     </figure>
 
-    <p>Of course, they will be notified too if the event has been moved,
+    <p>Of course, attendees will be notified too if the event has been moved,
     canceled, refreshed etc.</p>
     <p>Calendars can be encoded into several formats. The most usal format is
     ICS. <code>sabre/katana</code> allows you to download the whole calendar of
@@ -267,7 +273,7 @@
 
     <h3>Task lists</h3>
 
-    <p>A task list is exactly like a calendar (from a programatically point of
+    <p>A task list is exactly like a calendar (from a programmatically point of
     view). Instead of containg event objects, it contains todo objects.</p>
     <p><code>sabre/katana</code> supports group of tasks, reminder, progression
     etc.</p>
@@ -291,7 +297,7 @@
     <p>Finally, <code>sabre/katana</code> creates a home collection per
     user: A personal directory that can contain files and directories and…
     synced between all your devices (as usual 😄).</p>
-    <p><code>sabre/katana</code> creates a special directory called
+    <p><code>sabre/katana</code> also creates a special directory called
     <code>public/</code> which is a public directory. Every files and
     directories stored inside this directory are accessible to anyone that has
     the correct link. No listing is prompted to protect your public data.</p>
@@ -326,7 +332,7 @@
     be showed in the browser. Only images, audios, videos, texts, PDF and some
     vendor formats (like Microsoft Office) are considered as safe (for the
     server). This way, associations can share musics, videos or images,
-    companies can share PDF or Microsoft Word document etc. Maybe in the future
+    companies can share PDF or Microsoft Word documents etc. Maybe in the future
     <code>sabre/katana</code> might white-list more formats. If a format is not
     white-listed, the file will be forced to download.</p>
 
@@ -348,22 +354,26 @@
     <a href="http://owncloud.org/">ownCloud</a>, it powers millions of users
     world-wide! It is written in PHP and is open source.</p>
     <p>Hoa is a modular, extensible and structured set of PHP libraries. Fun
-    fact: This project is also trusted by
+    fact: Also open source, this project is also trusted by
     <a href="http://owncloud.org/">ownCloud</a>, in addition to
     <a href="http://mozilla.org/">Mozilla</a>,
     <a href="http://jolicode.com/">joliCode</a> etc. Recently, this project has
-    recently recorded more than 600,000 downloads and the community is about to
-    reach 1000 people.</p>
+    recorded more than 600,000 downloads and the community is about to reach
+    1000 people.</p>
     <p><code>sabre/katana</code> is then a program based on
     <code>sabre/dav</code> for the DAV part and Hoa for everything else, like
-    the logic code inside the <code>sabre/dav</code>'s plugins. The result is
+    the logic code inside the <code>sabre/dav</code>'s plugins. The result is a
     ready-to-use server with a nice interface for the administration.</p>
+    <p>To ensure code quality, we use <a href="http://atoum.org/">atoum</a>, a
+    popular and modern test framework for PHP. So far, <code>sabre/dav</code>
+    has more than 1000 assertions.</p>
 
     <h2>Conclusion</h2>
 
     <p><code>sabre/katana</code> is a server for contacts, calendars, task lists
     and files. Everything is synced, everytime and everywhere. It perfectly
-    connects to a lot of devices on the market. This is the easiest and more
-    secure way to host your own private data.</p>
+    connects to a lot of devices on the market. Several features we need and use
+    daily have been presented. This is the easiest and a secure way to host your
+    own private data.</p>
   </article>
 </overlay>
