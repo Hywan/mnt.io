@@ -26,11 +26,6 @@
       </figcaption>
     </figure>
 
-    <h2>Demonstration</h2>
-
-    <p>First, let's start by a demonstration. A video is worth than a long
-    speech.</p>
-
     <h2>What is it?</h2>
 
     <p><code>sabre/katana</code> is a contact, calendar, task list and file
@@ -375,5 +370,6 @@
     connects to a lot of devices on the market. Several features we need and use
     daily have been presented. This is the easiest and a secure way to host your
     own private data.</p>
+    <p><a href="https://github.com/sabre/katana">Go download it</a>!</p>
   </article>
 </overlay>
