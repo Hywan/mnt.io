@@ -39,7 +39,7 @@
     <article id="main" />
 
     <footer>
-      <p>Copyright © 2014, Ivan Enderlin. All rights reserved.</p>
+      <p>Copyright © 2014-<value formatter="date" formatter-format="Y" />, Ivan Enderlin. All rights reserved.</p>
     </footer>
   </div>
 
