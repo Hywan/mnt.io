@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xyl-meta name="title" value="DuckDuckGo in a Shell"?>
+<?xyl-meta name="date" value="2015-08-05T07:33:11+02:00"?>
+<?xyl-overlay href="hoa://Application/In/Overlays/Article.xyl"?>
+
+<overlay xmlns="http://hoa-project.net/xyl/xylophone">
+  <article id="main">
+    <p class="abstract">I just would like to share a small tip to use the
+    awesome (meta) search engine, namely
+    <a href="https://duckduckgo.com/">DuckDuckGo</a>, in a Shell.</p>
+
+    <figure>
+      <img src="https://upload.wikimedia.org/wikipedia/en/5/55/DuckDuckGo_Logo_%28mid_2014%29.svg"
+           alt="DuckDuckGo's logo"
+           style="max-width: 200px" />
+      <figcaption>
+        <p>DuckDuckGo's logo.</p>
+      </figcaption>
+    </figure>
+
+    <h2>The tip</h2>
+
+    <p>When I go outside my terminal, I am kind of lost. I control everything
+    from my terminal and I hate clicking. That's why I found a small tip today
+    to open a search on DuckDuckGo directly from the terminal. It redirects me
+    to my default browser in the background, which is the expected behavior.</p>
+    <p>First, I create a function called <code>duckduckgo</code>:</p>
+    <pre><code class="language-bash">function duckduckgo {
+
+    query=`php -r 'echo urlencode($argv[1]);' "$1"`
+    open 'https://duckduckgo.com/?q='$query
+}</code></pre>
+    <p>Note how I (avoid to) deal with quotes in
+    <code class="language-bash">$1</code>.</p>
+    <p>Then, I just have to create an alias called <code>?</code>:</p>
+    <pre><code class="language-bash">alias '?'='duckduckgo'</code></pre>
+    <p>And here we (duckduck) go!</p>
+    <pre><code class="language-shell">$ ? "foo bar's baz"</code></pre>
+    <p>You can
+    <a href="https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c">see
+    the commit</a> that adds this to my “shell home framework”.</p>
+    <p>Oh, and to open the default browser, I use
+    <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/open.1.html"><code>open (1)</code></a>,
+    like this:</p>
+    <pre><code class="language-bash">alias open='open -g'</code></pre>
+    <p>Hope it helps!</p>
+  </article>
+</overlay>
