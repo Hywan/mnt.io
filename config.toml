@@ -1,0 +1,10 @@
+base_url = "https://mnt.io"
+compile_sass = false
+
+build_search_index = true
+
+[markdown]
+highlight_code = true
+
+[extra]
+# Put all your custom variables here
