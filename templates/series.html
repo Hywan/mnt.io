@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ section.title }}
+{% endblock title %}
+
+{% block body %}
+  <ul>
+  {% for section_path in section.subsections %}
+    {% set section = get_section(path = section_path, metadata_only = true) %}
+    <li><a href="{{ section.permalink | safe }}">{{ section.title }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock body %}

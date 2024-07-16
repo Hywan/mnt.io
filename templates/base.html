@@ -9,8 +9,17 @@
     mnt.io
   {% endblock title %}
   </title>
+
+  <link rel="stylesheet" href="/style/main.css">
 </head>
 <body>
+
+<ul role="nav">
+  <li><a href="/">Home</a></li>
+  <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
+  <li><a href="{{ get_url(path = '@/series/_index.md') }}">Series</a></li>
+</ul>
+
 {% block body %}
   Block `body` is undefined
 {% endblock body %}
