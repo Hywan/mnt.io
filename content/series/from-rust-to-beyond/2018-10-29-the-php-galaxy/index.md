@@ -3,21 +3,6 @@ title = "The PHP galaxy"
 date = "2018-10-29"
 +++
 
-This blog post is part of a series explaining how to send Rust beyond
-earth, into many different galaxies. Rust has visited:
-
-- [Prelude](http://mnt.io/2018/08/21/from-rust-to-beyond-prelude/),
-- [The WebAssembly
-  galaxy](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/),
-- [The ASM.js
-  galaxy](http://mnt.io/2018/08/28/from-rust-to-beyond-the-asm-js-galaxy/),
-- [The C
-  galaxy](http://mnt.io/2018/09/11/from-rust-to-beyond-the-c-galaxy/),
-- The PHP galaxy (this episode), and
-- *The NodeJS galaxy*.
-
-------------------------------------------------------------------------
-
 The galaxy we will explore today is the PHP galaxy. This post will
 explain what PHP is, how to compile any Rust program to C and then to a
 PHP native extension.

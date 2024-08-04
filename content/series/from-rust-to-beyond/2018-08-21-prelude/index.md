@@ -21,21 +21,7 @@ many platforms and environments.
 </figure>
 
 This series of posts is about those bindings, and explains how to send
-Rust beyond earth, into many different galaxies. Rust will land in:
-
-- [The WebAssembly
-  galaxy](/2018-08-22-from-rust-to-beyond-the-webassembly-galaxy/index.md),
-- [The ASM.js
-  galaxy](/2018-08-28-from-rust-to-beyond-the-asm-js-galaxy/index.md),
-- [The C
-  galaxy](/2018-09-11-from-rust-to-beyond-the-c-galaxy/index.md),
-- [The PHP
-  galaxy](/2018-10-29-from-rust-to-beyond-the-php-galaxy/index.md),
-  and
-- *The NodeJS galaxy*.
-
-The ship is currently flying into the Java galaxy, this series may
-continue if the ship does not crash or has enough resources to survive!
+Rust beyond earth, into many different galaxies.
 
 ## The Gutenberg post format
 

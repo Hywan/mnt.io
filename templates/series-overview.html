@@ -12,7 +12,7 @@
   <h2>Episodes</h2>
 
   <ul>
-  {% for section in section.pages %}
+  {% for section in section.pages | reverse  %}
     <li><a href="{{ section.permalink | safe }}">{{ section.title }}</a></li>
   {% endfor %}
   </ul>

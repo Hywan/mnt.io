@@ -3,22 +3,6 @@ title = "The ASM.js galaxy"
 date = "2018-08-28"
 +++
 
-This blog post is part of a series explaining how to send Rust beyond
-earth, into many different galaxies. Rust has visited:
-
-- [Prelude](http://mnt.io/2018/08/21/from-rust-to-beyond-prelude/),
-- [The WebAssembly
-  galaxy](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/),
-- The ASM.js galaxy (this episode),
-- [The C
-  galaxy](http://mnt.io/2018/09/11/from-rust-to-beyond-the-c-galaxy/),
-- [The PHP
-  galaxy](http://mnt.io/2018/10/29/from-rust-to-beyond-the-php-galaxy/),
-  and
-- *The NodeJS galaxy*.
-
-------------------------------------------------------------------------
-
 The second galaxy that our Rust parser will explore is the ASM.js
 galaxy. This post will explain what ASM.js is, how to compile the parser
 into ASM.js, and how to use the ASM.js module with Javascript in a

@@ -3,22 +3,6 @@ title = "The C galaxy"
 date = "2018-09-11"
 +++
 
-This blog post is part of a series explaining how to send Rust beyond
-earth, into many different galaxies. Rust has visited:
-
-- [Prelude](http://mnt.io/2018/08/21/from-rust-to-beyond-prelude/),
-- [The WebAssembly
-  galaxy](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/),
-- [The ASM.js
-  galaxy](http://mnt.io/2018/08/28/from-rust-to-beyond-the-asm-js-galaxy/),
-- The C galaxy (this episode),
-- [The PHP
-  galaxy](http://mnt.io/2018/10/29/from-rust-to-beyond-the-php-galaxy/),
-  and
-- *The NodeJS galaxy*.
-
-------------------------------------------------------------------------
-
 The galaxy we will explore today is the C galaxy. This post will explain
 what C is (shortly), how to compile any Rust program in C in theory, and
 how to do that practically with our Rust parser from the Rust side and

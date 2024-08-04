@@ -3,22 +3,6 @@ title = "The WebAssembly galaxy"
 date = "2018-08-22"
 +++
 
-This blog post is part of a series explaining how to send Rust beyond
-earth, into many different galaxies:
-
-- [Prelude](http://mnt.io/2018/08/21/from-rust-to-beyond-prelude/),
-- The WebAssembly galaxy (this episode),
-- [The ASM.js
-  galaxy](http://mnt.io/2018/08/28/from-rust-to-beyond-the-asm-js-galaxy/),
-- [The C
-  galaxy](http://mnt.io/2018/09/11/from-rust-to-beyond-the-c-galaxy/),
-- [The PHP
-  galaxy](http://mnt.io/2018/10/29/from-rust-to-beyond-the-php-galaxy/),
-  and
-- *The NodeJS galaxy*.
-
-------------------------------------------------------------------------
-
 The first galaxy that our Rust parser will explore is the WebAssembly
 (Wasm) galaxy. This post will explain what WebAssembly is, how to
 compile the parser into WebAssembly, and how to use the WebAssembly

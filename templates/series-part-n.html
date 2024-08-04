@@ -5,7 +5,17 @@
 {% endblock title %}
 
 {% block body %}
+  {% set series = get_section(path = page.ancestors | last) -%}
+
   <h1>{{ page.title }}</h1>
+
+  <p>This article is part of the series <a href="{{ series.path }}">{{ series.title }}</a>.</p>
+
+  <select title="Jump to any part of this series" onchange="document.location.pathname = this.value">
+    {% for part in series.pages | reverse -%}
+    <option value="{{ part.path }}"{% if part.path == page.path  %} selected{% endif %}>{{ part.title }}</option>
+    {% endfor %}
+  </select>
 
   {{ page.content | safe }}
 {% endblock body %}
