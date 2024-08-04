@@ -8,7 +8,7 @@ galaxy. This post will explain what ASM.js is, how to compile the parser
 into ASM.js, and how to use the ASM.js module with Javascript in a
 browser. The goal is to use ASM.js as a fallback to WebAssembly when it
 is not available. I highly recommend to read [the previous
-episode](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/)
+episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)
 about WebAssembly since they have a lot in common.
 
 ## What is ASM.js, and why?
@@ -126,7 +126,7 @@ which in turn will be compiled into ASM.js.
 This episode will be very short, and somehow the most easiest one. To
 compile Rust to ASM.js, you need to first compile it to WebAssembly
 ([see the previous
-episode](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/)),
+episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)),
 and then compile the WebAssembly binary into ASM.js.
 
 Actually, ASM.js is mostly required when the browser does not support
@@ -219,7 +219,7 @@ object pointing to 4 private functions:
 4.  `memory`, the memory buffer.
 
 It sounds familiar if you have read [the previous episode with
-WebAssembly](http://mnt.io/2018/08/22/from-rust-to-beyond-the-webassembly-galaxy/).
+WebAssembly](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md).
 Don't expect `root` to return a full AST: It will return a pointer to
 the memory, and the data need to be encoded and decoded, and to write
 into and to read from the memory the same way. Yes, the same way. *The

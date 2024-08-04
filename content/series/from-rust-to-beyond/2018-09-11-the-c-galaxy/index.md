@@ -199,7 +199,7 @@ bind to C!
 
 We want to bind a function named `parse`. The function outputs an AST
 representing the language being analysed. [For the
-recall](http://mnt.io/2018/08/21/from-rust-to-beyond-prelude/), the
+recall](@/series/from-rust-to-beyond/2018-08-21-prelude/index.md), the
 original AST looks like this:
 
 ```rust
