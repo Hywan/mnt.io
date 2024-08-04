@@ -7,6 +7,15 @@
 {% block body %}
   {% set series = get_section(path = page.ancestors | last) -%}
 
+  <div>
+    <time title="Published date" datetime="{{ page.date }}">
+      {{- page.date | date(format = "%B %d, %Y") -}}
+    </time>
+    <span title="Reading time">
+      {{- page.reading_time ~ " minutes read" -}}
+    </span>
+  </div>
+
   <h1>{{ page.title }}</h1>
 
   <p>This article is part of the series <a href="{{ series.path }}">{{ series.title }}</a>.</p>

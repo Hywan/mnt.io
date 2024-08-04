@@ -6,8 +6,16 @@
 
 {% block body %}
   <ul>
-  {% for page in section.pages %}
-    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+  {% for page in section.pages -%}
+  <li>
+    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    <time title="Published date" datetime="{{ page.date }}">
+      {{- page.date | date(format = "%B %d, %Y") -}}
+    </time>
+    <span title="Reading time">
+      {{- page.reading_time ~ " minutes read" -}}
+    </span>
+  </li>
   {% endfor %}
   </ul>
 {% endblock body %}
