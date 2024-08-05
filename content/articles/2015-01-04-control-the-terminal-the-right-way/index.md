@@ -113,6 +113,8 @@ know whether the pipe is respectively direct, a pipe or a redirection
 (damn naming…!). Thus, let `Type.php` be the following program:
 
 ```php
+<?php
+
 echo 'is direct:      ';
 var_dump(Hoa\Console\Console::isDirect(STDOUT));
 
@@ -233,6 +235,8 @@ the lowest level would output only the result. Let's try with the
 `toUpperCase.php` program:
 
 ```php
+<?php
+
 $verbose = Hoa\Console\Console::isDirect(STDOUT);
 $string  = $argv[1];
 $result  = (new Hoa\String\String($string))->toUpperCase();
@@ -342,6 +346,8 @@ to parse a terminal information database (it will use the file returned
 by `getTerminfo` by default). For instance:
 
 ```php
+<?php
+
 $tput = new Hoa\Console\Tput();
 var_dump($tput->count('max_colors'));
 
@@ -384,6 +390,8 @@ The `moveTo` static method allows to move the cursor to an absolute
 position. For example:
 
 ```php
+<?php
+
 Hoa\Console\Cursor::moveTo($x, $y);
 ```
 
@@ -399,6 +407,8 @@ We use the same strategy for the `move` static method that moves the
 cursor relatively to its current position. For example:
 
 ```php
+<?php
+
 Hoa\Console\Cursor::move('right up');
 ```
 
@@ -418,6 +428,8 @@ function on the output, and then, the terminal replies on the input.
 yourself](https://github.com/hoaproject/Console/blob/master/Source/Cursor.php).
 
 ```php
+<?php
+
 print_r(Hoa\Console\Cursor::getPosition());
 
 /**
@@ -442,12 +454,16 @@ screen, `clr_eol` to clear everything on the right of the cursor,
 `clr_eos` to clear everything bellow the cursor etc.
 
 ```php
+<?php
+
 Hoa\Console\Cursor::clear('left');
 ```
 
 See what we learnt in action:
 
 ```php
+<?php
+
 echo 'Foobar', "\n",
      'Foobar', "\n",
      'Foobar', "\n",
@@ -527,6 +543,8 @@ case, it is not exactly like HTML where we have a beginning and an end.
 Here we only have a beginning. Let's try!
 
 ```php
+<?php
+
 Hoa\Console\Cursor::colorize('underlined foreground(yellow) background(#932e2e)');
 echo 'foo';
 Hoa\Console\Cursor::colorize('!underlined background(normal)');
@@ -597,6 +615,8 @@ given by the `bell` string capability. You would like to make a bip?
 Easy:
 
 ```php
+<?php
+
 $tput = new Hoa\Console\Tput();
 echo $tput->get('bell');
 ```

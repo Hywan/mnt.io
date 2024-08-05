@@ -147,6 +147,8 @@ PHP library to manage all the weird formats. The following example shows
 how to read from iCalendar and write to jCal and xCal:
 
 ```php
+<?php
+
 // Read iCalendar.
 $document = Sabre\VObject\Reader::read($icalendar);
 

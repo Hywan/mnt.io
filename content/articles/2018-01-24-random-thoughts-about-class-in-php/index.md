@@ -13,6 +13,8 @@ manual](http://php.net/manual/en/language.oop5.constants.php). But
 things can be funny sometimes. Let's go through some examples.
 
 - ```php
+  <?php
+
   use A\B as C;
 
   $_ = C::class;
@@ -21,6 +23,8 @@ things can be funny sometimes. Let's go through some examples.
   resolves to `A\B`, which is perfect 🙂
 
 - ```php
+  <?php
+
   class C {
       public function f() {
           $_ = self::class;
@@ -31,6 +35,8 @@ things can be funny sometimes. Let's go through some examples.
   resolves to `C`, which is perfect 😀
 
 - ```php
+  <?php
+
   class C {}
 
   class D extends C {
@@ -43,6 +49,8 @@ things can be funny sometimes. Let's go through some examples.
   resolves to `C`, which is perfect 😄
 
 - ```php
+  <?php
+
   class C {
       public static function f() {
           $_ = static::class;
@@ -57,18 +65,24 @@ things can be funny sometimes. Let's go through some examples.
   resolves to `D`, which is perfect 😍
 
 - ```php
+  <?php
+
   'foo'::class
   ```
 
   resolves to `'foo'`, which is… huh? 🤨
 
 - ```php
+  <?php
+
   "foo"::class
   ```
 
   resolves to `'foo'`, which is… expected somehow 😕
 
 - ```php
+  <?php
+
   $a = 'oo';
   "f{$a}"::class
   ```
@@ -76,6 +90,8 @@ things can be funny sometimes. Let's go through some examples.
   generates a parse error 🙃
 
 - ```php
+  <?php
+
   PHP_VERSION::class
   ```
 

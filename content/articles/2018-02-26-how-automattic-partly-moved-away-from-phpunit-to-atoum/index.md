@@ -128,6 +128,8 @@ is full of global functions, but it is possible to mock them with atoum
 like this:
 
 ```php
+<?php
+
 public function test_foo() {
     $this->function->get_userdata = (object) [
         'user_login' => …,

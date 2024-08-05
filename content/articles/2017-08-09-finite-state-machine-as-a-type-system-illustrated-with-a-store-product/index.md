@@ -74,6 +74,8 @@ No more talking. Here is the code.
 ### The mighty product
 
 ```php
+<?php
+
 /**
  * A product.
  */
@@ -86,6 +88,8 @@ type a generic product, with no regards about its state.
 ### Active and inactive
 
 ```php
+<?php
+
 /**
  * A product that is active.
  */
@@ -120,6 +124,8 @@ value.
 ### Purchase, renew, and cancel
 
 ```php
+<?php
+
 /**
  * A product that can be purchased.
  */
@@ -133,6 +139,8 @@ generates a product that is renewable. `purchase` transitions from the
 state `A` to `B` (regarding the graph above).
 
 ```php
+<?php
+
 /**
  * A product that can be cancelled.
  */
@@ -146,6 +154,8 @@ generates an inactive product, so it transitions from the state `B` to
 `D`.
 
 ```php
+<?php
+
 /**
  * A product that can be renewed.
  */
@@ -158,6 +168,8 @@ A renewable product is also cancellable. The action is `renew` and this
 is a reflexive transition from the state `B` to `B`.
 
 ```php
+<?php
+
 /**
  * A product that can be once-off purchased, i.e. it can be purchased but not
  * renewed.
@@ -187,6 +199,8 @@ Let's consider the `SecretProduct` as a new super secret product that
 will revolutionise our store:
 
 ```php
+<?php
+
 /**
  * The `SecretProduct` class is:
  *
@@ -281,6 +295,8 @@ Let's try some valid and invalid actions. Those followings are
 **possible actions**:
 
 ```php
+<?php
+
 assert((new SecretProduct())->purchase()                             instanceof Product);
 assert((new SecretProduct())->purchase()->renew()                    instanceof Product);
 assert((new SecretProduct())->purchase()->cancel()                   instanceof Product);
@@ -293,6 +309,8 @@ and finally to cancel it. It matches the FSM!
 Those followings are **impossible actions**:
 
 ```php
+<?php
+
 (new SecretProduct())->renew();
 (new SecretProduct())->cancel();
 (new SecretProduct())->purchase()->cancel()->purchase();
@@ -311,6 +329,8 @@ It is impossible:
 Those followings are **impossible implementations**:
 
 ```php
+<?php
+
 class SecretProduct implements Active, Purchasable, PurchasableOnce {}
 ```
 
@@ -319,6 +339,8 @@ time, because `Purchasable::purchase` is not compatible with
 `PurchasableOnce::purchase`.
 
 ```php
+<?php
+
 class SecretProduct implements Inactive, Cancellable {}
 ```
 
@@ -350,6 +372,8 @@ The following `ProductRepository\load` function is just here to give you
 an idea of how it works.
 
 ```php
+<?php
+
 namespace ProductRepository;
 
 function load(int $id, string $state): Product {
@@ -401,6 +425,8 @@ The code must look familiar because this is just a split from the
 `SecretProduct` implementation.
 
 ```php
+<?php
+
 trait ActiveProduct {
     protected $product;
 
@@ -455,6 +481,8 @@ trait InactiveProduct {
 The **possible actions** are:
 
 ```php
+<?php
+
 $product = ProductRepository\load(42, Renewable::class);
 
 assert($product           instanceof Product);
@@ -468,6 +496,8 @@ can renew and cancel it.
 Those followings are **impossible actions**:
 
 ```php
+<?php
+
 $product = ProductRepository\load(42, Renewable::class);
 
 $product->purchase();

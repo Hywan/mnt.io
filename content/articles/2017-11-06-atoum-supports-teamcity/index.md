@@ -31,6 +31,8 @@ configuration file. The following example forces to enable the extension
 for every test execution:
 
 ```php
+<?php
+
 $extension = new atoum\teamcity\extension($script);
 $extension->addToRunner($runner);
 ```
@@ -39,6 +41,8 @@ The following example enables the extension **only within** a TeamCity
 environment:
 
 ```php
+<?php
+
 $extension = new atoum\teamcity\extension($script);
 $extension->addToRunnerWithinTeamCityEnvironment($runner);
 ```

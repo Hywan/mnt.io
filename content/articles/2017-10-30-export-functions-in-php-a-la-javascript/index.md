@@ -38,6 +38,8 @@ A PHP file can return an integer, a real, an array, an anonymous
 function, anything. Let's try this:
 
 ```php
+<?php
+
 return function (int $x): int {
     return $x * 2;
 };
@@ -46,6 +48,8 @@ return function (int $x): int {
 And then in another file:
 
 ```php
+<?php
+
 $times2 = require 'foo.php';
 var_dump($times2(21)); // int(42)
 ```
@@ -56,6 +60,8 @@ What if our file returns more than one function? Let's use an array
 (which has most hashmap properties):
 
 ```php
+<?php
+
 return [
     'times2' => function (int $x): int {
         return $x * 2;
@@ -73,6 +79,8 @@ short syntax (`[…]`). Because we are modern, we will use the short
 syntax with key matching to selectively import functions:
 
 ```php
+<?php
+
 ['times2' => $mul] = require 'foo.php';
 
 var_dump($mul(21)); // int(42)

@@ -9,6 +9,9 @@ taxonomies = [
 
 [markdown]
 highlight_code = true
+highlight_theme = "css"
+highlight_themes_css = [
+  { theme = "ayu-mirage", filename = "style/syntax-theme.css" },
+]
 
 [extra]
-# Put all your custom variables here

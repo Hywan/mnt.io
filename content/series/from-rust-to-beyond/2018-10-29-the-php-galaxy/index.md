@@ -195,6 +195,8 @@ idea is almost identical). So in PHP, the following structure has been
 selected:
 
 ```php
+<?php
+
 class Gutenberg_Parser_Block {
     public string $namespace;
     public string $name;

@@ -161,6 +161,8 @@ library](http://github.com/hoaproject/Visitor). Here is an example with the
 “dump” visitor:
 
 ```php
+<?php
+
 use Hoa\Compiler;
 use Hoa\File;
 
@@ -211,6 +213,8 @@ Here is the class. It catches only useful constructions for the given
 example:
 
 ```php
+<?php
+
 use Hoa\Visitor;
 
 class PrettyPrinter implements Visitor\Visit {
@@ -293,6 +297,8 @@ And finally, we apply the pretty printer on the AST like previously
 seen:
 
 ```php
+<?php
+
 $compiler = Compiler\Llk\Llk::load(
     new File\Read('hoa://Library/Regex/Grammar.pp')
 );
@@ -348,6 +354,8 @@ and floats. Ready?
 The structure of the visitor is the following:
 
 ```php
+<?php
+
 use Hoa\Visitor;
 use Hoa\Math;
 
@@ -377,6 +385,8 @@ ID. The following code will generate a string based on the regular
 expression contained in the `$expression` variable:
 
 ```php
+<?php
+
 $expression  = '…';
 $ast = $compiler->parse($expression);
 $generator = new IsotropicSampler(new Math\Sampler\Random());
@@ -392,6 +402,8 @@ A node of type `#expression` has only one child. Thus, we simply return
 the computation of this node:
 
 ```php
+<?php
+
 case '#expression':
     return $element->getChild(0)->accept($this, $handle, $eldnah);
   break;
@@ -405,6 +417,8 @@ contain an escaped character, can be a single character or can be `.`
 example (spoil: the whole visitor already exists). Thus:
 
 ```php
+<?php
+
 case 'token':
     return $element->getValueValue();
   break;
@@ -418,6 +432,8 @@ A concatenation is just the computation of all children joined in a
 single piece of string. Thus:
 
 ```php
+<?php
+
 case '#concatenation':
     $out = null;
 
@@ -440,6 +456,8 @@ children for the current node can be known thanks to the
 integers. Thus:
 
 ```php
+<?php
+
 case '#alternation':
     $childIndex = $this->_sampler->getInteger(
         0,
@@ -463,6 +481,8 @@ find the value for `_x_` and `_y_` and then choose at random between
 these bounds. Let's go:
 
 ```php
+<?php
+
 case '#quantification':
     $out = null;
     $x = 0;
@@ -503,6 +523,8 @@ following strings: `abdcce`, `abdc`, `abddcd`, `abcde` etc. Nice isn't
 it? Want more?
 
 ```php
+<?php
+
 for($i = 0; $i < 42; ++$i) {
     echo $generator->visit($ast), "\n";
 }
@@ -551,6 +573,8 @@ types of characters —`\w`, `\d`, `\h`…—) etc. Consequently, all you have
 to do is:
 
 ```php
+<?php
+
 use Hoa\Regex;
 
 // …
@@ -578,12 +602,16 @@ generate many data and validate a datum based on a realistic domain. To
 declare a regular expression, we must write:
 
 ```php
+<?php
+
 $regex = $this->realdom->regex('/ab(c|d){2,4}e?/');
 ```
 
 And to generate a datum, all we have to do is:
 
 ```php
+<?php
+
 $datum = $this->sample($regex);
 ```
 
@@ -591,6 +619,8 @@ For instance, imagine you are writing a test called `test_mail` and you
 need an email address:
 
 ```php
+<?php
+
 public function test_mail() {
     $this
         ->given(
