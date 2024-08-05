@@ -177,7 +177,7 @@ blockquote {
   }
 }
 
-nav {
+#menu {
   margin-block-end: var(--space-very-large);
   color: var(--color-lighter);
   background: var(--color-accent2);
@@ -215,4 +215,37 @@ footer {
   margin-block-start: var(--space);
   padding-block: var(--space);
   border-top: var(--border-size) var(--border-color) solid;
+}
+
+article {
+  header {
+    .metadata {
+      display: flex;
+      gap: var(--space-large);
+
+      > * {
+        flex: auto;
+      }
+    }
+
+    h1 {
+      display: inline-block;
+    }
+  }
+
+  &.series-episode {
+    header {
+      margin-block-end: var(--space-very-large);
+
+      h1 {
+       margin-block-end: 0;
+      }
+
+      nav {
+        p {
+          margin-block-start: 0;
+        }
+      }
+    }
+  }
 }

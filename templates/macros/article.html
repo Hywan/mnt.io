@@ -9,7 +9,7 @@
 {% endmacro %}
 
 {% macro metadata(page) %}
-  <div>
+  <div class="metadata">
     <time title="Published date" datetime="{{ page.date }}">
       {{- page.date | date(format = "%B %d, %Y") -}}
     </time>
@@ -27,4 +27,22 @@
     </span>
     {% endif %}
   </div>
+{% endmacro %}
+
+{% macro table_of_content(page) %}
+  {#
+  {% if page.toc %}
+  <nav>
+    <details>
+      <summary><h2>Content</h2></summary>
+
+      <ul title="Jump to the following section in this page">
+      {% for h1 in page.toc -%}
+        <li><a href="#{{ h1.permalink | split(pat = "#") | last }}">{{ h1.title }}</a></li>
+      {% endfor %}
+      </ul>
+    </details>
+  </nav>
+  {% endif %}
+  #}
 {% endmacro %}

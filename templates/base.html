@@ -15,7 +15,7 @@
 </head>
 <body class="content-grid">
 
-<nav class="full-width content-grid">
+<nav id="menu" class="full-width content-grid">
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
@@ -23,11 +23,11 @@
   </ul>
 </nav>
 
-<section>
+<main>
 {% block body %}
   Block `body` is undefined
 {% endblock body %}
-</section>
+</main>
 
 <footer class="full-width content-grid">
   <div>
