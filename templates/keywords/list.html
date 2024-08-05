@@ -10,16 +10,39 @@
   <p>All terms, alphabetically sorted, for the <em>{{ taxonomy.name }}</em>
   taxonomy:</p>
 
-  <input id="find_keywords" type="text" list="keywords" placeholder="Find a keyword…" autofocus>
+  <div class="find-keywords">
+    <input id="find_keywords" type="text" list="keywords" placeholder="Find a keyword…" autofocus>
 
-  <datalist id="keywords">
-  {% for term in terms -%}
-    <option value="{{ term.name | slugify }}"><a href="/keywords/{{ term.name | slugify }}">{{ term.name }}</a></option>
-  {% endfor %}
-  </datalist>
+    <datalist id="keywords">
+    {% for term in terms -%}
+      <option value="{{ term.name | slugify }}"><a href="/keywords/{{ term.name | slugify }}">{{ term.name }}</a></option>
+    {% endfor %}
+    </datalist>
+  </form>
 
   <style>
-  datalist { display: list-item }
+  .find-keywords {
+    text-align: center;
+
+    input {
+      margin-block-end: var(--space);
+    }
+
+    datalist {
+      display: list-item;
+      list-style: none;
+      text-wrap: balance;
+
+      > option {
+        display: inline-block;
+      }
+
+      > option:has(+ option)::after {
+        content: " •";
+      }
+    }
+  }
+
   </style>
 
   <script>
