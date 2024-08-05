@@ -1,6 +1,8 @@
 +++
 title = "The ASM.js galaxy"
 date = "2018-08-28"
+[taxonomies]
+keywords=["rust", "binding", "gutenberg", "webassembly", "javascript", "asmjs"]
 +++
 
 The second galaxy that our Rust parser will explore is the ASM.js

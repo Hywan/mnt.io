@@ -1,3 +1,5 @@
+{% import "macros/article.html" as article %}
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -7,14 +9,7 @@
 {% block body %}
   {% set series = get_section(path = page.ancestors | last) -%}
 
-  <div>
-    <time title="Published date" datetime="{{ page.date }}">
-      {{- page.date | date(format = "%B %d, %Y") -}}
-    </time>
-    <span title="Reading time">
-      {{- page.reading_time ~ " minutes read" -}}
-    </span>
-  </div>
+  {{ article::metadata(page = page) }}
 
   <h1>{{ page.title }}</h1>
 

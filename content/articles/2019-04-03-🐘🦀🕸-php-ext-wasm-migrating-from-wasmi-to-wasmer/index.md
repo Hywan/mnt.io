@@ -1,6 +1,8 @@
 +++
 title = "🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer"
 date = "2019-04-03"
+[taxonomies]
+keywords=["rust", "php", "webassembly", "runtime", "binding"]
 +++
 
 

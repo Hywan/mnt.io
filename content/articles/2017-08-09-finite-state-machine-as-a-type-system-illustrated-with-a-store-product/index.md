@@ -1,6 +1,8 @@
 +++
 title = "Finite-State Machine as a Type System illustrated with a store product"
 date = "2017-08-09"
+[taxonomies]
+keywords=["type"]
 +++
 
 Hello fellow coders!

@@ -1,6 +1,8 @@
 +++
 title = "I've loved Wasmer, I still love Wasmer"
 date = "2021-10-04"
+[taxonomies]
+keywords=["webassembly", "runtime", "job"]
 +++
 
 This article could also have been titled *How I failed to change

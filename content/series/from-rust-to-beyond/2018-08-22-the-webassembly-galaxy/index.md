@@ -1,6 +1,8 @@
 +++
 title = "The WebAssembly galaxy"
 date = "2018-08-22"
+[taxonomies]
+keywords=["rust", "binding", "gutenberg", "webassembly", "javascript", "asmjs"]
 +++
 
 The first galaxy that our Rust parser will explore is the WebAssembly

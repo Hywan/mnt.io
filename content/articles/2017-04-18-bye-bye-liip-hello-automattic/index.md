@@ -1,6 +1,8 @@
 +++
 title = "Bye bye Liip, hello Automattic"
 date = "2017-04-18"
+[taxonomies]
+keywords=["job"]
 +++
 
 Since April 2017, I have left [Liip](https://www.liip.ch/) to join

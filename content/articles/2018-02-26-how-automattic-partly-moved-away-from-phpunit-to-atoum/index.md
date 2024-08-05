@@ -1,6 +1,8 @@
 +++
 title = "How Automattic (WordPress.com & co.) partly moved away from PHPUnit to atoum?"
 date = "2018-02-26"
+[taxonomies]
+keywords=["test", "php", "atoum"]
 +++
 
 Hello fellow developers and testers,

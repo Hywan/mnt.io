@@ -1,6 +1,8 @@
 +++
 title = "Bye bye Automattic, hello Wasmer"
 date = "2019-03-04"
+[taxonomies]
+keywords=["job", "webassembly"]
 +++
 
 Today is my first day at [Wasmer](https://wasmer.io/).

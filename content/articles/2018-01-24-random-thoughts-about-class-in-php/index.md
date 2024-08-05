@@ -1,6 +1,8 @@
 +++
 title = "Random thoughts about `::class` in PHP"
 date = "2018-01-24"
+[taxonomies]
+keywords=["php"]
 +++
 
 > The special **`::class`** constant allows for fully qualified class

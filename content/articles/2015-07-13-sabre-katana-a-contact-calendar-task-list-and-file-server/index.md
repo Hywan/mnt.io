@@ -1,6 +1,8 @@
 +++
 title = "sabre/katana"
 date = "2015-07-13"
+[taxonomies]
+keywords=["fruux", "caldav", "carddav", "webdav"]
 +++
 
 <figure>

@@ -1,6 +1,8 @@
 +++
 title = "Hello fruux!"
 date = "2014-11-24"
+[taxonomies]
+keywords=["job", "caldav", "carddav", "webdav"]
 +++
 
 ## Leaving the research world

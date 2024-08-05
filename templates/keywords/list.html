@@ -13,7 +13,7 @@
   <input id="find_keywords" type="text" list="keywords" placeholder="Find a keyword…" autofocus>
 
   <datalist id="keywords">
-  {% for term in terms %}
+  {% for term in terms -%}
     <option value="{{ term.name | slugify }}"><a href="/keywords/{{ term.name | slugify }}">{{ term.name }}</a></option>
   {% endfor %}
   </datalist>
@@ -30,12 +30,15 @@
         .from(document.querySelectorAll('#keywords > option'))
         .map((option) => option.value);
 
+
       return (event) => {
+        // If it autocompletes to an existing option.
         if (event.data && options.includes(event.data)) {
           document.location.pathname = `/keywords/${event.data}`;
         }
       };
-    }
+    },
+    false
   );
   </script>
 {% endblock %}

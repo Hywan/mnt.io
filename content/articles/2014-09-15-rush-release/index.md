@@ -1,6 +1,8 @@
 +++
 title = "Rüsh Release"
 date = "2014-09-15"
+[taxonomies]
+keywords=["release", "versioning", "hoa"]
 +++
 
 Since 2 years, at [Hoa](http://hoa-project.net/), we are looking for the
@@ -102,10 +104,10 @@ So, now, you will be able to change your `composer.json` files from:
 
 ```json
 {
-    "require": {
-        "hoa/websocket": "dev-master"
-    },
-    "minimum-stability": "dev"
+  "require": {
+    "hoa/websocket": "dev-master"
+  },
+  "minimum-stability": "dev"
 }
 ```
 

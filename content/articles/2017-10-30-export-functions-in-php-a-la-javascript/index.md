@@ -1,6 +1,8 @@
 +++
 title = "Export functions in PHP à la Javascript"
 date = "2017-10-30"
+[taxonomies]
+keywords=["php"]
 +++
 
 Warning: This post is totally useless. It is the result of a fun private

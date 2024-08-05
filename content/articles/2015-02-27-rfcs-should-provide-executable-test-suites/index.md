@@ -1,6 +1,8 @@
 +++
 title = "RFCs should provide executable test suites"
 date = "2015-02-27"
+[taxonomies]
+keywords=["test", "rfc"]
 +++
 
 Recently, I implemented xCal and xCard formats inside the sabre/dav

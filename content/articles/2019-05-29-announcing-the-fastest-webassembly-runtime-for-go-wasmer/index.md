@@ -1,6 +1,8 @@
 +++
 title = "Announcing the fastest WebAssembly runtime for Go: wasmer"
 date = "2019-05-29"
+[taxonomies]
+keywords=["rust", "webassembly", "go", "runtime", "binding"]
 +++
 
 *This is a copy of [an article I wrote for

@@ -1,6 +1,8 @@
 +++
 title = "Announcing the first Java library to run WebAssembly: Wasmer JNI"
 date = "2020-05-13"
+[taxonomies]
+keywords=["rust", "webassembly", "java", "runtime", "binding"]
 +++
 
 *This is a copy of [an article I wrote for

@@ -1,6 +1,8 @@
 +++
 title = "Tagua VM, a safe PHP virtual machine"
 date = "2017-06-19"
+[taxonomies]
+keywords=["php", "runtime", "rust"]
 +++
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ymy8qAEe0kQ?si=_7IlrTO1VzOriUKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

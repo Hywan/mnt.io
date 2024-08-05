@@ -1,6 +1,8 @@
 +++
 title = "The C galaxy"
 date = "2018-09-11"
+[taxonomies]
+keywords=["rust", "binding", "gutenberg", "c", "ffi"]
 +++
 
 The galaxy we will explore today is the C galaxy. This post will explain

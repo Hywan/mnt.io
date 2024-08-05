@@ -1,6 +1,8 @@
 +++
 title = "The PHP galaxy"
 date = "2018-10-29"
+[taxonomies]
+keywords=["rust", "binding", "gutenberg", "c", "ffi", "php"]
 +++
 
 The galaxy we will explore today is the PHP galaxy. This post will

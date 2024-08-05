@@ -1,6 +1,8 @@
 +++
 title = "Prelude"
 date = "2018-08-21"
+[taxonomies]
+keywords=["rust", "binding", "gutenberg"]
 +++
 
 [At my work](https://automattic.com/), I had an opportunity to start an

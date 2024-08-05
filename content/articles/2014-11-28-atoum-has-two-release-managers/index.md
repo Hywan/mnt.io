@@ -1,6 +1,8 @@
 +++
 title = "atoum has two release managers"
 date = "2014-11-28"
+[taxonomies]
+keywords=["test", "atoum"]
 +++
 
 ## What is atoum?

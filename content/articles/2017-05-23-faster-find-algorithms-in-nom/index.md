@@ -1,6 +1,8 @@
 +++
 title = "Faster find algorithms in nom"
 date = "2017-05-23"
+[taxonomies]
+keywords=["string", "algorithm", "rust"]
 +++
 
 [Tagua VM](https://github.com/tagua-vm/) is an experimental PHP virtual
