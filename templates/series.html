@@ -7,6 +7,10 @@
 {% endblock title %}
 
 {% block body %}
+  <p>Series are subjects that are, unlike
+  <a href="{{ get_url(path = "@/articles/_index.md") }}">articles</a>, too long
+  to fit in one page. They spread over multiple episodes for more pleasure.</p>
+
   <ul>
   {% for section_path in section.subsections %}
     <li>
