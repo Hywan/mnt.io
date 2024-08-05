@@ -36,6 +36,9 @@ p, h1, h2, h3, h4, h5, h6 {
   --space: 1rem;
   --space-large: 1.5rem;
   --space-very-large: 3rem;
+
+  --border-size: 2px;
+  --border-color: var(--color-dark-lighter);
 }
 
 body {
@@ -118,7 +121,7 @@ pre {
   margin-block: var(--space);
   padding: var(--space);
   background: var(--color-dark-blue);
-  border: 2px var(--color-dark-lighter) solid;
+  border: var(--border-size) var(--border-color) solid;
 }
 
 table {
@@ -126,7 +129,7 @@ table {
 
   th, td {
     padding: var(--space-very-small) var(--space-small);
-    border: 2px var(--color-dark-lighter) solid;
+    border: var(--border-size) var(--border-color) solid;
   }
 }
 
@@ -198,4 +201,11 @@ nav {
       text-decoration-color: currentcolor;
     }
   }
+}
+
+footer {
+  text-align: center;
+  margin-block-start: var(--space);
+  padding-block: var(--space);
+  border-top: var(--border-size) var(--border-color) solid;
 }
