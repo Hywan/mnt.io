@@ -1,3 +1,6 @@
+{% import "macros/article.html" as article %}
+{% import "macros/series.html" as series %}
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -5,5 +8,34 @@
 {% endblock title %}
 
 {% block body %}
-  :wave:
+  <p>Hello, I'm Ivan, computers are part of my life, and I like writing articles
+  or series about what it is possible to do with these machines. </p>
+
+  <h1>
+    Recent articles
+    <small><a href="{{ get_url(path = "@/articles/_index.md") }}">View all</a></small>
+  </h1>
+
+  <ul>
+  {% set section = get_section(path = "articles/_index.md") -%}
+  {% for page in section.pages | slice(end = 7)  -%}
+    <li>
+      {{- article::poster(page = page) -}}
+    </li>
+  {% endfor %}
+  </ul>
+
+  <h1>
+    Latest series
+    <small><a href="{{ get_url(path = "@/series/_index.md") }}">View all</a></small>
+  </h1>
+
+  <ul>
+  {% set section = get_section(path = "series/_index.md") -%}
+  {% for section_path in section.subsections | slice(end = 7) -%}
+    <li>
+      {{- series::poster(section = get_section(path = section_path, metadata_only = true)) -}}
+    </li>
+  {% endfor %}
+  </ul>
 {% endblock body %}

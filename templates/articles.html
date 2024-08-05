@@ -10,7 +10,7 @@
   <ul>
   {% for page in section.pages -%}
   <li>
-    {{ article::poster(page = page) }}
+    {{- article::poster(page = page) -}}
   </li>
   {% endfor %}
   </ul>

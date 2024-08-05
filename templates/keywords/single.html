@@ -9,12 +9,12 @@
 {% block body %}
   <h1>The {{ term.name | capitalize}} Keyword</h1>
 
-  <p>Not the keyword you're looking for? <a href="/keywords">See all keywords</a>.</p>
+  <p>Not the keyword you're looking for? <a href="{{ get_url(path = "/keywords") }}"">See all keywords</a>.</p>
 
   <ul>
   {% for page in term.pages -%}
   <li>
-    {{ article::poster(page = page) }}
+    {{- article::poster(page = page) -}}
   </li>
   {% endfor %}
   </ul>

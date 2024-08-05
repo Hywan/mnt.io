@@ -1,3 +1,5 @@
+{% import "macros/series.html" as series %}
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -7,8 +9,9 @@
 {% block body %}
   <ul>
   {% for section_path in section.subsections %}
-    {% set section = get_section(path = section_path, metadata_only = true) %}
-    <li><a href="{{ section.permalink | safe }}">{{ section.title }}</a></li>
+    <li>
+      {{- series::poster(section = get_section(path = section_path, metadata_only = true)) -}}
+    </li>
   {% endfor %}
   </ul>
 {% endblock body %}

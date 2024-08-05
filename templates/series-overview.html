@@ -16,7 +16,7 @@
   <ul>
   {% for section in section.pages | reverse  %}
     <li>
-      {{ article::poster(page = section) }}
+      {{- article::poster(page = section) -}}
     </li>
   {% endfor %}
   </ul>
