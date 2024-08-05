@@ -12,16 +12,24 @@
 
   <link rel="stylesheet" href="/style/main.css">
 </head>
-<body>
+<body class="content-grid">
 
-<ul role="nav">
-  <li><a href="/">Home</a></li>
-  <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
-  <li><a href="{{ get_url(path = '@/series/_index.md') }}">Series</a></li>
-</ul>
+<nav class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
+    <li><a href="{{ get_url(path = '@/series/_index.md') }}">Series</a></li>
+  </ul>
+</nav>
 
+<section>
 {% block body %}
   Block `body` is undefined
 {% endblock body %}
+</section>
+
+<footer>
+hello
+</footer>
 </body>
 </html>

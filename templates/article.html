@@ -7,19 +7,21 @@
 {% endblock title %}
 
 {% block body %}
-  {{ article::metadata(page = page) }}
+  <article>
+    {{ article::metadata(page = page) }}
 
-  <h1>{{ page.title }}</h1>
+    <h1>{{ page.title }}</h1>
 
-  {% if page.toc %}
-  <h2>Content</h2>
+    {% if page.toc %}
+    <h2>Content</h2>
 
-  <ul title="Jump to the following section in this page">
-  {% for h1 in page.toc -%}
-    <li><a href="#{{ h1.permalink | split(pat = "#") | last }}">{{ h1.title }}</a></li>
-  {% endfor %}
-  </ul>
-  {% endif %}
+    <ul title="Jump to the following section in this page">
+    {% for h1 in page.toc -%}
+      <li><a href="#{{ h1.permalink | split(pat = "#") | last }}">{{ h1.title }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
 
-  {{ page.content | safe }}
+    {{ page.content | safe }}
+  </article>
 {% endblock body %}

@@ -1,11 +1,184 @@
-/* Thanks https://modernfontstacks.com/ for the… font stacks! */
+/* Reset */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* { margin: 0 }
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Style */
+
+:root {
+  --color-dark: oklch(26.42% 0.017 285.2);
+  --color-light: oklch(90.12% 0.004 360);
+  --color-lighter: oklch(from var(--color-light) calc(l + 0.05) c h);
+  --color-accent: oklch(84.83% 0.114 76.18);
+  --color-accent-darker: oklch(from var(--color-accent) calc(l - 0.04) c h);
+  --color-accent2: oklch(64% 0.26 10);
+
+  --space-very-small: .25rem;
+  --space-small: .5rem;
+  --space: 1rem;
+  --space-large: 1.5rem;
+  --space-very-large: 3rem;
+}
 
 body {
+  /* Thanks https://modernfontstacks.com/! */
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   font-weight: normal;
+  line-height: 1.5;
+
+  color: var(--color-light);
+  background: var(--color-dark);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration-color: var(--color-accent-darker);
+  text-decoration-line: underline;
+  text-decoration-thickness: 3px;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, li {
+  /* border: 1px red solid; */
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-block: var(--space-large) var(--space);
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-block-end: var(--space);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  hyphens: auto;
+  margin-block: var(--space);
+}
+
+ul {
+  position: relative;
+  list-style: none;
+  padding-inline-start: var(--space-large);
+}
+
+li + li {
+  margin-block-start: var(--space-small);
+}
+
+li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  text-align: center;
+  width: var(--space-large);
+}
+
+small {
+  font-size: 0.6em;
 }
 
 code {
+  /* Thanks https://modernfontstacks.com/! */
   font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   font-weight: normal;
+}
+
+pre {
+  overflow-x: scroll;
+}
+
+.content-grid {
+  --padding-inline: 1rem;
+  --content-max-width: 70ch;
+  --breakout-max-width: 85ch;
+
+  --breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
+
+  display: grid;
+  grid-template-columns:
+    [full-width-start]
+      minmax(var(--padding-inline), 1fr)
+      [breakout-start]
+        minmax(0, var(--breakout-size))
+        [content-start]
+          min(
+            100% - (var(--padding-inline) * 2),
+            var(--content-max-width)
+          )
+        [content-end]
+        minmax(0, var(--breakout-size))
+      [breakout-end]
+      minmax(var(--padding-inline), 1fr)
+    [full-width-end];
+}
+
+.content-grid > * {
+  grid-column: content;
+}
+
+.content-grid > .breakout {
+  grid-column: breakout;
+}
+
+.content-grid > .full-width {
+  grid-column: full-width;
+}
+
+nav {
+  margin-block-end: var(--space-very-large);
+  color: var(--color-lighter);
+  background: var(--color-accent2);
+}
+
+nav > ul {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  padding: 0;
+  height: var(--space-very-large);
+  align-items: center;
+}
+
+nav > ul > li {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+nav > ul > li::before {
+  display: none;
+}
+
+nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+nav a:hover, nav a:focus {
+  text-decoration-color: currentcolor;
 }
