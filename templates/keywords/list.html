@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+  All the keywords
+{% endblock title %}
+
+{% block body %}
+  <h1>All the keywords</h1>
+
+  <p>All terms, alphabetically sorted, for the <em>{{ taxonomy.name }}</em>
+  taxonomy:</p>
+
+  <input id="find_keywords" type="text" list="keywords" placeholder="Find a keyword…" autofocus>
+
+  <datalist id="keywords">
+  {% for term in terms %}
+    <option value="{{ term.name | slugify }}"><a href="/keywords/{{ term.name | slugify }}">{{ term.name }}</a></option>
+  {% endfor %}
+  </datalist>
+
+  <style>
+  datalist { display: list-item }
+  </style>
+
+  <script>
+  document.getElementById("find_keywords").addEventListener(
+    'input',
+    new function () {
+      const options = Array
+        .from(document.querySelectorAll('#keywords > option'))
+        .map((option) => option.value);
+
+      return (event) => {
+        if (event.data && options.includes(event.data)) {
+          document.location.pathname = `/keywords/${event.data}`;
+        }
+      };
+    }
+  );
+  </script>
+{% endblock %}

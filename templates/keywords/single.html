@@ -1,0 +1,21 @@
+{% import "macros/article.html" as article %}
+
+{% extends "base.html" %}
+
+{% block title %}
+  The {{ term.name | capitalize }} Keyword
+{% endblock title %}
+
+{% block body %}
+  <h1>The {{ term.name | capitalize}} Keyword</h1>
+
+  <p>Not the keyword you're looking for? <a href="/keywords">See all keywords</a>.</p>
+
+  <ul>
+  {% for page in term.pages -%}
+  <li>
+    {{ article::poster(page = page) }}
+  </li>
+  {% endfor %}
+  </ul>
+{% endblock %}

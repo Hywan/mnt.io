@@ -1,3 +1,5 @@
+{% import "macros/article.html" as article %}
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -8,13 +10,7 @@
   <ul>
   {% for page in section.pages -%}
   <li>
-    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-    <time title="Published date" datetime="{{ page.date }}">
-      {{- page.date | date(format = "%B %d, %Y") -}}
-    </time>
-    <span title="Reading time">
-      {{- page.reading_time ~ " minutes read" -}}
-    </span>
+    {{ article::poster(page = page) }}
   </li>
   {% endfor %}
   </ul>

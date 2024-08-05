@@ -12,6 +12,16 @@
     <span title="Reading time">
       {{- page.reading_time ~ " minutes read" -}}
     </span>
+    {% if page.taxonomies.keywords %}
+    <span title="Keywords">
+      Keywords:&nbsp;
+      {%- for keyword in page.taxonomies.keywords -%}
+        <a href="/keywords/{{ keyword | slugify }}">{{ keyword }}</a> 
+
+        {%- if not loop.last -%}, {% endif %}
+      {%- endfor -%}
+    </span>
+    {% endif %}
   </div>
 
   <h1>{{ page.title }}</h1>
