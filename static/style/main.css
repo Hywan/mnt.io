@@ -133,6 +133,13 @@ table {
   }
 }
 
+blockquote {
+  font-style: italic;
+  font-size: 1.05em;
+  padding-left: var(--space);
+  border-left: var(--border-size) var(--border-color) solid;
+}
+
 .content-grid {
   --padding-inline: 1rem;
   --content-max-width: 70ch;
