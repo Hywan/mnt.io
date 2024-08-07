@@ -798,15 +798,25 @@ the actual Javascript parser for the Gutenberg project (implemented with
 [PEG.js](https://pegjs.org/)), against this project: The Rust parser as
 a WebAssembly binary.
 
-|  | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
-|-|-|-|-|
-| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 13.167 | 0.252 | × 52 |
-| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 26.784 | 0.271 | × 98 |
-| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 75.500 | 0.918 | × 82 |
-| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 88.118 | 0.901 | × 98 |
-| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 201.011 | 3.329 | × 60 |
-| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 311.416 | 2.692 | × 116 |
-| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,466.533 | 25.14 | × 98 |
+<figure>
+
+  |  | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
+  |-|-|-|-|
+  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 13.167 | 0.252 | × 52 |
+  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 26.784 | 0.271 | × 98 |
+  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 75.500 | 0.918 | × 82 |
+  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 88.118 | 0.901 | × 98 |
+  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 201.011 | 3.329 | × 60 |
+  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 311.416 | 2.692 | × 116 |
+  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,466.533 | 25.14 | × 98 |
+
+  <figcaption>
+
+  Benchmarks between Javascript parser and Rust parser as a WebAssembly binary.
+
+  </figcaption>
+
+</figure>
 
 The WebAssembly binary is in average 86 times faster than the actual
 Javascript implementation. The median of the speedup is 98. Some edge

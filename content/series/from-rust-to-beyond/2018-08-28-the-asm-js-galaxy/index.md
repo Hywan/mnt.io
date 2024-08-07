@@ -257,15 +257,25 @@ all fallbacks, they are notably slower than the targeted
 implementations. Let's run the same benchmark but use the Rust parser as
 an ASM.js module:
 
-| | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
-|-|-|-|-|
-| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 15.368 | 2.718 | × 6 |
-| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 31.022 | 8.004 | × 4 |
-| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 106.416 | 19.223 | × 6 |
-| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 82.92 | 27.197 | × 3 |
-| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 119.880 | 38.321 | × 3 |
-| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 349.075 | 23.656 | × 15 |
-| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,543.75 | 361.423 | × 7 |
+<figure>
+
+  | | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
+  |-|-|-|-|
+  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 15.368 | 2.718 | × 6 |
+  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 31.022 | 8.004 | × 4 |
+  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 106.416 | 19.223 | × 6 |
+  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 82.92 | 27.197 | × 3 |
+  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 119.880 | 38.321 | × 3 |
+  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 349.075 | 23.656 | × 15 |
+  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,543.75 | 361.423 | × 7 |
+
+  <figcaption>
+
+  Benchmark between Javascript parser and Rust parser as an ASM.js module.
+
+  </figcaption>
+
+</figure>
 
 The ASM.js module of the Rust parser is in average 6 times faster than
 the actual Javascript implementation. The median speedup is 6. That's

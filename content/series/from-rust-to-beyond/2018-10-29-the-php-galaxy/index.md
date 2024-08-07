@@ -728,15 +728,25 @@ For PHP, [`phpegjs` is used](https://github.com/nylen/phpegjs): It reads
 the grammar written for PEG.js and compiles it to PHP. Let's see how
 they compare:
 
-| file | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
-|-|-|-|-|
-| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 30.409 | 0.0012 | × 25341 |
-| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 76.39 | 0.096 | × 796 |
-| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 225.824 | 0.399 | × 566 |
-| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 173.495 | 0.275 | × 631 |
-| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 280.433 | 0.298 | × 941 |
-| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 377.392 | 0.052 | × 7258 |
-| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 5,437.630 | 5.037 | × 1080 |
+<figure>
+
+  | file | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
+  |-|-|-|-|
+  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 30.409 | 0.0012 | × 25341 |
+  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 76.39 | 0.096 | × 796 |
+  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 225.824 | 0.399 | × 566 |
+  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 173.495 | 0.275 | × 631 |
+  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 280.433 | 0.298 | × 941 |
+  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 377.392 | 0.052 | × 7258 |
+  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 5,437.630 | 5.037 | × 1080 |
+
+  <figcaption>
+
+  Benchmarks between PEG PHP parser and Rust parser as a PHP extension.
+
+  </figcaption>
+ 
+</figure>
 
 The PHP extension of the Rust parser is in average 5230 times faster
 than the actual PEG PHP implementation. The median of the speedup is

@@ -124,6 +124,12 @@ pre {
   border: var(--border-size) var(--border-color) solid;
 }
 
+figure {
+  &:has(> table) {
+    overflow-x: scroll;
+  }
+}
+
 table {
   border-collapse: collapse;
 
