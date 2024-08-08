@@ -23,5 +23,11 @@
       {% endif %}
     </div>
   {% endfor %}
-  </ul>
+  </div>
+
+  {% if section.extra.complete %}
+  <p>This series is complete!</p>
+  {% else %}
+  <p>This series is in progress, stay tuned!</p>
+  {% endif %}
 {% endblock body %}

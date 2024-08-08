@@ -2,6 +2,13 @@
 
 {% macro poster(section) %}
   <a href="{{ section.permalink | safe }}" class="h2">{{ section.title }}</a>
+  <span class="label">
+  {% if section.extra.complete %}
+  complete
+  {% else %}
+  in progress
+  {% endif %}
+  </span>
   <div class="metadata">
     {% set total_reading_time = 0 %}
     {% for page in section.pages %}

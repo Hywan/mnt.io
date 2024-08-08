@@ -32,6 +32,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
   --color-accent2: oklch(64% .26 10);
 
+  --space-very-very-small: .2rem;
   --space-very-small: .25rem;
   --space-small: .5rem;
   --space: 1rem;
@@ -305,6 +306,20 @@ article {
   }
 
   > a {
-    display: block;
+    display: inline-block;
+
+    &:has(+ .label) {
+      margin-inline-end: var(--space);
+    }
   }
 } 
+
+.label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: var(--color-ligh-lighter);
+  padding: var(--space-very-very-small) var(--space-small);
+  vertical-align: text-top;
+  border-radius: var(--space-very-small);
+  background: var(--color-accent2);
+}
