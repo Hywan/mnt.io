@@ -12,7 +12,7 @@ Wasmer](https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d
 ------------------------------------------------------------------------
 
 First as a joke, now as a real product, I started to develop
-`[php-ext-wasm](https://github.com/wasmerio/php-ext-wasm)`: a
+[php-ext-wasm](https://github.com/wasmerio/php-ext-wasm): a
 [PHP](http://php.net/) extension allowing to execute
 [WebAssembly](https://webassembly.org/) binaries.
 

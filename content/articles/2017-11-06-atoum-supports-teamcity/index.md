@@ -70,4 +70,4 @@ useful for someone else!
 
 If you find any bugs, or would like any other features, please use
 Github at the following repository:
-\[[https://github.com/Hywan/atoum-teamcity-extension/\](https://github.com/Hywan/atoum-teamcity-extension/)](https://github.com/Hywan/atoum-teamcity-extension/](https://github.com/Hywan/atoum-teamcity-extension/)).
+[https://github.com/Hywan/atoum-teamcity-extension/](https://github.com/Hywan/atoum-teamcity-extension/).
