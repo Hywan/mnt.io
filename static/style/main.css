@@ -27,6 +27,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-dark-blue: oklch(27.23% 0.024 264.05);
   --color-light: oklch(90.12% .004 360);
   --color-lighter: oklch(from var(--color-light) calc(l + .05) c h);
+  --color-light-darker: oklch(from var(--color-light) calc(l - 0.3) c h);
   --color-accent: oklch(84.83% .114 76.18);
   --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
   --color-accent2: oklch(64% .26 10);
@@ -63,6 +64,10 @@ a {
   }
 }
 
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1em;
+}
+
 h1 {
   font-size: 1.8rem;
   margin-block: var(--space-large) var(--space);
@@ -80,6 +85,10 @@ h3 {
 p {
   hyphens: auto;
   margin-block: var(--space);
+
+  &:first-child {
+    margin-block-start: 0;
+  }
 }
 
 ul {
@@ -221,19 +230,20 @@ main {
 
 footer {
   text-align: center;
-  margin-block-start: var(--space);
   padding-block: var(--space);
   border-top: var(--border-size) var(--border-color) solid;
 }
 
 article {
   header {
-    .metadata {
-      display: flex;
-      gap: var(--space-large);
+    margin-block-end: var(--space-very-large);
 
-      > * {
-        flex: auto;
+    .metadata > * {
+      display: inline-block;
+      color: var(--color-light-darker);
+
+      &:not(:last-child) {
+        margin-inline-end: var(--space-large);
       }
     }
 
@@ -244,8 +254,6 @@ article {
 
   &.series-episode {
     header {
-      margin-block-end: var(--space-very-large);
-
       h1 {
        margin-block-end: 0;
       }
