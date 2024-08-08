@@ -3,27 +3,27 @@
 {% macro poster(section) %}
   <a href="{{ section.permalink | safe }}" class="h2">{{ section.title }}</a>
   <span class="label">
-  {% if section.extra.complete %}
+  {%- if section.extra.complete -%}
   complete
-  {% else %}
+  {%- else -%}
   in progress
-  {% endif %}
+  {%- endif -%}
   </span>
   <div class="metadata">
-    {% set total_reading_time = 0 %}
-    {% for page in section.pages %}
-    {% if loop.index == 1 %}
+    {%- set total_reading_time = 0 -%}
+    {%- for page in section.pages -%}
+    {%- if loop.index == 1 -%}
     <time title="Published date" datetime="{{ page.date }}">
       {{- page.date | date(format = "%B %d, %Y") -}}
     </time>
-    {% endif %}
-    {% set_global total_reading_time = total_reading_time + page.reading_time %}
-    {% endfor %}
+    {%- endif -%}
+    {%- set_global total_reading_time = total_reading_time + page.reading_time -%}
+    {%- endfor -%}
     <span title="Reading time">
-      {% set number_of_episodes = section.pages | length %}
+      {%- set number_of_episodes = section.pages | length -%}
       {{- total_reading_time ~ " minutes read over <strong>" ~ number_of_episodes ~ " episodes</strong>" -}}
     </span>
   </div>
-  <p>{{ section.content | safe }}</p>
+  {{ section.content | safe }}
 {% endmacro %}
 
