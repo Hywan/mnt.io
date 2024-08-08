@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>
+  Faster find algorithms in nom
+</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=35afd5acd8bfa1677a1a" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=f613d2004ee562f717ee" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <article class="article">
+    <header>
+      <h1>Faster find algorithms in nom</h1>
+
+      
+  <div class="metadata">
+    <time title="Published date" datetime="2017-05-23">May 23, 2017</time>
+    <span title="Reading time">3 minutes read</span>
+    
+    <span title="Keywords">
+      Keywords:&nbsp;<a href="/keywords/string">string</a>, <a href="/keywords/algorithm">algorithm</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+
+      
+  
+
+    </header>
+
+    <p><a href="https://github.com/tagua-vm/">Tagua VM</a> is an experimental PHP virtual
+machine written in Rust and LLVM. It is composed as a set of libraries.
+One of them that keeps me busy these days is
+<a href="https://github.com/tagua-vm/parser"><code>tagua-parser</code></a>. It contains the
+lexical and syntactic analysers for the PHP language, in addition to the
+AST (Abstract Syntax Tree). If you would like to know more about this
+project, you can see this conference I gave at the PHPTour last week:
+<a href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">Tagua VM, a safe PHP virtual
+machine</a>.</p>
+<p>The library <code>tagua-parser</code> is built with parser combinators. Instead of
+having a classical grammar, compiled to a parser, we write pure
+functions acting as small parsers. We then combine them together. This
+post does not explain why this is a sane approach in our context, but
+keep in mind this is much easier to test, to maintain, and to optimise.</p>
+<p>Because this project is complex enought, we are delegating the parser
+combinator implementation to <a href="https://github.com/Geal/nom/">nom</a>.</p>
+<blockquote>
+<p>nom is a parser combinators library written in Rust. Its goal is to
+provide tools to build safe parsers without compromising the speed or
+memory consumption. To that end, it uses extensively Rust's <em>strong
+typing</em>, <em>zero copy</em> parsing, <em>push streaming</em>, <em>pull streaming</em>, and
+provides macros and traits to abstract most of the error prone
+plumbing.</p>
+</blockquote>
+<p>Recently, I have been working on optimisations in the <code>FindToken</code> and
+<code>FindSubstring</code> traits from nom itself. These traits provide methods to
+find a token (i.e. a lexeme), and to find a substring, crazy naming.
+However, this is not totally valid: <code>FindToken</code> expects to find a single
+item (if implemented for <code>u8</code>, it will look for a <code>u8</code> in a <code>&amp;[u8]</code>),
+and <code>FindSubstring</code> really is about finding a substring, so a token of
+any length.</p>
+<p>It appeared that these methods can be optimised in some cases. Both
+default implementations are using Rust iterators: Regular iterator for
+<code>FindToken</code>, and <a href="https://doc.rust-lang.org/std/slice/struct.Windows.html">window
+iterator</a> for
+<code>FindSubstring</code>, i.e. an iterator over overlapping subslices of a given
+length. We have benchmarked big PHP comments, which are analysed by
+parsers actively using these two trait implementations.</p>
+<p>Here are the result, before and after our optimisations:</p>
+<pre class="z-code"><code><span class="z-text z-plain">test …::bench_span ... bench:      73,433 ns/iter (+/- 3,869)
+</span><span class="z-text z-plain">test …::bench_span ... bench:      15,986 ns/iter (+/- 3,068)
+</span></code></pre>
+<p>A boost of 78%! Nice!</p>
+<p>The <a href="https://github.com/Geal/nom/pull/507">pull request has been merged</a>
+today, thank you Geoffroy Couprie! The new algorithms heavily rely on
+<a href="https://github.com/BurntSushi/rust-memchr">the <code>memchr</code> crate</a>. So all
+the credits should really go to Andrew Gallant! This crate provides a
+safe interface <code>libc</code>'s <code>memchr</code> and <code>memrchr</code>. It also provides
+fallback implementations when either function is unavailable.</p>
+<p>The new algorithms are only implemented for <code>&amp;[u8]</code> though. Fortunately,
+the implementation for <code>&amp;str</code> fallbacks to the former.</p>
+<p>This is small contribution, but it brings a very nice boost. Hope it
+will benefit to other projects!</p>
+<p>I am also blowing the dust off of <a href="https://www.amazon.com/Algorithms-Strings-Maxime-Crochemore/dp/0521848997">Algorithms on
+Strings</a>,
+by M. Crochemore, C. Hancart, and T. Lecroq. I am pretty sure it should
+be useful for nom and <code>tagua-parser</code>. If you haven't read this book yet,
+I can only encourage you to do so!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div>
+    <a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a>
+    —
+    <a href="https://fosstodon.org/@hywan" title="Say hi on Mastodon">@hywan on Mastodon</a>
+    —
+    <a href="https://github.com/Hywan" title="Say hi on Github">@hywan on Github</a>
+  </div>
+</footer>
+</body>
+</html>

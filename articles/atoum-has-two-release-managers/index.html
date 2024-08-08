@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>
+  atoum has two release managers
+</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=35afd5acd8bfa1677a1a" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=f613d2004ee562f717ee" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <article class="article">
+    <header>
+      <h1>atoum has two release managers</h1>
+
+      
+  <div class="metadata">
+    <time title="Published date" datetime="2014-11-28">November 28, 2014</time>
+    <span title="Reading time">6 minutes read</span>
+    
+    <span title="Keywords">
+      Keywords:&nbsp;<a href="/keywords/test">test</a>, <a href="/keywords/atoum">atoum</a></span>
+    
+  </div>
+
+
+      
+  
+
+    </header>
+
+    <h2 id="what-is-atoum">What is atoum?</h2>
+<p>Short introduction: atoum is a simple, modern and intuitive unit testing
+framework for PHP. Originally created by <a href="http://blog.mageekbox.net/">Frédéric
+Hardy</a>, a good friend, it has grown thanks
+to <a href="https://github.com/atoum/atoum/graphs/contributors">many
+contributors</a>.</p>
+<figure>
+<p><img src="https://mnt.io/articles/atoum-has-two-release-managers/./atoum-logo.png" alt="atoum&#39;s logo" /></p>
+  <figcaption>
+  atoum's logo.
+  </figcaption>
+</figure>
+<p>No one can say that atoum is not simple or intuitive. The framework
+offers several awesome features and is more like a meta unit testing
+framework. Indeed, the “user-land” of atoum, I mean all the assertions
+API (“this is an integer and it is equal to…”) is based on a very
+flexible mechanism, handled or embedded in runners, reporters etc. Thus,
+the framework is very extensible. You can find more informations in the
+<code>README.md</code> of the project: <a href="https://github.com/atoum/atoum#why-atoum">Why
+atoum?</a>.</p>
+<p>Several important projects or companies use atoum. For instance,
+<a href="https://github.com/FriendsOfPHP/pickle/">Pickle</a>, the PHP Extension
+installer, created by <a href="https://twitter.com/PierreJoye">Pierre Joye</a>,
+another friend (the world is very small 😉) use atoum for its unit
+tests. Another example with <a href="https://github.com/M6Web">M6Web</a>, the geeks
+working at <a href="https://en.wikipedia.org/wiki/M6_%28TV_channel%29">M6</a>, the
+most profitable private national French TV channel, also use atoum.
+Another example, <a href="http://mozilla.org/">Mozilla</a> is using atoum to test
+some of their applications.</p>
+<h2 id="where-is-the-cap-tain">Where is the cap'tain?</h2>
+<p>Since the beginning, Frédéric has been a great leader for the project.
+He has inspired many people, users and contributors. In real life, on
+stage, on IRC… its personality and charisma were helpful in all aspects.
+However, leading such a project is a challenging and nerve-wracking
+daily work. I know what I am talking about with
+<a href="http://hoa-project.net/">Hoa</a>. Hopefully for Frédéric, some
+contributors were here to help.</p>
+<h2 id="where-to-go-cap-tain">Where to go cap'tain?</h2>
+<p>However, having contributors do not create a community. A community is a
+group of people that share something together. A project needs a
+community with strong connections. They do no need to all look at the
+same direction, but they have to share something. In the case of atoum,
+I would say the project has been <strong>victim of its own success</strong>. We have
+seen the number of users increasing very quickly and the project was not
+yet ready for such a massive use. The documentation was not ready, a lot
+of features were not finalized, there were few contributors and the
+absence of a real community did not help. Put all these things together,
+blend them together and you obtain a bomb 😄. The project leaders were
+under a terrible pressure.</p>
+<p>In these conditions, this is not easy to work. Especially when users ask
+for new features. The needs to have a roadmap and people taking
+decisions were very strong.</p>
+<h2 id="when-the-community-acts">When the community acts</h2>
+<p>After a couple of months under the sea, we have decided that we need to
+create a structure around the project. An organization. Frédéric is not
+able to do everything by himself. That's why <strong>2 release managers have
+been elected</strong>: Mikaël Randy and I. Thank you to <a href="http://jubianchi.fr/">Julien
+Bianchi</a>, another friend 😉, for having organized
+these elections and being one of the most active contributor of atoum!</p>
+<p>Our goal is to define the roadmap of atoum:</p>
+<ul>
+<li>what will be included in the next version and what will not,</li>
+<li>what features need work,</li>
+<li>what bugs or issues need to be solved,</li>
+<li>etc.</li>
+</ul>
+<p>Well, a release manager is a pretty common job.</p>
+<p>Why 2? To avoid the bus effect and delegate. We all have a family,
+friends, jobs and side projects. With 2 release managers, we have
+2 times more time to organize this project, and it deserves such an
+amount of time.</p>
+<p>The goal is also to organize the community if it is possible. New great
+features are coming and they will allow more people to contribute and
+build their “own atoum”. See below.</p>
+<h2 id="features-to-port">Features to port!</h2>
+<p>Everything is not defined at 100% but here is an overview of what is
+coming.</p>
+<p>First of all, you will find the <a href="https://github.com/atoum/atoum/milestones/1.0.0">latest issues and
+bugs</a> we have to close
+before the first release.</p>
+<p>Second, you will notice the version number… 1.0.0. Yes! atoum will have
+tags! After several discussions
+(<a href="https://github.com/atoum/atoum/issues/261">#261</a>,
+<a href="https://github.com/atoum/atoum/issues/300">#300</a>,
+<a href="https://github.com/atoum/atoum/issues/342">#342</a>,
+<a href="https://github.com/atoum/atoum/issues/349">#349</a>…), even if atoum is
+rolling-released, it will have tags. And with the <a href="http://semver.org/">semver
+format</a>. More informations on the blog of Julien
+Bianchi: <a href="http://jubianchi.fr/atoum-release.htm">atoum embraces semver</a>.</p>
+<p>Finally, a big feature is the <a href="https://github.com/atoum/atoum/pull/330">Extension
+API</a>, that allows to write
+extension, such as:</p>
+<ul>
+<li><a href="https://github.com/atoum/visibility-extension"><code>atoum/visibility-extension</code></a>,
+allows to override methods visibility; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic">class Foo {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    protected function bar($arg) {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        return $arg;
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">}
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">// and…
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">class Foo extends atoum\test {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    public function testBaz() {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        $this
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;if($sut = new \Foo())
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;and($arg = &#39;bar&#39;)
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;then
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;variable($this-&gt;invoke($sut)-&gt;bar($arg))
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;isEqualTo($arg);
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">}
+</span></span></code></pre>
+<p>Now you will be able to test your protected and private methods!</p>
+<ul>
+<li><a href="https://github.com/atoum/bdd-extension"><code>atoum/bdd-extension</code></a>,
+allows to write tests with the behavior-driven development style and
+vocabulary; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic">class Formatter extends atoum\spec {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    public function should_format_underscore_separated_method_name() {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        $this
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;given($formatter = new testedClass())
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;then
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;invoking-&gt;format(__FUNCTION__)-&gt;on($formatter)
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                    -&gt;shouldReturn(&#39;should format underscore separated method name&#39;);
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">}
+</span></span></code></pre>
+<p>Even the output looks familiar:</p>
+<figure>
+<p><img src="https://mnt.io/articles/atoum-has-two-release-managers/output.png" alt="Example of a terminal output" /></p>
+  <figcaption>
+  Possible output with the `atoum/bdd-extension`.
+  </figcaption>
+</figure>
+<ul>
+<li><a href="https://github.com/atoum/json-schema-extension"><code>atoum/json-schema-extension</code></a>,
+allows to validate JSON payloads against a schema; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic">class Foo extends atoum\test {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    public function testIsJson() {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        $this
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;given($string = &#39;{&quot;foo&quot;: &quot;bar&quot;}&#39;)
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;then
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;json($string);
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    public function testValidatesSchema() {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        $this
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;given($string = &#39;[&quot;foo&quot;, &quot;bar&quot;]&#39;)
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;then
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;json($string)-&gt;validates(&#39;{&quot;title&quot;: &quot;test&quot;, &quot;type&quot;: &quot;array&quot;}&#39;)
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                -&gt;json($string)-&gt;validates(&#39;/path/to/json.schema&#39;);
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">}
+</span></span></code></pre>
+<ul>
+<li><a href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>atoum/praspel-extension</code></a>,
+allows to use <a href="https://en.wikipedia.org/wiki/Praspel">Praspel</a> inside
+atoum: automatically generate and validate advanced test data and unit
+tests; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic">class Foo extends atoum\test {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    public function testFoo() {
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">        $this
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;if($regex  = $this-&gt;realdom-&gt;regex(&#39;/[\w\-_]+(\.[\w\-\_]+)*@\w\.(net|org)/&#39;))
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;and($email = $this-&gt;sample($regex))
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">            -&gt;then
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">                …
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">    }
+</span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic">}
+</span></span></code></pre>
+<p>Here, we have generated a string based on its regular expression.
+Reminder, you might have seen this on this blog: <a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/">Generate strings based
+on regular
+expressions</a>.</p>
+<p>Fun fact: the <code>atoum/json-schema-extension</code> is tested with atoum
+obviously and… <code>atoum/praspel-extension</code>!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>atoum has a bright future with exciting features! We sincerely hope this
+new direction will gather existing and new contributors 😄.</p>
+<p>❤️ open-source!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div>
+    <a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a>
+    —
+    <a href="https://fosstodon.org/@hywan" title="Say hi on Mastodon">@hywan on Mastodon</a>
+    —
+    <a href="https://github.com/Hywan" title="Say hi on Github">@hywan on Github</a>
+  </div>
+</footer>
+</body>
+</html>
