@@ -13,11 +13,15 @@
 
   <h2>Episodes</h2>
 
-  <ul>
-  {% for section in section.pages | reverse  %}
-    <li>
-      {{- article::poster(page = section) -}}
-    </li>
+  <div role="list">
+  {% for page in section.pages | reverse  %}
+    <div role="listitem" class="article-poster">
+      <a href="{{ page.permalink | safe }}" class="h3">Episode {{ loop.index }} – {{ page.title }}</a>
+      {{ article::metadata(page = page) }}
+      {% if page.description %}
+      {{ page.description | markdown(inline = false) | safe }}
+      {% endif %}
+    </div>
   {% endfor %}
   </ul>
 {% endblock body %}

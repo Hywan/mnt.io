@@ -11,11 +11,11 @@
   <a href="{{ get_url(path = "@/articles/_index.md") }}">articles</a>, too long
   to fit in one page. They spread over multiple episodes for more pleasure.</p>
 
-  <ul>
+  <div role="list">
   {% for section_path in section.subsections %}
-    <li>
-      {{- series::poster(section = get_section(path = section_path, metadata_only = true)) -}}
-    </li>
+    <div role="listitem" class="series-poster">
+      {{- series::poster(section = get_section(path = section_path)) -}}
+    </div>
   {% endfor %}
-  </ul>
+  </div>
 {% endblock body %}

@@ -73,7 +73,7 @@ h1 {
   margin-block: var(--space-large) var(--space);
 }
 
-h2 {
+h2, .h2 {
   font-size: 1.4rem;
   margin-block-end: var(--space);
 }
@@ -239,15 +239,6 @@ article {
   header {
     margin-block-end: var(--space-very-large);
 
-    .metadata > * {
-      display: inline-block;
-      color: var(--color-light-darker);
-
-      &:not(:last-child) {
-        margin-inline-end: var(--space-large);
-      }
-    }
-
     h1 {
       display: inline-block;
     }
@@ -295,3 +286,25 @@ article {
     background: transparent;
   }
 }
+
+.metadata > * {
+  display: inline-block;
+  color: var(--color-light-darker);
+
+  :has(+ &) {
+    margin-inline-end: var(--space-large);
+  }
+}
+
+.article-poster, .series-poster {
+  padding: var(--space);
+  border: var(--border-width) var(--border-color) solid;
+
+  :has(+ &) {
+    margin-block-end: var(--space);
+  }
+
+  > a {
+    display: block;
+  }
+} 

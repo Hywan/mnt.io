@@ -1,11 +1,9 @@
 {% macro poster(page) %}
-  <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-  <time title="Published date" datetime="{{ page.date }}">
-    {{- page.date | date(format = "%B %d, %Y") -}}
-  </time>
-  <span title="Reading time">
-    {{- page.reading_time ~ " minutes read" -}}
-  </span>
+  <a href="{{ page.permalink | safe }}" class="h2">{{ page.title }}</a>
+  {{ self::metadata(page = page) }}
+  {% if page.description %}
+  {{ page.description | markdown(inline = false) | safe }}
+  {% endif %}
 {% endmacro %}
 
 {% macro metadata(page) %}

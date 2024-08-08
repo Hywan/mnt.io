@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>
-  {% block title %}
+  {%- block title -%}
     mnt.io
-  {% endblock title %}
+  {%- endblock title -%}
   </title>
 
-  <link rel="stylesheet" href="/style/min/main.css">
-  <link rel="stylesheet" href="/style/min/syntax-theme.css" />
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
 </head>
 <body class="content-grid">
 
