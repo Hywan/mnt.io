@@ -1,6 +1,7 @@
 +++
 title = "Prelude"
 date = "2018-08-21"
+description = "Let's start by explaining what Gutenberg is, how our own Rust works, and what we need to do."
 [taxonomies]
 keywords=["rust", "binding", "gutenberg"]
 +++

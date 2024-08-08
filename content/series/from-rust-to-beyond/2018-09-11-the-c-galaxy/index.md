@@ -1,6 +1,7 @@
 +++
 title = "The C galaxy"
 date = "2018-09-11"
+description = "C is the _lingua franca_ of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies."
 [taxonomies]
 keywords=["rust", "binding", "gutenberg", "c", "ffi"]
 +++

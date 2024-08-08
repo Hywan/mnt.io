@@ -1,6 +1,7 @@
 +++
 title = "The ASM.js galaxy"
 date = "2018-08-28"
+description = "In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn't support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!"
 [taxonomies]
 keywords=["rust", "binding", "gutenberg", "webassembly", "javascript", "asmjs"]
 +++

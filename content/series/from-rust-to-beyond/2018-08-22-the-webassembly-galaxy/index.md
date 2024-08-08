@@ -1,6 +1,7 @@
 +++
 title = "The WebAssembly galaxy"
 date = "2018-08-22"
+description = "In this episode, we explore the WebAssembly galaxy.\n\nWe first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!"
 [taxonomies]
 keywords=["rust", "binding", "gutenberg", "webassembly", "javascript", "asmjs"]
 +++

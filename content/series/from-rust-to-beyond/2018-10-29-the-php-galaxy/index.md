@@ -1,6 +1,7 @@
 +++
 title = "The PHP galaxy"
 date = "2018-10-29"
+description = "This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it's done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it's amazing how faster it is!"
 [taxonomies]
 keywords=["rust", "binding", "gutenberg", "c", "ffi", "php"]
 +++
@@ -762,8 +763,5 @@ I reckon we can optimise the extension further to generate an iterator
 instead of an array. This is something I want to explore and analyse the
 impact on the performance. The PHP Internals Book has a [chapter about
 Iterators](http://www.phpinternalsbook.com/classes_objects/iterators.html).
-
-We will see in the next episodes of this series that Rust can reach a
-lot of galaxies, and the more it travels, the more it gets interesting.
 
 Thanks for reading!
