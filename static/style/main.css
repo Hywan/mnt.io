@@ -79,7 +79,7 @@ h2, .h2 {
   margin-block-end: var(--space);
 }
 
-h3 {
+h3, .h3 {
   font-size: 1.2rem;
 }
 
