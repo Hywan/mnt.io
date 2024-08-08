@@ -1,6 +1,7 @@
 +++
 title = "I've loved Wasmer, I still love Wasmer"
 date = "2021-10-04"
+description = "I'm proud of what I've done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management."
 [taxonomies]
 keywords=["webassembly", "runtime", "job"]
 +++
