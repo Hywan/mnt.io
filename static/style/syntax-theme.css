@@ -62,7 +62,7 @@ font-style: italic;
 .z-entity.z-name.z-function {
  color: #ffd580;
 }
-.z-entity.z-name, .z-entity.z-name.z-tag, .z-entity.z-name.z-label) {
+.z-entity.z-name, .z-entity.z-name.z-tag, .z-entity.z-name.z-label {
  color: #73d0ff;
 }
 .z-entity.z-other.z-inherited-class {

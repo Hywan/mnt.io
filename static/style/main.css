@@ -183,8 +183,11 @@ blockquote {
   }
 }
 
+main {
+  margin-block: var(--space-very-large);
+}
+
 #menu {
-  margin-block-end: var(--space-very-large);
   color: var(--color-lighter);
   background: var(--color-accent2);
 
