@@ -38,7 +38,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --space-large: 1.5rem;
   --space-very-large: 3rem;
 
-  --border-size: 2px;
+  --border-width: 2px;
   --border-color: var(--color-dark-lighter);
 }
 
@@ -130,7 +130,7 @@ pre {
   margin-block: var(--space);
   padding: var(--space);
   background: var(--color-dark-blue);
-  border: var(--border-size) var(--border-color) solid;
+  border: var(--border-width) var(--border-color) solid;
 }
 
 figure {
@@ -144,7 +144,7 @@ table {
 
   th, td {
     padding: var(--space-very-small) var(--space-small);
-    border: var(--border-size) var(--border-color) solid;
+    border: var(--border-width) var(--border-color) solid;
   }
 }
 
@@ -152,7 +152,7 @@ blockquote {
   font-style: italic;
   font-size: 1.05em;
   padding-left: var(--space);
-  border-left: var(--border-size) var(--border-color) solid;
+  border-left: var(--border-width) var(--border-color) solid;
 }
 
 .content-grid {
@@ -231,7 +231,7 @@ main {
 footer {
   text-align: center;
   padding-block: var(--space);
-  border-top: var(--border-size) var(--border-color) solid;
+  border-top: var(--border-width) var(--border-color) solid;
 }
 
 article {
@@ -264,5 +264,33 @@ article {
         }
       }
     }
+
+    .previous-next-episodes {
+      display: flex;
+      gap: var(--space-large);
+      margin-block-start: var(--space-very-large);
+
+      > * {
+        flex: 1;
+        max-width: 50%;
+
+        &:last-child {
+          text-align: end;
+        }
+      }
+    }
+  }
+}
+
+.button {
+  padding: var(--space-small) var(--space);
+  color: var(--color-dark);
+  background: var(--color-accent);
+
+  a&:hover, a&:focus {
+    outline: var(--border-width) var(--color-accent) solid;
+    color: unset;
+    text-decoration: none;
+    background: transparent;
   }
 }
