@@ -143,6 +143,23 @@ pre {
 }
 
 figure {
+  figcaption {
+    margin-block-start: var(--space);
+    margin-inline: auto;
+    max-width: 70%;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  & > p {
+    margin: 0;
+  }
+
+  *:not(figcaption) {
+    margin-inline: auto;
+    max-height: 50vh;
+  }
+
   &:has(> table) {
     overflow-x: scroll;
   }
