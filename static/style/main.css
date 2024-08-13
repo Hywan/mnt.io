@@ -89,14 +89,14 @@ h3, .h3 {
 p {
   hyphens: auto;
   margin-block: var(--space);
-}
 
-p:first-child {
-  margin-block-start: 0;
-}
+  &:first-child {
+    margin-block-start: 0;
+  }
 
-p:last-child {
-  margin-block-end: 0;
+  &:last-child {
+    margin-block-end: 0;
+  }
 }
 
 ul {
@@ -261,22 +261,26 @@ footer {
 }
 
 article {
-  header {
+  > header {
     margin-block-end: var(--space-very-large);
 
-    h1 {
+    > h1 {
       display: inline-block;
+    }
+
+    > .metadata {
+      margin-block-start: var(--space);
     }
   }
 
   &.series-episode {
-    header {
-      h1 {
+    > header {
+      > h1 {
        margin-block-end: 0;
       }
 
-      nav {
-        p {
+      > nav {
+        > p {
           margin-block-start: 0;
         }
       }
