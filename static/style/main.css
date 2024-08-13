@@ -351,3 +351,39 @@ article {
   border-radius: var(--space-very-small);
   background: var(--color-accent2);
 }
+
+.conversation {
+  --_space: var(--space);
+
+  color: var(--color-dark);
+  padding: var(--_space);
+  border-radius: var(--space-small);
+  background: var(--color-accent-darker);
+  background-size: 100px auto;
+
+  > .conversation--character {
+    position: relative;
+    min-width: 80px;
+    max-width: 20%;
+
+    float: inline-start;
+    margin-block-end: var(--_space);
+    margin-inline-end: var(--_space);
+
+    span {
+      position: absolute;
+      font-size: .8em;
+      font-style: italic;
+      left: 0;
+      bottom: calc(-1 * var(--_space));
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  > p:first-of-type {
+    margin-block-start: 0;
+  }
+
+  .clear { clear: both }
+}
