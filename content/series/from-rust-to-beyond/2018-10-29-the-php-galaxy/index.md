@@ -47,7 +47,11 @@ episode](@/series/from-rust-to-beyond/2018-09-11-the-c-galaxy/index.md)!
 
 ## Rust 🚀 C 🚀 PHP
 
-![Rust to PHP](./rust-to-php.png)
+<figure role="presentation">
+
+  ![Rust to PHP](./rust-to-php.png)
+
+</figure>
 
 To port our Rust parser into PHP, we first need to port it to C. It's
 been done in the previous episode. Two files result from this port to
