@@ -310,10 +310,6 @@ article {
       > * {
         flex: 1;
         min-width: fit-content;
-
-        &:last-child {
-          text-align: end;
-        }
       }
     }
   }
@@ -403,3 +399,6 @@ article {
 
   .clear { clear: both }
 }
+
+.text-align-start { text-align: start }
+.text-align-end { text-align: end }
