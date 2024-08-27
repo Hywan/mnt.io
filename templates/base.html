@@ -30,12 +30,36 @@
 </main>
 
 <footer class="full-width content-grid">
-  <div>
-    <a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a>
-    —
-    <a href="https://fosstodon.org/@hywan" title="Say hi on Mastodon">@hywan on Mastodon</a>
-    —
-    <a href="https://github.com/Hywan" title="Say hi on Github">@hywan on Github</a>
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://fosstodon.org/@hywan" title="Say hi on Mastodon">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanlime.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Web</h2>
+
+      <ul>
+        <li><a href="{{ get_url(path = "rss.xml", trailing_slash = false) }}">RSS</a></li>
+        <li><a href="{{ get_url(path = "atom.xml", trailing_slash = false) }}">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io">Source code</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
 </body>

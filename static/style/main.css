@@ -42,11 +42,13 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --border-width: 2px;
   --border-color: var(--color-dark-lighter);
+
+  --text-size: 1.05rem;
 }
 
 body {
   /* Thanks https://modernfontstacks.com/! */
-  font-size: 1.05rem;
+  font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   font-weight: normal;
   line-height: 1.5;
@@ -270,9 +272,32 @@ main {
 }
 
 footer {
-  text-align: center;
-  padding-block: var(--space);
+  padding: var(--space);
   border-top: var(--border-width) var(--border-color) solid;
+
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space);
+
+    > * {
+      flex: 1;
+      min-width: fit-content;
+    }
+
+    h2 {
+      font-size: var(--text-size);
+      margin-block: var(--space);
+    }
+
+    ul {
+      padding-inline-start: 0;
+
+      li::before {
+        content: "";
+      }
+    }
+  }
 }
 
 article {
