@@ -22,6 +22,7 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Style */
 
 :root {
+  --color-white: #fff;
   --color-dark: oklch(26.42% .017 285.2);
   --color-dark-lighter: oklch(from var(--color-dark) calc(l + .1) c h);
   --color-dark-blue: oklch(27.23% 0.024 264.05);
@@ -130,7 +131,7 @@ code {
   /* Thanks https://modernfontstacks.com/! */
   font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   font-weight: normal;
-  font-size: .9em;
+  font-size: .9rem;
   hyphens: auto;
 }
 
@@ -138,26 +139,40 @@ pre {
   overflow-x: scroll;
   margin-block: var(--space);
   padding: var(--space);
+  line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
 }
 
 figure {
+  --_block-space: var(--space);
+  --_inline-space: var(--space);
+
+  margin-block: var(--space-large);
+
+  &:has(img, picture) {
+    --_figcaption-color: var(--color-dark-lighter);
+
+    padding: var(--_block-space) var(--_inline-space);
+    background: var(--color-white);
+  }
+
   figcaption {
-    margin-block-start: var(--space);
+    color: var(--_figcaption-color, currentColor);
+    margin-block-start: var(--_block-space);
     margin-inline: auto;
     max-width: 70%;
     text-align: center;
-    text-wrap: balance;
+    text-wrap: pretty;
+  }
+
+  :not(figcaption) {
+    margin-inline: auto;
+    max-height: 50vh;
   }
 
   & > p {
     margin: 0;
-  }
-
-  *:not(figcaption) {
-    margin-inline: auto;
-    max-height: 50vh;
   }
 
   &:has(> table) {
