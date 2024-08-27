@@ -32,7 +32,7 @@
 
   <div role="list">
   {% set section = get_section(path = "series/_index.md") -%}
-  {% for section_path in section.subsections | slice(end = 5) -%}
+  {% for section_path in section.subsections | reverse | slice(end = 5) -%}
     <div role="listitem" class="series-poster">
       {{- series::poster(section = get_section(path = section_path)) -}}
     </div>

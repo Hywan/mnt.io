@@ -1,7 +1,7 @@
 {% import "macros/article.html" as article %}
 
 {% macro poster(section) %}
-  <a href="{{ section.permalink | safe }}" class="h2">{{ section.title }}</a>
+  <a href="{{ section.permalink | safe }}" class="h2">{{ section.title | markdown(inline = true) | safe }}</a>
   <span class="label">
   {%- if section.extra.complete -%}
   complete

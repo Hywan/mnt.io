@@ -133,7 +133,7 @@ code {
   /* Thanks https://modernfontstacks.com/! */
   font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   font-weight: normal;
-  font-size: .9rem;
+  font-size: .85em;
   hyphens: auto;
 }
 

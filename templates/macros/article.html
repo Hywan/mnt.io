@@ -1,5 +1,5 @@
 {% macro poster(page) %}
-  <a href="{{ page.permalink | safe }}" class="h2">{{ page.title }}</a>
+  <a href="{{ page.permalink | safe }}" class="h2">{{ page.title | markdown(inline = true) | safe }}</a>
   {{ self::metadata(page = page) }}
   {% if page.description %}
   {{ page.description | markdown(inline = false) | safe }}
