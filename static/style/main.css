@@ -303,12 +303,13 @@ article {
 
     .previous-next-episodes {
       display: flex;
+      flex-wrap: wrap;
       gap: var(--space-large);
       margin-block-start: var(--space-very-large);
 
       > * {
         flex: 1;
-        max-width: 50%;
+        min-width: fit-content;
 
         &:last-child {
           text-align: end;
