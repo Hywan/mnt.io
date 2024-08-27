@@ -124,7 +124,11 @@ which in turn will be compiled into ASM.js.
 
 ## Rust 🚀 ASM.js
 
-![Rust to ASM.js](./rust-to-asm-js.png)
+<figure role="presentation">
+
+  ![Rust to ASM.js](./rust-to-asm-js.png)
+
+</figure>
 
 This episode will be very short, and somehow the most easiest one. To
 compile Rust to ASM.js, you need to first compile it to WebAssembly

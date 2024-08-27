@@ -8,4 +8,14 @@ keywords=["job"]
 Awesome company, awesome teams, awesome people. Thanks everyone for this
 moment!
 
-![All the people](./gm.jpg)
+<figure>
+
+  ![All the people](./gm.jpg)
+
+  <figcaption>
+
+  All the people!
+
+  </figcaption>
+
+</figure>

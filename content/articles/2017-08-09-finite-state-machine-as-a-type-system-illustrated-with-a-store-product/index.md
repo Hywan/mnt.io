@@ -36,14 +36,22 @@ A product in a store might have the following states:
 The transitions between these states can be viewed as a [Finite-State
 Machine](https://en.wikipedia.org/wiki/Finite-state_machine) (FSM).
 
-![First schema](./schema1.png)
+<figure>
 
-We read this graph as: A product is in the state `A`. If the `purchase`
-action is called, then it transitions to the state `B`. If the
-`once-off purchase` action is called, then it transitions to the state
-`C`. From the state `B`, if the `renew` action is called, it remains in
-the same state. If the `cancel` action is called, it transitions to the
-`D` state. Same for the `C` to `D` states.
+  ![First schema](./schema1.png)
+
+  <figcaption>
+
+   We read this graph as: A product is in the state `A`. If the `purchase`
+   action is called, then it transitions to the state `B`. If the `once-off
+   purchase` action is called, then it transitions to the state `C`. From the
+   state `B`, if the `renew` action is called, it remains in the same state. If
+   the `cancel` action is called, it transitions to the `D` state. Same for the
+   `C` to `D` states.
+
+  </figcaption>
+
+</figure>
 
 Our goal is to respect this FSM. Invalid actions must be impossible to
 do.
@@ -185,7 +193,11 @@ to `C`.
 
 ### Take a breath
 
-![Second schema](./schema2.png)
+<figure role="presentation">
+
+  ![Second schema](./schema2.png)
+
+</figure>
 
 So far we have defined interfaces, but the FSM is not implemented yet.
 **Interfaces only define constraints** in our type system. An interface

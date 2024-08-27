@@ -17,7 +17,7 @@ many platforms and environments.
 
   <figcaption>
 
-  Gutenberg's logo
+  Gutenberg's logo.
 
   </figcaption>
 
@@ -89,7 +89,7 @@ are dynamics though, but this is another topic.
   <figcaption>
 
   The logic flow of the editor ([How Little Blocks
-  Work](https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/))
+  Work](https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/)).
 
   </figcaption>
 
@@ -212,7 +212,11 @@ stay private.
 
 ## Bindings
 
-![Rust to](./rust-to.png)
+<figure role="presentation">
+
+  ![Rust to](./rust-to.png)
+
+</figure>
 
 From now, our goal is to expose the `root` function and the `Node` enum
 in different platforms or environments. Ready?

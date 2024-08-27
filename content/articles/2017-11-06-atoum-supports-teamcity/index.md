@@ -53,17 +53,48 @@ This latter installation is recommended. That's it 🙂.
 
 The default CLI report looks like this:
 
-![Default atoum CLI report](./cli.png)
+<figure>
+
+  ![Default atoum CLI report](./cli.png)
+
+  <figcaption>
+
+  The default CLI report is the default one from atoum.
+
+  </figcaption>
+
+</figure>
 
 The TeamCity report looks like this in your terminal (note the
 `TEAMCITY_VERSION` variable as a way to emulate a TeamCity environment):
 
-![TeamCity report inside the terminal](./cli-teamcity.png)
+<figure>
+
+  ![TeamCity report inside the terminal](./cli-teamcity.png)
+
+  <figcaption>
+
+  The TeamCity report is text-based, but it is aimed at being consumed by a
+  formatter to produce HTML.
+
+  </figcaption>
+
+</figure>
 
 Which is less easy to read. However, when it comes into TeamCity UI, we
 will have the following result:
 
-![TeamCity running atoum](./teamcity.png)
+<figure>
+
+  ![TeamCity running atoum](./teamcity.png)
+
+  <figcaption>
+
+  The final rendering, at an HTML document inside TeamCity itself.
+
+  </figcaption>
+
+</figure>
 
 We are using it at [Automattic](https://automattic.com/). Hope it is
 useful for someone else!

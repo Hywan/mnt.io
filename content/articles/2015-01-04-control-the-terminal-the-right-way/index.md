@@ -629,7 +629,9 @@ As a bonus, a quick demo of `Hoa\Console\Window` because it's fun.
 
 The video shows the execution of the following code:
 
-``` php
+```php
+<?php
+
 Hoa\Console\Window::setSize(80, 35);
 var_dump(Hoa\Console\Window::getPosition());
 

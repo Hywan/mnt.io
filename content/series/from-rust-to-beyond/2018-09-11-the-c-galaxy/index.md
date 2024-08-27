@@ -51,7 +51,11 @@ used by PHP or Python directly, with almost no overhead. Neat!
 
 ## Rust 🚀 C
 
-![Rust to C](./rust-to-c.png)
+<figure role="presentation">
+
+  ![Rust to C](./rust-to-c.png)
+
+</figure>
 
 In order to use Rust from C, one may need 2 elements:
 
@@ -473,7 +477,11 @@ code that calls Rust, and how to compile everything all together.
 
 ## C 🚀 executable
 
-![Rust to C to executable](./c-to-executable.png)
+<figure role="presentation">
+
+  ![Rust to C to executable](./c-to-executable.png)
+
+</figure>
 
 Now the Rust part is ready, the C part must be written to call it.
 

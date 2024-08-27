@@ -69,7 +69,11 @@ problems we can meet today, like load-time, safety, or speed.
 
 ## Rust 🚀 WebAssembly
 
+<figure>
+
 ![Rust to Wasm](./rust-to-wasm.png)
+
+</figure>
 
 [The Rust Wasm team](https://github.com/rustwasm/team) is a group of
 people leading the effort of pushing Rust into WebAssembly with a set of
@@ -269,7 +273,19 @@ parse based on a pointer and a length, then it parses it. If the result
 is OK, it serializes the AST into a sequence of bytes, i.e. it flatten
 it, otherwise it returns an empty sequence of bytes.
 
-![Flatten AST](./flatten-ast.png)
+<figure>
+
+  ![Flatten AST](./flatten-ast.png)
+
+  <figcaption>
+
+   The image illustrates the flow of the data: first off there is a blog post;
+   second there is the AST of the blog post; finally there is a linear byte-encoded
+   representation of the AST of the blog post.
+
+  </figcaption>
+
+</figure>
 
 The logic flow of the parser: The input on the left is parsed into an
 AST, which is serialized into a flat sequence of bytes on the right.
@@ -472,13 +488,27 @@ browsers](https://caniuse.com/#search=brotli), so when the client sends
 To give you a feeling of what 6.2kb represent, the following image also
 weights 6.2kb:
 
-![The WordPress's logo](./image-example.png)
+<figure>
+
+  ![The WordPress's logo](./image-example.png)
+
+  <figcaption>
+
+  An image that is as weight as our compressed WebAssembly module.
+
+  </figcaption>
+
+</figure>
 
 The WebAssembly binary is ready to run!
 
 ## WebAssembly 🚀 Javascript
 
-![Wasm to JS](./wasm-to-js.png)
+<figure role="presentation">
+
+  ![Wasm to JS](./wasm-to-js.png)
+
+</figure>
 
 In this section, we assume Javascript runs in a browser. Thus, what we
 need to do is the following:
@@ -753,7 +783,11 @@ The final output will be an array of those objects. Easy!
 
 ## WebAssembly 🚀 NodeJS
 
-![Wasm to NodeJS](./wasm-to-nodejs.png)
+<figure role="presentation">
+
+  ![Wasm to NodeJS](./wasm-to-nodejs.png)
+
+</figure>
 
 The differences between the Javascript version and the NodeJS version
 are few:

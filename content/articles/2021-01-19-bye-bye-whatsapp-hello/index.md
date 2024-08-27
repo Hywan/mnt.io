@@ -272,8 +272,6 @@ Matrix avec des clients de plus en plus aboutis !
 On parle souvent de façon indifférentiée de Matrix ou Element, c'est un
 abus de langage.
 
-------------------------------------------------------------------------
-
 > Before: Mark as read.
 >
 > Now: Mark has read.

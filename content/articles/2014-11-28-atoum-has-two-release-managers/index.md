@@ -123,7 +123,9 @@ extension, such as:
 - [`atoum/visibility-extension`](https://github.com/atoum/visibility-extension),
   allows to override methods visibility; example:
 
-``` php
+```php
+<?php
+
 class Foo {
     protected function bar($arg) {
         return $arg;
@@ -150,7 +152,9 @@ Now you will be able to test your protected and private methods!
   allows to write tests with the behavior-driven development style and
   vocabulary; example:
 
-``` php
+```php
+<?php
+
 class Formatter extends atoum\spec {
     public function should_format_underscore_separated_method_name() {
         $this
@@ -177,7 +181,9 @@ Even the output looks familiar:
 - [`atoum/json-schema-extension`](https://github.com/atoum/json-schema-extension),
   allows to validate JSON payloads against a schema; example:
 
-``` php
+```php
+<?php
+
 class Foo extends atoum\test {
     public function testIsJson() {
         $this
@@ -201,7 +207,9 @@ class Foo extends atoum\test {
   atoum: automatically generate and validate advanced test data and unit
   tests; example:
 
-``` php
+```php
+<?php
+
 class Foo extends atoum\test {
     public function testFoo() {
         $this
