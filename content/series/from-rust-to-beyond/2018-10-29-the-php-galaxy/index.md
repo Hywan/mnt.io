@@ -731,7 +731,7 @@ they compare:
 
 <figure>
 
-  | file | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
+  | Document | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
   |-|-|-|-|
   | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 30.409 | 0.0012 | × 25341 |
   | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 76.39 | 0.096 | × 796 |

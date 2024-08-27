@@ -264,7 +264,7 @@ an ASM.js module:
 
 <figure>
 
-  | | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
+  | Document | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
   |-|-|-|-|
   | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 15.368 | 2.718 | × 6 |
   | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 31.022 | 8.004 | × 4 |

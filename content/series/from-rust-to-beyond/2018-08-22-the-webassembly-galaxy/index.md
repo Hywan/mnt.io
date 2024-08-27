@@ -69,9 +69,9 @@ problems we can meet today, like load-time, safety, or speed.
 
 ## Rust 🚀 WebAssembly
 
-<figure>
-
-![Rust to Wasm](./rust-to-wasm.png)
+<figure role="presentation">
+  
+  ![Rust to Wasm](./rust-to-wasm.png)
 
 </figure>
 
@@ -835,7 +835,7 @@ a WebAssembly binary.
 
 <figure>
 
-  |  | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
+  | Document | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
   |-|-|-|-|
   | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 13.167 | 0.252 | × 52 |
   | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 26.784 | 0.271 | × 98 |
