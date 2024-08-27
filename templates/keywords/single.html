@@ -11,11 +11,11 @@
 
   <p>Not the keyword you're looking for? <a href="{{ get_url(path = "/keywords") }}"">See all keywords</a>.</p>
 
-  <ul>
-  {% for page in term.pages -%}
-  <li>
-    {{- article::poster(page = page) -}}
-  </li>
+  <div role="list">
+  {% for page in term.pages  -%}
+    <div role="listitem" class="article-poster">
+      {{- article::poster(page = page) -}}
+    </div>
   {% endfor %}
-  </ul>
+  </div>
 {% endblock %}
