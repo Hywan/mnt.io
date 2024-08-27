@@ -278,10 +278,10 @@ footer {
   .footer {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space);
+    column-gap: var(--space-very-large);
+    row-gap: var(--space-large);
 
     > * {
-      flex: 1;
       min-width: fit-content;
     }
 
