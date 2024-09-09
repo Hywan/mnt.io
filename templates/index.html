@@ -12,20 +12,6 @@
   or series about what it is possible to do with these machines. </p>
 
   <h1>
-    Recent articles
-    <small><a href="{{ get_url(path = "@/articles/_index.md") }}">View all</a></small>
-  </h1>
-
-  <div role="list">
-  {% set section = get_section(path = "articles/_index.md") -%}
-  {% for page in section.pages | slice(end = 5)  -%}
-    <div role="listitem" class="article-poster">
-      {{- article::poster(page = page) -}}
-    </div>
-  {% endfor %}
-  </div>
-
-  <h1>
     Latest series
     <small><a href="{{ get_url(path = "@/series/_index.md") }}">View all</a></small>
   </h1>
@@ -35,6 +21,20 @@
   {% for section_path in section.subsections | reverse | slice(end = 5) -%}
     <div role="listitem" class="series-poster">
       {{- series::poster(section = get_section(path = section_path)) -}}
+    </div>
+  {% endfor %}
+  </div>
+
+  <h1>
+    Pinned articles
+    <small><a href="{{ get_url(path = "@/articles/_index.md") }}">View all</a></small>
+  </h1>
+
+  <div role="list">
+  {% set section = get_section(path = "articles/_index.md") -%}
+  {% for page in section.pages |  filter(attribute = "extra.pinned", value = true) -%}
+    <div role="listitem" class="article-poster">
+      {{- article::poster(page = page) -}}
     </div>
   {% endfor %}
   </div>

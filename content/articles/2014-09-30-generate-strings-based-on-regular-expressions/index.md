@@ -3,6 +3,8 @@ title = "Generate strings based on regular expressions"
 date = "2014-09-30"
 [taxonomies]
 keywords=["data", "generation", "string", "regular expression", "algorithm"]
+[extra]
+pinned = true
 +++
 
 During my PhD thesis, I have partly worked on the problem of the

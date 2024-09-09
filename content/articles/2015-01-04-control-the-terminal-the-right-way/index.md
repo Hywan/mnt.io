@@ -3,6 +3,8 @@ title = "Control the terminal, the right way"
 date = "2015-01-04"
 [taxonomies]
 keywords=["terminal", "console"]
+[extra]
+pinned = true
 +++
 
 Nowadays, there are plenty of terminal emulators in the wild. Each one

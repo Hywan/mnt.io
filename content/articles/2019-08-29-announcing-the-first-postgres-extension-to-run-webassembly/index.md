@@ -3,6 +3,8 @@ title = "Announcing the first Postgres extension to run WebAssembly"
 date = "2019-08-29"
 [taxonomies]
 keywords=["rust", "webassembly", "postgres", "runtime", "binding"]
+[extra]
+pinned = true
 +++
 
 *This is a copy of [an article I wrote for
