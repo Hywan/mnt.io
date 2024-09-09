@@ -1,8 +1,11 @@
 +++
 title = "Faster find algorithms in nom"
 date = "2017-05-23"
+description = "This article explains quickly how I've improved `nom`'s performance by 78% when parsing in some cases."
 [taxonomies]
 keywords=["string", "algorithm", "rust"]
+[extra]
+pinned = true
 +++
 
 [Tagua VM](https://github.com/tagua-vm/) is an experimental PHP virtual

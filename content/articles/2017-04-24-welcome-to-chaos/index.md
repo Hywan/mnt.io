@@ -3,6 +3,8 @@ title = "Welcome to Chaos"
 date = "2017-04-24"
 [taxonomies]
 keywords=["job"]
+[extra]
+pinned = true
 +++
 
 Recently, [I joined

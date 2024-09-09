@@ -1,16 +1,17 @@
 +++
 title = "Generate strings based on regular expressions"
 date = "2014-09-30"
+description = "During my PhD thesis, I have partly worked on the problem of the automatic accurate test data generation. In order to be complete and self-contained, I have addressed all kinds of data types, including strings. This article aims at showing how to generate accurate and relevant strings under several constraints."
 [taxonomies]
 keywords=["data", "generation", "string", "regular expression", "algorithm"]
+[extra]
+pinned = true
 +++
 
-During my PhD thesis, I have partly worked on the problem of the
-automatic accurate test data generation. In order to be complete and
-self-contained, I have addressed all kinds of data types, including
-strings. This article is the first one of a little series that aims at
-showing how to generate accurate and relevant strings under several
-constraints.
+During my PhD thesis, I have partly worked on the problem of the automatic
+accurate test data generation. In order to be complete and self-contained, I
+have addressed all kinds of data types, including strings. This article aims at
+showing how to generate accurate and relevant strings under several constraints.
 
 ## What is a regular expression?
 

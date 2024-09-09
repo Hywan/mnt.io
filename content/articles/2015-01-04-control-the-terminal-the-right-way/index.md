@@ -1,17 +1,20 @@
 +++
 title = "Control the terminal, the right way"
 date = "2015-01-04"
+description = "Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa/console`… but do not be afraid, it's easy and fun!"
 [taxonomies]
 keywords=["terminal", "console"]
+[extra]
+pinned = true
 +++
 
-Nowadays, there are plenty of terminal emulators in the wild. Each one
-has a specific way to handle controls. How many colours does it support?
-How to control the style of a character? How to control more than style,
-like the cursor or the window? In this article, we are going to explain
-and show in action the right ways to control your terminal with a
-portable and an easy to maintain API. We are going to talk about stat,
-tput, terminfo, `hoa/console`… but do not be afraid, it's easy and fun!
+Nowadays, there are plenty of terminal emulators in the wild. Each one has
+a specific way to handle controls. How many colours does it support? How to
+control the style of a character? How to control more than style, like the
+cursor or the window? In this article, we are going to explain and show in
+action the right ways to control your terminal with a portable and an easy
+to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa/
+console`… but do not be afraid, it's easy and fun!
 
 ## Introduction
 
