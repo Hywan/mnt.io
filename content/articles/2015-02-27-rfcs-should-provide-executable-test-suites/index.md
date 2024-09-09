@@ -1,19 +1,19 @@
 +++
 title = "RFCs should provide executable test suites"
 date = "2015-02-27"
+description = "I've implemented xCal and xCard formats inside the `sabre/dav` libraries. While testing the different RFCs against my implementation, several errata have been found. This article, first, quickly list them and, second, ask questions about how such errors can be present and how they can be easily revealed. If reading my dry humor about RFC errata is boring, the next sections are more interesting. The whole idea is: Why RFCs do not provide executable test suites?"
 [taxonomies]
 keywords=["test", "rfc"]
 [extra]
 pinned = true
 +++
 
-Recently, I implemented xCal and xCard formats inside the sabre/dav
-libraries. While testing the different RFCs against my implementation,
-several errata have been found. This article, first, quickly list them
-and, second, ask questions about how such errors can be present and how
-they can be easily revealed. If reading my dry humor about RFC errata is
-boring, the Sections 3, 4 and 5 are more interesting. The whole idea is:
-Why RFCs do not provide executable test suites?
+Recently, I implemented xCal and xCard formats inside the `sabre/dav` libraries.
+While testing the different RFCs against my implementation, several errata have
+been found. This article, first, quickly list them and, second, ask questions
+about how such errors can be present and how they can be easily revealed. If
+reading my dry humor about RFC errata is boring, the next sections are more
+interesting. The whole idea is: Why RFCs do not provide executable test suites?
 
 ## What is xCal and xCard?
 
