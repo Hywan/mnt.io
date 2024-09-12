@@ -12,7 +12,7 @@
   to fit in one page. They spread over multiple episodes for more pleasure.</p>
 
   <div role="list">
-  {% for section_path in section.subsections | reverse  %}
+  {% for section_path in section.subsections | reverse %}
     <div role="listitem" class="series-poster">
       {{- series::poster(section = get_section(path = section_path)) -}}
     </div>

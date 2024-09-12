@@ -12,6 +12,14 @@
  * modified to fit the blog's theme
  */
 
+ /* extra */
+
+ .language-sh * {
+  color: inherit !important;
+ }
+
+ /* auto-generated and modified */
+
 .z-code {
  color: #ccc9c2;
  background-color: #212733;

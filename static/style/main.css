@@ -26,7 +26,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-dark: oklch(26.42% .017 285.2);
   --color-dark-lighter: oklch(from var(--color-dark) calc(l + .1) c h);
   --color-dark-blue: oklch(27.23% 0.024 264.05);
-  --color-light: oklch(90.12% .004 360);
+  --color-light: oklch(85% .004 360);
   --color-lighter: oklch(from var(--color-light) calc(l + .05) c h);
   --color-light-darker: oklch(from var(--color-light) calc(l - 0.3) c h);
   --color-accent: oklch(84.83% .114 76.18);
