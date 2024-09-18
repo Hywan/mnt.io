@@ -431,27 +431,43 @@ article {
 .conversation {
   --_space: var(--space);
 
+  position: relative;
   color: var(--color-dark);
   padding: var(--_space);
   border-radius: var(--space-small);
   background: var(--color-accent-darker);
   background-size: 100px auto;
 
+  & ~ & {
+    .conversation--character {
+      img {
+        margin-block-end: 0;
+      }
+
+      span {
+        display: none;
+      }
+    }
+  }
+
   > .conversation--character {
     position: relative;
     min-width: 80px;
-    max-width: 20%;
+    max-width: 16%;
 
     float: inline-start;
-    margin-block-end: var(--_space);
     margin-inline-end: var(--_space);
+
+    img {
+      margin-block-end: 1rem;
+    }
 
     span {
       position: absolute;
       font-size: .8em;
       font-style: italic;
       left: 0;
-      bottom: calc(-1 * var(--_space));
+      bottom: 0;
       width: 100%;
       text-align: center;
     }
@@ -461,7 +477,23 @@ article {
     margin-block-start: 0;
   }
 
+  > p:has(+ .clear) {
+    margin-block-end: 0;
+  }
+
   .clear { clear: both }
+
+  a {
+    color: currentColor;
+    text-decoration-color: currentColor;
+    text-decoration-line: underline;
+    text-decoration-thickness: 3px;
+  }
+
+  code {
+    padding-inline: 0;
+    background-color: transparent;
+  }
 }
 
 .text-align-start { text-align: start }
