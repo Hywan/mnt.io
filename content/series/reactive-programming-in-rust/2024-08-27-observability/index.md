@@ -504,10 +504,10 @@ working with immutable data structure (how surprising huh?): this is [the
 [^spes_salutis]: Latine expression meaning _salavation hope_.
 [^beati_pauperes_in_spiritu]: Latine expression meaning _bless are the poor in spirit_.
 [^SRUB2015]: <cite><a href="https://infoscience.epfl.ch/server/api/core/bitstreams/7c8b929f-1f68-4948-8ea8-e364e4899b2a/content">Relaxed-Radix-Balanced
-    (RRR) Vector: A Practical General Purpose Immutable Sequence</a></
-    cite> by Sticki N., Rompf T., Ureche V. and Bagwell P. (2015, August),
-    in <i>Proceedings of the 20th ACM SIGPLAN International Conference on
-    Functional Programming (pp. 342-354).</i>
+    (RRR) Vector: A Practical General Purpose Immutable
+    Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell P. (2015,
+    August), in <i>Proceedings of the 20th ACM SIGPLAN International Conference
+    on Functional Programming (pp. 342-354).</i>
 [^UCR2014]: <cite><a href="http://deepsea.inria.fr/pasl/chunkedseq.pdf">Theory
     and Practise of Chunked Sequences</a></cite> by Acar U. A., Charguéraud
     A., and Rainey M. (2014), in <i>Algorithms-ESA 2014: 22th Annual European
