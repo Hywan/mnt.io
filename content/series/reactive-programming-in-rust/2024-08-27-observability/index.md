@@ -158,12 +158,6 @@ lot: it's a small, fast and well-written async runtime:
 $ cargo add smol
     Updating crates.io index
       Adding smol v2.0.2 to dependencies
-    Updating crates.io index
-     Locking 46 packages to latest compatible versions
-      Adding async-channel v2.3.1
-      Adding async-executor v1.13.1
-      Adding async-fs v2.1.2
-      Adding async-io v2.3.
       [ … snip … ]
 ```
 
@@ -343,35 +337,35 @@ won't be able to read any value from it, so it's going to close itself, and the
 `task` will end. That's why waiting on the task with `task.await` will terminate
 this time. And thus, the program will finish gracefully.
 
-## Attack of the Clones
-
 And that's it. That's the basis of reactive programming. As we have seen, the
 `subscriber` implements [`Send`] and [`Sync`] if the `T` in `Observable<T>`
 implements `Send` and `Sync`, i.e. if the observed type implements these traits.
 That's pretty useful actually: it is possible to send the `subscriber` in a
 different thread, and keep waiting for new updates.
 
+## Attack of the Clones
+
 However, at the beginning of this episode, we were talking about a collection.
 Let's focus on [`Vec`].
 
 {% comte() %}
-Why do we focus on `Vec` only? Why not `HashMap`, `HashSet`, `BTreeSet`,
+Why do we focus on `Vec` _only_? Why not `HashMap`, `HashSet`, `BTreeSet`,
 `BTreeMap`, `BinaryHeap`, `LinkedList` or even `VecDeque`? It seems a bit
 non-inclusive if you ask me. Are you aware there isn't only `Vec` in life?
 {% end %}
 
 Well, the reason is simple: `Vec` is supported by `eyeball`, and it's a
 matter of time and work to support other collections, it's definitely not
-impossible. You will see that's it's not so trivial to support all these
-collections for a simple reason: Did you notice that `Subscriber` returns
-an owned `T`? Not a `&T`, but a `T`. That's because
+impossible. You will see that it's not so trivial to support all these
+collections for a simple reason: Did you notice that `Subscriber` returns an
+owned `T`? Not a `&T`, but a `T`. That's because
 [`Subscriber::next`][`eyeball::Subscriber::next`] requires `T: Clone`. It means
 that the observed value will be cloned every time.
 
 [Cloning a value][`Clone`] may be expensive. Here we are manipulating `usize`, which is
 a primitive type, so it's all fine. But imagine an `Observable<Vec<BigType>>`
-where `BigType` is several kibibytes: the memory impact is going to be quickly
-noticeable. So th…
+where `BigType` is 512 bytes: the memory impact is going to be quickly noticeable.
+So th…
 
 {% comte() %}
 … Excuse my interruption! You know how I love reading books. I like
@@ -445,9 +439,10 @@ copied.
 
 Well. <i>Taking a deep breath</i>. It sounds exactly like what we
 need to solve our issue, isn't it? The `Observable<Immutable<_>>` and the
-`Subscriber<Immutable<_>>`s will share the same value, with the observable being
-able to mutate its inner value. The subscribers can modify the received value
-too, in an efficient way.
+`Subscriber<Immutable<_>>`s will share the same value, with the observable
+being able to mutate its inner value. The subscribers can modify the received
+value too, in an efficient way, without conflicting with the value from the
+observable.
 
 How immutable data structures are implemented? Oh… <q>beati pauperes in
 spiritu</q>[^beati_pauperes_in_spiritu]… it is actually really complex. It may
@@ -455,9 +450,9 @@ be a topic for another series or articles. For the moment, let me redirect you
 to one research paper that proposes an immutable `Vec`: <cite>RRR Vector: A
 Practical General Immutable Sequence</cite>[^SRUB2015].
 
-Do you know the good news though? We don't have to implement it by ourself,
+Do you know the good news though? We don't have to implement it by ourselves,
 because some people already did it! Enter [the `imbl` crate][`imbl`]. This
-crates provides [a `Vector` type][`imbl::Vector`]. It can be use like a regular
+crate provides [a `Vector` type][`imbl::Vector`]. It can be use like a regular
 `Vec`. (Side note: it's even smarter than a `Vec` because it implements smart
 head and tail chunking[^UCR2014], and allocates in the stack or on the heap
 depending on the size of the collection, similarly to [the `smallvec`
@@ -467,8 +462,209 @@ crate][`smallvec`]. End of digression)
 
 The `imbl` crate then. It provides a `Vector` type, which is similar to `Vec`
 but it is immutable. The other goods news is that `eyeball` provides a crate for
-working with immutable data structure (how surprising huh?): this is [the
-`eyeball-im` crate][`eyeball-im`].
+working with immutable data structure (how surprising huh?): [this crate is
+`eyeball-im`][`eyeball-im`].
+
+Instead of providing an `Observable<T>` type, it provides [an
+`ObservableVector<T>` type][`eyeball_im::ObservableVector`]. Let's see… what do
+we have… <i>scroll the documentation</i>, hmmm, interesting, <i>scroll
+more…</i>, okay, that's interesting. First off:
+
+* There is methods like `append`, `pop_back`, `pop_front`, `push_back`, `push_front`,
+  `remove`, `insert`, `set`, `truncate` and `clear`. It seems this collection is
+  pretty flexible. The vocabulary is clear.
+* There is a `with_capacity` method, this is intriguing,
+* We find our friend `subscribe`, but it now returns a
+  [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
+
+Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll
+the document</i>, there is no `next` method like
+[`Subscriber::next`][`eyeball::Subscriber::next`]. How are we supposed to wait on an update?
+
+{% comte() %}
+Confer to the assiduous reader! If you read _carefully_ the documentation of the
+`next` method, you will see:
+
+> This method is a convenience so you don't have to import a `Stream` extension
+> trait such as `futures::StreamExt` or `tokio_stream::StreamExt`.
+{% end %}
+
+… fair enough. So `Subscriber::next` mimics `StreamExt::next`. Okay. Let's look
+at [`Stream`][`futures::stream::Stream`] first, it's from [the `futures`
+crate][`future`]. `Stream` defines it self as:
+
+> A stream of values produced asynchronously.
+>
+> If `Future<Output = T>` is an asynchronous version of `T`, then `Stream<Item =
+> T>` is an asynchronous version of `Iterator<Item = T>`. A stream represents
+> a sequence of value-producing events that occur asynchronously to the caller.
+>
+> The trait is modeled after `Future`, but allows `poll_next` to be called even
+> after a value has been produced, yielding None once the stream has been fully
+> exhausted.
+
+We aren't going to teach everything about `Stream`: why this design, its
+pros and cons… However, <i>wave its hand to ask you to come
+closer</i>, did you notice how [`Future::poll`] returns `Poll<Self::Output>`,
+whilst [`Stream::poll_next`][`futures::stream::Stream::poll_next`] returns
+`Poll<Option<Self::Item>>`? It's really similar to [`Iterator::next`] which
+returns `Option<Self::Item>`.
+
+Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2 variants:
+
+* `Ready<T>` means a value is immediately ready,
+* `Pending` means no value is ready yet.
+
+Then, what `Option<Poll<T>>` represents for a `Stream`?
+
+* `Poll::Ready(Some(value))` means this stream has successfully produced a
+  `value`, and may produce more values on subsequent `poll_next` calls,
+* `Poll::Ready(None)` means the stream has terminated (and `poll_next` should
+  not be called anymore),
+* `Poll::Pending` means no value is ready yet.
+
+It makes perfect sense. A `Future` produces a single value, whilst a `Stream`
+produces multiple times, and `Poll::Ready(None)` represents the termination of
+the stream.
+
+We have the basis. Now let's see `StreamExt`. It's a trait extending `Stream` to
+add convenient combinator methods. Amongst other things, we find
+[`StreamExt::next`][`futures::stream::StreamExt::next`]! It returns a `Next`
+type which implements a `Future`, pretty similarly to what `eyeball` does
+actually. Do you remember our:
+
+```rust
+while let Some(new_value) = subscriber.next().await {
+    dbg!(new_value);
+}
+```
+
+It is exactly the same pattern than `StreamExt::next`:
+
+```rust
+use futures::stream::{self, StreamExt};
+
+let mut stream = stream::iter(1..=3);
+
+assert_eq!(stream.next().await, Some(1));
+assert_eq!(stream.next().await, Some(2));
+assert_eq!(stream.next().await, Some(3));
+assert_eq!(stream.next().await, None);
+```
+
+Pieces start to come together, doesn't it?
+
+End of the detour. Back to `eyeball_im::VectorSubscriber<T>` now. It
+is possible to transform this type into a `Stream` with
+[`into_stream`][`eyeball_im::VectorSubscriber::into_stream`]. It returns a
+[`VectorSubscriberStream`][`eyeball_im::VectorSubscriberStream`]. Naming is hard, but if I would have to guess, I would say it implements… a… `Stream`?
+
+```rust
+// from `eyeball-im`
+
+impl<T: Clone + Send + Sync + 'static> Stream for VectorSubscriberStream<T> {
+    type Item = VectorDiff<T>;
+```
+
+[Yes, it does][`eyeball_im::VectorSubscriberStream_impl_Stream`]!
+
+Dust blown away, the puzzle starts to appear clearly. Let's back on coding!
+
+```sh
+$ cargo add eyeball-im futures
+    Updating crates.io index
+      Adding eyeball-im v0.5.0 to dependencies
+             Features:
+             - serde
+             - tracing
+      Adding futures v0.3.30 to dependencies
+             Features:
+             + alloc
+             + async-await
+             + executor
+             + std
+             - bilock
+             - cfg-target-has-atomic
+             - compat
+             - futures-executor
+             - io-compat
+             - thread-pool
+             - unstable
+             - write-all-vectored
+      [ … snip … ]
+```
+
+```rust
+use eyeball_im::ObservableVector;
+use futures::stream::StreamExt;
+use macro_rules_attribute::apply;
+use smol::{future::yield_now, Executor};
+use smol_macros::main;
+
+#[apply(main!)]
+async fn main(executor: &Executor) {
+    let mut observable = ObservableVector::new();
+    // Subscribe to `observable` and get a `Stream`.
+    let mut subscriber = observable.subscribe().into_stream();
+
+    // Push one value.
+    observable.push_back('a');
+
+    // Task that reads new updates from `observable`.
+    let task = executor.spawn(async move {
+        while let Some(new_value) = subscriber.next().await {
+            dbg!(new_value);
+        }
+    });
+
+    // Now, let's update `observable`.
+    observable.push_back('b');
+    // Eh `executor`: `task` can run now!
+    yield_now().await;
+
+    // More updates.
+    observable.push_back('c');
+    observable.push_back('d');
+    // Eh `executor`: _bis repetita placent_!
+    yield_now().await;
+
+    drop(observable);
+    task.await;
+}
+```
+
+Time for show off:
+
+```sh
+$ cargo run --quiet
+[src/main.rs:18:13] new_value = PushBack {
+    value: 'a',
+}
+[src/main.rs:18:13] new_value = PushBack {
+    value: 'b',
+}
+[src/main.rs:18:13] new_value = PushBack {
+    value: 'c',
+}
+[src/main.rs:18:13] new_value = PushBack {
+    value: 'd',
+}
+```
+
+Do you see something new?
+
+{% comte() %}
+Hmm, indeed. Previously, some values are “missing” because `Observable` and
+`Subscriber` have no buffer. The subscriber only returns the current value when
+it is called. However, here, things are different. No missing values. There are
+all here. As if there was a buffer!
+
+And the values returned by the subscriber are not the raw `T`, we see
+`PushBack`. It comes from… [`VectorDiff::PushBack`][`eyeball_im::VectorDiff`].
+
+[`eyeball_im::VectorDiff`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
+{% end %}
+
 
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
 [Element]: https://element.io
@@ -485,11 +681,20 @@ working with immutable data structure (how surprising huh?): this is [the
 [`Clone`]: https://doc.rust-lang.org/std/clone/trait.Clone.html
 [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 [`Arc::clone`]: https://github.com/rust-lang/rust/blob/f6bcd094abe174a218f7cf406e75521be4199f88/library/alloc/src/sync.rs#L2118-L2170
+[`Future::poll`]: https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll
+[`Iterator::next`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next
+[`Poll`]: https://doc.rust-lang.org/std/task/enum.Poll.html
 
 [`eyeball`]: https://docs.rs/eyeball
 [`eyeball::Subscriber::next`]: https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1
 
 [`eyeball-im`]: https://docs.rs/eyeball-im
+[`eyeball_im::ObservableVector`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html
+[`eyeball_im::VectorSubscriber`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html
+[`eyeball_im::VectorSubscriber::into_stream`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html#method.into_stream
+[`eyeball_im::VectorSubscriberStream`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html
+[`eyeball_im::VectorSubscriberStream_impl_Stream`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html#impl-Stream-for-VectorSubscriberStream%3CT%3E
+[`eyeball_im::VectorDiff`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
 
 [`smol`]: https://docs.rs/smol
 [`smol::Executor`]: https://docs.rs/smol/2.0.2/smol/struct.Executor.html
@@ -500,6 +705,12 @@ working with immutable data structure (how surprising huh?): this is [the
 [`imbl::Vector`]: https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html
 
 [`smallvec`]: https://docs.rs/smallvec
+
+[`futures`]: https://docs.rs/futures
+[`futures::stream::Stream`]: https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html
+[`futures::stream::Stream::poll_next`]: https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html#tymethod.poll_next
+[`futures::stream::StreamExt`]: https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html
+[`futures::stream::StreamExt::next`]: https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next
 
 [^spes_salutis]: Latine expression meaning _salavation hope_.
 [^beati_pauperes_in_spiritu]: Latine expression meaning _bless are the poor in spirit_.
