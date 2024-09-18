@@ -198,7 +198,7 @@ figure {
     margin-inline: auto;
     max-width: 70%;
     text-align: center;
-    text-wrap: pretty;
+    text-wrap: balance;
   }
 
   :not(figcaption) {
@@ -225,10 +225,16 @@ table {
 }
 
 blockquote {
+  display: inline-block;
   font-style: italic;
   font-size: 1.05em;
   padding-left: var(--space);
   border-left: var(--border-width) var(--border-color) solid;
+}
+
+q {
+  font-style: italic;
+  font-size: 1.05em;
 }
 
 .content-grid {
