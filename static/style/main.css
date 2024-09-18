@@ -135,15 +135,48 @@ code {
   font-weight: normal;
   font-size: .85em;
   hyphens: auto;
+  padding: var(--space-very-small);
+  background: var(--color-dark-lighter);
 }
 
 pre {
+  --_padding: var(--space);
+
   overflow-x: scroll;
   margin-block: var(--space);
-  padding: var(--space);
+  padding: var(--_padding);
   line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
+
+  code {
+    padding-inline: 0;
+    background: transparent;
+  }
+
+  &[class^="language-"] {
+    --text: "Code";
+    --_height: calc(var(--space-small) * 2 + var(--_padding));
+
+    position: relative;
+    padding-block-start: calc(var(--_height) + var(--_padding));
+    
+    &::before {
+      content: var(--text) " session";
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: var(--space-small) var(--_padding);
+      font-size: .85em;
+      background: var(--border-color);
+    }
+  }
+
+  &.language-rust { --text: "Rust" }
+  &.language-sh { --text: "Shell" }
+  &.language-java { --text: "Java" }
+  &.language-sql { --text: "SQL" }
+  &.language-php { --text: "PHP" }
 }
 
 figure {
