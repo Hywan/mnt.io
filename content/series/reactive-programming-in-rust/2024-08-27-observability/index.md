@@ -354,18 +354,19 @@ Why do we focus on `Vec` _only_? Why not `HashMap`, `HashSet`, `BTreeSet`,
 non-inclusive if you ask me. Are you aware there isn't only `Vec` in life?
 {% end %}
 
-Well, the reason is simple: `Vec` is supported by `eyeball`, and it's a
-matter of time and work to support other collections, it's definitely not
-impossible. You will see that it's not so trivial to support all these
-collections for a simple reason: Did you notice that `Subscriber` returns an
-owned `T`? Not a `&T`, but a `T`. That's because
+Well, the reason is simple: `Vec` is supported by `eyeball`. It's a matter of
+time and work to support other collections, it's definitely not impossible but
+you will see that it's not trivial neither to support all these collections for
+a simple reason: Did you notice that `Subscriber` returns an owned `T`? Not a
+`&T`, but a `T`. That's because
 [`Subscriber::next`][`eyeball::Subscriber::next`] requires `T: Clone`. It means
-that the observed value will be cloned every time.
+that the observed value will be cloned every time it is broadcasted to a
+subscriber.
 
-[Cloning a value][`Clone`] may be expensive. Here we are manipulating `usize`, which is
-a primitive type, so it's all fine. But imagine an `Observable<Vec<BigType>>`
-where `BigType` is 512 bytes: the memory impact is going to be quickly noticeable.
-So th…
+[Cloning a value][`Clone`] may be expensive. Here we are manipulating `usize`,
+which is a primitive type, so it's all fine (it boils down to a [`memcpy`]).
+But imagine an `Observable<Vec<BigType>>` where `BigType` is 512 bytes: the
+memory impact is going to be quickly noticeable. So th…
 
 {% comte() %}
 … Excuse my interruption! You know how I love reading books. I like
@@ -387,8 +388,9 @@ and later:
 Can you stop cutting me off please? It's really unpleasant. And do not forget we
 are not alone… <i>doing sideways head movement</i>
 
-You're right. There is `Subscriber::next_ref`. However, if you are such an
-assiduous reader, you may have read the end of the documentation, aren't you?
+You're right though. There is `Subscriber::next_ref`. However, if you are such
+an _assiduous reader_, you may have read the end of the documentation, aren't
+you?
 
 > However, the `Observable` will be locked (not updateable) while any read guards
 > are alive.
@@ -397,9 +399,9 @@ Blocking the `Observable` might be tolerable in some cases, but it cannot be
 generalized to all use cases. A user is more likely to prefer `next` instead of
 `next_ref` by default.
 
-Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains 800
-items, cloning then entire `Vec<_>` for every update to every subscriber is a
-pretty inefficient way of programming. Remember that, as a programmer, we have
+Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains
+800 items: cloning the entire `Vec<_>` for every update to every subscriber is
+a pretty inefficient way of programming. Remember that, as a programmer, we have
 the responsability to make our programs use as few resources as possible, so
 that hardwares can be used longer. The hardware is the most polluting segment of
 our digital world.
@@ -434,8 +436,8 @@ Such structures bring many advantages, but one of them is _structural sharing_:
 > memory needed to record the difference.
 
 Here, _immutable_ actually means the data cannot be modified, but a copy is
-created and the mutation happens on this copy until the value is shared or
-copied.
+created for every mutation. All copies are sharing the same “parent”, only
+modifications are recorded, theoritically.
 
 Well. <i>Taking a deep breath</i>. It sounds exactly like what we
 need to solve our issue, isn't it? The `Observable<Immutable<_>>` and the
@@ -460,21 +462,20 @@ crate][`smallvec`]. End of digression)
 
 ## Observable (immutable) collection
 
-The `imbl` crate then. It provides a `Vector` type, which is similar to `Vec`
-but it is immutable. The other goods news is that `eyeball` provides a crate for
-working with immutable data structure (how surprising huh?): [this crate is
-`eyeball-im`][`eyeball-im`].
+The `imbl` crate then. It provides [a `Vector` type][`imbl::Vector`]. The other
+goods news is that `eyeball` provides a crate for working with immutable data
+structures (how surprising huh?): [this crate is `eyeball-im`][`eyeball-im`].
 
 Instead of providing an `Observable<T>` type, it provides [an
 `ObservableVector<T>` type][`eyeball_im::ObservableVector`]. Let's see… what do
 we have… <i>scroll the documentation</i>, hmmm, interesting, <i>scroll
-more…</i>, okay, that's interesting. First off:
+more…</i>, okay, that's interesting:
 
-* There is methods like `append`, `pop_back`, `pop_front`, `push_back`, `push_front`,
-  `remove`, `insert`, `set`, `truncate` and `clear`. It seems this collection is
-  pretty flexible. The vocabulary is clear.
-* There is a `with_capacity` method, this is intriguing,
-* We find our friend `subscribe`, but it now returns a
+* First off, there is methods like `append`, `pop_back`, `pop_front`,
+  `push_back`, `push_front`, `remove`, `insert`, `set`, `truncate` and `clear`.
+  It seems this collection is pretty flexible. The vocabulary is clear.
+* Then, there is a `with_capacity` method, this is intriguing,
+* Finally, we find our friend `subscribe`, but it now returns a
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
 Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll
@@ -483,7 +484,7 @@ the document</i>, there is no `next` method like
 
 {% comte() %}
 Confer to the assiduous reader! If you read _carefully_ the documentation of the
-`next` method, you will see:
+`Subscriber::next` method, you will see:
 
 > This method is a convenience so you don't have to import a `Stream` extension
 > trait such as `futures::StreamExt` or `tokio_stream::StreamExt`.
@@ -491,7 +492,7 @@ Confer to the assiduous reader! If you read _carefully_ the documentation of the
 
 … fair enough. So `Subscriber::next` mimics `StreamExt::next`. Okay. Let's look
 at [`Stream`][`futures::stream::Stream`] first, it's from [the `futures`
-crate][`future`]. `Stream` defines it self as:
+crate][`future`]. `Stream` defines itself as:
 
 > A stream of values produced asynchronously.
 >
@@ -524,14 +525,14 @@ Then, what `Option<Poll<T>>` represents for a `Stream`?
 * `Poll::Pending` means no value is ready yet.
 
 It makes perfect sense. A `Future` produces a single value, whilst a `Stream`
-produces multiple times, and `Poll::Ready(None)` represents the termination of
+produces multiple values, and `Poll::Ready(None)` represents the termination of
 the stream.
 
-We have the basis. Now let's see `StreamExt`. It's a trait extending `Stream` to
-add convenient combinator methods. Amongst other things, we find
-[`StreamExt::next`][`futures::stream::StreamExt::next`]! It returns a `Next`
-type which implements a `Future`, pretty similarly to what `eyeball` does
-actually. Do you remember our:
+We have the basis. Now let's see [`StreamExt`][`futures::stream::StreamExt`]. It's
+a trait extending `Stream` to add convenient combinator methods. Amongst other
+things, we find [`StreamExt::next`][`futures::stream::StreamExt::next`]! Ah ha!
+It returns a `Next` type which implements a `Future`, pretty similarly to what
+`eyeball` does actually. Do you remember our:
 
 ```rust
 while let Some(new_value) = subscriber.next().await {
@@ -542,6 +543,8 @@ while let Some(new_value) = subscriber.next().await {
 It is exactly the same pattern than `StreamExt::next`:
 
 ```rust
+// from the documentation of `StreamExt::Next`
+
 use futures::stream::{self, StreamExt};
 
 let mut stream = stream::iter(1..=3);
@@ -633,7 +636,7 @@ async fn main(executor: &Executor) {
 }
 ```
 
-Time for show off:
+Time to show off:
 
 ```sh
 $ cargo run --quiet
@@ -654,13 +657,14 @@ $ cargo run --quiet
 Do you see something new?
 
 {% comte() %}
-Hmm, indeed. Previously, some values are “missing” because `Observable` and
-`Subscriber` have no buffer. The subscriber only returns the current value when
-it is called. However, here, things are different. No missing values. There are
-all here. As if there was a buffer!
+Hmm, indeed. With `Observable`, some values are “missing” because `Observable`
+and `Subscriber` have no buffer. The subscriber only returns the current value
+when it is called. However, here, things are different. No missing values. There
+are all here. As if there… was a buffer!
 
-And the values returned by the subscriber are not the raw `T`, we see
-`PushBack`. It comes from… [`VectorDiff::PushBack`][`eyeball_im::VectorDiff`].
+And the values returned by the subscriber are not the raw `T`:
+we see `PushBack`. It comes from, <i>check the documentation</i>,
+[`VectorDiff::PushBack`][`eyeball_im::VectorDiff`]!
 
 [`eyeball_im::VectorDiff`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
 {% end %}
@@ -711,6 +715,8 @@ And the values returned by the subscriber are not the raw `T`, we see
 [`futures::stream::Stream::poll_next`]: https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html#tymethod.poll_next
 [`futures::stream::StreamExt`]: https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html
 [`futures::stream::StreamExt::next`]: https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next
+
+[`memcpy`]: https://en.cppreference.com/w/c/string/byte/memcpy
 
 [^spes_salutis]: Latine expression meaning _salavation hope_.
 [^beati_pauperes_in_spiritu]: Latine expression meaning _bless are the poor in spirit_.
