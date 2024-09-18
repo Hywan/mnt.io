@@ -160,7 +160,7 @@ pre {
 
     position: relative;
     padding-block-start: calc(var(--_height) + var(--_padding));
-    
+
     &::before {
       content: var(--text) " session";
       position: absolute;
@@ -498,3 +498,35 @@ article {
 
 .text-align-start { text-align: start }
 .text-align-end { text-align: end }
+
+.footnote-definition {
+  margin-block-start: var(--space-very-large);
+  padding-block-start: var(--space);
+  border-top: var(--border-width) var(--border-color) solid;
+
+  & ~ & {
+    margin-block-start: var(--space);
+    padding-block-start: 0;
+    border: 0;
+  }
+
+  .footnote-definition-label {
+    display: inline-block;
+    margin-inline-end: var(--space-small);
+    font-size: inherit;
+    vertical-align: initial;
+    
+    &::after {
+      content: ".";
+    }
+
+    & + p {
+      display: inline;
+    }
+  }
+  
+  &:target {
+    padding: var(--space);
+    border: var(--border-width) var(--color-accent) solid;
+  }
+}
