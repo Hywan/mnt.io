@@ -213,7 +213,7 @@ figure {
   }
 
   &:has(> table) {
-    overflow-x: scroll;
+    overflow: scroll hidden;
   }
 }
 
