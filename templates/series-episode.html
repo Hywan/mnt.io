@@ -17,7 +17,7 @@
         <p>From the series <a href="{{ series.path }}">{{ series.title }}</a>.</p>
       </nav>
 
-      {{ article::metadata(page = page) }}
+      {{ article::metadata(page = page, full = true) }}
 
       {{ article::table_of_content(page = page) }}
     </header>

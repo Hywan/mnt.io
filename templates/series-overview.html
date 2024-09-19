@@ -17,7 +17,7 @@
   {% for page in section.pages | reverse  %}
     <div role="listitem" class="article-poster">
       <a href="{{ page.permalink | safe }}" class="h3">Episode {{ loop.index }} – {{ page.title | markdown(inline=true) | safe }}</a>
-      {{ article::metadata(page = page) }}
+      {{ article::metadata(page = page, full = false) }}
       {% if page.description %}
       {{ page.description | markdown(inline = false) | safe }}
       {% endif %}
