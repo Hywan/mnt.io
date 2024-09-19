@@ -19,8 +19,8 @@ more efficient.
 
 I’ve recently played a lot with this pattern as part of my work inside the
 [Matrix Rust SDK], a set of Rust libraries that aim at developing robust
-Matrix clients or bridges. It is notoriously used by the next generation Matrix
-client developed by [Element], namely [Element X]. The Matrix Rust SDK is
+[Matrix] clients or bridges. It is notoriously used by the next generation
+Matrix client developed by [Element], namely [Element X]. The Matrix Rust SDK is
 cross-platform. Element X has two implementations: on iOS, iPadOS and macOS with
 Swift, and on Android with Kotlin. Both languages are using our Rust bindings
 to [Swift] and [Kotlin]. This is the story for another series (how we have
@@ -30,17 +30,17 @@ etc.), but for the moment, let’s keep focus on reactive programming.
 Taking the Element X use case, the room list –which is the central piece of the
 app– is fully dynamic:
 
-- rooms are sorted by recency, so rooms move to the top when a new message is
-  received,
-- the list can be filtered by room properties (one can filter by group or
+- Rooms are sorted by recency, so rooms move to the top when a new interesting
+  message is received,
+- The list can be filtered by room properties (one can filter by group or
   people, favourites, unreads, invites…),
-- the list is also searchable by room names.
+- The list is also searchable by room names.
 
 The rooms exposed by the room list are stored in a unique _observable_ type.
-Why is it dynamic? Because the app continuously sync new data: when a room gets
-an update from the network, the room list is automatically updated. The beauty
-of it: we have nothing to do. Sorters and filters are run automatically. Why?
-Spoiler: because everything is a `Stream`.
+Why is it dynamic? Because the app continuously sync new data that update the
+internal state: when a room gets an update from the network, the room list is
+automatically updated. The beauty of it: we have nothing to do. Sorters and
+filters are run automatically. Why? Spoiler: because everything is a `Stream`.
 
 Thanks to the Rust async model, every part is lazy. The app never needs to ask
 for Rust if a new update is present. It literally just waits for them.
@@ -61,9 +61,9 @@ Alrighty. Fair. Before digging into the really fun bits, we need some basis.
 
 ## Baby steps with reactive programming
 
-Everything I'm going to share with you has been implemented in [a library called
-`eyeball`][`eyeball`]. To give you a good idea of what reactive programming in
-Rust can look like, let's create a Rust program:
+Everything we are going to share with you has been implemented in [a library
+called `eyeball`][`eyeball`]. To give you a good idea of what reactive
+programming in Rust can look like, let's create a Rust program:
 
 ```sh
 $ cargo new --bin playground
@@ -124,7 +124,7 @@ is this thing reactive? I only see synchronous code for the moment.
 
 Hold on. You told me to start slow. You're right though: the `Observable` owns
 the value. The `Subscriber` is able to read the value from the `Observable`.
-However, `Subscriber` can be used as a [`Future`] with its `next` method! Let's add this:
+However, `Subscriber::next` returns a [`Future`]! Let's add this:
 
 ```rust
 // in `src/main.rs`
@@ -293,7 +293,7 @@ And that's perfectly normal. The async runtime will execute all the
 is an await point, another task will have room to run. In this case, that's
 `subscriber.next().await`.
 
-The `subscriber` only receives the **last** update, and that's pretty important
+The subscriber only receives the **last** update, and that's pretty important
 to understand. There is no buffer of all the previous updates here, no memory,
 no trace, `subscriber` returns the last value when it is called. Note that this
 is not always the case as we will see with `ObservableVector` later, but for the
@@ -301,7 +301,7 @@ moment, that's the case.
 
 And yes, if we want the `task` to get a chance to consume more updates, we need
 to tell the executor we will wait while the current other tasks are waken up. To
-do that, we can use [the `yield_now` function][`smol::yield_now`]:
+do that, we can use [the `smol::yield_now` function][`smol::yield_now`]:
 
 ```rust
     // Now, let's update `observable`.
@@ -337,11 +337,11 @@ won't be able to read any value from it, so it's going to close itself, and the
 `task` will end. That's why waiting on the task with `task.await` will terminate
 this time. And thus, the program will finish gracefully.
 
-And that's it. That's the basis of reactive programming. As we have seen, the
-`subscriber` implements [`Send`] and [`Sync`] if the `T` in `Observable<T>`
-implements `Send` and `Sync`, i.e. if the observed type implements these traits.
-That's pretty useful actually: it is possible to send the `subscriber` in a
-different thread, and keep waiting for new updates.
+And that's it. That's the basis of reactive programming. Also note that
+`Subscriber<T>` implements [`Send`] and [`Sync`] if `T` implements `Send` and
+`Sync`, i.e. if the observed type implements these traits. That's pretty useful
+actually: it is possible to send the subscriber in a different thread, and keep
+waiting for new updates.
 
 ## Attack of the Clones
 
@@ -357,7 +357,7 @@ non-inclusive if you ask me. Are you aware there isn't only `Vec` in life?
 Well, the reason is simple: `Vec` is supported by `eyeball`. It's a matter of
 time and work to support other collections, it's definitely not impossible but
 you will see that it's not trivial neither to support all these collections for
-a simple reason: Did you notice that `Subscriber` returns an owned `T`? Not a
+a simple reason: Did you notice that `Subscriber` produces an owned `T`? Not a
 `&T`, but a `T`. That's because
 [`Subscriber::next`][`eyeball::Subscriber::next`] requires `T: Clone`. It means
 that the observed value will be cloned every time it is broadcasted to a
@@ -408,25 +408,25 @@ of our digital world.
 
 So. How a data structure like `Vec` can be cloned cheaply? We could put
 it inside an [`Arc`] right? Cloning an _Atomically Reference Counted_ value
-is really cheap: [it increases the counter by 1 atomically][`Arc::clone`], the
-inner value is untouched. Nonetheless, we have a mutation problem now. If
-we have `Observable<Arc<Vec<_>>>`, it means that the subscribers will be
+is really cheap: [it increases the counter by 1 atomically][`Arc::clone#src`],
+the inner value is untouched. Nonetheless, we have a mutation problem now.
+If we have `Observable<Arc<Vec<_>>>`, it means that the subscribers will be
 `Subscriber<Arc<Vec<_>>>`. In this case, every time the observable wants to
 mutate the data, it is going to… be… impossible because an `Arc` is nothing
 less than a shared reference, and shared references in Rust disallow mutation by
 default. Using `Observable::set` will create a new `Arc`, but we cannot update
-the value inside the `Arc`, except if we use a lock… Well, we are adding more
+the value _inside_ the `Arc`, except if we use a lock… Well, we are adding more
 and more complexity.
 
 <q>Spes salutis</q>[^spes_salutis]! Fortunately for us, _immutable data
 structures_ exist in Rust.
 
-> An immutable data structure is data structure which can be copied and modified
+> An immutable data structure is a data structure which can be copied and modified
 > efficiently without altering the original.
 
-It **can be modified**. However, as soon as it is copied (or cloned), it is
-still possible to modify the copy but **the original data is not modified**.
-That's extremely powerful.
+It can be modified. However, as soon as it is copied (or cloned), it is still
+possible to modify the copy but the original data is not modified. That's
+extremely powerful.
 
 Such structures bring many advantages, but one of them is _structural sharing_:
 
@@ -439,7 +439,7 @@ Such structures bring many advantages, but one of them is _structural sharing_:
 > allocated until you modify either the copy or the original, and then only the
 > memory needed to record the difference.
 
-Well. <i>Taking a deep breath</i>. It sounds exactly like what we
+Well, <i>taking a deep breath</i>, it sounds exactly like what we
 need to solve our issue, isn't it? The `Observable<Immutable<_>>` and the
 `Subscriber<Immutable<_>>`s will share the same value, with the observable
 being able to mutate its inner value. The subscribers can modify the received
@@ -481,15 +481,16 @@ huh?): [this crate is `eyeball-im`][`eyeball-im`].
 Instead of providing an `Observable<T>` type, it provides [an
 `ObservableVector<T>` type][`eyeball_im::ObservableVector`] which is a `Vector`,
 but an observable one! Let's see… what do we have… <i>scroll the
-documentation</i>, hmmm, interesting, <i>scroll more…</i>, okay, that's
+documentation</i>, hmm, interesting, <i>scroll more…</i>, okay, that's
 interesting:
 
 * First off, there is methods like `append`, `pop_back`, `pop_front`,
   `push_back`, `push_front`, `remove`, `insert`, `set`, `truncate` and `clear`.
   It seems this collection is pretty flexible. The vocabulary is clear. They all
   take a `&mut self`, cool.
-* Then, there is a `with_capacity` method, this is intriguing.
-* Finally, we find our friend `subscribe`, but it now returns a
+* Then, there is a `with_capacity` method, this is intriguing, <i>add to
+  notes</i>,
+* Finally, we find our not-so-ol' friend `subscribe`, but it returns a
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
 Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
@@ -528,7 +529,7 @@ returns `Option<Self::Item>`.
 
 Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2 variants:
 
-* `Ready<T>` means a value is immediately ready,
+* `Ready(value)` means a `value` is immediately ready,
 * `Pending` means no value is ready yet.
 
 Then, what `Poll<Option<T>>` represents for a `Stream`?
@@ -541,7 +542,7 @@ Then, what `Poll<Option<T>>` represents for a `Stream`?
 
 It makes perfect sense. A `Future` produces a single value, whilst a `Stream`
 produces multiple values, and `Poll::Ready(None)` represents the termination of
-the stream, similarly to `None` to represent the termination of an iterator.
+the stream, similarly to `None` to represent the termination of an `Iterator`.
 Ahh, I love consistency.
 
 We have the basis. Now let's see [`StreamExt`][`futures::stream::StreamExt`]. It's
@@ -617,7 +618,7 @@ $ cargo add eyeball-im futures
 ```
 
 ```rust
-// in `main.rs`
+// in `src/main.rs`
 
 use eyeball_im::ObservableVector;
 use futures::stream::StreamExt;
@@ -678,10 +679,10 @@ $ cargo run --quiet
 Do you see something new?
 
 {% comte() %}
-Hmm, indeed. With `Observable`, some values are “missing” because `Observable`
-and `Subscriber` have no buffer. The subscriber only returns the current value
-when asked. However, with `ObservableVector`, things are different: no missing
-values. There are all here. As if there… was a buffer!
+Hmm, indeed. With `Observable`, some values may “miss” because `Observable`
+and `Subscriber` have no buffer. The subscribers only return the current value
+when asked for. However, with `ObservableVector`, things are different: no
+missing values. There are all here. As if there… was a buffer!
 
 And the values returned by the subscriber are not the raw `T`:
 we see `PushBack`. It comes from, <i>check the documentation</i>,
@@ -692,16 +693,17 @@ we see `PushBack`. It comes from, <i>check the documentation</i>,
 
 Good eyes, well done.
 
-First off, that's correct that `PushBack` comes from [`VectorDiff`]
-[`eyeball_im::VectorDiff`]. Let's come back to this piece in a second: it is the
-cornerstone of the entire series, it deserves a bit of explanations.
+First off, that's correct that `PushBack` comes from
+[`VectorDiff`][`eyeball_im::VectorDiff`]. Let's come back to this piece in
+a second: it is the cornerstone of the entire series, it deserves a bit of
+explanations.
 
 Second, yes, `VectorSubscriber` returns **all values**! There is actually a
-buffer. It's a bit annoying to continue with a `task` as we did so far. Let's
+buffer. It's a bit annoying to continue with a `task` as we did so far, let's
 use [`assert_eq!`] instead.
 
 ```rust
-// in `main.rs`
+// in `src/main.rs`
 
 use eyeball_im::{ObservableVector, VectorDiff};
 //                                 ^^^^^^^^^^ new!
@@ -764,17 +766,17 @@ $ cargo run --quiet
 )
 ```
 
-Beautiful! This is a bit verbose, isn't it? <i>Desperately waiting for an
-affirmative answer</i>, okay, okay, something you may not know about me: I love
-macros. There. I said it. Let's quickly write one:
+Beautiful! However… the code is a bit verbose, isn't it? <i>Desperately waiting
+for an affirmative answer</i>, okay, okay, something you may not know about me:
+I love macros. There. I said it. Let's quickly craft one:
 
 ```rust
-// in `main.rs`
+// in `src/main.rs`
 // before the `main` function
 
 macro_rules! assert_next_eq {
     ( $stream:ident, $expr:expr $(,)? ) => {
-        assert_eq!(dbg!($stream.next().await), Some($expr),);
+        assert_eq!(dbg!( $stream .next().await), Some( $expr ));
     };
 }
 ```
@@ -783,7 +785,7 @@ This macro does exactly what our `assert_eq!` was doing, except now it's shorter
 to use, and thus more pleasant. Don't believe me? See by yourself:
 
 ```rust
-// in `main.rs`
+// in `src/main.rs`
 // at the end of the `main` function
 
 // Push one value.
@@ -803,13 +805,321 @@ assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'd' });
 
 There we go.
 
-Having a scientific approach is important in our domain. We said
+Having a scientific and rigorous approach is important in our domain. We said
 `ObservableVector` seems to contain a buffer, and `VectorSubscriber` seems to
-pop values from this buffer. Let's play with that. First 
+pop values from this buffer. Let's play with that. I see two things to test:
+
+1. Modify the `ObservableVector`, and subscribe to it _after_: Does the
+   subscriber receive the update before it was created?
+2. How many values the buffer can hold?
+
+```rust
+let mut observable = ObservableVector::new();
+
+// Push a value before the subscriber exists.
+observable.push_back('a');
+
+let mut subscriber = observable.subscribe().into_stream();
+
+// Push another value.
+observable.push_back('b');
+
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'b' });
+```
+
+If the `subscriber` receives `a`, it must fail, otherwise no error:
+
+```sh
+$ cargo run --quiet
+[src/main.rs:25:5] subscriber.next().await = Some(
+    PushBack {
+        value: 'b',
+    },
+)
+```
+
+Look Ma', no error!
+
+{% comte() %}
+We have learned that a `VectorSubscriber` is aware of the new updates that are
+made once it exists. A `VectorSubscriber` is not aware of updates that happened
+before its creation.
+
+In the example, `VectorDiff::PushBack { value: 'a' }` is not received before
+`subscriber` was created. However, `VectorDiff::PushBack { value: 'b' }` is
+received because it happened after `subscriber` was created. It makes perfect
+sense.
+
+It suggests that the buffer lives inside `VectorSubscriber`, and not inside
+`ObservableVector`. Or maybe the buffer is shared between the observable and the
+subscribers, with the buffer having some specific semantics, like a _channel_.
+We would need to look at the implementation to be sure.
+{% end %}
+
+Agree. This is left as an exercise for the reader, <i>wink to you</i>.
+
+We have an answer to question 1. What about question 2? The size of the buffer.
+
+```rust
+// in `src/main.rs`
+
+let mut observable = ObservableVector::new();
+let mut subscriber = observable.subscribe().into_stream();
+
+// Push ALL THE VALUES!
+observable.push_back('a');
+observable.push_back('b');
+observable.push_back('c');
+observable.push_back('d');
+observable.push_back('e');
+observable.push_back('f');
+observable.push_back('g');
+observable.push_back('h');
+observable.push_back('i');
+observable.push_back('j');
+observable.push_back('k');
+observable.push_back('l');
+observable.push_back('m');
+observable.push_back('n');
+observable.push_back('o');
+observable.push_back('p');
+
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'a' });
+// no need to assert the others
+```
+
+```sh
+$ cargo run --quiet
+[src/main.rs:36:5] subscriber.next().await = Some(
+    PushBack {
+        value: 'a',
+    },
+)
+```
+
+Hmm, the buffer doesn't seem to be full with 16 values. Let's add a couple more:
+
+```rust
+// in `src/main.rs`
+
+// [ … snip … ]
+observable.push_back('n');
+observable.push_back('o');
+observable.push_back('p');
+observable.push_back('q');
+//                    ^ new!
+observable.push_back('r');
+//                    ^ new!
+
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'a' });
+```
+
+```sh
+$ cargo run --quiet
+[src/main.rs:38:5] subscriber.next().await = Some(
+    Reset {
+        values: [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+        ],
+    },
+)
+thread 'main' panicked at src/main.rs:38:5:
+assertion `left == right` failed
+  left: Some(Reset { values: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'] })
+ right: Some(PushBack { value: 'a' })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+Oh! An error, great! Our `assert_next_eq!` has failed. `subscriber`
+does not receive a `VectorDiff::PopBack` but a `VectorDiff::Reset`.
+Let's play with
+[`ObservableVector::with_capacity`][`eyeball_im::ObservableVector::with_capacity`]
+a moment, maybe it's related to the buffer capacity? Let's change a single line:
+
+```rust
+let mut observable = ObservableVector::with_capacity(32);
+//                                     ^^^^^^^^^^^^^^^^^ new!
+```
+
+```sh
+$ cargo run --quiet
+[src/main.rs:38:5] subscriber.next().await = Some(
+    PushBack {
+        value: 'a',
+    },
+)
+```
+
+{% comte() %}
+We have learned that `ObservableVector::with_capacity` controls the size of
+the buffer.
+
+The name could suggest that it controls the capacity of the observed `Vector`,
+_à la_ [`Vec::with_capacity`], but it must not be confused.
+
+For a reason we ignore so far, when the buffer is full, we receive a
+`VectorDiff::Reset`. We need to learn more about this type.
+
+[`Vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
+{% end %}
+
+## Observable differences
+
+The previous section was explaining how immutable data structures could save us
+by cheaply and efficiently cloning the data between the observable and its
+subscribers. However, we see that [`eyeball-im`], despite using [`imbl`], does
+not share a [`imbl::Vector`] but a [`eyeball_im::VectorDiff`]. Why such design?
+It looks like a drama. A betrayal. An act of treachery!
+
+Well. Firstly, `eyeball-im` is relying on some immutable properties of `Vector`.
+And secondly, the reason for which `VectorDiff` exists is simple. If a
+subscriber receives `Vector`s, how is the user able to see what has changed? The
+user (!) would be responsible to _calculate_ the differences between 2 `Vector`s
+every time! Not only this is costly, but it is utterly error-prone.
+
+{% comte() %}
+Are you suggesting that `VectorSubscriber` (or `VectorSubscriberStream`)
+calculates the differences between the `Vector`s itself so that the user doesn't
+have to?
+
+I still see many problems though. I believe the order of the `VectorDiff`s
+matters a lot for some use cases. For example, let's consider two consecutive
+`Vector`s:
+
+1. `['a', 'b', 'c']` and
+2. `['a', 'c', 'b']`.
+
+Has `'b'` been removed and pushed back, or `'c'` been popped back and inserted?
+How can you decide between the twos?
+{% end %}
+
+We can't —it would be implementation specifics anyway— and we don't want to.
+The user is manipulating the `ObservableVector` in a special way, and we should
+ideally not change that.
+
+These `VectorDiff` actually comes from `ObservableVector` itself! Let's look at
+the implementation of
+[`ObservableVector::push_back`][`eyeball_im::ObservableVector::push_back#src`]:
+
+```rust
+pub fn push_back(&mut self, value: T) {
+    // [ … snip … ]
+
+    self.values.push_back(value.clone());
+    //   ^^^^^^ this is a `Vector`!
+    self.broadcast_diff(VectorDiff::PushBack { value });
+    //                  ^^^^^^^^^^ here you are…
+}
+```
+
+Each method adding or removing values on the `ObservableVector` emits its own
+`VectorDiff` variant. No calculation, it's purely a mapping:
+
+<figure>
+
+  | `ObservableVector::…` | `VectorDiff::…` | Meaning |
+  |-|-|-|
+  | `append(values)` | `Append { values }` | Append many `values` |
+  | `clear()` | `Clear` | Clear out all the values |
+  | `insert(index, value)` | `Insert { index, value }` | Insert a `value` at `index` |
+  | `pop_back()` | `PopBack` | Remove the value at the back |
+  | `pop_front()` | `PopFront` | Remove the value at the front |
+  | `push_back(value)` | `PushBack { value }` | Add `value` at the back |
+  | `push_front(value)` | `PushFront { value }` | Add `value` at the front |
+  | `remove(index)` | `Remove { index } ` | Remove value at `index` |
+  | `set(index, value)` | `Set { index, value }` | Replace value at `index` by `value` |
+  | `truncate(length)` | `Truncate { length }` | Truncate to `length` values |
+
+  <figcaption>
+
+  Mappings of `ObservableVector` methods to `VectorDiff` variants.
+
+  </figcaption>
+
+</figure>
+
+See, for each `VectorDiff` variant, there is an `ObservableVector` method
+triggering it.
+
+{% comte() %}
+And what about `VectorDiff::Reset`?
+
+We were receiving it when the buffer was full apparently. You are not mentioning
+it, and if I take a close look at `ObservableVector`'s documentation, I don't
+see any `reset` method. Is it only an internal thing?
+{% end %}
+
+You are correct. When the buffer is full, the subscriber will provide a
+`VectorDiff::Reset { values }` where `values` is the full list of values. The
+documentation says:
+
+> The subscriber lagged too far behind, and the next update that should have
+> been received has already been discarded from the internal buffer.
+
+If the subscriber didn't catch all the updates, the best thing it can do is to
+say: <q>Okay, I am late at the party, I've missed several things, so here is the
+current state!</q>. This is not ideal, but the subscriber is responsible to not
+lag, and this design avoids having missing values. If a subscriber receives
+too much `VectorDiff::Reset`s, the user may consider increasing the capacity of
+the `ObservableVector`.
+
+## Filtering and sorting with higher-order `Stream`s
+
+We are reaching the end of this episode. And you know what? We have set all the
+parts to talk about higher-order `Stream`, <i>chante victory and dance at the
+same time</i>!
+
+At the beginning of this episode, we were saying that the Matrix Rust SDK is
+able to filter and to sort an `ObservableVector` representing all the rooms.
+How? `VectorSubscriberStream` _is_ a `Stream`. More specifically, it is a
+`Stream<Item = VectorDiff<T>>`. Now questions:
+
+* What's the difference between an unfiltered `Vector` and a filtered `Vector`?
+* What's the difference between an unsorted `Vector` and a sorted `Vector`?
+* What's the difference between a filtered `Vector` and a sorted `Vector`?
+* and so on.
+
+All of them are strictly `Stream<Item = VectorDiff<T>>`! However, the
+`VectorDiff`s aren't the same. A simple example. Let's say we build a vector by
+inserting `1`, `2`, `3` and `4`. We subscribe to it, and we want to filter out
+all the even numbers. Instead of receiving:
+
+* `VectorDiff::Insert { index: 0, value: 1 }`,
+* `VectorDiff::Insert { index: 1, value: 2 }`,
+* `VectorDiff::Insert { index: 2, value: 3 }`,
+* `VectorDiff::Insert { index: 3, value: 4 }`.
+
+… we want to receive:
+
+* `VectorDiff::Insert { index: 0, value: 1 }`,
+* `VectorDiff::Insert { index: 1, value: 3 }`: note the `index`, it is not 2
+  but 1!
+
+We will see how all that works in the next episodes and how powerful this design
+is, especially when it comes to cross-platform UI (user interface). We are going
+to learn so much about `Stream` and `Future`, it's going to be fun!
 
 
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
-[Element]: https://element.io
+[Matrix]: https://matrix.org/
+[Element]: https://element.io/
 [Element X]: https://element.io/labs/element-x
 [Swift]: https://www.swift.org/
 [Kotlin]: https://kotlinlang.org/
@@ -822,7 +1132,7 @@ pop values from this buffer. Let's play with that. First
 [`Sync`]: https://doc.rust-lang.org/std/marker/trait.Sync.html
 [`Clone`]: https://doc.rust-lang.org/std/clone/trait.Clone.html
 [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
-[`Arc::clone`]: https://github.com/rust-lang/rust/blob/f6bcd094abe174a218f7cf406e75521be4199f88/library/alloc/src/sync.rs#L2118-L2170
+[`Arc::clone#src`]: https://github.com/rust-lang/rust/blob/f6bcd094abe174a218f7cf406e75521be4199f88/library/alloc/src/sync.rs#L2118-L2170
 [`Future::poll`]: https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll
 [`Iterator::next`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next
 [`Poll`]: https://doc.rust-lang.org/std/task/enum.Poll.html
@@ -833,6 +1143,8 @@ pop values from this buffer. Let's play with that. First
 
 [`eyeball-im`]: https://docs.rs/eyeball-im
 [`eyeball_im::ObservableVector`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html
+[`eyeball_im::ObservableVector::with_capacity`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html#method.with_capacity
+[`eyeball_im::ObservableVector::push_back#src`]: https://github.com/jplatte/eyeball/blob/4254403e385715380753bb0def20fb0398e91ebd/eyeball-im/src/vector.rs#L107-L114
 [`eyeball_im::VectorSubscriber`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html
 [`eyeball_im::VectorSubscriber::into_stream`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html#method.into_stream
 [`eyeball_im::VectorSubscriberStream`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html
