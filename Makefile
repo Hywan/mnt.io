@@ -11,4 +11,4 @@ build: build-css build-site
 
 watch:
 	postcss 'static/style/*.css' --dir static/style/min --no-map --use postcss-preset-env --use cssnano --watch &
-	zola serve -f && fg
+	zola serve && fg

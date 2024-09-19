@@ -1,6 +1,6 @@
 +++
 title = "All series"
-sort_by = "update_date"
+sort_by = "weight"
 template = "series.html"
 page_template = "series-overview.html"
 +++

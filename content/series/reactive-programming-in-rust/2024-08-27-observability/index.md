@@ -1,7 +1,7 @@
 +++
 title = "Observability"
-date = "2024-08-27"
-description = "The basis of reactive programming is observability."
+date = "2024-09-19"
+description = "The basis of reactive programming is observability. Let's play with it."
 [taxonomies]
 keywords=["rust", "async", "future", "stream"]
 +++
