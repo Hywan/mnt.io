@@ -399,12 +399,12 @@ Blocking the `Observable` might be tolerable in some cases, but it cannot be
 generalized to all use cases. A user is more likely to prefer `next` instead of
 `next_ref` by default.
 
-Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains
-800 items: cloning the entire `Vec<_>` for every update to every subscriber is
-a pretty inefficient way of programming. Remember that, as a programmer, we have
-the responsability to make our programs use as few resources as possible, so
-that hardwares can be used longer. The hardware is the most polluting segment of
-our digital world.
+Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains a
+lot of items: cloning the entire `Vec<_>` for every update to every subscriber
+is a pretty inefficient way of programming. Remember that, as a programmer, we
+have the responsability to make our programs use as few resources as possible,
+so that hardwares can be used longer. The hardware is the most polluting segment
+of our digital world.
 
 So. How a data structure like `Vec` can be cloned cheaply? We could put
 it inside an [`Arc`] right? Cloning an _Atomically Reference Counted_ value
@@ -412,17 +412,21 @@ is really cheap: [it increases the counter by 1 atomically][`Arc::clone`], the
 inner value is untouched. Nonetheless, we have a mutation problem now. If
 we have `Observable<Arc<Vec<_>>>`, it means that the subscribers will be
 `Subscriber<Arc<Vec<_>>>`. In this case, every time the observable wants to
-mutate the data, it is going to… be… impossible because an `Arc` is basically
-a shared reference, and shared references in Rust disallow mutation by default,
-with `Arc` not being an exception. Using `Observable::set` will create a new
-`Arc`, but we cannot update the value inside the `Arc`, except if we use a lock…
-Well, we are adding more and more complexity.
+mutate the data, it is going to… be… impossible because an `Arc` is nothing
+less than a shared reference, and shared references in Rust disallow mutation by
+default. Using `Observable::set` will create a new `Arc`, but we cannot update
+the value inside the `Arc`, except if we use a lock… Well, we are adding more
+and more complexity.
 
 <q>Spes salutis</q>[^spes_salutis]! Fortunately for us, _immutable data
 structures_ exist in Rust.
 
 > An immutable data structure is data structure which can be copied and modified
 > efficiently without altering the original.
+
+It **can be modified**. However, as soon as it is copied (or cloned), it is
+still possible to modify the copy but **the original data is not modified**.
+That's extremely powerful.
 
 Such structures bring many advantages, but one of them is _structural sharing_:
 
@@ -435,25 +439,33 @@ Such structures bring many advantages, but one of them is _structural sharing_:
 > allocated until you modify either the copy or the original, and then only the
 > memory needed to record the difference.
 
-Here, _immutable_ actually means the data cannot be modified, but a copy is
-created for every mutation. All copies are sharing the same “parent”, only
-modifications are recorded, theoritically.
-
 Well. <i>Taking a deep breath</i>. It sounds exactly like what we
 need to solve our issue, isn't it? The `Observable<Immutable<_>>` and the
 `Subscriber<Immutable<_>>`s will share the same value, with the observable
 being able to mutate its inner value. The subscribers can modify the received
 value too, in an efficient way, without conflicting with the value from the
-observable.
+observable. Both values will continue to live on their side, but cloning the
+value is cheap.
 
-How immutable data structures are implemented? Oh… <q>beati pauperes in
-spiritu</q>[^beati_pauperes_in_spiritu]… it is actually really complex. It may
-be a topic for another series or articles. For the moment, let me redirect you
-to one research paper that proposes an immutable `Vec`: <cite>RRR Vector: A
-Practical General Immutable Sequence</cite>[^SRUB2015].
+{% comte() %}
+Dare I ask how immutable data structures are implemented? It sounds like complex
+beasts.
 
-Do you know the good news though? We don't have to implement it by ourselves,
-because some people already did it! Enter [the `imbl` crate][`imbl`]. This
+I mean… a naive implementation sounds _relatively doable_ but I am guessing there
+is a lot of subtleties, possible conflicts, and many memory guarantees that I am
+not anticipating yet, right?
+{% end %}
+
+Oh… <q>beati pauperes in spiritu</q>[^beati_pauperes_in_spiritu]… it is
+actually really complex. It may be a topic for another series or articles.
+For the moment, if you interested, let me redirect you to one research paper
+that proposes an immutable `Vec`: <cite>RRR Vector: A Practical General
+Immutable Sequence</cite>[^SRUB2015]. Be cool though, understanding this part is
+not necessary at all for what we are talking now. It's a great tool we are going
+to use, no matter how it works internally.
+
+Do you know the other good news? We don't have to implement it by ourselves,
+because some nice people already did it! Enter [the `imbl` crate][`imbl`]. This
 crate provides [a `Vector` type][`imbl::Vector`]. It can be use like a regular
 `Vec`. (Side note: it's even smarter than a `Vec` because it implements smart
 head and tail chunking[^UCR2014], and allocates in the stack or on the heap
@@ -462,25 +474,28 @@ crate][`smallvec`]. End of digression)
 
 ## Observable (immutable) collection
 
-The `imbl` crate then. It provides [a `Vector` type][`imbl::Vector`]. The other
-goods news is that `eyeball` provides a crate for working with immutable data
-structures (how surprising huh?): [this crate is `eyeball-im`][`eyeball-im`].
+The `imbl` crate then. It provides [a `Vector` type][`imbl::Vector`]. `eyeball`
+provides a crate for working with immutable data structures (how surprising
+huh?): [this crate is `eyeball-im`][`eyeball-im`].
 
 Instead of providing an `Observable<T>` type, it provides [an
-`ObservableVector<T>` type][`eyeball_im::ObservableVector`]. Let's see… what do
-we have… <i>scroll the documentation</i>, hmmm, interesting, <i>scroll
-more…</i>, okay, that's interesting:
+`ObservableVector<T>` type][`eyeball_im::ObservableVector`] which is a `Vector`,
+but an observable one! Let's see… what do we have… <i>scroll the
+documentation</i>, hmmm, interesting, <i>scroll more…</i>, okay, that's
+interesting:
 
 * First off, there is methods like `append`, `pop_back`, `pop_front`,
   `push_back`, `push_front`, `remove`, `insert`, `set`, `truncate` and `clear`.
-  It seems this collection is pretty flexible. The vocabulary is clear.
-* Then, there is a `with_capacity` method, this is intriguing,
+  It seems this collection is pretty flexible. The vocabulary is clear. They all
+  take a `&mut self`, cool.
+* Then, there is a `with_capacity` method, this is intriguing.
 * Finally, we find our friend `subscribe`, but it now returns a
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
-Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll
-the document</i>, there is no `next` method like
-[`Subscriber::next`][`eyeball::Subscriber::next`]. How are we supposed to wait on an update?
+Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
+document</i>, contrary to
+[`Subscriber::next`][`eyeball::Subscriber::next`], there is no `next` method. How
+are we supposed to wait on an update?
 
 {% comte() %}
 Confer to the assiduous reader! If you read _carefully_ the documentation of the
@@ -492,7 +507,7 @@ Confer to the assiduous reader! If you read _carefully_ the documentation of the
 
 … fair enough. So `Subscriber::next` mimics `StreamExt::next`. Okay. Let's look
 at [`Stream`][`futures::stream::Stream`] first, it's from [the `futures`
-crate][`future`]. `Stream` defines itself as:
+crate][`futures`]. `Stream` defines itself as:
 
 > A stream of values produced asynchronously.
 >
@@ -516,7 +531,7 @@ Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2 va
 * `Ready<T>` means a value is immediately ready,
 * `Pending` means no value is ready yet.
 
-Then, what `Option<Poll<T>>` represents for a `Stream`?
+Then, what `Poll<Option<T>>` represents for a `Stream`?
 
 * `Poll::Ready(Some(value))` means this stream has successfully produced a
   `value`, and may produce more values on subsequent `poll_next` calls,
@@ -526,21 +541,24 @@ Then, what `Option<Poll<T>>` represents for a `Stream`?
 
 It makes perfect sense. A `Future` produces a single value, whilst a `Stream`
 produces multiple values, and `Poll::Ready(None)` represents the termination of
-the stream.
+the stream, similarly to `None` to represent the termination of an iterator.
+Ahh, I love consistency.
 
 We have the basis. Now let's see [`StreamExt`][`futures::stream::StreamExt`]. It's
 a trait extending `Stream` to add convenient combinator methods. Amongst other
 things, we find [`StreamExt::next`][`futures::stream::StreamExt::next`]! Ah ha!
-It returns a `Next` type which implements a `Future`, pretty similarly to what
-`eyeball` does actually. Do you remember our:
+It returns a `Next` type which implements a `Future`, exactly what `eyeball`
+does actually. Remember our:
 
 ```rust
+// from `main.rs`
+
 while let Some(new_value) = subscriber.next().await {
     dbg!(new_value);
 }
 ```
 
-It is exactly the same pattern than `StreamExt::next`:
+It is exactly the same pattern with `StreamExt::next`:
 
 ```rust
 // from the documentation of `StreamExt::Next`
@@ -555,12 +573,13 @@ assert_eq!(stream.next().await, Some(3));
 assert_eq!(stream.next().await, None);
 ```
 
-Pieces start to come together, doesn't it?
+Pieces start to come together, don't they?
 
-End of the detour. Back to `eyeball_im::VectorSubscriber<T>` now. It
-is possible to transform this type into a `Stream` with
-[`into_stream`][`eyeball_im::VectorSubscriber::into_stream`]. It returns a
-[`VectorSubscriberStream`][`eyeball_im::VectorSubscriberStream`]. Naming is hard, but if I would have to guess, I would say it implements… a… `Stream`?
+End of the detour. Back to `eyeball_im::VectorSubscriber<T>` . It is possible to
+transform this type into a `Stream` with its
+[`into_stream`][`eyeball_im::VectorSubscriber::into_stream`] method. It returns
+a [`VectorSubscriberStream`][`eyeball_im::VectorSubscriberStream`]. Naming is
+hard, but if I would have to guess, I would say it implements… a… `Stream`?
 
 ```rust
 // from `eyeball-im`
@@ -598,6 +617,8 @@ $ cargo add eyeball-im futures
 ```
 
 ```rust
+// in `main.rs`
+
 use eyeball_im::ObservableVector;
 use futures::stream::StreamExt;
 use macro_rules_attribute::apply;
@@ -628,7 +649,7 @@ async fn main(executor: &Executor) {
     // More updates.
     observable.push_back('c');
     observable.push_back('d');
-    // Eh `executor`: _bis repetita placent_!
+    // Eh `executor`, same.
     yield_now().await;
 
     drop(observable);
@@ -659,8 +680,8 @@ Do you see something new?
 {% comte() %}
 Hmm, indeed. With `Observable`, some values are “missing” because `Observable`
 and `Subscriber` have no buffer. The subscriber only returns the current value
-when it is called. However, here, things are different. No missing values. There
-are all here. As if there… was a buffer!
+when asked. However, with `ObservableVector`, things are different: no missing
+values. There are all here. As if there… was a buffer!
 
 And the values returned by the subscriber are not the raw `T`:
 we see `PushBack`. It comes from, <i>check the documentation</i>,
@@ -668,6 +689,123 @@ we see `PushBack`. It comes from, <i>check the documentation</i>,
 
 [`eyeball_im::VectorDiff`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
 {% end %}
+
+Good eyes, well done.
+
+First off, that's correct that `PushBack` comes from [`VectorDiff`]
+[`eyeball_im::VectorDiff`]. Let's come back to this piece in a second: it is the
+cornerstone of the entire series, it deserves a bit of explanations.
+
+Second, yes, `VectorSubscriber` returns **all values**! There is actually a
+buffer. It's a bit annoying to continue with a `task` as we did so far. Let's
+use [`assert_eq!`] instead.
+
+```rust
+// in `main.rs`
+
+use eyeball_im::{ObservableVector, VectorDiff};
+//                                 ^^^^^^^^^^ new!
+// …
+
+#[apply(main!)]
+async fn main(_executor: &Executor) {
+    let mut observable = ObservableVector::new();
+    let mut subscriber = observable.subscribe().into_stream();
+
+    // Push one value.
+    observable.push_back('a');
+
+    assert_eq!(
+        dbg!(subscriber.next().await),
+        Some(VectorDiff::PushBack { value: 'a' }),
+    );
+
+    // Push another value.
+    observable.push_back('b');
+    observable.push_back('c');
+    observable.push_back('d');
+
+    assert_eq!(
+        dbg!(subscriber.next().await),
+        Some(VectorDiff::PushBack { value: 'b' }),
+    );
+    assert_eq!(
+        dbg!(subscriber.next().await),
+        Some(VectorDiff::PushBack { value: 'c' }),
+    );
+    assert_eq!(
+        dbg!(subscriber.next().await),
+        Some(VectorDiff::PushBack { value: 'd' }),
+    );
+}
+```
+
+```sh
+$ cargo run --quiet
+[src/main.rs:16:9] subscriber.next().await = Some(
+    PushBack {
+        value: 'a',
+    },
+)
+[src/main.rs:26:9] subscriber.next().await = Some(
+    PushBack {
+        value: 'b',
+    },
+)
+[src/main.rs:30:9] subscriber.next().await = Some(
+    PushBack {
+        value: 'c',
+    },
+)
+[src/main.rs:34:9] subscriber.next().await = Some(
+    PushBack {
+        value: 'd',
+    },
+)
+```
+
+Beautiful! This is a bit verbose, isn't it? <i>Desperately waiting for an
+affirmative answer</i>, okay, okay, something you may not know about me: I love
+macros. There. I said it. Let's quickly write one:
+
+```rust
+// in `main.rs`
+// before the `main` function
+
+macro_rules! assert_next_eq {
+    ( $stream:ident, $expr:expr $(,)? ) => {
+        assert_eq!(dbg!($stream.next().await), Some($expr),);
+    };
+}
+```
+
+This macro does exactly what our `assert_eq!` was doing, except now it's shorter
+to use, and thus more pleasant. Don't believe me? See by yourself:
+
+```rust
+// in `main.rs`
+// at the end of the `main` function
+
+// Push one value.
+observable.push_back('a');
+
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'a' });
+
+// Push another value.
+observable.push_back('b');
+observable.push_back('c');
+observable.push_back('d');
+
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'b' });
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'c' });
+assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'd' });
+```
+
+There we go.
+
+Having a scientific approach is important in our domain. We said
+`ObservableVector` seems to contain a buffer, and `VectorSubscriber` seems to
+pop values from this buffer. Let's play with that. First 
 
 
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
@@ -688,6 +826,7 @@ we see `PushBack`. It comes from, <i>check the documentation</i>,
 [`Future::poll`]: https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll
 [`Iterator::next`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next
 [`Poll`]: https://doc.rust-lang.org/std/task/enum.Poll.html
+[`assert_eq!`]: https://doc.rust-lang.org/std/macro.assert_eq.html
 
 [`eyeball`]: https://docs.rs/eyeball
 [`eyeball::Subscriber::next`]: https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1
