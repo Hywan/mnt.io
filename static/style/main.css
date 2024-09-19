@@ -391,6 +391,12 @@ article {
     text-decoration: none;
     background: transparent;
   }
+
+  &.button--disabled {
+    color: var(--color-accent);
+    border: var(--border-width) var(--color-accent) solid;
+    background: transparent;
+  }
 }
 
 .metadata > * {

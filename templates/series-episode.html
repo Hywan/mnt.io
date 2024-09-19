@@ -27,11 +27,13 @@
     <nav class="previous-next-episodes">
       {%- if page.higher -%}
         <a href="{{ page.higher.permalink }}" class="button text-align-start">❮&nbsp;{{ page.higher.title }}</a>
-        </a>
       {%- endif -%}
       {%- if page.lower -%}
         <a href="{{ page.lower.permalink }}" class="button text-align-end">{{ page.lower.title }}&nbsp;❯</a>
-        </a>
+      {%- else -%}
+        {%- if not series.extra.complete -%}
+        <div class="button button--disabled text-align-end">(coming soon)&nbsp;❯</div>
+        {%- endif -%}
       {%- endif -%}
     </nav>
   </article>
