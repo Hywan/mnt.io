@@ -1,6 +1,7 @@
 +++
 title = "Finite-State Machine as a Type System illustrated with a store product"
 date = "2017-08-09"
+description = "In this article, I would like to talk about how to implement a [Finite-State Machine](https://en.wikipedia.org/wiki/Finite-state_machine) (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply **avoid impossible states and transitions**."
 [taxonomies]
 keywords=["type"]
 +++

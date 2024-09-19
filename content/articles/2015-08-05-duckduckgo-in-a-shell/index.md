@@ -1,6 +1,7 @@
 +++
 title = "DuckDuckGo in a Shell"
 date = "2015-08-05"
+description = "Tiny bash hack."
 +++
 
 ## The tip

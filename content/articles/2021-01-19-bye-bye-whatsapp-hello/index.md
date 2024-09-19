@@ -1,6 +1,7 @@
 +++
 title = "Bye bye WhatsApp, hello ?"
 date = "2021-01-19"
+description = "A rare article written in French discussing WhatsApp and its alternatives."
 +++
 
 Ce billet est en français, essentiellement à destination de mes ami(e)s

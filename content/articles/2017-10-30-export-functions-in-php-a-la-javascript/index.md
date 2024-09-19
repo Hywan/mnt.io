@@ -1,6 +1,7 @@
 +++
 title = "Export functions in PHP à la Javascript"
 date = "2017-10-30"
+description = "I am bored of PHP. Can it be as ~horrible~ funky as JavaScript?"
 [taxonomies]
 keywords=["php"]
 +++

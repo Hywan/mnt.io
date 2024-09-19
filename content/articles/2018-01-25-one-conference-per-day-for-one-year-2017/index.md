@@ -1,6 +1,7 @@
 +++
 title = "One conference per day, for one year (2017)"
 date = "2018-01-25"
+description = "In 2017, I've watched one conference per day. Here is the conclusion of this challenge."
 +++
 
 My self-assigned challenge for 2017 was to watch at least one conference

@@ -1,6 +1,7 @@
 +++
 title = "Tagua VM, a safe PHP virtual machine"
 date = "2017-06-19"
+description = "Watch my last talk at the PHPTour conference about Tagua VM, an experimental PHP runtime written in Rust and LLVM."
 [taxonomies]
 keywords=["php", "runtime", "rust"]
 +++

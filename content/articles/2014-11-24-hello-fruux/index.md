@@ -1,6 +1,7 @@
 +++
 title = "Hello fruux!"
 date = "2014-11-24"
+description = "Eh, new job!"
 [taxonomies]
 keywords=["job", "caldav", "carddav", "webdav"]
 +++

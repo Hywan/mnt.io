@@ -1,6 +1,7 @@
 +++
 title = "atoum has two release managers"
 date = "2014-11-28"
+description = "atoum gains 2 release managers for a better project management!"
 [taxonomies]
 keywords=["test", "atoum"]
 +++

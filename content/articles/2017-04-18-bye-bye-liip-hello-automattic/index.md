@@ -1,6 +1,7 @@
 +++
 title = "Bye bye Liip, hello Automattic"
 date = "2017-04-18"
+description = "Eh, new job!"
 [taxonomies]
 keywords=["job"]
 +++

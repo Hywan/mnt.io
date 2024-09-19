@@ -1,6 +1,7 @@
 +++
 title = "Bye bye Automattic, hello Wasmer"
 date = "2019-03-04"
+description = "Eh, new job!"
 [taxonomies]
 keywords=["job", "webassembly"]
 +++

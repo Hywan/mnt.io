@@ -1,6 +1,7 @@
 +++
 title = "Announcing the first Postgres extension to run WebAssembly"
 date = "2019-08-29"
+description = "This article presents `wasmer-postgres`: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!"
 [taxonomies]
 keywords=["rust", "webassembly", "postgres", "runtime", "binding"]
 [extra]

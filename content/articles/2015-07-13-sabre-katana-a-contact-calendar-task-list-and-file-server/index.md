@@ -1,6 +1,7 @@
 +++
 title = "sabre/katana"
 date = "2015-07-13"
+description = "`sabre/katana` is a contact, calendar, task list and file server. What does it mean? Assuming nowadays you have multiple devices (PC, phones, tablets, TVs…). If you would like to get your address books, calendars, task lists and files synced between all these devices from everywhere, you need a server. All your devices are then considered as clients."
 [taxonomies]
 keywords=["fruux", "caldav", "carddav", "webdav"]
 +++

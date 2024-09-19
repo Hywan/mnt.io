@@ -1,6 +1,7 @@
 +++
 title = "atoum supports TeamCity"
 date = "2017-11-06"
+description = "[atoum](http://atoum.org) gains a new extension: `atoum/teamcity-extension` to get full integration with [TeamCity](https://www.jetbrains.com/teamcity/)!"
 [taxonomies]
 keywords=["test", "atoum"]
 +++

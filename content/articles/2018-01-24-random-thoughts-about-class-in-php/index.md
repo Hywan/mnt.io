@@ -1,6 +1,7 @@
 +++
 title = "Random thoughts about `::class` in PHP"
 date = "2018-01-24"
+description = "I am bored of PHP. Let's have fun with `::class`!"
 [taxonomies]
 keywords=["php"]
 +++

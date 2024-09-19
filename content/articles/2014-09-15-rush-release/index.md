@@ -1,6 +1,7 @@
 +++
 title = "Rüsh Release"
 date = "2014-09-15"
+description = "Since 2 years, at [Hoa](http://hoa-project.net/), we are looking for the perfect release process. Today, we have finalized the last thing related to this new process: we have found a name. It is called **Rüsh Release**, standing for *Rolling Ünd ScHeduled Release*."
 [taxonomies]
 keywords=["release", "versioning", "hoa"]
 +++

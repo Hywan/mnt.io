@@ -1,6 +1,7 @@
 +++
 title = "How Automattic (WordPress.com & co.) partly moved away from PHPUnit to atoum?"
 date = "2018-02-26"
+description = "Automattic has partly moved away from PHPUnit to use [atoum](http://atoum.org). This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc."
 [taxonomies]
 keywords=["test", "php", "atoum"]
 +++
