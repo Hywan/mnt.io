@@ -5,4 +5,8 @@ edition = "2021"
 
 [dependencies]
 eyeball = "0.8.8"
+eyeball-im = "0.5.0"
+futures = "0.3.30"
+macro_rules_attribute = "0.2.0"
 smol = "2.0.2"
+smol-macros = "0.1.1"
