@@ -44,6 +44,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --border-color: var(--color-dark-lighter);
 
   --text-size: 1.05rem;
+  --text-line-height: 1.5;
 }
 
 body {
@@ -51,7 +52,7 @@ body {
   font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: var(--text-line-height);
 
   color: var(--color-light);
   accent-color: var(--color-accent);
@@ -510,14 +511,32 @@ article {
 .text-align-end { text-align: end }
 
 .footnote-definition {
-  margin-block-start: var(--space-very-large);
-  padding-block-start: var(--space);
-  border-top: var(--border-width) var(--border-color) solid;
+  --_margin: var(--space-very-large);
+  --_title-space: calc(1em * var(--text-line-height) + var(--space));
+
+  position: relative;
+  margin-block-start: calc(var(--_margin) + var(--_title-space));
+
+  &::before {
+    content: 'Notes & References';
+    position: absolute;
+    display: block;
+    top: calc(-1 * var(--_title-space) - var(--space));
+    left: 0;
+    right: 0;
+
+    font-weight: bold;
+    padding-block-start: var(--space);
+  }
 
   & ~ & {
     margin-block-start: var(--space);
     padding-block-start: 0;
     border: 0;
+
+    &::before {
+      display: none;
+    }
   }
 
   .footnote-definition-label {
@@ -537,6 +556,6 @@ article {
   
   &:target {
     padding: var(--space);
-    border: var(--border-width) var(--color-accent) solid;
+    outline: var(--border-width) var(--color-accent) dotted;
   }
 }
