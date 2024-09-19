@@ -391,7 +391,7 @@ article {
   }
 
   &.button--disabled {
-    color: var(--color-accent);
+    color: currentColor;
     border: var(--border-width) var(--color-accent) solid;
     background: transparent;
   }
