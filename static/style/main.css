@@ -215,6 +215,8 @@ pre {
   &.language-java { --text: "Java" }
   &.language-sql { --text: "SQL" }
   &.language-php { --text: "PHP" }
+  &.language-xml { --text: "XML" }
+  &.language-json { --text: "JSON" }
 }
 
 figure {
