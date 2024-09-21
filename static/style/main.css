@@ -228,6 +228,10 @@ figure {
 
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
+
+    code {
+      background: none;
+    }
   }
 
   figcaption {
