@@ -32,7 +32,7 @@
 
   <div role="list">
   {% set section = get_section(path = "articles/_index.md") -%}
-  {% for page in section.pages |  filter(attribute = "extra.pinned", value = true) -%}
+  {% for page in section.pages | filter(attribute = "extra.pinned", value = true) -%}
     <div role="listitem" class="article-poster">
       {{- article::poster(page = page) -}}
     </div>
