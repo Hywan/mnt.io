@@ -18,6 +18,10 @@
   color: inherit !important;
  }
 
+ .z-inherited-class {
+  text-decoration: none !important;
+ }
+
  /* auto-generated and modified */
 
 .z-code {
