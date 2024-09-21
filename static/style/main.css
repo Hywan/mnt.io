@@ -48,6 +48,8 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
+  --_background-color: var(--color-dark);
+
   /* Thanks https://modernfontstacks.com/! */
   font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
@@ -56,7 +58,7 @@ body {
 
   color: var(--color-light);
   accent-color: var(--color-accent);
-  background: var(--color-dark);
+  background: var(--_background-color);
 
   scroll-behavior: smooth;    
 }
@@ -74,10 +76,46 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.25em;
+
+  &.separator {
+    --_color: var(--color-light-darker);
+
+    position: relative;
+
+    font-size: 1em;
+    font-weight: normal;
+    color: var(--_color);
+    text-align: center;
+    max-width: 60%;
+    margin-inline: auto;
+
+    > span {
+      padding-inline: var(--space);
+      display: inline-block;
+      max-width: 57%;
+      background: var(--_background-color);
+    }
+
+    &::before {
+      --_width: var(--border-width);
+
+      content: '';
+      z-index: -1;
+      position: absolute;
+      top: calc(50% - var(--_width) / 2);
+      left: 0;
+      right: 0;
+      border-top: var(--_width) var(--_color) solid;
+    }
+  }
 }
 
 :is(h1, h2, h3, h4, h5, h6):not(:first-child):not(:last-child) {
   margin-block: var(--space-very-large) var(--space-large);
+
+  &.separator {
+    margin-block: var(--space-very-large);
+  }
 }
 
 h1 {

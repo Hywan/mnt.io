@@ -10,11 +10,16 @@
   <p>Articles treat various subjects in a single page, contrary to
   <a href="{{ get_url(path = "@/series/_index.md") }}">series</a>.</p>
 
+  {% for year, pages in section.pages | group_by(attribute = "year") %}
+  <h1 class="separator"><span>{{ year}}</span></h1>
+
   <div role="list">
-  {% for page in section.pages -%}
+  {% for page in pages -%}
     <div role="listitem" class="article-poster">
       {{- article::poster(page = page) -}}
     </div>
   {% endfor %}
   </div>
+
+  {% endfor %}
 {% endblock body %}
