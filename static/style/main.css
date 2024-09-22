@@ -149,7 +149,7 @@ ul {
   padding-inline-start: var(--space-large);
 
   > li + li {
-    margin-block-start: var(--space-small);
+    margin-block-start: var(--space);
   }
 
   > li::before {
