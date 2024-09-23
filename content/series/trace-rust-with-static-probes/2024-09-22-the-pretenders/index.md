@@ -24,7 +24,7 @@ it now runs in production. Time to chill, to take a delicate cup of tea, and to
 listen to birds, singing for the sun. When suddenly, someone, somewhere, reports
 frantically the server is _slow_. Oh yeah, this someone has dared to say it,
 The Word has been pronounced. And now, it's your responsibility to demonstrate
-that they is wrong!
+that they are wrong!
 
 How do you do that? Let's think:
 
