@@ -22,15 +22,19 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Style */
 
 :root {
+  /**
+   * in `oklch(from var(…) …)`, the `var(…)` is not supported by
+   * `postcss-relative-color-syntax`, so we need to copy the colours
+   */
   --color-white: #fff;
   --color-dark: oklch(26.42% .017 285.2);
-  --color-dark-lighter: oklch(from var(--color-dark) calc(l + .1) c h);
+  --color-dark-lighter: oklch(from oklch(26.42% .017 285.2) calc(l + .1) c h);
   --color-dark-blue: oklch(27.23% 0.024 264.05);
   --color-light: oklch(85% .004 360);
-  --color-lighter: oklch(from var(--color-light) calc(l + .05) c h);
-  --color-light-darker: oklch(from var(--color-light) calc(l - 0.21) c h);
+  --color-lighter: oklch(from oklch(85% .004 360) calc(l + .05) c h);
+  --color-light-darker: oklch(from oklch(85% .004 360) calc(l - 0.21) c h);
   --color-accent: oklch(84.83% .114 76.18);
-  --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
+  --color-accent-darker: oklch(from oklch(84.83% .114 76.18) calc(l - .04) c h);
   --color-accent2: oklch(59.1% .236 10.25);
 
   --space-very-very-small: .2rem;
