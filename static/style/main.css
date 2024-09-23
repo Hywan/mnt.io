@@ -131,8 +131,10 @@ h3, .h3 {
 }
 
 p {
+  --paragraph-margin: var(--space);
+
   hyphens: auto;
-  margin-block: var(--space);
+  margin-block: var(--paragraph-margin);
 
   &:first-child {
     margin-block-start: 0;
@@ -148,10 +150,6 @@ ul {
   list-style: none;
   padding-inline-start: var(--space-large);
 
-  > li + li {
-    margin-block-start: var(--space);
-  }
-
   > li::before {
     content: "•";
     position: absolute;
@@ -164,6 +162,16 @@ ul {
 
 ol {
   padding-inline-start: 2ch; /* 1 number plus a dot, like “7.” */
+}
+
+li {
+  + li {
+    margin-block-start: var(--space-small);
+  }
+
+  p {
+    --paragraph-margin: var(--space-small); 
+  }
 }
 
 small {
