@@ -13,7 +13,7 @@ subtlety: This collection is _observable_. It is possible for someone to
 _subscribe_ to this collection and to receive its updates.
 
 This observability pattern is the basis of reactive programming. It applies to
-any kind of type. Actually, it can be generalized as a single `Observable<T>`
+any kind of type. Actually, it can be generalised as a single `Observable<T>`
 type. For collections though, we will see that an `ObservableVector<T>` type is
 more efficient.
 
@@ -396,13 +396,13 @@ you?
 > are alive.
 
 Blocking the `Observable` might be tolerable in some cases, but it cannot be
-generalized to all use cases. A user is more likely to prefer `next` instead of
+generalised to all use cases. A user is more likely to prefer `next` instead of
 `next_ref` by default.
 
 Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains a
 lot of items: cloning the entire `Vec<_>` for every update to every subscriber
 is a pretty inefficient way of programming. Remember that, as a programmer, we
-have the responsability to make our programs use as few resources as possible,
+have the responsibility to make our programs use as few resources as possible,
 so that hardwares can be used longer. The hardware is the most polluting segment
 of our digital world.
 
@@ -985,7 +985,7 @@ For a reason we ignore so far, when the buffer is full, we receive a
 The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
 subscribers. However, we see that [`eyeball-im`], despite using [`imbl`], does
-not share a [`imbl::Vector`] but a [`eyeball_im::VectorDiff`]. Why such design?
+not share an [`imbl::Vector`] but an [`eyeball_im::VectorDiff`]. Why such design?
 It looks like a drama. A betrayal. An act of treachery!
 
 Well. Firstly, `eyeball-im` is relying on some immutable properties of `Vector`.
