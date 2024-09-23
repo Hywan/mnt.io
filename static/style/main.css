@@ -28,10 +28,10 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-dark-blue: oklch(27.23% 0.024 264.05);
   --color-light: oklch(85% .004 360);
   --color-lighter: oklch(from var(--color-light) calc(l + .05) c h);
-  --color-light-darker: oklch(from var(--color-light) calc(l - 0.3) c h);
+  --color-light-darker: oklch(from var(--color-light) calc(l - 0.21) c h);
   --color-accent: oklch(84.83% .114 76.18);
   --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
-  --color-accent2: oklch(64% .26 10);
+  --color-accent2: oklch(59.1% .236 10.25);
 
   --space-very-very-small: .2rem;
   --space-very-small: .25rem;
@@ -330,7 +330,7 @@ main {
 }
 
 #menu {
-  color: var(--color-lighter);
+  color: var(--color-white);
   background: var(--color-accent2);
 
   > ul {
@@ -476,9 +476,9 @@ article {
 } 
 
 .label {
+  color: var(--color-white);
   font-size: 0.7rem;
   font-weight: bold;
-  color: var(--color-ligh-lighter);
   padding: var(--space-very-very-small) var(--space-small);
   vertical-align: text-top;
   border-radius: var(--space-very-small);
