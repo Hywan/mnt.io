@@ -5,29 +5,44 @@ template = "page.html"
 
 The author of this blog is not alone. Companions are part of the adventure.
 
+## Le Comte
+
 {% comte() %}
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis
-urna odio, at auctor ligula tincidunt non. Pellentesque habitant morbi.
+My name is _Le Comte_. I enjoy being the main character of this story. I am
+mostly here to learn, and to interrogate our dear author.
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis
-urna odio, at auctor ligula tincidunt non. Pellentesque habitant morbi.
+My resources are unlimited. I am fortunate to have a fortune with a secret
+origin. If I want to understand something, I will work as hard as possible to
+try to make light on it. My new caprice is these new modern things people are
+calling _computers_. They seem really powerful and I want to learn everything
+about them!
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis
-urna odio, at auctor ligula tincidunt non. Pellentesque habitant morbi.
+I often ask help to my Factotum for the dirty, and sometimes illegal tasks. I
+rarely ask help to Le Procureur, we don't really appreciate his presence.
 {% end %}
 
-Lorem ipsum est dolor.
+## Le Factotum
 
 {% factotum() %}
-  Lorem ipsum.
+My name is _Le Factotum_. It's a latin word, literally saying “do everything”.
+I'm here to assist Le Comte in its fancies.
+
+Even if I have an uneventful life now, Le Comte is partly aware of my smuggling
+past. He says no word about it, but he knows I kept contact with old friends
+across various countries and cultures. These relations are useful to Le Comte to
+achieve its quests to learn everything about computers.
+
+Fundamentally, when Le Comte wants to do something manky, he asks me the best
+way to do that. And I always have a solution.
 {% end %}
 
-Lorem ipsum est dolor.
+## Le Procureur
 
 {% procureur() %}
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis
-urna odio, at auctor ligula tincidunt non. Pellentesque habitant morbi.
+My name is _Le Procureur_. I am the son of the Law and the Order. I know what
+is legal, and what is illegal. If an information is missing, a detail, an
+exactness, I know where to find the answer.
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis
-urna odio, at auctor ligula tincidunt non. Pellentesque habitant morbi.
+Some people believe I am irritating, but I consider myself the defenser of
+discipline.
 {% end %}
