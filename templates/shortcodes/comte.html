@@ -1,7 +1,13 @@
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span>Le Comte</span>
-    <img src="/image/comte.png" role="presentation" />
+
+    <picture role="presentation">
+      <source srcset="/image/comte.avif" type="image/avif" />
+      <source srcset="/image/comte.webp" type="image/webp" />
+      <img src="/image/comte.png" />
+    </picture>
+
   </div>
   {{ body | markdown(inline=false) | safe }}
 </div>

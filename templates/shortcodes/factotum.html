@@ -1,7 +1,12 @@
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span>Le Factotum</span>
-    <img src="/image/factotum.png" role="presentation" />
+
+    <picture role="presentation">
+      <source srcset="/image/factotum.avif" type="image/avif" />
+      <source srcset="/image/factotum.webp" type="image/webp" />
+      <img src="/image/factotum.png" />
+    </picture>
   </div>
   {{ body | markdown(inline=false) | safe }}
 </div>

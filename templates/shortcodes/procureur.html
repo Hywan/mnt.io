@@ -1,7 +1,12 @@
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span>Le Procureur</span>
-    <img src="/image/procureur.png" role="presentation" />
+
+    <picture role="presentation">
+      <source srcset="/image/procureur.avif" type="image/avif" />
+      <source srcset="/image/procureur.webp" type="image/webp" />
+      <img src="/image/procureur.png" />
+    </picture>
   </div>
   {{ body | markdown(inline=false) | safe }}
 </div>

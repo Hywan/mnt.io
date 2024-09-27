@@ -503,7 +503,7 @@ article {
   &[data-character="factotum"] ~ &[data-character="factotum"],
   &[data-character="procureur"] ~ &[data-character="procureur"] {
     .conversation--character {
-      img {
+      picture {
         margin-block-end: 0;
       }
 
@@ -521,7 +521,7 @@ article {
     float: inline-start;
     margin-inline-end: var(--_space);
 
-    img {
+    picture {
       margin-block-end: 1rem;
     }
 
