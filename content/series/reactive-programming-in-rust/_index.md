@@ -4,6 +4,7 @@ sort_by = "date"
 template = "series-overview.html"
 page_template = "series-episode.html"
 weight = 1
+description = "This series explores how to implement and to use efficient reactive programming patterns in Rust"
 [extra]
 complete = false
 +++

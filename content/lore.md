@@ -1,6 +1,7 @@
 +++
 title = "Lore"
 template = "page.html"
+description = "The lore of mnt.io"
 +++
 
 The author of this blog is not alone. Companions are part of the adventure.
