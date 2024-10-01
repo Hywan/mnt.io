@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Ivan Enderlin" />
+
+  {%- if page.description %}
+  <meta name="description" content="{{ page.description }}" />
+  {%- elif section.description %}
+  <meta name="description" content="{{ section.description }}" />
+  {%- else %}
+  <meta name="description" content="mnt.io" />
+  {%- endif %}
+
+  {%- if page.taxonomies.keywords %}
+  <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}" />
+  {%- endif %}
 
   <title>
   {%- block title -%}
