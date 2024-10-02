@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="Ivan Enderlin" />
 
   {%- if page.description %}
@@ -23,15 +23,15 @@
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
 
-  <meta property="og:site_name" content="mnt.io">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
   {%- if page.permalink %}
-  <meta property="og:url" content="{{ page.permalink | safe }}">
+  <meta property="og:url" content="{{ page.permalink | safe }}" />
   {%- elif section.permalink %}
-  <meta property="og:url" content="{{ section.permalink | safe }}">
+  <meta property="og:url" content="{{ section.permalink | safe }}" />
   {%- else %}
-  <meta property="og:url" content="https://mnt.io">
+  <meta property="og:url" content="https://mnt.io" />
   {%- endif %}
 </head>
 <body class="content-grid">
