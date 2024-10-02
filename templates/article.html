@@ -7,9 +7,9 @@
 {% endblock title %}
 
 {% block body %}
-  <article class="article">
+  <article class="article" vocab="https://schema.org/" typeof="Article">
     <header>
-      <h1>{{ page.title | markdown(inline = true) | safe }}</h1>
+      <h1 property="name">{{ page.title | markdown(inline = true) | safe }}</h1>
 
       {{ article::metadata(page = page, full = true) }}
 

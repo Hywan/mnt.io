@@ -8,14 +8,14 @@
 
 {% macro metadata(page, full) %}
   <div class="metadata">
-    <time title="Published date" datetime="{{ page.date }}">
+    <time title="Published date" datetime="{{ page.date }}" property="dataPublished" content="{{ page.date }}">
       {{- page.date | date(format = "%B %d, %Y") -}}
     </time>
-    <span title="Reading time">
+    <span title="Reading time" property="timeRequired" content="PT{{ page.reading_time }}M">
       {{- page.reading_time ~ " minutes read" -}}
     </span>
     {% if page.taxonomies.keywords %}
-    <span title="Keywords">
+    <span title="Keywords" property="keywords" content="{{ page.taxonomies.keywords | join(sep = ", ") }}">
       Keywords:&nbsp;
       {%- for keyword in page.taxonomies.keywords -%}
         <a href="/keywords/{{ keyword | slugify }}">{{ keyword }}</a> 

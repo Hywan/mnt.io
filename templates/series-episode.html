@@ -7,11 +7,11 @@
 {% endblock title %}
 
 {% block body %}
-  <article class="series-episode">
+  <article class="series-episode" vocab="https://schema.org/" typeof="Article">
     {% set series = get_section(path = page.ancestors | last) -%}
 
     <header>
-      <h1>{{ page.title | markdown(inline = true) | safe }}</h1>
+      <h1 property="name">{{ page.title | markdown(inline = true) | safe }}</h1>
 
       <nav>
         <p>From the series <a href="{{ series.path }}">{{ series.title }}</a>.</p>
