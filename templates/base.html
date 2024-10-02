@@ -18,11 +18,7 @@
   <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}" />
   {%- endif %}
 
-  <title>
-  {%- block title -%}
-    mnt.io
-  {%- endblock title -%}
-  </title>
+  <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
 
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
