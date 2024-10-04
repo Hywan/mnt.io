@@ -58,6 +58,7 @@ body {
   font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   font-weight: normal;
+  font-variant: diagonal-fractions slashed-zero;
   line-height: var(--text-line-height);
 
   color: var(--color-light);
@@ -272,6 +273,7 @@ figure {
 }
 
 table {
+  font-variant: tabular-nums;
   border-collapse: collapse;
 
   th, td {
@@ -290,6 +292,10 @@ blockquote {
 q {
   font-style: italic;
   font-size: 1.05em;
+}
+
+time {
+  font-variant: oldstyle-nums;
 }
 
 .content-grid {
