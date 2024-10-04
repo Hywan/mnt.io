@@ -477,6 +477,10 @@ article {
       margin-inline-end: var(--space);
     }
   }
+
+  > div:last-child {
+    margin-block-start: var(--space);
+  }
 } 
 
 .label {

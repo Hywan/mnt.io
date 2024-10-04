@@ -7,27 +7,31 @@
 {% endblock title %}
 
 {% block body %}
-  <h1>{{ section.title }}</h1>
+  <section typeof="CreativeWorkSeries">
+    <h1 property="name" content="{{ section.title }}">{{ section.title }}</h1>
 
-  {{ section.content | safe }}
+    {{ section.content | safe }}
 
-  <h2>Episodes</h2>
+    <h2>Episodes</h2>
 
-  <div role="list">
-  {% for page in section.pages | reverse  %}
-    <div role="listitem" class="article-poster">
-      <a href="{{ page.permalink | safe }}" class="h3">Episode {{ loop.index }} – {{ page.title | markdown(inline=true) | safe }}</a>
-      {{ article::metadata(page = page, full = false) }}
-      {% if page.description %}
-      {{ page.description | markdown(inline = false) | safe }}
-      {% endif %}
+    <div role="list">
+    {% for page in section.pages | reverse  %}
+      <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
+        <a href="{{ page.permalink | safe }}" class="h3" property="url">Episode {{ loop.index }} – <span property="name">{{ page.title | markdown(inline=true) | safe }}</span></a>
+        {{ article::metadata(page = page, full = false) }}
+        {% if page.description %}
+        <div property="description">
+        {{ page.description | markdown(inline = false) | safe }}
+        </div>
+        {% endif %}
+      </div>
+    {% endfor %}
     </div>
-  {% endfor %}
-  </div>
 
-  {% if section.extra.complete -%}
-  <p>This series is complete!</p>
-  {%- else -%}
-  <p>This series is in progress, stay tuned!</p>
-  {%- endif %}
+    {% if section.extra.complete -%}
+    <p>This series is complete!</p>
+    {%- else -%}
+    <p>This series is in progress, stay tuned!</p>
+    {%- endif %}
+  </section>
 {% endblock body %}

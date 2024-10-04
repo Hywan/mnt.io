@@ -7,19 +7,17 @@
 {% endblock title %}
 
 {% block body %}
-  <article class="series-episode" vocab="https://schema.org/" typeof="Article">
+  <article class="series-episode" typeof="Article">
     {% set series = get_section(path = page.ancestors | last) -%}
 
     <header>
       <h1 property="name">{{ page.title | markdown(inline = true) | safe }}</h1>
 
-      <nav>
-        <p>From the series <a href="{{ series.path }}">{{ series.title }}</a>.</p>
+      <nav property="isPartOf" typeof="CreativeWorkSeries">
+        <p>From the series <a href="{{ series.path | safe }}" property="url"><span property="name">{{ series.title }}</span></a>.</p>
       </nav>
 
       {{ article::metadata(page = page, full = true) }}
-
-      {{ article::table_of_content(page = page) }}
     </header>
 
     {{ page.content | safe }}

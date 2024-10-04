@@ -11,31 +11,35 @@
   <p>Hello, I'm Ivan, computers are part of my life, and I like writing articles
   or series about what it is possible to do with these machines. </p>
 
-  <h1>
-    Latest series
-    <small><a href="{{ get_url(path = "@/series/_index.md") }}">View all</a></small>
-  </h1>
+  <section typeof="ItemList">
+    <h1>
+      <span property="name">Latest series</span>
+      <small><a href="{{ get_url(path = "@/series/_index.md") }}" property="url">View all</a></small>
+    </h1>
 
-  <div role="list">
-  {% set section = get_section(path = "series/_index.md") -%}
-  {% for section_path in section.subsections | reverse | slice(end = 5) -%}
-    <div role="listitem" class="series-poster">
-      {{- series::poster(section = get_section(path = section_path)) -}}
+    <div role="list">
+    {% set section = get_section(path = "series/_index.md") -%}
+    {% for section_path in section.subsections | reverse | slice(end = 5) -%}
+      <div role="listitem" class="series-poster" property="itemListElement" typeof="CreativeWorkSeries">
+        {{- series::poster(section = get_section(path = section_path)) -}}
+      </div>
+    {% endfor %}
     </div>
-  {% endfor %}
-  </div>
+  </section>
 
-  <h1>
-    Pinned articles
-    <small><a href="{{ get_url(path = "@/articles/_index.md") }}">View all</a></small>
-  </h1>
+  <section vocab="https://schema.org" typeof="ItemList">
+    <h1>
+      <span property="name">Pinned articles</span>
+      <small><a href="{{ get_url(path = "@/articles/_index.md") }}" property="url">View all</a></small>
+    </h1>
 
-  <div role="list">
-  {% set section = get_section(path = "articles/_index.md") -%}
-  {% for page in section.pages | filter(attribute = "extra.pinned", value = true) -%}
-    <div role="listitem" class="article-poster">
-      {{- article::poster(page = page) -}}
+    <div role="list">
+    {% set section = get_section(path = "articles/_index.md") -%}
+    {% for page in section.pages | filter(attribute = "extra.pinned", value = true) -%}
+      <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+        {{- article::poster(page = page) -}}
+      </div>
+    {% endfor %}
     </div>
-  {% endfor %}
-  </div>
+  </section>
 {% endblock body %}
