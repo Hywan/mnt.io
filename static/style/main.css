@@ -115,16 +115,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-:is(h1, h2, h3, h4, h5, h6):not(:first-child):not(:last-child) {
-  margin-block: var(--space-very-large) var(--space-large);
+:is(h1, h2, h3, h4, h5, h6) {
+  --_margin-block-start: var(--space-very-large);
+
+  margin-block: var(--_margin-block-start) var(--space-large);
+
+  :not(section:not(:first-child)) > &:is(:first-child, :last-child) {
+    --_margin-block-start: 0;
+  }
 
   &.separator {
     margin-block: var(--space-very-large);
   }
-}
-
-section > :is(h1, h2, h3, h4, h5, h6):first-child {
-  margin-block: var(--space-very-large) var(--space-large);
 }
 
 h1 {
