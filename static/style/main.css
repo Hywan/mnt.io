@@ -236,6 +236,8 @@ pre {
   &.language-php { --text: "PHP" }
   &.language-xml { --text: "XML" }
   &.language-json { --text: "JSON" }
+  &.language-html { --text: "HTML" }
+  &.language-toml { --text: "TOML" }
 }
 
 figure {
