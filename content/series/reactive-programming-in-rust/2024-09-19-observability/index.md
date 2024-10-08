@@ -466,7 +466,7 @@ to use, no matter how it works internally.
 
 Do you know the other good news? We don't have to implement it by ourselves,
 because some nice people already did it! Enter [the `imbl` crate][`imbl`]. This
-crate provides [a `Vector` type][`imbl::Vector`]. It can be use like a regular
+crate provides [a `Vector` type][`imbl::Vector`]. It can be used like a regular
 `Vec`. (Side note: it's even smarter than a `Vec` because it implements smart
 head and tail chunking[^UCR2014], and allocates in the stack or on the heap
 depending on the size of the collection, similarly to [the `smallvec`
@@ -490,7 +490,7 @@ interesting:
   take a `&mut self`, cool.
 * Then, there is a `with_capacity` method, this is intriguing, <i>add to
   notes</i>,
-* Finally, we find our not-so-ol' friend `subscribe`, but it returns a
+* Finally, we find our not-so-ol' friend `subscribe`, but this time it returns a
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
 Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
