@@ -128,7 +128,7 @@ example a series overview with all its episodes looks like this:
 ```html
 <main vocab="https://schema.org">
   <section typeof="CreativeWorkSeries">
-    <h1 property="name" content="From Rust to beyond">From Rust to beyond</h1>
+    <h1 property="name">From Rust to beyond</h1>
 
     <!-- … -->
 
