@@ -2,9 +2,13 @@
 
 {% extends "base.html" %}
 
-{% block title %}
+{% block title -%}
   {{ section.title }}
-{% endblock title %}
+{%- endblock title %}
+
+{% block long_title -%}
+  {{ section.title }}
+{%- endblock long_title %}
 
 {% block body %}
   <section typeof="ItemList">

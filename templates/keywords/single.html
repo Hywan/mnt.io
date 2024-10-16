@@ -2,9 +2,13 @@
 
 {% extends "base.html" %}
 
-{% block title %}
+{% block title -%}
   The {{ term.name | capitalize }} Keyword
-{% endblock title %}
+{%- endblock title %}
+
+{% block long_title -%}
+  The {{ term.name | capitalize }} Keyword
+{%- endblock long_title %}
 
 {% block body %}
   <h1>The {{ term.name | capitalize}} Keyword</h1>
