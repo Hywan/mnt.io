@@ -3,8 +3,13 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Ivan Enderlin" />
 
+  <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
+
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
+
+  <meta name="author" content="Ivan Enderlin" />
   {%- if page.description %}
   <meta name="description" content="{{ page.description }}" />
   {%- elif section.description %}
@@ -12,16 +17,9 @@
   {%- else %}
   <meta name="description" content="mnt.io" />
   {%- endif %}
-
   {%- if page.taxonomies.keywords %}
   <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}" />
   {%- endif %}
-
-  <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
-
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
-
   <meta property="og:title" content="{%- block long_title -%}mnt.io{%- endblock long_title -%}" />
   <meta property="og:site_name" content="mnt.io" />
   <meta property="og:locale" content="en_GB" />
