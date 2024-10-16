@@ -23,7 +23,8 @@
   <meta property="og:title" content="{%- block long_title -%}mnt.io{%- endblock long_title -%}" />
   <meta property="og:site_name" content="mnt.io" />
   <meta property="og:locale" content="en_GB" />
-  <meta property="og:type" content="article" />
+  {% set first_component = page.components | default(value = []) | first -%}
+  <meta property="og:type" content="{% if first_component == "series" or first_component == "articles" -%}article{% else %}website{% endif %}" />
   {%- if page.permalink %}
   <meta property="og:url" content="{{ page.permalink | safe }}" />
   {%- elif section.permalink %}
