@@ -246,11 +246,16 @@ figure {
 
   margin-block: var(--space-large);
 
-  &:has(img, picture) {
+  &:has(img, picture, .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
+
+    .youtube-player {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+    }
 
     code {
       background: none;
@@ -264,6 +269,13 @@ figure {
     max-width: 70%;
     text-align: center;
     text-wrap: balance;
+
+    a, a:hover, a:focus {
+      color: currentColor;
+      text-decoration-color: currentColor;
+      text-decoration-line: underline;
+      text-decoration-thickness: 3px;
+    }
   }
 
   :not(figcaption) {
@@ -564,7 +576,7 @@ article {
     margin-block-start: 0;
   }
 
-  a {
+  a, a:hover, a:focus {
     color: currentColor;
     text-decoration-color: currentColor;
     text-decoration-line: underline;
