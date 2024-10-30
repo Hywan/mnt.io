@@ -252,14 +252,14 @@ figure {
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
 
-    .youtube-player {
-      aspect-ratio: 16 / 9;
-      width: 100%;
-    }
-
     code {
       background: none;
     }
+  }
+
+  .youtube-player {
+    aspect-ratio: 16 / 9;
+    width: 100%;
   }
 
   figcaption {
