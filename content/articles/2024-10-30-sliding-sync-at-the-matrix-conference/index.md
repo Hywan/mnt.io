@@ -4,6 +4,8 @@ date = "2024-10-30"
 description = "I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It's been many many months that I'm working on this project, and I'm joyful it's now available to everyone for a better Matrix user experience!"
 [taxonomies]
 keywords=["matrix", "messaging", "sync", "rust"]
+[extra]
+pinned = true
 +++
 
 Berlin. <time datetime="2024-09-21 10:00">Saturday, September 21, 2024.
@@ -29,7 +31,7 @@ the open source world.
 Matrix previous synchronisation mechanism is slow and inefficient. To put
 Matrix on the hands of everyone for a daily pleasant usage, we have started
 to experiment with a new sync mechanism, called Sliding Sync. The MSC —which
-stands for Matrix Spec Changes— like RFC for example—, so the [MSC3575] was
+stands for Matrix Spec Changes, like RFC for example—, so the [MSC3575] was
 our experimental foundation to play with a new sync mechanism. After many sweat
 and tears, we ultimately found a working pattern and design that fulfill a
 large majority of our usecases. Along the way, the implementation inside the
