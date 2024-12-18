@@ -59,7 +59,7 @@ the template:
 
 That's a nice feature to promote some articles.
 
-In comparison to WordPres.com, the new homepage is 36.8KiB, that's 31 times less!
+In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times less!
 
 ## Articles
 
