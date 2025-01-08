@@ -418,8 +418,8 @@ default. Using `Observable::set` will create a new `Arc`, but we cannot update
 the value _inside_ the `Arc`, except if we use a lock… Well, we are adding more
 and more complexity.
 
-<q>Spes salutis</q>[^spes_salutis]! Fortunately for us, _immutable data
-structures_ exist in Rust.
+<q lang="la">Spes salutis</q>[^spes_salutis]! Fortunately for us, _immutable
+data structures_ exist in Rust.
 
 > An immutable data structure is a data structure which can be copied and modified
 > efficiently without altering the original.
@@ -456,8 +456,8 @@ is a lot of subtleties, possible conflicts, and many memory guarantees that I am
 not anticipating yet, right?
 {% end %}
 
-Oh… <q>beati pauperes in spiritu</q>[^beati_pauperes_in_spiritu]… it is
-actually really complex. It may be a topic for another series or articles.
+Oh… <q lang="la">beati pauperes in spiritu</q>[^beati_pauperes_in_spiritu]… it
+is actually really complex. It may be a topic for another series or articles.
 For the moment, if you interested, let me redirect you to one research paper
 that proposes an immutable `Vec`: <cite>RRR Vector: A Practical General
 Immutable Sequence</cite>[^SRUB2015]. Be cool though, understanding this part is
