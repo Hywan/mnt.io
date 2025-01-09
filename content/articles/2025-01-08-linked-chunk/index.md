@@ -8,7 +8,7 @@ keywords=["matrix", "rust", "data-structure"]
 pinned = true
 +++
 
-[The Matrix protocol][Matrix] is a solid piece of technology for providing
+[The Matrix protocol][Matrix] is a solid piece of technology providing
 decentralized, end-to-end encrypted, real-time communication. Some people
 are using it to develop personal messaging applications, like [Element] or
 [Fractal]. Some people are using it to develop bots, like [trinity]. Usages
@@ -17,7 +17,7 @@ are radically different: a regular user of a messaging application can have
 in 10'000 or 500'000 rooms.
 
 As a contributor of the [Matrix Rust SDK][matrix-rust-sdk], I feel pretty
-concerned by the performance of this set of libraries that aim at developing
+concerned by the performance of this set of libraries aiming at developing
 Matrix clients. This project is used for this magnitude of different projects,
 and must provide great performances in all situations.
 
@@ -61,25 +61,27 @@ Without constraints, so, we cannot express a correct solution. We need to list
 them. When dealing with the Matrix protocol, we have 2 ways of fetching events
 from a federation of homeservers onto a client:
 
-1. By syncing: syncing refers to the mechanism that provides the most recent
-   events, it starts from _now_, no absolute point in time, it is just, well,
-   _now_.
+1. By syncing: syncing refers to the mechanism that provides the new events, it
+   starts from _now_, no absolute point in time, it is just, well, _now_,
 2. By paginating: paginating can happen in two directions, forwards or backwards,
-   starting from an absolute point in time, known as a _batch token_, until
+   starting from an absolute point in time, known as a _batch token_, up to
    another _batch token_ and until a certain number of events are fetched.
 
-Syncing happens via different HTTP API. The most recent one is defined by the
-[MSC4186], known as [Simplified Sliding Sync (see my article about it)](@/articles/2024-10-30-sliding-sync-at-the-matrix-conference/index.md).
+Syncing happens via different HTTP API, usually ending by
+`/sync`. The most recent one is defined by the [MSC4186], known as [Simplified
+Sliding Sync (see my talk at the Matrix Conference 2024 about
+it)](@/articles/2024-10-30-sliding-sync-at-the-matrix-conference/index.md).
 Paginating is part of the specification, [see
 `/rooms/{room_id}/messages`](/messages).
 
 Okay. What are the constraints then?
 
-When syncing, we don't want to sync _all new events_. It could dramatically be
-slow from the network point of view, or heavy from the homeserver point of view.
-It can pretty quickly reach mebibytes[^2] of data. Indeed, considering a modest
-encrypted event is about 800 bytes, syncing 100 events per room, for 200 rooms,
-would result in a payload of approximately 15.3 MiB. That's a lot.
+When syncing, we don't want to sync _all new events_ since the last sync. It
+could dramatically be slow from the network point of view, or heavy from the
+homeserver point of view. It can pretty quickly reach mebibytes[^2] of data.
+Indeed, considering a modest encrypted event is about 800 bytes, syncing 100
+events per room, for 200 rooms, would result in a payload of approximately
+15.3 MiB. That's a lot.
 
 That why MSC4186 offers (very roughly explained) a mechanism to limit the number
 of events per room the client will _sync_, over a subset of rooms: this is
@@ -88,46 +90,100 @@ in addition of a _batch token_. When a room is opened, the client might want to
 _paginate_ to fetch more events.
 
 The assiduous reader you are is starting to see the problem. A room contains
-events, but also… holes waiting to be filled! Imagine the events are numbered:
+events, but also… holes waiting to be filled! Imagine the following sequence
+of syncs:
 
-| room events before |  sync response | room events after |
-|-|-|-|
-| `[]` | `[$e0, $e1]` | `[$e0, $e1]` |
-| `[$e0, $e1]` | `[$e5, $e6]` | `[$e0, $e1, …, $e5, $e6]` |
-| `[$e0, $e1, …, $e5, $e6]` | `[$e7]` | `[$e0, $e1, …, $e5, $e6, $e7]` |
+<figure>
+  
+  | sync response | limited | room events becomes… |
+  |:-|:-|:-|
+  | `[$e0, $e1]` | no | `[$e0, $e1]` |
+  | `[$e5, $e6]` | yes | `[$e0, $e1, …, $e5, $e6]` |
+  | `[$e7]` | no | `[$e0, $e1, …, $e5, $e6, $e7]` |
 
-In this table, the `…` represent a hole. The first sync returns 2 events. The
-second sync returns 2 events but they are _not_ connected to the previous one,
-we know there is a hole. The third sync returns 1 event, which is connected to
-the previous one, so there is no hole.
+  <figcaption>
+  
+  A sequence of syncs, which return up to 2 events each time, starting from an
+  empty room. The _limited_ column represents whether the sync has returned a
+  partial response, i.e. if events are missing between this sync response and
+  the previous one. \
+  In this table, the `…` represents a hole.
 
-Now, back to our question. What structure to use to store this kind of data?
+  </figcaption>
+
+</figure>
+
+The first sync returns 2 events. The second sync returns 2 events but they are
+_not_ connected to the previous one, we know there is a hole. The third sync
+returns 1 event, which is connected to the previous one, so there is no hole.
+
+Now, back to our question. What structure to use to represent this kind of data?
 
 {% comte() %}
 I guess we didn't mention all the constraints, do we?
 
 I also foresee we will need an in-memory data structure, and a persistent data
-structure, like on disk.
+structure, like on disk. After all, the goal is to _store_ the events so that
+one doesn't need to re-fetch them from the network. Once they are stored, it's
+useful to do operations on events, like looking for all medias, searching some
+texts etc. This dual approach (in-memory vs on-disk) is an important constraint,
+is it?
 {% end %}
 
 Absolutely. This article won't list all the constraints, because they are many,
-and it can rapidly become boring. Although, we can add two important
-constraints:
+and it can rapidly become boring. Constraints are necessary to know which
+operations will be applied on the data structure, and make the most frequent
+ones efficient. Although, we can add two important constraints:
 
 * Room events are not read-only: we must be able to remove one event at a
   particular position,
 * Room events are not append-only: we must be able to insert events at any
-  position, not only after already fetched events.
+  position, not only after already fetched events (think of pagination).
 
-About in-memory versus on-disk, yes, this is really important constraint. It
-should be light in memory, it should load fast… HERE
+About in-memory versus on-disk, yes, this is really an important constraint.
+
+Why do we need an in-memory representation? For instance, [many events have a
+relationship to other events][relates_to], it implies many look up operations
+(i.e. iterate over events). Another example, we want to provide a cache: a user
+is allowed to switch rooms to interact with multiple groups of people, in this
+case we don't want to reload all events everytime a room is opened, it would be
+a waste of resources.
+
+Why do we need an on-disk representation? As {{ comte_name() }} said, we want
+to not refetch all events from the network everytime. It brings offline support,
+but also a large palette of nice API, like searching events, listing media,
+listing links, stuff like that. However, we must be careful to keep in-memory
+and on-disk synchronized: defining a strict flow for the data updates is
+important considering in-memory data is likely to be a subset of on-disk data,
+more on that later.
+
+One last thing to know, in the Matrix protocol, there is 2 different orders
+for events (without giving too much details):
+
+1. Sync ordering: you can assign a rank to each event received via the sync,
+2. Topological order: it's a more global order from the federation point of
+   view.
+
+The problem is: topological order is used by pagination, whilst sync ordering
+is used by sync. There is no canonical way to reconcile both orderings. Put
+in other terms: given an event, it's **impossible** to always know whether it
+should be _before_ or _after_ another event. The answer depends on how the event
+has been fetched.
 
 That's enough details to understand the problem.
 
-> We need to represent a set of events with holes. A hole can be filled by
-> events, plus other holes.
+> We need to represent a set of partially ordered events with holes. A hole can
+> be filled by events, plus other holes.
 
+## Gazing existing solutions
 
+Before unveiling our super-inventor costume, let's look at what exists in the
+wild.
+
+Because events cannot be ordered by themselves, but has a contextual ordering
+(it depends if the events have been received by sync or pagination), it excludes
+all data structures like B-trees, B-tree maps. It actually excludes sets, maps,
+hash maps and so on.
 
 
 [Matrix]: https://matrix.org/
@@ -138,6 +194,7 @@ That's enough details to understand the problem.
 [bouvier]: https://bouvier.cc/
 [MSC4186]: https://github.com/matrix-org/matrix-spec-proposals/pull/4186
 [/messages]: https://spec.matrix.org/v1.13/client-server-api/#get_matrixclientv3roomsroomidmessages
+[relates_to]: https://spec.matrix.org/v1.13/client-server-api/#forming-relationships-between-events
 
 
 [^1]: If, between the lines, you read a reaction to the generative artifical
