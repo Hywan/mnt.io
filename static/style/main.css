@@ -322,6 +322,12 @@ time {
   font-variant: oldstyle-nums;
 }
 
+math {
+  /* Let the browser fallback to its own math font */
+  font-family: math;
+  math-style: normal;
+}
+
 .content-grid {
   --padding-inline: 1rem;
   --content-max-width: 70ch;
