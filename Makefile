@@ -1,8 +1,5 @@
-install-css-dev:
-	npm install -g postcss postcss-cli postcss-preset-env cssnano
-
 build-css:
-	postcss 'static/style/*.css' --dir static/style/min --no-map --use postcss-preset-env --use cssnano
+	lightningcss static/style/*.css --minify --output-dir static/style/min/
 
 build-site:
 	zola build
@@ -10,5 +7,4 @@ build-site:
 build: build-css build-site
 
 watch:
-	postcss 'static/style/*.css' --dir static/style/min --no-map --use postcss-preset-env --use cssnano --watch &
 	zola serve && fg
