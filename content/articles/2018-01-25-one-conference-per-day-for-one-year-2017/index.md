@@ -53,7 +53,15 @@ conferences](https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKn
 I've added 78 conferences in 2017, and 3 new conferences have been added
 since then.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=9Q6Qf-EOE4nyFgrn&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<figure>
+  <iframe class="youtube-player" width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=9Q6Qf-EOE4nyFgrn&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+  <figcaption>
+
+  My best-of talks playlist.
+
+  </figcaption>
+</figure>
 
 ## Thoughts and conclusion
 
