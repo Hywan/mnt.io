@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <text x="27" y="263" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68" transform="rotate(270 27 263)">
+Iterations
+</text>
+  <text x="480" y="513" dy="-.5ex" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+Average Time (ms)
+</text>
+  <path fill="none" stroke="#000" d="M86 53v419"/>
+  <text x="77" y="472" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0
+</text>
+  <path fill="none" stroke="#000" d="M81 472h5"/>
+  <text x="77" y="417" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+50
+</text>
+  <path fill="none" stroke="#000" d="M81 417h5"/>
+  <text x="77" y="362" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+100
+</text>
+  <path fill="none" stroke="#000" d="M81 362h5"/>
+  <text x="77" y="307" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+150
+</text>
+  <path fill="none" stroke="#000" d="M81 307h5"/>
+  <text x="77" y="252" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+200
+</text>
+  <path fill="none" stroke="#000" d="M81 252h5"/>
+  <text x="77" y="197" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+250
+</text>
+  <path fill="none" stroke="#000" d="M81 197h5"/>
+  <text x="77" y="142" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+300
+</text>
+  <path fill="none" stroke="#000" d="M81 142h5"/>
+  <text x="77" y="87" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+350
+</text>
+  <path fill="none" stroke="#000" d="M81 87h5m1 386h785"/>
+  <text x="104" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.3
+</text>
+  <path fill="none" stroke="#000" d="M104 473v5"/>
+  <text x="191" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.32
+</text>
+  <path fill="none" stroke="#000" d="M191 473v5"/>
+  <text x="278" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.34
+</text>
+  <path fill="none" stroke="#000" d="M278 473v5"/>
+  <text x="365" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.36
+</text>
+  <path fill="none" stroke="#000" d="M365 473v5"/>
+  <text x="453" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.38
+</text>
+  <path fill="none" stroke="#000" d="M453 473v5"/>
+  <text x="540" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.4
+</text>
+  <path fill="none" stroke="#000" d="M540 473v5"/>
+  <text x="627" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.42
+</text>
+  <path fill="none" stroke="#000" d="M627 473v5"/>
+  <text x="714" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+2.44
+</text>
+  <path fill="none" stroke="#000" d="M714 473v5"/>
+  <text x="933" y="263" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68" transform="rotate(90 933 263)">
+Density (a.u.)
+</text>
+  <path fill="none" stroke="#000" d="M873 53v420"/>
+  <text x="883" y="473" dy=".5ex" font-family="sans-serif" font-size="9.68">
+0
+</text>
+  <path fill="none" stroke="#000" d="M873 473h5"/>
+  <text x="883" y="401" dy=".5ex" font-family="sans-serif" font-size="9.68">
+2
+</text>
+  <path fill="none" stroke="#000" d="M873 401h5"/>
+  <text x="883" y="329" dy=".5ex" font-family="sans-serif" font-size="9.68">
+4
+</text>
+  <path fill="none" stroke="#000" d="M873 329h5"/>
+  <text x="883" y="257" dy=".5ex" font-family="sans-serif" font-size="9.68">
+6
+</text>
+  <path fill="none" stroke="#000" d="M873 257h5"/>
+  <text x="883" y="185" dy=".5ex" font-family="sans-serif" font-size="9.68">
+8
+</text>
+  <path fill="none" stroke="#000" d="M873 185h5"/>
+  <text x="883" y="112" dy=".5ex" font-family="sans-serif" font-size="9.68">
+10
+</text>
+  <path fill="none" stroke="#000" d="M873 112h5"/>
+  <path opacity=".5" fill="#1F78B4" d="M87 472h3l1-1h10l1-1h7l1-1h5l1-1h4l1-1h3l2-1h1l2-1h3l2-1h1l2-1 1-1h2l2-1h1l2-1 1-1h2l2-1 1-1 2-1h1l2-1 1-1 2-1 2-1 1-1 2-1 1-1 2-1 1-1 2-2 2-1 1-1 2-1 1-2 2-1 1-2 2-1 2-2 1-1 2-2 1-1 2-2 1-2 2-2 2-2 1-2 2-2 1-2 2-2 1-2 2-2 2-2 1-3 2-2 1-3 2-2 2-3 1-2 2-3 1-3 2-2 1-3 2-3 2-3 1-3 2-3 1-3 2-3 1-4 2-3 2-3 1-4 2-3 1-3 2-4 1-4 2-3 2-4 1-3 2-4 1-4 2-4 1-4 2-4 2-4 1-4 2-4 1-4 2-4 1-4 2-4 2-4 1-4 2-4 1-5 2-4 2-4 1-4 2-4 1-5 2-4 1-4 2-4 2-5 1-4 2-4 1-4 2-4 1-4 2-5 2-4 1-4 2-4 1-4 2-4 1-4 2-4 2-4 1-4 2-3 1-4 2-4 1-3 2-4 2-4 1-3 2-4 1-3 2-3 1-4 2-3 2-3 1-3 2-3 1-3 2-3 2-2 1-3 2-3 1-2 2-3 1-2 2-2 2-3 1-2 2-2 1-2 2-2 1-2 2-1 2-2 1-2 2-1 1-2 2-1 1-1 2-2 2-1 1-1 2-1 1-1 2-1h1l2-1 2-1h1l2-1h1l2-1h8l1-1 2 1h6l2 1h3l2 1h1l2 1h1l2 1 1 1h2l2 1 1 1h2l1 1 2 1 1 1 2 1h2l1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 2 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1h1l2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 1 2 1 1 1 2 1 2 1 1 1 2 2 1 1 2 1 1 1 2 1 2 1 1 1 2 1 1 2 2 1 1 1 2 1 2 1 1 2 2 1 1 1 2 2 2 1 1 1 2 2 1 1 2 2 1 1 2 2 2 1 1 2 2 1 1 2 2 2 1 1 2 2 2 2 1 1 2 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2 1 2 2 2 1 2 2 2 2 2 1 3 2 2 1 2 2 2 2 3 1 2 2 3 1 2 2 2 1 3 2 2 2 3 1 3 2 2 1 3 2 2 1 3 2 3 2 3 1 2 2 3 1 3 2 3 1 2 2 3 2 3 1 3 2 3 1 3 2 3 1 2 2 3 2 3 1 3 2 3 1 3 2 3 1 3 2 3 2 2 1 3 2 3 1 3 2 3 2 3 1 3 2 2 1 3 2 3 1 3 2 3 2 2 1 3 2 3 1 2 2 3 1 3 2 2 2 3 1 2 2 3 1 2 2 3 1 2 2 3 2 2 1 2 2 3 1 2 2 2 1 2 2 2 2 3 1 2 2 2 1 2 2 2 1 2 2 1 2 2 1 2 2 2 1 2 2 1 2 2 1 2 2 1 1 2 2 1 1 2 2 1 2 2 1 1 2 1 1 2 2 1 1 1 2 1 2 1 1 1 2 2 1 1 2 1 1 1 2 1 2 1h1l2 1 1 1 2 1 1 1h2l2 1 1 1 2 1h1l2 1 1 1h2l2 1h1l2 1h1l2 1h2l1 1h3l2 1h1l2 1h3l2 1h4l2 1h5l1 1h7l1 1h10l1 1h7v1H87z"/>
+  <path fill="none" stroke="#1F78B4" d="M463 472V53"/>
+  <path fill="none" stroke="#FF7F00" d="M87 472V53m733 419V53"/>
+  <path fill="none" stroke="#E31A1C" d="M87 472V53m786 419V53"/>
+  <text x="776" y="228" dy=".76em" font-family="sans-serif" font-size="9.68">
+PDF
+</text>
+  <text x="776" y="243" dy=".76em" font-family="sans-serif" font-size="9.68">
+Mean
+</text>
+  <text x="776" y="258" dy=".76em" font-family="sans-serif" font-size="9.68">
+&quot;Clean&quot; sample
+</text>
+  <text x="776" y="273" dy=".76em" font-family="sans-serif" font-size="9.68">
+Mild outliers
+</text>
+  <text x="776" y="288" dy=".76em" font-family="sans-serif" font-size="9.68">
+Severe outliers
+</text>
+  <path opacity=".5" fill="#1F78B4" d="M746 228h20v10h-20z"/>
+  <path fill="none" stroke="#1F78B4" d="M746 248h20"/>
+  <circle cx="756" cy="263" r="3" fill="#1F78B4"/>
+  <circle cx="756" cy="278" r="3" fill="#FF7F00"/>
+  <circle cx="756" cy="293" r="3" fill="#E31A1C"/>
+</svg>

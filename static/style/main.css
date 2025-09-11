@@ -246,6 +246,10 @@ figure {
 
   margin-block: var(--space-large);
 
+  &:last-child {
+    margin-block-end: 0;
+  }
+
   &:has(img, picture, .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
@@ -316,6 +320,37 @@ q {
 
 time {
   font-variant: oldstyle-nums;
+}
+
+details {
+  --_padding: var(--space);
+
+  position: relative;
+
+  padding: var(--_padding);
+  border: var(--border-width) var(--border-color) solid;
+
+  summary {
+    cursor: pointer;
+    padding-inline-end: var(--space-very-large);
+
+    &::marker {
+      content: none;
+    }
+
+    &::after {
+      position: absolute;
+      top: var(--_padding);
+      right: var(--_padding);
+
+      content: '+';
+      font-weight: bold;
+    }
+  }
+
+  &:open summary::after {
+    content: '−';
+  }
 }
 
 .content-grid {
@@ -595,6 +630,18 @@ article {
 
 .text-align-start { text-align: start }
 .text-align-end { text-align: end }
+
+.footnote-reference a {
+  margin-inline: var(--space-very-very-small);
+
+  &:before {
+    content: '( ';
+  }
+
+  &:after {
+    content: ' )';
+  }
+}
 
 .footnote-definition {
   --_margin: var(--space-very-large);
