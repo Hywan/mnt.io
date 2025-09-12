@@ -104,7 +104,7 @@ CREATE TABLE "gap_chunks" (
 
 Last contender, `events`. The assiduous reader may have noted that
 `event_chunks` doesn't contain the content of the events: only its ID and its
-position, <i>roll its eyes</i>… let's digress a bit, should we? Why that? To
+position, <i>roll its eyes</i>… let's digress a bit, should we? Why is that? To
 handle out-of-band events. In the Matrix protocol, we can receive events via:
 
 - [the `/sync` endpoint][`/sync`], it's the main source of inputs, we get most
@@ -120,7 +120,7 @@ When an event is fetched but cannot be positioned regarding other events, it is
 considered _out-of-band_: it belongs to zero linked chunk, but we keep it in the
 database. Maybe we can attach it to a linked chunk later, or we want to keep it
 for saving future network requests. Anyway. You're a great digression companion.
-Let's jump back on our tables.
+Let's jump back to our tables.
 
 The `events` table contains _all_ the events: in-band _and_ out-of-band.
 
