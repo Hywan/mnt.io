@@ -760,7 +760,7 @@ Only two queries. All tests are passing. Now let's see what the benchmark has to
 </details>
 
 **It is <math><mn>16.7</mn><mo>×</mo></math> faster compared to the previous
-solution, be <math><mn>211</mn><mo>×</mo></math> faster than the first query!
+solution, so <math><mn>211</mn><mo>×</mo></math> faster than the first query!
 We went from 502ms to 2ms. That's mental! From a throughput of 19.9 Kelem/s
 to 4.2 Melem/s!** [You can see the patches containing the improvement][pr-5425].
 
