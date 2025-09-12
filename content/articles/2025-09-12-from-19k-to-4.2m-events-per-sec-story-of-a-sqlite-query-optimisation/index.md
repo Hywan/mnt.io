@@ -298,9 +298,9 @@ This query does the following:
 2. otherwise, the chunk is of kind `ChunkContent::Gap`, so it will try to count
    but… no event is associated to it: it's impossible to get `ec.chunk_id =
    lc.id` to be true for a gap. This query will scan _all events_ for each
-   gap… for nothing! This is a linear scan here. If there are 300 gaps for this
-   linked chunk, and 5000 events, 1.5 millions events will be scanned for **no
-   reason**!
+   gap… for reason whatsoever! This is a linear scan here. If there are 300 gaps
+   for this linked chunk, and 5000 events, 1.5 millions events will be scanned
+   for **no reason**!
 
 How lovingly inefficient.
 
