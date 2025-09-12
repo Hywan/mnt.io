@@ -302,7 +302,7 @@ This query does the following:
    linked chunk, and 5000 events, 1.5 millions events will be scanned for **no
    reason**!
 
-## <math><mn>12.2</mn><mo>×</mo></math> faster
+## <math><mn>12.6</mn><mo>×</mo></math> faster
 
 <q>Let's use an [`INDEX`][`CREATE INDEX`]</q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).
@@ -354,8 +354,8 @@ May I interrupt?
 Do you know that SQLite provides [a `CASE` expression][`CASE`]? I know it's
 unusual. SQL designers prefer to think in terms of sets, sub-sets, joins,
 temporal tables, partial indexes… but honestly, for what I'm concerned, in
-our case, it's simple enough and it can be powerful. It's a maddeningly simple
-`if`/`else`.
+our case, it's simple enough and it can be powerful. It's a maddeningly
+pragmatic `if`/`else`.
 
 Moreover, the `type` column is already typed as an enum with the `CHECK("type"
 IN ('E', 'G'))` constraint. Maybe the SQL engine can run some even smarter
@@ -409,39 +409,39 @@ are the before/after results.
     <tbody>
       <tr>
         <td>Throughput</td>
-        <td>20.650 Kelem/s</td>
-        <td>20.686 Kelem/s</td>
-        <td>20.722 Kelem/s</td>
+        <td>19.832 Kelem/s</td>
+        <td>19.917 Kelem/s</td>
+        <td>19.999 Kelem/s</td>
       </tr>
       <tr>
         <td><math><msup><mi>R</mi><mn>2</mn></msup></math></td>
-        <td>0.1032688</td>
-        <td>0.1374475</td>
-        <td>0.1035309</td>
+        <td>0.0880234</td>
+        <td>0.1157540</td>
+        <td>0.0857823</td>
       </tr>
       <tr>
         <td>Mean</td>
-        <td>482.58 ms</td>
-        <td>483.43 ms</td>
-        <td>484.27 ms</td>
+        <td>500.03 ms</td>
+        <td>502.08 ms</td>
+        <td>504.24 ms</td>
       </tr>
       <tr>
         <td title="Standard Deviation">Std. Dev.</td>
-        <td>929.07 µs</td>
-        <td>1.4376 ms</td>
-        <td>1.7083 ms</td>
+        <td>2.2740 ms</td>
+        <td>3.6256 ms</td>
+        <td>4.1963 ms</td>
       </tr>
       <tr>
         <td>Median</td>
-        <td>481.90 ms</td>
-        <td>483.82 ms</td>
-        <td>484.60 ms</td>
+        <td>498.23 ms</td>
+        <td>500.93 ms</td>
+        <td>506.25 ms</td>
       </tr>
       <tr>
         <td title="Median Absolute Deviation">MAD</td>
-        <td>173.82 µs</td>
-        <td>2.1061 ms</td>
-        <td>2.4203 ms</td>
+        <td>129.84 µs</td>
+        <td>4.1713 ms</td>
+        <td>6.1184 ms</td>
       </tr>
     </tbody>
   </table>
@@ -452,6 +452,39 @@ are the before/after results.
 
   </figcaption>
 </figure>
+
+<details>
+  <summary>
+
+  The Probability Distribution Function graph, and the Iteration times graph for
+  the `LEFT JOIN` approach
+
+  </summary>
+
+  <figure>
+
+  ![Probability distribution function](./1-pdf.svg)
+
+  <figcaption>
+
+  Benchmark's Probability Distribution Function for the `LEFT JOIN` approach.
+
+  </figcaption>
+
+  </figure>
+
+  <figure>
+
+  ![Iteration times](./1-iteration-times.svg)
+
+  <figcaption>
+
+  Benchmark's Iteration Times for the `LEFT JOIN` approach.
+
+  </figcaption>
+
+  </figure>
+</details>
 
 <figure>
 
@@ -467,39 +500,39 @@ are the before/after results.
     <tbody>
       <tr>
         <td>Throughput</td>
-        <td>252.48 Kelem/s</td>
-        <td>253.52 Kelem/s</td>
-        <td>254.31 Kelem/s</td>
+        <td>251.61 Kelem/s</td>
+        <td>251.84 Kelem/s</td>
+        <td>251.98 Kelem/s</td>
       </tr>
       <tr>
         <td><math><msup><mi>R</mi><mn>2</mn></msup></math></td>
-        <td>0.9993976</td>
-        <td>0.9995784</td>
-        <td>0.9992583</td>
+        <td>0.9999778</td>
+        <td>0.9999833</td>
+        <td>0.9999673</td>
       </tr>
       <tr>
         <td>Mean</td>
-        <td>39.381 ms</td>
-        <td>39.478 ms</td>
-        <td>39.596 ms</td>
+        <td>39.684 ms</td>
+        <td>39.703 ms</td>
+        <td>39.726 ms</td>
       </tr>
       <tr>
         <td title="Standard Deviation">Std. Dev.</td>
-        <td>75.457 µs</td>
-        <td>184.96 µs</td>
-        <td>260.35 µs</td>
+        <td>8.8237 µs</td>
+        <td>35.948 µs</td>
+        <td>47.987 µs</td>
       </tr>
       <tr>
         <td>Median</td>
-        <td>39.354 ms</td>
-        <td>39.459 ms</td>
-        <td>39.546 ms</td>
+        <td>39.683 ms</td>
+        <td>39.691 ms</td>
+        <td>39.725 ms</td>
       </tr>
       <tr>
         <td title="Median Absolute Deviation">MAD</td>
-        <td>23.761 µs</td>
-        <td>124.48 µs</td>
-        <td>267.83 µs</td>
+        <td>1.9369 µs</td>
+        <td>13.000 µs</td>
+        <td>50.566 µs</td>
       </tr>
     </tbody>
   </table>
@@ -511,12 +544,45 @@ are the before/after results.
   </figcaption>
 </figure>
 
-The throughput and the time are <math><mn>12.2</mn><mo>×</mo></math> better. No
+<details>
+  <summary>
+
+  The Probability Distribution Function graph, and the Linear Regression graph
+  for the `CASE` approach
+
+  </summary>
+
+  <figure>
+
+  ![Probability distribution function](./2-pdf.svg)
+
+  <figcaption>
+
+  Benchmark's Probability Distribution Function for the `CASE` approach.
+
+  </figcaption>
+
+  </figure>
+
+  <figure>
+
+  ![Linear regression](./2-linear-regression.svg)
+
+  <figcaption>
+
+  Benchmark's Linear Regression for the `CASE` approach.
+
+  </figcaption>
+
+  </figure>
+</details>
+
+The throughput and the time are <math><mn>12.6</mn><mo>×</mo></math> better. No
 `INDEX`. No more `LEFT JOIN`. Just a simple `CASE` expression. [You can see the patches containing the benchmark and the fix][pr-5411].
 
 But that's not all…
 
-## <math><mn>202.9</mn><mo>×</mo></math> faster
+## <math><mn>211</mn><mo>×</mo></math> faster
 
 It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that
@@ -655,9 +721,42 @@ Only two queries. All tests are passing. Now let's see what the benchmark has to
   </figcaption>
 </figure>
 
-**It is <math><mn>16.6</mn><mo>×</mo></math> faster compared to the previous
-solution, be <math><mn>202.9</mn><mo>×</mo></math> faster than the first query!
-We went from 483ms to 2ms. That's ridiculous! From a throughput of 20.7 Kelem/s
+<details>
+  <summary>
+
+  The Probability Distribution Function graph, and the Linear Regression graph
+  for the two queries approach
+
+  </summary>
+
+  <figure>
+
+  ![Probability distribution function](./3-pdf.svg)
+
+  <figcaption>
+
+  Benchmark's Probability Distribution Function for the two queries approach.
+
+  </figcaption>
+
+  </figure>
+
+  <figure>
+
+  ![Linear regression](./3-linear-regression.svg)
+
+  <figcaption>
+
+  Benchmark's Linear Regression for the two queries approach.
+
+  </figcaption>
+
+  </figure>
+</details>
+
+**It is <math><mn>16.7</mn><mo>×</mo></math> faster compared to the previous
+solution, be <math><mn>211</mn><mo>×</mo></math> faster than the first query!
+We went from 502ms to 2ms. That's ridiculous! From a throughput of 19.9 Kelem/s
 to 4.2 Melem/s!** [You can see the patches containing the improvement][pr-5425].
 
 The throughput is measured by _element_, where an _element_ here represents an
