@@ -157,7 +157,7 @@ The database?
 
 We don't have the device within easy reach. Hopefully, Matrix users are always
 nice and willing to help! We have added a bunch of logs, then the user has
-reproduced the problem, and shared its logs (via a rageshake) with us. Logs are
+reproduced the problem, and shared their logs (via a rageshake) with us. Logs are
 never trivial to analyse. However, here is a tip we use in the Matrix Rust SDK:
 we have a special tracing type that logs the time spent in a portion of the
 code; called [`TracingTimer`].
