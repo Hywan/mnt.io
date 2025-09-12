@@ -8,12 +8,12 @@ keywords=["matrix", "performance", "database"]
 pinned = true
 +++
 
-Sit down comfortably. Take a cushion if you wish. This is, <em>clear its
-throat</em>, the story of a —small, but fun— performance quest. The [Matrix Rust
-SDK] is a set of crates aiming at providing all the necessary tooling to develop
-robust and safe [Matrix] clients. Of course, it involves databases to persist
-some data. The Matrix Rust SDK supports multiple databases: in-memory, [SQLite],
-and [IndexedDB]. This story is about the SQLite database.
+Sit down comfortably. Take a cushion if you wish. This is, <i>clear its
+throat</i>, the story of a funny performance quest. The [Matrix Rust SDK] is a
+set of crates aiming at providing all the necessary tooling to develop robust
+and safe [Matrix] clients. Of course, it involves databases to persist some
+data. The Matrix Rust SDK supports multiple databases: in-memory, [SQLite], and
+[IndexedDB]. This story is about the SQLite database.
 
 The structure we want to persist is a novel type we have designed specifically
 for the Matrix Rust SDK: a [`LinkedChunk`]. It's the underlying structure that
@@ -104,7 +104,7 @@ CREATE TABLE "gap_chunks" (
 
 Last contender, `events`. The assiduous reader may have noted that
 `event_chunks` doesn't contain the content of the events: only its ID and its
-position… <em>roll its eyes</em>… let's digress a bit, should we? Why that? To
+position, <i>roll its eyes</i>… let's digress a bit, should we? Why that? To
 handle out-of-band events. In the Matrix protocol, we can receive events via:
 
 - [the `/sync` endpoint][`/sync`], it's the main source of inputs, we get most
@@ -150,10 +150,10 @@ suddenly…
 
 ## <q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q>
 
-A power-user[^poweruser] was [experiencing slowness][rageshake]. It's always
-a delicate situation. How to know what is the reason of the slowness? Is it
-the device? The network? The asynchronous runtime? A lock contention? The file
-system? … The database?
+A power-user[^power-user] was [experiencing slowness][rageshake]. It's always
+a delicate situation. How to know the reason of the slowness? Is it the device?
+The network? The asynchronous runtime? A lock contention? The file system? …
+The database?
 
 We don't have the device within easy reach. Hopefully, Matrix users are always
 nice and willing to help! We have added a bunch of logs, then the user has
@@ -210,7 +210,7 @@ here, it's pretty straightforward):
 
 ```rust
 {
-    let _timer = timer!("build something important");
+    let _timer = timer!("built something important");
 
     // … build something important …
 
@@ -296,10 +296,13 @@ This query does the following:
 1. if the chunk is of kind `ChunkContent::Items`, it does count all events
    associated to itself (via `ec.chunk_id = lc.id`),
 2. otherwise, the chunk is of kind `ChunkContent::Gap`, so it will try to count
-   but… no event is associated to it. This query will scan _all events_ for each
-   gap… for nothing!
+   but… no event is associated to it: it's impossible to get `ec.chunk_id =
+   lc.id` to be true for a gap. This query will scan _all events_ for each
+   gap… for nothing! This is a linear scan here. If there are 300 gaps for this
+   linked chunk, and 5000 events, 1.5 millions events will be scanned for **no
+   reason**!
 
-## <math><mn>12</mn><mo>×</mo></math> faster
+## <math><mn>12.2</mn><mo>×</mo></math> faster
 
 <q>Let's use an [`INDEX`][`CREATE INDEX`]</q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).
@@ -334,14 +337,15 @@ That's correct. But we didn't want to use an index here. The reason is twofold:
 
 1. **More spaces**. Remember that _Le Procureur_ said an index contains a _copy_
    of the data. Here, the data is [the event ID][event ID]. It's not heavy, but
-   it's not nothing.
+   it's not nothing. Moreover, we are not counting the _key_ to associate the
+   _copied data_ to the row containing the real data in the source table.
 2. **Still extra useless time**. We would still need to traverse the index
    for gaps, which is pointless. We already know that a gap have zero event
    because… it's… a gap between events!
 
 Do you remember that the `linked_chunks` table has a `type` column? It contains
 `E` when the chunk is of kind `ChunkContent::Items` —it represents a set of
-events—, and `G` when of kind `ChunkContent::Gap` —it represents a gap—. Maybe… <em>stare into space</em>
+events—, and `G` when of kind `ChunkContent::Gap` —it represents a gap—. Maybe… <i>stare into space</i>
 
 {% factotum() %}
 
@@ -349,8 +353,9 @@ May I interrupt?
 
 Do you know that SQLite provides [a `CASE` expression][`CASE`]? I know it's
 unusual. SQL designers prefer to think in terms of sets, sub-sets, joins,
-temporal tables, partial indexes… but honestly, for what I'm concerned, in our
-case, it's simple enough and it can be powerful.
+temporal tables, partial indexes… but honestly, for what I'm concerned, in
+our case, it's simple enough and it can be powerful. It's a maddeningly simple
+`if`/`else`.
 
 Moreover, the `type` column is already typed as an enum with the `CHECK("type"
 IN ('E', 'G'))` constraint. Maybe the SQL engine can run some even smarter
@@ -387,8 +392,8 @@ WHERE lc.linked_chunk_id = ?
 Since we have spotted the problem, we have written a benchmark to measure the
 solutions. The benchmark simulates 10'000 events, with 1 gap every 80 events.
 A set of data we consider _realistic_ somehow for a normal user (not for a
-poweruser though, because a poweruser has usually more gaps than events). Here
-are before/after results.
+power-user though, because a power-user has usually more gaps than events). Here
+are the before/after results.
 
 <figure>
 
@@ -409,7 +414,7 @@ are before/after results.
         <td>20.722 Kelem/s</td>
       </tr>
       <tr>
-        <td>R²</td>
+        <td><math><msup><mi>R</mi><mn>2</mn></msup></math></td>
         <td>0.1032688</td>
         <td>0.1374475</td>
         <td>0.1035309</td>
@@ -443,7 +448,7 @@ are before/after results.
 
   <figcaption>
 
-  Benchmark's results for the original query.
+  Benchmark's results for the original query with `COUNT` and `LEFT JOIN`.
 
   </figcaption>
 </figure>
@@ -467,7 +472,7 @@ are before/after results.
         <td>254.31 Kelem/s</td>
       </tr>
       <tr>
-        <td>R²</td>
+        <td><math><msup><mi>R</mi><mn>2</mn></msup></math></td>
         <td>0.9993976</td>
         <td>0.9995784</td>
         <td>0.9992583</td>
@@ -501,28 +506,29 @@ are before/after results.
 
   <figcaption>
 
-  Benchmark's results for the new query.
+  Benchmark's results for the new query with the `CASE` expression.
 
   </figcaption>
 </figure>
 
-The throughput and the time are <math><mn>12</mn><mo>×</mo></math> better. No
+The throughput and the time are <math><mn>12.2</mn><mo>×</mo></math> better. No
 `INDEX`. No more `LEFT JOIN`. Just a simple `CASE` expression. [You can see the patches containing the benchmark and the fix][pr-5411].
 
 But that's not all…
 
-## <math><mn>??</mn><mo>×</mo></math> faster
+## <math><mn>202.9</mn><mo>×</mo></math> faster
 
-It's clearly better, but we couldn't stop ourselves. We have noticed that we are
-running one query per chunk of kind `ChunkContent::Items`. If the linked chunk
-contains 100 chunks, it will run 101 queries.
+It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
+and having found this solution, it has made us creative! We have noticed that
+we are running one query per chunk of kind `ChunkContent::Items`. If the linked
+chunk contains 100 chunks, it will run 101 queries.
 
-Then suddenly, an idea pops! What if we could only use 2 queries for all
-scenarios!
+Then suddenly, <i>hit forehead with the hand's palm</i>, an idea pops! What if
+we could only use 2 queries for all scenarios!
 
-1. The first query would count all events for each chunk in `events_chunk`, and
-   would store that in a `HashMap`,
-2. The second query would fetch all chunks,
+1. The first query would count all events for each chunk in `events_chunk` in
+   one pass, and would store that in a `HashMap`,
+2. The second query would fetch all chunks also in one pass,
 3. Finally, Rust will fill the number of events for each chunk based on the data
    in the `HashMap`.
 
@@ -533,7 +539,9 @@ The first query translates like so in Rust:
 let number_of_events_by_chunk_ids = transaction
     .prepare(
         r#"
-        SELECT ec.chunk_id, COUNT(ec.event_id)
+        SELECT
+            ec.chunk_id,
+            COUNT(ec.event_id)
         FROM event_chunks as ec
         WHERE ec.linked_chunk_id = ?
         GROUP BY ec.chunk_id
@@ -548,20 +556,19 @@ let number_of_events_by_chunk_ids = transaction
     .collect::<Result<HashMap<_, _>, _>>()?;
 ```
 
-And the second query translates like so:
+And the second query translates like so[^simplified-code]:
 
 ```rust
 transaction
     .prepare(
         r#"
-            SELECT
-                lc.id,
-                lc.previous,
-                lc.next,
-                lc.type
-            FROM linked_chunks as lc
-            WHERE lc.linked_chunk_id = ?
-            ORDER BY lc.id
+        SELECT
+            lc.id,
+            lc.previous,
+            lc.next,
+            lc.type
+        FROM linked_chunks as lc
+        WHERE lc.linked_chunk_id = ?
         "#,
     )?
     .query_map((&hashed_linked_chunk_id,), |row| {
@@ -573,23 +580,105 @@ transaction
         ))
     })?
     .map(|metadata| -> Result<_> {
-        let (id, previous, next, chunk_type) = metadata?;
+        let (identifier, previous, next, chunk_type) = metadata?;
 
         // Let's use the `HashMap` from the first query here!
         let number_of_events = number_of_events_by_chunk_ids.get(&id).copied().unwrap_or(0);
 
         Ok(ChunkMetadata {
-            identifier: ChunkIdentifier::new(id),
-            previous: previous.map(ChunkIdentifier::new),
-            next: next.map(ChunkIdentifier::new),
+            identifier,
+            previous,
+            next,
             number_of_events,
         })
     })
     .collect::<Result<Vec<_>, _>>()
 ```
 
-Only two queries. All tests are passing.
+Only two queries. All tests are passing. Now let's see what the benchmark has to say!
 
+<figure>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th title="0.95 confidence level">Lower bound</th>
+        <th>Estimate</th>
+        <th title="0.95 confidence level">Upper bound</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Throughput</td>
+        <td>4.1490 Melem/s</td>
+        <td>4.1860 Melem/s</td>
+        <td>4.2221 Melem/s</td>
+      </tr>
+      <tr>
+        <td><math><msup><mi>R</mi><mn>2</mn></msup></math></td>
+        <td>0.9961591</td>
+        <td>0.9976310</td>
+        <td>0.9960356</td>
+      </tr>
+      <tr>
+        <td>Mean</td>
+        <td>2.3670 ms</td>
+        <td>2.3824 ms</td>
+        <td>2.3984 ms</td>
+      </tr>
+      <tr>
+        <td title="Standard Deviation">Std. Dev.</td>
+        <td>16.065 µs</td>
+        <td>26.872 µs</td>
+        <td>31.871 µs</td>
+      </tr>
+      <tr>
+        <td>Median</td>
+        <td>2.3556 ms</td>
+        <td>2.3801 ms</td>
+        <td>2.4047 ms</td>
+      </tr>
+      <tr>
+        <td title="Median Absolute Deviation">MAD</td>
+        <td>3.8003 µs</td>
+        <td>36.438 µs</td>
+        <td>46.445 µs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <figcaption>
+
+  Benchmark's results for the two queries approach.
+
+  </figcaption>
+</figure>
+
+**It is <math><mn>16.6</mn><mo>×</mo></math> faster compared to the previous
+solution, be <math><mn>202.9</mn><mo>×</mo></math> faster than the first query!
+We went from 483ms to 2ms. That's ridiculous! From a throughput of 20.7 Kelem/s
+to 4.2 Melem/s!** [You can see the patches containing the improvement][pr-5425].
+
+The throughput is measured by _element_, where an _element_ here represents an
+event. Consequently, 4 Melem/s means 4 millions events per second, which means
+that `load_all_chunks_metadata` can do its computation at a rate of 4 millions
+events per second.
+
+I think we can stop here. Performance are finally acceptable.
+
+## Lessons
+
+- Run benchmarks.
+- Be aware of the SQL query planner.
+- Be careful with joins.
+- Know your data.
+- Take a step back and count.
+- SQLite is fast.
+
+Notice how the SQL tables layout didn't change. Notice how the `LinkedChunk`
+implementation didn't change. Only the SQL queries have changed, and it has
+dramatically improved the situation.
 
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
 [Matrix]: https://matrix.org/
@@ -610,10 +699,13 @@ Only two queries. All tests are passing.
 [`CREATE INDEX`]: https://sqlite.org/lang_createindex.html
 [event ID]: https://spec.matrix.org/v1.15/appendices/#event-ids
 [pr-5411]: https://github.com/matrix-org/matrix-rust-sdk/pull/5411
+[pr-5425]: https://github.com/matrix-org/matrix-rust-sdk/pull/5425
 
 
-[^poweruser]: We consider a _poweruser_ a user with more than 2000 rooms. I
+[^power-user]: We consider a _power-user_ a user with more than 2000 rooms. I
     hear your laugth! But guess what? We have users with more than 4000 rooms.
     And I'm excluding bots here. The Matrix Rust SDK can be used to develop
     bots, which can sit in thousands and thousands rooms easily. That said: we
     have to be performant.
+[^simplified-code]: The code has been simplified a little bit. In reality, basic
+    Rust types, like `u64` or `Option<u64>`, are mapped to linked chunk's types.
