@@ -238,7 +238,7 @@ on the [Firefox profiler] for its UI. It works on macOS, Linux and Windows.
 
 {% end %}
 
-I do also use `samply` pretty often! But you need an access to the processus
+I do also use `samply` pretty often! But you need an access to the processes
 to use such tools. Here, the Matrix Rust SDK is used and embedded inside Matrix
 clients. We have no access to it. It lives on devices everywhere around the
 world. We may use better log analysers to infer “call trees”, but supporting
