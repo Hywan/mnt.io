@@ -1169,7 +1169,7 @@ to learn so much about `Stream` and `Future`, it's going to be fun!
 
 [`memcpy`]: https://en.cppreference.com/w/c/string/byte/memcpy
 
-[^spes_salutis]: Latine expression meaning _salavation hope_.
+[^spes_salutis]: Latine expression meaning _salvation hope_.
 [^beati_pauperes_in_spiritu]: Latine expression meaning _bless are the poor in spirit_.
 [^SRUB2015]: <cite><a href="https://infoscience.epfl.ch/server/api/core/bitstreams/7c8b929f-1f68-4948-8ea8-e364e4899b2a/content">Relaxed-Radix-Balanced
     (RRR) Vector: A Practical General Purpose Immutable
