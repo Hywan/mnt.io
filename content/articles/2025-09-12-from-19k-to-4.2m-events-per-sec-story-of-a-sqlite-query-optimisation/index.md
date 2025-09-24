@@ -811,7 +811,7 @@ This is joint effort between [Benjamin Bouvier][ben], [Damir Jelić][damir] and 
 [sqlite-btree]: https://sqlite.org/arch.html
 [criterion]: https://bheisler.github.io/criterion.rs/book/index.html
 [sqlite-query-planner]: https://sqlite.org/queryplanner-ng.html
-[ben]: https://github.com/bnjbvr
+[ben]: https://bouvier.cc/
 [damir]: https://github.com/poljar
 
 
