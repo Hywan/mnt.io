@@ -41,7 +41,7 @@ We are super happy to announce `github.com/wasmerio/go-ext-wasm/wasmer`,
 a [Go library to run WebAssembly binaries,
 fast](https://github.com/wasmerio/go-ext-wasm).
 
-# Calling a WebAssembly function from Go
+## Calling a WebAssembly function from Go
 
 First, let’s install `wasmer` in your go environment (*with cgo
 support*).
@@ -105,7 +105,7 @@ Great! We have successfully executed a WebAssembly file inside Go.
 > casting is done automatically. Thus, a WebAssembly function acts as
 > any regular Go function.*
 
-# WebAssembly calling Go funtions
+## WebAssembly calling Go funtions
 
 A WebAssembly module *exports* some functions, so that they can be
 called from the outside world. This is the entry point to execute
@@ -195,7 +195,7 @@ func main() {
 }
 ```
 
-# Reading the memory
+## Reading the memory
 
 A WebAssembly instance has a linear memory. Let’s see how to read it.
 Consider the following Rust program:
@@ -243,7 +243,7 @@ that are then cast to a string. *Et voilà !*
 > Example](https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go)
 > to see a more advanced usage of the memory API.
 
-# Benchmarks
+## Benchmarks
 
 So far, `github.com/wasmerio/go-ext-wasm/wasmer` has a nice API, but
 …*is it fast*?
@@ -312,7 +312,7 @@ and execution-time ([learn more about the different
 backends](https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537),
 when to use them, pros and cons etc.).
 
-# Conclusion
+## Conclusion
 
 `[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)`
 is a new Go library to execute WebAssembly binaries. It embeds the

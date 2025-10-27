@@ -51,7 +51,7 @@ We are so happy to announce a newcrazy idea: **WebAssembly on
 Postgres**. Yes, you read that correctly. On
 [Postgres](https://github.com/wasmerio/postgres-ext-wasm).
 
-# Calling a WebAssembly function from Postgres
+## Calling a WebAssembly function from Postgres
 
 As usual, we have to go through the installation process. There is no
 package manager for Postgres, so it’s a manual step. The [Installation
@@ -119,7 +119,7 @@ SELECT ns_sum(1, 2);
 *Et voilà !* The `ns_sum` function calls the Rust `sum` function through
 WebAssembly! How fun is that 😄?
 
-# Inspect a WebAssembly instance
+## Inspect a WebAssembly instance
 
 This section shows how to inspect a WebAssembly instance. At the same
 time, it quickly explains how the extension works under the hood.
@@ -170,7 +170,7 @@ It sounds simplistic, and… to be honest, it is! The trick is to use
 wrappers](https://www.postgresql.org/docs/current/fdwhandler.html),
 which is an awesome feature of Postgres.
 
-# How fast is it, or: Is it an interesting alternative to PL/pgSQL?
+## How fast is it, or: Is it an interesting alternative to PL/pgSQL?
 
 As we said, the extension API is rather small for now. The idea is to
 explore, to experiment, to have fun with WebAssembly inside a database.
@@ -226,7 +226,7 @@ We notice that the Postgres WebAssembly extension is faster to run
 numeric computations. The WebAssembly approach scales pretty well
 compared to the PL/pgSQL approach, *in this situation*.
 
-## When to use the WebAssembly extension?
+### When to use the WebAssembly extension?
 
 So far, the extension only supports integers (on 32- and 64-bits). The
 extension doesn’t support strings *yet*. It also doesn’t support
@@ -238,7 +238,7 @@ to PL/pgSQL. But regarding the benchmark results above, we are sure they
 can live side-by-side, WebAssembly has clearly a place in the ecosystem!
 And we want to continue to pursue this exploration.
 
-# Conclusion
+## Conclusion
 
 We are already talking with people that are interested in using
 WebAssembly inside databases. If you have any particular use cases,

@@ -95,7 +95,7 @@ It confirms my first intuition though: In our case, `wasmi` is really
 great to mock something up, but it’s not fast enough for our
 expectations.
 
-# Faster, faster, faster…
+## Faster, faster, faster…
 
 I wanted to use [Cranelift](https://github.com/CraneStation/cranelift)
 since the beginning. It’s a code generator, *à la*
@@ -120,7 +120,7 @@ native speed. Or we can generate assembly code dynamically. Well, there
 is multiple ways to achieve that. What if a project could provide a
 WebAssembly virtual machine with multiple backends?
 
-# Enter Wasmer
+## Enter Wasmer
 
 And it was at that specific time that I’ve been hired by
 [Wasmer](https://github.com/wasmerio/wasmer). To be totally honest, I
@@ -160,7 +160,7 @@ for the moment. (See [our previous blog post to learn how we benchmark
 different backends in Wasmer, and other WebAssembly
 runtimes](https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e)).
 
-# More Optimizations
+## More Optimizations
 
 Wasmer provides more features, like module caching. Those features are
 now included in the PHP extension. When booting the `nbody.wasm` file
@@ -184,7 +184,7 @@ persistent modules, *et voilà*.
 Now it takes **4.2ms** for the first boot of `nbody.wasm` and
 **0.005ms** for all the next boots. It’s 840 times faster!
 
-# Conclusion
+## Conclusion
 
 Wasmer is a young — but mature — framework to build WebAssembly runtimes
 on top of. The default backend is Cranelift, and it shows its promises:

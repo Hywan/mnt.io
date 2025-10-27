@@ -15,7 +15,7 @@ incarn a Happiness Engineer. This is part of the Happiness Rotation
 duty. This article explains why I loved it, and why I reckon you should
 do it too.
 
-# Happiness Engineer, really?
+## Happiness Engineer, really?
 
 Does it sound mad as a Cheshire cat? Pretentious maybe? Actually, it's
 not at all.
@@ -30,7 +30,7 @@ My role was to make our users happy. To achieve that, I had to:
 - Listen to and understand their issues,
 - Find a way to fix the issues.
 
-## Meet the users
+### Meet the users
 
 I need motivations in my job. Learning who our users are, and what they
 want to achieve, is a great motivation. After these three weeks, I know
@@ -40,9 +40,9 @@ contribution, to each day I wake up.
 Especially in a distributed company on Internet, our users are
 world-wide, they speak almost all the languages on Earth, they are
 present on all continents. Their needs vary a lot, they use our
-softwares in ways I was not able to foresee.
+software in ways I was not able to foresee.
 
-## Listen to, understand, and fix their issues
+### Listen to, understand, and fix their issues
 
 When you are chatting with a “support guy”, you cannot imagine this is a
 real engineer. This is not a random person filling a pre-defined vague
@@ -61,7 +61,7 @@ end? I had to:
 - How to ask help, how to formulate my questions, how to reformulate the
   issues of the users…
 - Discover all the internal tools,
-- Therefore, learn how the softwares work internally and together,
+- Therefore, learn how the software work internally and together,
 - Discover the giant internal and public documentations,
 - When needed, create bug reports or feature requests to the
   appropriated teams,
@@ -71,7 +71,7 @@ This is why it is called *Welcome to Chaos*. Yes, you have to learn a
 lot in three weeks, but it is extremely educative. This is like a speed
 training.
 
-## Happiness
+### Happiness
 
 I can ensure that when a user is grateful after you fixed its issue, the
 term Happiness Engineer makes a lot of sense. Automattic provides a lot
@@ -81,7 +81,7 @@ both in term of tooling or financial.
 This is the first time I see a company that is that much generous with
 its customers.
 
-## Thanks buddy
+### Thanks buddy
 
 Of course, when embracing the chaos, you are not alone. Everyone is here
 to help you, and to answer your questions. After all, this is part of
@@ -101,10 +101,10 @@ creed](https://ma.tt/2011/09/automattic-creed/)):
 > day. Given time, there is no problem that’s insurmountable.
 
 In addition to everyone willing to help, a buddy was assigned to me. A
-person that helps and teaches you everytime. This is very helpful. Thank
+person that helps and teaches you every time. This is very helpful. Thank
 you Hannah!
 
-# Happiness Rotation
+## Happiness Rotation
 
 This experience is great. But after some time, you might forget it. So
 as a reminder, once a year, you incarn a Happiness Engineer again. This
@@ -113,7 +113,7 @@ almost everyone in the company.
 
 Note: Obviously, there is permanent happiness engineers.
 
-# Conclusion
+## Conclusion
 
 I deeply think this approach has many advantages. Some of them are
 listed above. It helps to understand the company, and more importantly

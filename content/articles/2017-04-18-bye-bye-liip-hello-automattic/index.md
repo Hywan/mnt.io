@@ -9,14 +9,14 @@ keywords=["job"]
 Since April 2017, I have left [Liip](https://www.liip.ch/) to join
 [Automattic](https://automattic.com/).
 
-# Bye bye Liip
+## Bye bye Liip
 
 After almost 20 months at Liip, I am leaving. Liip was a great
 experience. It was my first industrial non-remote job. It was also my
 first job in the country I am currently living in. And I have discovered
 a new way of working.
 
-## First industrial non-remote job
+### First industrial non-remote job
 
 Before working for Liip, I was working for [fruux](https://fruux.com/).
 My situation was the following: A french citizen, living as a foreigner
@@ -38,7 +38,7 @@ job in my native language too.
 Everything was simpler. And when you have your first baby, anything else
 that is simpler saves your life.
 
-## Introducing Holacracy
+### Introducing Holacracy
 
 Giant discussions were happening to remove any form of hierarchy in
 Liip. Then we discovered
@@ -56,7 +56,7 @@ self-organisation, more shared responsabilities, no more “boss” etc.
 This is not a tool for all companies, but I am sure that if you are
 reading my blog, then your company should give it a try.
 
-## Open source projects
+### Open source projects
 
 Liip has been very generous with me regarding my open source
 engagements. I was involved in [Hoa](https://hoa-project.net/),
@@ -114,7 +114,7 @@ considering the niche it targets.
 A new SaaS platform is being build around this software. I enjoyed
 working on it, and it was really tangible.
 
-## Main customer, huge project
+### Main customer, huge project
 
 Liip is a Web agency, so you have dozens of customers at the same time.
 However, I was in a special team for an important customer. The site is
@@ -139,7 +139,7 @@ understandable by everyone, how to not break a 10+ years old progam with
 no test etc. And it requires skills. I learned it the hard way, but I
 learned it.
 
-## Why leaving?
+### Why leaving?
 
 Because even if I learned during my time at Liip, the Web agency model
 was definitively not for me. I am very thankful to every Liiper, I had a
@@ -148,7 +148,7 @@ great time, I love the Web, but not in an agency.
 My son is now 21 months old, and I need fresh air. I can take new
 challenges.
 
-# Welcome Automattic
+## Welcome Automattic
 
 [Automattic](https://automattic.com/) is the company behind
 [WordPress.com](https://wordpress.com/),

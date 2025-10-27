@@ -54,7 +54,7 @@ Java](https://github.com/wasmerio/java-ext-wasm)**!
 
 Let’s discover the Wasmer JNI library together.
 
-# Installation
+## Installation
 
 The Wasmer JNI (*Java Native Interface*) library is based on the [Wasmer
 runtime](https://github.com/wasmerio/wasmer), which is written in
@@ -94,7 +94,7 @@ JAR are hosted on the Bintray/JCenter repository under the
 project. They are also attached to our [Github releases as
 assets](https://github.com/wasmerio/java-ext-wasm/releases).
 
-# Calling a WebAssembly function from Java
+## Calling a WebAssembly function from Java
 
 As usual, let’s start with a simple Rust program that we will compile to
 WebAssembly, and then execute from Java.
@@ -190,7 +190,7 @@ class SimpleExample {
 But a WebAssembly module not only exports functions, it also exports
 memory.
 
-# Reading the memory
+## Reading the memory
 
 A WebAssembly instance has one or more linear memories, a contiguous and
 byte-addressable range of memory spanning from offset 0 and extending up
@@ -268,7 +268,7 @@ the garbage collector.
 > Example](https://github.com/wasmerio/java-ext-wasm/blob/master/examples/GreetExample.java)
 > to see a more in-depth usage of the `Memory` API.
 
-# More documentation
+## More documentation
 
 The project comes with a `Makefile`. The `make javadoc` command will
 generate a traditional local Javadoc for you, in the
@@ -283,7 +283,7 @@ examples](https://github.com/wasmerio/java-ext-wasm/tree/master/examples).
 Use the `make run-example EXAMPLE=Simple` to run the
 `SimpleExample.java` example for instance.
 
-# Performance
+## Performance
 
 WebAssembly aims at being safe, but also fast. Since Wasmer JNI is the
 *first* Java library to execute WebAssembly, we can’t compare to prior
@@ -294,7 +294,7 @@ tale](https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537).
 The Wasmer JNI library uses the Cranelift backend for the moment, which
 offers the best compromise between compilation-time and execution-time.
 
-# Credits
+## Credits
 
 Asami ([d0iasm](https://twitter.com/d0iasm) on Twitter) has improved
 this project during its internship at Wasmer under my guidance. She
@@ -309,7 +309,7 @@ contact me ([@mnt_io](https://twitter.com/mnt_io) or
 [@syrusakbary](https://twitter.com/syrusakbary) on Twitter) if you want
 to join us on this big adventure!
 
-# Conclusion
+## Conclusion
 
 Wasmer JNI is a library to execute WebAssembly directly in Java. It
 embeds the WebAssembly runtime

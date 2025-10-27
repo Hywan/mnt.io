@@ -15,7 +15,7 @@ pretty heavy. The homepage was 1.15MiB! A simple article was 1.9MiB. Clearly
 not really efficient. I wanted something more customisable, something light,
 something I can hack, and more importantly, I wanted to start series.
 
-# Enter Zola
+## Enter Zola
 
 [Zola] is a static site generator written in [Rust]. It uses [CommonMark] for
 the markup, which is nice and straightforward to use. The template system is
@@ -25,7 +25,7 @@ consider this is fast.
 Nothing particular to say. It's a boring tool, which is great compliment. It
 just works! In a couple of hours, I was able to get everything up and running.
 
-# Site's features
+## Site's features
 
 The site contains articles and series. A series is composed of several episodes.
 That's it. The URL patterns are the followings:
@@ -34,7 +34,7 @@ That's it. The URL patterns are the followings:
 * `/series/<series-id>/` to view all episodes of a series,
 * `/series/<series-id>/<episode-id>/` to view a particular episode of a series.
 
-## Homepage
+### Homepage
 
 The homepage provides:
 
@@ -61,7 +61,7 @@ That's a nice feature to promote some articles.
 
 In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times less!
 
-## Articles
+### Articles
 
 An article has some metadata like:
 
@@ -105,7 +105,7 @@ use in this site for the moment.
 Last neat thing: did you notice you can edit the page? The code lives on Github,
 and everyone is free to submit a patch!
 
-## Series
+### Series
 
 A series is pretty similar to an article, except that it adds another level of
 indirection with episodes.
