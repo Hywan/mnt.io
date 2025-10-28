@@ -484,13 +484,13 @@ but an observable one! Let's see… what do we have… <i>scroll the
 documentation</i>, hmm, interesting, <i>scroll more…</i>, okay, that's
 interesting:
 
-* First off, there is methods like `append`, `pop_back`, `pop_front`,
+- First off, there is methods like `append`, `pop_back`, `pop_front`,
   `push_back`, `push_front`, `remove`, `insert`, `set`, `truncate` and `clear`.
   It seems this collection is pretty flexible. The vocabulary is clear. They all
   take a `&mut self`, cool.
-* Then, there is a `with_capacity` method, this is intriguing, <i>add to
+- Then, there is a `with_capacity` method, this is intriguing, <i>add to
   notes</i>,
-* Finally, we find our not-so-ol' friend `subscribe`, but this time it returns a
+- Finally, we find our not-so-ol' friend `subscribe`, but this time it returns a
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
 Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
@@ -529,16 +529,16 @@ returns `Option<Self::Item>`.
 
 Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2 variants:
 
-* `Ready(value)` means a `value` is immediately ready,
-* `Pending` means no value is ready yet.
+- `Ready(value)` means a `value` is immediately ready,
+- `Pending` means no value is ready yet.
 
 Then, what `Poll<Option<T>>` represents for a `Stream`?
 
-* `Poll::Ready(Some(value))` means this stream has successfully produced a
+- `Poll::Ready(Some(value))` means this stream has successfully produced a
   `value`, and may produce more values on subsequent `poll_next` calls,
-* `Poll::Ready(None)` means the stream has terminated (and `poll_next` should
+- `Poll::Ready(None)` means the stream has terminated (and `poll_next` should
   not be called anymore),
-* `Poll::Pending` means no value is ready yet.
+- `Poll::Pending` means no value is ready yet.
 
 It makes perfect sense. A `Future` produces a single value, whilst a `Stream`
 produces multiple values, and `Poll::Ready(None)` represents the termination of
@@ -1091,25 +1091,25 @@ able to filter and to sort an `ObservableVector` representing all the rooms.
 How? `VectorSubscriberStream` _is_ a `Stream`. More specifically, it is a
 `Stream<Item = VectorDiff<T>>`. Now questions:
 
-* What's the difference between an unfiltered `Vector` and a filtered `Vector`?
-* What's the difference between an unsorted `Vector` and a sorted `Vector`?
-* What's the difference between a filtered `Vector` and a sorted `Vector`?
-* and so on.
+- What's the difference between an unfiltered `Vector` and a filtered `Vector`?
+- What's the difference between an unsorted `Vector` and a sorted `Vector`?
+- What's the difference between a filtered `Vector` and a sorted `Vector`?
+- and so on.
 
 All of them are strictly `Stream<Item = VectorDiff<T>>`! However, the
 `VectorDiff`s aren't the same. A simple example. Let's say we build a vector by
 inserting `1`, `2`, `3` and `4`. We subscribe to it, and we want to filter out
 all the even numbers. Instead of receiving:
 
-* `VectorDiff::Insert { index: 0, value: 1 }`,
-* `VectorDiff::Insert { index: 1, value: 2 }`,
-* `VectorDiff::Insert { index: 2, value: 3 }`,
-* `VectorDiff::Insert { index: 3, value: 4 }`.
+- `VectorDiff::Insert { index: 0, value: 1 }`,
+- `VectorDiff::Insert { index: 1, value: 2 }`,
+- `VectorDiff::Insert { index: 2, value: 3 }`,
+- `VectorDiff::Insert { index: 3, value: 4 }`.
 
 … we want to receive:
 
-* `VectorDiff::Insert { index: 0, value: 1 }`,
-* `VectorDiff::Insert { index: 1, value: 3 }`: note the `index`, it is not 2
+- `VectorDiff::Insert { index: 0, value: 1 }`,
+- `VectorDiff::Insert { index: 1, value: 3 }`: note the `index`, it is not 2
   but 1!
 
 We will see how all that works in the next episodes and how powerful this design

@@ -30,16 +30,16 @@ just works! In a couple of hours, I was able to get everything up and running.
 The site contains articles and series. A series is composed of several episodes.
 That's it. The URL patterns are the followings:
 
-* `/articles/<article-id>/` to view an article,
-* `/series/<series-id>/` to view all episodes of a series,
-* `/series/<series-id>/<episode-id>/` to view a particular episode of a series.
+- `/articles/<article-id>/` to view an article,
+- `/series/<series-id>/` to view all episodes of a series,
+- `/series/<series-id>/<episode-id>/` to view a particular episode of a series.
 
 ### Homepage
 
 The homepage provides:
 
-* the latest series, and
-* pinned articles.
+- the latest series, and
+- pinned articles.
 
 To _pin_ an article, I add the following TOML declarations in the frontmatter of
 an article:
@@ -65,10 +65,10 @@ In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times les
 
 An article has some metadata like:
 
-* the publishing time,
-* the reading time,
-* keywords,
-* edition.
+- the publishing time,
+- the reading time,
+- keywords,
+- edition.
 
 If you read this article in October 2024, you might see all that in this very
 article. The beauty of this hides in the source code though:

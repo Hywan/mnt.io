@@ -12,10 +12,10 @@ and that's it, up and running.
 
 ## Organisations
 
-* `content` contains the… content (no kidding) of the site, be `articles` and
+- `content` contains the… content (no kidding) of the site, be `articles` and
   `series`,
-* `static` contains “static files” like the images or the CSS stylesheets.
-* `templates` contains the templates that puts everything together to make this
+- `static` contains “static files” like the images or the CSS stylesheets.
+- `templates` contains the templates that puts everything together to make this
   beautiful website.
 
 ## License

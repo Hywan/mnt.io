@@ -1,4 +1,25 @@
 [global]
+enable = [
+  "MD001",
+  "MD002",
+  "MD003",
+  "MD018",
+  "MD019",
+  "MD020",
+  "MD021",
+  "MD022",
+  "MD023",
+  "MD024",
+  "MD025",
+  "MD036",
+  "MD043",
+
+  "MD004",
+]
+disable = ["MD041"]
 
 [MD002]
 level = 2
+
+[MD004]
+style = "dash"
