@@ -167,7 +167,7 @@ really powerful, I'm not going to lie!
 ## Discuss
 
 One novelty is the _Discuss_ menu item at the top of the site. It contains a
-link to a [Matrix] public room: [https://matrix.to/#/#mnt_io:matrix.org][discuss], where
+link to a [Matrix] public room: <https://matrix.to/#/#mnt_io:matrix.org>, where
 anybody can come to talk about an article, a series, ask questions, or simply
 chill. You're very welcome there!
 
@@ -261,7 +261,6 @@ See you there!
 [RDFa]: https://www.w3.org/TR/rdfa-primer/
 [schema.org]: https://schema.org/
 [Matrix]: https://matrix.org/
-[discuss]: https://matrix.to/#/#mnt_io:matrix.org
 [Modern Font Stacks]: https://modernfontstacks.com/
 [RSS]: https://en.wikipedia.org/wiki/RSS
 [Atom]: https://en.wikipedia.org/wiki/Atom_(web_standard)
