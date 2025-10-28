@@ -19,7 +19,7 @@ things can be funny sometimes. Let's go through some examples.
   use A\B as C;
 
   $_ = C::class;
-  ```
+  ``` <!-- rumdl-disable-line MD031 -->
 
   resolves to `A\B`, which is perfect 🙂
 
@@ -45,7 +45,7 @@ things can be funny sometimes. Let's go through some examples.
           $_ = parent::class;
       }
   }
-  ```
+  ``` <!-- rumdl-disable-line MD031 -->
 
   resolves to `C`, which is perfect 😄
 
@@ -69,7 +69,7 @@ things can be funny sometimes. Let's go through some examples.
   <?php
 
   'foo'::class
-  ```
+  ``` <!-- rumdl-disable-line MD031 -->
 
   resolves to `'foo'`, which is… huh? 🤨
 
@@ -86,7 +86,7 @@ things can be funny sometimes. Let's go through some examples.
 
   $a = 'oo';
   "f{$a}"::class
-  ```
+  ``` <!-- rumdl-disable-line MD031 -->
 
   generates a parse error 🙃
 
