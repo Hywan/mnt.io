@@ -235,7 +235,6 @@ new direction will gather existing and new contributors 😄.
 
 ❤️ open-source!
 
-
 [`atoum/visibility-extension`]: https://github.com/atoum/visibility-extension
 [`atoum/bdd-extension`]: https://github.com/atoum/bdd-extension
 [`atoum/json-schema-extension`]: https://github.com/atoum/json-schema-extension

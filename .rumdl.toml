@@ -25,9 +25,8 @@ enable = [
   "MD009",
   "MD010",
   "MD012",
-  "MD013",
 ]
-disable = ["MD029", "MD041"]
+disable = ["MD013", "MD029", "MD041"]
 
 [MD002]
 level = 2
@@ -42,5 +41,4 @@ style = "ordered"
 line-length = 80
 code-blocks = false
 tables = false
-reflow = true
-reflow-mode = "default"
+reflow = false
