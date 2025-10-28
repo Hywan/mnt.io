@@ -1043,7 +1043,7 @@ Each method adding or removing values on the `ObservableVector` emits its own
   | `pop_front()` | `PopFront` | Remove the value at the front |
   | `push_back(value)` | `PushBack { value }` | Add `value` at the back |
   | `push_front(value)` | `PushFront { value }` | Add `value` at the front |
-  | `remove(index)` | `Remove { index } ` | Remove value at `index` |
+  | `remove(index)` | `Remove { index }` | Remove value at `index` |
   | `set(index, value)` | `Set { index, value }` | Replace value at `index` by `value` |
   | `truncate(length)` | `Truncate { length }` | Truncate to `length` values |
 

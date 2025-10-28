@@ -58,14 +58,14 @@ My talk can be viewed here:
   caption = "[Download the slides as PDF (21MiB)](./slides.pdf)"
 ) }}
 
-<h2>Other talks</h2>
+## Other talks
 
 [All the talks are available online][watch], including talks from the public
 sector, like NATO, Sweden, French or German administrations… I encourage you to
 check the list! Nonetheless, I take the opportunity of this article to highlight
 some announcement talks, or technical (Matrix internals) talks, I've enjoyed.
 
-<h3>Matrix 2.0 and the launch of Element X!</h3>
+### Matrix 2.0 and the launch of Element X!
 
 Two presentations for the price of one: <cite>Matrix 2.0 Is Here!</cite> by
 Matthew Hogdson. 10 years after the original launch of Matrix, and 5 years after
@@ -89,7 +89,7 @@ working at Element and users!
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf)"
 )}}
 
-<h3>Unable to decrypt this mesage</h3>
+### Unable to decrypt this mesage
 
 <cite>Unable to decrypt this message</cite> by Kegan Dougal. This talk explains
 why one can see an _Unable To Decrypt_ error while trying to view a message in
@@ -109,7 +109,7 @@ and how problems have been solved.
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf)"
 )}}
 
-<h3>News from the Matrix Rust SDK</h3>
+### News from the Matrix Rust SDK
 
 <cite>Strengthening the Base: Laying the Groundwork for a more robust Rust
 SDK</cite> by Benjamin Bouvier, a good friend! This talk explains the recent
@@ -122,7 +122,7 @@ developer experience easier and more robust.
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf)"
 )}}
 
-<h2>About transport</h2>
+## About transport
 
 I currently live in Switzerland. The conference was in Germany. Europe has a
 fantastic rail network, and more importantly, a unique **night train** network!

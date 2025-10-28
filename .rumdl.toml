@@ -26,8 +26,17 @@ enable = [
   "MD010",
   "MD012",
   "MD027",
+  "MD028",
+  "MD031",
+  "MD047",
+
+  "MD026",
+  "MD033",
+  "MD035",
+  "MD037",
+  "MD038",
 ]
-disable = ["MD013", "MD029", "MD041"]
+disable = ["MD013", "MD029", "MD031", "MD041"]
 
 [MD002]
 level = 2
@@ -43,3 +52,21 @@ line-length = 80
 code-blocks = false
 tables = false
 reflow = false
+
+[MD026]
+punctuation = ".,;:"
+
+[MD033]
+allowed-elements = [
+  "i",
+  "q",
+  "cite",
+  "a",
+  "time",
+  "sub",
+  "figure", "figcaption",
+  "iframe",
+  "table",
+  "summary", "details",
+  "math", "mo", "mn", "mi", "semantics", "annotation",
+]
