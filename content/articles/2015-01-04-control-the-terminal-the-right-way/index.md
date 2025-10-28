@@ -563,7 +563,7 @@ else. Here is the result:
 <figure>
 
   ![A styled text in the terminal](./colour.png)
-  
+
   <figcaption>
 
   Fun with `Hoa\Console\Cursor::colorize`.

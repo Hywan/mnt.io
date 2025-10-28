@@ -70,7 +70,7 @@ problems we can meet today, like load-time, safety, or speed.
 ## Rust 🚀 WebAssembly
 
 <figure role="presentation">
-  
+
   ![Rust to Wasm](./rust-to-wasm.png)
 
 </figure>

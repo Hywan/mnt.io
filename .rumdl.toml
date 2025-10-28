@@ -21,8 +21,10 @@ enable = [
   "MD030",
   "MD032",
   "MD051",
+
+  "MD009",
 ]
-disable = ["MD041"]
+disable = ["MD029", "MD041"]
 
 [MD002]
 level = 2

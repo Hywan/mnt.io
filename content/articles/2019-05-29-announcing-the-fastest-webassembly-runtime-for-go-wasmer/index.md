@@ -82,7 +82,7 @@ import (
 func main() {
     // Reads the WebAssembly module as bytes.
     bytes, _ := wasm.ReadBytes("simple.wasm")
-    
+
     // Instantiates the WebAssembly module.
     instance, _ := wasm.NewInstance(bytes)
     defer instance.Close()

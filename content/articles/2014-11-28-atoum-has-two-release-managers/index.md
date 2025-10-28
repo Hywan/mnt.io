@@ -172,7 +172,7 @@ Even the output looks familiar:
 <figure>
 
   ![Example of a terminal output](output.png)
-  
+
   <figcaption>
   Possible output with the `atoum/bdd-extension`.
   </figcaption>

@@ -176,7 +176,7 @@ class SimpleExample {
 
         // Declare the `sum` function, as a regular Java function.
         Function sum = instance.exports.getFunction("sum");
-        
+
         // Call `sum`.
         Integer result = (Integer) sum.apply(1, 2)[0];
 
@@ -239,7 +239,7 @@ class MemoryExample {
 
         // Let's position the cursor, and…
         memoryBuffer.position(pointer);
-        
+
         // … read!
         memoryBuffer.get(data);
 

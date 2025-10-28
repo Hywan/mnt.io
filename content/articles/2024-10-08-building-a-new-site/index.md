@@ -137,7 +137,7 @@ example a series overview with all its episodes looks like this:
     <div role="list">
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
         <a href="/series/from-rust-to-beyond/prelude/" property="url">Episode 1 – <span property="name">Prelude</span></a>
-        
+
         <div class="metadata">
           <!-- … --> 
         </div>

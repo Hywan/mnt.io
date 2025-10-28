@@ -750,7 +750,7 @@ they compare:
   Benchmarks between PEG PHP parser and Rust parser as a PHP extension.
 
   </figcaption>
- 
+
 </figure>
 
 The PHP extension of the Rust parser is in average 5230 times faster
