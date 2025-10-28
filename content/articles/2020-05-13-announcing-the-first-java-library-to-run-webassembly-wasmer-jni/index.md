@@ -76,7 +76,7 @@ The JAR files are named as follows:
 Wasmer JNI as a dependency of your project (assuming you use
 [Gradle](http://gradle.org/)), write for instance:
 
-```
+```text
 dependencies {
     implementation "org.wasmer:wasmer-jni-amd64-linux:0.2.0"
 }

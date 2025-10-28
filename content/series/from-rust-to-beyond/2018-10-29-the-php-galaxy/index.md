@@ -124,7 +124,7 @@ rather focus on the extension binding. [All the sources can be found
 here](https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser).
 Shortly, here is the `config.m4` file:
 
-```
+```text
 PHP_ARG_ENABLE(gutenberg_post_parser, whether to enable gutenberg_post_parser support,
 [  --with-gutenberg_post_parser          Include gutenberg_post_parser support], no)
 

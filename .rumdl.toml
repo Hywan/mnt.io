@@ -39,8 +39,10 @@ enable = [
   "MD044",
   "MD049",
   "MD050",
+
+  "MD040",
 ]
-disable = ["MD013", "MD029", "MD031", "MD041"]
+disable = ["MD013", "MD014", "MD029", "MD031", "MD041"]
 
 [MD002]
 level = 2
@@ -77,3 +79,6 @@ allowed-elements = [
 
 [MD049]
 style = "underscore"
+
+[MD050]
+style = "asterisk"

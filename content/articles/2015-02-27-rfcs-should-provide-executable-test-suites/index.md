@@ -41,7 +41,7 @@ cards. The formats are very similar and share a common ancestry: This is
 a **horrible** line-, colon- and semicolon-, randomly-escaped based
 format. For instance:
 
-```
+```text
 BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -208,7 +208,7 @@ or `---28` is a conceivable date and time format? How long did I sleep?
 Schema!”. No. Because there is an error in the schema. More precisely,
 in a regular expression:
 
-```
+```text
 value-time = element time {
     xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
@@ -244,7 +244,7 @@ the family) is ISO.8601.2004. I cannot read it. However, since we said
 in xCard we have an XML Schema; we can read this (after having applied
 erratum 4247):
 
-```
+```text
 # 4.3.1
 value-date = element date {
     xsd:string { pattern = "\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d" }

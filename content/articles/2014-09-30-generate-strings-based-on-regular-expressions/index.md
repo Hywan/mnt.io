@@ -187,13 +187,13 @@ How to write our own visitor? A visitor is a class with a single `visit`
 method. Let's try a visitor that pretty print a regular expression, i.e.
 transform:
 
-```
+```text
 ab(c|d){2,4}e?
 ```
 
 into:
 
-```
+```text
 a
 b
 (

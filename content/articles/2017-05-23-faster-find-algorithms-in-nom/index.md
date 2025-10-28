@@ -52,7 +52,7 @@ parsers actively using these two trait implementations.
 
 Here are the result, before and after our optimisations:
 
-```
+```text
 test …::bench_span ... bench:      73,433 ns/iter (+/- 3,869)
 test …::bench_span ... bench:      15,986 ns/iter (+/- 3,068)
 ```
