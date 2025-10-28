@@ -59,11 +59,11 @@ Another important difference is that ASM.js works by module in order to
 isolate them from Javascript. A module is a function that takes 3
 arguments:
 
-1.  `stdlib`, an object with references to standard library APIs,
-2.  `foreign`, an object with user-defined functionalities (such as
-    sending something over a WebSocket),
-3.  `heap`, an array buffer representing the memory (because memory is
-    manually managed).
+1. `stdlib`, an object with references to standard library APIs,
+2. `foreign`, an object with user-defined functionalities (such as
+   sending something over a WebSocket),
+3. `heap`, an array buffer representing the memory (because memory is
+   manually managed).
 
 But it's still Javascript. So the good news is that if your virtual
 machine has no specific optimisations for ASM.js, it is executed as any
@@ -142,9 +142,9 @@ our program on the Web.
 
 The workflow is the following:
 
-1.  Compile your Rust project into WebAssembly,
-2.  Compile your WebAssembly binary into an ASM.js module,
-3.  Optimise and shrink the ASM.js module.
+1. Compile your Rust project into WebAssembly,
+2. Compile your WebAssembly binary into an ASM.js module,
+3. Optimise and shrink the ASM.js module.
 
 [The wasm2js tool](https://github.com/WebAssembly/binaryen) will be your
 best companion to compile the WebAssembly binary into an ASM.js module.
@@ -220,10 +220,10 @@ The resulting `gutenberg_post_parser.asm.js` file contains a single
 function named `GUTENBERG_POST_PARSER_ASM_MODULE` which returns an
 object pointing to 4 private functions:
 
-1.  `root`, the axiom of our grammar,
-2.  `alloc`, to allocate memory,
-3.  `dealloc`, to deallocate memory, and
-4.  `memory`, the memory buffer.
+1. `root`, the axiom of our grammar,
+2. `alloc`, to allocate memory,
+3. `dealloc`, to deallocate memory, and
+4. `memory`, the memory buffer.
 
 It sounds familiar if you have read [the previous episode with
 WebAssembly](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md).

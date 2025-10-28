@@ -15,6 +15,12 @@ enable = [
   "MD043",
 
   "MD004",
+  "MD005",
+  "MD006",
+  "MD007",
+  "MD030",
+  "MD032",
+  "MD051",
 ]
 disable = ["MD041"]
 
@@ -23,3 +29,6 @@ level = 2
 
 [MD004]
 style = "dash"
+
+[MD029]
+style = "ordered"

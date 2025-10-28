@@ -97,9 +97,9 @@ fulfilled:
 - Of course, new test suites are written with the atoum API,
 - In case of a test suite migration from PHPUnit to atoum, there are two
   solutions:
-  1.  Rewrite the test suite entirely from scratch by logically using
+  1. Rewrite the test suite entirely from scratch by logically using
       the atoum API, or
-  2.  Only change the parent class from `PHPUnit\Framework\TestCase` to
+  2. Only change the parent class from `PHPUnit\Framework\TestCase` to
       `atoum\phpunit\test`, and suddenly it is possible to use both API
       at the same time (and thus migrate one test case after the other
       for instance).

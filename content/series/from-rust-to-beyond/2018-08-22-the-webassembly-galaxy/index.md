@@ -120,16 +120,16 @@ Knowing that, let's go!
 
 Here is our general design or workflow:
 
-1.  Javascript (for instance) writes the blog post to parse into the
-    WebAssembly module memory,
-2.  Javascript runs the `root` function by passing a pointer to the
-    memory, and the length of the blog post,
-3.  Rust reads the blog post from the memory, runs the Gutenberg parser,
-    compiles the resulting AST into a sequence of bytes, and returns the
-    pointer to this sequence of bytes to Javascript,
-4.  Javascript reads the memory from the received pointer, and decodes
-    the sequence of bytes as Javascript objects in order to recreate an
-    AST with a friendly API.
+1. Javascript (for instance) writes the blog post to parse into the
+   WebAssembly module memory,
+2. Javascript runs the `root` function by passing a pointer to the
+   memory, and the length of the blog post,
+3. Rust reads the blog post from the memory, runs the Gutenberg parser,
+   compiles the resulting AST into a sequence of bytes, and returns the
+   pointer to this sequence of bytes to Javascript,
+4. Javascript reads the memory from the received pointer, and decodes
+   the sequence of bytes as Javascript objects in order to recreate an
+   AST with a friendly API.
 
 Why a sequence of bytes? Because WebAssembly only supports integers and
 floats, not strings or vectors, and also because our Rust parser takes a
@@ -513,12 +513,12 @@ The WebAssembly binary is ready to run!
 In this section, we assume Javascript runs in a browser. Thus, what we
 need to do is the following:
 
-1.  Load/stream and instanciate the WebAssembly binary,
-2.  Write the blog post to parse in the WebAssembly module memory,
-3.  Call the `root` function on the parser,
-4.  Read the WebAssembly module memory to load the flat AST (a sequence
-    of bytes) and decode it to build a “Javascript AST” (with our own
-    objects).
+1. Load/stream and instanciate the WebAssembly binary,
+2. Write the blog post to parse in the WebAssembly module memory,
+3. Call the `root` function on the parser,
+4. Read the WebAssembly module memory to load the flat AST (a sequence
+   of bytes) and decode it to build a “Javascript AST” (with our own
+   objects).
 
 [The entire code lands
 here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs).

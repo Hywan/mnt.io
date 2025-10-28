@@ -433,17 +433,17 @@ void into_php_objects(zval *php_array, const Vector_Node *nodes)
 
 Now let's map a block. The process is the following:
 
-1.  Allocate PHP strings for the block namespace, and for the block
-    name,
-2.  Allocate an object,
-3.  Set the block namespace and the block name to their respective
-    object properties,
-4.  Allocate a PHP string for the block attributes if any,
-5.  Set the block attributes to its respective object property,
-6.  If any children, initialise a new array, and call `into_php_objects`
-    with the child nodes and the new array,
-7.  Set the children to its respective object property,
-8.  Finally, add the block object inside the array to be returned.
+1. Allocate PHP strings for the block namespace, and for the block
+   name,
+2. Allocate an object,
+3. Set the block namespace and the block name to their respective
+   object properties,
+4. Allocate a PHP string for the block attributes if any,
+5. Set the block attributes to its respective object property,
+6. If any children, initialise a new array, and call `into_php_objects`
+   with the child nodes and the new array,
+7. Set the children to its respective object property,
+8. Finally, add the block object inside the array to be returned.
 
 ```c
 const Block_Body block = node.block;

@@ -59,8 +59,8 @@ used by PHP or Python directly, with almost no overhead. Neat!
 
 In order to use Rust from C, one may need 2 elements:
 
-1.  A static library (`.a` file),
-2.  A header file (`.h` file).
+1. A static library (`.a` file),
+2. A header file (`.h` file).
 
 ### The theory
 
@@ -403,9 +403,9 @@ slices.
 
 `children` is different though. It works in three steps:
 
-1.  Collect all children as C AST nodes in a Rust vector,
-2.  Transform the Rust vector into a valid `Vector_Node`,
-3.  Transform the `Vector_Node` into a `*const c_void` pointer.
+1. Collect all children as C AST nodes in a Rust vector,
+2. Transform the Rust vector into a valid `Vector_Node`,
+3. Transform the `Vector_Node` into a `*const c_void` pointer.
 
 ```rust
 ast::Node::Block { …, …, ref children } => {

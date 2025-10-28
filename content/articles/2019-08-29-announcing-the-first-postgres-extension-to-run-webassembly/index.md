@@ -176,10 +176,10 @@ As we said, the extension API is rather small for now. The idea is to
 explore, to experiment, to have fun with WebAssembly inside a database.
 It is particularly interesting in two cases:
 
-1.  To write extensions or procedures with any languages that compile to
+1. To write extensions or procedures with any languages that compile to
     WebAssembly in place of
     [PL/pgSQL](https://www.postgresql.org/docs/10/plpgsql.html),
-2.  To remove a potential performance bottleneck where speed is
+2. To remove a potential performance bottleneck where speed is
     involved.
 
 Thus we run a basic benchmark. Like most of the benchmarks out there, it

@@ -180,12 +180,12 @@ to invite several people but you don't know if they could be present or
 not. In your event, all you have to do is to add attendees. How are they
 going to be notified about this event? Two situations:
 
-1.  Either attendees are registered on your `sabre/katana` server and
-    they will receive an invite inside their calendar application (we
-    call this iTIP),
-2.  Or they are not registered on your server and they will receive an
-    email with the event as an attached file (we call this iMIP). All
-    they have to do is to open this event in their calendar application.
+1. Either attendees are registered on your `sabre/katana` server and
+   they will receive an invite inside their calendar application (we
+   call this iTIP),
+2. Or they are not registered on your server and they will receive an
+   email with the event as an attached file (we call this iMIP). All
+   they have to do is to open this event in their calendar application.
 
 <figure>
 
@@ -328,8 +328,8 @@ white-listed, the file will be forced to download.
 
 `sabre/katana` is based on two big and solid projects:
 
-1.  [`sabre/dav`](http://sabre.io/),
-2.  [Hoa](http://hoa-project.net/).
+1. [`sabre/dav`](http://sabre.io/),
+2. [Hoa](http://hoa-project.net/).
 
 `sabre/dav` is one of the most powerful
 [CardDAV](https://en.wikipedia.org/wiki/CardDAV),
