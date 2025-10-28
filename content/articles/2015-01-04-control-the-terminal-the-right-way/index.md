@@ -214,17 +214,17 @@ the file data. Then we just have to check whether it is a named pipe
 
 - `isDirect` checks that the mode is equal to `S_IFCHR`, it means it is
   attached to the screen (in our case),
-- `isPipe` checks that the mode is equal to `S_IFIFO`: This is a special
-  file that behaves like a FIFO stack (see the [documentation of
-  `mkfifo(1)`](http://www.freebsd.org/cgi/man.cgi?query=mkfifo&sektion=1)),
-  everything which is written is directly read just after and the
-  reading order is defined by the writing order (first-in, first-out!),
-- `isRedirection` checks that the mode is equal to `S_IFREG`, `S_IFDIR`,
-  `S_IFLNK`, `S_IFSOCK` or `S_IFBLK`, in other words: All kind of files
-  on which we can apply a redirection. Why? Because the `STDOUT` (or
-  another `STD_*_` pipe) of the current processus is defined as a file
-  pointer to the redirection destination and it can be only a file, a
-  directory, a link, a socket or a block file.
+- `isPipe` checks that the mode is equal to `S_IFIFO`: This is a special file
+  that behaves like a FIFO stack (see the
+  [documentation of `mkfifo(1)`][`mkfifo`]), everything which is written is
+  directly read just after and the reading order is defined by the writing order
+  (first-in, first-out!),
+- `isRedirection` checks that the mode is equal to `S_IFREG` , `S_IFDIR` ,
+  `S_IFLNK` , `S_IFSOCK` or `S_IFBLK` , in other words: All kind of files on
+  which we can apply a redirection. Why? Because the `STDOUT` (or another
+  `STD_*_` pipe) of the current processus is defined as a file pointer to the
+  redirection destination and it can be only a file, a directory, a link, a
+  socket or a block file.
 
 I encourage you to read the [implementation of the
 `Hoa\Console\Console::getMode`
@@ -295,15 +295,14 @@ splitted in **3 categories**:
 
 For instance:
 
-- the “does the terminal support the meta key” is a boolean capability
-  called `meta_key` where its value is `true` or `false`,
-- the “number of colours supported by the terminal” is a… number
-  capability called `max_colors` where its value can be `2`, `8`, `256`
-  or more,
+- the “does the terminal support the meta key” is a boolean capability called
+  `meta_key` where its value is `true` or `false`,
+- the “number of colours supported by the terminal” is a… number capability
+  called `max_colors` where its value can be `2`, `8`, `256` or more,
 - the “clear screen control function” is a string capability called
   `clear_screen` where its value might be `\e[H\e[2J`,
-- the “move the cursor one column to the right” is also a string
-  capability called `cursor_right` where its value might be `\e[C`.
+- the “move the cursor one column to the right” is also a string capability
+  called `cursor_right` where its value might be `\e[C` .
 
 All the capabilities can be found in the [documentation of
 `terminfo(5)`](http://www.freebsd.org/cgi/man.cgi?query=terminfo&sektion=5)
@@ -658,7 +657,8 @@ We resize the window, we get its position, we move the window on the
 screen, we minimize and restore it, and finally we put it behind all
 other windows just before raising it.
 
-<iframe src="https://player.vimeo.com/video/115901611?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="aspect-ratio: 16/9; width: 100%;" title="Hoa\Console\Window in action"></iframe>
+<iframe src="https://player.vimeo.com/video/115901611?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="aspect-ratio: 16/9; width: 100%;" title="Hoa\Console\Window in action">
+</iframe>
 
 To get more information, please [read the
 documentation](http://hoa-project.net/Literature/Hack/Console.html#Window "Documentation of Hoa\Console\Window").
@@ -678,3 +678,5 @@ in the wild. We have to care about them.
 I encourage you to take a look at the [`Hoa\Console`
 library](http://github.com/hoaproject/Console) and to contribute to make
 it even more awesome 😄.
+
+[`mkfifo`]: http://www.freebsd.org/cgi/man.cgi?query=mkfifo&sektion=1

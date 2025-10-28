@@ -7,13 +7,15 @@ keywords=["rust", "site", "rdfa"]
 +++
 
 The time has come. I needed to rewrite my site from scratch. It was first
-implemented with [Jekxyl], a static site generator written with [the XYL
-language][XYL], a language I've developed inside [Hoa]. I've migrated my blog to
-[WordPress.com] when [I was working there](@/articles/2017-04-18-bye-bye-liip-hello-automattic/index.md). The [Gutenberg editor][Gutenberg] is really great,
-but there is no great support for `<code>`. Plus, the theme I was using was
-pretty heavy. The homepage was 1.15MiB! A simple article was 1.9MiB. Clearly
-not really efficient. I wanted something more customisable, something light,
-something I can hack, and more importantly, I wanted to start series.
+implemented with [Jekxyl], a static site generator written with
+[the XYL language][XYL], a language I've developed inside [Hoa]. I've migrated
+my blog to [WordPress.com] when
+[I was working there](@/articles/2017-04-18-bye-bye-liip-hello-automattic/index.md).
+The [Gutenberg editor][Gutenberg] is really great, but there is no great
+support for `<code>`. Plus, the theme I was using was pretty heavy. The
+homepage was 1.15MiB! A simple article was 1.9MiB. Clearly not really efficient.
+I wanted something more customisable, something light, something I can hack, and
+more importantly, I wanted to start series.
 
 ## Enter Zola
 
@@ -59,7 +61,8 @@ the template:
 
 That's a nice feature to promote some articles.
 
-In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times less!
+In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times
+less!
 
 ### Articles
 
@@ -243,8 +246,8 @@ play with it, to get inspired by it. It's important to own your content, and to
 not give your work to other platforms.
 
 I really hope you'll enjoy the content I'm preparing. You can start with the
-first episode of the new series: [Reactive programming in Rust,
-Observability](@/series/reactive-programming-in-rust/2024-09-19-observability/index.md).
+first episode of the new series:
+[Reactive programming in Rust, Observability](@/series/reactive-programming-in-rust/2024-09-19-observability/index.md).
 See you there!
 
 [Jekxyl]: https://github.com/jekxyl/jekxyl

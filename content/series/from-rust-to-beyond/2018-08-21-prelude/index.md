@@ -61,15 +61,14 @@ example:
 
 - It starts with an annotation (`<!-- … -->`),
 - The `wp:` is mandatory to represent a Gutenberg block,
-- It is followed by a fully qualified block name, which is a pair of an
-  optional namespace (here sets to `ns`, defaults to `core`) and a block
-  name (here sets to `block-name`), separated by a slash,
-- A block has optional attributes encoded as a JSON object (see [RFC
-  7159, Section 4, Objects](https://tools.ietf.org/html/rfc7159)),
-- Finally, a block has optional children, i.e. an heterogeneous
-  collection of blocks or phrases. In the example above, there is one
-  child that is the phrase `<p>phrase</p>`. And the following example
-  below shows a block with no child:
+- It is followed by a fully qualified block name, which is a pair of an optional
+  namespace (here sets to `ns` , defaults to `core`) and a block name (here
+  sets to `block-name`), separated by a slash,
+- A block has optional attributes encoded as a JSON object (see
+  [RFC 7159, Section 4, Objects](https://tools.ietf.org/html/rfc7159)),
+- Finally, a block has optional children, i.e. a heterogeneous collection of
+  blocks or phrases. In the example above, there is one child that is the phrase
+  `<p>phrase</p>`. And the following example below shows a block with no child:
 
 ```xml
 <!-- wp:ns/block-name {"attributes": "as JSON"} /-->

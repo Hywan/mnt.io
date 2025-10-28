@@ -58,8 +58,8 @@ end? I had to:
 - Therefore, meet Automatticians (people working with Automattic),
 - Discover all the interactions between them,
 - Understand the structure of the company,
-- How to ask help, how to formulate my questions, how to reformulate the
-  issues of the users…
+- How to ask help, how to formulate my questions, how to reformulate the issues
+  of the users…
 - Discover all the internal tools,
 - Therefore, learn how the software work internally and together,
 - Discover the giant internal and public documentations,

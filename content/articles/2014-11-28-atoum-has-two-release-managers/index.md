@@ -121,8 +121,8 @@ Finally, a big feature is the [Extension
 API](https://github.com/atoum/atoum/pull/330), that allows to write
 extension, such as:
 
-- [`atoum/visibility-extension`](https://github.com/atoum/visibility-extension),
-  allows to override methods visibility; example:
+- [`atoum/visibility-extension`], allows to override methods visibility;
+  example:
 
 ```php
 <?php
@@ -149,9 +149,8 @@ class Foo extends atoum\test {
 
 Now you will be able to test your protected and private methods!
 
-- [`atoum/bdd-extension`](https://github.com/atoum/bdd-extension),
-  allows to write tests with the behavior-driven development style and
-  vocabulary; example:
+- [`atoum/bdd-extension`], allows to write tests with the behavior-driven
+  development style and vocabulary; example:
 
 ```php
 <?php
@@ -179,8 +178,8 @@ Even the output looks familiar:
 
 </figure>
 
-- [`atoum/json-schema-extension`](https://github.com/atoum/json-schema-extension),
-  allows to validate JSON payloads against a schema; example:
+- [`atoum/json-schema-extension`], allows to validate JSON payloads against a
+  schema; example:
 
 ```php
 <?php
@@ -203,10 +202,9 @@ class Foo extends atoum\test {
 }
 ```
 
-- [`atoum/praspel-extension`](https://github.com/hoaproject/Contributions-Atoum-PraspelExtension),
-  allows to use [Praspel](https://en.wikipedia.org/wiki/Praspel) inside
-  atoum: automatically generate and validate advanced test data and unit
-  tests; example:
+- [`atoum/praspel-extension`], allows to use
+  [Praspel](https://en.wikipedia.org/wiki/Praspel) inside atoum: automatically
+  generate and validate advanced test data and unit tests; example:
 
 ```php
 <?php
@@ -222,10 +220,10 @@ class Foo extends atoum\test {
 }
 ```
 
-Here, we have generated a string based on its regular expression.
-Reminder, you might have seen this on this blog: [Generate strings based
-on regular
-expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md).
+Here, we have generated a string based on its regular expression. Reminder, you
+might have seen this on this blog:
+[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md)
+.
 
 Fun fact: the `atoum/json-schema-extension` is tested with atoum
 obviously and… `atoum/praspel-extension`!
@@ -236,3 +234,9 @@ atoum has a bright future with exciting features! We sincerely hope this
 new direction will gather existing and new contributors 😄.
 
 ❤️ open-source!
+
+
+[`atoum/visibility-extension`]: https://github.com/atoum/visibility-extension
+[`atoum/bdd-extension`]: https://github.com/atoum/bdd-extension
+[`atoum/json-schema-extension`]: https://github.com/atoum/json-schema-extension
+[`atoum/praspel-extension`]: https://github.com/hoaproject/Contributions-Atoum-PraspelExtension

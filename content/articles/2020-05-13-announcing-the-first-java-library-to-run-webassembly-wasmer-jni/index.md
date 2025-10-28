@@ -26,24 +26,17 @@ having announced libraries to use Wasmer, and thus WebAssembly, in:
 
 - [**PHP** with the `ext/wasm`
   extension](https://github.com/wasmerio/php-ext-wasm),
-
 - [**Python** with the `wasmer`
   library](https://github.com/wasmerio/python-ext-wasm),
-
 - [**Ruby** with the `wasmer`
   library](https://github.com/wasmerio/ruby-ext-wasm),
-
-- [**Go** with the `wasmer`
-  library](https://github.com/wasmerio/go-ext-wasm) (see [Announcing
-  the fastest WebAssembly runtime for
-  Go: `wasmer`](https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050),
+- [**Go** with the `wasmer` library](https://github.com/wasmerio/go-ext-wasm)
+  (see
+  [Announcing the fastest WebAssembly runtime for Go: `wasmer`](https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050)),
   and even
-
-- [**Postgres** with the `wasmer`
-  library](https://github.com/wasmerio/postgres-ext-wasm) (see
-  [Announcing the first Postgres extension to run
-  WebAssembly](https://medium.com/wasmer/announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1)),
-
+- [**Postgres** with the `wasmer` library](https://github.com/wasmerio/postgres-ext-wasm)
+  (see
+  [Announcing the first Postgres extension to run WebAssembly](https://medium.com/wasmer/announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1)),
 - and many other contributions in
   [.NET/C#](https://github.com/migueldeicaza/WasmerSharp),
   [R](https://github.com/dirkschumacher/wasmr) and

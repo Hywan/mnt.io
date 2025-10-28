@@ -180,12 +180,11 @@ to invite several people but you don't know if they could be present or
 not. In your event, all you have to do is to add attendees. How are they
 going to be notified about this event? Two situations:
 
-1. Either attendees are registered on your `sabre/katana` server and
-   they will receive an invite inside their calendar application (we
-   call this iTIP),
-2. Or they are not registered on your server and they will receive an
-   email with the event as an attached file (we call this iMIP). All
-   they have to do is to open this event in their calendar application.
+1. Either attendees are registered on your `sabre/katana` server and they will
+   receive an invite inside their calendar application (we call this iTIP),
+2. Or they are not registered on your server and they will receive an email with
+   the event as an attached file (we call this iMIP). All they have to do is to
+   open this event in their calendar application.
 
 <figure>
 

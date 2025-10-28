@@ -92,17 +92,16 @@ not required at all. With this extension, we have been able to run our
 “legacy” (aka PHPUnit) tests with atoum. The following scenarios can be
 fulfilled:
 
-- Existing test suites written with the PHPUnit API can be run
-  seamlessly by atoum, no need to rewrite them,
+- Existing test suites written with the PHPUnit API can be run seamlessly by
+  atoum, no need to rewrite them,
 - Of course, new test suites are written with the atoum API,
 - In case of a test suite migration from PHPUnit to atoum, there are two
   solutions:
-  1. Rewrite the test suite entirely from scratch by logically using
-     the atoum API, or
+  1. Rewrite the test suite entirely from scratch by logically using the atoum
+     API, or
   2. Only change the parent class from `PHPUnit\Framework\TestCase` to
-     `atoum\phpunit\test`, and suddenly it is possible to use both API
-     at the same time (and thus migrate one test case after the other
-     for instance).
+     `atoum\phpunit\test`, and suddenly it is possible to use both API at the
+     same time (and thus migrate one test case after the other for instance).
 
 This is a very valuable tool for an adventure like ours.
 
@@ -151,8 +150,8 @@ tests, and to increase the trust we put in the test verdicts. atoum
 comes with *de facto* 3 runner engines:
 
 - *Inline*, one test case after another in the same process,
-- *Isolate*, one test case after another but each time in a new process
-  (full isolation),
+- *Isolate*, one test case after another but each time in a new process (full
+  isolation),
 - *Concurrent*, like *isolate* but tests run concurrently (“at the same
   time”).
 
@@ -256,33 +255,31 @@ responsible of this latency: The state of our code is.
 
 First, let's start by the positive impacts:
 
-- In 2 months, we have observed that the testability of our code has
-  been increased by using atoum,
-- We have been able to find bugs in our code that were not detected by
-  PHPUnit, mostly because atoum checks the type of the data,
-- We have been able to migrate “legacy tests” (aka PHPUnit tests) to
-  atoum by just moving the files from one directory to another: What a
-  smooth migration!
-- The *trust* we put in our test verdict has increased thanks to a
-  strict test execution isolation.
+- In 2 months, we have observed that the testability of our code has been
+  increased by using atoum,
+- We have been able to find bugs in our code that were not detected by PHPUnit,
+  mostly because atoum checks the type of the data,
+- We have been able to migrate “legacy tests” (aka PHPUnit tests) to atoum by
+  just moving the files from one directory to another: What a smooth migration!
+- The *trust* we put in our test verdict has increased thanks to a strict test
+  execution isolation.
 
 Now, the negative impacts:
 
-- Even if the testability has been increased, it's not enough. Right
-  now, we are looking at refactoring our code. Introducing atoum right
-  now was probably too early. Let's refactor first, then use a better
-  test toolchain later when things will be cleaner,
-- Moving the whole company at once is hard. There are thousands of
-  manual tests. The `atoum/phpunit-extension` is not magical. We have to
-  come with more solid results, stuff to blow minds. It is necessary to
-  set the institutional inertia in motion. For instance, not being able
-  to run integration and system tests concurrently slows down the builds
-  on the CI; it increases the trust we put in the test verdict, but this
-  latency is not acceptable at the company scale,
-- All the issues we faced can be addressed, but it needs time. The
-  experiment time frame was 2 months. We need 1 or 2 other months to
-  solve the majority of the remaining issues. Note that I was kind of
-  in-charge of this project, but not full time.
+- Even if the testability has been increased, it's not enough. Right now, we are
+  looking at refactoring our code. Introducing atoum right now was probably too
+  early. Let's refactor first, then use a better test toolchain later when
+  things will be cleaner,
+- Moving the whole company at once is hard. There are thousands of manual tests.
+  The `atoum/phpunit-extension` is not magical. We have to come with more solid
+  results, stuff to blow minds. It is necessary to set the institutional inertia
+  in motion. For instance, not being able to run integration and system tests
+  concurrently slows down the builds on the CI; it increases the trust we put in
+  the test verdict, but this latency is not acceptable at the company scale,
+- All the issues we faced can be addressed, but it needs time. The experiment
+  time frame was 2 months. We need 1 or 2 other months to solve the majority of
+  the remaining issues. Note that I was kind of in-charge of this project, but
+  not full time.
 
 We stop using atoum for *manual tests*. It's likely to be a pause
 though. The experiment has shown we need to refactor and clean our code,

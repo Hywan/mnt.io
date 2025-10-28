@@ -128,12 +128,12 @@ The extension provides two foreign data wrappers, gathered together in
 the `wasm` foreign schema:
 
 - `wasm.instances` is a table with the `id` and `wasm_file` columns,
-  respectively for the unique instance ID, and the path of the
-  WebAssembly module,
-- `wasm.exported_functions` is a table with the `instance_id`,`name`,
-  `inputs`, and `outputs` columns, respectively for the instance ID of
-  the exported function, its name, its input types (already formatted
-  for Postgres), and its output types (already formatted for Postgres).
+  respectively for the unique instance ID, and the path of the WebAssembly
+  module,
+- `wasm.exported_functions` is a table with the `instance_id`, `name`,
+  `inputs`, and `outputs` columns, respectively for the instance ID of the
+  exported function, its name, its input types (already formatted for Postgres),
+  and its output types (already formatted for Postgres).
 
 Let’s see:
 
@@ -177,10 +177,10 @@ explore, to experiment, to have fun with WebAssembly inside a database.
 It is particularly interesting in two cases:
 
 1. To write extensions or procedures with any languages that compile to
-    WebAssembly in place of
-    [PL/pgSQL](https://www.postgresql.org/docs/10/plpgsql.html),
+   WebAssembly in place of
+   [PL/pgSQL](https://www.postgresql.org/docs/10/plpgsql.html),
 2. To remove a potential performance bottleneck where speed is
-    involved.
+   involved.
 
 Thus we run a basic benchmark. Like most of the benchmarks out there, it
 must be taken with a grain of salt.
@@ -200,9 +200,9 @@ The methodology is the following:
 
 - Load both the `plpgsql_fibonacci` and the `wasm_fibonacci` functions,
 - Run them with a query like
-  `SELECT *_fibonacci(n) FROM generate_series(1, 1000)` where `n` has
-  the following values: 50, 500, and 5000, so that we can observe how
-  both approaches scale,
+  `SELECT *_fibonacci(n) FROM generate_series(1, 1000)` where `n` has the
+  following values: 50, 500, and 5000, so that we can observe how both
+  approaches scale,
 - Write the timings down,
 - Run this methodology multiple times, and compute the median of the
   results.

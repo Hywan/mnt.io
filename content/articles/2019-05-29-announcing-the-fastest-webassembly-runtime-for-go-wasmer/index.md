@@ -134,14 +134,14 @@ Let’s implement the `sum` function in Go! To do so, *need* to use
 [cgo](https://blog.golang.org/c-go-cgo):
 
 1. The `sum` function signature is defined in C (see the comment above
-    `import "C"`),
-2. The `sum` implementation is defined in Go. Notice the `//export`
-    which is the way cgo uses to map Go code to C code,
-3. `NewImports` is an API used to create WebAssembly imports. In this
-    code `"sum"` is the WebAssembly imported function name, `sum` is the
-    Go function pointer, and `C.sum` is the cgo function pointer,
-4. Finally, `NewInstanceWithImports` is the constructor to use to
-    instantiate the WebAssembly module with imports. That’s it.
+   `import "C"`),
+2. The `sum` implementation is defined in Go. Notice the `//export` which is
+   the way cgo uses to map Go code to C code,
+3. `NewImports` is an API used to create WebAssembly imports. In this code
+   `"sum"` is the WebAssembly imported function name, `sum` is the Go function
+   pointer, and `C.sum` is the cgo function pointer,
+4. Finally, `NewInstanceWithImports` is the constructor to use to instantiate
+   the WebAssembly module with imports. That’s it.
 
 Let’s see the complete program:
 

@@ -80,10 +80,10 @@ Rüsh Release is a mix between part- and true-rolling release and
 scheduled-based release. The `master` branch is part- and true-rolling
 release, but with a semi-automatically versioning:
 
-- each 6 weeks, if at least one new patch has been merged into the
-  `master`, a new version is created,
-- before 6 weeks, if several critical or significant patches have been
-  applied, a new version is created.
+- each 6 weeks, if at least one new patch has been merged into the `master`, a
+  new version is created,
+- before 6 weeks, if several critical or significant patches have been applied,
+  a new version is created.
 
 What is the version format then? We have proposed `_YY_{2,4}._mm_._dd_`,
 starting from 2000, our “Rüsh Epoch”.

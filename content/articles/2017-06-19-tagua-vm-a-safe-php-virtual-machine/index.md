@@ -6,7 +6,8 @@ description = "Watch my last talk at the PHPTour conference about Tagua VM, an e
 keywords=["php", "runtime", "rust"]
 +++
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ymy8qAEe0kQ?si=_7IlrTO1VzOriUKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ymy8qAEe0kQ?si=_7IlrTO1VzOriUKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
 
 PHPTour Nantes 2017 (in French):
 

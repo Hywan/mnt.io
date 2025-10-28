@@ -109,8 +109,8 @@ handle out-of-band events. In the Matrix protocol, we can receive events via:
 
 - [the `/sync` endpoint][`/sync`], it's the main source of inputs, we get most
   of the events via this API,
-- [the `/messages` endpoint][`/messages`], when we need to get events around
-  a particular events; this is helpful if we need to paginate backwards or
+- [the `/messages` endpoint][`/messages`], when we need to get events around a
+  particular events; this is helpful if we need to paginate backwards or
   forwards around an event,
 - [the `/context` endpoint][`/context`], if we need to get more context about
   an event.
@@ -157,14 +157,15 @@ The database?
 
 We don't have the device within easy reach. Hopefully, Matrix users are always
 nice and willing to help! We have added a bunch of logs, then the user has
-reproduced the problem, and shared their logs (via a rageshake) with us. Logs are
-never trivial to analyse. However, here is a tip we use in the Matrix Rust SDK:
-we have a special tracing type that logs the time spent in a portion of the
+reproduced the problem, and shared their logs (via a rageshake) with us. Logs
+are never trivial to analyse. However, here is a tip we use in the Matrix Rust
+SDK: we have a special tracing type that logs the time spent in a portion of the
 code; called [`TracingTimer`].
 
 Basically, when a `TracingTimer` is created, it keeps its creation time in
 memory. And when the `TracingTimer` is dropped, it emits a log containing the
-elapsed time since its creation. It looks like this (it uses [the `tracing` library][`tracing`]):
+elapsed time since its creation. It looks like this (it uses
+[the `tracing` library][`tracing`]):
 
 ```rust
 pub struct TracingTimer {
@@ -296,11 +297,11 @@ This query does the following:
 1. if the chunk is of kind `ChunkContent::Items`, it does count all events
    associated to itself (via `ec.chunk_id = lc.id`),
 2. otherwise, the chunk is of kind `ChunkContent::Gap`, so it will try to count
-   but… no event is associated to it: it's impossible to get `ec.chunk_id =
-   lc.id` to be true for a gap. This query will scan _all events_ for each
-   gap… for no reason whatsoever! This is a linear scan here. If there are
-   300 gaps for this linked chunk, and 5000 events, 1.5 millions events will be
-   scanned for **no reason**!
+   but… no event is associated to it: it's impossible to get
+   `ec.chunk_id = lc.id` to be true for a gap. This query will scan _all events_
+   for each gap… for no reason whatsoever! This is a linear scan here. If there
+   are 300 gaps for this linked chunk, and 5000 events, 1.5 millions events will
+   be scanned for **no reason**!
 
 How lovingly inefficient.
 
@@ -340,18 +341,21 @@ See [Database index] to learn more.
 
 That's correct. But we didn't want to use an index here. The reason is twofold:
 
-1. **More spaces**. Remember that _Le Procureur_ said an index contains a _copy_
-   of the data. Here, the data is [the event ID][event ID]. It's not heavy, but
-   it's not nothing. Moreover, we are not counting the _key_ to associate the
-   _copied data_ to the row containing the real data in the source table.
-2. **Still extra useless time**. We would still need to traverse the index
-   for gaps, which is pointless. [SQLite implements indexes as
-   B-Trees][sqlite-btree], which is really efficient, but still, we already know
-   that a gap has zero event because… it's… a gap between events!
+1. **More spaces**. Remember that _Le Procureur_ said an index contains a
+   _copy_ of the data. Here, the data is [the event ID][event ID]. It's not
+   heavy, but it's not nothing. Moreover, we are not counting the _key_ to
+   associate the _copied data_ to the row containing the real data in the source
+   table.
+2. **Still extra useless time**. We would still need to traverse the index for
+   gaps, which is pointless.
+   [SQLite implements indexes as B-Trees][sqlite-btree], which is really
+   efficient, but still, we already know that a gap has zero event because…
+   it's… a gap between events!
 
 Do you remember that the `linked_chunks` table has a `type` column? It contains
 `E` when the chunk is of kind `ChunkContent::Items` —it represents a set of
-events—, and `G` when of kind `ChunkContent::Gap` —it represents a gap—. Maybe… <i>stare into the void</i>
+events—, and `G` when of kind `ChunkContent::Gap` —it represents a gap—. Maybe…
+<i> stare into the void</i>
 
 {% factotum() %}
 
@@ -583,7 +587,8 @@ are the before/after results.
 </details>
 
 The throughput and the time are <math><mn>12.6</mn><mo>×</mo></math> better. No
-`INDEX`. No more `LEFT JOIN`. Just a simple `CASE` expression. [You can see the patches containing the benchmark and the fix][pr-5411].
+`INDEX`. No more `LEFT JOIN`. Just a simple `CASE` expression. [You can see the
+patches containing the benchmark and the fix][pr-5411].
 
 But that's not all…
 
@@ -666,7 +671,8 @@ transaction
     .collect::<Result<Vec<_>, _>>()
 ```
 
-Only two queries. All tests are passing. Now let's see what the benchmark has to say!
+Only two queries. All tests are passing. Now let's see what the benchmark has to
+say!
 
 <figure>
 
@@ -785,7 +791,8 @@ Notice how the SQL tables layout didn't change. Notice how the `LinkedChunk`
 implementation didn't change. Only the SQL queries have changed, and it has
 dramatically improved the situation.
 
-This is joint effort between [Benjamin Bouvier][ben], [Damir Jelić][damir] and I.
+This is joint effort between [Benjamin Bouvier][ben], [Damir Jelić][damir] and
+I.
 
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
 [Matrix]: https://matrix.org/

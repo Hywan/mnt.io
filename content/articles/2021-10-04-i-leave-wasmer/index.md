@@ -70,40 +70,39 @@ Wasmer's popularity to great extent.
 I would like to highlight the most notable embedding projects I've
 created:
 
-- [`wasmer-c-api`](https://github.com/wasmerio/wasmer/tree/master/lib/c-api)
-  is the C embedding for Wasmer. It's part of the Wasmer runtime itself,
-  and is fully written in Rust. [The documentation, the C
+- [`wasmer-c-api`](https://github.com/wasmerio/wasmer/tree/master/lib/c-api) is
+  the C embedding for Wasmer. It's part of the Wasmer runtime itself, and is
+  fully written in Rust.
+  [The documentation, the C
   examples](https://docs.rs/wasmer-c-api/*/wasmer_c_api/wasm_c_api/index.html),
-  everything is super polished to offer the best experience possible.
-  [Mark McCaskey](https://github.com/MarkMcCaskey) and I are the authors
-  of this project.
-- [`wasmer-python`](https://github.com/wasmerio/wasmer-python) is the
-  Python embedding for Wasmer. At the time of writing, it's been
-  installed more than 5 millions times (I'm counting the compiler
-  packages too, like `wasmer-compiler-cranelift` and so on), and 1300
-  stars on Github. There is about 300'000 downloads per months, and it
-  continues to grow! The code is written in Rust, and it relies on [the
-  awesome `pyo3` project](https://pyo3.rs/).
-- [`wasmer-go`](https://github.com/wasmerio/wasmer-go/) is the Go
-  embedding for Wasmer. It's hard to know how much total downloads we
-  have because of how the Go ecosystem is designed, but we have about
-  60'000 downloads per months from Github (I'm excluding the forks of
-  the project), and 1600 stars on Github. The code is written in Go and
-  uses [`cgo`](https://golang.org/cmd/cgo/) to bind against the C API.
-  Almost all blockchain projects that use WebAssembly are using
-  `wasmer-go`, which is a popularity I wasn't expecting.
+  everything is super polished to offer the best experience possible. [Mark
+  McCaskey](https://github.com/MarkMcCaskey) and I are the authors of this
+  project.
+- [`wasmer-python`](https://github.com/wasmerio/wasmer-python) is the Python
+  embedding for Wasmer. At the time of writing, it's been installed more than 5
+  millions times (I'm counting the compiler packages too, like
+  `wasmer-compiler-cranelift` and so on), and 1300 stars on Github. There is
+  about 300'000 downloads per months, and it continues to grow! The code is
+  written in Rust, and it relies on
+  [the awesome `pyo3` project](https://pyo3.rs/) .
+- [`wasmer-go`](https://github.com/wasmerio/wasmer-go/) is the Go embedding for
+  Wasmer. It's hard to know how much total downloads we have because of how the
+  Go ecosystem is designed, but we have about 60'000 downloads per months from
+  Github (I'm excluding the forks of the project), and 1600 stars on Github. The
+  code is written in Go and uses [`cgo`](https://golang.org/cmd/cgo/) to bind
+  against the C API. Almost all blockchain projects that use WebAssembly are
+  using `wasmer-go`, which is a popularity I wasn't expecting.
 - [`wasmer-ruby`](https://github.com/wasmerio/wasmer-ruby/) is the Ruby
-  embedding for Wasmer. It's not as popular as the others, but it's also
-  very polished and it's finding its place in the Ruby ecosystem. The
-  code is written in Rust, and it relies on [the awesome `rutie`
-  project](https://github.com/danielpclark/rutie).
+  embedding for Wasmer. It's not as popular as the others, but it's also very
+  polished and it's finding its place in the Ruby ecosystem. The code is written
+  in Rust, and it relies on
+  [the awesome `rutie` project](https://github.com/danielpclark/rutie) .
 - I won't detail all the projects, but there is also
   [`wasmer-php`](https://github.com/wasmerio/wasmer-php),
   [`wasmer-java`](https://github.com/wasmerio/wasmer-java),
-  [`wasmer-postgres`](https://github.com/wasmerio/wasmer-postgres)…
-  Because of the Wasmer runtime API and C API we have designed, many
-  developers around the globe have been able to create a lot more
-  embeddings, such as in
+  [`wasmer-postgres`](https://github.com/wasmerio/wasmer-postgres)… Because of
+  the Wasmer runtime API and C API we have designed, many developers around the
+  globe have been able to create a lot more embeddings, such as in
   [C#](https://github.com/migueldeicaza/WasmerSharp),
   [D](https://github.com/chances/wasmer-d),
   [Elixir](https://github.com/tessi/wasmex),
@@ -117,14 +116,13 @@ Other fun notable projects are:
 
 - [`sonde-rs`](https://github.com/wasmerio/sonde-rs), a library to
   compile USDT probes into a Rust library,
-- [`llvm-custom-builds`](https://github.com/wasmerio/llvm-custom-builds),
-  a sandbox to produce custom LLVM builds for various platforms,
+- [`llvm-custom-builds`](https://github.com/wasmerio/llvm-custom-builds), a
+  sandbox to produce custom LLVM builds for various platforms,
 - [`loupe`](https://github.com/wasmerio/loupe), a set of tools to
   analyse and to profile Rust code,
-- [`wasmer-interface-types`](https://github.com/wasmerio/interface-types),
-  a “living” (understand an unstable playground) library that implements
-  [the WebAssembly Interface Types
-  proposal](https://github.com/WebAssembly/interface-types),
+- [`wasmer-interface-types`](https://github.com/wasmerio/interface-types), a
+  “living” (understand an unstable playground) library that implements
+  [the WebAssembly Interface Types proposal](https://github.com/WebAssembly/interface-types),
 - [`inline-c-rs`](https://github.com/Hywan/inline-c-rs/), to write and
   to execute C code inside Rust,
 - in-memory filesystem, that acts exactly like `std::fs`.
@@ -138,20 +136,19 @@ passion.
 This list above shows released projects, but I've also experimented (and
 sometimes at two hairs of a release) with:
 
-- [Unikernels](https://en.wikipedia.org/wiki/Unikernel); this one was
-  really fun, given a WebAssembly module and a filesystem, we were able
-  to generate a unikernel that was executing the given program,
-- Parser; to write the fastest WebAssembly parser possible, it was
-  working, but never released,
-- HAL (Hardware Abstraction Layer) ABI for WebAssembly, so that we can
-  run WebAssembly on small chips super easily (think of IoT),
-- Networking; an extension to WASI to support networking (TCP and UDP
-  sockets), with an implementation in
-  [Rust](https://www.rust-lang.org/),
+- [Unikernels](https://en.wikipedia.org/wiki/Unikernel); this one was really
+  fun, given a WebAssembly module and a filesystem, we were able to generate a
+  unikernel that was executing the given program,
+- Parser; to write the fastest WebAssembly parser possible, it was working, but
+  never released,
+- HAL (Hardware Abstraction Layer) ABI for WebAssembly, so that we can run
+  WebAssembly on small chips super easily (think of IoT),
+- Networking; an extension to WASI to support networking (TCP and UDP sockets),
+  with an implementation in [Rust](https://www.rust-lang.org/),
   [libc](https://en.wikipedia.org/wiki/C_standard_library), and even
-  [Zig](https://github.com/ziglang/zig/)! We were able to compile C
-  programs to WebAssembly like cURL, or TCP servers written with kqueue
-  or epoll etc, and to execute them on any platforms.
+  [Zig](https://github.com/ziglang/zig/)! We were able to compile C programs to
+  WebAssembly like cURL, or TCP servers written with kqueue or epoll etc, and to
+  execute them on any platforms.
 
 All those things were working.
 
@@ -190,50 +187,44 @@ or conflicts or strong disagreements with the company leadership. I am
 leaving due to a severe burn-out. I would like to briefly share my
 journey to my first burn-out in few points:
 
-- I've started as an engineer. I love coding. I love hacking. In Wasmer,
-  I've found a place to learn a lot and to express my passion. We had a
-  lot of pressure mostly because our friendly “competitors” had more
-  people dedicated to work on their runtimes, more money, more power,
-  better marketing and so on. That's the inevitable burden of any
-  startup. When you're competing against giants, that's what happens.
-  And that's OK. It's part of the game.
-- During that time, we were delivering more and more projects, more and
-  more features, at an incredible pace. New hats: Release manager,
-  project manager, more product ownership, more customers to be
-  connected with, more contributors to help, more issues to triage, blog
-  writer etc. The pace was accelerating too fast, something we did
-  notice on multiple occasions.
-- The CEO, [Syrus Akbary](https://github.com/syrusakbary), had evidently
-  a lot of pressure on its shoulders. It sadly resulted in the worst
-  possible way: micro-management, stress, pressure, bad leadership, lack
-  of vision, lack of trust in the employees, changing the roadmap
-  constantly, lies, secrets etc.
-- As one of the older in the company, with a family of two kids, I
-  probably got more “wisdom”. I've decided to create a safe place for
-  employees to express their frustrations, their needs, to find
-  solutions together. *De facto*, I became the “person of trust” in the
-  company. I got new hats, new pressures.
-- SARS-CoV-2 hit. School at home. Lock-down. More micro-management, more
-  stress. Wasmer was running out of money. I brought a new investor that
-  saved the company. New hat.
-- After too many departures (85% of the engineering team!), I tried to
-  take more space and to take more responsabilities in the company. That
-  was at the beginning of 2021. It was my last attempt to save the
-  company from a disaster before leaving. **I couldn't imagine leaving
-  such brilliant and successful projects without having tried everything
-  I could**.
-- Then **I became a *late co-founder* of Wasmer**. Too many new hats:
-  Doing hiring interviews, accountabilities, helping to define the
-  roadmap (with another awesome person, friend, and employee), handling
-  legal aspects to hire people in multiple countries with non-precarious
-  contracts etc.
-- Obviously, I was also doing the job of all the engineers that have
-  left. They were not replaced for unknown reasons. It was absolutely
-  madness. The pace was unsustainable.
-- Finally, the crack. The CEO continued to change the roadmap, to take
-  bad decisions, to not recognize all the efforts we were doing to
-  save/grow the company. It was my turn to be declared in a *severe*
-  burn-out by my physician. The last engineer to fall.
+- I've started as an engineer. I love coding. I love hacking. In Wasmer, I've
+  found a place to learn a lot and to express my passion. We had a lot of
+  pressure mostly because our friendly “competitors” had more people dedicated
+  to work on their runtimes, more money, more power, better marketing and so on.
+  That's the inevitable burden of any startup. When you're competing against
+  giants, that's what happens. And that's OK. It's part of the game.
+- During that time, we were delivering more and more projects, more and more
+  features, at an incredible pace. New hats: Release manager, project manager,
+  more product ownership, more customers to be connected with, more contributors
+  to help, more issues to triage, blog writer etc. The pace was accelerating too
+  fast, something we did notice on multiple occasions.
+- The CEO, [Syrus Akbary](https://github.com/syrusakbary), had evidently a lot
+  of pressure on its shoulders. It sadly resulted in the worst possible way:
+  micro-management, stress, pressure, bad leadership, lack of vision, lack of
+  trust in the employees, changing the roadmap constantly, lies, secrets etc.
+- As one of the older in the company, with a family of two kids, I probably got
+  more “wisdom”. I've decided to create a safe place for employees to express
+  their frustrations, their needs, to find solutions together. *De facto*, I
+  became the “person of trust” in the company. I got new hats, new pressures.
+- SARS-CoV-2 hit. School at home. Lock-down. More micro-management, more stress.
+  Wasmer was running out of money. I brought a new investor that saved the
+  company. New hat.
+- After too many departures (85% of the engineering team!), I tried to take more
+  space and to take more responsabilities in the company. That was at the
+  beginning of 2021. It was my last attempt to save the company from a disaster
+  before leaving. **I couldn't imagine leaving such brilliant and successful
+  projects without having tried everything I could**.
+- Then **I became a *late co-founder* of Wasmer**. Too many new hats: Doing
+  hiring interviews, accountabilities, helping to define the roadmap (with
+  another awesome person, friend, and employee), handling legal aspects to hire
+  people in multiple countries with non-precarious contracts etc.
+- Obviously, I was also doing the job of all the engineers that have left. They
+  were not replaced for unknown reasons. It was absolutely madness. The pace was
+  unsustainable.
+- Finally, the crack. The CEO continued to change the roadmap, to take bad
+  decisions, to not recognize all the efforts we were doing to save/grow the
+  company. It was my turn to be declared in a *severe* burn-out by my physician.
+  The last engineer to fall.
 
 Another point: Syrus Akbary also has made many public errors that have
 created hostility against the company. Hopefully people were smart and

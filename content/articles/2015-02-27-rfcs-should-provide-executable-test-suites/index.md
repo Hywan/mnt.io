@@ -270,10 +270,10 @@ Question: **`--10` is October or 10 seconds**?
 
 `--10` can fit into `value-date` and `value-time`:
 
-- From `value-date`, the 3rd element in the disjunction is
-  `--\d\d(\d\d)?`, so it matches `--10`,
-- From `value-time`, the last element in the first disjunction is
-  `--\d\d`, so it matches `--10`.
+- From `value-date`, the 3rd element in the disjunction is `--\d\d(\d\d)?`, so
+  it matches `--10` ,
+- From `value-time`, the last element in the first disjunction is `--\d\d`, so
+  it matches `--10`.
 
 If we have a date-and-or-time value, `value-date` comes first, so `--10`
 is always October. Nevertheless, if we have a time value, `--10` is
@@ -308,11 +308,11 @@ ran out of time. This is basically format transformation: R:x→y where R
 can be a reflexive operator or not (depending of the versions of
 iCalendar and vCard we consider).
 
-For “simple“ errata, I found the errors by testing it manually. For
-errata 4247 and 4261 (with the regular expressions), I found the error
-by applying the algorithms presented in [Generate strings based on
-regular
-expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md).
+For “simple“ errata, I found the errors by testing it manually. For errata 4247
+and 4261 (with the regular expressions), I found the error by applying the
+algorithms presented in
+[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md)
+.
 
 ## Conclusion
 

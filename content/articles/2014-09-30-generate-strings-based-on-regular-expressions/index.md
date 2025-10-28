@@ -21,11 +21,11 @@ hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy) has been
 formulated, classifying grammars (which define languages) in four
 levels:
 
-1. unrestricted grammars, matching langages known as Turing languages,
-   no restriction,
+1. unrestricted grammars, matching langages known as Turing languages, no
+   restriction,
 2. context-sensitive grammars, matching contextual languages,
-3. context-free grammars, matching algebraic languages, based on
-   stacked automata,
+3. context-free grammars, matching algebraic languages, based on stacked
+   automata,
 4. regular grammars, matching regular languages.
 
 Each level includes the next level. The last level is the “weaker”,

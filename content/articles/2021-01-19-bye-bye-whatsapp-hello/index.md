@@ -265,8 +265,8 @@ Matrix avec des clients de plus en plus aboutis !
 
 ### Matrix, Element, Vector, hein ?
 
-- Element c'est le nom de l'entreprise qui travaille/développe le
-  réseau, les serveurs et le client ;
+- Element c'est le nom de l'entreprise qui travaille/développe le réseau, les
+  serveurs et le client ;
 - Matrix c'est le nom du réseau ;
 - Vector, c'est l'ancien nom d'Element.
 

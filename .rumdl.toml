@@ -25,6 +25,7 @@ enable = [
   "MD009",
   "MD010",
   "MD012",
+  "MD013",
 ]
 disable = ["MD029", "MD041"]
 
@@ -36,3 +37,10 @@ style = "dash"
 
 [MD029]
 style = "ordered"
+
+[MD013]
+line-length = 80
+code-blocks = false
+tables = false
+reflow = true
+reflow-mode = "default"

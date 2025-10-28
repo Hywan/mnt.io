@@ -28,8 +28,8 @@ hopefully some tricks can help us to express nice constraints.
 A product in a store might have the following states:
 
 - Active: Can be purchased,
-- Inactive: Has been cancelled or discontinued (a discontinued product
-  can no longer be purchased),
+- Inactive: Has been cancelled or discontinued (a discontinued product can no
+  longer be purchased),
 - Purchased and renewable,
 - Purchased and not renewable,
 - Purchased and cancellable.
@@ -119,8 +119,8 @@ such as:
 
 - A product can be purchased only if it is active, and
 - A product is inactive if and only if it has been cancelled,
-- To finally conclude that an inactive product can no longer be
-  purchased, nor renewed, nor cancelled.
+- To finally conclude that an inactive product can no longer be purchased, nor
+  renewed, nor cancelled.
 
 Basically, it defines the axiom (initial state) and the final states of
 our FSM.
@@ -289,18 +289,17 @@ of view.
 
 Note that:
 
-- The real purchase action is performed in the constructor of the
-  anonymous class: This is not a hard rule, this is just convenient; it
-  can be done in the method before returning the new instance,
-- The real renew action is performed in the `renew` method before
-  returning `$this`,
-- And the real cancel action is performed in… we have to dig a little
-  bit more (the principle is exactly the same though):
-  - The `Cancellable::cancel` method must return an object implementing
-    the `Inactive` interface.
-  - It generates an instance of an anonymous class implementing the
-    `Inactive` interface, and the real cancel action is done in the
-    constructor.
+- The real purchase action is performed in the constructor of the anonymous
+  class: This is not a hard rule, this is just convenient; it can be done in the
+  method before returning the new instance,
+- The real renew action is performed in the `renew` method before returning
+  `$this` ,
+- And the real cancel action is performed in… we have to dig a little bit more
+  (the principle is exactly the same though):
+  - The `Cancellable::cancel` method must return an object implementing the
+    `Inactive` interface.
+  - It generates an instance of an anonymous class implementing the `Inactive`
+    interface, and the real cancel action is done in the constructor.
 
 ### Assert possible and impossible actions
 
@@ -549,16 +548,12 @@ bundles). It is more complex, but possible.
 
 I would highly recommend these following readings:
 
-- [What to know before debating type
-  systems](http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html)
+- [What to know before debating type systems](http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html)
   to have an overview of different systems,
-- [Rust's Type System is
-  Turing-Complete](https://sdleffler.github.io/RustTypeSystemTuringComplete/)
+- [Rust's Type System is Turing-Complete](https://sdleffler.github.io/RustTypeSystemTuringComplete/)
   to see how powerful a type system can be,
-- [Fear Not the Machine of
-  State!](https://speakerdeck.com/willroth/fear-not-the-machine-of-state)
-  to see how to integrate an FSM into an object without using a type
-  system.
+- [Fear Not the Machine of State!](https://speakerdeck.com/willroth/fear-not-the-machine-of-state)
+  to see how to integrate an FSM into an object without using a type system.
 
 I would like to particularly emphasize a paragraph from the first
 article:
