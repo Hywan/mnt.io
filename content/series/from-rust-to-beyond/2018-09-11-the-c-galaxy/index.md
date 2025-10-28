@@ -79,7 +79,7 @@ is created in `target/release/`. Done. `cargo` and `rustc` make this
 step really a doddle.
 
 Now the header file. It can be written manually, but it's tedious and it
-gets easily outdated. The goal is to *automatically* generate it. Enter
+gets easily outdated. The goal is to _automatically_ generate it. Enter
 [`cbindgen`](https://github.com/eqrion/cbindgen/):
 
 > `cbindgen` can be used to generate C bindings for Rust code. It is

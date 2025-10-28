@@ -77,7 +77,7 @@ example:
 The complete grammar can be found in [the parser's
 documentation](https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html).
 
-Finally, the parser is used on the *editor* side, not on the *rendering*
+Finally, the parser is used on the _editor_ side, not on the _rendering_
 side. Once rendered, the blog post is a regular HTML file. Some blocks
 are dynamics though, but this is another topic.
 
@@ -140,7 +140,7 @@ library](https://github.com/Geal/nom/).
 
   <figcaption>
 
-  *nom will happily take a byte out of your files* 🙂
+  _nom will happily take a byte out of your files_ 🙂
 
   </figcaption>
 

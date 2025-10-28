@@ -16,7 +16,7 @@ don't know this name, it has a twofold meaning: it's a [very popular
 WebAssembly runtime](http://github.com/wasmerio/wasmer), as well as a
 startup. I want to write about what I've been able to accomplish during
 my time at Wasmer (a high overview, not a technical view), and what
-*forces* me to leave the company despite being one of its co-founder. I
+_forces_ me to leave the company despite being one of its co-founder. I
 reckon my testimony can help other people to avoid digging into the hell
 I (and my colleagues) had to endure. I'm available for work, you can
 contact me at [ivan@mnt.io](mailto:ivan@mnt.io),
@@ -162,12 +162,12 @@ So. What a dream, huh?
 
 ## The toxic working environment
 
-WebAssembly is *nothing* without its community. I won't name people to
+WebAssembly is _nothing_ without its community. I won't name people to
 avoid missing important persons, but all the contributors are doing
 amazing work, to create something new, something special, something
-*right*.
+_right_.
 
-Wasmer is a success. The Wasmer runtime is *nothing* without the
+Wasmer is a success. The Wasmer runtime is _nothing_ without the
 incredible, marvelous, exceptional team of engineers behind it. In no
 particular order: [Lachlan Sneff](https://github.com/lachlansneff),
 [Mark McCaskey](https://github.com/MarkMcCaskey), [Julien
@@ -204,7 +204,7 @@ journey to my first burn-out in few points:
   trust in the employees, changing the roadmap constantly, lies, secrets etc.
 - As one of the older in the company, with a family of two kids, I probably got
   more “wisdom”. I've decided to create a safe place for employees to express
-  their frustrations, their needs, to find solutions together. *De facto*, I
+  their frustrations, their needs, to find solutions together. _De facto_, I
   became the “person of trust” in the company. I got new hats, new pressures.
 - SARS-CoV-2 hit. School at home. Lock-down. More micro-management, more stress.
   Wasmer was running out of money. I brought a new investor that saved the
@@ -214,7 +214,7 @@ journey to my first burn-out in few points:
   beginning of 2021. It was my last attempt to save the company from a disaster
   before leaving. **I couldn't imagine leaving such brilliant and successful
   projects without having tried everything I could**.
-- Then **I became a *late co-founder* of Wasmer**. Too many new hats: Doing
+- Then **I became a _late co-founder_ of Wasmer**. Too many new hats: Doing
   hiring interviews, accountabilities, helping to define the roadmap (with
   another awesome person, friend, and employee), handling legal aspects to hire
   people in multiple countries with non-precarious contracts etc.
@@ -223,7 +223,7 @@ journey to my first burn-out in few points:
   unsustainable.
 - Finally, the crack. The CEO continued to change the roadmap, to take bad
   decisions, to not recognize all the efforts we were doing to save/grow the
-  company. It was my turn to be declared in a *severe* burn-out by my physician.
+  company. It was my turn to be declared in a _severe_ burn-out by my physician.
   The last engineer to fall.
 
 Another point: Syrus Akbary also has made many public errors that have
@@ -258,7 +258,7 @@ When I've been declared in a severe burn-out, I had to take a break. The
 reaction from the CEO was… unexpected: Zero empathy, asking to never
 ever being sick again (otherwise I will be fired), dividing my equities,
 asking me to work more, saying I've never been involved in the company
-etc. That was the final straw to me. That's *the* wrong way to treat an
+etc. That was the final straw to me. That's _the_ wrong way to treat an
 employee, a collaborator, a contributor, the co-founder.
 
 ## What's next?
@@ -274,13 +274,13 @@ contributors, they are doing most of the work today. It's well tested,
 well documented, it's easy to contribute to it. It's a fabulous open
 source piece of technology.
 
-I strongly *hope* Wasmer, the **company**, will change. The products
+I strongly _hope_ Wasmer, the **company**, will change. The products
 that are going to be released are absolutely fantastic. It's a
 technology shift. It will enable the Decentralized Web, how we compile
 and distribute programs, how we will even consume programs. Wasmer has a
-solid bright future. I really *hope* things will change, and I wish the
+solid bright future. I really _hope_ things will change, and I wish the
 best to and am passing on the torch to the adventurers that will
-continue to move the company forward. I'm just too *skeptical* that
+continue to move the company forward. I'm just too _skeptical_ that
 things can improve or even slightly change. We have built something
 great. Please take a great care of it.
 

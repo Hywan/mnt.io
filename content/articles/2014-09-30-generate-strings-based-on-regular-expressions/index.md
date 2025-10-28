@@ -308,7 +308,7 @@ $prettyprint = new PrettyPrinter();
 echo $prettyprint->visit($ast);
 ```
 
-*Et voilà !*
+_Et voilà !_
 
 Now, put all that stuff together!
 

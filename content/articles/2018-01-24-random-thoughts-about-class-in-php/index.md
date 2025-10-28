@@ -97,7 +97,7 @@ things can be funny sometimes. Let's go through some examples.
   ```
 
   resolves to `'PHP_VERSION'`, which is… strange: It resolves to the
-  fully qualified name of the constant, not the *class* 🤐
+  fully qualified name of the constant, not the _class_ 🤐
 
 `::class` is very useful to get rid of of the `get_class` or the
 `get_called_class` functions, or even the `get_class($this)` trick. This

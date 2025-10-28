@@ -14,7 +14,7 @@ thesis (but with great results by the way!), I would like to see other
 things.
 
 My time as an intern at Mozilla and my work in the open-source world
-have been very *seductive*. Open-source contrasts a lot with the
+have been very _seductive_. Open-source contrasts a lot with the
 research world, where privacy and secrecy are first-citizens of every
 project. All the work I have made and all the algorithms I have
 developed during my PhD thesis have been implemented under an
@@ -168,4 +168,4 @@ the future is bright 😄.
 
 ## Conclusion
 
-*Bref*, I am working at fruux!
+_Bref_, I am working at fruux!

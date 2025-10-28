@@ -19,7 +19,7 @@ transitions**.
 I am in deep love with [Type
 theory](https://en.wikipedia.org/wiki/Type_theory), however I will try
 to keep the formulas away from this article to focus on the code.
-Moreover, you might be aware that the PHP *runtime* type system is
+Moreover, you might be aware that the PHP _runtime_ type system is
 somewhat very permissive and “poor” (this is not a formal definition),
 hopefully some tricks can help us to express nice constraints.
 
@@ -75,7 +75,7 @@ code.
 Why is this important? Imagine that we decide to change a product to be
 once-off purchasable instead of purchasable, then we can no longer renew
 it. We replace an interface on this product, and boom, the IDE tells us
-that the code is broken in *x* places. It **detects impossible scenarios
+that the code is broken in _x_ places. It **detects impossible scenarios
 ahead of code execution**.
 
 No more talking. Here is the code.

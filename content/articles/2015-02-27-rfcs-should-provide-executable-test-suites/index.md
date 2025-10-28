@@ -20,7 +20,7 @@ interesting. The whole idea is: Why RFCs do not provide executable test suites?
 The Web is a read-only media. It is based on the HTTP protocol. However,
 there is the [WebDAV](https://en.wikipedia.org/wiki/WebDAV) protocol,
 standing for Web Distributed Authoring and Versioning. This is an
-extension to HTTP. *Et voilà !* The Web is a read and write media.
+extension to HTTP. _Et voilà !_ The Web is a read and write media.
 WebDAV is standardized in [RFC2518](https://tools.ietf.org/html/rfc2518)
 and [RFC4918](https://tools.ietf.org/html/rfc4918).
 

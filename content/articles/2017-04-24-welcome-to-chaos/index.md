@@ -67,7 +67,7 @@ end? I had to:
   appropriated teams,
 - Learn the culture of the company.
 
-This is why it is called *Welcome to Chaos*. Yes, you have to learn a
+This is why it is called _Welcome to Chaos_. Yes, you have to learn a
 lot in three weeks, but it is extremely educative. This is like a speed
 training.
 

@@ -23,7 +23,7 @@ releases (since PHP 7.0 mostly) have introduced neat language features,
 and many cleanups, which are excessively ignored by haters. PHP is also
 a fast scripting language, and is very flexible. PHP now has declared
 types, traits, variadic arguments, closures (with explicit scopes!),
-generators, and a *huge* backward compatibility. The development of PHP
+generators, and a _huge_ backward compatibility. The development of PHP
 is led by [RFCs](https://wiki.php.net/rfc), which is an open and
 democratic process.
 

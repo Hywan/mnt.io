@@ -107,11 +107,11 @@ Great! We have successfully executed a WebAssembly file inside Go.
 
 ## WebAssembly calling Go funtions
 
-A WebAssembly module *exports* some functions, so that they can be
+A WebAssembly module _exports_ some functions, so that they can be
 called from the outside world. This is the entry point to execute
 WebAssembly.
 
-Nonetheless, a WebAssembly module can also have *imported* functions.
+Nonetheless, a WebAssembly module can also have _imported_ functions.
 Let’s consider the following Rust program:
 
 ```rust
@@ -127,10 +127,10 @@ pub extern fn add1(x: i32, y: i32) -> i32 {
 
 The exported function `add1` calls the `sum` function. Its
 implementation is absent, only its signature is defined. This is an
-“extern function”, and for WebAssembly, this is an *imported* function,
-because its implementation must be *imported*.
+“extern function”, and for WebAssembly, this is an _imported_ function,
+because its implementation must be _imported_.
 
-Let’s implement the `sum` function in Go! To do so, *need* to use
+Let’s implement the `sum` function in Go! To do so, _need_ to use
 [cgo](https://blog.golang.org/c-go-cgo):
 
 1. The `sum` function signature is defined in C (see the comment above
@@ -208,7 +208,7 @@ pub extern fn return_hello() -> *const u8 {
 ```
 
 The `return_hello` function returns a pointer to a string. The string
-terminates by a null byte, *à la* C. Let’s jump on the Go side:
+terminates by a null byte, _à la_ C. Let’s jump on the Go side:
 
 ```go
 bytes, _ := wasm.ReadBytes("memory.wasm")
@@ -237,7 +237,7 @@ can be used as any regular Go slice.
 
 Fortunately for us, we already know the length of the string we want to
 read, so `memory[pointer : pointer+13]` is enough to read the bytes,
-that are then cast to a string. *Et voilà !*
+that are then cast to a string. _Et voilà !_
 
 > You can read [the Greet
 > Example](https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go)

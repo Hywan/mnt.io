@@ -75,7 +75,7 @@ algorithm has a simple interface: based on an integer, it returns a
 floating-point number; this API doesn’t involve any advanced instance
 memory API, which is perfect to test a proof-of-concept.
 
-As a baseline, I’ve run the *n-body* algorithm [written in
+As a baseline, I’ve run the _n-body_ algorithm [written in
 Rust](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html),
 let’s call it `rust-baseline`. The same algorithm has been [written in
 PHP](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-php-3.html),
@@ -97,7 +97,7 @@ expectations.
 ## Faster, faster, faster…
 
 I wanted to use [Cranelift](https://github.com/CraneStation/cranelift)
-since the beginning. It’s a code generator, *à la*
+since the beginning. It’s a code generator, _à la_
 [LLVM](http://llvm.org/) (excuse the brutal shortcut, the goal isn’t to
 explain what Cranelift is in details, but that’s a really awesome
 project!). To quote the project itself:
@@ -131,7 +131,7 @@ Wasmer is organized as a set of Rust libraries (called crates). There is
 even a `wasmer-runtime-c-api` crate which is a C and a C++ API on top of
 the `wasmer-runtime` crate and the `wasmer-runtime-core` crate, i.e. it
 allows running the WebAssembly virtual machine as you want, with the
-backend of your choice: *Cranelift*, *LLVM*, or *Dynasm* (at the time of
+backend of your choice: _Cranelift_, _LLVM_, or _Dynasm_ (at the time of
 writing). That’s perfect, it removes my Rust library between the PHP
 extension and `wasmi`. Then `php-ext-wasm` is reduced to a PHP extension
 without any Rust code, everything goes to `wasmer-runtime-c-api`. That’s
@@ -178,7 +178,7 @@ is smaller, but still, we need to know it exists.
 
 Hopefully again, Zend Engine has an API to get persistent in-memory data
 between PHP executions. `php-ext-wasm` supports that API to get
-persistent modules, *et voilà*.
+persistent modules, _et voilà_.
 
 Now it takes **4.2ms** for the first boot of `nbody.wasm` and
 **0.005ms** for all the next boots. It’s 840 times faster!
@@ -189,7 +189,7 @@ Wasmer is a young — but mature — framework to build WebAssembly runtimes
 on top of. The default backend is Cranelift, and it shows its promises:
 It brings a correct balance between compilation time and execution time.
 
-`wasmi` has been a good companion to develop a *Proof-Of-Concept*. This
+`wasmi` has been a good companion to develop a _Proof-Of-Concept_. This
 library has its place in other usages though, like very short-living
 WebAssembly binaries (I’m thinking of Ethereum contracts that compile to
 WebAssembly for instance, which is one of the actual use cases). It’s

@@ -9,7 +9,7 @@ keywords=["release", "versioning", "hoa"]
 Since 2 years, at [Hoa](http://hoa-project.net/), we are looking for the
 perfect release process. Today, we have finalized the last thing related
 to this new process: we have found a name. It is called **Rüsh
-Release**, standing for *Rolling Ünd ScHeduled Release*.
+Release**, standing for _Rolling Ünd ScHeduled Release_.
 
 The following explanations are useful from the user point of view, not
 from the developer point of view. It means that we do not explain all
@@ -33,7 +33,7 @@ as:
 - and synonyms…
 
 I am not going to explain all of them. All you need to know is that Hoa
-is partly and truly rolling released, or *part-* and \_true-\_rolling
+is partly and truly rolling released, or _part-_ and _true-_ rolling
 released for short. Why? Firstly, “Part-rolling project has a subset of
 software packages that are not rolling”. If we look at Hoa only, it is
 fully rolling but Hoa depends on PHP virtual machines to be executed,
@@ -54,7 +54,7 @@ little spine that hurts us a lot: it does not support rolling release!
 Most of the time, dependency managers work with version numbers, mainly
 of the form `_x_._y_._z_`, with a specific semantics for `_x_`, `_y_`
 and `_z_`. For instance, some people have agreed about
-[semver](http://semver.org/), standing for *Semantic Versioning*.
+[semver](http://semver.org/), standing for _Semantic Versioning_.
 
 Also, we are not extremist. We understand the challenges and the needs
 behind versioning. So, how to mix both: rolling release and versioning?
@@ -68,7 +68,7 @@ releases at regular periods of time. This approach is widely adopted for
 projects that progress quickly, such as Firefox or PHP (see the [PHP
 RFC: Release Process](https://wiki.php.net/rfc/releaseprocess) for
 example). For Firefox, every 6 weeks, a new version is released. Note
-that we should say *a new update* to be honest: the term *version* has
+that we should say _a new update_ to be honest: the term _version_ has
 an unclear meaning here.
 
 The scheduled-based release seems a good candidate to be mixed with

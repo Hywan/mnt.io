@@ -49,10 +49,10 @@ Let’s discover the Wasmer JNI library together.
 
 ## Installation
 
-The Wasmer JNI (*Java Native Interface*) library is based on the [Wasmer
+The Wasmer JNI (_Java Native Interface_) library is based on the [Wasmer
 runtime](https://github.com/wasmerio/wasmer), which is written in
 [Rust](https://www.rust-lang.org/), and is compiled to a shared library.
-For your convenience, we produce one JAR (*Java Archive*) per
+For your convenience, we produce one JAR (_Java Archive_) per
 architecture and platform. By now, the following are supported,
 consistently tested, and pre-packaged (available in
 [Bintray](https://bintray.com/wasmer/wasmer-jni/wasmer-jni) and [Github
@@ -145,7 +145,7 @@ this case, we are reading the first one.
 > runtime, and casting is done automatically. Thus, a WebAssembly
 > function acts as any regular Java function.
 
-Technically, an exported function is a *functional interface* as defined
+Technically, an exported function is a _functional interface_ as defined
 by the Java Language Specification (i.e. it is a
 `[FunctionalInterface](https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html)`).
 Thus, it is possible to write the following code where `sum` is an
@@ -279,7 +279,7 @@ Use the `make run-example EXAMPLE=Simple` to run the
 ## Performance
 
 WebAssembly aims at being safe, but also fast. Since Wasmer JNI is the
-*first* Java library to execute WebAssembly, we can’t compare to prior
+_first_ Java library to execute WebAssembly, we can’t compare to prior
 works in the Java ecosystem. However, you might know that Wasmer comes
 with 3 backends: Singlepass, Cranelift and LLVM. We’ve even written an
 article about it: [A WebAssembly Compiler

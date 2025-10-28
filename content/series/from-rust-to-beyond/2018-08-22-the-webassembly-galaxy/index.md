@@ -17,14 +17,14 @@ If you already know WebAssembly, you can skip this section.
 
 [WebAssembly](https://webassembly.org/) defines itself as:
 
-> WebAssembly (abbreviated *Wasm*) is a binary instruction format for a
+> WebAssembly (abbreviated _Wasm_) is a binary instruction format for a
 > stack-based virtual machine. Wasm is designed as a portable target for
 > compilation of high-level languages like C/C++/Rust, enabling
 > deployment on the web for client and server applications.
 
 Should I say more? Probably, yes…
 
-WebAssembly is a *new portable binary format*. Languages like C, C++, or
+WebAssembly is a _new portable binary format_. Languages like C, C++, or
 Rust already compiles to this target. It is the spirit successor of
 [ASM.js](http://asmjs.org/). By spirit successor, I mean it is the same
 people trying to extend the Web platform and to make the Web fast that
@@ -135,7 +135,7 @@ Why a sequence of bytes? Because WebAssembly only supports integers and
 floats, not strings or vectors, and also because our Rust parser takes a
 slice of bytes as input, so this is handy.
 
-We use the term *boundary layer* to refer to this Javascript piece of
+We use the term _boundary layer_ to refer to this Javascript piece of
 code responsible to read from and write into the WebAssembly module
 memory, and responsible of exposing a friendly API.
 
@@ -233,7 +233,7 @@ outside the WebAssembly binary.
 The code is pretty straightforward and matches what we announced
 earlier: A `Vec` is allocated with a specific capacity, and the pointer
 to this vector is returned. The important part is `mem::forget(buffer)`.
-It is required so that Rust will *not* deallocate the vector once it
+It is required so that Rust will _not_ deallocate the vector once it
 goes out of scope. Indeed, Rust enforces [Resource Acquisition Is
 Initialization
 (RAII)](https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization),

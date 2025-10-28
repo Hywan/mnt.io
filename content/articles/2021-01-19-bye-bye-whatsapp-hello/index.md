@@ -8,14 +8,14 @@ Ce billet est en français, essentiellement à destination de mes ami(e)s
 et familles, il sert à vulgariser très rapidement les enjeux autour de
 [WhatsApp](https://www.whatsapp.com/),
 [Signal](https://www.signal.org/fr/), [Telegram](https://telegram.org/)
-et [Matrix](https://element.io/) (*spoiler*, c'est le gagnant). Tout le
+et [Matrix](https://element.io/) (_spoiler_, c'est le gagnant). Tout le
 monde me pose la même question, alors voici une réponse rapidement en
 brouillon qui va m'éviter du copier/coller !
 
-Je ne rentre volontairement *pas* dans les détails. Il faut que ce
+Je ne rentre volontairement _pas_ dans les détails. Il faut que ce
 document reste à la portée de tous, sans aucune connaissance en réseau,
 chiffrement, sécurité etc. Ceux qui ont ces connaissances savent déjà
-que Matrix est *le* réseau vers lequel aller ;-).
+que Matrix est _le_ réseau vers lequel aller ;-).
 
 ## Les bases
 
@@ -60,20 +60,20 @@ quitter le réseau). Avions-nous confiance dans ce que faisait Facebook
 avec nos données WhatsApp avant ? Non, aucunement. Ils disaient que
 c'était chiffré, l'était-ce vraiment ? J'accorde plus de confiance dans
 ceux qui ont créé et chiffré le réseau avant qu'il ne soit racheté par
-Facebook, donc j'ai envie d'y croire, mais… *je ne peux pas le vérifier*
+Facebook, donc j'ai envie d'y croire, mais… _je ne peux pas le vérifier_
 ! Pourquoi ? Parce que personne (en dehors de quelques employés chez
 Facebook) n'a accès au code source, aux programmes, qui font tourner
-WhatsApp. Et pour le côté *faille unique*, si Facebook est attaqué,
+WhatsApp. Et pour le côté _faille unique_, si Facebook est attaqué,
 c'est l'entièreté du réseau qui s'effondre, c'est une faille unique, un
-*single point of failure* comme on dit dans le métier. Pareil si le
-réseau est *hacké*, c'est un accès illimité à tout le réseau.
+_single point of failure_ comme on dit dans le métier. Pareil si le
+réseau est _hacké_, c'est un accès illimité à tout le réseau.
 
 > Aucune transparence = aucune confiance.
 
 Mais il existe une alternative majeure bien sûr ! Les réseaux
 décentralisés. Au lieu d'avoir un serveur, il y a en des centaines, des
 milliers. Il n'y a plus de contrôle possible. Il n'y a plus de *single
-point of failure*. Un *hacker* ne peut accéder au pire qu'aux données
+point of failure*. Un _hacker_ ne peut accéder au pire qu'aux données
 d'un seul serveur, pas de tous les serveurs (il existe pleins
 d'exceptions mais je vulgarise, hein). Nous pouvons créer autant de
 serveurs que nous le souhaitons. Souvent, ce sont des réseaux open
@@ -141,7 +141,7 @@ dans lequel je n'ai pas confiance ?
 En plus, Signal comme WhatsApp sont hébergés/situés aux US, avec les
 lois liberticides qu'on leur connaît bien (comme le Cloud Act). Signal
 limite la casse grâce au chiffrement de bout en bout, mais peut être
-qu'une *backdoor* est présente et qu'on ne le saura jamais.
+qu'une _backdoor_ est présente et qu'on ne le saura jamais.
 
 > Aucune transparence = aucune confiance
 
@@ -210,8 +210,8 @@ J'utilise Matrix. Je vous conseille d'utiliser Matrix. Partir sur
 Signal, c'est sortir de la gueule d'un loup pour aller dans celle d'un
 autre. Je suis admiratif du travail des développeurs de chez Signal, ils
 sont vraiment bons, leur protocole de chiffrement est magnifique, mais
-je n'ai pas confiance dans leur service parce que je ne *peux* pas. Et
-personne ne le *peut*.
+je n'ai pas confiance dans leur service parce que je ne _peux_ pas. Et
+personne ne le _peut_.
 
 J'utilise aussi WhatsApp et Signal pour rester en contact avec mes amis
 et ma famille, et leur dire d'utiliser Matrix, mais je n'y publierai
@@ -251,7 +251,7 @@ Donc, go, on installe le client :
 Puis on crée un compte, et ajoutez moi. C'est parti !
 
 Matrix/Element est basé sur les groupes. Les chats « directs » (1:1)
-sont des groupes aussi. Vous pouvez même rejoindre des *rooms* (gros
+sont des groupes aussi. Vous pouvez même rejoindre des _rooms_ (gros
 groupes, des communautés) avec des centaines voire des milliers de
 personnes dedans. C'est très flexible.
 

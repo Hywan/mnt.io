@@ -116,7 +116,7 @@ SELECT ns_sum(1, 2);
 -- (1 row)
 ```
 
-*Et voilà !* The `ns_sum` function calls the Rust `sum` function through
+_Et voilà !_ The `ns_sum` function calls the Rust `sum` function through
 WebAssembly! How fun is that 😄?
 
 ## Inspect a WebAssembly instance
@@ -224,12 +224,12 @@ Here come the results. The lower, the better.
 
 We notice that the Postgres WebAssembly extension is faster to run
 numeric computations. The WebAssembly approach scales pretty well
-compared to the PL/pgSQL approach, *in this situation*.
+compared to the PL/pgSQL approach, _in this situation_.
 
 ### When to use the WebAssembly extension?
 
 So far, the extension only supports integers (on 32- and 64-bits). The
-extension doesn’t support strings *yet*. It also doesn’t support
+extension doesn’t support strings _yet_. It also doesn’t support
 records, views or other Postgres types. Keep in mind this is the very
 first step.
 

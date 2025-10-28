@@ -21,10 +21,10 @@ Automattic](https://automattic.com/work-with-us/). It's definitely the
 best company I've ever work with; stealing the 1st place to Mozilla.
 Automattic is not only about WordPress.com and other services: It's a
 way of living. The culture, the spirit, the interactions between people,
-the mission, everything is *exceptional*. It has been a super great
+the mission, everything is _exceptional_. It has been a super great
 experience.
 
-I could write 100 pages about my team. They have all been *remarkable*
+I could write 100 pages about my team. They have all been _remarkable_
 in many ways. I'm closer to them although they live at 10'000km, rather
 than colleagues I met everyday in person in the past. Congrats to
 [Matt](https://ma.tt/about/) for this incredible project.

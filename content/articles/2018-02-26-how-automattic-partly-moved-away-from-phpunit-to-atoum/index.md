@@ -43,11 +43,11 @@ Those tests exist for many years. Some of them grew organically. PHPUnit
 does not require any form of structure, which is —despite being
 questionable according to me— a reason for its success. It is a
 requirement that the code does not need to be well-designed to be
-tested, *but* too much freedom on the test side comes with a cost in the
+tested, _but_ too much freedom on the test side comes with a cost in the
 long term if there is not enough attention.
 
 **Our situation is the following**. The code is complex for justified
-reasons, and the *testability* is sometimes lessened. Testing across
+reasons, and the _testability_ is sometimes lessened. Testing across
 many services is indubitably difficult. Some parts of the code are
 really old, mixed with others that are new, shiny, and well-done. In
 this context, it is really difficult to change something, especially
@@ -66,7 +66,7 @@ about atoum is definitively a plus. I am in a good position to know the
 pros and the cons of the tool, and I'm perfectly aware of how it could
 solve issues we have.
 
-So after many debates and discussions, we decided to *try* to move to
+So after many debates and discussions, we decided to _try_ to move to
 atoum. A survey and a meeting were scheduled 2 months later to decide
 whether we should continue or not. Spoiler: We will partly continue with
 it.
@@ -87,7 +87,7 @@ This is a colossal effort with a non-neglieable cost. Then, enter
 As far as I know, atoum is the only PHP framework that is able to run
 tests that have been written for another framework. The
 `atoum/phpunit-extension` does exactly that. It runs tests written with
-the PHPUnit API with the atoum engines. This is *fabulous*! PHPUnit is
+the PHPUnit API with the atoum engines. This is _fabulous_! PHPUnit is
 not required at all. With this extension, we have been able to run our
 “legacy” (aka PHPUnit) tests with atoum. The following scenarios can be
 fulfilled:
@@ -147,19 +147,19 @@ function.
 
 Being able to isolate test execution is a necessity to avoid flakey
 tests, and to increase the trust we put in the test verdicts. atoum
-comes with *de facto* 3 runner engines:
+comes with _de facto_ 3 runner engines:
 
-- *Inline*, one test case after another in the same process,
-- *Isolate*, one test case after another but each time in a new process (full
+- _Inline_, one test case after another in the same process,
+- _Isolate_, one test case after another but each time in a new process (full
   isolation),
-- *Concurrent*, like *isolate* but tests run concurrently (“at the same
+- _Concurrent_, like _isolate_ but tests run concurrently (“at the same
   time”).
 
 I'm not saying PHPUnit doesn't have those features. It is possible to
-run tests in a different process each time —with the *isolate* engine—,
+run tests in a different process each time —with the _isolate_ engine—,
 but test execution time blows up, and the isolation is not strict. We
-don't use it. The *concurrent* runner engine in atoum tends to reduce
-the execution time to be close to the *inline* engine, while still
+don't use it. The _concurrent_ runner engine in atoum tends to reduce
+the execution time to be close to the _inline_ engine, while still
 ensuring a strict isolation.
 
 Fun fact: By using atoum and the `atoum/phpunit-extension`, we are able
@@ -211,7 +211,7 @@ experiment).
 
 Here is an interesting paradox. The majority of the team recognized that
 atoum's documentation is better than PHPUnit's, even if some parts must
-be rewritten or reworked. *But* developers already know PHPUnit, so they
+be rewritten or reworked. _But_ developers already know PHPUnit, so they
 don't look at the documentation. If they have to, they will instead find
 their answers on StackOverflow, or by talking to someone else in the
 company, but not by checking the official documentation. atoum does not
@@ -261,7 +261,7 @@ First, let's start by the positive impacts:
   mostly because atoum checks the type of the data,
 - We have been able to migrate “legacy tests” (aka PHPUnit tests) to atoum by
   just moving the files from one directory to another: What a smooth migration!
-- The *trust* we put in our test verdict has increased thanks to a strict test
+- The _trust_ we put in our test verdict has increased thanks to a strict test
   execution isolation.
 
 Now, the negative impacts:
@@ -281,7 +281,7 @@ Now, the negative impacts:
   the remaining issues. Note that I was kind of in-charge of this project, but
   not full time.
 
-We stop using atoum for *manual tests*. It's likely to be a pause
+We stop using atoum for _manual tests_. It's likely to be a pause
 though. The experiment has shown we need to refactor and clean our code,
 then there will be a good chance for atoum to come back. The experiment
 has also shown how to increase the testability of our code: Not
@@ -292,11 +292,11 @@ moving the test infrastructure inside Automattic by showing that
 something else exists, and that we can go further.
 
 I said we stopped using atoum “for manual tests”. Yes. Because we also
-have *automatically generated tests*. The experiment was not only about
+have _automatically generated tests_. The experiment was not only about
 switching to atoum. Many other aspects of the experiment are still
 running! For instance, [Kitab](https://github.com/hoaproject/Kitab) is
-used for our code documentation. Kitab is able to (i) *render* the
-documentation, and (ii) *test* the examples written inside the
+used for our code documentation. Kitab is able to (i) _render_ the
+documentation, and (ii) _test_ the examples written inside the
 documentation. That way the documentation is ensured to be always
 up-to-date and working. Kitab generates tests for- and executes tests
 with atoum. It was easy to set up: We just had to use the existing test
@@ -315,7 +315,7 @@ The fact atoum has `atoum/phpunit-extension` is a time saver.
 Nonetheless a new test framework does not mean it will fix all the
 testability issues of the code. The benefits of the new test framework
 must largely overtake the costs. In our current context, it was not the
-case. *atoum solves issues that are not our priorities*. So yes, atoum
+case. _atoum solves issues that are not our priorities_. So yes, atoum
 can help us to solve important issues, but since these issues are not
 priorities, then the move to atoum was too early. During the project, we
 gained new automatic test tools, like

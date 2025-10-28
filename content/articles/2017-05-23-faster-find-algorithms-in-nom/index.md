@@ -30,7 +30,7 @@ combinator implementation to [nom](https://github.com/Geal/nom/).
 > nom is a parser combinators library written in Rust. Its goal is to
 > provide tools to build safe parsers without compromising the speed or
 > memory consumption. To that end, it uses extensively Rust's *strong
-> typing*, *zero copy* parsing, *push streaming*, *pull streaming*, and
+> typing*, _zero copy_ parsing, _push streaming_, _pull streaming_, and
 > provides macros and traits to abstract most of the error prone
 > plumbing.
 

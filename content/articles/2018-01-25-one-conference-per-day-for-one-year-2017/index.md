@@ -12,7 +12,7 @@ dive in for a recap.
 
 In some way, I failed the challenge because I've been able to watch only
 267 conferences. With an average of 34 minutes per conference, I've
-watched 9078 minutes, or 151 hours of *freely available* conferences
+watched 9078 minutes, or 151 hours of _freely available_ conferences
 online. Why did I fail to watch 365 of them? Because my first kid was
 1.5 years in January 2017, a new little lady came in December 2017, I
 [got a new
@@ -85,8 +85,8 @@ Am I going to continue this challenge in 2018? Yes! But maybe not at
 this frequency. It's now part of my routine to watch conferences many
 times per week. I like it. I don't want to stop.
 
-As a closing note, I would like to *thank* every speakers, and more
+As a closing note, I would like to _thank_ every speakers, and more
 importantly, every conference organizer. You are doing an amazing job:
 From the program, to the event, to the final sharing on Internet with
 everyone. Most of you are volunteers. I know the work it represents. You
-are producing *extremely valuable resources*. Thank you!
+are producing _extremely valuable resources_. Thank you!
