@@ -23,6 +23,8 @@ enable = [
   "MD051",
 
   "MD009",
+  "MD010",
+  "MD012",
 ]
 disable = ["MD029", "MD041"]
 

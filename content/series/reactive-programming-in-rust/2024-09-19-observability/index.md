@@ -1116,7 +1116,6 @@ We will see how all that works in the next episodes and how powerful this design
 is, especially when it comes to cross-platform UI (user interface). We are going
 to learn so much about `Stream` and `Future`, it's going to be fun!
 
-
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
 [Matrix]: https://matrix.org/
 [Element]: https://element.io/

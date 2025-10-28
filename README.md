@@ -23,6 +23,5 @@ and that's it, up and running.
 Copyright to Ivan Enderlin, with a BSD-3-Clause, see the `LICENSE.md` file to
 learn more.
 
-
 [mnt.io]: https://mnt.io
 [Zola]: https://www.getzola.org/

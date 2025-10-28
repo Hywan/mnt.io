@@ -77,7 +77,6 @@ Matrix 1.0, what a best anniversary to announce Matrix 2.0.
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf)"
 )}}
 
-
 The second video is <cite>Element X Launch!</cite> by Amandine Le Pape, Ștefan
 Ceriu, and Amsha Kalra. They present Element X, how it's been designed,
 developed, how it uses the Matrix Rust SDK, and where you can see awesome demos
@@ -141,7 +140,6 @@ of emissions.
 
 I've taken a regular day train to go to Berlin, and a night train to come back
 home.
-
 
 [^1]: A _homeserver_ in the Matrix terminology is simply a Matrix server.
 

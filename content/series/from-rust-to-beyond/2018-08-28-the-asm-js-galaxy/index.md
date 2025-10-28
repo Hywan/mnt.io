@@ -79,7 +79,6 @@ boost.
   A graph showing 3 benchmarks running against different Javascript engines:
   Firefox, Firefox + asm.js, Google, and native.
 
-
   </figcaption>
 
 </figure>

@@ -8,7 +8,6 @@ keywords=["rust", "php", "webassembly", "runtime", "binding"]
 pinned = true
 +++
 
-
 *This is a copy of [an article I wrote for
 Wasmer](https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88).*
 

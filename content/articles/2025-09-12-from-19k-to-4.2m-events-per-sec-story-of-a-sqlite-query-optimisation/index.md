@@ -787,7 +787,6 @@ dramatically improved the situation.
 
 This is joint effort between [Benjamin Bouvier][ben], [Damir Jelić][damir] and I.
 
-
 [Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk
 [Matrix]: https://matrix.org/
 [SQLite]: https://sqlite.org/
@@ -813,7 +812,6 @@ This is joint effort between [Benjamin Bouvier][ben], [Damir Jelić][damir] and 
 [sqlite-query-planner]: https://sqlite.org/queryplanner-ng.html
 [ben]: https://bouvier.cc/
 [damir]: https://github.com/poljar
-
 
 [^power-user]: We consider a _power-user_ a user with more than 2000 rooms. I
     hear your laugth! But guess what? We have users with more than 4000 rooms.
