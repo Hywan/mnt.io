@@ -686,9 +686,9 @@ missing values. There are all here. As if there… was a buffer!
 
 And the values returned by the subscriber are not the raw `T`:
 we see `PushBack`. It comes from, <i>check the documentation</i>,
-[`VectorDiff::PushBack`][`eyeball_im::VectorDiff`]!
+[`VectorDiff::PushBack`]!
 
-[`eyeball_im::VectorDiff`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
+[`VectorDiff::PushBack`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
 {% end %}
 
 Good eyes, well done.
@@ -1122,8 +1122,6 @@ to learn so much about `Stream` and `Future`, it's going to be fun!
 [Element X]: https://element.io/labs/element-x
 [Swift]: https://www.swift.org/
 [Kotlin]: https://kotlinlang.org/
-[HAMT]: https://en.wikipedia.org/wiki/Hash_array_mapped_trie
-[B-tree]: https://en.wikipedia.org/wiki/B-tree
 
 [`Vec`]: https://doc.rust-lang.org/std/vec/index.html
 [`Future`]: https://doc.rust-lang.org/std/future/trait.Future.html

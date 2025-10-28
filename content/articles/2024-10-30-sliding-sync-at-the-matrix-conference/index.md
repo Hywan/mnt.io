@@ -145,7 +145,6 @@ home.
 
 [Matrix Conference]: https://2024.matrix.org/
 [Matrix]: https://matrix.org/
-[Matrix Rust SDK]: https://github.com/matrix-org/matrix-rust-sdk/
 [Element]: https://element.io/
 [MSC3575]: https://github.com/matrix-org/matrix-spec-proposals/blob/kegan/sync-v3/proposals/3575-sync.md
 [MSC4186]: https://github.com/matrix-org/matrix-spec-proposals/blob/erikj/sss/proposals/4186-simplified-sliding-sync.md
