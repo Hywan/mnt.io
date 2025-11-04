@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Sliding Sync at the Matrix Conference</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#x27;s been many many months that I&#x27;m working on this project, and I&#x27;m joyful it&#x27;s now available to everyone for a better Matrix user experience!" />
+  <meta name="keywords" content="matrix, messaging, sync, rust" />
+  <meta property="og:title" content="Sliding Sync at the Matrix Conference" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Sliding Sync at the Matrix Conference</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-10-30" property="datePublished">October 30, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, sync, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix">matrix</a>, <a href="/keywords/messaging">messaging</a>, <a href="/keywords/sync">sync</a>, <a href="/keywords/rust">rust</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2024-10-30-sliding-sync-at-the-matrix-conference&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#x27;s been many many months that I&#x27;m working on this project, and I&#x27;m joyful it&#x27;s now available to everyone for a better Matrix user experience!" />
+      
+    
+  </div>
+
+    </header>
+
+    <p>Berlin. <time datetime="2024-09-21 10:00">Saturday, September 21, 2024.
+10am</time>. I was live on stage and broadcasted on Internet, to talk about
+(Simplified) Sliding Sync, the next sync mechanism for Matrix, at the first
+<a href="https://2024.matrix.org/">Matrix Conference</a>.</p>
+<p><a href="https://matrix.org/">Matrix</a> is an open network for secure, decentralised communication. It is an
+important technology for Internet.</p>
+<p>Matrix is a protocol. Everyone can implement it: either by providing its own
+server and connect it to the federation, or by providing its own client and
+connect it to the federation too. Nobody has a full control over the network,
+and nobody controls the clients nor the servers. And yet, end-to-end encryption
+is working, synchronisation is working, and everybody can talk to everybody,
+communities organize themselves, the network grows and grows.</p>
+<p>I am working at <a href="https://element.io/">Element</a> since 2 years now. I am paid to work on the [Matrix
+Rust SDK], a project owned by the Matrix organisation. Everything we do is
+available to the entire Matrix community, not only for Element. Well, this is
+the open source world.</p>
+<p>Matrix previous synchronisation mechanism is slow and inefficient. To put
+Matrix on the hands of everyone for a daily pleasant usage, we have started
+to experiment with a new sync mechanism, called Sliding Sync. The MSC —which
+stands for Matrix Spec Changes, like RFC for example—, so the <a href="https://github.com/matrix-org/matrix-spec-proposals/blob/kegan/sync-v3/proposals/3575-sync.md">MSC3575</a> was
+our experimental foundation to play with a new sync mechanism. After many sweat
+and tears, we ultimately found a working pattern and design that fulfill a
+large majority of our usecases. Along the way, the implementation inside the
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver<sup class="footnote-reference"><a href="#1">1</a></sup> to provide
+this new sync mechanism— was starting to feel really buggy and was really slow.
+It was time to clean up everything, including the MSC.</p>
+<p>Enter <a href="https://github.com/matrix-org/matrix-spec-proposals/blob/erikj/sss/proposals/4186-simplified-sliding-sync.md">MSC4186</a>, which is basically Simplified Sliding Sync. We have mostly
+removed features from <a href="https://github.com/matrix-org/matrix-spec-proposals/blob/kegan/sync-v3/proposals/3575-sync.md">MSC3575</a>, so that the implementation on the server-side
+is much simpler and lighter. Simplified Sliding Sync is now implemented and
+enabled by default on <a href="https://github.com/element-hq/synapse/">Synapse</a>, one of the major homeserver implementations.
+Other homeservers have implemented MSC3575 and are working on supporting
+MSC4186.</p>
+<p>Sliding Sync has a huge impact on the overall user experience. Syncing is now
+fast and almost transparent. It also works linearly whether the user has 10
+or 10'000 rooms.</p>
+<p>My talk can be viewed here:</p>
+<figure>
+  <iframe
+    class="youtube-player"
+    src="https://www.youtube-nocookie.com/embed/kI2lSCVEunw"
+    title="Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+
+  <figcaption>
+    <p>Video: Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin</p>
+
+    <p><a href="./slides.pdf">Download the slides as PDF (21MiB)</a></p>
+
+  </figcaption>
+</figure>
+<h2 id="other-talks">Other talks</h2>
+<p><a href="https://2024.matrix.org/watch/">All the talks are available online</a>, including talks from the public
+sector, like NATO, Sweden, French or German administrations… I encourage you to
+check the list! Nonetheless, I take the opportunity of this article to highlight
+some announcement talks, or technical (Matrix internals) talks, I've enjoyed.</p>
+<h3 id="matrix-2-0-and-the-launch-of-element-x">Matrix 2.0 and the launch of Element X!</h3>
+<p>Two presentations for the price of one: <cite>Matrix 2.0 Is Here!</cite> by
+Matthew Hogdson. 10 years after the original launch of Matrix, and 5 years after
+Matrix 1.0, what a best anniversary to announce Matrix 2.0.</p>
+<figure>
+  <iframe
+    class="youtube-player"
+    src="https://www.youtube-nocookie.com/embed/ZiRYdqkzjDU"
+    title="Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+
+  <figcaption>
+    <p>Video: Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin</p>
+
+    <p><a href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf">View and download the slides</a></p>
+
+  </figcaption>
+</figure>
+<p>The second video is <cite>Element X Launch!</cite> by Amandine Le Pape, Ștefan
+Ceriu, and Amsha Kalra. They present Element X, how it's been designed,
+developed, how it uses the Matrix Rust SDK, and where you can see awesome demos
+of Element X with Element Call and so on! It was a great moment for everyone
+working at Element and users!</p>
+<figure>
+  <iframe
+    class="youtube-player"
+    src="https://www.youtube-nocookie.com/embed/gHyHO3xPfQU"
+    title="Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+
+  <figcaption>
+    <p>Video: Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin</p>
+
+    <p><a href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf">View and download the slides</a></p>
+
+  </figcaption>
+</figure>
+<h3 id="unable-to-decrypt-this-mesage">Unable to decrypt this mesage</h3>
+<p><cite>Unable to decrypt this message</cite> by Kegan Dougal. This talk explains
+why one can see an <em>Unable To Decrypt</em> error while trying to view a message in
+Matrix. Most problems have been solved today, but the great message about this
+presentation is to show how hard it is (was!) to provide reliable end-to-end
+encryption over a federated network. One homeserver can be overused and then
+slowed down, or a connection between two servers can be broken, or one device
+lost its connectivity because it's used in the subway, or whatever. All these
+classes of problems are illustrated and explained. I liked it a lot because it
+gives a good sense of why end-to-end encryption is hard over a giant
+decentralised, federated network, with encryption keys being renewed frequently,
+and how problems have been solved.</p>
+<figure>
+  <iframe
+    class="youtube-player"
+    src="https://www.youtube-nocookie.com/embed/FHzh2Y7BABQ"
+    title="Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+
+  <figcaption>
+    <p>Video: Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin</p>
+
+    <p><a href="https://2024.matrix.org/documents/talk_slides/LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf">View and download the slides</a></p>
+
+  </figcaption>
+</figure>
+<h3 id="news-from-the-matrix-rust-sdk">News from the Matrix Rust SDK</h3>
+<p><cite>Strengthening the Base: Laying the Groundwork for a more robust Rust
+SDK</cite> by Benjamin Bouvier, a good friend! This talk explains the recent
+updates of the Matrix Rust SDK: how we have designed new API to make the
+developer experience easier and more robust.</p>
+<figure>
+  <iframe
+    class="youtube-player"
+    src="https://www.youtube-nocookie.com/embed/KOaoZKc1tgo"
+    title="Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+
+  <figcaption>
+    <p>Video: Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin</p>
+
+    <p><a href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf">View and download the slides</a></p>
+
+  </figcaption>
+</figure>
+<h2 id="about-transport">About transport</h2>
+<p>I currently live in Switzerland. The conference was in Germany. Europe has a
+fantastic rail network, and more importantly, a unique <strong>night train</strong> network!</p>
+<p>Going there by plane would have generated 1'344 <a href="https://en.wikipedia.org/wiki/Global_warming_potential">kg CO<sub>2</sub>eq</a>,
+be 68% of my annual carbon budget (for a sustainable world, we should all be at
+2'000 kg maximum). Taking the train however has generated
+<strong>6.5 kg CO<sub>2</sub>eq, be 0.33% of my annual carbon budget</strong>. It's 206 times
+less than the plane!</p>
+<p>If you are curious <a href="https://back-on-track.eu/night-train-map/">to try night train, you can check this map</a>
+that lists all possible connections, stops, companies operating the trains
+etc. Taking the night train is a nice way of travelling, and it saves a lot
+of emissions.</p>
+<p>I've taken a regular day train to go to Berlin, and a night train to come back
+home.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>A <em>homeserver</em> in the Matrix terminology is simply a Matrix server.</p>
+</div>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

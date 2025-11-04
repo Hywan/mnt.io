@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Building a new site!</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="It&#x27;s time to rewrite my site from scratch. I&#x27;m nostalgic of the good old Web. This site is hand-written, and promotes smallness, speed, simplicity and fun. Let&#x27;s discover the new lore (!), and let&#x27;s talk about series a little bit." />
+  <meta name="keywords" content="rust, site, rdfa" />
+  <meta property="og:title" content="Building a new site!" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/building-a-new-site/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Building a new site!</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-10-08" property="datePublished">October 08, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, site, rdfa">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/site">site</a>, <a href="/keywords/rdfa">rdfa</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2024-10-08-building-a-new-site&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="It&#x27;s time to rewrite my site from scratch. I&#x27;m nostalgic of the good old Web. This site is hand-written, and promotes smallness, speed, simplicity and fun. Let&#x27;s discover the new lore (!), and let&#x27;s talk about series a little bit." />
+      
+    
+  </div>
+
+    </header>
+
+    <p>The time has come. I needed to rewrite my site from scratch. It was first
+implemented with <a href="https://github.com/jekxyl/jekxyl">Jekxyl</a>, a static site generator written with
+<a href="https://github.com/hoaproject/Xyl">the XYL language</a>, a language I've developed inside <a href="https://github.com/hoaproject/Central">Hoa</a>. I've migrated
+my blog to <a href="https://wordpress.com">WordPress.com</a> when
+<a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/">I was working there</a>.
+The <a href="https://github.com/WordPress/gutenberg">Gutenberg editor</a> is really great, but there is no great
+support for <code>&lt;code&gt;</code>. Plus, the theme I was using was pretty heavy. The
+homepage was 1.15MiB! A simple article was 1.9MiB. Clearly not really efficient.
+I wanted something more customisable, something light, something I can hack, and
+more importantly, I wanted to start series.</p>
+<h2 id="enter-zola">Enter Zola</h2>
+<p><a href="https://www.getzola.org/">Zola</a> is a static site generator written in <a href="https://www.rust-lang.org/">Rust</a>. It uses <a href="https://commonmark.org/">CommonMark</a> for
+the markup, which is nice and straightforward to use. The template system is
+powerful and simple. Zola can build 34 pages in 392ms at the time of writing, I
+consider this is fast.</p>
+<p>Nothing particular to say. It's a boring tool, which is great compliment. It
+just works! In a couple of hours, I was able to get everything up and running.</p>
+<h2 id="site-s-features">Site's features</h2>
+<p>The site contains articles and series. A series is composed of several episodes.
+That's it. The URL patterns are the followings:</p>
+<ul>
+<li><code>/articles/&lt;article-id&gt;/</code> to view an article,</li>
+<li><code>/series/&lt;series-id&gt;/</code> to view all episodes of a series,</li>
+<li><code>/series/&lt;series-id&gt;/&lt;episode-id&gt;/</code> to view a particular episode of a series.</li>
+</ul>
+<h3 id="homepage">Homepage</h3>
+<p>The homepage provides:</p>
+<ul>
+<li>the latest series, and</li>
+<li>pinned articles.</li>
+</ul>
+<p>To <em>pin</em> an article, I add the following TOML declarations in the frontmatter of
+an article:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">extra</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">pinned</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">true</span>
+</span></code></pre>
+<p>This <code>pinned</code> declaration is not recognised by Zola: the <code>[extra]</code> section
+contains user-defined values. Then, it's a matter of filtering by this value in
+the template:</p>
+<pre data-lang="html" class="language-html z-code"><code class="language-html" data-lang="html"><span class="z-text z-html z-basic">{% for page in section.pages | filter(attribute = &quot;extra.pinned&quot;, value = true) -%}
+</span></code></pre>
+<p>That's a nice feature to promote some articles.</p>
+<p>In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times
+less!</p>
+<h3 id="articles">Articles</h3>
+<p>An article has some metadata like:</p>
+<ul>
+<li>the publishing time,</li>
+<li>the reading time,</li>
+<li>keywords,</li>
+<li>edition.</li>
+</ul>
+<p>If you read this article in October 2024, you might see all that in this very
+article. The beauty of this hides in the source code though:</p>
+<pre data-lang="html" class="language-html z-code"><code class="language-html" data-lang="html"><span class="z-text z-html z-basic"><span class="z-meta z-tag z-other z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span></span><span class="z-meta z-tag z-other z-html"><span class="z-entity z-name z-tag z-other z-html">main</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">vocab</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>https://schema.org<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">  <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">article</span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">article</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">typeof</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Article<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">    <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">header</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">h1</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Building a new site!<span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">h1</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">metadata</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">time</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">title</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Published date<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">datetime</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>2024-10-08<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>datePublished<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>October 08, 2024<span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">time</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">title</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Reading time<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>timeRequired<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">content</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>PT2M<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>2 minutes read<span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">title</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Keywords<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>keywords<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">content</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>rust, site<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">          Keywords:<span class="z-constant z-character z-entity z-named z-html"><span class="z-punctuation z-definition z-entity z-html">&amp;</span>nbsp<span class="z-punctuation z-terminator z-entity z-html">;</span></span><span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>/keywords/rust<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>rust<span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>, <span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>/keywords/site<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>site<span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>, <span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>/keywords/rdfa<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>rdfa<span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span><span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>https://github.com/Hywan/mnt.io/edit/main/content/articles<span class="z-constant z-character z-entity z-hexadecimal z-html"><span class="z-punctuation z-definition z-entity z-html">&amp;#x</span>2F<span class="z-punctuation z-terminator z-entity z-html">;</span></span>2024-10-08-building-a-new-site<span class="z-constant z-character z-entity z-hexadecimal z-html"><span class="z-punctuation z-definition z-entity z-html">&amp;#x</span>2F<span class="z-punctuation z-terminator z-entity z-html">;</span></span>index.md<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">title</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Submit a patch for this page<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Edit<span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span> this page<span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">meta</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>description<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">content</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>…<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-punctuation z-definition z-tag z-end z-html">/&gt;</span></span>
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">    <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">header</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">    <span class="z-comment z-block z-html"><span class="z-punctuation z-definition z-comment z-begin z-html">&lt;!--</span> … <span class="z-punctuation z-definition z-comment z-end z-html">--&gt;</span></span>
+</span></code></pre>
+<p>First off, the site uses HTML semantics as much as possible with <code>article</code>,
+<code>header</code>, <code>time</code>, <code>meta</code> etc. Second, you may also notice the <code>vocab</code>, <code>typeof</code>,
+<code>property</code> and <code>content</code> attributes. This is an extension to HTML for <a href="https://www.w3.org/TR/rdfa-primer/">Resource
+Description Framework in Attributes</a> (RDFa for short). This is common to
+add more semantics data to your content. It helps automated tools to analyse the
+content of a Web document, and makes sense of it. <a href="https://schema.org/">schema.org</a> is a
+collaborative effort to create schemas for structured data, and that's what I
+use in this site for the moment.</p>
+<p>Last neat thing: did you notice you can edit the page? The code lives on Github,
+and everyone is free to submit a patch!</p>
+<h3 id="series">Series</h3>
+<p>A series is pretty similar to an article, except that it adds another level of
+indirection with episodes.</p>
+<p>Similarly to articles with <code>pinned</code>, a series has its own metadata:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">extra</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">complete</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">true</span>
+</span></code></pre>
+<p><code>complete</code> indicates whether the series is complete or in progress.</p>
+<p>A series also has buttons to navigate to the previous or the next episodes.
+Nothing fancy, but it's fun to be able to do all that with Zola.</p>
+<p>The hierarchy is intuitive to understand, and it uses RDFa heavily too, for
+example a series overview with all its episodes looks like this:</p>
+<pre data-lang="html" class="language-html z-code"><code class="language-html" data-lang="html"><span class="z-text z-html z-basic"><span class="z-meta z-tag z-other z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span></span><span class="z-meta z-tag z-other z-html"><span class="z-entity z-name z-tag z-other z-html">main</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">vocab</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>https://schema.org<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">  <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">section</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">typeof</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>CreativeWorkSeries<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">    <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">h1</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>From Rust to beyond<span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">h1</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">    <span class="z-comment z-block z-html"><span class="z-punctuation z-definition z-comment z-begin z-html">&lt;!--</span> … <span class="z-punctuation z-definition z-comment z-end z-html">--&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">    <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">h2</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Episodes<span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">h2</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">    <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">role</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>list<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">role</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>listitem<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">article-poster</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>hasPart<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">typeof</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Article<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>/series/from-rust-to-beyond/prelude/<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>url<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Episode 1 – <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Prelude<span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span><span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">metadata</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">          <span class="z-comment z-block z-html"><span class="z-punctuation z-definition z-comment z-begin z-html">&lt;!--</span> … <span class="z-punctuation z-definition z-comment z-end z-html">--&gt;</span></span> 
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">      <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">role</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>listitem<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">article-poster</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>hasPart<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">typeof</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>Article<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">href</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>/series/from-rust-to-beyond/the-webassembly-galaxy/<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>url<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>Episode 2 – <span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span> <span class="z-meta z-attribute-with-value z-html"><span class="z-entity z-other z-attribute-name z-html">property</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>The WebAssembly galaxy<span class="z-meta z-tag z-inline z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-any z-html">span</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span><span class="z-meta z-tag z-inline z-a z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-inline z-a z-html">a</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span> <span class="z-meta z-attribute-with-value z-class z-html"><span class="z-entity z-other z-attribute-name z-class z-html">class</span><span class="z-punctuation z-separator z-key-value z-html">=</span><span class="z-string z-quoted z-double z-html"><span class="z-punctuation z-definition z-string z-begin z-html">&quot;</span></span><span class="z-string z-quoted z-double z-html"><span class="z-meta z-class-name z-html">metadata</span><span class="z-punctuation z-definition z-string z-end z-html">&quot;</span></span></span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">          <span class="z-comment z-block z-html"><span class="z-punctuation z-definition z-comment z-begin z-html">&lt;!--</span> … <span class="z-punctuation z-definition z-comment z-end z-html">--&gt;</span></span> 
+</span><span class="z-text z-html z-basic">        <span class="z-meta z-tag z-block z-any z-html"><span class="z-punctuation z-definition z-tag z-begin z-html">&lt;/</span><span class="z-entity z-name z-tag z-block z-any z-html">div</span><span class="z-punctuation z-definition z-tag z-end z-html">&gt;</span></span>
+</span><span class="z-text z-html z-basic">
+</span><span class="z-text z-html z-basic">      <span class="z-comment z-block z-html"><span class="z-punctuation z-definition z-comment z-begin z-html">&lt;!--</span> … <span class="z-punctuation z-definition z-comment z-end z-html">--&gt;</span></span>
+</span></code></pre>
+<p>First off, we use the <code>role</code> HTML attribute to change the semantics
+of some elements: here <code>div</code> become a <code>ul</code> or a <code>li</code>. Second, we use
+<code>typeof="CreativeWorkSeries"</code> to describe a series, which is composed
+of different parts: <code>property="hasPart"</code>. Each part is an article:
+<code>typeof="Article"</code>, which has its own semantics: <code>property="name"</code> etc. The
+markup is extremely simple but it contains all required information. HTML is
+really powerful, I'm not going to lie!</p>
+<h2 id="discuss">Discuss</h2>
+<p>One novelty is the <em>Discuss</em> menu item at the top of the site. It contains a
+link to a <a href="https://matrix.org/">Matrix</a> public room: <a href="https://matrix.to/#/#mnt_io:matrix.org">https://matrix.to/#/#mnt_io:matrix.org</a>, where
+anybody can come to talk about an article, a series, ask questions, or simply
+chill. You're very welcome there!</p>
+<h2 id="good-ol-web">Good ol' Web</h2>
+<p>The site has a short CSS stylesheet written by hand with no framework (oh yeah).
+It weights 11KiB (uncompressed), heavy, I know.</p>
+<p>The site also has <a href="https://en.wikipedia.org/wiki/RSS">RSS</a> and <a href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> feeds for syndications. It even has a
+blogroll under the <em>Recommandations</em> Section in the footer. Well, you get it,
+I'm nostalgic of the old Web. It's absolutely incredible what it is possible
+to achieve today with HTML and CSS without any frameworks or polyfills. So much
+resources are wasted nowadays…</p>
+<h2 id="personnages"><q>Personnages</q></h2>
+<p>The biggest novelty is <a href="https://mnt.io/lore/">the lore</a> I've developed for this new version
+of the site. Please, welcome 3 characters: <em>Le Compte</em>, <em>Le Factotum</em>, and <em>Le
+Procureur</em>.</p>
+<p>These characters will help to explain not trivial concepts by interacting with
+me. Let me copy the lore here.</p>
+<h3 id="le-comte">Le Comte</h3>
+<div class="conversation" data-character="comte">
+  <div class="conversation--character">
+    <span lang="fr">Le Comte</span>
+
+    <picture role="presentation">
+      <source srcset="/image/comte.avif" type="image/avif" />
+      <source srcset="/image/comte.webp" type="image/webp" />
+      <img src="/image/comte.png" />
+    </picture>
+
+  </div>
+  <p>My name is <em>Le Comte</em>. I enjoy being the main character of this story. I am
+mostly here to learn, and to interrogate our dear author.</p>
+<p>My resources are unlimited. I am fortunate to have a fortune with a secret
+origin. If I want to understand something, I will work as hard as possible to
+try to make light on it. My new caprice is these new modern things people are
+calling <em>computers</em>. They seem really powerful and I want to learn everything
+about them!</p>
+<p>I often ask help to my Factotum for the dirty, and sometimes illegal tasks. I
+rarely ask help to Le Procureur, we don't really appreciate his presence.</p>
+
+</div>
+<h3 id="le-factotum">Le Factotum</h3>
+<div class="conversation" data-character="factotum">
+  <div class="conversation--character">
+    <span lang="fr">Le Factotum</span>
+
+    <picture role="presentation">
+      <source srcset="/image/factotum.avif" type="image/avif" />
+      <source srcset="/image/factotum.webp" type="image/webp" />
+      <img src="/image/factotum.png" />
+    </picture>
+  </div>
+  <p>My name is <em>Le Factotum</em>. It's a latin word, literally saying “do everything”.
+I'm here to assist Le Comte in its fancies.</p>
+<p>Even if I have an uneventful life now, Le Comte is partly aware of my smuggling
+past. He says no word about it, but he knows I kept contact with old friends
+across various countries and cultures. These relations are useful to Le Comte to
+achieve its quests to learn everything about computers.</p>
+<p>Fundamentally, when Le Comte wants to do something manky, he asks me the best
+way to do that. And I always have a solution.</p>
+
+</div>
+<h3 id="le-procureur">Le Procureur</h3>
+<div class="conversation" data-character="procureur">
+  <div class="conversation--character">
+    <span lang="fr">Le Procureur</span>
+
+    <picture role="presentation">
+      <source srcset="/image/procureur.avif" type="image/avif" />
+      <source srcset="/image/procureur.webp" type="image/webp" />
+      <img src="/image/procureur.png" />
+    </picture>
+  </div>
+  <p>My name is <em>Le Procureur</em>. I am the son of the Law and the Order. I know what
+is legal, and what is illegal. If an information is missing, a detail, an
+exactness, I know where to find the answer.</p>
+<p>Some people believe I am irritating, but I consider myself the defenser of
+discipline.</p>
+
+</div>
+<h2 id="optimised-for-smallness-speed-semantics-and-fun">Optimised for smallness, speed, semantics and fun!</h2>
+<p>At this step, it should be clear the site has been optimised for smallness,
+speed and semantics. Even the fonts aren't custom: I use <a href="https://modernfontstacks.com/">Modern Font Stacks</a>
+to find a font stacks that work on most computers. Two devices may not have the
+same look and feel for this site and that's perfectly fine. That's the nature of
+the Web.</p>
+<p>I encourage you <a href="https://github.com/Hywan/mnt.io">to read the source code of this site</a>, to fork it, to
+play with it, to get inspired by it. It's important to own your content, and to
+not give your work to other platforms.</p>
+<p>I really hope you'll enjoy the content I'm preparing. You can start with the
+first episode of the new series:
+<a href="https://mnt.io/series/reactive-programming-in-rust/observability/">Reactive programming in Rust, Observability</a>.
+See you there!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

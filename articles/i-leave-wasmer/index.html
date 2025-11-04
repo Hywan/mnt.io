@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>I&#x27;ve loved Wasmer, I still love Wasmer</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="I&#x27;m proud of what I&#x27;ve done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management." />
+  <meta name="keywords" content="webassembly, runtime, job" />
+  <meta property="og:title" content="I&#x27;ve loved Wasmer, I still love Wasmer" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/i-leave-wasmer/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">I've loved Wasmer, I still love Wasmer</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2021-10-04" property="datePublished">October 04, 2021</time>
+    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="webassembly, runtime, job">
+      Keywords:&nbsp;<a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/job">job</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2021-10-04-i-leave-wasmer&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="I&#x27;m proud of what I&#x27;ve done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management." />
+      
+    
+  </div>
+
+    </header>
+
+    <p>This article could also have been titled <em>How I failed to change
+Wasmer</em>.</p>
+<p>Today is my last day at <a href="https://wasmer.io/">Wasmer</a>. For those who
+don't know this name, it has a twofold meaning: it's a <a href="http://github.com/wasmerio/wasmer">very popular
+WebAssembly runtime</a>, as well as a
+startup. I want to write about what I've been able to accomplish during
+my time at Wasmer (a high overview, not a technical view), and what
+<em>forces</em> me to leave the company despite being one of its co-founder. I
+reckon my testimony can help other people to avoid digging into the hell
+I (and my colleagues) had to endure. I'm available for work, you can
+contact me at <a href="mailto:ivan@mnt.io">ivan@mnt.io</a>,
+<a href="https://twitter.com/mnt_io">@mnt_io</a>,
+<a href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
+<h2 id="from-nothing-to-pure-awesomeness">From nothing to pure awesomeness</h2>
+<p>I've joined the Wasmer company at its early beginning, in March 2019.
+The company was 3 months old. My initial role was to write and to
+improve the runtime itself, and to create many embeddings, i.e. ways to
+integrate the Wasmer runtime inside various technologies, so that
+WebAssembly can run everywhere.</p>
+<p>I can say with confidence that my work is a success. I've learned a lot,
+and I've worked on so many different projects, technologies, hacked so
+many things, collaborated with so many people, every action was led by
+the <strong>passion</strong>.</p>
+<p>At the time of writing, Wasmer has an incredible growth. In 2.5 years
+only, the runtime has more than 10'500 stars on Github, and is <strong>one of
+the most popular WebAssembly runtime in the world</strong>! It's used by many
+various companies, such as <a href="https://confio.tech/">Confio</a>, <a href="https://fluence.network/">Fluence
+Labs</a>, <a href="https://hotg.dev/">HOT-G</a>,
+<a href="https://brave.com/">Brave</a>, <a href="https://google.com/">Google</a>,
+<a href="https://www.apple.com/">Apple</a>, <a href="https://spacemesh.io/">SpaceMesh</a>,
+<a href="https://linkerd.io/">Linkerd</a>,
+<a href="https://www.singlestore.com/">SingleStore</a>,
+<a href="https://www.clever-cloud.com/">CleverCloud</a> or
+<a href="https://konghq.com/">Kong</a> to name a few (for the ones I can name
+though, however other companies are also using Wasmer in very critical
+environments).</p>
+<p>Most of my engineering job happened on the Wasmer runtime itself. At the
+time of writing, I'm the #2 contributor on the project. I was working
+on <a href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/lib">every parts of the
+runtime</a>:
+the API, the C API, the compilers, the ABI (mostly WASI), the engines,
+the middlewares, and the VM itself which is the most low-level
+foundamental layer of the runtime.</p>
+<p>The runtime provides so many features. It is an impressively powerful
+runtime for WebAssembly, and I'm saying that with a neutral and
+respectful mindset. Not everything is perfect obviously but I did my
+best to set up a truly user-friendly learning environment, with an
+important documentation and <a href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/examples">a collection of
+examples</a>
+that illustrate many features. I strongly believe it contributed to
+Wasmer's popularity to great extent.</p>
+<p>I would like to highlight the most notable embedding projects I've
+created:</p>
+<ul>
+<li><a href="https://github.com/wasmerio/wasmer/tree/master/lib/c-api"><code>wasmer-c-api</code></a> is
+the C embedding for Wasmer. It's part of the Wasmer runtime itself, and is
+fully written in Rust.
+<a href="https://docs.rs/wasmer-c-api/*/wasmer_c_api/wasm_c_api/index.html">The documentation, the C
+examples</a>,
+everything is super polished to offer the best experience possible. <a href="https://github.com/MarkMcCaskey">Mark
+McCaskey</a> and I are the authors of this
+project.</li>
+<li><a href="https://github.com/wasmerio/wasmer-python"><code>wasmer-python</code></a> is the Python
+embedding for Wasmer. At the time of writing, it's been installed more than 5
+millions times (I'm counting the compiler packages too, like
+<code>wasmer-compiler-cranelift</code> and so on), and 1300 stars on Github. There is
+about 300'000 downloads per months, and it continues to grow! The code is
+written in Rust, and it relies on
+<a href="https://pyo3.rs/">the awesome <code>pyo3</code> project</a> .</li>
+<li><a href="https://github.com/wasmerio/wasmer-go/"><code>wasmer-go</code></a> is the Go embedding for
+Wasmer. It's hard to know how much total downloads we have because of how the
+Go ecosystem is designed, but we have about 60'000 downloads per months from
+Github (I'm excluding the forks of the project), and 1600 stars on Github. The
+code is written in Go and uses <a href="https://golang.org/cmd/cgo/"><code>cgo</code></a> to bind
+against the C API. Almost all blockchain projects that use WebAssembly are
+using <code>wasmer-go</code>, which is a popularity I wasn't expecting.</li>
+<li><a href="https://github.com/wasmerio/wasmer-ruby/"><code>wasmer-ruby</code></a> is the Ruby
+embedding for Wasmer. It's not as popular as the others, but it's also very
+polished and it's finding its place in the Ruby ecosystem. The code is written
+in Rust, and it relies on
+<a href="https://github.com/danielpclark/rutie">the awesome <code>rutie</code> project</a> .</li>
+<li>I won't detail all the projects, but there is also
+<a href="https://github.com/wasmerio/wasmer-php"><code>wasmer-php</code></a>,
+<a href="https://github.com/wasmerio/wasmer-java"><code>wasmer-java</code></a>,
+<a href="https://github.com/wasmerio/wasmer-postgres"><code>wasmer-postgres</code></a>… Because of
+the Wasmer runtime API and C API we have designed, many developers around the
+globe have been able to create a lot more embeddings, such as in
+<a href="https://github.com/migueldeicaza/WasmerSharp">C#</a>,
+<a href="https://github.com/chances/wasmer-d">D</a>,
+<a href="https://github.com/tessi/wasmex">Elixir</a>,
+<a href="https://github.com/dirkschumacher/wasmr">R</a>,
+<a href="https://github.com/AlwaysRightInstitute/SwiftyWasmer">Swift</a>,
+<a href="https://github.com/zigwasm/wasmer-zig">Zig</a>,
+<a href="https://github.com/dart-lang/wasm">Dart</a>,
+<a href="https://github.com/helmutkian/cl-wasm-runtime">Lisp</a> and so on.</li>
+</ul>
+<p>Other fun notable projects are:</p>
+<ul>
+<li><a href="https://github.com/wasmerio/sonde-rs"><code>sonde-rs</code></a>, a library to
+compile USDT probes into a Rust library,</li>
+<li><a href="https://github.com/wasmerio/llvm-custom-builds"><code>llvm-custom-builds</code></a>, a
+sandbox to produce custom LLVM builds for various platforms,</li>
+<li><a href="https://github.com/wasmerio/loupe"><code>loupe</code></a>, a set of tools to
+analyse and to profile Rust code,</li>
+<li><a href="https://github.com/wasmerio/interface-types"><code>wasmer-interface-types</code></a>, a
+“living” (understand an unstable playground) library that implements
+<a href="https://github.com/WebAssembly/interface-types">the WebAssembly Interface Types proposal</a>,</li>
+<li><a href="https://github.com/Hywan/inline-c-rs/"><code>inline-c-rs</code></a>, to write and
+to execute C code inside Rust,</li>
+<li>in-memory filesystem, that acts exactly like <code>std::fs</code>.</li>
+</ul>
+<p>As you might think, I've learned so much. The impostor syndrom was very
+present because I was constantly trying to do something I didn't know.
+It's part of the routine at Wasmer: Trying something for the first time.
+But it's also what kept me motivated, and it was the energy for my
+passion.</p>
+<p>This list above shows released projects, but I've also experimented (and
+sometimes at two hairs of a release) with:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Unikernel">Unikernels</a>; this one was really
+fun, given a WebAssembly module and a filesystem, we were able to generate a
+unikernel that was executing the given program,</li>
+<li>Parser; to write the fastest WebAssembly parser possible, it was working, but
+never released,</li>
+<li>HAL (Hardware Abstraction Layer) ABI for WebAssembly, so that we can run
+WebAssembly on small chips super easily (think of IoT),</li>
+<li>Networking; an extension to WASI to support networking (TCP and UDP sockets),
+with an implementation in <a href="https://www.rust-lang.org/">Rust</a>,
+<a href="https://en.wikipedia.org/wiki/C_standard_library">libc</a>, and even
+<a href="https://github.com/ziglang/zig/">Zig</a>! We were able to compile C programs to
+WebAssembly like cURL, or TCP servers written with kqueue or epoll etc, and to
+execute them on any platforms.</li>
+</ul>
+<p>All those things were working.</p>
+<p>It's absolutely crazy what WebAssembly can do today, and I still truly
+and deeply believe in this technology. I'm not the only one:
+<a href="https://www.ycombinator.com/companies/wasmer">YCombinator</a> and
+<a href="https://medium.com/speedinvest/the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922">SpeedInvest</a>
+are also founders that believe in Wasmer.</p>
+<p>So. What a dream, huh?</p>
+<h2 id="the-toxic-working-environment">The toxic working environment</h2>
+<p>WebAssembly is <em>nothing</em> without its community. I won't name people to
+avoid missing important persons, but all the contributors are doing
+amazing work, to create something new, something special, something
+<em>right</em>.</p>
+<p>Wasmer is a success. The Wasmer runtime is <em>nothing</em> without the
+incredible, marvelous, exceptional team of engineers behind it. In no
+particular order: <a href="https://github.com/lachlansneff">Lachlan Sneff</a>,
+<a href="https://github.com/MarkMcCaskey">Mark McCaskey</a>, <a href="https://github.com/jubianchi">Julien
+Bianchi</a>, <a href="https://github.com/nlewycky">Nick
+Lewycky</a>, <a href="https://github.com/losfair">Heyang
+Zhou</a>, <a href="https://github.com/xmclark">Mackenzie
+Clark</a>, <a href="https://github.com/bjfish">Brandon
+Fish</a>. All of them, with no exception, have
+put a lot of passion in this project. It is what it is today because of
+them and also because of the contributors we have been honored to
+welcome. The open source side of Wasmer was intense but also an
+important source of joy. It is a respectful place to work.</p>
+<p>However, the inside reality was very different. All the employees
+hereinabove have left the company. Almost all of them due to a burn-out
+or conflicts or strong disagreements with the company leadership. I am
+leaving due to a severe burn-out. I would like to briefly share my
+journey to my first burn-out in few points:</p>
+<ul>
+<li>I've started as an engineer. I love coding. I love hacking. In Wasmer, I've
+found a place to learn a lot and to express my passion. We had a lot of
+pressure mostly because our friendly “competitors” had more people dedicated
+to work on their runtimes, more money, more power, better marketing and so on.
+That's the inevitable burden of any startup. When you're competing against
+giants, that's what happens. And that's OK. It's part of the game.</li>
+<li>During that time, we were delivering more and more projects, more and more
+features, at an incredible pace. New hats: Release manager, project manager,
+more product ownership, more customers to be connected with, more contributors
+to help, more issues to triage, blog writer etc. The pace was accelerating too
+fast, something we did notice on multiple occasions.</li>
+<li>The CEO, <a href="https://github.com/syrusakbary">Syrus Akbary</a>, had evidently a lot
+of pressure on its shoulders. It sadly resulted in the worst possible way:
+micro-management, stress, pressure, bad leadership, lack of vision, lack of
+trust in the employees, changing the roadmap constantly, lies, secrets etc.</li>
+<li>As one of the older in the company, with a family of two kids, I probably got
+more “wisdom”. I've decided to create a safe place for employees to express
+their frustrations, their needs, to find solutions together. <em>De facto</em>, I
+became the “person of trust” in the company. I got new hats, new pressures.</li>
+<li>SARS-CoV-2 hit. School at home. Lock-down. More micro-management, more stress.
+Wasmer was running out of money. I brought a new investor that saved the
+company. New hat.</li>
+<li>After too many departures (85% of the engineering team!), I tried to take more
+space and to take more responsabilities in the company. That was at the
+beginning of 2021. It was my last attempt to save the company from a disaster
+before leaving. <strong>I couldn't imagine leaving such brilliant and successful
+projects without having tried everything I could</strong>.</li>
+<li>Then <strong>I became a <em>late co-founder</em> of Wasmer</strong>. Too many new hats: Doing
+hiring interviews, accountabilities, helping to define the roadmap (with
+another awesome person, friend, and employee), handling legal aspects to hire
+people in multiple countries with non-precarious contracts etc.</li>
+<li>Obviously, I was also doing the job of all the engineers that have left. They
+were not replaced for unknown reasons. It was absolutely madness. The pace was
+unsustainable.</li>
+<li>Finally, the crack. The CEO continued to change the roadmap, to take bad
+decisions, to not recognize all the efforts we were doing to save/grow the
+company. It was my turn to be declared in a <em>severe</em> burn-out by my physician.
+The last engineer to fall.</li>
+</ul>
+<p>Another point: Syrus Akbary also has made many public errors that have
+created hostility against the company. Hopefully people were smart and
+kind enough to make the difference between the employees and the CEO (I
+won't name the people but they will recognize themselves: Thank you). I
+tried to fix that situation. Discussing with dozens of person to restore
+empathy and forgiveness, to create better collaboration, to cure and
+move forward. It was exhausting. I know people have appreciated what I
+did, but my mental health was ruined.</p>
+<p>Considering all the time I've devoted to the company, the very few
+consideration I got in return, the countless work hours (4 days per
+week, but frequently closing the computer at 1am due to very late
+meetings, I was working like hell), the precarious contract I had (did
+you ever see a co-founder with a freelancer contract?), the toxic
+working environment, the constant pressure etc., my passion was intact
+but my motivation was seriously damaged. Doing overtime was never
+recorded and was happening more than frequently, but taking half a day
+to take care of a sick child was immediately counted as holidays; the
+balance was broken. Criticisms. Micro-management. Disapprovals.
+Rewriting the facts and the reality to criticize what you're doing,
+flipping things against you, avoiding discussion when things get stormy.
+We even had a meeting titled “Why you're not productive enough” whilst
+everyone was working as hell, right after the rewrite of the entire
+runtime to release Wasmer 1.0, a period we all affectionately called
+“The Rewrite of Hell”. The team deserved vacations, congratulations,
+attentions, gratitude, … not such a shitty meeting. Well, you get the
+idea.</p>
+<p>When I've been declared in a severe burn-out, I had to take a break. The
+reaction from the CEO was… unexpected: Zero empathy, asking to never
+ever being sick again (otherwise I will be fired), dividing my equities,
+asking me to work more, saying I've never been involved in the company
+etc. That was the final straw to me. That's <em>the</em> wrong way to treat an
+employee, a collaborator, a contributor, the co-founder.</p>
+<h2 id="what-s-next">What's next?</h2>
+<p>I need to recover. As you can imagine, working 2.5 years at this pace
+leaves sequelae. Hopefully a couple of months should suffice.</p>
+<p>I'm still in love with Wasmer, the <strong>runtime</strong>, the open source projects
+we have created. It has a bright future. More companies are contributing
+to it, more individual contributors are bringing their stones to the
+monument. The project is owned by the public, by the users, by the
+contributors, they are doing most of the work today. It's well tested,
+well documented, it's easy to contribute to it. It's a fabulous open
+source piece of technology.</p>
+<p>I strongly <em>hope</em> Wasmer, the <strong>company</strong>, will change. The products
+that are going to be released are absolutely fantastic. It's a
+technology shift. It will enable the Decentralized Web, how we compile
+and distribute programs, how we will even consume programs. Wasmer has a
+solid bright future. I really <em>hope</em> things will change, and I wish the
+best to and am passing on the torch to the adventurers that will
+continue to move the company forward. I'm just too <em>skeptical</em> that
+things can improve or even slightly change. We have built something
+great. Please take a great care of it.</p>
+<p>As I said, I'm available for a new adventure, you can contact me at
+<a href="mailto:ivan@mnt.io">ivan@mnt.io</a>,
+<a href="https://twitter.com/mnt_io">@mnt_io</a>,
+<a href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
+<p>Discussions <a href="https://twitter.com/mnt_io/status/1445310721185783811">on
+Twitter</a> and <a href="https://news.ycombinator.com/item?id=28772863">on
+HackerNews</a>.</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>The Rust Keyword</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="mnt.io" />
+  <meta property="og:title" content="The Rust Keyword" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mnt.io" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <h1>The Rust Keyword</h1>
+
+  <p>Not the keyword you're looking for? <a href="https://mnt.io/keywords">See all keywords</a>.</p>
+
+  <div role="list">
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="h2" property="url"><span property="name">From 19k to 4.2M events/sec: story of a SQLite query optimisation</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2025-09-12" property="datePublished">September 12, 2025</time>
+    <span title="Reading time" property="timeRequired" content="PT16M">16 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, performance, database, sqlite, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix">matrix</a>, <a href="/keywords/messaging">messaging</a>, <a href="/keywords/performance">performance</a>, <a href="/keywords/database">database</a>, <a href="/keywords/sqlite">sqlite</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="h2" property="url"><span property="name">Sliding Sync at the Matrix Conference</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-10-30" property="datePublished">October 30, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, sync, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix">matrix</a>, <a href="/keywords/messaging">messaging</a>, <a href="/keywords/sync">sync</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It's been many many months that I'm working on this project, and I'm joyful it's now available to everyone for a better Matrix user experience!</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/building-a-new-site/" class="h2" property="url"><span property="name">Building a new site!</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-10-08" property="datePublished">October 08, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, site, rdfa">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/site">site</a>, <a href="/keywords/rdfa">rdfa</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>It's time to rewrite my site from scratch. I'm nostalgic of the good old Web. This site is hand-written, and promotes smallness, speed, simplicity and fun. Let's discover the new lore (!), and let's talk about series a little bit.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/reactive-programming-in-rust/observability/" class="h2" property="url"><span property="name">Observability</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-09-19" property="datePublished">September 19, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT24M">24 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, async, future, stream">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/async">async</a>, <a href="/keywords/future">future</a>, <a href="/keywords/stream">stream</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>The basis of reactive programming is observability. Let's play with it.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="h2" property="url"><span property="name">Announcing the first Java library to run WebAssembly: Wasmer JNI</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2020-05-13" property="datePublished">May 13, 2020</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, java, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/java">java</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents the <code>wasmer-java</code> project: the first Java library to run WebAssembly.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="h2" property="url"><span property="name">Announcing the first Postgres extension to run WebAssembly</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-08-29" property="datePublished">August 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, postgres, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/postgres">postgres</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents <code>wasmer-postgres</code>: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/" class="h2" property="url"><span property="name">Announcing the fastest WebAssembly runtime for Go: wasmer</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-05-29" property="datePublished">May 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, go, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/go">go</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents <code>wasmer-go</code>: the fastest WebAssembly runtime for Go.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/" class="h2" property="url"><span property="name">🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-04-03" property="datePublished">April 03, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, php, webassembly, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/php">php</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article explains how and why I've migrated <code>php-ext-wasm</code> from wasmi to Wasmer.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="h2" property="url"><span property="name">The PHP galaxy</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-10-29" property="datePublished">October 29, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT12M">12 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, binding, gutenberg, c, ffi, php">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/binding">binding</a>, <a href="/keywords/gutenberg">gutenberg</a>, <a href="/keywords/c">c</a>, <a href="/keywords/ffi">ffi</a>, <a href="/keywords/php">php</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it's done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it's amazing how faster it is!</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="h2" property="url"><span property="name">The C galaxy</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-09-11" property="datePublished">September 11, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, binding, gutenberg, c, ffi">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/binding">binding</a>, <a href="/keywords/gutenberg">gutenberg</a>, <a href="/keywords/c">c</a>, <a href="/keywords/ffi">ffi</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>C is the <em>lingua franca</em> of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="h2" property="url"><span property="name">The ASM.js galaxy</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-08-28" property="datePublished">August 28, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT9M">9 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, binding, gutenberg, webassembly, javascript, asmjs">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/binding">binding</a>, <a href="/keywords/gutenberg">gutenberg</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/javascript">javascript</a>, <a href="/keywords/asmjs">asmjs</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn't support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="h2" property="url"><span property="name">The WebAssembly galaxy</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-08-22" property="datePublished">August 22, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT18M">18 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, binding, gutenberg, webassembly, javascript, asmjs">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/binding">binding</a>, <a href="/keywords/gutenberg">gutenberg</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/javascript">javascript</a>, <a href="/keywords/asmjs">asmjs</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>In this episode, we explore the WebAssembly galaxy.</p>
+<p>We first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/series/from-rust-to-beyond/prelude/" class="h2" property="url"><span property="name">Prelude</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-08-21" property="datePublished">August 21, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT5M">5 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, binding, gutenberg">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/binding">binding</a>, <a href="/keywords/gutenberg">gutenberg</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>Let's start by explaining what Gutenberg is, how our own Rust works, and what we need to do.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="h2" property="url"><span property="name">Tagua VM, a safe PHP virtual machine</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2017-06-19" property="datePublished">June 19, 2017</time>
+    <span title="Reading time" property="timeRequired" content="PT2M">2 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="php, runtime, rust">
+      Keywords:&nbsp;<a href="/keywords/php">php</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>Watch my last talk at the PHPTour conference about Tagua VM, an experimental PHP runtime written in Rust and LLVM.</p>
+
+  </div>
+  
+</div>
+  <div role="listitem" class="article-poster">
+  <a href="https://mnt.io/articles/faster-find-algorithms-in-nom/" class="h2" property="url"><span property="name">Faster find algorithms in nom</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2017-05-23" property="datePublished">May 23, 2017</time>
+    <span title="Reading time" property="timeRequired" content="PT3M">3 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="string, algorithm, rust">
+      Keywords:&nbsp;<a href="/keywords/string">string</a>, <a href="/keywords/algorithm">algorithm</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article explains quickly how I've improved <code>nom</code>'s performance by 78% when parsing in some cases.</p>
+
+  </div>
+  
+</div>
+  
+  </div>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

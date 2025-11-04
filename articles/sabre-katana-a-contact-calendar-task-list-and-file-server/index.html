@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>sabre&#x2F;katana</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="`sabre&#x2F;katana` is a contact, calendar, task list and file server. What does it mean? Assuming nowadays you have multiple devices (PC, phones, tablets, TVs…). If you would like to get your address books, calendars, task lists and files synced between all these devices from everywhere, you need a server. All your devices are then considered as clients." />
+  <meta name="keywords" content="fruux, caldav, carddav, webdav" />
+  <meta property="og:title" content="sabre&#x2F;katana" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">sabre/katana</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2015-07-13" property="datePublished">July 13, 2015</time>
+    <span title="Reading time" property="timeRequired" content="PT9M">9 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="fruux, caldav, carddav, webdav">
+      Keywords:&nbsp;<a href="/keywords/fruux">fruux</a>, <a href="/keywords/caldav">caldav</a>, <a href="/keywords/carddav">carddav</a>, <a href="/keywords/webdav">webdav</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2015-07-13-sabre-katana-a-contact-calendar-task-list-and-file-server&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="`sabre&#x2F;katana` is a contact, calendar, task list and file server. What does it mean? Assuming nowadays you have multiple devices (PC, phones, tablets, TVs…). If you would like to get your address books, calendars, task lists and files synced between all these devices from everywhere, you need a server. All your devices are then considered as clients." />
+      
+    
+  </div>
+
+    </header>
+
+    <figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./logo-katana.png" alt="sabre/katana&#39;s logo" /></p>
+  <figcaption>
+<p>Project's logo.</p>
+  </figcaption>
+</figure>
+<h2 id="what-is-it">What is it?</h2>
+<p><code>sabre/katana</code> is a contact, calendar, task list and file server. What
+does it mean? Assuming nowadays you have multiple devices (PC, phones,
+tablets, TVs…). If you would like to get your address books, calendars,
+task lists and files synced between all these devices from everywhere,
+you need a server. All your devices are then considered as clients.</p>
+<p>But there is an issue with the server. Most of the time, you might
+choose <a href="https://google.com/">Google</a> or maybe
+<a href="https://apple.com/">Apple</a>, but one may wonder: Can we trust these
+servers? Can we give them our private data, like all our contacts, our
+calendars, all our photos…? What if you are a company or an association
+and you have sensitive data that are really private or strategic? So,
+can you still trust them? Where the data are stored? Who can look at
+these data? More and more, there is a huge need for “personal” server.</p>
+<p>Moreover, servers like Google or Apple are often closed: You reach your
+data with specific clients and they are not available in all platforms.
+This is for strategic reasons of course. But with <code>sabre/katana</code>, you
+are not limited. See the above schema: Firefox OS can talk to iOS or
+Android at the same time.</p>
+<p><code>sabre/katana</code> is this kind of server. You can install it on your
+machine and manage users in a minute. Each user will have a collection
+of address books, calendars, task lists and files. This server can talk
+to a <a href="https://fruux.com/supported-devices/">loong list of devices</a>,
+mainly thanks to a scrupulous respect of industrial standards:</p>
+<ul>
+<li>macOS:
+<ul>
+<li>OS X 10.10 (Yosemite),</li>
+<li>OS X 10.9 (Mavericks),</li>
+<li>OS X 10.8 (Mountain Lion),</li>
+<li>OS X 10.7 (Lion),</li>
+<li>OS X 10.6 (Snow Leopard),</li>
+<li>OS X 10.5 (Leopard),</li>
+<li>BusyCal,</li>
+<li>BusyContacts,</li>
+<li>Fantastical,</li>
+<li>Rainlendar,</li>
+<li>ReminderFox,</li>
+<li>SoHo Organizer,</li>
+<li>Spotlife,</li>
+<li>Thunderbird ,</li>
+</ul>
+</li>
+<li>Windows:
+<ul>
+<li>eM Client,</li>
+<li>Microsoft Outlook 2013,</li>
+<li>Microsoft Outlook 2010,</li>
+<li>Microsoft Outlook 2007,</li>
+<li>Microsoft Outlook with Bynari WebDAV Collaborator,</li>
+<li>Microsoft Outlook with iCal4OL,</li>
+<li>Rainlendar,</li>
+<li>ReminderFox,</li>
+<li>Thunderbird,</li>
+</ul>
+</li>
+<li>Linux:
+<ul>
+<li>Evolution,</li>
+<li>Rainlendar,</li>
+<li>ReminderFox,</li>
+<li>Thunderbird,</li>
+</ul>
+</li>
+<li>Mobile:
+<ul>
+<li>Android,</li>
+<li>BlackBerry 10,</li>
+<li>BlackBerry PlayBook,</li>
+<li>Firefox OS,</li>
+<li>iOS 8,</li>
+<li>iOS 7,</li>
+<li>iOS 6,</li>
+<li>iOS 5,</li>
+<li>iOS 4,</li>
+<li>iOS 3,</li>
+<li>Nokia N9,</li>
+<li>Sailfish.</li>
+</ul>
+</li>
+</ul>
+<p>Did you find your device in this list? Probably yes 😉.</p>
+<p><code>sabre/katana</code> sits in the middle of all your devices and synced all
+your data. Of course, it is <strong>free</strong> and <strong>open source</strong>. <a href="https://github.com/fruux/sabre-katana/">Go check the
+source</a>!</p>
+<h2 id="list-of-features">List of features</h2>
+<p>Here is a non-exhaustive list of features supported by <code>sabre/katana</code>.
+Depending whether you are a user or a developer, the features that might
+interest you are radically not the same. I decided to show you a list
+from the user point of view. If you would like to get a list from the
+developer point of view, please see this <a href="http://sabre.io/dav/standards-support/">exhaustive list of supported
+RFC</a> for more details.</p>
+<h3 id="contacts">Contacts</h3>
+<p>All usual fields are supported, like phone numbers, email addresses,
+URLs, birthday, ringtone, texttone, related names, postal addresses,
+notes, HD photos etc. Of course, groups of cards are also supported.</p>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./card-inside-macos-client.png" alt="My card on macOS" /></p>
+  <figcaption>
+<p>My card inside the native Contact application of macOS.</p>
+  </figcaption>
+</figure>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./card-inside-firefox-os-client.png" alt="My card on Firefox OS" /></p>
+  <figcaption>
+<p>My card inside the native Contact application of Firefox OS.</p>
+  </figcaption>
+</figure>
+<p>My photo is not in HD, I really have to update it!</p>
+<p>Cards can be encoded into several formats. The most usual format is VCF.
+<code>sabre/katana</code> allows you to download the whole address book of a user
+as a single VCF file. You can also create, update and delete address
+books.</p>
+<h3 id="calendars">Calendars</h3>
+<p>A calendar is just a set of events. Each event has several properties,
+such as a title, a location, a date start, a date end, some notes, URLs,
+alarms etc. <code>sabre/katana</code> also support recurring events (“each last
+Monday of the month, at 11am…”), in addition to scheduling (see bellow).</p>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./calendars-inside-macos-client.png" alt="My calendars on macOS" /></p>
+  <figcaption>
+<p>My calendars inside the native Calendar application of macOS.</p>
+  </figcaption>
+</figure>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./calendars-inside-firefox-os-client.png" alt="My calendars on Firefox OS" /></p>
+  <figcaption>
+<p>My calendars inside the native Calendar application of Firefox OS.</p>
+  </figcaption>
+</figure>
+<p>Few words about calendar scheduling. Let's say you are organizing an
+event, like New release (we always enjoy release day!). You would like
+to invite several people but you don't know if they could be present or
+not. In your event, all you have to do is to add attendees. How are they
+going to be notified about this event? Two situations:</p>
+<ol>
+<li>Either attendees are registered on your <code>sabre/katana</code> server and they will
+receive an invite inside their calendar application (we call this iTIP),</li>
+<li>Or they are not registered on your server and they will receive an email with
+the event as an attached file (we call this iMIP). All they have to do is to
+open this event in their calendar application.</li>
+</ol>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./invite-by-email.png" alt="Typical mail to invite an attendee to an event" /></p>
+  <figcaption>
+<p>Invite an attendee by email because she is not registered on your
+<code>sabre/katana</code> server.</p>
+  </figcaption>
+</figure>
+<p>Notice the gorgeous map embedded inside the email!</p>
+<p>Once they received the event, they can accept, decline or “don't know”
+(they will try to be present at) the event.</p>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./respond-to-invite.png" alt="Receive an invite to an event" /></p>
+  <figcaption>
+<p>Receive an invite to an event. Here: Gordon is inviting Hywan. Three
+choices for Hywan:</p>
+  </figcaption>
+</figure>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./accepted-event.png" alt="Status of all attendees" /></p>
+  <figcaption>
+<p>Hywan has accepted the event. Here is what the event looks like. Hywan
+can see the response of each attendees.</p>
+  </figcaption>
+</figure>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./notification.png" alt="Notification from attendees" /></p>
+  <figcaption>
+<p>Gordon is even notified that Hywan has accepted the event.</p>
+  </figcaption>
+</figure>
+<p>Of course, attendees will be notified too if the event has been moved,
+canceled, refreshed etc.</p>
+<p>Calendars can be encoded into several formats. The most usal format is
+ICS. <code>sabre/katana</code> allows you to download the whole calendar of a user
+as a single ICS file. You can also create, update and delete calendars.</p>
+<h3 id="task-lists">Task lists</h3>
+<p>A task list is exactly like a calendar (from a programmatically point of
+view). Instead of containg event objects, it contains todo objects.</p>
+<p><code>sabre/katana</code> supports group of tasks, reminder, progression etc.</p>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./tasks.png" alt="My task lists on macOS" /></p>
+  <figcaption>
+<p>My task lists inside the native Reminder application of macOS.</p>
+  </figcaption>
+</figure>
+<p>Just like calendars, task lists can be encoded into several formats,
+whose ICS. <code>sabre/katana</code> allows you to download the whole task list of
+a user as a single ICS file. You can also create, update and delete task
+lists.</p>
+<h3 id="files">Files</h3>
+<p>Finally, <code>sabre/katana</code> creates a home collection per user: A personal
+directory that can contain files and directories and… synced between all
+your devices (as usual 😄).</p>
+<p><code>sabre/katana</code> also creates a special directory called <code>public/</code> which
+is a public directory. Every files and directories stored inside this
+directory are accessible to anyone that has the correct link. No listing
+is prompted to protect your public data.</p>
+<p>Just like contact, calendar and task list applications, you need a
+client application to connect to your home collection on <code>sabre/katana</code>.</p>
+  <figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./connect-to-dav.png" alt="Connect to a server in macOS" /></p>
+  <figcaption>
+<p>Connect to a server with the Finder application of macOS.</p>
+  </figcaption>
+</figure>
+<p>Then, your public directory on <code>sabre/katana</code> will be a regular
+directory as every other.</p>
+<figure>
+<p><img src="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/./files.png" alt="List of my files" /></p>
+  <figcaption>
+<p>List of my files, right here in the Finder application of macOS.</p>
+  </figcaption>
+</figure>
+<p><code>sabre/katana</code> is able to store any kind of files. Yes, any kinds. It's
+just files. However, it white-lists the kind of files that can be showed
+in the browser. Only images, audios, videos, texts, PDF and some vendor
+formats (like Microsoft Office) are considered as safe (for the server).
+This way, associations can share musics, videos or images, companies can
+share PDF or Microsoft Word documents etc. Maybe in the future
+<code>sabre/katana</code> might white-list more formats. If a format is not
+white-listed, the file will be forced to download.</p>
+<h2 id="how-is-sabre-katana-built">How is <code>sabre/katana</code> built?</h2>
+<p><code>sabre/katana</code> is based on two big and solid projects:</p>
+<ol>
+<li><a href="http://sabre.io/"><code>sabre/dav</code></a>,</li>
+<li><a href="http://hoa-project.net/">Hoa</a>.</li>
+</ol>
+<p><code>sabre/dav</code> is one of the most powerful
+<a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>,
+<a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a> and
+<a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> framework in the planet.
+Trusted by the likes of <a href="https://www.atmail.com/">Atmail</a>,
+<a href="https://www.box.com/blog/in-search-of-an-open-source-webdav-solution/">Box</a>,
+<a href="https://fruux.com/">fruux</a> and <a href="http://owncloud.org/">ownCloud</a>, it
+powers millions of users world-wide! It is written in PHP and is open
+source.</p>
+<p>Hoa is a modular, extensible and structured set of PHP libraries. Fun
+fact: Also open source, this project is also trusted by
+<a href="http://owncloud.org/">ownCloud</a>, in addition to
+<a href="http://mozilla.org/">Mozilla</a>, <a href="http://jolicode.com/">joliCode</a> etc.
+Recently, this project has recorded more than 600,000 downloads and the
+community is about to reach 1000 people.</p>
+<p><code>sabre/katana</code> is then a program based on <code>sabre/dav</code> for the DAV part
+and Hoa for everything else, like the logic code inside the
+<code>sabre/dav</code>'s plugins. The result is a ready-to-use server with a nice
+interface for the administration.</p>
+<p>To ensure code quality, we use <a href="http://atoum.org/">atoum</a>, a popular and
+modern test framework for PHP. So far, <code>sabre/dav</code> has more than
+1000 assertions.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p><code>sabre/katana</code> is a server for contacts, calendars, task lists and
+files. Everything is synced, everytime and everywhere. It perfectly
+connects to a lot of devices on the market. Several features we need and
+use daily have been presented. This is the easiest and a secure way to
+host your own private data.</p>
+<p><a href="https://github.com/fruux/sabre-katana">Go download it</a>!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

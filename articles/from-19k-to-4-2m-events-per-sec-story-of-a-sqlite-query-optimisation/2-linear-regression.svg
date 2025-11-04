@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <text x="27" y="263" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68" transform="rotate(270 27 263)">
+Total sample time (s)
+</text>
+  <text x="510" y="513" dy="-.5ex" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+Iterations
+</text>
+  <path opacity=".2" stroke="#000" d="M149 472V53m157 419V53m156 419V53m157 419V53m156 419V53m157 419V53M87 441h845M87 402h845M87 363h845M87 324h845M87 284h845M87 245h845M87 206h845M87 167h845M87 128h845M87 89h845"/>
+  <path fill="none" stroke="#000" d="M86 53v419"/>
+  <text x="77" y="441" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.2
+</text>
+  <path fill="none" stroke="#000" d="M81 441h5"/>
+  <text x="77" y="402" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.3
+</text>
+  <path fill="none" stroke="#000" d="M81 402h5"/>
+  <text x="77" y="363" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.4
+</text>
+  <path fill="none" stroke="#000" d="M81 363h5"/>
+  <text x="77" y="324" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.5
+</text>
+  <path fill="none" stroke="#000" d="M81 324h5"/>
+  <text x="77" y="284" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.6
+</text>
+  <path fill="none" stroke="#000" d="M81 284h5"/>
+  <text x="77" y="245" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.7
+</text>
+  <path fill="none" stroke="#000" d="M81 245h5"/>
+  <text x="77" y="206" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.8
+</text>
+  <path fill="none" stroke="#000" d="M81 206h5"/>
+  <text x="77" y="167" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+0.9
+</text>
+  <path fill="none" stroke="#000" d="M81 167h5"/>
+  <text x="77" y="128" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+1.0
+</text>
+  <path fill="none" stroke="#000" d="M81 128h5"/>
+  <text x="77" y="89" dy=".5ex" text-anchor="end" font-family="sans-serif" font-size="9.68">
+1.1
+</text>
+  <path fill="none" stroke="#000" d="M81 89h5m1 384h845"/>
+  <text x="149" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+5
+</text>
+  <path fill="none" stroke="#000" d="M149 473v5"/>
+  <text x="306" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+10
+</text>
+  <path fill="none" stroke="#000" d="M306 473v5"/>
+  <text x="462" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+15
+</text>
+  <path fill="none" stroke="#000" d="M462 473v5"/>
+  <text x="619" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+20
+</text>
+  <path fill="none" stroke="#000" d="M619 473v5"/>
+  <text x="775" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+25
+</text>
+  <path fill="none" stroke="#000" d="M775 473v5"/>
+  <text x="932" y="483" dy=".76em" text-anchor="middle" font-family="sans-serif" font-size="9.68">
+30
+</text>
+  <path fill="none" stroke="#000" d="M932 473v5"/>
+  <circle cx="87" cy="472" r="3" fill="#1F78B4"/>
+  <circle cx="180" cy="426" r="3" fill="#1F78B4"/>
+  <circle cx="274" cy="379" r="3" fill="#1F78B4"/>
+  <circle cx="368" cy="333" r="3" fill="#1F78B4"/>
+  <circle cx="462" cy="286" r="3" fill="#1F78B4"/>
+  <circle cx="556" cy="240" r="3" fill="#1F78B4"/>
+  <circle cx="650" cy="193" r="3" fill="#1F78B4"/>
+  <circle cx="744" cy="146" r="3" fill="#1F78B4"/>
+  <circle cx="838" cy="100" r="3" fill="#1F78B4"/>
+  <circle cx="932" cy="53" r="3" fill="#1F78B4"/>
+  <path fill="none" stroke="#1F78B4" d="M87 473 932 53"/>
+  <path opacity=".25" fill="#1F78B4" d="M87 473 932 53z"/>
+  <text x="132" y="68" dy=".76em" font-family="sans-serif" font-size="9.68">
+Sample
+</text>
+  <text x="132" y="83" dy=".76em" font-family="sans-serif" font-size="9.68">
+Linear regression
+</text>
+  <text x="132" y="98" dy=".76em" font-family="sans-serif" font-size="9.68">
+Confidence interval
+</text>
+  <circle cx="112" cy="73" r="3" fill="#1F78B4"/>
+  <path fill="none" stroke="#1F78B4" stroke-width="2" d="M102 88h20"/>
+  <path opacity=".25" fill="#1F78B4" d="M102 98h20v10h-20z"/>
+</svg>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Announcing the first Postgres extension to run WebAssembly</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="This article presents `wasmer-postgres`: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!" />
+  <meta name="keywords" content="rust, webassembly, postgres, runtime, binding" />
+  <meta property="og:title" content="Announcing the first Postgres extension to run WebAssembly" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Announcing the first Postgres extension to run WebAssembly</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-08-29" property="datePublished">August 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, postgres, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/postgres">postgres</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2019-08-29-announcing-the-first-postgres-extension-to-run-webassembly&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="This article presents `wasmer-postgres`: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!" />
+      
+    
+  </div>
+
+    </header>
+
+    <p><em>This is a copy of <a href="https://medium.com/wasmer/announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1">an article I wrote for
+Wasmer</a>.</em></p>
+<hr />
+<p>WebAssembly is a portable binary format. That means the same program can
+run anywhere.</p>
+<blockquote>
+<p>To uphold this bold statement, each language, platform and system must
+be able to run WebAssembly — as fast and safely as possible.</p>
+</blockquote>
+<p>Let’s say it again. <a href="https://github.com/wasmerio/wasmer">Wasmer</a> is a
+WebAssembly runtime. We have successfully embedded the runtime in other
+languages:</p>
+<ul>
+<li>In Rust, as it is written in Rust</li>
+<li>Using <a href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
+bindings</a></li>
+<li>In PHP, using
+<a href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
+<li>In Python, using
+<a href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
+<a href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
+<li>In Ruby, using
+<a href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a href="https://rubygems.org/gems/wasmer">wasmer
+gem on RubyGems</a></li>
+<li>In Go, using <a href="https://github.com/wasmerio/go-ext-wasm"><code>go-ext-wasm</code></a>
+— see <a href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">the
+announcement</a>.</li>
+</ul>
+<p>The community has also embedded Wasmer in awesome projects:</p>
+<ul>
+<li>.NET/C#, using
+<a href="https://github.com/migueldeicaza/WasmerSharp">WasmerSharp</a></li>
+<li>R, using <a href="https://github.com/dirkschumacher/wasmr">Wasmr</a>.</li>
+</ul>
+<p><strong>It is now time to continue the story and to hang around…
+<a href="https://www.postgresql.org/">Postgres</a>!</strong></p>
+<p>We are so happy to announce a newcrazy idea: <strong>WebAssembly on
+Postgres</strong>. Yes, you read that correctly. On
+<a href="https://github.com/wasmerio/postgres-ext-wasm">Postgres</a>.</p>
+<h2 id="calling-a-webassembly-function-from-postgres">Calling a WebAssembly function from Postgres</h2>
+<p>As usual, we have to go through the installation process. There is no
+package manager for Postgres, so it’s a manual step. The <a href="https://github.com/wasmerio/postgres-ext-wasm#installation">Installation
+Section of the
+documentation</a>
+explains the details; here is a summary:</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Build the shared library.</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> just build</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Install the extension in the Postgres tree.</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> just install</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Activate the extension.</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> echo <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>CREATE EXTENSION wasm;<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span></span><span class="z-source z-shell z-bash">      <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">psql</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>h</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">host</span></span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>d</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">database</span></span></span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Initialize the extension.</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> echo <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>SELECT wasm_init(&#39;<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pwd</span></span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>/target/release/libpg_ext_wasm.dylib&#39;);<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span></span><span class="z-source z-shell z-bash">      <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">psql</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>h</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">host</span></span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>d</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">database</span></span></span>
+</span></code></pre>
+<p>Once the extension is installed, activated and initialized, we can start
+having fun!</p>
+<p>The current API is rather small, however basic features are available.
+The goal is to gather a community and to design a pragmatic API
+together, discover the expectations, how developers would use this new
+technology inside a database engine.</p>
+<p>Let’s see how it works. To instantiate a WebAssembly module, we use the
+<code>wasm_new_instance</code> function. It takes 2 arguments: The absolute path to
+the WebAssembly module, and a prefix for the module exported functions.
+Indeed, if a module exports a function named <code>sum</code>, then a Postgres
+function named <code>prefix_sum</code> calling the <code>sum</code> function will be created
+dynamically.</p>
+<p>Let’s see it in action. Let’s start by editing a Rust program that
+compiles to WebAssembly:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">sum</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-type z-rust">i32</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    x <span class="z-keyword z-operator z-arithmetic z-rust">+</span> y
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Once this file compiled to <code>simple.wasm</code>, we can instantiate the module,
+and call the exported <code>sum</code> function:</p>
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> New instance of the `simple.wasm` WebAssembly module.
+</span></span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> wasm_new_instance(<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>/absolute/path/to/simple.wasm<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>ns<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>);
+</span><span class="z-source z-sql">
+</span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Call a WebAssembly exported function!
+</span></span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> ns_sum(<span class="z-constant z-numeric z-sql">1</span>, <span class="z-constant z-numeric z-sql">2</span>);
+</span><span class="z-source z-sql">
+</span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> ns_sum
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> --------
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> 3
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> (1 row)
+</span></span></code></pre>
+<p><em>Et voilà !</em> The <code>ns_sum</code> function calls the Rust <code>sum</code> function through
+WebAssembly! How fun is that 😄?</p>
+<h2 id="inspect-a-webassembly-instance">Inspect a WebAssembly instance</h2>
+<p>This section shows how to inspect a WebAssembly instance. At the same
+time, it quickly explains how the extension works under the hood.</p>
+<p>The extension provides two foreign data wrappers, gathered together in
+the <code>wasm</code> foreign schema:</p>
+<ul>
+<li><code>wasm.instances</code> is a table with the <code>id</code> and <code>wasm_file</code> columns,
+respectively for the unique instance ID, and the path of the WebAssembly
+module,</li>
+<li><code>wasm.exported_functions</code> is a table with the <code>instance_id</code>, <code>name</code>,
+<code>inputs</code>, and <code>outputs</code> columns, respectively for the instance ID of the
+exported function, its name, its input types (already formatted for Postgres),
+and its output types (already formatted for Postgres).</li>
+</ul>
+<p>Let’s see:</p>
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Select all WebAssembly instances.
+</span></span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> <span class="z-constant z-other z-database-name z-sql">wasm</span>.<span class="z-constant z-other z-table-name z-sql">instances</span>;
+</span><span class="z-source z-sql">
+</span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> id                                   |          wasm_file
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> -------------------------------------+-------------------------------
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> 426e17af-c32f-5027-ad73-239e5450dd91 | /absolute/path/to/simple.wasm
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> (1 row)
+</span></span><span class="z-source z-sql">
+</span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Select all exported functions for a specific instance.
+</span></span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span>
+</span><span class="z-source z-sql">    name,
+</span><span class="z-source z-sql">    inputs,
+</span><span class="z-source z-sql">    outputs
+</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">FROM</span>
+</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">wasm</span>.<span class="z-constant z-other z-table-name z-sql">exported_functions</span>
+</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">WHERE</span>
+</span><span class="z-source z-sql">    instance_id <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>426e17af-c32f-5027-ad73-239e5450dd91<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>;
+</span><span class="z-source z-sql">
+</span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> name   |     inputs      | outputs
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> -------+-----------------+---------
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> ns_sum | integer,integer | integer
+</span></span><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> (1 row)
+</span></span></code></pre>
+<p>Based on these information, the <code>wasm</code> Postgres extension is able to
+generate the SQL function to call the WebAssembly exported functions.</p>
+<p>It sounds simplistic, and… to be honest, it is! The trick is to use
+<a href="https://www.postgresql.org/docs/current/fdwhandler.html">foreign data
+wrappers</a>,
+which is an awesome feature of Postgres.</p>
+<h2 id="how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql">How fast is it, or: Is it an interesting alternative to PL/pgSQL?</h2>
+<p>As we said, the extension API is rather small for now. The idea is to
+explore, to experiment, to have fun with WebAssembly inside a database.
+It is particularly interesting in two cases:</p>
+<ol>
+<li>To write extensions or procedures with any languages that compile to
+WebAssembly in place of
+<a href="https://www.postgresql.org/docs/10/plpgsql.html">PL/pgSQL</a>,</li>
+<li>To remove a potential performance bottleneck where speed is
+involved.</li>
+</ol>
+<p>Thus we run a basic benchmark. Like most of the benchmarks out there, it
+must be taken with a grain of salt.</p>
+<blockquote>
+<p>The goal is to compare the execution time between WebAssembly and
+PL/pgSQL, and see how both approaches scale.</p>
+</blockquote>
+<p>The Postgres WebAssembly extension uses
+<a href="https://www.postgresql.org/docs/current/fdwhandler.html">Wasmer</a> as the
+runtime, compiled with the Cranelift backend (<a href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the
+different
+backends</a>).
+We run the benchmark with Postgres 10, on a MacBook Pro 15" from 2016,
+2.9Ghz Core i7 with 16Gb of memory.</p>
+<p>The methodology is the following:</p>
+<ul>
+<li>Load both the <code>plpgsql_fibonacci</code> and the <code>wasm_fibonacci</code> functions,</li>
+<li>Run them with a query like
+<code>SELECT *_fibonacci(n) FROM generate_series(1, 1000)</code> where <code>n</code> has the
+following values: 50, 500, and 5000, so that we can observe how both
+approaches scale,</li>
+<li>Write the timings down,</li>
+<li>Run this methodology multiple times, and compute the median of the
+results.</li>
+</ul>
+<p>Here come the results. The lower, the better.</p>
+<figure>
+<p><img src="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/./benchmarks.png" alt="Benchmarks" /></p>
+  <figcaption>
+<p>Comparing WebAssembly vs. PL/pgSQL when computing the Fibonacci sequence
+with n=50, 500 and 5000.</p>
+  </figcaption>
+</figure>
+<p>We notice that the Postgres WebAssembly extension is faster to run
+numeric computations. The WebAssembly approach scales pretty well
+compared to the PL/pgSQL approach, <em>in this situation</em>.</p>
+<h3 id="when-to-use-the-webassembly-extension">When to use the WebAssembly extension?</h3>
+<p>So far, the extension only supports integers (on 32- and 64-bits). The
+extension doesn’t support strings <em>yet</em>. It also doesn’t support
+records, views or other Postgres types. Keep in mind this is the very
+first step.</p>
+<p>Hence, it is too soon to tell whether WebAssembly can be an alternative
+to PL/pgSQL. But regarding the benchmark results above, we are sure they
+can live side-by-side, WebAssembly has clearly a place in the ecosystem!
+And we want to continue to pursue this exploration.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We are already talking with people that are interested in using
+WebAssembly inside databases. If you have any particular use cases,
+please reach us at <a href="https://wasmer.io/">wasmer.io</a>, or on Twitter at
+<a href="https://twitter.com/wasmerio">@wasmerio</a> directly or me
+<a href="https://twitter.com/mnt_io">@mnt_io</a>.</p>
+<p>Everything is open source, as usual! Happy hacking.</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

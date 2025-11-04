@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Bye bye Automattic, hello Wasmer</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="Eh, new job!" />
+  <meta name="keywords" content="job, webassembly" />
+  <meta property="og:title" content="Bye bye Automattic, hello Wasmer" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Bye bye Automattic, hello Wasmer</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-03-04" property="datePublished">March 04, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT2M">2 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="job, webassembly">
+      Keywords:&nbsp;<a href="/keywords/job">job</a>, <a href="/keywords/webassembly">webassembly</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2019-03-04-bye-bye-automattic-hello-wasmer&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="Eh, new job!" />
+      
+    
+  </div>
+
+    </header>
+
+    <p>Today is my first day at <a href="https://wasmer.io/">Wasmer</a>.</p>
+<p>It's with a lot of regrets that I leave Automattic. To be clear, I'm not
+leaving because something negative happened, I'm leaving because I've
+received the same job offer, 3 times in 10 days, from Wasmer, Google and
+Mozilla. Namely to work with Rust or C++ to build a WebAssembly runtime.
+This is an offer I can barely decline. It's an opportunity and a dream
+for me. And I was lucky enough to get a choice between 3 excellent
+companies!</p>
+<p>I can only encourage you to <a href="https://automattic.com/work-with-us/">work with
+Automattic</a>. It's definitely the
+best company I've ever work with; stealing the 1st place to Mozilla.
+Automattic is not only about WordPress.com and other services: It's a
+way of living. The culture, the spirit, the interactions between people,
+the mission, everything is <em>exceptional</em>. It has been a super great
+experience.</p>
+<p>I could write 100 pages about my team. They have all been <em>remarkable</em>
+in many ways. I'm closer to them although they live at 10'000km, rather
+than colleagues I met everyday in person in the past. Congrats to
+<a href="https://ma.tt/about/">Matt</a> for this incredible project.</p>
+<p>Now it's time to work on <a href="https://github.com/wasmerio/wasmer">Wasmer</a>.
+It's a <a href="https://webassembly.org/">WebAssembly</a> runtime written in
+<a href="https://www.rust-lang.org/">Rust</a>: My two current passions. It's
+powerful, modular, well-designed, and it comes with great ambitions. I'm
+really exciting. I work with an extraordinary team: <a href="https://github.com/syrusakbary">Syrus
+Akbary</a> (the author of
+<a href="https://github.com/graphql-python/graphene">Graphene</a>, a GraphQL
+framework in Python), <a href="https://github.com/lachlansneff">Lachlan Sneff</a>
+(the author of <a href="https://github.com/nebulet/nebulet">Nebulet</a>, a
+microkernel that implements a WebAssembly "usermode" that runs in Ring
+0), <a href="https://github.com/bjfish">Brandon Fish</a> (a great contributor of
+<a href="https://github.com/oracle/truffleruby">Truffleruby</a>, a high performance
+implementation of Ruby with GraalVM), <a href="https://github.com/xmclark">Mackenzie
+Clark</a>, and soon more.</p>
+<p>My job will consist to work on the runtime of course, and also to
+integrate/embed the runtime into different languages, such as PHP —like
+I did with <code>[php-ext-wasm](https://github.com/Hywan/php-ext-wasm)</code>, more
+to come on this blog—. More secret projects coming. Let's turn them into
+realities 🎉!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

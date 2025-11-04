@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - versioning</title>
+      <link>https://mnt.io</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://mnt.io/keywords/versioning/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Mon, 15 Sep 2014 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Rüsh Release</title>
+          <pubDate>Mon, 15 Sep 2014 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://mnt.io/articles/rush-release/</link>
+          <guid>https://mnt.io/articles/rush-release/</guid>
+          <description xml:base="https://mnt.io/articles/rush-release/">&lt;p&gt;Since 2 years, at &lt;a href=&quot;http:&#x2F;&#x2F;hoa-project.net&#x2F;&quot;&gt;Hoa&lt;&#x2F;a&gt;, we are looking for the
+perfect release process. Today, we have finalized the last thing related
+to this new process: we have found a name. It is called &lt;strong&gt;Rüsh
+Release&lt;&#x2F;strong&gt;, standing for &lt;em&gt;Rolling Ünd ScHeduled Release&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The following explanations are useful from the user point of view, not
+from the developer point of view. It means that we do not explain all
+the branches and the workflow between all of them. We will settle for
+the user final impact.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rolling-release&quot;&gt;Rolling Release&lt;&#x2F;h2&gt;
+&lt;p&gt;On one hand, Hoa is not and will never be finished. We will never reach
+the “Holy 1.0 Grail”. So, one might reckon that Hoa is rolling-released?
+Let&#x27;s dive into this direction. There are plenty &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Rolling_release&quot;&gt;rolling release
+types&lt;&#x2F;a&gt; out there, such
+as:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;partially rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;fully rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;truly rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;pseudo-rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;optionally rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;cyclically rolling,&lt;&#x2F;li&gt;
+&lt;li&gt;and synonyms…&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I am not going to explain all of them. All you need to know is that Hoa
+is partly and truly rolling released, or &lt;em&gt;part-&lt;&#x2F;em&gt; and &lt;em&gt;true-&lt;&#x2F;em&gt; rolling
+released for short. Why? Firstly, “Part-rolling project has a subset of
+software packages that are not rolling”. If we look at Hoa only, it is
+fully rolling but Hoa depends on PHP virtual machines to be executed,
+which are not rolling released (for the most popular ones at least).
+Thus, Hoa is partly rolling released. Secondly, “True-rolling
+[project] are developed solely using a rolling release software
+development model”, which is the case of Hoa. Consequently and finally,
+the &lt;code&gt;master&lt;&#x2F;code&gt; branch is the final public branch, it means that it
+&lt;strong&gt;always&lt;&#x2F;strong&gt; contains the latest version, and users constantly fetch
+updates from it.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;versioning&quot;&gt;Versioning&lt;&#x2F;h2&gt;
+&lt;p&gt;Sounds good. On the other hand, the majority of programs that are using
+Hoa use tools called dependency managers. The most popular in PHP is
+&lt;a href=&quot;http:&#x2F;&#x2F;getcomposer.org&#x2F;&quot;&gt;Composer&lt;&#x2F;a&gt;. This is a fantastic tool but with a
+little spine that hurts us a lot: it does not support rolling release!
+Most of the time, dependency managers work with version numbers, mainly
+of the form &lt;code&gt;_x_._y_._z_&lt;&#x2F;code&gt;, with a specific semantics for &lt;code&gt;_x_&lt;&#x2F;code&gt;, &lt;code&gt;_y_&lt;&#x2F;code&gt;
+and &lt;code&gt;_z_&lt;&#x2F;code&gt;. For instance, some people have agreed about
+&lt;a href=&quot;http:&#x2F;&#x2F;semver.org&#x2F;&quot;&gt;semver&lt;&#x2F;a&gt;, standing for &lt;em&gt;Semantic Versioning&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Also, we are not extremist. We understand the challenges and the needs
+behind versioning. So, how to mix both: rolling release and versioning?
+Before answering this question, let&#x27;s progress a little step forward and
+learn more about an alternative versioning approach.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;scheduled-based-release&quot;&gt;Scheduled-based release&lt;&#x2F;h3&gt;
+&lt;p&gt;Scheduled-based, also known as date-based, release allows to define
+releases at regular periods of time. This approach is widely adopted for
+projects that progress quickly, such as Firefox or PHP (see the &lt;a href=&quot;https:&#x2F;&#x2F;wiki.php.net&#x2F;rfc&#x2F;releaseprocess&quot;&gt;PHP
+RFC: Release Process&lt;&#x2F;a&gt; for
+example). For Firefox, every 6 weeks, a new version is released. Note
+that we should say &lt;em&gt;a new update&lt;&#x2F;em&gt; to be honest: the term &lt;em&gt;version&lt;&#x2F;em&gt; has
+an unclear meaning here.&lt;&#x2F;p&gt;
+&lt;p&gt;The scheduled-based release seems a good candidate to be mixed with
+rolling release, isn&#x27;t it?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rush-release&quot;&gt;Rüsh Release&lt;&#x2F;h2&gt;
+&lt;p&gt;Rüsh Release is a mix between part- and true-rolling release and
+scheduled-based release. The &lt;code&gt;master&lt;&#x2F;code&gt; branch is part- and true-rolling
+release, but with a semi-automatically versioning:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;each 6 weeks, if at least one new patch has been merged into the &lt;code&gt;master&lt;&#x2F;code&gt;, a
+new version is created,&lt;&#x2F;li&gt;
+&lt;li&gt;before 6 weeks, if several critical or significant patches have been applied,
+a new version is created.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;What is the version format then? We have proposed &lt;code&gt;_YY_{2,4}._mm_._dd_&lt;&#x2F;code&gt;,
+starting from 2000, our “Rüsh Epoch”.&lt;&#x2F;p&gt;
+&lt;p&gt;Nevertheless, we are not &lt;strong&gt;infallible&lt;&#x2F;strong&gt; and we can potentially break
+backward compatibility. It never happened but we have to face it. This
+is a problem because neither the part- and true-rolling release nor the
+scheduled-based release holds the information that the backward
+compatibility has been broken. Therefore, the &lt;code&gt;master&lt;&#x2F;code&gt; branch must have
+a &lt;strong&gt;compatibility number&lt;&#x2F;strong&gt; &lt;code&gt;_x_&lt;&#x2F;code&gt;, starting from 1 with step of 1.
+Consequently, the new and last version format is
+&lt;code&gt;_x_._Y_{2,4}._mm_._dd_&lt;&#x2F;code&gt;. For today for instance, it is &lt;code&gt;1.14.09.15&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;With the Rüsh Release process, we can freely rolling release our
+libraries while ensuring the safety and embracing the pros of
+versioning.&lt;&#x2F;p&gt;
+&lt;p&gt;So, now, you will be able to change your &lt;code&gt;composer.json&lt;&#x2F;code&gt; files from:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;json&quot; class=&quot;language-json z-code&quot;&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-begin z-json&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;  &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-key z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;require&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-key-value z-json&quot;&gt;:&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-begin z-json&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-key z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;hoa&#x2F;websocket&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-key-value z-json&quot;&gt;:&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;dev-master&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;  &lt;span class=&quot;z-punctuation z-section z-mapping z-end z-json&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-pair z-json&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;  &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-key z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;minimum-stability&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-key-value z-json&quot;&gt;:&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;dev&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-end z-json&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;to (&lt;a href=&quot;https:&#x2F;&#x2F;getcomposer.org&#x2F;doc&#x2F;01-basic-usage.md#next-significant-release-tilde-operator-&quot;&gt;learn more about the tilde
+operator&lt;&#x2F;a&gt;):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;json&quot; class=&quot;language-json z-code&quot;&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-begin z-json&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-key z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;require&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-key-value z-json&quot;&gt;:&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-begin z-json&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-key z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;hoa&#x2F;websocket&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-mapping z-key-value z-json&quot;&gt;:&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;~1.0&lt;span class=&quot;z-punctuation z-definition z-string z-end z-json&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;    &lt;span class=&quot;z-punctuation z-section z-mapping z-end z-json&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-json&quot;&gt;&lt;span class=&quot;z-meta z-mapping z-value z-json&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-mapping z-end z-json&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;\o&#x2F;&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

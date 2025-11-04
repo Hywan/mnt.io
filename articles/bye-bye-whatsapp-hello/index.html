@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Bye bye WhatsApp, hello ?</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="A rare article written in French discussing WhatsApp and its alternatives." />
+  <meta property="og:title" content="Bye bye WhatsApp, hello ?" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/bye-bye-whatsapp-hello/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Bye bye WhatsApp, hello ?</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2021-01-19" property="datePublished">January 19, 2021</time>
+    <span title="Reading time" property="timeRequired" content="PT9M">9 minutes read</span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2021-01-19-bye-bye-whatsapp-hello&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="A rare article written in French discussing WhatsApp and its alternatives." />
+      
+    
+  </div>
+
+    </header>
+
+    <p>Ce billet est en français, essentiellement à destination de mes ami(e)s
+et familles, il sert à vulgariser très rapidement les enjeux autour de
+<a href="https://www.whatsapp.com/">WhatsApp</a>,
+<a href="https://www.signal.org/fr/">Signal</a>, <a href="https://telegram.org/">Telegram</a>
+et <a href="https://element.io/">Matrix</a> (<em>spoiler</em>, c'est le gagnant). Tout le
+monde me pose la même question, alors voici une réponse rapidement en
+brouillon qui va m'éviter du copier/coller !</p>
+<p>Je ne rentre volontairement <em>pas</em> dans les détails. Il faut que ce
+document reste à la portée de tous, sans aucune connaissance en réseau,
+chiffrement, sécurité etc. Ceux qui ont ces connaissances savent déjà
+que Matrix est <em>le</em> réseau vers lequel aller ;-).</p>
+<h2 id="les-bases">Les bases</h2>
+<p>Quand on parle de messageries, il y a 2 choses primordiales plus 1 bonus :</p>
+<ul>
+<li>le chiffrement ;</li>
+<li>la topologie du réseau (c'est facile, n'ayez pas peur) ;</li>
+<li>l'accès libre et gratuit sans restriction au code source (<em>open
+source</em>).</li>
+</ul>
+<p>Nous pouvons aussi parler du modèle économique du réseau rapidement,
+voir le tableau comparatif.</p>
+<h3 id="le-chiffrement">Le chiffrement</h3>
+<p>Pour respecter la vie privée et éviter l'espionnage et le vol des
+données, il faut que le chiffrement se fasse de bout en bout (<em>end to
+end encryption</em>). Ça veut dire que vous seul avez la clé pour chiffrer
+et/ou déchiffrer vos messages, et personne d'autre. Par message,
+j'entends message texte, audio, image, vidéo, appels audios-vidéos,
+tout. Vos données sont à vous, et uniquement vous, et personne ne peut
+les utiliser, à part la personne avec qui vous les partagez (qui elle,
+normalement à une clé de déchiffrement par exemple). Les clés servent
+aussi à identifier la personne avec qui vous parlez, ça permet d'éviter
+le vol d'identité.</p>
+<h3 id="la-topologie">La topologie</h3>
+<p>La plupart des réseaux sont centralisés : ça veut dire qu'on a un gros
+silot, un énorme ordinateur/serveur, et que tout le monde est dessus. Ça
+pose plein de problèmes :</p>
+<ul>
+<li>impossible d'avoir le contrôle dessus ;</li>
+<li>impossible de faire confiance ;</li>
+<li>faille unique.</li>
+</ul>
+<p>Je prends l'exemple de WhatsApp pour illustrer tout ça parce que ça
+parle à tout le monde : Facebook décide unilatéralement de déchiffrer le
+réseau, personne n'a le contrôle dessus, c'est une violation grave de la
+vie privée de milliards de personnes et on ne peut rien faire (à part
+quitter le réseau). Avions-nous confiance dans ce que faisait Facebook
+avec nos données WhatsApp avant ? Non, aucunement. Ils disaient que
+c'était chiffré, l'était-ce vraiment ? J'accorde plus de confiance dans
+ceux qui ont créé et chiffré le réseau avant qu'il ne soit racheté par
+Facebook, donc j'ai envie d'y croire, mais… <em>je ne peux pas le vérifier</em>
+! Pourquoi ? Parce que personne (en dehors de quelques employés chez
+Facebook) n'a accès au code source, aux programmes, qui font tourner
+WhatsApp. Et pour le côté <em>faille unique</em>, si Facebook est attaqué,
+c'est l'entièreté du réseau qui s'effondre, c'est une faille unique, un
+<em>single point of failure</em> comme on dit dans le métier. Pareil si le
+réseau est <em>hacké</em>, c'est un accès illimité à tout le réseau.</p>
+<blockquote>
+<p>Aucune transparence = aucune confiance.</p>
+</blockquote>
+<p>Mais il existe une alternative majeure bien sûr ! Les réseaux
+décentralisés. Au lieu d'avoir un serveur, il y a en des centaines, des
+milliers. Il n'y a plus de contrôle possible. Il n'y a plus de <em>single
+point of failure</em>. Un <em>hacker</em> ne peut accéder au pire qu'aux données
+d'un seul serveur, pas de tous les serveurs (il existe pleins
+d'exceptions mais je vulgarise, hein). Nous pouvons créer autant de
+serveurs que nous le souhaitons. Souvent, ce sont des réseaux open
+source, donc nous pouvons lire le code des programmes, vérifier qu'ils
+font bien ce qu'ils proclament faire.</p>
+<h2 id="tableau-comparatif">Tableau comparatif</h2>
+<p>Comparons les services populaires avec ces critères de bases.</p>
+<figure>
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Service</strong></td>
+        <td><strong>Chiffrement</strong></td>
+        <td><strong>Topologie</strong></td>
+        <td><strong>Open source</strong></td>
+      </tr>
+      <tr>
+        <td><strong>WhatsApp</strong></td>
+        <td>bout en bout (pour le moment)</td>
+        <td>centralisé (US)</td>
+        <td>non</td>
+      </tr>
+      <tr>
+        <td><strong>Telegram</strong></td>
+        <td>bout en bout (pour le moment)</td>
+        <td>centralisé (Dubaï, US)</td>
+        <td>non</td>
+      </tr>
+      <tr>
+        <td><strong>Signal</strong></td>
+        <td>bout en bout</td>
+        <td>centralisé (US)</td>
+        <td>oui mais…</td>
+      </tr>
+      <tr>
+        <td><strong>Matrix</strong></td>
+        <td>bout en bout</td>
+        <td>décentralisé</td>
+        <td>oui</td>
+      </tr>
+    </tbody>
+  </table>
+  <figcaption>
+<p>Comparons la base !</p>
+  </figcaption>
+</figure>
+<p>Signal est open source, mais nous ne pouvons pas vérifier ce qui est
+installé sur les serveurs, parce que le serveur est privé. De plus, le
+serveur open source n'a pas été <a href="https://github.com/signalapp/Signal-Server">mis à jour depuis avril
+2020</a>, en année
+Informatique, c'est très long. Ça cache quelque chose ? Aucune idée, je
+ne peux pas le savoir, car je n'ai pas d'éléments pour prendre une
+décision. Est-ce que je veux déposer mes données privées sur un service
+dans lequel je n'ai pas confiance ?</p>
+<p>En plus, Signal comme WhatsApp sont hébergés/situés aux US, avec les
+lois liberticides qu'on leur connaît bien (comme le Cloud Act). Signal
+limite la casse grâce au chiffrement de bout en bout, mais peut être
+qu'une <em>backdoor</em> est présente et qu'on ne le saura jamais.</p>
+<blockquote>
+<p>Aucune transparence = aucune confiance</p>
+</blockquote>
+<p>Les réseaux décentralisés sont supérieurs à tous les niveaux (pas de
+contrôle, pas de hack massif etc.). Les réseaux open source sont ceux en
+qui nous pouvons avoir confiance. Donc le choix est vite fait, le
+gagnant ici est Matrix.</p>
+<p>Comparons maintenant comment les services sont financés, parce que c'est
+important. Si un service n'est pas rentable, il pourrait avoir de
+l'appétit pour les données de ses utilisateurs, et là c'est dangereux
+(c'est exactement ce qu'il se passe avec Facebook et WhatsApp).</p>
+<figure>
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Service</strong></td>
+        <td><strong>Revenues</strong></td>
+      </tr>
+      <tr>
+        <td><strong>WhatsApp</strong></td>
+        <td>Facebook veut utiliser les données privées pour vendre de la publicité ciblée.</td>
+      </tr>
+      <tr>
+        <td><strong>Telegram</strong></td>
+        <td>Les fondateurs sont millionnaires et injectent de l'argent.<br>Dans peu de temps, financement via pubs et comptes premiums.</td>
+      </tr>
+      <tr>
+        <td><strong>Signal</strong></td>
+        <td>Organisation à but non-lucratif qui opère via des dons.</td>
+      </tr>
+      <tr>
+        <td><strong>Matrix</strong></td>
+        <td>Matrix développe, offre ou vend des services autour du réseau, mais pas autour des données !</td>
+      </tr>
+    </tbody>
+  </table>
+  <figcaption>
+<p>Comment sont financés les services ?</p>
+  </figcaption>
+</figure>
+<p>Les gagnants ici sont Signal et Matrix.</p>
+<h2 id="conclusion-matrix-gagnant">Conclusion : Matrix gagnant</h2>
+<p>Dans le cas des réseaux centralisés, Signal est une meilleure
+alternative à WhatsApp et Telegram de part son mode de financement (donc
+son appétit pour les données des utilisateurs), mais ils sont tous
+sujets aux même problèmes : aucune confiance car pas de transparence,
+hébergés aux US etc.</p>
+<p>Mais les réseaux décentralisés sont supérieurs car ils résolvent tous
+ces problèmes ! Matrix est décentralisé, est financé par des services
+autour du réseau mais pas par les données du réseau (qui sont
+inaccessibles de toute façon, elles n'existent que sur vos téléphones et
+ordinateurs, nul part ailleurs).</p>
+<p>J'utilise Matrix. Je vous conseille d'utiliser Matrix. Partir sur
+Signal, c'est sortir de la gueule d'un loup pour aller dans celle d'un
+autre. Je suis admiratif du travail des développeurs de chez Signal, ils
+sont vraiment bons, leur protocole de chiffrement est magnifique, mais
+je n'ai pas confiance dans leur service parce que je ne <em>peux</em> pas. Et
+personne ne le <em>peut</em>.</p>
+<p>J'utilise aussi WhatsApp et Signal pour rester en contact avec mes amis
+et ma famille, et leur dire d'utiliser Matrix, mais je n'y publierai
+jamais de données personnelles, photos ou quoi que ce soit, je n'ai
+aucune confiance. Libre à vous aussi d'utiliser plusieurs réseaux, après
+tout nous jonglons déjà avec plusieurs réseaux (mail, SMS, WhatsApp,
+Matrix, Twitter, <a href="https://mastodon.social/about">Mastodon</a> etc.), ça
+n'est pas un problème !</p>
+<h2 id="premier-pas-avec-matrix">Premier pas avec Matrix</h2>
+<p>C'est parti, petit tuto Matrix. Le réseau est exceptionnel, mais le
+client officiel (<a href="https://element.io/">Element</a>) est encore un peu «
+brut » à utiliser comparé à Signal ou WhatsApp. Notez que ça évolue très
+très vite (je compte 616 contributeurs qui travaillent dessus
+bénévolement, encore une grande force de l'open source !).</p>
+<p>Ce qui va vous titiller le plus c'est : vous ne pouvez pas toujours
+identifier vos contacts par numéro de téléphone (seulement s'ils sont
+enregistrés sur un serveur d'identité). Pourquoi ? Parce que votre
+compte à un identifiant, comme une adresse email. Le mien est
+<code>@mnt_io:matrix.org</code> (le format est <code>@identifiant:serveur</code>). C'est bien
+meilleur pour la vie privée. Et pis, ça n'est pas différent de MSN ou de
+tout autre réseau de l'époque, c'est vraiment WhatsApp qui a imposé la «
+découvertabilité » par le numéro de téléphone. Bien que très pratique,
+c'est dangereux pour la vie privée.</p>
+<p>Donc, go, on installe le client :</p>
+<ul>
+<li>sur <a href="https://apps.apple.com/us/app/element-messenger/id1083446067">iOS, macOS
+etc</a>.,</li>
+<li>sur
+<a href="https://play.google.com/store/apps/details?id=im.vector.app&amp;hl=en_US&amp;gl=US">Android</a>,</li>
+<li>sur votre <a href="https://element.io/get-started">bureau ou votre
+navigateur</a>.</li>
+</ul>
+<p>Puis on crée un compte, et ajoutez moi. C'est parti !</p>
+<p>Matrix/Element est basé sur les groupes. Les chats « directs » (1:1)
+sont des groupes aussi. Vous pouvez même rejoindre des <em>rooms</em> (gros
+groupes, des communautés) avec des centaines voire des milliers de
+personnes dedans. C'est très flexible.</p>
+<p>Parce que c'est open source, n'importe qui peut écrire son propre client
+(programme qui se connecte au réseau). Il existe des clients
+alternatives, comme <a href="https://nio.chat/">Nio</a> ou
+<a href="https://fluffychat.im/en/">FluffyChat</a>, ou même <a href="https://matrix.org/docs/projects/client/ditto-chat">Ditto
+Chat</a>. Tous ces
+clients sont encore en beta, mais ça montre un futur très excitant pour
+Matrix avec des clients de plus en plus aboutis !</p>
+<h3 id="matrix-element-vector-hein">Matrix, Element, Vector, hein ?</h3>
+<ul>
+<li>Element c'est le nom de l'entreprise qui travaille/développe le réseau, les
+serveurs et le client ;</li>
+<li>Matrix c'est le nom du réseau ;</li>
+<li>Vector, c'est l'ancien nom d'Element.</li>
+</ul>
+<p>On parle souvent de façon indifférentiée de Matrix ou Element, c'est un
+abus de langage.</p>
+<blockquote>
+<p>Before: Mark as read.</p>
+<p>Now: Mark has read.</p>
+</blockquote>
+<p>Et par pitié, quittez Facebook…</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

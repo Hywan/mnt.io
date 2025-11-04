@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Export functions in PHP à la Javascript</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="I am bored of PHP. Can it be as ~horrible~ funky as JavaScript?" />
+  <meta name="keywords" content="php" />
+  <meta property="og:title" content="Export functions in PHP à la Javascript" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/export-functions-in-php-a-la-javascript/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Export functions in PHP à la Javascript</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2017-10-30" property="datePublished">October 30, 2017</time>
+    <span title="Reading time" property="timeRequired" content="PT2M">2 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="php">
+      Keywords:&nbsp;<a href="/keywords/php">php</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2017-10-30-export-functions-in-php-a-la-javascript&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="I am bored of PHP. Can it be as ~horrible~ funky as JavaScript?" />
+      
+    
+  </div>
+
+    </header>
+
+    <p>Warning: This post is totally useless. It is the result of a fun private
+company thread.</p>
+<h2 id="export-functions-in-javascript">Export functions in Javascript</h2>
+<p>In Javascript, a file can export functions like this:</p>
+<pre data-lang="javascript" class="language-javascript z-code"><code class="language-javascript" data-lang="javascript"><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-keyword z-control z-export z-ts">export</span> <span class="z-storage z-type z-function z-ts">function</span> <span class="z-meta z-definition z-function z-ts"><span class="z-entity z-name z-function z-ts">times2</span></span><span class="z-meta z-parameters z-ts"><span class="z-punctuation z-definition z-parameters z-begin z-ts">(</span><span class="z-variable z-parameter z-ts">x</span><span class="z-punctuation z-definition z-parameters z-end z-ts">)</span></span> <span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">{</span>
+</span></span></span><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-meta z-block z-ts">    <span class="z-keyword z-control z-flow z-ts">return</span> <span class="z-variable z-other z-readwrite z-ts">x</span> <span class="z-keyword z-operator z-arithmetic z-ts">*</span> <span class="z-constant z-numeric z-decimal z-ts">2</span><span class="z-punctuation z-terminator z-statement z-ts">;</span>
+</span></span></span><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">}</span></span></span>
+</span></code></pre>
+<p>And then we can import this function in another file like this:</p>
+<pre data-lang="javascript" class="language-javascript z-code"><code class="language-javascript" data-lang="javascript"><span class="z-source z-ts"><span class="z-meta z-import z-ts"><span class="z-keyword z-control z-import z-ts">import</span> <span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">{</span><span class="z-variable z-other z-readwrite z-alias z-ts">times2</span><span class="z-punctuation z-definition z-block z-ts">}</span></span> <span class="z-keyword z-control z-from z-ts">from</span> <span class="z-string z-quoted z-single z-ts"><span class="z-punctuation z-definition z-string z-begin z-ts">&#39;</span>foo<span class="z-punctuation z-definition z-string z-end z-ts">&#39;</span></span></span><span class="z-punctuation z-terminator z-statement z-ts">;</span>
+</span><span class="z-source z-ts">
+</span><span class="z-source z-ts"><span class="z-meta z-function-call z-ts"><span class="z-support z-class z-console z-ts">console</span><span class="z-punctuation z-accessor z-ts">.</span><span class="z-support z-function z-console z-ts">log</span></span><span class="z-meta z-brace z-round z-ts">(</span><span class="z-meta z-function-call z-ts"><span class="z-entity z-name z-function z-ts">times2</span></span><span class="z-meta z-brace z-round z-ts">(</span><span class="z-constant z-numeric z-decimal z-ts">21</span><span class="z-meta z-brace z-round z-ts">)</span><span class="z-meta z-brace z-round z-ts">)</span><span class="z-punctuation z-terminator z-statement z-ts">;</span> <span class="z-comment z-line z-double-slash z-ts"><span class="z-punctuation z-definition z-comment z-ts">//</span></span><span class="z-comment z-line z-double-slash z-ts"> 42</span>
+</span></code></pre>
+<p>Is it possible with PHP?</p>
+<h2 id="export-functions-in-php">Export functions in PHP</h2>
+<p>Every entity is public in PHP: Constant, function, class, interface, or
+trait. They can live in a namespace. So exporting functions in PHP is
+absolutely useless, but just for the fun, let's keep going.</p>
+<p>A PHP file can return an integer, a real, an array, an anonymous
+function, anything. Let's try this:</p>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-keyword z-control z-php">return</span> <span class="z-meta z-function z-closure z-php"><span class="z-storage z-type z-function z-php">function</span> </span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-storage z-type z-php">int</span> <span class="z-variable z-parameter z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>x</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-return-type z-php"><span class="z-punctuation z-separator z-php">:</span> <span class="z-storage z-type z-php">int</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    <span class="z-keyword z-control z-php">return</span> <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>x</span> <span class="z-keyword z-operator z-arithmetic z-php">*</span> <span class="z-constant z-numeric z-integer z-decimal z-php">2</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></code></pre>
+<p>And then in another file:</p>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>times2</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-meta z-include z-php"><span class="z-keyword z-control z-import z-include z-php">require</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">foo.php</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function-call z-php"><span class="z-support z-function z-var z-php">var_dump</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-meta z-function-call z-invoke z-php"><span class="z-punctuation z-definition z-variable z-php">$</span><span class="z-variable z-other z-php">times2</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-constant z-numeric z-integer z-decimal z-php">21</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span> <span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> int(42)
+</span></span></span></span></span></code></pre>
+<p>Great, it works.</p>
+<p>What if our file returns more than one function? Let's use an array
+(which has most hashmap properties):</p>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-keyword z-control z-php">return</span> <span class="z-meta z-array z-php"><span class="z-punctuation z-section z-array z-begin z-php">[</span>
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php">    <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">times2</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span> <span class="z-keyword z-operator z-key z-php">=&gt;</span> <span class="z-meta z-function z-closure z-php"><span class="z-storage z-type z-function z-php">function</span> </span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-storage z-type z-php">int</span> <span class="z-variable z-parameter z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>x</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-return-type z-php"><span class="z-punctuation z-separator z-php">:</span> <span class="z-storage z-type z-php">int</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-keyword z-control z-php">return</span> <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>x</span> <span class="z-keyword z-operator z-arithmetic z-php">*</span> <span class="z-constant z-numeric z-integer z-decimal z-php">2</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>,
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php">    <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">answer</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span> <span class="z-keyword z-operator z-key z-php">=&gt;</span> <span class="z-meta z-function z-closure z-php"><span class="z-storage z-type z-function z-php">function</span> </span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-return-type z-php"><span class="z-punctuation z-separator z-php">:</span> <span class="z-storage z-type z-php">int</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-keyword z-control z-php">return</span> <span class="z-constant z-numeric z-integer z-decimal z-php">42</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-punctuation z-section z-array z-end z-php">]</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></code></pre>
+<p>To choose what to import, let's use <a href="https://github.com/php/php-langspec/blob/master/spec/10-expressions.md#list-intrinsic">the <code>list</code>
+intrinsic</a>.
+It has several forms: With or without key matching, long (<code>list(…)</code>) and
+short syntax (<code>[…]</code>). Because we are modern, we will use the short
+syntax with key matching to selectively import functions:</p>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-array z-php"><span class="z-punctuation z-section z-array z-begin z-php">[</span><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">times2</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span> <span class="z-keyword z-operator z-key z-php">=&gt;</span> <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>mul</span><span class="z-punctuation z-section z-array z-end z-php">]</span></span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-meta z-include z-php"><span class="z-keyword z-control z-import z-include z-php">require</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">foo.php</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function-call z-php"><span class="z-support z-function z-var z-php">var_dump</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-meta z-function-call z-invoke z-php"><span class="z-punctuation z-definition z-variable z-php">$</span><span class="z-variable z-other z-php">mul</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-constant z-numeric z-integer z-decimal z-php">21</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span> <span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> int(42)
+</span></span></span></span></span></code></pre>
+<p>Notice that <code>times2</code> has been aliased to <code>$mul</code>. What a feature!</p>
+<p>Is it useful? Absolutely not. Is it fun? For me it is.</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

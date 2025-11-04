@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - sync</title>
+      <link>https://mnt.io</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://mnt.io/keywords/sync/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Wed, 30 Oct 2024 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Sliding Sync at the Matrix Conference</title>
+          <pubDate>Wed, 30 Oct 2024 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://mnt.io/articles/sliding-sync-at-the-matrix-conference/</link>
+          <guid>https://mnt.io/articles/sliding-sync-at-the-matrix-conference/</guid>
+          <description xml:base="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/">&lt;p&gt;Berlin. &lt;time datetime=&quot;2024-09-21 10:00&quot;&gt;Saturday, September 21, 2024.
+10am&lt;&#x2F;time&gt;. I was live on stage and broadcasted on Internet, to talk about
+(Simplified) Sliding Sync, the next sync mechanism for Matrix, at the first
+&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;&quot;&gt;Matrix Conference&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;matrix.org&#x2F;&quot;&gt;Matrix&lt;&#x2F;a&gt; is an open network for secure, decentralised communication. It is an
+important technology for Internet.&lt;&#x2F;p&gt;
+&lt;p&gt;Matrix is a protocol. Everyone can implement it: either by providing its own
+server and connect it to the federation, or by providing its own client and
+connect it to the federation too. Nobody has a full control over the network,
+and nobody controls the clients nor the servers. And yet, end-to-end encryption
+is working, synchronisation is working, and everybody can talk to everybody,
+communities organize themselves, the network grows and grows.&lt;&#x2F;p&gt;
+&lt;p&gt;I am working at &lt;a href=&quot;https:&#x2F;&#x2F;element.io&#x2F;&quot;&gt;Element&lt;&#x2F;a&gt; since 2 years now. I am paid to work on the [Matrix
+Rust SDK], a project owned by the Matrix organisation. Everything we do is
+available to the entire Matrix community, not only for Element. Well, this is
+the open source world.&lt;&#x2F;p&gt;
+&lt;p&gt;Matrix previous synchronisation mechanism is slow and inefficient. To put
+Matrix on the hands of everyone for a daily pleasant usage, we have started
+to experiment with a new sync mechanism, called Sliding Sync. The MSC —which
+stands for Matrix Spec Changes, like RFC for example—, so the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-spec-proposals&#x2F;blob&#x2F;kegan&#x2F;sync-v3&#x2F;proposals&#x2F;3575-sync.md&quot;&gt;MSC3575&lt;&#x2F;a&gt; was
+our experimental foundation to play with a new sync mechanism. After many sweat
+and tears, we ultimately found a working pattern and design that fulfill a
+large majority of our usecases. Along the way, the implementation inside the
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to provide
+this new sync mechanism— was starting to feel really buggy and was really slow.
+It was time to clean up everything, including the MSC.&lt;&#x2F;p&gt;
+&lt;p&gt;Enter &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-spec-proposals&#x2F;blob&#x2F;erikj&#x2F;sss&#x2F;proposals&#x2F;4186-simplified-sliding-sync.md&quot;&gt;MSC4186&lt;&#x2F;a&gt;, which is basically Simplified Sliding Sync. We have mostly
+removed features from &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-spec-proposals&#x2F;blob&#x2F;kegan&#x2F;sync-v3&#x2F;proposals&#x2F;3575-sync.md&quot;&gt;MSC3575&lt;&#x2F;a&gt;, so that the implementation on the server-side
+is much simpler and lighter. Simplified Sliding Sync is now implemented and
+enabled by default on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;synapse&#x2F;&quot;&gt;Synapse&lt;&#x2F;a&gt;, one of the major homeserver implementations.
+Other homeservers have implemented MSC3575 and are working on supporting
+MSC4186.&lt;&#x2F;p&gt;
+&lt;p&gt;Sliding Sync has a huge impact on the overall user experience. Syncing is now
+fast and almost transparent. It also works linearly whether the user has 10
+or 10&#x27;000 rooms.&lt;&#x2F;p&gt;
+&lt;p&gt;My talk can be viewed here:&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;iframe
+    class=&quot;youtube-player&quot;
+    src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;kI2lSCVEunw&quot;
+    title=&quot;Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin&quot;
+    frameborder=&quot;0&quot;
+    allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+
+  &lt;figcaption&gt;
+    &lt;p&gt;Video: Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin&lt;&#x2F;p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;.&#x2F;slides.pdf&quot;&gt;Download the slides as PDF (21MiB)&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;h2 id=&quot;other-talks&quot;&gt;Other talks&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;watch&#x2F;&quot;&gt;All the talks are available online&lt;&#x2F;a&gt;, including talks from the public
+sector, like NATO, Sweden, French or German administrations… I encourage you to
+check the list! Nonetheless, I take the opportunity of this article to highlight
+some announcement talks, or technical (Matrix internals) talks, I&#x27;ve enjoyed.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;matrix-2-0-and-the-launch-of-element-x&quot;&gt;Matrix 2.0 and the launch of Element X!&lt;&#x2F;h3&gt;
+&lt;p&gt;Two presentations for the price of one: &lt;cite&gt;Matrix 2.0 Is Here!&lt;&#x2F;cite&gt; by
+Matthew Hogdson. 10 years after the original launch of Matrix, and 5 years after
+Matrix 1.0, what a best anniversary to announce Matrix 2.0.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;iframe
+    class=&quot;youtube-player&quot;
+    src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;ZiRYdqkzjDU&quot;
+    title=&quot;Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin&quot;
+    frameborder=&quot;0&quot;
+    allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+
+  &lt;figcaption&gt;
+    &lt;p&gt;Video: Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin&lt;&#x2F;p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;documents&#x2F;talk_slides&#x2F;LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf&quot;&gt;View and download the slides&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;p&gt;The second video is &lt;cite&gt;Element X Launch!&lt;&#x2F;cite&gt; by Amandine Le Pape, Ștefan
+Ceriu, and Amsha Kalra. They present Element X, how it&#x27;s been designed,
+developed, how it uses the Matrix Rust SDK, and where you can see awesome demos
+of Element X with Element Call and so on! It was a great moment for everyone
+working at Element and users!&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;iframe
+    class=&quot;youtube-player&quot;
+    src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;gHyHO3xPfQU&quot;
+    title=&quot;Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin&quot;
+    frameborder=&quot;0&quot;
+    allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+
+  &lt;figcaption&gt;
+    &lt;p&gt;Video: Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin&lt;&#x2F;p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;documents&#x2F;talk_slides&#x2F;LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf&quot;&gt;View and download the slides&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;h3 id=&quot;unable-to-decrypt-this-mesage&quot;&gt;Unable to decrypt this mesage&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;cite&gt;Unable to decrypt this message&lt;&#x2F;cite&gt; by Kegan Dougal. This talk explains
+why one can see an &lt;em&gt;Unable To Decrypt&lt;&#x2F;em&gt; error while trying to view a message in
+Matrix. Most problems have been solved today, but the great message about this
+presentation is to show how hard it is (was!) to provide reliable end-to-end
+encryption over a federated network. One homeserver can be overused and then
+slowed down, or a connection between two servers can be broken, or one device
+lost its connectivity because it&#x27;s used in the subway, or whatever. All these
+classes of problems are illustrated and explained. I liked it a lot because it
+gives a good sense of why end-to-end encryption is hard over a giant
+decentralised, federated network, with encryption keys being renewed frequently,
+and how problems have been solved.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;iframe
+    class=&quot;youtube-player&quot;
+    src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;FHzh2Y7BABQ&quot;
+    title=&quot;Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin&quot;
+    frameborder=&quot;0&quot;
+    allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+
+  &lt;figcaption&gt;
+    &lt;p&gt;Video: Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin&lt;&#x2F;p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;documents&#x2F;talk_slides&#x2F;LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf&quot;&gt;View and download the slides&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;h3 id=&quot;news-from-the-matrix-rust-sdk&quot;&gt;News from the Matrix Rust SDK&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;cite&gt;Strengthening the Base: Laying the Groundwork for a more robust Rust
+SDK&lt;&#x2F;cite&gt; by Benjamin Bouvier, a good friend! This talk explains the recent
+updates of the Matrix Rust SDK: how we have designed new API to make the
+developer experience easier and more robust.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;iframe
+    class=&quot;youtube-player&quot;
+    src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;KOaoZKc1tgo&quot;
+    title=&quot;Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin&quot;
+    frameborder=&quot;0&quot;
+    allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+    referrerpolicy=&quot;strict-origin-when-cross-origin&quot;
+    allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+
+  &lt;figcaption&gt;
+    &lt;p&gt;Video: Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin&lt;&#x2F;p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;2024.matrix.org&#x2F;documents&#x2F;talk_slides&#x2F;LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf&quot;&gt;View and download the slides&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;h2 id=&quot;about-transport&quot;&gt;About transport&lt;&#x2F;h2&gt;
+&lt;p&gt;I currently live in Switzerland. The conference was in Germany. Europe has a
+fantastic rail network, and more importantly, a unique &lt;strong&gt;night train&lt;&#x2F;strong&gt; network!&lt;&#x2F;p&gt;
+&lt;p&gt;Going there by plane would have generated 1&#x27;344 &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Global_warming_potential&quot;&gt;kg CO&lt;sub&gt;2&lt;&#x2F;sub&gt;eq&lt;&#x2F;a&gt;,
+be 68% of my annual carbon budget (for a sustainable world, we should all be at
+2&#x27;000 kg maximum). Taking the train however has generated
+&lt;strong&gt;6.5 kg CO&lt;sub&gt;2&lt;&#x2F;sub&gt;eq, be 0.33% of my annual carbon budget&lt;&#x2F;strong&gt;. It&#x27;s 206 times
+less than the plane!&lt;&#x2F;p&gt;
+&lt;p&gt;If you are curious &lt;a href=&quot;https:&#x2F;&#x2F;back-on-track.eu&#x2F;night-train-map&#x2F;&quot;&gt;to try night train, you can check this map&lt;&#x2F;a&gt;
+that lists all possible connections, stops, companies operating the trains
+etc. Taking the night train is a nice way of travelling, and it saves a lot
+of emissions.&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;ve taken a regular day train to go to Berlin, and a night train to come back
+home.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;A &lt;em&gt;homeserver&lt;&#x2F;em&gt; in the Matrix terminology is simply a Matrix server.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</description>
+      </item>
+    </channel>
+</rss>

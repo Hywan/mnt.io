@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>atoum has two release managers</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="atoum gains 2 release managers for a better project management!" />
+  <meta name="keywords" content="test, atoum" />
+  <meta property="og:title" content="atoum has two release managers" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/atoum-has-two-release-managers/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">atoum has two release managers</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2014-11-28" property="datePublished">November 28, 2014</time>
+    <span title="Reading time" property="timeRequired" content="PT5M">5 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="test, atoum">
+      Keywords:&nbsp;<a href="/keywords/test">test</a>, <a href="/keywords/atoum">atoum</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2014-11-28-atoum-has-two-release-managers&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="atoum gains 2 release managers for a better project management!" />
+      
+    
+  </div>
+
+    </header>
+
+    <h2 id="what-is-atoum">What is atoum?</h2>
+<p>Short introduction: atoum is a simple, modern and intuitive unit testing
+framework for PHP. Originally created by <a href="http://blog.mageekbox.net/">Frédéric
+Hardy</a>, a good friend, it has grown thanks
+to <a href="https://github.com/atoum/atoum/graphs/contributors">many
+contributors</a>.</p>
+<figure>
+<p><img src="https://mnt.io/articles/atoum-has-two-release-managers/./atoum-logo.png" alt="atoum&#39;s logo" /></p>
+  <figcaption>
+  atoum's logo.
+  </figcaption>
+</figure>
+<p>No one can say that atoum is not simple or intuitive. The framework
+offers several awesome features and is more like a meta unit testing
+framework. Indeed, the “user-land” of atoum, I mean all the assertions
+API (“this is an integer and it is equal to…”) is based on a very
+flexible mechanism, handled or embedded in runners, reporters etc. Thus,
+the framework is very extensible. You can find more informations in the
+<code>README.md</code> of the project: <a href="https://github.com/atoum/atoum#why-atoum">Why
+atoum?</a>.</p>
+<p>Several important projects or companies use atoum. For instance,
+<a href="https://github.com/FriendsOfPHP/pickle/">Pickle</a>, the PHP Extension
+installer, created by <a href="https://twitter.com/PierreJoye">Pierre Joye</a>,
+another friend (the world is very small 😉) use atoum for its unit
+tests. Another example with <a href="https://github.com/M6Web">M6Web</a>, the geeks
+working at <a href="https://en.wikipedia.org/wiki/M6_%28TV_channel%29">M6</a>, the
+most profitable private national French TV channel, also use atoum.
+Another example, <a href="http://mozilla.org/">Mozilla</a> is using atoum to test
+some of their applications.</p>
+<h2 id="where-is-the-cap-tain">Where is the cap'tain?</h2>
+<p>Since the beginning, Frédéric has been a great leader for the project.
+He has inspired many people, users and contributors. In real life, on
+stage, on IRC… its personality and charisma were helpful in all aspects.
+However, leading such a project is a challenging and nerve-wracking
+daily work. I know what I am talking about with
+<a href="http://hoa-project.net/">Hoa</a>. Hopefully for Frédéric, some
+contributors were here to help.</p>
+<h2 id="where-to-go-cap-tain">Where to go cap'tain?</h2>
+<p>However, having contributors do not create a community. A community is a
+group of people that share something together. A project needs a
+community with strong connections. They do no need to all look at the
+same direction, but they have to share something. In the case of atoum,
+I would say the project has been <strong>victim of its own success</strong>. We have
+seen the number of users increasing very quickly and the project was not
+yet ready for such a massive use. The documentation was not ready, a lot
+of features were not finalized, there were few contributors and the
+absence of a real community did not help. Put all these things together,
+blend them together and you obtain a bomb 😄. The project leaders were
+under a terrible pressure.</p>
+<p>In these conditions, this is not easy to work. Especially when users ask
+for new features. The needs to have a roadmap and people taking
+decisions were very strong.</p>
+<h2 id="when-the-community-acts">When the community acts</h2>
+<p>After a couple of months under the sea, we have decided that we need to
+create a structure around the project. An organization. Frédéric is not
+able to do everything by himself. That's why <strong>2 release managers have
+been elected</strong>: Mikaël Randy and I. Thank you to <a href="http://jubianchi.fr/">Julien
+Bianchi</a>, another friend 😉, for having organized
+these elections and being one of the most active contributor of atoum!</p>
+<p>Our goal is to define the roadmap of atoum:</p>
+<ul>
+<li>what will be included in the next version and what will not,</li>
+<li>what features need work,</li>
+<li>what bugs or issues need to be solved,</li>
+<li>etc.</li>
+</ul>
+<p>Well, a release manager is a pretty common job.</p>
+<p>Why 2? To avoid the bus effect and delegate. We all have a family,
+friends, jobs and side projects. With 2 release managers, we have
+2 times more time to organize this project, and it deserves such an
+amount of time.</p>
+<p>The goal is also to organize the community if it is possible. New great
+features are coming and they will allow more people to contribute and
+build their “own atoum”. See below.</p>
+<h2 id="features-to-port">Features to port!</h2>
+<p>Everything is not defined at 100% but here is an overview of what is
+coming.</p>
+<p>First of all, you will find the <a href="https://github.com/atoum/atoum/milestones/1.0.0">latest issues and
+bugs</a> we have to close
+before the first release.</p>
+<p>Second, you will notice the version number… 1.0.0. Yes! atoum will have
+tags! After several discussions
+(<a href="https://github.com/atoum/atoum/issues/261">#261</a>,
+<a href="https://github.com/atoum/atoum/issues/300">#300</a>,
+<a href="https://github.com/atoum/atoum/issues/342">#342</a>,
+<a href="https://github.com/atoum/atoum/issues/349">#349</a>…), even if atoum is
+rolling-released, it will have tags. And with the <a href="http://semver.org/">semver
+format</a>. More informations on the blog of Julien
+Bianchi: <a href="http://jubianchi.fr/atoum-release.htm">atoum embraces semver</a>.</p>
+<p>Finally, a big feature is the <a href="https://github.com/atoum/atoum/pull/330">Extension
+API</a>, that allows to write
+extension, such as:</p>
+<ul>
+<li><a href="https://github.com/atoum/visibility-extension"><code>atoum/visibility-extension</code></a>, allows to override methods visibility;
+example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">Foo</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">protected</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">bar</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-variable z-parameter z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>arg</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-keyword z-control z-php">return</span> <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>arg</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> and…
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">Foo</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span>test</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">testBaz</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">if</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>sut</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-keyword z-other z-new z-php">new</span> <span class="z-meta z-path z-php"><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">Foo</span></span><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">and</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>arg</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">bar</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">then</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">variable</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">invoke</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>sut</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">bar</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>arg</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">isEqualTo</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>arg</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span></code></pre>
+<p>Now you will be able to test your protected and private methods!</p>
+<ul>
+<li><a href="https://github.com/atoum/bdd-extension"><code>atoum/bdd-extension</code></a>, allows to write tests with the behavior-driven
+development style and vocabulary; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">Formatter</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span>spec</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">should_format_underscore_separated_method_name</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">given</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>formatter</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-keyword z-other z-new z-php">new</span> <span class="z-meta z-path z-php"><span class="z-support z-class z-php">testedClass</span></span><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">then</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">invoking</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">format</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-constant z-language z-php">__FUNCTION__</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">on</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>formatter</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                    <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">shouldReturn</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">should format underscore separated method name</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span></code></pre>
+<p>Even the output looks familiar:</p>
+<figure>
+<p><img src="https://mnt.io/articles/atoum-has-two-release-managers/output.png" alt="Example of a terminal output" /></p>
+  <figcaption>
+  Possible output with the `atoum/bdd-extension`.
+  </figcaption>
+</figure>
+<ul>
+<li><a href="https://github.com/atoum/json-schema-extension"><code>atoum/json-schema-extension</code></a>, allows to validate JSON payloads against a
+schema; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">Foo</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span>test</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">testIsJson</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">given</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>string</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">{&quot;foo&quot;: &quot;bar&quot;}</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">then</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">json</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>string</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">testValidatesSchema</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">given</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>string</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">[&quot;foo&quot;, &quot;bar&quot;]</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">then</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">json</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>string</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">validates</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">{&quot;title&quot;: &quot;test&quot;, &quot;type&quot;: &quot;array&quot;}</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">json</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>string</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">validates</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">/path/to/json.schema</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span></code></pre>
+<ul>
+<li><a href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>atoum/praspel-extension</code></a>, allows to use
+<a href="https://en.wikipedia.org/wiki/Praspel">Praspel</a> inside atoum: automatically
+generate and validate advanced test data and unit tests; example:</li>
+</ul>
+<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">Foo</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span>test</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">testFoo</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">if</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>regex</span>  <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">realdom</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">regex</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-meta z-string z-php"><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span><span class="z-punctuation z-definition z-string z-regex-delimiter z-begin z-php">/</span><span class="z-source z-regexp z-php"><span class="z-constant z-other z-character-class z-set z-regexp"><span class="z-punctuation z-definition z-character-class z-begin z-regexp">[</span><span class="z-constant z-character z-character-class z-regexp">\w</span><span class="z-constant z-character z-escape z-backslash z-regexp">\-</span>_<span class="z-punctuation z-definition z-character-class z-end z-regexp">]</span></span><span class="z-keyword z-operator z-quantifier z-regexp">+</span><span class="z-meta z-group z-regexp"><span class="z-punctuation z-definition z-group z-begin z-regexp">(</span><span class="z-constant z-character z-escape z-backslash z-regexp">\.</span><span class="z-constant z-other z-character-class z-set z-regexp"><span class="z-punctuation z-definition z-character-class z-begin z-regexp">[</span><span class="z-constant z-character z-character-class z-regexp">\w</span><span class="z-constant z-character z-escape z-backslash z-regexp">\-</span><span class="z-constant z-character z-escape z-backslash z-regexp">\_</span><span class="z-punctuation z-definition z-character-class z-end z-regexp">]</span></span><span class="z-keyword z-operator z-quantifier z-regexp">+</span><span class="z-punctuation z-definition z-group z-end z-regexp">)</span></span><span class="z-keyword z-operator z-quantifier z-regexp">*</span>@<span class="z-constant z-character z-character-class z-regexp">\w</span><span class="z-constant z-character z-escape z-backslash z-regexp">\.</span><span class="z-meta z-group z-regexp"><span class="z-punctuation z-definition z-group z-begin z-regexp">(</span>net<span class="z-keyword z-operator z-or z-regexp">|</span>org<span class="z-punctuation z-definition z-group z-end z-regexp">)</span></span></span><span class="z-punctuation z-definition z-string z-regex-delimiter z-end z-php">/</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">and</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>email</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">sample</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>regex</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">            <span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">then</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">                …
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span></code></pre>
+<p>Here, we have generated a string based on its regular expression. Reminder, you
+might have seen this on this blog:
+<a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/">Generate strings based on regular expressions</a>
+.</p>
+<p>Fun fact: the <code>atoum/json-schema-extension</code> is tested with atoum
+obviously and… <code>atoum/praspel-extension</code>!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>atoum has a bright future with exciting features! We sincerely hope this
+new direction will gather existing and new contributors 😄.</p>
+<p>❤️ open-source!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

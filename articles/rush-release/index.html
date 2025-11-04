@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Rüsh Release</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="Since 2 years, at [Hoa](http:&#x2F;&#x2F;hoa-project.net&#x2F;), we are looking for the perfect release process. Today, we have finalized the last thing related to this new process: we have found a name. It is called **Rüsh Release**, standing for *Rolling Ünd ScHeduled Release*." />
+  <meta name="keywords" content="release, versioning, hoa" />
+  <meta property="og:title" content="Rüsh Release" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/rush-release/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Rüsh Release</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2014-09-15" property="datePublished">September 15, 2014</time>
+    <span title="Reading time" property="timeRequired" content="PT4M">4 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="release, versioning, hoa">
+      Keywords:&nbsp;<a href="/keywords/release">release</a>, <a href="/keywords/versioning">versioning</a>, <a href="/keywords/hoa">hoa</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2014-09-15-rush-release&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="Since 2 years, at [Hoa](http:&#x2F;&#x2F;hoa-project.net&#x2F;), we are looking for the perfect release process. Today, we have finalized the last thing related to this new process: we have found a name. It is called **Rüsh Release**, standing for *Rolling Ünd ScHeduled Release*." />
+      
+    
+  </div>
+
+    </header>
+
+    <p>Since 2 years, at <a href="http://hoa-project.net/">Hoa</a>, we are looking for the
+perfect release process. Today, we have finalized the last thing related
+to this new process: we have found a name. It is called <strong>Rüsh
+Release</strong>, standing for <em>Rolling Ünd ScHeduled Release</em>.</p>
+<p>The following explanations are useful from the user point of view, not
+from the developer point of view. It means that we do not explain all
+the branches and the workflow between all of them. We will settle for
+the user final impact.</p>
+<h2 id="rolling-release">Rolling Release</h2>
+<p>On one hand, Hoa is not and will never be finished. We will never reach
+the “Holy 1.0 Grail”. So, one might reckon that Hoa is rolling-released?
+Let's dive into this direction. There are plenty <a href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
+types</a> out there, such
+as:</p>
+<ul>
+<li>partially rolling,</li>
+<li>fully rolling,</li>
+<li>truly rolling,</li>
+<li>pseudo-rolling,</li>
+<li>optionally rolling,</li>
+<li>cyclically rolling,</li>
+<li>and synonyms…</li>
+</ul>
+<p>I am not going to explain all of them. All you need to know is that Hoa
+is partly and truly rolling released, or <em>part-</em> and <em>true-</em> rolling
+released for short. Why? Firstly, “Part-rolling project has a subset of
+software packages that are not rolling”. If we look at Hoa only, it is
+fully rolling but Hoa depends on PHP virtual machines to be executed,
+which are not rolling released (for the most popular ones at least).
+Thus, Hoa is partly rolling released. Secondly, “True-rolling
+[project] are developed solely using a rolling release software
+development model”, which is the case of Hoa. Consequently and finally,
+the <code>master</code> branch is the final public branch, it means that it
+<strong>always</strong> contains the latest version, and users constantly fetch
+updates from it.</p>
+<h2 id="versioning">Versioning</h2>
+<p>Sounds good. On the other hand, the majority of programs that are using
+Hoa use tools called dependency managers. The most popular in PHP is
+<a href="http://getcomposer.org/">Composer</a>. This is a fantastic tool but with a
+little spine that hurts us a lot: it does not support rolling release!
+Most of the time, dependency managers work with version numbers, mainly
+of the form <code>_x_._y_._z_</code>, with a specific semantics for <code>_x_</code>, <code>_y_</code>
+and <code>_z_</code>. For instance, some people have agreed about
+<a href="http://semver.org/">semver</a>, standing for <em>Semantic Versioning</em>.</p>
+<p>Also, we are not extremist. We understand the challenges and the needs
+behind versioning. So, how to mix both: rolling release and versioning?
+Before answering this question, let's progress a little step forward and
+learn more about an alternative versioning approach.</p>
+<h3 id="scheduled-based-release">Scheduled-based release</h3>
+<p>Scheduled-based, also known as date-based, release allows to define
+releases at regular periods of time. This approach is widely adopted for
+projects that progress quickly, such as Firefox or PHP (see the <a href="https://wiki.php.net/rfc/releaseprocess">PHP
+RFC: Release Process</a> for
+example). For Firefox, every 6 weeks, a new version is released. Note
+that we should say <em>a new update</em> to be honest: the term <em>version</em> has
+an unclear meaning here.</p>
+<p>The scheduled-based release seems a good candidate to be mixed with
+rolling release, isn't it?</p>
+<h2 id="rush-release">Rüsh Release</h2>
+<p>Rüsh Release is a mix between part- and true-rolling release and
+scheduled-based release. The <code>master</code> branch is part- and true-rolling
+release, but with a semi-automatically versioning:</p>
+<ul>
+<li>each 6 weeks, if at least one new patch has been merged into the <code>master</code>, a
+new version is created,</li>
+<li>before 6 weeks, if several critical or significant patches have been applied,
+a new version is created.</li>
+</ul>
+<p>What is the version format then? We have proposed <code>_YY_{2,4}._mm_._dd_</code>,
+starting from 2000, our “Rüsh Epoch”.</p>
+<p>Nevertheless, we are not <strong>infallible</strong> and we can potentially break
+backward compatibility. It never happened but we have to face it. This
+is a problem because neither the part- and true-rolling release nor the
+scheduled-based release holds the information that the backward
+compatibility has been broken. Therefore, the <code>master</code> branch must have
+a <strong>compatibility number</strong> <code>_x_</code>, starting from 1 with step of 1.
+Consequently, the new and last version format is
+<code>_x_._Y_{2,4}._mm_._dd_</code>. For today for instance, it is <code>1.14.09.15</code>.</p>
+<p>With the Rüsh Release process, we can freely rolling release our
+libraries while ensuring the safety and embracing the pros of
+versioning.</p>
+<p>So, now, you will be able to change your <code>composer.json</code> files from:</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>require<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>hoa/websocket<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dev-master<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">  <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>minimum-stability<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dev<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>to (<a href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn more about the tilde
+operator</a>):</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>require<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json">        </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>hoa/websocket<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>~1.0<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">    <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>\o/</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

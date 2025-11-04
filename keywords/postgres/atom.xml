@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - postgres</title>
+    <link rel="self" type="application/atom+xml" href="https://mnt.io/keywords/postgres/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://mnt.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2019-08-29T00:00:00+00:00</updated>
+    <id>https://mnt.io/keywords/postgres/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Announcing the first Postgres extension to run WebAssembly</title>
+        <published>2019-08-29T00:00:00+00:00</published>
+        <updated>2019-08-29T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/"/>
+        <id>https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/</id>
+        
+        <content type="html" xml:base="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/">&lt;p&gt;&lt;em&gt;This is a copy of &lt;a href=&quot;https:&#x2F;&#x2F;medium.com&#x2F;wasmer&#x2F;announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1&quot;&gt;an article I wrote for
+Wasmer&lt;&#x2F;a&gt;.&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;WebAssembly is a portable binary format. That means the same program can
+run anywhere.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To uphold this bold statement, each language, platform and system must
+be able to run WebAssembly — as fast and safely as possible.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Let’s say it again. &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&quot;&gt;Wasmer&lt;&#x2F;a&gt; is a
+WebAssembly runtime. We have successfully embedded the runtime in other
+languages:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;In Rust, as it is written in Rust&lt;&#x2F;li&gt;
+&lt;li&gt;Using &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;master&#x2F;lib&#x2F;runtime-c-api&quot;&gt;C and C++
+bindings&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;In PHP, using
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;php-ext-wasm&quot;&gt;&lt;code&gt;php-ext-wasm&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;In Python, using
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;python-ext-wasm&quot;&gt;&lt;code&gt;python-ext-wasm&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; —
+&lt;a href=&quot;https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;wasmer&#x2F;&quot;&gt;wasmer package on PyPI&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;In Ruby, using
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;ruby-ext-wasm&quot;&gt;&lt;code&gt;ruby-ext-wasm&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; — &lt;a href=&quot;https:&#x2F;&#x2F;rubygems.org&#x2F;gems&#x2F;wasmer&quot;&gt;wasmer
+gem on RubyGems&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;In Go, using &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;go-ext-wasm&quot;&gt;&lt;code&gt;go-ext-wasm&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;
+— see &lt;a href=&quot;https:&#x2F;&#x2F;medium.com&#x2F;wasmer&#x2F;announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050&quot;&gt;the
+announcement&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The community has also embedded Wasmer in awesome projects:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;.NET&#x2F;C#, using
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;migueldeicaza&#x2F;WasmerSharp&quot;&gt;WasmerSharp&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;R, using &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dirkschumacher&#x2F;wasmr&quot;&gt;Wasmr&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;&lt;strong&gt;It is now time to continue the story and to hang around…
+&lt;a href=&quot;https:&#x2F;&#x2F;www.postgresql.org&#x2F;&quot;&gt;Postgres&lt;&#x2F;a&gt;!&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;We are so happy to announce a newcrazy idea: &lt;strong&gt;WebAssembly on
+Postgres&lt;&#x2F;strong&gt;. Yes, you read that correctly. On
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;postgres-ext-wasm&quot;&gt;Postgres&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;calling-a-webassembly-function-from-postgres&quot;&gt;Calling a WebAssembly function from Postgres&lt;&#x2F;h2&gt;
+&lt;p&gt;As usual, we have to go through the installation process. There is no
+package manager for Postgres, so it’s a manual step. The &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;postgres-ext-wasm#installation&quot;&gt;Installation
+Section of the
+documentation&lt;&#x2F;a&gt;
+explains the details; here is a summary:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; class=&quot;language-sh z-code&quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$ &lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-shell&quot;&gt;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt; Build the shared library.&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; just build&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$ &lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-shell&quot;&gt;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt; Install the extension in the Postgres tree.&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; just install&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$ &lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-shell&quot;&gt;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt; Activate the extension.&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; echo &lt;span class=&quot;z-string z-quoted z-single z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-shell&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;CREATE EXTENSION wasm;&lt;span class=&quot;z-punctuation z-definition z-string z-end z-shell&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-pipe z-shell&quot;&gt;|&lt;&#x2F;span&gt; &lt;span class=&quot;z-punctuation z-separator z-continuation z-line z-shell&quot;&gt;\
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;      &lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;psql&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;h&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-expansion z-parameter z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-variable z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-other z-readwrite z-shell&quot;&gt;host&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;d&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-expansion z-parameter z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-variable z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-other z-readwrite z-shell&quot;&gt;database&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$ &lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-shell&quot;&gt;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt; Initialize the extension.&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; echo &lt;span class=&quot;z-string z-quoted z-double z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-shell&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;SELECT wasm_init(&amp;#39;&lt;span class=&quot;z-meta z-group z-expansion z-command z-parens z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-variable z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parens z-begin z-shell&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;pwd&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parens z-end z-shell&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&#x2F;target&#x2F;release&#x2F;libpg_ext_wasm.dylib&amp;#39;);&lt;span class=&quot;z-punctuation z-definition z-string z-end z-shell&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-pipe z-shell&quot;&gt;|&lt;&#x2F;span&gt; &lt;span class=&quot;z-punctuation z-separator z-continuation z-line z-shell&quot;&gt;\
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;      &lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;psql&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;h&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-expansion z-parameter z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-variable z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-other z-readwrite z-shell&quot;&gt;host&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;d&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-expansion z-parameter z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-variable z-shell&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-other z-readwrite z-shell&quot;&gt;database&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Once the extension is installed, activated and initialized, we can start
+having fun!&lt;&#x2F;p&gt;
+&lt;p&gt;The current API is rather small, however basic features are available.
+The goal is to gather a community and to design a pragmatic API
+together, discover the expectations, how developers would use this new
+technology inside a database engine.&lt;&#x2F;p&gt;
+&lt;p&gt;Let’s see how it works. To instantiate a WebAssembly module, we use the
+&lt;code&gt;wasm_new_instance&lt;&#x2F;code&gt; function. It takes 2 arguments: The absolute path to
+the WebAssembly module, and a prefix for the module exported functions.
+Indeed, if a module exports a function named &lt;code&gt;sum&lt;&#x2F;code&gt;, then a Postgres
+function named &lt;code&gt;prefix_sum&lt;&#x2F;code&gt; calling the &lt;code&gt;sum&lt;&#x2F;code&gt; function will be created
+dynamically.&lt;&#x2F;p&gt;
+&lt;p&gt;Let’s see it in action. Let’s start by editing a Rust program that
+compiles to WebAssembly:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-annotation z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-annotation z-rust&quot;&gt;#&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-annotation z-rust&quot;&gt;no_mangle&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-storage z-modifier z-rust&quot;&gt;pub&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-rust&quot;&gt;extern&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-function z-rust&quot;&gt;fn&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function z-rust&quot;&gt;sum&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;x&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;i32&lt;&#x2F;span&gt;, &lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;y&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;i32&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt; &lt;span class=&quot;z-meta z-function z-return-type z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;i32&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    x &lt;span class=&quot;z-keyword z-operator z-arithmetic z-rust&quot;&gt;+&lt;&#x2F;span&gt; y
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Once this file compiled to &lt;code&gt;simple.wasm&lt;&#x2F;code&gt;, we can instantiate the module,
+and call the exported &lt;code&gt;sum&lt;&#x2F;code&gt; function:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; New instance of the `simple.wasm` WebAssembly module.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt; wasm_new_instance(&lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&#x2F;absolute&#x2F;path&#x2F;to&#x2F;simple.wasm&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;ns&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;);
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Call a WebAssembly exported function!
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt; ns_sum(&lt;span class=&quot;z-constant z-numeric z-sql&quot;&gt;1&lt;&#x2F;span&gt;, &lt;span class=&quot;z-constant z-numeric z-sql&quot;&gt;2&lt;&#x2F;span&gt;);
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; ns_sum
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; --------
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; 3
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; (1 row)
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;em&gt;Et voilà !&lt;&#x2F;em&gt; The &lt;code&gt;ns_sum&lt;&#x2F;code&gt; function calls the Rust &lt;code&gt;sum&lt;&#x2F;code&gt; function through
+WebAssembly! How fun is that 😄?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;inspect-a-webassembly-instance&quot;&gt;Inspect a WebAssembly instance&lt;&#x2F;h2&gt;
+&lt;p&gt;This section shows how to inspect a WebAssembly instance. At the same
+time, it quickly explains how the extension works under the hood.&lt;&#x2F;p&gt;
+&lt;p&gt;The extension provides two foreign data wrappers, gathered together in
+the &lt;code&gt;wasm&lt;&#x2F;code&gt; foreign schema:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;wasm.instances&lt;&#x2F;code&gt; is a table with the &lt;code&gt;id&lt;&#x2F;code&gt; and &lt;code&gt;wasm_file&lt;&#x2F;code&gt; columns,
+respectively for the unique instance ID, and the path of the WebAssembly
+module,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;wasm.exported_functions&lt;&#x2F;code&gt; is a table with the &lt;code&gt;instance_id&lt;&#x2F;code&gt;, &lt;code&gt;name&lt;&#x2F;code&gt;,
+&lt;code&gt;inputs&lt;&#x2F;code&gt;, and &lt;code&gt;outputs&lt;&#x2F;code&gt; columns, respectively for the instance ID of the
+exported function, its name, its input types (already formatted for Postgres),
+and its output types (already formatted for Postgres).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Let’s see:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Select all WebAssembly instances.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-language z-star z-sql&quot;&gt;*&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;FROM&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;wasm&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;instances&lt;&#x2F;span&gt;;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; id                                   |          wasm_file
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; -------------------------------------+-------------------------------
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; 426e17af-c32f-5027-ad73-239e5450dd91 | &#x2F;absolute&#x2F;path&#x2F;to&#x2F;simple.wasm
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; (1 row)
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Select all exported functions for a specific instance.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    name,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    inputs,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    outputs
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;FROM&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;wasm&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;exported_functions&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;WHERE&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    instance_id &lt;span class=&quot;z-keyword z-operator z-comparison z-sql&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;426e17af-c32f-5027-ad73-239e5450dd91&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; name   |     inputs      | outputs
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; -------+-----------------+---------
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; ns_sum | integer,integer | integer
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; (1 row)
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Based on these information, the &lt;code&gt;wasm&lt;&#x2F;code&gt; Postgres extension is able to
+generate the SQL function to call the WebAssembly exported functions.&lt;&#x2F;p&gt;
+&lt;p&gt;It sounds simplistic, and… to be honest, it is! The trick is to use
+&lt;a href=&quot;https:&#x2F;&#x2F;www.postgresql.org&#x2F;docs&#x2F;current&#x2F;fdwhandler.html&quot;&gt;foreign data
+wrappers&lt;&#x2F;a&gt;,
+which is an awesome feature of Postgres.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql&quot;&gt;How fast is it, or: Is it an interesting alternative to PL&#x2F;pgSQL?&lt;&#x2F;h2&gt;
+&lt;p&gt;As we said, the extension API is rather small for now. The idea is to
+explore, to experiment, to have fun with WebAssembly inside a database.
+It is particularly interesting in two cases:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;To write extensions or procedures with any languages that compile to
+WebAssembly in place of
+&lt;a href=&quot;https:&#x2F;&#x2F;www.postgresql.org&#x2F;docs&#x2F;10&#x2F;plpgsql.html&quot;&gt;PL&#x2F;pgSQL&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;To remove a potential performance bottleneck where speed is
+involved.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Thus we run a basic benchmark. Like most of the benchmarks out there, it
+must be taken with a grain of salt.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The goal is to compare the execution time between WebAssembly and
+PL&#x2F;pgSQL, and see how both approaches scale.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;The Postgres WebAssembly extension uses
+&lt;a href=&quot;https:&#x2F;&#x2F;www.postgresql.org&#x2F;docs&#x2F;current&#x2F;fdwhandler.html&quot;&gt;Wasmer&lt;&#x2F;a&gt; as the
+runtime, compiled with the Cranelift backend (&lt;a href=&quot;https:&#x2F;&#x2F;medium.com&#x2F;wasmer&#x2F;a-webassembly-compiler-tale-9ef37aa3b537&quot;&gt;learn more about the
+different
+backends&lt;&#x2F;a&gt;).
+We run the benchmark with Postgres 10, on a MacBook Pro 15&quot; from 2016,
+2.9Ghz Core i7 with 16Gb of memory.&lt;&#x2F;p&gt;
+&lt;p&gt;The methodology is the following:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Load both the &lt;code&gt;plpgsql_fibonacci&lt;&#x2F;code&gt; and the &lt;code&gt;wasm_fibonacci&lt;&#x2F;code&gt; functions,&lt;&#x2F;li&gt;
+&lt;li&gt;Run them with a query like
+&lt;code&gt;SELECT *_fibonacci(n) FROM generate_series(1, 1000)&lt;&#x2F;code&gt; where &lt;code&gt;n&lt;&#x2F;code&gt; has the
+following values: 50, 500, and 5000, so that we can observe how both
+approaches scale,&lt;&#x2F;li&gt;
+&lt;li&gt;Write the timings down,&lt;&#x2F;li&gt;
+&lt;li&gt;Run this methodology multiple times, and compute the median of the
+results.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Here come the results. The lower, the better.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;announcing-the-first-postgres-extension-to-run-webassembly&#x2F;.&#x2F;benchmarks.png&quot; alt=&quot;Benchmarks&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Comparing WebAssembly vs. PL&#x2F;pgSQL when computing the Fibonacci sequence
+with n=50, 500 and 5000.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;p&gt;We notice that the Postgres WebAssembly extension is faster to run
+numeric computations. The WebAssembly approach scales pretty well
+compared to the PL&#x2F;pgSQL approach, &lt;em&gt;in this situation&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;when-to-use-the-webassembly-extension&quot;&gt;When to use the WebAssembly extension?&lt;&#x2F;h3&gt;
+&lt;p&gt;So far, the extension only supports integers (on 32- and 64-bits). The
+extension doesn’t support strings &lt;em&gt;yet&lt;&#x2F;em&gt;. It also doesn’t support
+records, views or other Postgres types. Keep in mind this is the very
+first step.&lt;&#x2F;p&gt;
+&lt;p&gt;Hence, it is too soon to tell whether WebAssembly can be an alternative
+to PL&#x2F;pgSQL. But regarding the benchmark results above, we are sure they
+can live side-by-side, WebAssembly has clearly a place in the ecosystem!
+And we want to continue to pursue this exploration.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;&#x2F;h2&gt;
+&lt;p&gt;We are already talking with people that are interested in using
+WebAssembly inside databases. If you have any particular use cases,
+please reach us at &lt;a href=&quot;https:&#x2F;&#x2F;wasmer.io&#x2F;&quot;&gt;wasmer.io&lt;&#x2F;a&gt;, or on Twitter at
+&lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;wasmerio&quot;&gt;@wasmerio&lt;&#x2F;a&gt; directly or me
+&lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&quot;&gt;@mnt_io&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Everything is open source, as usual! Happy hacking.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

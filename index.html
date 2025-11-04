@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>mnt.io</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="mnt.io" />
+  <meta property="og:title" content="mnt.io" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mnt.io/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <p>Hello, I'm Ivan, computers are part of my life, and I like writing articles
+  or series about what it is possible to do with these machines. </p>
+
+  <section typeof="ItemList">
+    <h1>
+      <span property="name">Latest series</span>
+      <small><a href="https://mnt.io/series/" property="url">View all</a></small>
+    </h1>
+
+    <div role="list">
+    <div role="listitem" class="series-poster" property="itemListElement" typeof="CreativeWorkSeries">
+  <a href="https://mnt.io/series/reactive-programming-in-rust/" class="h2" property="url"><span property="name">Reactive programming in Rust</span></a>
+  <span class="label">in progress</span>
+  <div class="metadata" data-pagefind-ignore="all"><time title="Published date" datetime="2024-09-19" property="datePublished">September 19, 2024</time><span title="Reading time" property="timeRequired" content="PT24M">24 minutes read over <strong>1 episodes</strong></span>
+  </div>
+  <div property="description">
+    <p>This series explores how to implement and to use efficient reactive programming
+patterns in Rust. I've used this technique succesfully <a href="https://element.io">at my
+work</a> inside the <a href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust
+SDK</a>, where changes happen
+on the Rust side and are propagated to subscribers, even if they sit in
+foreign languages, like Swift or Kotlin. This is how Matrix Rust SDK powers
+cross-platform applications, like Element X (the next-generation Element
+client).</p>
+
+  </div>
+</div>
+    <div role="listitem" class="series-poster" property="itemListElement" typeof="CreativeWorkSeries">
+  <a href="https://mnt.io/series/from-rust-to-beyond/" class="h2" property="url"><span property="name">From Rust to beyond</span></a>
+  <span class="label">complete</span>
+  <div class="metadata" data-pagefind-ignore="all"><time title="Published date" datetime="2018-10-29" property="datePublished">October 29, 2018</time><span title="Reading time" property="timeRequired" content="PT57M">57 minutes read over <strong>5 episodes</strong></span>
+  </div>
+  <div property="description">
+    <p><a href="https://automattic.com/">At my work</a>, I had an opportunity to start an
+experiment: Writing a single parser implementation in Rust for <a href="https://github.com/WordPress/gutenberg">the new
+Gutenberg blogpost format</a>, and use
+it on many platforms and environments, like JavaScript (via WebAssembly and
+ASM.js), C, PHP… An existing stack using PEG.js and PEG.php was used, but it was
+quickly showing its limitations: slow to parse, consuming too much memory… Let's
+see how Rust compares the current solution, and let's learn how to use Rust in
+all these environments!</p>
+
+  </div>
+</div>
+    
+    </div>
+  </section>
+
+  <section vocab="https://schema.org" typeof="ItemList">
+    <h1>
+      <span property="name">Pinned articles</span>
+      <small><a href="https://mnt.io/articles/" property="url">View all</a></small>
+    </h1>
+
+    <div role="list">
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="h2" property="url"><span property="name">From 19k to 4.2M events/sec: story of a SQLite query optimisation</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2025-09-12" property="datePublished">September 12, 2025</time>
+    <span title="Reading time" property="timeRequired" content="PT16M">16 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, performance, database, sqlite, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix">matrix</a>, <a href="/keywords/messaging">messaging</a>, <a href="/keywords/performance">performance</a>, <a href="/keywords/database">database</a>, <a href="/keywords/sqlite">sqlite</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="h2" property="url"><span property="name">Sliding Sync at the Matrix Conference</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2024-10-30" property="datePublished">October 30, 2024</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, sync, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix">matrix</a>, <a href="/keywords/messaging">messaging</a>, <a href="/keywords/sync">sync</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It's been many many months that I'm working on this project, and I'm joyful it's now available to everyone for a better Matrix user experience!</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/i-leave-wasmer/" class="h2" property="url"><span property="name">I've loved Wasmer, I still love Wasmer</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2021-10-04" property="datePublished">October 04, 2021</time>
+    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="webassembly, runtime, job">
+      Keywords:&nbsp;<a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/job">job</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>I'm proud of what I've done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="h2" property="url"><span property="name">Announcing the first Java library to run WebAssembly: Wasmer JNI</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2020-05-13" property="datePublished">May 13, 2020</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, java, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/java">java</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents the <code>wasmer-java</code> project: the first Java library to run WebAssembly.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="h2" property="url"><span property="name">Announcing the first Postgres extension to run WebAssembly</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-08-29" property="datePublished">August 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, postgres, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/postgres">postgres</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents <code>wasmer-postgres</code>: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/" class="h2" property="url"><span property="name">Announcing the fastest WebAssembly runtime for Go: wasmer</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-05-29" property="datePublished">May 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, go, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/go">go</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article presents <code>wasmer-go</code>: the fastest WebAssembly runtime for Go.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/" class="h2" property="url"><span property="name">🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-04-03" property="datePublished">April 03, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, php, webassembly, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/php">php</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article explains how and why I've migrated <code>php-ext-wasm</code> from wasmi to Wasmer.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/faster-find-algorithms-in-nom/" class="h2" property="url"><span property="name">Faster find algorithms in nom</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2017-05-23" property="datePublished">May 23, 2017</time>
+    <span title="Reading time" property="timeRequired" content="PT3M">3 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="string, algorithm, rust">
+      Keywords:&nbsp;<a href="/keywords/string">string</a>, <a href="/keywords/algorithm">algorithm</a>, <a href="/keywords/rust">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>This article explains quickly how I've improved <code>nom</code>'s performance by 78% when parsing in some cases.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/welcome-to-chaos/" class="h2" property="url"><span property="name">Welcome to Chaos</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2017-04-24" property="datePublished">April 24, 2017</time>
+    <span title="Reading time" property="timeRequired" content="PT5M">5 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="job">
+      Keywords:&nbsp;<a href="/keywords/job">job</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>Recently, <a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/">I joined Automattic</a>. This is a world-wide distributed company. The first three weeks you incarn a Happiness Engineer. This is part of the Happiness Rotation duty. This article explains why I loved it, and why I reckon you should do it too.</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/rfcs-should-provide-executable-test-suites/" class="h2" property="url"><span property="name">RFCs should provide executable test suites</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2015-02-27" property="datePublished">February 27, 2015</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="test, rfc">
+      Keywords:&nbsp;<a href="/keywords/test">test</a>, <a href="/keywords/rfc">rfc</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>I've implemented xCal and xCard formats inside the <code>sabre/dav</code> libraries. While testing the different RFCs against my implementation, several errata have been found. This article, first, quickly list them and, second, ask questions about how such errors can be present and how they can be easily revealed. If reading my dry humor about RFC errata is boring, the next sections are more interesting. The whole idea is: Why RFCs do not provide executable test suites?</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/control-the-terminal-the-right-way/" class="h2" property="url"><span property="name">Control the terminal, the right way</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2015-01-04" property="datePublished">January 04, 2015</time>
+    <span title="Reading time" property="timeRequired" content="PT15M">15 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="terminal, console">
+      Keywords:&nbsp;<a href="/keywords/terminal">terminal</a>, <a href="/keywords/console">console</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about <code>stat</code>, <code>tput</code>, <code>terminfo</code>, <code>hoa/console</code>… but do not be afraid, it's easy and fun!</p>
+
+  </div>
+  
+</div>
+    <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
+  <a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/" class="h2" property="url"><span property="name">Generate strings based on regular expressions</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2014-09-30" property="datePublished">September 30, 2014</time>
+    <span title="Reading time" property="timeRequired" content="PT11M">11 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="data, generation, string, regular expression, algorithm">
+      Keywords:&nbsp;<a href="/keywords/data">data</a>, <a href="/keywords/generation">generation</a>, <a href="/keywords/string">string</a>, <a href="/keywords/regular-expression">regular expression</a>, <a href="/keywords/algorithm">algorithm</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>During my PhD thesis, I have partly worked on the problem of the automatic accurate test data generation. In order to be complete and self-contained, I have addressed all kinds of data types, including strings. This article aims at showing how to generate accurate and relevant strings under several constraints.</p>
+
+  </div>
+  
+</div>
+    
+    </div>
+  </section>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

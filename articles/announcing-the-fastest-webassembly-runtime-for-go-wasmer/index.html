@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Announcing the fastest WebAssembly runtime for Go: wasmer</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="This article presents `wasmer-go`: the fastest WebAssembly runtime for Go." />
+  <meta name="keywords" content="rust, webassembly, go, runtime, binding" />
+  <meta property="og:title" content="Announcing the fastest WebAssembly runtime for Go: wasmer" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Announcing the fastest WebAssembly runtime for Go: wasmer</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2019-05-29" property="datePublished">May 29, 2019</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="rust, webassembly, go, runtime, binding">
+      Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/webassembly">webassembly</a>, <a href="/keywords/go">go</a>, <a href="/keywords/runtime">runtime</a>, <a href="/keywords/binding">binding</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2019-05-29-announcing-the-fastest-webassembly-runtime-for-go-wasmer&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="This article presents `wasmer-go`: the fastest WebAssembly runtime for Go." />
+      
+    
+  </div>
+
+    </header>
+
+    <p><em>This is a copy of <a href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">an article I wrote for
+Wasmer</a>.</em></p>
+<hr />
+<p>WebAssembly is a portable binary format. That means the same file can
+run anywhere.</p>
+<blockquote>
+<p>To uphold this bold statement, each language, platform and system must
+be able to run WebAssembly — as fast and safely as possible.</p>
+</blockquote>
+<p><a href="https://github.com/wasmerio/wasmer">Wasmer</a> is a WebAssembly runtime
+written in <a href="https://www.rust-lang.org/">Rust</a>. It goes without saying
+that the runtime can be used in any Rust application. We have also
+successfully embedded the runtime in other languages:</p>
+<ul>
+<li>Using <a href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
+bindings</a></li>
+<li>In PHP, using
+<a href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
+<li>In Python, using
+<a href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
+<a href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
+<li>In Ruby, using
+<a href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a href="https://rubygems.org/gems/wasmer">wasmer
+gem on RubyGems</a></li>
+<li><strong>It is now time to hang around <a href="https://golang.org/">Go</a>
+🐹!</strong></li>
+</ul>
+<p>We are super happy to announce <code>github.com/wasmerio/go-ext-wasm/wasmer</code>,
+a <a href="https://github.com/wasmerio/go-ext-wasm">Go library to run WebAssembly binaries,
+fast</a>.</p>
+<h2 id="calling-a-webassembly-function-from-go">Calling a WebAssembly function from Go</h2>
+<p>First, let’s install <code>wasmer</code> in your go environment (<em>with cgo
+support</em>).</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">CGO_ENABLED</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">1</span></span><span class="z-meta z-function-call z-shell"></span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span><span class="z-meta z-function-call z-shell"> <span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">CC</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">gcc</span></span><span class="z-meta z-function-call z-shell"></span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">go</span></span><span class="z-meta z-function-call z-arguments z-shell"> install github.com/wasmerio/go-ext-wasm/wasmer</span>
+</span></code></pre>
+<p>Let’s jump immediately into some
+examples.<code>github.com/wasmerio/go-ext-wasm/wasmer</code> is a regular Go
+library. The installation is automated with
+<code>import "github.com/wasmerio/go-ext-wasm/wasmer"</code>.</p>
+<p>Let’s get our hands dirty. We will write a program that compiles to
+WebAssembly easily, using Rust for instance:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">sum</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-type z-rust">i32</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    x <span class="z-keyword z-operator z-arithmetic z-rust">+</span> y
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>After compilation to WebAssembly, we get a file like <a href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this
+one</a>,
+named <code>simple.wasm</code>.<br />
+The following Go program executes the <code>sum</code> function by passing <code>5</code> and
+<code>37</code> as arguments:</p>
+<pre data-lang="go" class="language-go z-code"><code class="language-go" data-lang="go"><span class="z-source z-go"><span class="z-keyword z-other z-package z-go">package</span> <span class="z-variable z-other z-go">main</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-keyword z-other z-import z-go">import</span> <span class="z-punctuation z-section z-parens z-begin z-go">(</span>
+</span><span class="z-source z-go">    <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>fmt<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go">    <span class="z-variable z-other z-go">wasm</span> <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>github.com/wasmerio/go-ext-wasm/wasmer<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go"><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-storage z-type z-keyword z-function z-go">func</span> <span class="z-entity z-name z-function z-go">main</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span> <span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-begin z-go">{</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Reads the WebAssembly module as bytes.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">bytes</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">ReadBytes</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>simple.wasm<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Instantiates the WebAssembly module.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">instance</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">NewInstance</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">bytes</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-keyword z-control z-go">defer</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Close</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Gets the `sum` exported function from the WebAssembly instance.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">sum</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-other z-member z-go">Exports</span><span class="z-punctuation z-section z-brackets z-begin z-go">[</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>sum<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-go">]</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Calls that exported function with Go standard values. The WebAssembly
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> types are inferred and values are casted automatically.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">result</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-function z-go">sum</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-constant z-numeric z-integer z-decimal z-go">5</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-constant z-numeric z-integer z-decimal z-go">37</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-other z-go">fmt</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Println</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">result</span><span class="z-punctuation z-section z-parens z-end z-go">)</span> <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> 42!
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-end z-go">}</span></span>
+</span></code></pre>
+<p>Great! We have successfully executed a WebAssembly file inside Go.</p>
+<blockquote>
+<p><em>Note: Go values passed to the WebAssembly exported function are
+automatically cast to WebAssembly values. Types are inferred and
+casting is done automatically. Thus, a WebAssembly function acts as
+any regular Go function.</em></p>
+</blockquote>
+<h2 id="webassembly-calling-go-funtions">WebAssembly calling Go funtions</h2>
+<p>A WebAssembly module <em>exports</em> some functions, so that they can be
+called from the outside world. This is the entry point to execute
+WebAssembly.</p>
+<p>Nonetheless, a WebAssembly module can also have <em>imported</em> functions.
+Let’s consider the following Rust program:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">extern</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">sum</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-type z-rust">i32</span></span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">add1</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">i32</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-type z-rust">i32</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-modifier z-rust">unsafe</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span> <span class="z-support z-function z-rust">sum</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>x<span class="z-punctuation z-separator z-rust">,</span> y</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span> <span class="z-keyword z-operator z-arithmetic z-rust">+</span> <span class="z-constant z-numeric z-integer z-decimal z-rust">1</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>The exported function <code>add1</code> calls the <code>sum</code> function. Its
+implementation is absent, only its signature is defined. This is an
+“extern function”, and for WebAssembly, this is an <em>imported</em> function,
+because its implementation must be <em>imported</em>.</p>
+<p>Let’s implement the <code>sum</code> function in Go! To do so, <em>need</em> to use
+<a href="https://blog.golang.org/c-go-cgo">cgo</a>:</p>
+<ol>
+<li>The <code>sum</code> function signature is defined in C (see the comment above
+<code>import "C"</code>),</li>
+<li>The <code>sum</code> implementation is defined in Go. Notice the <code>//export</code> which is
+the way cgo uses to map Go code to C code,</li>
+<li><code>NewImports</code> is an API used to create WebAssembly imports. In this code
+<code>"sum"</code> is the WebAssembly imported function name, <code>sum</code> is the Go function
+pointer, and <code>C.sum</code> is the cgo function pointer,</li>
+<li>Finally, <code>NewInstanceWithImports</code> is the constructor to use to instantiate
+the WebAssembly module with imports. That’s it.</li>
+</ol>
+<p>Let’s see the complete program:</p>
+<pre data-lang="go" class="language-go z-code"><code class="language-go" data-lang="go"><span class="z-source z-go"><span class="z-keyword z-other z-package z-go">package</span> <span class="z-variable z-other z-go">main</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> // 1️⃣ Declare the `sum` function signature (see cgo).
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span>
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> #include &lt;stdlib.h&gt;
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span>
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> extern int32_t sum(void *context, int32_t x, int32_t y);
+</span></span><span class="z-source z-go"><span class="z-keyword z-other z-import z-go">import</span> <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>C<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-keyword z-other z-import z-go">import</span> <span class="z-punctuation z-section z-parens z-begin z-go">(</span>
+</span><span class="z-source z-go">    <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>fmt<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go">    <span class="z-variable z-other z-go">wasm</span> <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>github.com/wasmerio/go-ext-wasm/wasmer<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go">    <span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>unsafe<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span>
+</span><span class="z-source z-go"><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> 2️⃣ Write the implementation of the `sum` function, and export it (for cgo).
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span>export sum
+</span></span><span class="z-source z-go"><span class="z-storage z-type z-keyword z-function z-go">func</span> <span class="z-entity z-name z-function z-go">sum</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-parameter z-go">context</span> <span class="z-variable z-other z-go">unsafe</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-storage z-type z-go">Pointer</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-parameter z-go">x</span> <span class="z-storage z-type z-go"><span class="z-support z-type z-builtin z-go">int32</span></span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-parameter z-go">y</span> <span class="z-storage z-type z-go"><span class="z-support z-type z-builtin z-go">int32</span></span><span class="z-punctuation z-section z-parens z-end z-go">)</span> <span class="z-storage z-type z-go"><span class="z-support z-type z-builtin z-go">int32</span></span> <span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-begin z-go">{</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-keyword z-control z-go">return</span> <span class="z-variable z-other z-go">x</span> <span class="z-keyword z-operator z-go">+</span> <span class="z-variable z-other z-go">y</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-end z-go">}</span></span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-storage z-type z-keyword z-function z-go">func</span> <span class="z-entity z-name z-function z-go">main</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span> <span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-begin z-go">{</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Reads the WebAssembly module as bytes.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">bytes</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">ReadBytes</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>import.wasm<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> 3️⃣ Declares the imported functions for WebAssembly.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">imports</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">NewImports</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Append</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>sum<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-other z-go">sum</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-other z-go">C</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-other z-member z-go">sum</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> 4️⃣ Instantiates the WebAssembly module with imports.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">instance</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">NewInstanceWithImports</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">bytes</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-other z-go">imports</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Close the WebAssembly instance later.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-keyword z-control z-go">defer</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Close</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Gets the `add1` exported function from the WebAssembly instance.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">add1</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-other z-member z-go">Exports</span><span class="z-punctuation z-section z-brackets z-begin z-go">[</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>add1<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-go">]</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Calls that exported function.
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-declaration z-go">result</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-function z-go">add1</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-constant z-numeric z-integer z-decimal z-go">1</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-constant z-numeric z-integer z-decimal z-go">2</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-variable z-other z-go">fmt</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Println</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">result</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span>   add1(1, 2)
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> = sum(1 + 2) + 1
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> = 1 + 2 + 1
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> = 4
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go">    <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> QED
+</span></span></span><span class="z-source z-go"><span class="z-meta z-block z-go"><span class="z-punctuation z-section z-braces z-end z-go">}</span></span>
+</span></code></pre>
+<h2 id="reading-the-memory">Reading the memory</h2>
+<p>A WebAssembly instance has a linear memory. Let’s see how to read it.
+Consider the following Rust program:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">return_hello</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-modifier z-rust">*const</span> <span class="z-storage z-type z-rust">u8</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Hello, World!<span class="z-constant z-character z-escape z-rust">\0</span><span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">as_ptr</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>The <code>return_hello</code> function returns a pointer to a string. The string
+terminates by a null byte, <em>à la</em> C. Let’s jump on the Go side:</p>
+<pre data-lang="go" class="language-go z-code"><code class="language-go" data-lang="go"><span class="z-source z-go"><span class="z-variable z-declaration z-go">bytes</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">ReadBytes</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>memory.wasm<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go"><span class="z-variable z-declaration z-go">instance</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">wasm</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">NewInstance</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">bytes</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go"><span class="z-keyword z-control z-go">defer</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Close</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Calls the `return_hello` exported function.
+</span></span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> This function returns a pointer to a string.
+</span></span><span class="z-source z-go"><span class="z-variable z-declaration z-go">result</span><span class="z-punctuation z-separator z-go">,</span> <span class="z-variable z-language z-blank z-go">_</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-other z-member z-go">Exports</span><span class="z-punctuation z-section z-brackets z-begin z-go">[</span><span class="z-string z-quoted z-double z-go"><span class="z-punctuation z-definition z-string z-begin z-go">&quot;</span>return_hello<span class="z-punctuation z-definition z-string z-end z-go">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-go">]</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Gets the pointer value as an integer.
+</span></span><span class="z-source z-go"><span class="z-variable z-declaration z-go">pointer</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">result</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">ToI32</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Reads the memory.
+</span></span><span class="z-source z-go"><span class="z-variable z-declaration z-go">memory</span> <span class="z-keyword z-operator z-assignment z-go">:=</span> <span class="z-variable z-other z-go">instance</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-other z-member z-go">Memory</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Data</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-punctuation z-section z-parens z-end z-go">)</span>
+</span><span class="z-source z-go">
+</span><span class="z-source z-go"><span class="z-variable z-other z-go">fmt</span><span class="z-punctuation z-accessor z-dot z-go">.</span><span class="z-variable z-function z-go">Println</span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-function z-go"><span class="z-support z-type z-builtin z-go">string</span></span><span class="z-punctuation z-section z-parens z-begin z-go">(</span><span class="z-variable z-other z-go">memory</span><span class="z-punctuation z-section z-brackets z-begin z-go">[</span><span class="z-variable z-other z-go">pointer</span> <span class="z-punctuation z-separator z-go">:</span> <span class="z-variable z-other z-go">pointer</span><span class="z-keyword z-operator z-go">+</span><span class="z-constant z-numeric z-integer z-decimal z-go">13</span><span class="z-punctuation z-section z-brackets z-end z-go">]</span><span class="z-punctuation z-section z-parens z-end z-go">)</span><span class="z-punctuation z-section z-parens z-end z-go">)</span> <span class="z-comment z-line z-go"><span class="z-punctuation z-definition z-comment z-go">//</span> Hello, World!
+</span></span></code></pre>
+<p>The <code>return_hello</code> function returns a pointer as an <code>i32</code> value. We get
+its value by calling <code>ToI32</code>. Then, we fetch the memory data with
+<code>instance.Memory.Data()</code>.</p>
+<p>This function returns a slice over the WebAssembly instance memory. It
+can be used as any regular Go slice.</p>
+<p>Fortunately for us, we already know the length of the string we want to
+read, so <code>memory[pointer : pointer+13]</code> is enough to read the bytes,
+that are then cast to a string. <em>Et voilà !</em></p>
+<blockquote>
+<p>You can read <a href="https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go">the Greet
+Example</a>
+to see a more advanced usage of the memory API.</p>
+</blockquote>
+<h2 id="benchmarks">Benchmarks</h2>
+<p>So far, <code>github.com/wasmerio/go-ext-wasm/wasmer</code> has a nice API, but
+…<em>is it fast</em>?</p>
+<p>Contrary to PHP or Ruby, there are already existing runtimes in the Go
+world to execute WebAssembly. The main candidates are:</p>
+<ul>
+<li><a href="https://github.com/perlin-network/life">Life</a>, from Perlin Network, a
+WebAssembly interpreter</li>
+<li><a href="https://github.com/go-interpreter/wagon">Wagon</a>, from Go Interpreter,
+a WebAssembly interpreter and toolkit.</li>
+</ul>
+<p>In <a href="https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88">our blog post about the PHP
+extension</a>,
+we have used <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the n-body
+algorithm</a>
+to benchmark the performance. Life provides more benchmarks: <a href="https://en.wikipedia.org/wiki/Fibonacci_number">the
+Fibonacci algorithm</a>
+(the recursive version), <a href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">the Pollard’s rho
+algorithm</a>, and
+the Snappy Compress operation. The latter works successfully with
+<code>github.com/wasmerio/go-ext-wasm/wasmer</code> but not with Life or Wagon. We
+have removed it from the benchmark suites. <a href="https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks">Benchmark
+sources</a>
+are online.</p>
+<p>We use Life 20190521143330–57f3819c2df0, and Wagon 0.4.0, i.e. <em>the
+latest versions to date</em>.</p>
+<p>The benchmark numbers represent the average result for 10 runs each. The
+computer that ran these benchmarks is a MacBook Pro 15" from 2016,
+2.9Ghz Core i7 with 16Gb of memory.</p>
+<p>Results are grouped by benchmark algorithm on the X axis. The Y axis
+represents the time used to run the algorithm, expressed in
+milliseconds. The lower, the better.</p>
+<figure>
+<p><img src="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/./benchmarks.png" alt="Benchmarks" /></p>
+  <figcaption>
+<p>Speed comparison between Wasmer, Wagon and Life. Benchmark suites are
+the n-body, Fibonacci, and Pollard’s rho algorithms. Speed is expressed
+in ms. Lower is better.</p>
+  </figcaption>
+</figure>
+<p>While both Life and Wagon provide on average the same speed, Wasmer
+(<code>github.com/wasmerio/go-ext/wasmer</code>) is on average <strong>72 times faster</strong>
+🎉.</p>
+<p>It is important to know that Wasmer comes with 3 backends:
+<a href="https://github.com/wasmerio/wasmer/tree/master/lib/singlepass-backend">Singlepass</a>,
+<a href="https://github.com/wasmerio/wasmer/tree/master/lib/clif-backend">Cranelift</a>,
+and
+<a href="https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend">LLVM</a>.
+The default backend that is used by the Go library is Cranelift (<a href="https://github.com/CraneStation/cranelift">learn
+more about Cranelift</a>). Using
+LLVM will provide performance close to native, but we decided to start
+with Cranelift as it offers the best tradeoff between compilation-time
+and execution-time (<a href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different
+backends</a>,
+when to use them, pros and cons etc.).</p>
+<h2 id="conclusion">Conclusion</h2>
+<p><code>[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)</code>
+is a new Go library to execute WebAssembly binaries. It embeds the
+<a href="https://github.com/wasmerio/wasmer">Wasmer</a> runtime. The first version
+supports all the required API for the most common usages.</p>
+<p>The current benchmarks (a mix from our benchmark suites and from Life
+suites) show that <strong>Wasmer is — on average — 72 times faster than Life
+and Wagon</strong>, the two major existing WebAssembly runtimes in the Go
+world.</p>
+<p>If you want to follow the development, take a look at
+<a href="https://twitter.com/wasmerio">@wasmerio</a> and
+<a href="https://twitter.com/mnt_io">@mnt_io</a> on Twitter, or
+<a href="https://webassembly.social/@wasmer">@<a href="mailto:wasmer@webassembly.social">wasmer@webassembly.social</a></a> on
+Mastodon.</p>
+<p>And of course, everything is open source at
+<a href="https://github.com/wasmerio/go-ext-wasm">wasmerio/go-ext-wasm</a>.</p>
+<p>Thank you for your time, we can’t wait to see what you build with us!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

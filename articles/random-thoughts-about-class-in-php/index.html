@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Random thoughts about `::class` in PHP</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="I am bored of PHP. Let&#x27;s have fun with `::class`!" />
+  <meta name="keywords" content="php" />
+  <meta property="og:title" content="Random thoughts about `::class` in PHP" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/random-thoughts-about-class-in-php/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Random thoughts about <code>::class</code> in PHP</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2018-01-24" property="datePublished">January 24, 2018</time>
+    <span title="Reading time" property="timeRequired" content="PT2M">2 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="php">
+      Keywords:&nbsp;<a href="/keywords/php">php</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2018-01-24-random-thoughts-about-class-in-php&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="I am bored of PHP. Let&#x27;s have fun with `::class`!" />
+      
+    
+  </div>
+
+    </header>
+
+    <blockquote>
+<p>The special <strong><code>::class</code></strong> constant allows for fully qualified class
+name resolution at compile, this is useful for namespaced classes.</p>
+</blockquote>
+<p>I'm quoting <a href="http://php.net/manual/en/language.oop5.constants.php">the PHP
+manual</a>. But
+things can be funny sometimes. Let's go through some examples.</p>
+<ul>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-use z-php"><span class="z-keyword z-other z-use z-php">use</span> </span><span class="z-meta z-use z-php"><span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">A</span><span class="z-punctuation z-separator z-namespace z-php">\</span></span><span class="z-meta z-path z-php"><span class="z-support z-class z-php">B</span></span> <span class="z-keyword z-other z-use-as z-php">as</span> <span class="z-entity z-name z-class z-php">C</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>_</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-meta z-path z-php"><span class="z-support z-class z-php">C</span></span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-class z-php">class</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span><span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span> &lt;!-- rumdl-disable-line MD031 --&gt;
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">resolves to <span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">A</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-constant z-other z-php">B</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span>, which is perfect 🙂
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span></code></pre>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">C</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">f</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>_</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-variable z-language z-php">self</span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-class z-php">class</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span></code></pre>
+<p>resolves to <code>C</code>, which is perfect 😀</p>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">C</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">D</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php">C</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">f</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>_</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-variable z-language z-php">parent</span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-class z-php">class</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span><span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span> &lt;!-- rumdl-disable-line MD031 --&gt;
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">resolves to <span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-constant z-other z-php">C</span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span>, which is perfect 😄
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span></code></pre>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">C</span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php">    <span class="z-storage z-modifier z-php">public</span> <span class="z-storage z-modifier z-php">static</span> <span class="z-meta z-function z-php"><span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">f</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">        <span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>_</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-variable z-language z-php">static</span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-class z-php">class</span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    </span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
+</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-class z-php"><span class="z-storage z-type z-class z-php">class</span> <span class="z-entity z-name z-class z-php">D</span> <span class="z-storage z-modifier z-extends z-php">extends</span> <span class="z-meta z-path z-php"><span class="z-entity z-other z-inherited-class z-php">C</span></span> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">{</span></span></span><span class="z-meta z-class z-php"></span><span class="z-meta z-class z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-php">}</span></span></span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-path z-php"><span class="z-support z-class z-php">D</span></span><span class="z-meta z-function-call z-static z-php"><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-variable z-function z-php">f</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span></code></pre>
+<p>resolves to <code>D</code>, which is perfect 😍</p>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">foo</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-other z-class z-php">class</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span><span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span> &lt;!-- rumdl-disable-line MD031 --&gt;
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">resolves to <span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">foo</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span>, which is… huh? 🤨
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span></code></pre>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-quoted z-double z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&quot;</span></span><span class="z-string z-quoted z-double z-php"><span class="z-meta z-string-contents z-quoted z-double z-php"></span></span><span class="z-string z-quoted z-double z-php"><span class="z-meta z-string-contents z-quoted z-double z-php">foo</span><span class="z-punctuation z-definition z-string z-end z-php">&quot;</span></span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-other z-class z-php">class</span>
+</span></span></span></span></code></pre>
+<p>resolves to <code>'foo'</code>, which is… expected somehow 😕</p>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>a</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">oo</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-quoted z-double z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&quot;</span></span><span class="z-string z-quoted z-double z-php"><span class="z-meta z-string-contents z-quoted z-double z-php"></span></span><span class="z-string z-quoted z-double z-php"><span class="z-meta z-string-contents z-quoted z-double z-php">f<span class="z-punctuation z-definition z-expression z-php">{</span><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>a</span><span class="z-punctuation z-definition z-expression z-php">}</span></span><span class="z-punctuation z-definition z-string z-end z-php">&quot;</span></span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-other z-class z-php">class</span>
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span><span class="z-punctuation z-definition z-string z-end z-php">`</span></span><span class="z-string z-interpolated z-php"><span class="z-punctuation z-definition z-string z-begin z-php">`</span> &lt;!-- rumdl-disable-line MD031 --&gt;
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">generates a parse error 🙃
+</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-string z-interpolated z-php">
+</span></span></span></span></span></code></pre>
+</li>
+<li><pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
+</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-path z-php"><span class="z-support z-class z-php">PHP_VERSION</span></span><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-constant z-class z-php">class</span>
+</span></span></span></span></code></pre>
+<p>resolves to <code>'PHP_VERSION'</code>, which is… strange: It resolves to the
+fully qualified name of the constant, not the <em>class</em> 🤐</p>
+</li>
+</ul>
+<p><code>::class</code> is very useful to get rid of of the <code>get_class</code> or the
+<code>get_called_class</code> functions, or even the <code>get_class($this)</code> trick. This
+is something truly useful in PHP where entities are referenced as
+strings, not as symbols. <code>::class</code> on constants makes sense, but the
+name is no longer relevant. And finally, <code>::class</code> on single quote
+strings is absolutely useless; on double quotes strings it is a source
+of error because the value can be dynamic (and remember, <code>::class</code> is
+resolved at compile time, not at run time).</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Hello fruux!</title>
+
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=8d74b3d5ac409313059d" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
+
+  <meta name="author" content="Ivan Enderlin" />
+  <meta name="description" content="Eh, new job!" />
+  <meta name="keywords" content="job, caldav, carddav, webdav" />
+  <meta property="og:title" content="Hello fruux!" />
+  <meta property="og:site_name" content="mnt.io" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mnt.io/articles/hello-fruux/" />
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social" />
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="https://mnt.io/articles/">Articles</a></li>
+    <li><a href="https://mnt.io/series/">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <article class="article" typeof="Article" data-pagefind-body>
+    <header>
+      <h1 property="name">Hello fruux!</h1>
+
+      
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2014-11-24" property="datePublished">November 24, 2014</time>
+    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="job, caldav, carddav, webdav">
+      Keywords:&nbsp;<a href="/keywords/job">job</a>, <a href="/keywords/caldav">caldav</a>, <a href="/keywords/carddav">carddav</a>, <a href="/keywords/webdav">webdav</a></span>
+    
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2014-11-24-hello-fruux&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      
+      <meta property="description" content="Eh, new job!" />
+      
+    
+  </div>
+
+    </header>
+
+    <h2 id="leaving-the-research-world">Leaving the research world</h2>
+<p>I have really enjoyed my time at INRIA and Femto-ST, 2 research
+institutes in France. But after 8 years at the university and a hard PhD
+thesis (but with great results by the way!), I would like to see other
+things.</p>
+<p>My time as an intern at Mozilla and my work in the open-source world
+have been very <em>seductive</em>. Open-source contrasts a lot with the
+research world, where privacy and secrecy are first-citizens of every
+project. All the work I have made and all the algorithms I have
+developed during my PhD thesis have been implemented under an
+open-source license, and I ran into some issues because of such decision
+(patents are sometimes better, sometimes not… long story).</p>
+<p>So, I like research but I also like to hack and share everything. And
+right now, I have to get a change of air! So I asked on Twitter:</p>
+<blockquote>
+<p>I (Ivan Enderlin, a fresh PhD, creator of Hoa) am looking for a job.
+Here is my CV:
+<a href="http://t.co/dAdLm35RUu">http://t.co/dAdLm35RUu</a>.
+Please, contact me!
+<a href="https://twitter.com/hashtag/hoajob?src=hash">#hoajob</a></p>
+<p>— Hoa project (@hoaproject) <a href="https://twitter.com/hoaproject/status/492382581271572480">July 24th,
+2014</a></p>
+</blockquote>
+<p>And what a surprise! A <strong>lot</strong> of companies answered to my tweet (most
+of them in private of course), but the most interesting one at my eyes
+was… fruux 😉.</p>
+<h2 id="fruux">fruux</h2>
+<p>fruux defines itself as: “A unified contacts/calendaring system that
+works across <a href="https://fruux.com/supported-devices/">platforms and
+devices</a>. We are behind
+<a href="https://fruux.com/opensource"><code>sabre/dav</code></a>, which is the most popular
+open-source implementation of the
+<a href="http://en.wikipedia.org/wiki/CardDAV">CardDAV</a> and
+<a href="http://en.wikipedia.org/wiki/CardDAV">CalDAV</a> standards. Besides us,
+developers and companies around the globe use our <code>sabre/dav</code> technology
+to deliver sync functionality to millions of users”.</p>
+<figure>
+<p><img src="https://mnt.io/articles/hello-fruux/./fruux-logo.png" alt="Fruux&#39;s logo" /></p>
+  <figcaption>
+  fruux's logo.
+  </figcaption>
+</figure>
+<p>Several things attract me at fruux:</p>
+<ol>
+<li>low-layers are open-source,</li>
+<li>viable ecosystem based on open-source,</li>
+<li>accepts remote working,</li>
+<li>close timezone to mine,</li>
+<li>touching millions of people,</li>
+<li>standards in minds.</li>
+</ol>
+<p>The first point is the most important for me. I don't want to make a
+company richer without any benefits for the rest of the world. I want my
+work to be beneficial to the rest of the world, to share my work, I want
+my work to be reused, hacked, criticized, updated and shared again. This
+is the spirit of the open-source and the hackability paradigms. And
+fortunately for me, fruux's low-layers are 100% open-source, namely
+<code>sabre/dav</code> &amp; co.</p>
+<p>However, being able to eat at the end of the month with open-source is
+not that simple. Fortunately for me, fruux has a stable economic model,
+based on open-source. Obviously, I have to work on closed projects,
+obviously, I have to work for some specific customers, but I can go back
+to open-source goodnesses all the time 😉.</p>
+<p>In addition, I am currently living in Switzerland and fruux is located
+in Germany. Fortunately for me, fruux's team is kind of dispatched all
+around Europe and the world. Naturally, they accept me to work remotely.
+Whilst it can be inconvenient for some people, I enjoy to have my own
+hours, to organize myself as I would like etc. Periodical meetings and
+phone-calls help to stay focused. And I like to think that people are
+more productive this way. After 4 years at home because of my Master
+thesis and PhD thesis, I know how to organize myself and exchange with a
+decentralized team. This is a big advantage. Moreover, Germany is in the
+same timezone as Switzerland! Compared to companies located at, for
+instance, California, this is simpler for my family.</p>
+<p>Finally, working on an open-source project that is used by millions of
+users is very motivating. You know that your contributions will touch a
+lot of people and it gives meaning to my work on a daily basis. Also,
+the last thing I love at fruux is this desire to respect standards, RFC,
+recommandations etc. They are involved in these processes, consortiums
+and groups (for instance
+<a href="http://calconnect.org/mbrlist.shtml">CalConnect</a>). I love standards and
+specifications, and this methodology reminds me the scientific approach
+I had with my PhD thesis. I consider that a standard without an
+implementation has no meaning, and a well-designed standard is a piece
+of a delicious cake, especially when everyone respects this standard 😄.</p>
+<p>(… but the cake is a lie!)</p>
+<h2 id="sabre"><code>sabre/*</code></h2>
+<p>fruux has mostly hired me because of my experience on
+<a href="http://hoa-project.net/">Hoa</a>. One of my main public job is to work on
+all the <code>sabre/*</code> libraries, which include:</p>
+<ul>
+<li><a href="https://github.com/fruux/sabre-dav"><code>sabre/dav</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-davclient"><code>sabre/davclient</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-event"><code>sabre/event</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-http"><code>sabre/http</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-proxy"><code>sabre/proxy</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-tzserver"><code>sabre/tzserver</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-vobject"><code>sabre/vobject</code></a>,</li>
+<li><a href="https://github.com/fruux/sabre-xml"><code>sabre/xml</code></a>.</li>
+</ul>
+<p>You will find the documentations and the news on
+<a href="http://sabre.io/">sabre.io</a>.</p>
+<p>All these libraries serve the first one: <code>sabre/dav</code>, which is an
+implementation of the WebDAV technology, including extensions for
+CalDAV, and CardDAV, respectively for calendars, tasks and address
+books. For the one who does not know what is WebDAV, in few words: The
+Web is mostly a read-only media, but WebDAV extends HTTP in order to be
+able to write and collaborate on documents. The way WebDAV is defined is
+fascinating, and even more, the way it can be extended.</p>
+<p>Most of the work is already done by <a href="http://evertpot.com/">Evert</a> and
+many contributors, but we can go deeper! More extensions, more
+standards, better code, better algorithms etc.!</p>
+<p>If you are interested in the work I am doing on <code>sabre/*</code>, you can
+check this <a href="https://github.com/search?q=user%3Afruux+author%3Ahywan&amp;type=Issues">search result on
+Github</a>.</p>
+<h2 id="future-of-hoa">Future of Hoa</h2>
+<p>Certain people have asked me about the future of Hoa: Whether I am going
+to stop it or not since I have a job now.</p>
+<p>Firstly, a PhD thesis is exhausting, and believe me, it requires more
+energy than a regular job, even if you are passionate about your job and
+you did not count working hours. With a PhD thesis, you have no weekend,
+no holidays, you are always out of time, you always have a ton (sic) of
+articles and documents to read… there is no break, no end. In these
+conditions, I was able to maintain Hoa and to grow the project though,
+thanks to a very helpful and present community!</p>
+<p>Secondly, fruux is planning to use Hoa. I don't know how or when, but if
+at a certain moment, using Hoa makes sense, they will. What does it
+imply for Hoa and me? It means that I will be paid to work on Hoa at a
+little percentage. I don't know how much, it will depend of the moments,
+but this is a big step forward for the project. Moreover, a project like
+fruux using Hoa is a big chance! I hope to see the fruux's logo very
+soon on the homepage of the Hoa's website.</p>
+<p>Thus, to conclude, I will have more time (on evenings, weekends,
+holidays and sometimes during the day) to work on Hoa. Do not be afraid,
+the future is bright 😄.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p><em>Bref</em>, I am working at fruux!</p>
+
+  </article>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://faultlore.com/blah/">faultlore.com</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing.com</a></li>
+        <li><a href="https://orlp.net/blog/">orlp.net</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="https://mnt.io/search/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
+</body>
+</html>

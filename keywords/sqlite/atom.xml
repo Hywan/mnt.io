@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - sqlite</title>
+    <link rel="self" type="application/atom+xml" href="https://mnt.io/keywords/sqlite/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://mnt.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-09-12T00:00:00+00:00</updated>
+    <id>https://mnt.io/keywords/sqlite/atom.xml</id>
+    <entry xml:lang="en">
+        <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
+        <published>2025-09-12T00:00:00+00:00</published>
+        <updated>2025-09-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/"/>
+        <id>https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/</id>
+        
+        <content type="html" xml:base="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/">&lt;p&gt;Sit down comfortably. Take a cushion if you wish. This is, &lt;i&gt;clear its
+throat&lt;&#x2F;i&gt;, the story of a funny performance quest. The &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix Rust SDK&lt;&#x2F;a&gt; is a
+set of crates aiming at providing all the necessary tooling to develop robust
+and safe &lt;a href=&quot;https:&#x2F;&#x2F;matrix.org&#x2F;&quot;&gt;Matrix&lt;&#x2F;a&gt; clients. Of course, it involves databases to persist some
+data. The Matrix Rust SDK supports multiple databases: in-memory, &lt;a href=&quot;https:&#x2F;&#x2F;sqlite.org&#x2F;&quot;&gt;SQLite&lt;&#x2F;a&gt;, and
+&lt;a href=&quot;https:&#x2F;&#x2F;developer.mozilla.org&#x2F;en-US&#x2F;docs&#x2F;Web&#x2F;API&#x2F;IndexedDB_API&quot;&gt;IndexedDB&lt;&#x2F;a&gt;. This story is about the SQLite database.&lt;&#x2F;p&gt;
+&lt;p&gt;The structure we want to persist is a novel type we have designed specifically
+for the Matrix Rust SDK: a &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-common&#x2F;0.14.0&#x2F;matrix_sdk_common&#x2F;linked_chunk&#x2F;index.html&quot;&gt;&lt;code&gt;LinkedChunk&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. It&#x27;s the underlying structure that
+holds all events manipulated by the Matrix Rust SDK. It is somewhat similar to
+a &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Linked_List&quot;&gt;linked list&lt;&#x2F;a&gt;; the differences are subtle and the goal of this article is
+&lt;em&gt;not&lt;&#x2F;em&gt; to present all the details. We have developed many API around this type
+to make all operations fast and efficient in the context of the Matrix protocol.
+What we need to know is that in a &lt;code&gt;LinkedChunk&amp;lt;_, Item, Gap&amp;gt;&lt;&#x2F;code&gt;, each node
+contains a &lt;code&gt;ChunkContent&amp;lt;Item, Gap&amp;gt;&lt;&#x2F;code&gt; defined as:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-enum z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-enum z-rust&quot;&gt;enum&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-enum z-rust&quot;&gt;ChunkContent&lt;&#x2F;span&gt;&amp;lt;Item, Gap&amp;gt; &lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-enum z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    Gap&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;Gap&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-enum z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    Items&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;Item&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-enum z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Put it differently: each node can contain a &lt;em&gt;gap&lt;&#x2F;em&gt;, or a set of &lt;em&gt;items&lt;&#x2F;em&gt; (be
+Matrix events).&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;p&gt;May I recapitulate?&lt;&#x2F;p&gt;
+&lt;p&gt;Each Matrix &lt;em&gt;room&lt;&#x2F;em&gt; contains a &lt;code&gt;LinkedChunk&lt;&#x2F;code&gt;, which is a set of &lt;em&gt;chunks&lt;&#x2F;em&gt;. Each
+&lt;em&gt;chunk&lt;&#x2F;em&gt; is either a &lt;em&gt;gap&lt;&#x2F;em&gt; or a set of &lt;em&gt;events&lt;&#x2F;em&gt;. It seems to map fairly easily to
+SQL tables, isn&#x27;t it?&lt;&#x2F;p&gt;
+
+&lt;&#x2F;div&gt;
+&lt;p&gt;You&#x27;re right: it&#x27;s pretty straightforward! Let&#x27;s see the first table:
+&lt;code&gt;linked_chunks&lt;&#x2F;code&gt; which contains all the chunks. (Note that the schemas are
+simplified for the sake of clarity).&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-meta z-create z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-create z-sql&quot;&gt;CREATE&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-sql&quot;&gt;TABLE&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-toc-list z-full-identifier z-sql&quot;&gt;&amp;quot;&lt;span class=&quot;z-entity z-name z-function z-sql&quot;&gt;linked_chunks&lt;&#x2F;span&gt;&amp;quot;&lt;&#x2F;span&gt; (
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Which linked chunk does this chunk belong to?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;linked_chunk_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Identifier of the chunk, unique per linked chunk.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Identifier of the previous chunk.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;previous&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Identifier of the next chunk.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;next&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Our enum for the content of the chunk: `E` for events, `G` for a gap.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;type&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;TEXT&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-modifier z-sql&quot;&gt;CHECK&lt;&#x2F;span&gt;(&lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;type&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;IN&lt;&#x2F;span&gt; (&lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;E&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;G&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;)) &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; … other things …
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alrighty. Next contenders: the &lt;code&gt;event_chunks&lt;&#x2F;code&gt; and the &lt;code&gt;gap_chunks&lt;&#x2F;code&gt; tables, which
+store the &lt;code&gt;ChunkContent&lt;&#x2F;code&gt;s of each chunk, respectively for &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt;
+and &lt;code&gt;ChunkContent::Gap&lt;&#x2F;code&gt;. In &lt;code&gt;event_chunks&lt;&#x2F;code&gt;, each row corresponds to an event. In
+&lt;code&gt;gap_chunks&lt;&#x2F;code&gt;, each row corresponds to a gap.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-meta z-create z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-create z-sql&quot;&gt;CREATE&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-sql&quot;&gt;TABLE&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-toc-list z-full-identifier z-sql&quot;&gt;&amp;quot;&lt;span class=&quot;z-entity z-name z-function z-sql&quot;&gt;event_chunks&lt;&#x2F;span&gt;&amp;quot;&lt;&#x2F;span&gt; (
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Which linked chunk does this event belong to?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;linked_chunk_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Which chunk does this event refer to?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;chunk_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; The event ID.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;event_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Position (index) in the **chunk**.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;position&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; … other things …
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-meta z-create z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-create z-sql&quot;&gt;CREATE&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-sql&quot;&gt;TABLE&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-toc-list z-full-identifier z-sql&quot;&gt;&amp;quot;&lt;span class=&quot;z-entity z-name z-function z-sql&quot;&gt;gap_chunks&lt;&#x2F;span&gt;&amp;quot;&lt;&#x2F;span&gt; (
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Which linked chunk does this event belong to?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;linked_chunk_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Which chunk does this gap refer to?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;chunk_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-sql&quot;&gt;INTEGER&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; … other things …
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Last contender, &lt;code&gt;events&lt;&#x2F;code&gt;. The assiduous reader may have noted that
+&lt;code&gt;event_chunks&lt;&#x2F;code&gt; doesn&#x27;t contain the content of the events: only its ID and its
+position, &lt;i&gt;roll its eyes&lt;&#x2F;i&gt;… let&#x27;s digress a bit, should we? Why is that? To
+handle out-of-band events. In the Matrix protocol, we can receive events via:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;spec.matrix.org&#x2F;v1.15&#x2F;client-server-api&#x2F;#get_matrixclientv3sync&quot;&gt;the &lt;code&gt;&#x2F;sync&lt;&#x2F;code&gt; endpoint&lt;&#x2F;a&gt;, it&#x27;s the main source of inputs, we get most
+of the events via this API,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;spec.matrix.org&#x2F;v1.15&#x2F;client-server-api&#x2F;#get_matrixclientv3roomsroomidmessages&quot;&gt;the &lt;code&gt;&#x2F;messages&lt;&#x2F;code&gt; endpoint&lt;&#x2F;a&gt;, when we need to get events around a
+particular events; this is helpful if we need to paginate backwards or
+forwards around an event,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;spec.matrix.org&#x2F;v1.15&#x2F;client-server-api&#x2F;#get_matrixclientv3roomsroomidcontexteventid&quot;&gt;the &lt;code&gt;&#x2F;context&lt;&#x2F;code&gt; endpoint&lt;&#x2F;a&gt;, if we need to get more context about
+an event.&lt;&#x2F;li&gt;
+&lt;li&gt;but there is more, like &lt;a href=&quot;https:&#x2F;&#x2F;spec.matrix.org&#x2F;v1.15&#x2F;client-server-api&#x2F;#mroompinned_events&quot;&gt;pinned events&lt;&#x2F;a&gt;, and so on.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;When an event is fetched but cannot be positioned regarding other events, it is
+considered &lt;em&gt;out-of-band&lt;&#x2F;em&gt;: it belongs to zero linked chunk, but we keep it in the
+database. Maybe we can attach it to a linked chunk later, or we want to keep it
+for saving future network requests. Anyway. You&#x27;re a great digression companion.
+Let&#x27;s jump back to our tables.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;events&lt;&#x2F;code&gt; table contains &lt;em&gt;all&lt;&#x2F;em&gt; the events: in-band &lt;em&gt;and&lt;&#x2F;em&gt; out-of-band.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; Events and their content.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-meta z-create z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-create z-sql&quot;&gt;CREATE&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-sql&quot;&gt;TABLE&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-toc-list z-full-identifier z-sql&quot;&gt;&amp;quot;&lt;span class=&quot;z-entity z-name z-function z-sql&quot;&gt;events&lt;&#x2F;span&gt;&amp;quot;&lt;&#x2F;span&gt; (
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; The ID of the event.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;event_id&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; The JSON encoded content of the event (it&amp;#39;s an encrypted value).
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-string z-quoted z-double z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;content&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; BLOB &lt;span class=&quot;z-keyword z-operator z-logical z-sql&quot;&gt;NOT&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-language z-sql&quot;&gt;NULL&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-dash z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-sql&quot;&gt;--&lt;&#x2F;span&gt; … other things …
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;At some point, we need to fetch metadata about a &lt;code&gt;LinkedChunk&lt;&#x2F;code&gt;. A certain
+algorithm needs these metadata to work efficiently. We don&#x27;t need to load all
+events, however we need:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;to know all the chunks that are part of a linked chunk,&lt;&#x2F;li&gt;
+&lt;li&gt;for each chunk, the number of events: 0 in case of a &lt;code&gt;ChunkContent::Gap&lt;&#x2F;code&gt;
+(&lt;code&gt;G&lt;&#x2F;code&gt;), or the number of events in case of a &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt; (&lt;code&gt;E&lt;&#x2F;code&gt;).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;A first implementation has landed in the Matrix Rust SDK. All good. When
+suddenly…&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;incredibly-slow-sync&quot;&gt;&lt;q cite=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;element-x-ios-rageshakes&#x2F;issues&#x2F;4248&quot;&gt;Incredibly slow sync&lt;&#x2F;q&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;A power-user&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#power-user&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; was &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;element-x-ios-rageshakes&#x2F;issues&#x2F;4248&quot;&gt;experiencing slowness&lt;&#x2F;a&gt;. It&#x27;s always
+a delicate situation. How to know the reason of the slowness? Is it the device?
+The network? The asynchronous runtime? A lock contention? The file system? …
+The database?&lt;&#x2F;p&gt;
+&lt;p&gt;We don&#x27;t have the device within easy reach. Hopefully, Matrix users are always
+nice and willing to help! We have added a bunch of logs, then the user has
+reproduced the problem, and shared their logs (via a rageshake) with us. Logs
+are never trivial to analyse. However, here is a tip we use in the Matrix Rust
+SDK: we have a special tracing type that logs the time spent in a portion of the
+code; called &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-common&#x2F;0.14.0&#x2F;matrix_sdk_common&#x2F;tracing_timer&#x2F;struct.TracingTimer.html&quot;&gt;&lt;code&gt;TracingTimer&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Basically, when a &lt;code&gt;TracingTimer&lt;&#x2F;code&gt; is created, it keeps its creation time in
+memory. And when the &lt;code&gt;TracingTimer&lt;&#x2F;code&gt; is dropped, it emits a log containing the
+elapsed time since its creation. It looks like this (it uses
+&lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;tracing&#x2F;&quot;&gt;the &lt;code&gt;tracing&lt;&#x2F;code&gt; library&lt;&#x2F;a&gt;):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-storage z-modifier z-rust&quot;&gt;pub&lt;&#x2F;span&gt; &lt;span class=&quot;z-storage z-type z-struct z-rust&quot;&gt;struct&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-entity z-name z-struct z-rust&quot;&gt;TracingTimer&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-variable z-other z-member z-rust&quot;&gt;id&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-type z-rust&quot;&gt;:&lt;&#x2F;span&gt; String,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-variable z-other z-member z-rust&quot;&gt;callsite&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-type z-rust&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage z-modifier z-lifetime z-rust&quot;&gt;&amp;#39;static&lt;&#x2F;span&gt; DefaultCallsite,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-variable z-other z-member z-rust&quot;&gt;start&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-type z-rust&quot;&gt;:&lt;&#x2F;span&gt; Instant,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-variable z-other z-member z-rust&quot;&gt;level&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-type z-rust&quot;&gt;:&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-path z-rust&quot;&gt;tracing&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;Level,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-struct z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-impl z-rust&quot;&gt;impl&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;Drop &lt;span class=&quot;z-keyword z-other z-rust&quot;&gt;for&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt; &lt;span class=&quot;z-entity z-name z-impl z-rust&quot;&gt;TracingTimer&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-function z-rust&quot;&gt;fn&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function z-rust&quot;&gt;drop&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage z-modifier z-rust&quot;&gt;mut&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; enabled &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-path z-rust&quot;&gt;tracing&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;level_enabled&lt;span class=&quot;z-keyword z-operator z-logical z-rust&quot;&gt;!&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;level&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-rust&quot;&gt;&amp;amp;&amp;amp;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; interest &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;callsite&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;interest&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            &lt;span class=&quot;z-keyword z-operator z-logical z-rust&quot;&gt;!&lt;&#x2F;span&gt;interest&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;is_never&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;                &lt;span class=&quot;z-keyword z-operator z-logical z-rust&quot;&gt;&amp;amp;&amp;amp;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-path z-rust&quot;&gt;tracing&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;__macro_support&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;__is_enabled&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;callsite&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;metadata&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; interest&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-keyword z-control z-rust&quot;&gt;if&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-logical z-rust&quot;&gt;!&lt;&#x2F;span&gt;enabled &lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            &lt;span class=&quot;z-keyword z-control z-rust&quot;&gt;return&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; message &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-support z-macro z-rust&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;_&lt;span class=&quot;z-constant z-other z-placeholder z-rust&quot;&gt;{}&lt;&#x2F;span&gt;_ finished in &lt;span class=&quot;z-constant z-other z-placeholder z-rust&quot;&gt;{:?}&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-end z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;id&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;start&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;elapsed&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; metadata &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-language z-rust&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;callsite&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;metadata&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; fields &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; metadata&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;fields&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; message_field &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; fields&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;field&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-string z-quoted z-double z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;message&lt;span class=&quot;z-punctuation z-definition z-string z-end z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; values &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;message_field&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-support z-type z-rust&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;message &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;as&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;dyn &lt;span class=&quot;z-meta z-path z-rust&quot;&gt;tracing&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;Value&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; This function is hidden from docs, but we have to use it
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; because there is no other way of obtaining a `ValueSet`.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; It&amp;#39;s not entirely clear why it is private. See this issue:
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; https:&#x2F;&#x2F;github.com&#x2F;tokio-rs&#x2F;tracing&#x2F;issues&#x2F;2363
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; values &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; fields&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;value_set&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;values&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-meta z-path z-rust&quot;&gt;tracing&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;Event&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;dispatch&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;metadata&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;values&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-impl z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And with that, let&#x27;s use its companion macro &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-common&#x2F;0.14.0&#x2F;matrix_sdk_common&#x2F;macro.timer.html&quot;&gt;&lt;code&gt;timer!&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; (I won&#x27;t copy-paste it
+here, it&#x27;s pretty straightforward):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; _timer &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-support z-macro z-rust&quot;&gt;timer!&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-string z-quoted z-double z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;built something important&lt;span class=&quot;z-punctuation z-definition z-string z-end z-rust&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; … build something important …
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; `_timer` is dropped here, and will emit a log.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;With this technique, we were able to inspect the logs and saw immediately what
+was slow… assuming we have added &lt;code&gt;timer!&lt;&#x2F;code&gt;s at the right places! It&#x27;s not magic,
+it doesn&#x27;t find performance issues for you. You have to probe the correct places
+in your code, and refine if necessary.&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;p&gt;I don&#x27;t know if you heard about &lt;em&gt;sampling profilers&lt;&#x2F;em&gt;, but those are programs
+far superior at analysing performance problems, compared to your… rustic
+&lt;code&gt;TracingTimer&lt;&#x2F;code&gt; (pun intended!). Such programs can provide flamegraphs, call
+trees etc.&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;m personally a regular user of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;mstange&#x2F;samply&quot;&gt;samply&lt;&#x2F;a&gt;, a command line CPU profiler relying
+on the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;firefox-devtools&#x2F;profiler&quot;&gt;Firefox profiler&lt;&#x2F;a&gt; for its UI. It works on macOS, Linux and Windows.&lt;&#x2F;p&gt;
+
+&lt;&#x2F;div&gt;
+&lt;p&gt;I do also use &lt;code&gt;samply&lt;&#x2F;code&gt; pretty often! But you need an access to the processes
+to use such tools. Here, the Matrix Rust SDK is used and embedded inside Matrix
+clients. We have no access to it. It lives on devices everywhere around the
+world. We may use better log analysers to infer “call trees”, but supporting
+asynchronous logs (because the code is asynchronous) makes it very difficult.
+And I honestly don&#x27;t know if such a thing exists.&lt;&#x2F;p&gt;
+&lt;p&gt;So. Yes. &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;pull&#x2F;5407&quot;&gt;We found the culprit&lt;&#x2F;a&gt;. With &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;BurntSushi&#x2F;ripgrep&quot;&gt;&lt;code&gt;ripgrep&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, we were able to scan
+megabytes of logs and find the culprit pretty quickly. I was looking for lags of
+the order of a second. I wasn&#x27;t disappointed:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; class=&quot;language-shell z-code&quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;$ rg &amp;#39;_method_ finished in.*&amp;gt; load_all_chunks_metadata&amp;#39; all.log | rg &amp;#39;\d+(\.\d+)?s&amp;#39; --only-matching | sort --numeric-sort --reverse
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;107.121747125s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;79.909931458s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;10.348993583s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;8.827636417s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;8.614481625s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;8.009787875s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;5.99637875s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;4.118492334s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;3.910040333s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;3.718858334s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;3.689340667s
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;3.661383208s
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;107 seconds. Be 1 minute and 47 seconds. Hello sweety.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-slow-query&quot;&gt;The slow query&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;code&gt;load_all_chunks_metadata&lt;&#x2F;code&gt; is a method that runs this SQL query:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;id&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;previous&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;next&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-support z-function z-aggregate z-sql&quot;&gt;COUNT&lt;&#x2F;span&gt;(&lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;ec&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;event_id&lt;&#x2F;span&gt;) &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; number_of_events
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;FROM&lt;&#x2F;span&gt; linked_chunks &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; lc
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;LEFT JOIN&lt;&#x2F;span&gt; event_chunks &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; ec
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;ON &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;ec&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;chunk_id&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-sql&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;id&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;WHERE&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;linked_chunk_id&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-sql&quot;&gt;=&lt;&#x2F;span&gt; ?
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;GROUP BY&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;id&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;For each chunk of the linked chunk, it counts the number of events associated to
+this chunk. That&#x27;s it.&lt;&#x2F;p&gt;
+&lt;p&gt;Do you remember that a chunk can be of two kinds: &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt; if it
+contains a set of events, or &lt;code&gt;ChunkContent::Gap&lt;&#x2F;code&gt; if it contains a gap, so, no
+event.&lt;&#x2F;p&gt;
+&lt;p&gt;This query does the following:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;if the chunk is of kind &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt;, it does count all events
+associated to itself (via &lt;code&gt;ec.chunk_id = lc.id&lt;&#x2F;code&gt;),&lt;&#x2F;li&gt;
+&lt;li&gt;otherwise, the chunk is of kind &lt;code&gt;ChunkContent::Gap&lt;&#x2F;code&gt;, so it will try to count
+but… no event is associated to it: it&#x27;s impossible to get
+&lt;code&gt;ec.chunk_id = lc.id&lt;&#x2F;code&gt; to be true for a gap. This query will scan &lt;em&gt;all events&lt;&#x2F;em&gt;
+for each gap… for no reason whatsoever! This is a linear scan here. If there
+are 300 gaps for this linked chunk, and 5000 events, 1.5 millions events will
+be scanned for &lt;strong&gt;no reason&lt;&#x2F;strong&gt;!&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;How lovingly inefficient.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;12-6x-faster&quot;&gt;&lt;math&gt;&lt;mn&gt;12.6&lt;&#x2F;mn&gt;&lt;mo&gt;×&lt;&#x2F;mo&gt;&lt;&#x2F;math&gt; faster&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;q&gt;Let&#x27;s use an &lt;a href=&quot;https:&#x2F;&#x2F;sqlite.org&#x2F;lang_createindex.html&quot;&gt;&lt;code&gt;INDEX&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;&lt;&#x2F;q&gt; I hear you say (let&#x27;s pretend
+you&#x27;re saying that, please, for the sake of the narrative!).&lt;&#x2F;p&gt;
+&lt;p&gt;A database index provides rapid lookups after all. It has become a reflex
+amongst the developer community.&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;procureur&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Procureur&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;procureur.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;procureur.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;procureur.png&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+  &lt;&#x2F;div&gt;
+  &lt;p&gt;Indexes are designed to quickly locate data without scanning the full table. An
+index contains a copy of the data, organised in a way enabling very efficient
+search. Behind the scene, it uses various data structures, involving trade-offs
+between lookup performance and index size. Most of the time, an index makes it
+possible to transform a linear lookup,
+&lt;math&gt;
+&lt;mi&gt;O&lt;&#x2F;mi&gt;&lt;mo&gt;(&lt;&#x2F;mo&gt;
+&lt;mi&gt;n&lt;&#x2F;mi&gt;
+&lt;mo&gt;)&lt;&#x2F;mo&gt;
+&lt;&#x2F;math&gt;,
+to a logarithmic lookup,
+&lt;math&gt;
+&lt;mi&gt;O&lt;&#x2F;mi&gt;&lt;mo&gt;(&lt;&#x2F;mo&gt;
+&lt;mo lspace=&quot;0&quot; rspace=&quot;0&quot;&gt;log&lt;&#x2F;mo&gt;&lt;mo&gt;(&lt;&#x2F;mo&gt;
+&lt;mi&gt;n&lt;&#x2F;mi&gt;
+&lt;mo&gt;)&lt;&#x2F;mo&gt;
+&lt;mo&gt;)&lt;&#x2F;mo&gt;
+&lt;&#x2F;math&gt;.
+See &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Database_index&quot;&gt;Database index&lt;&#x2F;a&gt; to learn more.&lt;&#x2F;p&gt;
+
+&lt;&#x2F;div&gt;
+&lt;p&gt;That&#x27;s correct. But we didn&#x27;t want to use an index here. The reason is twofold:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;More spaces&lt;&#x2F;strong&gt;. Remember that &lt;em&gt;Le Procureur&lt;&#x2F;em&gt; said an index contains a
+&lt;em&gt;copy&lt;&#x2F;em&gt; of the data. Here, the data is &lt;a href=&quot;https:&#x2F;&#x2F;spec.matrix.org&#x2F;v1.15&#x2F;appendices&#x2F;#event-ids&quot;&gt;the event ID&lt;&#x2F;a&gt;. It&#x27;s not
+heavy, but it&#x27;s not nothing. Moreover, we are not counting the &lt;em&gt;key&lt;&#x2F;em&gt; to
+associate the &lt;em&gt;copied data&lt;&#x2F;em&gt; to the row containing the real data in the source
+table.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Still extra useless time&lt;&#x2F;strong&gt;. We would still need to traverse the index for
+gaps, which is pointless.
+&lt;a href=&quot;https:&#x2F;&#x2F;sqlite.org&#x2F;arch.html&quot;&gt;SQLite implements indexes as B-Trees&lt;&#x2F;a&gt;, which is really
+efficient, but still, we already know that a gap has zero event because…
+it&#x27;s… a gap between events!&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Do you remember that the &lt;code&gt;linked_chunks&lt;&#x2F;code&gt; table has a &lt;code&gt;type&lt;&#x2F;code&gt; column? It contains
+&lt;code&gt;E&lt;&#x2F;code&gt; when the chunk is of kind &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt; —it represents a set of
+events—, and &lt;code&gt;G&lt;&#x2F;code&gt; when of kind &lt;code&gt;ChunkContent::Gap&lt;&#x2F;code&gt; —it represents a gap—. Maybe…
+&lt;i&gt; stare into the void&lt;&#x2F;i&gt;&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;factotum&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Factotum&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;factotum.png&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+  &lt;&#x2F;div&gt;
+  &lt;p&gt;May I interrupt?&lt;&#x2F;p&gt;
+&lt;p&gt;Do you know that SQLite provides &lt;a href=&quot;https:&#x2F;&#x2F;sqlite.org&#x2F;lang_expr.html#the_case_expression&quot;&gt;a &lt;code&gt;CASE&lt;&#x2F;code&gt; expression&lt;&#x2F;a&gt;? I know it&#x27;s
+unusual. SQL designers prefer to think in terms of sets, sub-sets, joins,
+temporal tables, partial indexes… but honestly, for what I&#x27;m concerned, in
+our case, it&#x27;s simple enough and it can be powerful. It&#x27;s a maddeningly
+pragmatic &lt;code&gt;match&lt;&#x2F;code&gt; statement.&lt;&#x2F;p&gt;
+&lt;p&gt;Moreover, the &lt;code&gt;type&lt;&#x2F;code&gt; column is already typed as an enum with the &lt;code&gt;CHECK(&quot;type&quot; IN (&#x27;E&#x27;, &#x27;G&#x27;))&lt;&#x2F;code&gt; constraint. Maybe the SQL engine can run some even smarter
+optimisations for us.&lt;&#x2F;p&gt;
+
+&lt;&#x2F;div&gt;
+&lt;p&gt;Oh, that would be brilliant! If &lt;code&gt;type&lt;&#x2F;code&gt; is &lt;code&gt;E&lt;&#x2F;code&gt;, we count the number of events,
+otherwise we conclude it&#x27;s &lt;em&gt;de facto&lt;&#x2F;em&gt; zero, isn&#x27;t it? Let&#x27;s try. The SQL query
+then becomes:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sql&quot; class=&quot;language-sql z-code&quot;&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;id&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;previous&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;next&lt;&#x2F;span&gt;,
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;CASE&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;type&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;WHEN&lt;&#x2F;span&gt; &lt;span class=&quot;z-string z-quoted z-single z-sql&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;E&lt;span class=&quot;z-punctuation z-definition z-string z-end z-sql&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;THEN&lt;&#x2F;span&gt; (
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;        &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;SELECT&lt;&#x2F;span&gt; &lt;span class=&quot;z-support z-function z-aggregate z-sql&quot;&gt;COUNT&lt;&#x2F;span&gt;(&lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;ec&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;event_id&lt;&#x2F;span&gt;)
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;        &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;FROM&lt;&#x2F;span&gt; event_chunks &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; ec
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;        &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;WHERE&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;ec&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;chunk_id&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-sql&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;id&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    )
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;ELSE&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;        &lt;span class=&quot;z-constant z-numeric z-sql&quot;&gt;0&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;END&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;    &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; number_of_events
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;FROM&lt;&#x2F;span&gt; linked_chunks &lt;span class=&quot;z-keyword z-operator z-assignment z-alias z-sql&quot;&gt;as&lt;&#x2F;span&gt; lc
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-sql&quot;&gt;&lt;span class=&quot;z-keyword z-other z-DML z-sql&quot;&gt;WHERE&lt;&#x2F;span&gt; &lt;span class=&quot;z-constant z-other z-database-name z-sql&quot;&gt;lc&lt;&#x2F;span&gt;.&lt;span class=&quot;z-constant z-other z-table-name z-sql&quot;&gt;linked_chunk_id&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-comparison z-sql&quot;&gt;=&lt;&#x2F;span&gt; ?
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Since we have spotted the problem, we have written a benchmark to measure the
+solutions. The benchmark simulates 10&#x27;000 events, with 1 gap every 80 events.
+A set of data we consider &lt;em&gt;realistic&lt;&#x2F;em&gt; somehow for a normal user (not for a
+power-user though, because a power-user has usually more gaps than events). Here
+are the before&#x2F;after results.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Lower bound&lt;&#x2F;th&gt;
+        &lt;th&gt;Estimate&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Upper bound&lt;&#x2F;th&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Throughput&lt;&#x2F;td&gt;
+        &lt;td&gt;19.832 Kelem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;19.917 Kelem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;19.999 Kelem&#x2F;s&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;math&gt;&lt;msup&gt;&lt;mi&gt;R&lt;&#x2F;mi&gt;&lt;mn&gt;2&lt;&#x2F;mn&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt;&lt;&#x2F;td&gt;
+        &lt;td&gt;0.0880234&lt;&#x2F;td&gt;
+        &lt;td&gt;0.1157540&lt;&#x2F;td&gt;
+        &lt;td&gt;0.0857823&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Mean&lt;&#x2F;td&gt;
+        &lt;td&gt;500.03 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;502.08 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;504.24 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Standard Deviation&quot;&gt;Std. Dev.&lt;&#x2F;td&gt;
+        &lt;td&gt;2.2740 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;3.6256 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;4.1963 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Median&lt;&#x2F;td&gt;
+        &lt;td&gt;498.23 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;500.93 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;506.25 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Median Absolute Deviation&quot;&gt;MAD&lt;&#x2F;td&gt;
+        &lt;td&gt;129.84 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;4.1713 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;6.1184 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;tbody&gt;
+  &lt;&#x2F;table&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s results for the original query with &lt;code&gt;COUNT&lt;&#x2F;code&gt; and &lt;code&gt;LEFT JOIN&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;details&gt;
+  &lt;summary&gt;
+&lt;p&gt;The Probability Distribution Function graph, and the Iteration times graph for
+the &lt;code&gt;LEFT JOIN&lt;&#x2F;code&gt; approach&lt;&#x2F;p&gt;
+  &lt;&#x2F;summary&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;1-pdf.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;1-pdf.svg&quot; alt=&quot;Probability distribution function&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Probability Distribution Function for the &lt;code&gt;LEFT JOIN&lt;&#x2F;code&gt; approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;1-iteration-times.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;1-iteration-times.svg&quot; alt=&quot;Iteration times&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Iteration Times for the &lt;code&gt;LEFT JOIN&lt;&#x2F;code&gt; approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+&lt;&#x2F;details&gt;
+&lt;figure&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Lower bound&lt;&#x2F;th&gt;
+        &lt;th&gt;Estimate&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Upper bound&lt;&#x2F;th&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Throughput&lt;&#x2F;td&gt;
+        &lt;td&gt;251.61 Kelem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;251.84 Kelem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;251.98 Kelem&#x2F;s&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;math&gt;&lt;msup&gt;&lt;mi&gt;R&lt;&#x2F;mi&gt;&lt;mn&gt;2&lt;&#x2F;mn&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt;&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9999778&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9999833&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9999673&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Mean&lt;&#x2F;td&gt;
+        &lt;td&gt;39.684 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;39.703 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;39.726 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Standard Deviation&quot;&gt;Std. Dev.&lt;&#x2F;td&gt;
+        &lt;td&gt;8.8237 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;35.948 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;47.987 µs&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Median&lt;&#x2F;td&gt;
+        &lt;td&gt;39.683 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;39.691 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;39.725 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Median Absolute Deviation&quot;&gt;MAD&lt;&#x2F;td&gt;
+        &lt;td&gt;1.9369 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;13.000 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;50.566 µs&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;tbody&gt;
+  &lt;&#x2F;table&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s results for the new query with the &lt;code&gt;CASE&lt;&#x2F;code&gt; expression.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;details&gt;
+  &lt;summary&gt;
+&lt;p&gt;The Probability Distribution Function graph, and the Linear Regression graph
+for the &lt;code&gt;CASE&lt;&#x2F;code&gt; approach&lt;&#x2F;p&gt;
+  &lt;&#x2F;summary&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;2-pdf.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;2-pdf.svg&quot; alt=&quot;Probability distribution function&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Probability Distribution Function for the &lt;code&gt;CASE&lt;&#x2F;code&gt; approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;2-linear-regression.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;2-linear-regression.svg&quot; alt=&quot;Linear regression&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Linear Regression for the &lt;code&gt;CASE&lt;&#x2F;code&gt; approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+&lt;&#x2F;details&gt;
+&lt;p&gt;The throughput and the time are &lt;math&gt;&lt;mn&gt;12.6&lt;&#x2F;mn&gt;&lt;mo&gt;×&lt;&#x2F;mo&gt;&lt;&#x2F;math&gt; better. No
+&lt;code&gt;INDEX&lt;&#x2F;code&gt;. No more &lt;code&gt;LEFT JOIN&lt;&#x2F;code&gt;. Just a simple &lt;code&gt;CASE&lt;&#x2F;code&gt; expression. &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;pull&#x2F;5411&quot;&gt;You can see the
+patches containing the benchmark and the fix&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;But that&#x27;s not all…&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;211x-faster&quot;&gt;&lt;math&gt;&lt;mn&gt;211&lt;&#x2F;mn&gt;&lt;mo&gt;×&lt;&#x2F;mo&gt;&lt;&#x2F;math&gt; faster&lt;&#x2F;h2&gt;
+&lt;p&gt;It&#x27;s clearly better, but we couldn&#x27;t stop ourselves. Having spotted the problem,
+and having found this solution, it has made us creative! We have noticed that
+we are running one query per chunk of kind &lt;code&gt;ChunkContent::Items&lt;&#x2F;code&gt;. If the linked
+chunk contains 100 chunks, it will run 101 queries.&lt;&#x2F;p&gt;
+&lt;p&gt;Then suddenly, &lt;i&gt;hit forehead with the hand&#x27;s palm&lt;&#x2F;i&gt;, an idea pops! What if
+we could only use 2 queries for all scenarios!&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;The first query would count all events for each chunk in &lt;code&gt;events_chunk&lt;&#x2F;code&gt; in
+one pass, and would store that in a &lt;code&gt;HashMap&lt;&#x2F;code&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;The second query would fetch all chunks also in one pass,&lt;&#x2F;li&gt;
+&lt;li&gt;Finally, Rust will fill the number of events for each chunk based on the data
+in the &lt;code&gt;HashMap&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;The first query translates like so in Rust:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; The first query.
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; number_of_events_by_chunk_ids &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; transaction
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;prepare&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;        &lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-string z-rust&quot;&gt;r&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;#&amp;quot;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        SELECT
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            ec.chunk_id,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            COUNT(ec.event_id)
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        FROM event_chunks as ec
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        WHERE ec.linked_chunk_id = ?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        GROUP BY ec.chunk_id
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        &lt;span class=&quot;z-punctuation z-definition z-string z-end z-rust&quot;&gt;&amp;quot;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;query_map&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;hashed_linked_chunk_id&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;row&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-support z-type z-rust&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;0&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;1&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;collect&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;HashMap&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And the second query translates like so&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#simplified-code&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;transaction
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;prepare&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;        &lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-string z-rust&quot;&gt;r&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;#&amp;quot;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        SELECT
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            lc.id,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            lc.previous,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            lc.next,
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;            lc.type
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        FROM linked_chunks as lc
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        WHERE lc.linked_chunk_id = ?
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;        &lt;span class=&quot;z-punctuation z-definition z-string z-end z-rust&quot;&gt;&amp;quot;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;query_map&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;hashed_linked_chunk_id&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;row&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-support z-type z-rust&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;0&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Option&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage z-type z-rust&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;1&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Option&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage z-type z-rust&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;2&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;            row&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;get&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-support z-type z-rust&quot;&gt;String&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;3&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;map&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-parameters z-rust&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-rust&quot;&gt;metadata&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-rust&quot;&gt;|&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function z-return-type z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;identifier&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; previous&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; next&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt; chunk_type&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; metadata&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-comment z-line z-double-slash z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-rust&quot;&gt;&#x2F;&#x2F;&lt;&#x2F;span&gt; Let&amp;#39;s use the `HashMap` from the first query here!
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-storage z-type z-rust&quot;&gt;let&lt;&#x2F;span&gt; number_of_events &lt;span class=&quot;z-keyword z-operator z-assignment z-rust&quot;&gt;=&lt;&#x2F;span&gt; number_of_events_by_chunk_ids&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;get&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-bitwise z-rust&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;id&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;copied&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;unwrap_or&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric z-integer z-decimal z-rust&quot;&gt;0&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;span class=&quot;z-support z-type z-rust&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;ChunkMetadata &lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-begin z-rust&quot;&gt;{&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            identifier&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            previous&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            next&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;            number_of_events&lt;span class=&quot;z-punctuation z-separator z-rust&quot;&gt;,&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;        &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;collect&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Only two queries. All tests are passing. Now let&#x27;s see what the benchmark has to
+say!&lt;&#x2F;p&gt;
+&lt;figure&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Lower bound&lt;&#x2F;th&gt;
+        &lt;th&gt;Estimate&lt;&#x2F;th&gt;
+        &lt;th title=&quot;0.95 confidence level&quot;&gt;Upper bound&lt;&#x2F;th&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Throughput&lt;&#x2F;td&gt;
+        &lt;td&gt;4.1490 Melem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;4.1860 Melem&#x2F;s&lt;&#x2F;td&gt;
+        &lt;td&gt;4.2221 Melem&#x2F;s&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;math&gt;&lt;msup&gt;&lt;mi&gt;R&lt;&#x2F;mi&gt;&lt;mn&gt;2&lt;&#x2F;mn&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt;&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9961591&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9976310&lt;&#x2F;td&gt;
+        &lt;td&gt;0.9960356&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Mean&lt;&#x2F;td&gt;
+        &lt;td&gt;2.3670 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;2.3824 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;2.3984 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Standard Deviation&quot;&gt;Std. Dev.&lt;&#x2F;td&gt;
+        &lt;td&gt;16.065 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;26.872 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;31.871 µs&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Median&lt;&#x2F;td&gt;
+        &lt;td&gt;2.3556 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;2.3801 ms&lt;&#x2F;td&gt;
+        &lt;td&gt;2.4047 ms&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+      &lt;tr&gt;
+        &lt;td title=&quot;Median Absolute Deviation&quot;&gt;MAD&lt;&#x2F;td&gt;
+        &lt;td&gt;3.8003 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;36.438 µs&lt;&#x2F;td&gt;
+        &lt;td&gt;46.445 µs&lt;&#x2F;td&gt;
+      &lt;&#x2F;tr&gt;
+    &lt;&#x2F;tbody&gt;
+  &lt;&#x2F;table&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s results for the two queries approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;details&gt;
+  &lt;summary&gt;
+&lt;p&gt;The Probability Distribution Function graph, and the Linear Regression graph
+for the two queries approach&lt;&#x2F;p&gt;
+  &lt;&#x2F;summary&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;3-pdf.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;3-pdf.svg&quot; alt=&quot;Probability distribution function&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Probability Distribution Function for the two queries approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+  &lt;figure&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;3-linear-regression.svg&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;.&#x2F;3-linear-regression.svg&quot; alt=&quot;Linear regression&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+  &lt;figcaption&gt;
+&lt;p&gt;Benchmark&#x27;s Linear Regression for the two queries approach.&lt;&#x2F;p&gt;
+  &lt;&#x2F;figcaption&gt;
+  &lt;&#x2F;figure&gt;
+&lt;&#x2F;details&gt;
+&lt;p&gt;&lt;strong&gt;It is &lt;math&gt;&lt;mn&gt;16.7&lt;&#x2F;mn&gt;&lt;mo&gt;×&lt;&#x2F;mo&gt;&lt;&#x2F;math&gt; faster compared to the previous
+solution, so &lt;math&gt;&lt;mn&gt;211&lt;&#x2F;mn&gt;&lt;mo&gt;×&lt;&#x2F;mo&gt;&lt;&#x2F;math&gt; faster than the first query!
+We went from 502ms to 2ms. That&#x27;s mental! From a throughput of 19.9 Kelem&#x2F;s
+to 4.2 Melem&#x2F;s!&lt;&#x2F;strong&gt; &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;pull&#x2F;5425&quot;&gt;You can see the patches containing the improvement&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The throughput is measured by &lt;em&gt;element&lt;&#x2F;em&gt;, where an &lt;em&gt;element&lt;&#x2F;em&gt; here represents
+a Matrix event. Consequently, 4 Melem&#x2F;s means 4 millions events per second,
+which means that &lt;code&gt;load_all_chunks_metadata&lt;&#x2F;code&gt; can do its computation at a rate of
+4 millions events per second.&lt;&#x2F;p&gt;
+&lt;p&gt;I think we can stop here. Performance are finally acceptable.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;lessons&quot;&gt;Lessons&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bheisler.github.io&#x2F;criterion.rs&#x2F;book&#x2F;index.html&quot;&gt;Write benchmarks (with Criterion)&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Run benchmarks.&lt;&#x2F;li&gt;
+&lt;li&gt;Be aware of &lt;a href=&quot;https:&#x2F;&#x2F;sqlite.org&#x2F;queryplanner-ng.html&quot;&gt;the SQL query planner&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Be careful with joins.&lt;&#x2F;li&gt;
+&lt;li&gt;Know your data.&lt;&#x2F;li&gt;
+&lt;li&gt;Take a step back and count.&lt;&#x2F;li&gt;
+&lt;li&gt;SQLite is fast.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Notice how the SQL tables layout didn&#x27;t change. Notice how the &lt;code&gt;LinkedChunk&lt;&#x2F;code&gt;
+implementation didn&#x27;t change. Only the SQL queries have changed, and it has
+dramatically improved the situation.&lt;&#x2F;p&gt;
+&lt;p&gt;This is joint effort between &lt;a href=&quot;https:&#x2F;&#x2F;bouvier.cc&#x2F;&quot;&gt;Benjamin Bouvier&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;poljar&quot;&gt;Damir Jelić&lt;&#x2F;a&gt; and
+I.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;power-user&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;We consider a &lt;em&gt;power-user&lt;&#x2F;em&gt; a user with more than 2000 rooms. I
+hear your laugth! But guess what? We have users with more than 4000 rooms.
+And I&#x27;m excluding bots here. The Matrix Rust SDK can be used to develop
+bots, which can sit in thousands and thousands rooms easily. That said: we
+have to be performant.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;simplified-code&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;The code has been simplified a little bit. In reality, basic
+Rust types, like &lt;code&gt;u64&lt;&#x2F;code&gt; or &lt;code&gt;Option&amp;lt;u64&amp;gt;&lt;&#x2F;code&gt;, are mapped to linked chunk&#x27;s types.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+</feed>
