@@ -29,9 +29,10 @@ jobs:
       - name: 'ls'
         shell: bash
         run: |
-          ls -laGi public/
+          ls -laGi ./public
       - name: 'deploy'
         if: github.ref == 'refs/heads/main'
-        uses: shalzz/zola-deploy-action@v0.21.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
