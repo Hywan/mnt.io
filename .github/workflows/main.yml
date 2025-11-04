@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - name: 'checkout'
@@ -30,12 +30,8 @@ jobs:
         shell: bash
         run: |
           ls -laGi public/
-  deploy:
-    if: github.ref == 'refs/heads/main'
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'rebuild and deploy'
+      - name: 'deploy'
+        if: github.ref == 'refs/heads/main'
         uses: shalzz/zola-deploy-action@v0.21.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
