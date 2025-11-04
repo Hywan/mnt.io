@@ -12,7 +12,7 @@
 {%- endblock long_title %}
 
 {% block body %}
-  <article class="series-episode" typeof="Article">
+  <article class="series-episode" typeof="Article" data-pagefind-body>
     {% set series = get_section(path = page.ancestors | last) -%}
 
     <header>

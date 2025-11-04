@@ -7,21 +7,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/main'
     steps:
       - name: 'checkout'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: 'build'
-        uses: shalzz/zola-deploy-action@v0.19.2
+        uses: shalzz/zola-deploy-action@v0.21.0
         env:
           BUILD_ONLY: true
-  build_and_deploy:
-    runs-on: ubuntu-latest
+      - name: 'search: prepare'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: 'Pagefind/pagefind'
+          tag: 'v1.4.0'
+          fileName: 'pagefind-v1.4.0-x86_64-unknown-linux-musl.tar.gz'
+          extract: true
+      - name: 'search: build'
+        shell: bash
+        run: |
+          chmod u+rwx pagefind
+          sudo make build-search
+      - name: 'ls'
+        shell: bash
+        run: |
+          ls -laGi public/
+  deploy:
     if: github.ref == 'refs/heads/main'
+    needs: [build]
+    runs-on: ubuntu-latest
     steps:
-      - name: 'checkout'
-        uses: actions/checkout@v4
-      - name: 'build and deploy'
-        uses: shalzz/zola-deploy-action@v0.19.2
+      - name: 'rebuild and deploy'
+        uses: shalzz/zola-deploy-action@v0.21.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

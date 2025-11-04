@@ -11,9 +11,24 @@ img, picture, video, canvas, svg {
   max-width: 100%;
 }
 
+.icon {
+  height: 1em;
+}
+
 input, button, textarea, select {
   font: inherit;
+  color: currentColor;
+  padding: var(--space-small) var(--space)
+    /* because Pagefind adds an inline `padding-right` (as of 2025-11-04). */
+    !important;
+  border: var(--border-width) var(--color-accent) solid;
+  background: var(--_background-color);
 }
+
+  button {
+     color: var(--color-dark); 
+     background: var(--color-accent);
+  }
 
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
@@ -45,10 +60,14 @@ p, h1, h2, h3, h4, h5, h6 {
   --space-very-large: 3rem;
 
   --border-width: 2px;
+  --border-width-larger: 3px;
   --border-color: var(--color-dark-lighter);
+  --border-color-lighter: var(--color-light-darker);
 
   --text-size: 1.05rem;
   --text-line-height: 1.5;
+
+  --blur: .3rem;
 }
 
 body {
@@ -83,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25em;
 
   &.separator {
-    --_color: var(--color-light-darker);
+    --_color: var(--border-color-lighter);
 
     position: relative;
 
@@ -353,6 +372,13 @@ details {
   }
 }
 
+mark {
+  border: var(--border-width-larger) oklch(73.3% .194 75) solid;
+  border-radius: 5px;
+  background: oklch(90% .177 75);
+  padding-inline: var(--space-very-small);
+}
+
 .content-grid {
   --padding-inline: 1rem;
   --content-max-width: 70ch;
@@ -400,7 +426,7 @@ main {
 
   > ul {
     display: grid;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(5, auto);
     padding: 0;
     height: var(--space-very-large);
     align-items: center;

@@ -1,8 +1,6 @@
 base_url = "https://mnt.io"
 compile_sass = false
 
-build_search_index = true
-
 taxonomies = [
   { name = "keywords", feed = true, render = true },
 ]

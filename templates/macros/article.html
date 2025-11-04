@@ -9,7 +9,7 @@
 {% endmacro %}
 
 {% macro metadata(page, full) %}
-  <div class="metadata">
+  <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="{{ page.date }}" property="datePublished">
       {{- page.date | date(format = "%B %d, %Y") -}}
     </time>
@@ -38,7 +38,7 @@
 {% macro table_of_content(page) %}
   {#
   {% if page.toc %}
-  <nav>
+  <nav data-pagefind-ignore="all">
     <details>
       <summary><h2>Content</h2></summary>
 

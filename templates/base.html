@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' https://cloud.umami.is">
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
 
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
   <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/search.css") }}" fetchpriority="low" />
 
   <meta name="author" content="Ivan Enderlin" />
   {%- if page.description %}
@@ -44,8 +45,19 @@
     <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
     <li><a href="{{ get_url(path = '@/series/_index.md') }}">Series</a></li>
     <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li>
+      <a href="javascript:document.getElementById('search').showModal()">
+        <svg viewBox="0 0 500 500" class="icon">
+          <description>Search</description>
+          <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
+          <line x1="340" y1="340" x2="480" y2="480" stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+        </svg>
+      </a>
+    </li>
   </ul>
 </nav>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
 
 <main vocab="https://schema.org">
 {% block body %}
@@ -92,5 +104,17 @@
 </footer>
 
 <script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
+
+<script src="{{ get_url(path = "/search/pagefind-ui.js") }}"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    new PagefindUI({
+      element: "#search",
+      resetStyles: false,
+      showSubResults: true,
+      showImages: false,
+    });
+  });
+</script>
 </body>
 </html>
