@@ -23,6 +23,10 @@ input, button, textarea, select {
     !important;
   border: var(--border-width) var(--color-accent) solid;
   background: var(--_background-color);
+
+  &:focus {
+    outline: var(--border-width-larger) solid var(--color-accent);
+  }
 }
 
   button {
