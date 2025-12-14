@@ -11,5 +11,6 @@ feed_filenames = ["atom.xml", "rss.xml"]
 [markdown]
 highlight_code = true
 highlight_theme = "css"
+bottom_footnotes = true
 
 [extra]
