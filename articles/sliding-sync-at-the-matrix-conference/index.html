@@ -7,7 +7,7 @@
 
   <title>Sliding Sync at the Matrix Conference</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=a9f5324832201e4248b6" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=860c370597c383140802" />
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
 
@@ -90,7 +90,7 @@ stands for Matrix Spec Changes, like RFC for example—, so the <a href="https:/
 our experimental foundation to play with a new sync mechanism. After many sweat
 and tears, we ultimately found a working pattern and design that fulfill a
 large majority of our usecases. Along the way, the implementation inside the
-Sliding Sync Proxy —a proxy that sits on the top of a homeserver<sup class="footnote-reference"><a href="#1">1</a></sup> to provide
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver<sup class="footnote-reference" id="fr-1-1"><a href="#fn-1">1</a></sup> to provide
 this new sync mechanism— was starting to feel really buggy and was really slow.
 It was time to clean up everything, including the MSC.</p>
 <p>Enter <a href="https://github.com/matrix-org/matrix-spec-proposals/blob/erikj/sss/proposals/4186-simplified-sliding-sync.md">MSC4186</a>, which is basically Simplified Sliding Sync. We have mostly
@@ -233,9 +233,13 @@ etc. Taking the night train is a nice way of travelling, and it saves a lot
 of emissions.</p>
 <p>I've taken a regular day train to go to Berlin, and a night train to come back
 home.</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>A <em>homeserver</em> in the Matrix terminology is simply a Matrix server.</p>
-</div>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-1">
+<p>A <em>homeserver</em> in the Matrix terminology is simply a Matrix server. <a href="#fr-1-1">↩</a></p>
+</li>
+</ol>
+</section>
 
   </article>
 

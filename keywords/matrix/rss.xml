@@ -146,7 +146,7 @@ events, however we need:&lt;&#x2F;p&gt;
 &lt;p&gt;A first implementation has landed in the Matrix Rust SDK. All good. When
 suddenly…&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;incredibly-slow-sync&quot;&gt;&lt;q cite=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;element-x-ios-rageshakes&#x2F;issues&#x2F;4248&quot;&gt;Incredibly slow sync&lt;&#x2F;q&gt;&lt;&#x2F;h2&gt;
-&lt;p&gt;A power-user&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#power-user&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; was &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;element-x-ios-rageshakes&#x2F;issues&#x2F;4248&quot;&gt;experiencing slowness&lt;&#x2F;a&gt;. It&#x27;s always
+&lt;p&gt;A power-user&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-power-user-1&quot;&gt;&lt;a href=&quot;#fn-power-user&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; was &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;element-hq&#x2F;element-x-ios-rageshakes&#x2F;issues&#x2F;4248&quot;&gt;experiencing slowness&lt;&#x2F;a&gt;. It&#x27;s always
 a delicate situation. How to know the reason of the slowness? Is it the device?
 The network? The asynchronous runtime? A lock contention? The file system? …
 The database?&lt;&#x2F;p&gt;
@@ -563,7 +563,7 @@ in the &lt;code&gt;HashMap&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-meta z-function z-closure z-rust&quot;&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;    &lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-block z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-end z-rust&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;
 &lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-path z-rust&quot;&gt;collect&lt;span class=&quot;z-punctuation z-accessor z-rust&quot;&gt;::&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;&lt;span class=&quot;z-support z-type z-rust&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-generic z-rust&quot;&gt;HashMap&lt;span class=&quot;z-punctuation z-definition z-generic z-begin z-rust&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;, &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-generic z-end z-rust&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-end z-rust&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-rust&quot;&gt;?&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-terminator z-rust&quot;&gt;;&lt;&#x2F;span&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;And the second query translates like so&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#simplified-code&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;And the second query translates like so&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-simplified-code-1&quot;&gt;&lt;a href=&quot;#fn-simplified-code&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; class=&quot;language-rust z-code&quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;transaction
 &lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;    &lt;span class=&quot;z-punctuation z-accessor z-dot z-rust&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-support z-function z-rust&quot;&gt;prepare&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-group z-begin z-rust&quot;&gt;(&lt;&#x2F;span&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-source z-rust&quot;&gt;&lt;span class=&quot;z-meta z-group z-rust&quot;&gt;        &lt;span class=&quot;z-string z-quoted z-double z-raw z-rust&quot;&gt;&lt;span class=&quot;z-storage z-type z-string z-rust&quot;&gt;r&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-rust&quot;&gt;#&amp;quot;&lt;&#x2F;span&gt;
@@ -696,17 +696,21 @@ implementation didn&#x27;t change. Only the SQL queries have changed, and it has
 dramatically improved the situation.&lt;&#x2F;p&gt;
 &lt;p&gt;This is joint effort between &lt;a href=&quot;https:&#x2F;&#x2F;bouvier.cc&#x2F;&quot;&gt;Benjamin Bouvier&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;poljar&quot;&gt;Damir Jelić&lt;&#x2F;a&gt; and
 I.&lt;&#x2F;p&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;power-user&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn-power-user&quot;&gt;
 &lt;p&gt;We consider a &lt;em&gt;power-user&lt;&#x2F;em&gt; a user with more than 2000 rooms. I
 hear your laugth! But guess what? We have users with more than 4000 rooms.
 And I&#x27;m excluding bots here. The Matrix Rust SDK can be used to develop
 bots, which can sit in thousands and thousands rooms easily. That said: we
-have to be performant.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;simplified-code&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+have to be performant. &lt;a href=&quot;#fr-power-user-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li id=&quot;fn-simplified-code&quot;&gt;
 &lt;p&gt;The code has been simplified a little bit. In reality, basic
-Rust types, like &lt;code&gt;u64&lt;&#x2F;code&gt; or &lt;code&gt;Option&amp;lt;u64&amp;gt;&lt;&#x2F;code&gt;, are mapped to linked chunk&#x27;s types.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
+Rust types, like &lt;code&gt;u64&lt;&#x2F;code&gt; or &lt;code&gt;Option&amp;lt;u64&amp;gt;&lt;&#x2F;code&gt;, are mapped to linked chunk&#x27;s types. &lt;a href=&quot;#fr-simplified-code-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;section&gt;
 </description>
       </item>
       <item>
@@ -738,7 +742,7 @@ stands for Matrix Spec Changes, like RFC for example—, so the &lt;a href=&quot
 our experimental foundation to play with a new sync mechanism. After many sweat
 and tears, we ultimately found a working pattern and design that fulfill a
 large majority of our usecases. Along the way, the implementation inside the
-Sliding Sync Proxy —a proxy that sits on the top of a homeserver&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to provide
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-1-1&quot;&gt;&lt;a href=&quot;#fn-1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to provide
 this new sync mechanism— was starting to feel really buggy and was really slow.
 It was time to clean up everything, including the MSC.&lt;&#x2F;p&gt;
 &lt;p&gt;Enter &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-spec-proposals&#x2F;blob&#x2F;erikj&#x2F;sss&#x2F;proposals&#x2F;4186-simplified-sliding-sync.md&quot;&gt;MSC4186&lt;&#x2F;a&gt;, which is basically Simplified Sliding Sync. We have mostly
@@ -881,9 +885,13 @@ etc. Taking the night train is a nice way of travelling, and it saves a lot
 of emissions.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ve taken a regular day train to go to Berlin, and a night train to come back
 home.&lt;&#x2F;p&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;A &lt;em&gt;homeserver&lt;&#x2F;em&gt; in the Matrix terminology is simply a Matrix server.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn-1&quot;&gt;
+&lt;p&gt;A &lt;em&gt;homeserver&lt;&#x2F;em&gt; in the Matrix terminology is simply a Matrix server. &lt;a href=&quot;#fr-1-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;section&gt;
 </description>
       </item>
     </channel>

@@ -418,7 +418,7 @@ less than a shared reference, and shared references in Rust disallow mutation by
 default. Using &lt;code&gt;Observable::set&lt;&#x2F;code&gt; will create a new &lt;code&gt;Arc&lt;&#x2F;code&gt;, but we cannot update
 the value &lt;em&gt;inside&lt;&#x2F;em&gt; the &lt;code&gt;Arc&lt;&#x2F;code&gt;, except if we use a lock… Well, we are adding more
 and more complexity.&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;q lang=&quot;la&quot;&gt;Spes salutis&lt;&#x2F;q&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#spes_salutis&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;! Fortunately for us, &lt;em&gt;immutable
+&lt;p&gt;&lt;q lang=&quot;la&quot;&gt;Spes salutis&lt;&#x2F;q&gt;&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-spes_salutis-1&quot;&gt;&lt;a href=&quot;#fn-spes_salutis&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;! Fortunately for us, &lt;em&gt;immutable
 data structures&lt;&#x2F;em&gt; exist in Rust.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;An immutable data structure is a data structure which can be copied and modified
@@ -463,18 +463,18 @@ is a lot of subtleties, possible conflicts, and many memory guarantees that I am
 not anticipating yet, right?&lt;&#x2F;p&gt;
 
 &lt;&#x2F;div&gt;
-&lt;p&gt;Oh… &lt;q lang=&quot;la&quot;&gt;beati pauperes in spiritu&lt;&#x2F;q&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#beati_pauperes_in_spiritu&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;… it
+&lt;p&gt;Oh… &lt;q lang=&quot;la&quot;&gt;beati pauperes in spiritu&lt;&#x2F;q&gt;&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-beati_pauperes_in_spiritu-1&quot;&gt;&lt;a href=&quot;#fn-beati_pauperes_in_spiritu&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;… it
 is actually really complex. It may be a topic for another series or articles.
 For the moment, if you interested, let me redirect you to one research paper
 that proposes an immutable &lt;code&gt;Vec&lt;&#x2F;code&gt;: &lt;cite&gt;RRR Vector: A Practical General
-Immutable Sequence&lt;&#x2F;cite&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#SRUB2015&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. Be cool though, understanding this part is
+Immutable Sequence&lt;&#x2F;cite&gt;&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-SRUB2015-1&quot;&gt;&lt;a href=&quot;#fn-SRUB2015&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. Be cool though, understanding this part is
 not necessary at all for what we are talking now. It&#x27;s a great tool we are going
 to use, no matter how it works internally.&lt;&#x2F;p&gt;
 &lt;p&gt;Do you know the other good news? We don&#x27;t have to implement it by ourselves,
 because some nice people already did it! Enter &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;imbl&quot;&gt;the &lt;code&gt;imbl&lt;&#x2F;code&gt; crate&lt;&#x2F;a&gt;. This
 crate provides &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;imbl&#x2F;3.0.0&#x2F;imbl&#x2F;struct.Vector.html&quot;&gt;a &lt;code&gt;Vector&lt;&#x2F;code&gt; type&lt;&#x2F;a&gt;. It can be used like a regular
 &lt;code&gt;Vec&lt;&#x2F;code&gt;. (Side note: it&#x27;s even smarter than a &lt;code&gt;Vec&lt;&#x2F;code&gt; because it implements smart
-head and tail chunking&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#UCR2014&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and allocates in the stack or on the heap
+head and tail chunking&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-UCR2014-1&quot;&gt;&lt;a href=&quot;#fn-UCR2014&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and allocates in the stack or on the heap
 depending on the size of the collection, similarly to &lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;smallvec&quot;&gt;the &lt;code&gt;smallvec&lt;&#x2F;code&gt;
 crate&lt;&#x2F;a&gt;. End of digression)&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;observable-immutable-collection&quot;&gt;Observable (immutable) collection&lt;&#x2F;h2&gt;
@@ -1088,26 +1088,30 @@ but 1!&lt;&#x2F;li&gt;
 &lt;p&gt;We will see how all that works in the next episodes and how powerful this design
 is, especially when it comes to cross-platform UI (user interface). We are going
 to learn so much about &lt;code&gt;Stream&lt;&#x2F;code&gt; and &lt;code&gt;Future&lt;&#x2F;code&gt;, it&#x27;s going to be fun!&lt;&#x2F;p&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;spes_salutis&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;Latine expression meaning &lt;em&gt;salvation hope&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;beati_pauperes_in_spiritu&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
-&lt;p&gt;Latine expression meaning &lt;em&gt;bless are the poor in spirit&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;SRUB2015&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn-spes_salutis&quot;&gt;
+&lt;p&gt;Latine expression meaning &lt;em&gt;salvation hope&lt;&#x2F;em&gt;. &lt;a href=&quot;#fr-spes_salutis-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li id=&quot;fn-beati_pauperes_in_spiritu&quot;&gt;
+&lt;p&gt;Latine expression meaning &lt;em&gt;bless are the poor in spirit&lt;&#x2F;em&gt;. &lt;a href=&quot;#fr-beati_pauperes_in_spiritu-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li id=&quot;fn-SRUB2015&quot;&gt;
 &lt;p&gt;&lt;cite&gt;&lt;a href=&quot;https:&#x2F;&#x2F;infoscience.epfl.ch&#x2F;server&#x2F;api&#x2F;core&#x2F;bitstreams&#x2F;7c8b929f-1f68-4948-8ea8-e364e4899b2a&#x2F;content&quot;&gt;Relaxed-Radix-Balanced
 (RRR) Vector: A Practical General Purpose Immutable
 Sequence&lt;&#x2F;a&gt;&lt;&#x2F;cite&gt; by Sticki N., Rompf T., Ureche V. and Bagwell P. (2015,
 August), in &lt;i&gt;Proceedings of the 20th ACM SIGPLAN International Conference
-on Functional Programming (pp. 342-354).&lt;&#x2F;i&gt;&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;UCR2014&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+on Functional Programming (pp. 342-354).&lt;&#x2F;i&gt; &lt;a href=&quot;#fr-SRUB2015-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li id=&quot;fn-UCR2014&quot;&gt;
 &lt;p&gt;&lt;cite&gt;&lt;a href=&quot;http:&#x2F;&#x2F;deepsea.inria.fr&#x2F;pasl&#x2F;chunkedseq.pdf&quot;&gt;Theory
 and Practise of Chunked Sequences&lt;&#x2F;a&gt;&lt;&#x2F;cite&gt; by Acar U. A., Charguéraud
 A., and Rainey M. (2014), in &lt;i&gt;Algorithms-ESA 2014: 22th Annual European
 Symposium, Wroclaw, Poland, September 8-10, 2014. Proceedings 21 (pp.
-25-36).&lt;&#x2F;i&gt;, Springer Berlin Heidelberg.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
+25-36).&lt;&#x2F;i&gt;, Springer Berlin Heidelberg. &lt;a href=&quot;#fr-UCR2014-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;section&gt;
 </content>
         
     </entry>

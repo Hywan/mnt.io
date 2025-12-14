@@ -7,7 +7,7 @@
 
   <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=a9f5324832201e4248b6" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=860c370597c383140802" />
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
 
@@ -199,7 +199,7 @@ events, however we need:</p>
 <p>A first implementation has landed in the Matrix Rust SDK. All good. When
 suddenly…</p>
 <h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q></h2>
-<p>A power-user<sup class="footnote-reference"><a href="#power-user">1</a></sup> was <a href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
+<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="#fn-power-user">1</a></sup> was <a href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
 a delicate situation. How to know the reason of the slowness? Is it the device?
 The network? The asynchronous runtime? A lock contention? The file system? …
 The database?</p>
@@ -616,7 +616,7 @@ in the <code>HashMap</code>.</li>
 </span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
 </span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">collect<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust">HashMap<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>, <span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-terminator z-rust">;</span>
 </span></code></pre>
-<p>And the second query translates like so<sup class="footnote-reference"><a href="#simplified-code">2</a></sup>:</p>
+<p>And the second query translates like so<sup class="footnote-reference" id="fr-simplified-code-1"><a href="#fn-simplified-code">2</a></sup>:</p>
 <pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust">transaction
 </span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">prepare</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
 </span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">        <span class="z-string z-quoted z-double z-raw z-rust"><span class="z-storage z-type z-string z-rust">r</span><span class="z-punctuation z-definition z-string z-begin z-rust">#&quot;</span>
@@ -749,17 +749,21 @@ implementation didn't change. Only the SQL queries have changed, and it has
 dramatically improved the situation.</p>
 <p>This is joint effort between <a href="https://bouvier.cc/">Benjamin Bouvier</a>, <a href="https://github.com/poljar">Damir Jelić</a> and
 I.</p>
-<div class="footnote-definition" id="power-user"><sup class="footnote-definition-label">1</sup>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-power-user">
 <p>We consider a <em>power-user</em> a user with more than 2000 rooms. I
 hear your laugth! But guess what? We have users with more than 4000 rooms.
 And I'm excluding bots here. The Matrix Rust SDK can be used to develop
 bots, which can sit in thousands and thousands rooms easily. That said: we
-have to be performant.</p>
-</div>
-<div class="footnote-definition" id="simplified-code"><sup class="footnote-definition-label">2</sup>
+have to be performant. <a href="#fr-power-user-1">↩</a></p>
+</li>
+<li id="fn-simplified-code">
 <p>The code has been simplified a little bit. In reality, basic
-Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk's types.</p>
-</div>
+Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk's types. <a href="#fr-simplified-code-1">↩</a></p>
+</li>
+</ol>
+</section>
 
   </article>
 

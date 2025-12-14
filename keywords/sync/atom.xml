@@ -45,7 +45,7 @@ stands for Matrix Spec Changes, like RFC for example—, so the &lt;a href=&quot
 our experimental foundation to play with a new sync mechanism. After many sweat
 and tears, we ultimately found a working pattern and design that fulfill a
 large majority of our usecases. Along the way, the implementation inside the
-Sliding Sync Proxy —a proxy that sits on the top of a homeserver&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to provide
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-1-1&quot;&gt;&lt;a href=&quot;#fn-1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to provide
 this new sync mechanism— was starting to feel really buggy and was really slow.
 It was time to clean up everything, including the MSC.&lt;&#x2F;p&gt;
 &lt;p&gt;Enter &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-spec-proposals&#x2F;blob&#x2F;erikj&#x2F;sss&#x2F;proposals&#x2F;4186-simplified-sliding-sync.md&quot;&gt;MSC4186&lt;&#x2F;a&gt;, which is basically Simplified Sliding Sync. We have mostly
@@ -188,9 +188,13 @@ etc. Taking the night train is a nice way of travelling, and it saves a lot
 of emissions.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ve taken a regular day train to go to Berlin, and a night train to come back
 home.&lt;&#x2F;p&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;A &lt;em&gt;homeserver&lt;&#x2F;em&gt; in the Matrix terminology is simply a Matrix server.&lt;&#x2F;p&gt;
-&lt;&#x2F;div&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn-1&quot;&gt;
+&lt;p&gt;A &lt;em&gt;homeserver&lt;&#x2F;em&gt; in the Matrix terminology is simply a Matrix server. &lt;a href=&quot;#fr-1-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;section&gt;
 </content>
         
     </entry>
