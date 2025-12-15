@@ -61,11 +61,11 @@ p, h1, h2, h3, h4, h5, h6 {
     oklch(85% .004 360)
   );
   --color-lighter: light-dark(
-    oklch(from var(--color-light) calc(l + .05) c h),
+    oklch(from var(--color-light) calc(l - .05) c h),
     oklch(from var(--color-light) calc(l + .05) c h)
   );
   --color-light-darker: light-dark(
-    oklch(from var(--color-light) calc(l - 0.21) c h),
+    oklch(from var(--color-light) calc(l + 0.21) c h),
     oklch(from var(--color-light) calc(l - 0.21) c h)
   );
   --color-accent: light-dark(
