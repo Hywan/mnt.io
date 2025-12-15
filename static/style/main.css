@@ -41,19 +41,38 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Style */
 
 :root {
-  /**
-   * in `oklch(from var(…) …)`, the `var(…)` is not supported by
-   * `postcss-relative-color-syntax`, so we need to copy the colours
-   */
-  --color-white: #fff;
-  --color-dark: oklch(26.42% .017 285.2);
-  --color-dark-lighter: oklch(from oklch(26.42% .017 285.2) calc(l + .1) c h);
-  --color-dark-blue: oklch(27.23% 0.024 264.05);
-  --color-light: oklch(85% .004 360);
-  --color-lighter: oklch(from oklch(85% .004 360) calc(l + .05) c h);
-  --color-light-darker: oklch(from oklch(85% .004 360) calc(l - 0.21) c h);
-  --color-accent: oklch(84.83% .114 76.18);
-  --color-accent-darker: oklch(from oklch(84.83% .114 76.18) calc(l - .04) c h);
+  color-scheme: dark;
+
+  --color-white: light-dark(#000, #fff);
+  --color-dark: light-dark(
+    oklch(96%    .017 285.2),
+    oklch(26.42% .017 285.2)
+  );
+  --color-dark-lighter: light-dark(
+    oklch(from var(--color-dark) calc(l - .04) c h),
+    oklch(from var(--color-dark) calc(l + .1) c h)
+  );
+  --color-dark-blue: light-dark(
+    oklch(72.77% 0.024 264.05),
+    oklch(27.23% 0.024 264.05)
+  );
+  --color-light: light-dark(
+    oklch(15% .004 360),
+    oklch(85% .004 360)
+  );
+  --color-lighter: light-dark(
+    oklch(from var(--color-light) calc(l - .05) c h),
+    oklch(from var(--color-light) calc(l + .05) c h)
+  );
+  --color-light-darker: light-dark(
+    oklch(from var(--color-light) calc(l + 0.41) c h),
+    oklch(from var(--color-light) calc(l - 0.21) c h)
+  );
+  --color-accent: light-dark(
+    oklch(69.50% .140 76.18),
+    oklch(84.83% .114 76.18)
+  );
+  --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
   --color-accent2: oklch(59.1% .236 10.25);
 
   --space-very-very-small: .2rem;
@@ -73,6 +92,13 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --blur: .3rem;
 }
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+  }
+}
+
 
 body {
   --_background-color: var(--color-dark);
@@ -225,6 +251,7 @@ code {
 pre {
   --_padding: var(--space);
 
+  color-scheme: dark;
   overflow-x: scroll;
   margin-block: var(--space);
   line-height: 1.3em;
@@ -276,6 +303,7 @@ figure {
   &:has(img, picture, .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
+  color-scheme: dark;
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
 
@@ -428,6 +456,7 @@ main {
 }
 
 #menu {
+  color-scheme: dark;
   color: var(--color-white);
   background: var(--color-accent2);
 
@@ -579,6 +608,7 @@ article {
 
 .label {
   color: var(--color-white);
+  color-scheme: dark;
   font-size: 0.7rem;
   font-weight: bold;
   padding: var(--space-very-very-small) var(--space-small);
@@ -592,6 +622,7 @@ article {
 
   position: relative;
   color: var(--color-dark);
+  color-scheme: dark;
   padding: var(--_space);
   border-radius: var(--space-small);
   background: var(--color-accent-darker);
