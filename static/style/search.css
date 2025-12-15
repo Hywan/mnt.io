@@ -2,8 +2,8 @@
   --_margin: var(--space-very-large);
   position: fixed;
   top: 10vh;
-  left: 5vw;
-  width: 90vw;
+  width: min(100%, var(--content-max-width));
+  margin-inline: auto;
   height: 80vh;
   color: currentColor;
   border: var(--border-width) var(--border-color) solid;
