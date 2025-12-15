@@ -357,8 +357,11 @@ details {
     cursor: pointer;
     padding-inline-end: var(--space-very-large);
 
-    &::marker {
-      content: none;
+    list-style: none;
+    &::marker,
+    &::-webkit-details-marker {
+      content: none; /* all browsers */
+      display: none; /* WebKit */
     }
 
     &::after {
@@ -371,8 +374,8 @@ details {
     }
   }
 
-  &:open summary::after {
-    content: '−';
+  &[open] summary::after {
+    content: '−' !important;
   }
 }
 
