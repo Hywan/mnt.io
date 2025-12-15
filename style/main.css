@@ -707,5 +707,9 @@ article {
       padding: var(--space);
       outline: var(--border-width) var(--color-accent) dotted;
     }
+
+    a[href^="#"] {
+      font-variant-emoji: text;
+    }
   }
 }
