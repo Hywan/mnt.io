@@ -1,7 +1,7 @@
 {% import "macros/article.html" as article %}
 
 {% macro poster(section) %}
-  <a href="{{ section.permalink | safe }}" class="h2" property="url"><span property="name">{{ section.title | markdown(inline = true) | safe }}</span></a>
+  <a href="{{ section.permalink | safe }}" class="h2" property="url"><span property="name" style="view-transition-name: series-title-{{ section.title | slugify }}">{{ section.title | markdown(inline = true) | safe }}</span></a>
   <span class="label">
   {%- if section.extra.complete -%}
   complete

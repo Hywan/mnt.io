@@ -13,7 +13,7 @@
 {% block body %}
   <article class="article" typeof="Article" data-pagefind-body>
     <header>
-      <h1 property="name">{{ page.title | markdown(inline = true) | safe }}</h1>
+      <h1 property="name" style="view-transition-name: article-title-{{ page.slug }}">{{ page.title | markdown(inline = true) | safe }}</h1>
 
       {{ article::metadata(page = page, full = true) }}
     </header>

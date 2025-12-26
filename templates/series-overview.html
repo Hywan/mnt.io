@@ -12,7 +12,7 @@
 
 {% block body %}
   <section typeof="CreativeWorkSeries">
-    <h1 property="name">{{ section.title }}</h1>
+    <h1 property="name" style="view-transition-name: series-title-{{ section.title | slugify }}">{{ section.title }}</h1>
 
     {{ section.content | safe }}
 
@@ -21,7 +21,7 @@
     <div role="list">
     {% for page in section.pages | reverse  %}
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="{{ page.permalink | safe }}" class="h3" property="url">Episode {{ loop.index }} – <span property="name">{{ page.title | markdown(inline=true) | safe }}</span></a>
+        <a href="{{ page.permalink | safe }}" class="h3" property="url">Episode {{ loop.index }} – <span property="name" style="view-transition-name: series-episode-title-{{ page.slug }}">{{ page.title | markdown(inline=true) | safe }}</span></a>
         {{ article::metadata(page = page, full = false) }}
         {% if page.description %}
         <div property="description">

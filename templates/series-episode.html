@@ -16,7 +16,7 @@
     {% set series = get_section(path = page.ancestors | last) -%}
 
     <header>
-      <h1 property="name">{{ page.title | markdown(inline = true) | safe }}</h1>
+      <h1 property="name" style="view-transition-name: series-episode-title-{{ page.slug }}">{{ page.title | markdown(inline = true) | safe }}</h1>
 
       <nav property="isPartOf" typeof="CreativeWorkSeries">
         <p>From the series <a href="{{ series.path | safe }}" property="url"><span property="name">{{ series.title }}</span></a>.</p>
