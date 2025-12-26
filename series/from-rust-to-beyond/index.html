@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cloud.umami.is; img-src 'self' data:">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, minimum-scale=1" />
 
   <title>From Rust to beyond</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=0b9a639ac1f3efe09439" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=74dc123ea719bf1ea5da" />
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
 
@@ -46,7 +46,7 @@
 <main vocab="https://schema.org">
 
   <section typeof="CreativeWorkSeries">
-    <h1 property="name">From Rust to beyond</h1>
+    <h1 property="name" style="view-transition-name: series-title-from-rust-to-beyond">From Rust to beyond</h1>
 
     <p><a href="https://automattic.com/">At my work</a>, I had an opportunity to start an
 experiment: Writing a single parser implementation in Rust for <a href="https://github.com/WordPress/gutenberg">the new
@@ -63,7 +63,7 @@ all these environments!</p>
     <div role="list">
     
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="https://mnt.io/series/from-rust-to-beyond/prelude/" class="h3" property="url">Episode 1 – <span property="name">Prelude</span></a>
+        <a href="https://mnt.io/series/from-rust-to-beyond/prelude/" class="h3" property="url">Episode 1 – <span property="name" style="view-transition-name: series-episode-title-prelude">Prelude</span></a>
         
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-08-21" property="datePublished">August 21, 2018</time>
@@ -83,7 +83,7 @@ all these environments!</p>
       </div>
     
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="h3" property="url">Episode 2 – <span property="name">The WebAssembly galaxy</span></a>
+        <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="h3" property="url">Episode 2 – <span property="name" style="view-transition-name: series-episode-title-the-webassembly-galaxy">The WebAssembly galaxy</span></a>
         
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-08-22" property="datePublished">August 22, 2018</time>
@@ -104,7 +104,7 @@ all these environments!</p>
       </div>
     
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="h3" property="url">Episode 3 – <span property="name">The ASM.js galaxy</span></a>
+        <a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="h3" property="url">Episode 3 – <span property="name" style="view-transition-name: series-episode-title-the-asm-js-galaxy">The ASM.js galaxy</span></a>
         
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-08-28" property="datePublished">August 28, 2018</time>
@@ -124,7 +124,7 @@ all these environments!</p>
       </div>
     
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="h3" property="url">Episode 4 – <span property="name">The C galaxy</span></a>
+        <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="h3" property="url">Episode 4 – <span property="name" style="view-transition-name: series-episode-title-the-c-galaxy">The C galaxy</span></a>
         
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-09-11" property="datePublished">September 11, 2018</time>
@@ -144,7 +144,7 @@ all these environments!</p>
       </div>
     
       <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
-        <a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="h3" property="url">Episode 5 – <span property="name">The PHP galaxy</span></a>
+        <a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="h3" property="url">Episode 5 – <span property="name" style="view-transition-name: series-episode-title-the-php-galaxy">The PHP galaxy</span></a>
         
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-10-29" property="datePublished">October 29, 2018</time>
@@ -207,8 +207,6 @@ all these environments!</p>
     </div>
   </div>
 </footer>
-
-<script defer src="https://cloud.umami.is/script.js" data-website-id="30754987-0af7-4ea0-9bd3-711c543b6ecb"></script>
 
 <script src="https://mnt.io/search/pagefind-ui.js"></script>
 <script>
