@@ -91,6 +91,8 @@ p, h1, h2, h3, h4, h5, h6 {
   --text-line-height: 1.5;
 
   --blur: .3rem;
+
+  --transition-duration: 200ms;
 }
 
 @media (prefers-color-scheme: light) {
