@@ -585,7 +585,7 @@ article {
   display: inline-block;
   color: var(--color-light-darker);
 
-  :has(+ &) {
+  &:not(:last-child) {
     margin-inline-end: var(--space-large);
   }
 }
