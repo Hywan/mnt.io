@@ -92,7 +92,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --blur: .3rem;
 
-  --transition-duration: 200ms;
+  --transition-duration-long: 750ms;
+  --transition-timing-snap: linear(0, 0.947 9.6%, 1.153 14.4%, 0.976 29.6%, 1.004 44.8%, 1);
 }
 
 @media (prefers-color-scheme: light) {
