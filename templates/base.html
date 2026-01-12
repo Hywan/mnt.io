@@ -36,6 +36,8 @@
   {%- endif %}
   <meta property="og:image" content="{{ get_url(path = "/image/site-poster.jpg") }}">
   <meta name="fediverse:creator" content="@hywan@floss.social" />
+
+  <script defer src="{{ get_url(path = "/search/pagefind-ui.js") }}" fetchpriority="low"></script>
 </head>
 <body class="content-grid">
 
@@ -105,7 +107,6 @@
   </div>
 </footer>
 
-<script src="{{ get_url(path = "/search/pagefind-ui.js") }}"></script>
 <script>
   window.addEventListener('DOMContentLoaded', (_event) => {
     new PagefindUI({
