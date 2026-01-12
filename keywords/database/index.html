@@ -7,7 +7,7 @@
 
   <title>The Database Keyword</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=7afaaa8b4da5818ca76b" />
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631dfbadc4b01d8fbb5b" />
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058" />
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low" />
 
@@ -20,17 +20,19 @@
   <meta property="og:url" content="https://mnt.io" />
   <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
   <meta name="fediverse:creator" content="@hywan@floss.social" />
+
+  <script defer src="https://mnt.io/search/pagefind-ui.js" fetchpriority="low"></script>
 </head>
 <body class="content-grid">
 
 <nav id="menu" class="full-width content-grid">
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="https://mnt.io/articles/">Articles</a></li>
-    <li><a href="https://mnt.io/series/">Series</a></li>
-    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li><a href="/" accesskey="h">Home</a></li>
+    <li><a href="https://mnt.io/articles/" accesskey="a">Articles</a></li>
+    <li><a href="https://mnt.io/series/" accesskey="s">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
     <li>
-      <a href="javascript:document.getElementById('search').showModal()">
+      <a href="javascript:document.getElementById('search').showModal()" accesskey="f">
         <svg viewBox="0 0 500 500" class="icon">
           <description>Search</description>
           <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
@@ -114,7 +116,6 @@
   </div>
 </footer>
 
-<script src="https://mnt.io/search/pagefind-ui.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', (_event) => {
     new PagefindUI({

@@ -15,6 +15,10 @@ img, picture, video, canvas, svg {
   height: 1em;
 }
 
+  svg.icon {
+    display: inline-block;
+  }
+
 input, button, textarea, select {
   font: inherit;
   color: currentColor;
@@ -30,7 +34,7 @@ input, button, textarea, select {
 }
 
   button {
-     color: var(--color-dark); 
+     color: var(--color-dark);
      background: var(--color-accent);
   }
 
@@ -122,7 +126,7 @@ body {
   accent-color: var(--color-accent);
   background: var(--_background-color);
 
-  scroll-behavior: smooth;    
+  scroll-behavior: smooth;
 }
 
 a {
@@ -238,7 +242,7 @@ li {
   }
 
   p {
-    --paragraph-margin: var(--space-small); 
+    --paragraph-margin: var(--space-small);
   }
 }
 
@@ -612,7 +616,7 @@ article {
   > div:last-child {
     margin-block-start: var(--space);
   }
-} 
+}
 
 .label {
   color: var(--color-white);
@@ -750,5 +754,18 @@ article {
     a[href^="#"] {
       font-variant-emoji: text;
     }
+  }
+}
+
+*[accesskey]:focus {
+  position: relative;
+
+  &::after {
+    content: "[" attr(accesskey) "]";
+    font-size: small;
+    position: absolute;
+    top: -.5rem;
+    right: 0;
+    transform: translateX(calc(100% + .1rem));
   }
 }
