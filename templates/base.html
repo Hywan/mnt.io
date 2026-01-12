@@ -43,12 +43,12 @@
 
 <nav id="menu" class="full-width content-grid">
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="{{ get_url(path = '@/articles/_index.md' )}}">Articles</a></li>
-    <li><a href="{{ get_url(path = '@/series/_index.md') }}">Series</a></li>
-    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content">Discuss</a></li>
+    <li><a href="/" accesskey="h">Home</a></li>
+    <li><a href="{{ get_url(path = '@/articles/_index.md' )}}" accesskey="a">Articles</a></li>
+    <li><a href="{{ get_url(path = '@/series/_index.md') }}" accesskey="s">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
     <li>
-      <a href="javascript:document.getElementById('search').showModal()">
+      <a href="javascript:document.getElementById('search').showModal()" accesskey="f">
         <svg viewBox="0 0 500 500" class="icon">
           <description>Search</description>
           <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
