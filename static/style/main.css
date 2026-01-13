@@ -13,11 +13,9 @@ img, picture, video, canvas, svg {
 
 .icon {
   height: 1em;
+  display: inline-block;
+  vertical-align: middle;
 }
-
-  svg.icon {
-    display: inline-block;
-  }
 
 input, button, textarea, select {
   font: inherit;
