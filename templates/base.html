@@ -1,41 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
-  <meta name="viewport" content="width=device-width, minimum-scale=1" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1">
 
   <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
 
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}" />
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}" />
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/search.css") }}" fetchpriority="low" />
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}">
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}">
+  <link rel="stylesheet" href="{{ get_url(path = "/style/min/search.css") }}" fetchpriority="low">
 
-  <meta name="author" content="Ivan Enderlin" />
+  <meta name="author" content="Ivan Enderlin">
   {%- if page.description %}
-  <meta name="description" content="{{ page.description }}" />
+  <meta name="description" content="{{ page.description }}">
   {%- elif section.description %}
-  <meta name="description" content="{{ section.description }}" />
+  <meta name="description" content="{{ section.description }}">
   {%- else %}
-  <meta name="description" content="mnt.io" />
+  <meta name="description" content="mnt.io">
   {%- endif %}
   {%- if page.taxonomies.keywords %}
-  <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}" />
+  <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}">
   {%- endif %}
-  <meta property="og:title" content="{%- block long_title -%}mnt.io{%- endblock long_title -%}" />
-  <meta property="og:site_name" content="mnt.io" />
-  <meta property="og:locale" content="en_GB" />
+  <meta property="og:title" content="{%- block long_title -%}mnt.io{%- endblock long_title -%}">
+  <meta property="og:site_name" content="mnt.io">
+  <meta property="og:locale" content="en_GB">
   {% set first_component = page.components | default(value = []) | first -%}
-  <meta property="og:type" content="{% if first_component == "series" or first_component == "articles" -%}article{% else %}website{% endif %}" />
+  <meta property="og:type" content="{% if first_component == "series" or first_component == "articles" -%}article{% else %}website{% endif %}">
   {%- if page.permalink %}
-  <meta property="og:url" content="{{ page.permalink | safe }}" />
+  <meta property="og:url" content="{{ page.permalink | safe }}">
   {%- elif section.permalink %}
-  <meta property="og:url" content="{{ section.permalink | safe }}" />
+  <meta property="og:url" content="{{ section.permalink | safe }}">
   {%- else %}
-  <meta property="og:url" content="https://mnt.io" />
+  <meta property="og:url" content="https://mnt.io">
   {%- endif %}
   <meta property="og:image" content="{{ get_url(path = "/image/site-poster.jpg") }}">
-  <meta name="fediverse:creator" content="@hywan@floss.social" />
+  <meta name="fediverse:creator" content="@hywan@floss.social">
 
   <script defer src="{{ get_url(path = "/search/pagefind-ui.js") }}" fetchpriority="low"></script>
 </head>
