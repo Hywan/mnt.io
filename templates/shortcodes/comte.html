@@ -9,5 +9,7 @@
     </picture>
 
   </div>
-  {{ body | markdown(inline=false) | safe }}
+  <div class="conversation--message">
+    {{ body | markdown(inline=false) | safe }}
+  </div>
 </div>

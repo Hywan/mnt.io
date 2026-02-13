@@ -630,75 +630,54 @@ article {
 .conversation {
   --_space: var(--space);
 
-  position: relative;
-  color: var(--color-dark);
+  display: grid;
+  grid-template-columns: minmax(60px, 16%) 1fr;
+  gap: var(--_space);
   color-scheme: dark;
+  color: var(--color-dark);
   padding: var(--_space);
   border-radius: var(--space-small);
   background: var(--color-accent-darker);
-  background-size: 100px auto;
+
+  > .conversation--character {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+
+    span {
+      font-size: .8em;
+      font-style: italic;
+      text-align: center;
+    }
+  }
 
   &[data-character="comte"] ~ &[data-character="comte"],
   &[data-character="factotum"] ~ &[data-character="factotum"],
   &[data-character="procureur"] ~ &[data-character="procureur"] {
-    .conversation--character {
-      picture {
-        margin-block-end: 0;
-      }
-
+    > .conversation--character {
       span {
         display: none;
       }
     }
   }
 
-  > .conversation--character {
-    position: relative;
-    min-width: 80px;
-    max-width: 16%;
-
-    float: inline-start;
-    margin-inline-end: var(--_space);
-
-    picture {
-      margin-block-end: 1rem;
+  > .conversation--message {
+    a, a:hover, a:focus {
+      color: currentColor;
+      text-decoration-color: currentColor;
+      text-decoration-line: underline;
+      text-decoration-thickness: 3px;
     }
 
-    span {
-      position: absolute;
-      font-size: .8em;
-      font-style: italic;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
+    code {
+      padding-inline: 0;
+      background-color: transparent;
     }
-  }
 
-  &::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-
-  > p:first-of-type {
-    margin-block-start: 0;
-  }
-
-  a, a:hover, a:focus {
-    color: currentColor;
-    text-decoration-color: currentColor;
-    text-decoration-line: underline;
-    text-decoration-thickness: 3px;
-  }
-
-  code {
-    padding-inline: 0;
-    background-color: transparent;
-  }
-
-  blockquote {
-    border: 0;
+    > p:first-of-type {
+      margin-block-start: 0;
+    }
   }
 }
 
