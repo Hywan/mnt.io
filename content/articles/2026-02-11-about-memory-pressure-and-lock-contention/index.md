@@ -204,13 +204,26 @@ How about a vector of `char`? We want a `Stream` of _changes_ about this vector
 modifying the _changes_. It looks like so:
 
 ```rust
+use std::cmp::Ordering;
+
 use eyeball_im::{ObservableVector, VectorDiff};
 use eyeball_im_util::vector::VectorObserverExt;
 use stream_assert::{assert_next_eq, assert_pending};
 
+// Our comparison function.
+fn cmp<T>(left: &T, right: &T) -> Ordering
+where
+    T: Ord,
+{
+    left.cmp(right)
+}
+
 // Our vector.
 let mut vector = ObservableVector::<char>::new();
-let (initial_values, mut stream) = vector.subscribe().sort();
+let (initial_values, mut stream) = vector.subscribe().sort_by(cmp);
+//                                                            ^^^
+//                                                            |
+//                                                            there
 
 assert!(initial_values.is_empty());
 assert_pending!(stream);
@@ -297,33 +310,124 @@ These details were important. Kind of. I hope you've learned something along
 the lines. Next, let's see how a sorter works, and how it is responsible for our
 memory pressure and lock contention.
 
-### Sorter
+### Randomness
 
-Taking a step back, I was asking myself: Is it really frozen? I was unable
-to reproduce the problem. Even the reporters of the problem were unable to
-reproduce it consistently. Hmm, a random problem? Fortunately, two of the
-reporters are obstinate. Ultimately, we got analysis.
+Taking a step back, I was asking myself: <q>Is it really frozen?</q>. Cherry
+on the cake: I was unable to reproduce the problem! Even the reporters of
+the problem were unable to reproduce it consistently. Hmm, a random problem?
+Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.
 
 {% figure_image(file="./memory-pressure") %}
 
-Memory analysis of Element X in Android Studio. Element X is using the Matrix
-Rust SDK.
-
-It presents a callback tree, with the number of allocations and deallocations
-for each node in this tree.
+Memory analysis of Element X in Android Studio (Element X is based on the Matrix
+Rust SDK). It presents a callback tree, with the number of allocations and
+deallocations for each node in this tree.
 
 And, holy cow, we see **a lot** of memory allocations, exactly 322'042 to be
-precise, counting for 743Mib.
+precise, counting for 743Mib, for the `eyeball_im_util::vector::sort::SortBy`
+type!
 
 {% end %}
 
+The Room List wasn't frozen. It was taking **a lot** of time to yield values.
+Sometimes, up to 4 minutes on a phone. Alright, we have two problems to solve
+here:
 
-Why the problem is random?
+1. Why is it random?
+2. Why so much memory allocations and deallocations?
 
-Why do we have memory allocations and deallocations? -> explain how sorter works
-(with the lexicographic sorter and others).
+The second problem will be discussed in the next section. Let's start with the
+first problem in this section, shall we?
 
-Transition to memory pressure
+Let's dig by the beginning. `eyeball_im_util::vector::sort::SortBy` is used
+like so:
+
+```rust
+stream
+    .sort_by(new_sorter_lexicographic(vec![
+        Box::new(new_sorter_latest_event()),
+        Box::new(new_sorter_recency()),
+        Box::new(new_sorter_name()),
+    ]))
+```
+
+`sort_by` receives a sorter: [`new_sorter_lexicographic`], it's from
+[`matrix_sdk_ui::room_list::sorters`], and it's a constructor for a…
+lexicographic sorter. All sorters must implement [the `Sorter` trait][`Sorter`].
+Once again, it's a trait from `matrix_sdk_ui`, nothing fancy, it's simply this:
+
+```rust
+// Trait “alias”.
+pub trait Sorter: Fn(&RoomListItem, &RoomListItem) -> Ordering {}
+
+// All functions `F` are auto-implementing `Sorter`.
+impl<F> Sorter for F
+where
+  F: Fn(&RoomListItem, &RoomListItem) -> Ordering {}
+```
+
+Put it differently, all functions with two parameters of type `&RoomListItem`,
+and with a return type `Ordering` is considered a sorter. There. It's crystal
+clear now, except… what's a lexicographic sorter?
+
+{% procureur() %}
+
+Should I really quote the documentation of `new_sorter_lexicographic`? My work here is turning into a tragedy.
+
+It creates a new sorter that will run multiple sorters. When the nth sorter
+returns `Ordering::Equal`, the next sorter is called. It stops as soon as a
+sorter returns `Ordering::Greater` or `Ordering::Less`.
+
+This is an implementation of a lexicographic order as defined for [cartesian
+products].
+
+[cartesian products]: https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products
+
+{% end %}
+
+To make it short, we are executing 3 sorters: by _latest event_, by _recency_
+and by _name_.
+
+None of these sorters are using any form of randomness. It's a
+<em lang="fr">cul-de-sac</em>. Let's take a step back by looking at `SortBy`
+in `eyeball_im_util` itself maybe? <i>scroll the documentation</i>, not here,
+<i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
+on the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
+
+> When looking for the _position_ of a value (e.g. where to insert a new
+> value?), `Vector::binary_search_by` is used — it is possible because the
+> `Vector` is sorted. When looking for the _unsorted index_ of a value,
+> `Iterator::position` is used.
+
+[`Vector::binary_search_by`] doesn't mention any form of randomness in its documentation. Another <em lang="fr">cul-de-sac</em>.
+
+{% comte() %}
+
+Remember that the Room List appears frozen but it is actually blank. The problem
+is not when the stream receives an update, but when the stream is “created”,
+i.e. when the initial items are sorted for the first time before receiving
+updates.
+
+Moreover, the comment says <q>it is possible because the `Vector` is sorted</q>,
+which indicates that “the vector” (I guess it's a buffer somewhere) _has been
+sorted_ one way or another. What do you think?
+
+{% end %}
+
+Ah! Brilliant. That's correct! Looking at [the constructor of
+`SortBy`][`SortImpl::new`] (or its implementation), we notice it's using
+[`Vector::sort_by`]. And guess what? It's relying on… <i>drum roll</i>…
+[quicksort][`Vector::sort_by#quicksort`]! Following the path, we see
+[it actually creates a pseudo random number generator (PRNG) to do the
+quicksort][`quicksort`].
+
+Phew. Finally. Time for a cup of tea and a biscuit[^biscuit].
+
+My guess here is the following. Depending of the (pseudo randomly) generated
+pivot index, the number of comparisons aren't identical. We can enter
+in a pathological case where more comparisons means more memory pressure,
+which means slower sorting, which means… A Frozen Room List<sup><abbr
+title="Trademark">TM</abbr></sup>, <i>play a horror movie music</i>!
 
 ### Memory Pressure
 
@@ -348,6 +452,16 @@ Transition to memory pressure
 [eyeball#43]: https://github.com/jplatte/eyeball/pull/43
 [`stream_assert`]: https://docs.rs/stream_assert/0.1.1/stream_assert/
 [`Future`]: https://doc.rust-lang.org/std/future/trait.Future.html
+[`new_sorter_lexicographic`]: https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html
+[`matrix_sdk_ui::room_list::sorters`]: https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/
+[`Sorter`]: https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/trait.Sorter.html
+[sort-by-binary-search]: https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318
+[`Vector::binary_search_by`]: https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.binary_search_by
+[`SortImpl::new`]: https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L261
+[`Vector::sort_by`]: https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.sort_by
+[`Vector::sort_by#quicksort`]: https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/vector/mod.rs#L1575-L1583
+[`quicksort`]: https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/sort.rs#L177-L185
+[biscuit]: https://www.biscuitsec.org/
 
 [^vectordiff_on_other_uis]: On [SwiftUI], there is the
     [`CollectionDifference.Change`] enum. For example: `VectorDiff::PushFront`
@@ -360,6 +474,7 @@ Transition to memory pressure
     for another article. Meanwhile, you can take a look at [`async_rx::Switch`].
 [^stream_assert]: Do you know [`stream_assert`]? It's another crate we've
     written to easily apply assertions on `Stream`s. Pretty convenient.
+[^biscuit]: Yes, [biscuit].
 
 <!--
 
