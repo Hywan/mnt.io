@@ -190,18 +190,18 @@ There is a lot going on here. Sadly, we are not going to explain everything in
 this beautiful piece of art[^switch].
 
 The `.filter()`, `.sort_by()`, `.dynamic_head_with_initial_value()` methods
-are part of [the `eyeball-im-util` crate][`eyeball_im_util`]. They are
-essentially mapping a `Stream<Item = Vec<VectorDiff<T>>>` to another
-`Stream<Item = Vec<VectorDiff<T>>>`. In other terms, they “change” the
-`VectorDiff`s on-the-fly to simulate filtering, sorting, or something
-else. Let's see a very concrete example with [the `Sort` higher-order
-stream][`eyeball_im_util::vector::Sort`] (the following example is mostly a copy
-of  the documentation of `Sort`, but [since I wrote this algorithm, I guess you,
-dear reader, will find it acceptable][eyeball#43]).
+are part of [the `eyeball-im-util` crate][`eyeball_im_util`]. They are used
+to filter, sort etc. a stream: They are essentially mapping a `Stream<Item
+= Vec<VectorDiff<T>>>` to another `Stream<Item = Vec<VectorDiff<T>>>`. In
+other terms, they “change” the `VectorDiff`s on-the-fly to simulate filtering,
+sorting, or something else. Let's see a very concrete example with [the `Sort`
+higher-order stream][`eyeball_im_util::vector::Sort`] (the following example
+is mostly a copy of  the documentation of `Sort`, but [since I wrote this
+algorithm, I guess you, dear reader, will find it acceptable][eyeball#43]).
 
-Let's say we have a vector of `char`. We want a `Stream` of _changes_ about this
-vector (the famous `VectorDiff`). We also want to _simulate_ a sorted vector,
-by only modifying the _changes_. It will look like so:
+How about a vector of `char`? We want a `Stream` of _changes_ about this vector
+(the famous `VectorDiff`). We also want to _simulate_ a sorted vector, by only
+modifying the _changes_. It looks like so:
 
 ```rust
 use eyeball_im::{ObservableVector, VectorDiff};
@@ -276,13 +276,17 @@ assert_pending!(stream);
 Notice how `vector` is _never_ sorted. That's the power of these higher-order
 streams of `VectorDiff`s: light and —more importantly— **combinable**! I repeat
 myself: we are always mapping a `Stream<Item = Vec<VectorDiff<T>>>` to another
-`Stream<Item = Vec<VectorDiff<T>>>`. That's the same type!
+`Stream<Item = Vec<VectorDiff<T>>>`. That's the same type! The whole collection
+is never computed entirely (except for the initial values): only the changes are
+handled and trigger a computation. Knowing that, in the manner of [`Future`],
+`Stream` is lazy —i.e. it does something only when polled—, it makes things
+pretty efficient. And…
 
 {% comte() %}
 
-As your favourite digression companion, I really, deeply, appreciate these
+… as your favourite digression companion, I really, deeply, appreciate these
 details. Nonetheless, I hope you dont't mind if… I suggest to you that… you
-might want to, maybe, go back to… the main… subject, don't you think?
+might want to, maybe, go back to… <small>the main… subject, don't you think?</small>
 
 {% end %}
 
@@ -299,6 +303,31 @@ Taking a step back, I was asking myself: Is it really frozen? I was unable
 to reproduce the problem. Even the reporters of the problem were unable to
 reproduce it consistently. Hmm, a random problem? Fortunately, two of the
 reporters are obstinate. Ultimately, we got analysis.
+
+<figure>
+
+<picture>
+  <source srcset="./memory-pressure.avif" type="image/avif" />
+  <source srcset="./memory-pressure.webp" type="image/webp" />
+  <img src="./memory-pressure.png" />
+</picture>
+
+<figcaption>
+
+Memory analysis of Element X in Android Studio. Element X is using the Matrix
+Rust SDK.
+
+We see a **lot** of memory allocations and deallocations.
+
+</figcaption>
+
+</figure>
+
+Why the problem is random?
+
+Why do we have memory allocations and deallocations? -> explain how sorter works (with the lexicographic sorter and others).
+
+Transition to memory pressure
 
 ### Memory Pressure
 
@@ -322,6 +351,7 @@ reporters are obstinate. Ultimately, we got analysis.
 [`eyeball_im_util::vector::Sort`]: https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/vector/struct.Sort.html
 [eyeball#43]: https://github.com/jplatte/eyeball/pull/43
 [`stream_assert`]: https://docs.rs/stream_assert/0.1.1/stream_assert/
+[`Future`]: https://doc.rust-lang.org/std/future/trait.Future.html
 
 [^vectordiff_on_other_uis]: On [SwiftUI], there is the
     [`CollectionDifference.Change`] enum. For example: `VectorDiff::PushFront`
