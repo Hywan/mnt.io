@@ -304,28 +304,24 @@ to reproduce the problem. Even the reporters of the problem were unable to
 reproduce it consistently. Hmm, a random problem? Fortunately, two of the
 reporters are obstinate. Ultimately, we got analysis.
 
-<figure>
-
-<picture>
-  <source srcset="./memory-pressure.avif" type="image/avif" />
-  <source srcset="./memory-pressure.webp" type="image/webp" />
-  <img src="./memory-pressure.png" />
-</picture>
-
-<figcaption>
+{% figure_image(file="./memory-pressure") %}
 
 Memory analysis of Element X in Android Studio. Element X is using the Matrix
 Rust SDK.
 
-We see a **lot** of memory allocations and deallocations.
+It presents a callback tree, with the number of allocations and deallocations
+for each node in this tree.
 
-</figcaption>
+And, holy cow, we see **a lot** of memory allocations, exactly 322'042 to be
+precise, counting for 743Mib.
 
-</figure>
+{% end %}
+
 
 Why the problem is random?
 
-Why do we have memory allocations and deallocations? -> explain how sorter works (with the lexicographic sorter and others).
+Why do we have memory allocations and deallocations? -> explain how sorter works
+(with the lexicographic sorter and others).
 
 Transition to memory pressure
 
