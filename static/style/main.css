@@ -245,8 +245,13 @@ li {
 }
 
 small {
-  font-size: .6em;
+  font-size: .8em;
+
+  :is(h1, h2, h3) & {
+    font-size: .6em;
+  }
 }
+
 
 code {
   /* Thanks https://modernfontstacks.com/! */
