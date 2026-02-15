@@ -9,8 +9,14 @@ generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
 [markdown]
-highlight_code = true
-highlight_theme = "css"
 bottom_footnotes = true
+external_links_target_blank = true
 
-[extra]
+[markdown.highlighting]
+error_on_missing_language = true
+# Use an empty theme, because giving one is required. However, a custom CSS
+# stylesheet is used to highlight the code. Only parsing and adding CSS classes
+# are required, not adding colours to it: it's the role of CSS.
+theme = "noop"
+extra_themes = ['code-theme.json']
+style = "class"

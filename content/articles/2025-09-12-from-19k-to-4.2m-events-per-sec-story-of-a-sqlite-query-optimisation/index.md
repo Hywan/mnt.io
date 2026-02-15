@@ -250,7 +250,7 @@ So. Yes. [We found the culprit][pr-5407]. With [`ripgrep`], we were able to scan
 megabytes of logs and find the culprit pretty quickly. I was looking for lags of
 the order of a second. I wasn't disappointed:
 
-```shell
+```console
 $ rg '_method_ finished in.*> load_all_chunks_metadata' all.log | rg '\d+(\.\d+)?s' --only-matching | sort --numeric-sort --reverse
 107.121747125s
 79.909931458s

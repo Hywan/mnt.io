@@ -566,7 +566,7 @@ Let's compile this with [`clang`](http://clang.llvm.org)! We assume that
 this code above is located in the same directory than the
 `gutenberg_post_parser.h` file, i.e. in a `dist/` directory. Thus:
 
-```sh
+```console
 $ cd dist
 $ clang \
       # Enable all warnings. \

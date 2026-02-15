@@ -31,7 +31,7 @@ alias '?'='duckduckgo'
 
 And here we (duckduck) go!
 
-```sh
+```console
 $ ? "foo bar's baz"
 ```
 

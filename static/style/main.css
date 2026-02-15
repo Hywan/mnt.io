@@ -273,6 +273,8 @@ pre {
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
 
+  --_text: "Code";
+
   code {
     display: block;
     margin: var(--_padding);
@@ -280,29 +282,25 @@ pre {
     background: transparent;
   }
 
-  &[class^="language-"] {
-    --text: "Code";
+  &:has(> code[data-lang="rust"]) { --_text: "Rust" }
+  &:has(> code[data-lang="shellsession"], > code[data-lang="shellscript"]) { --_text: "Shell" }
+  &:has(> code[data-lang="java"]) { --_text: "Java" }
+  &:has(> code[data-lang="sql"]) { --_text: "SQL" }
+  &:has(> code[data-lang="php"]) { --_text: "PHP" }
+  &:has(> code[data-lang="xml"]) { --_text: "XML" }
+  &:has(> code[data-lang="json"]) { --_text: "JSON" }
+  &:has(> code[data-lang="html"]) { --_text: "HTML" }
+  &:has(> code[data-lang="toml"]) { --_text: "TOML" }
 
-    &::before {
-      content: var(--text) " session";
-      position: sticky;
-      top: 0;
-      left: 0;
-      padding: var(--space-small) var(--_padding);
-      font-size: .85em;
-      background: var(--border-color);
-    }
+  &:has(> code[data-lang])::before {
+    content: var(--_text) " session";
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: var(--space-small) var(--_padding);
+    font-size: .85em;
+    background: var(--border-color);
   }
-
-  &.language-rust { --text: "Rust" }
-  &.language-sh { --text: "Shell" }
-  &.language-java { --text: "Java" }
-  &.language-sql { --text: "SQL" }
-  &.language-php { --text: "PHP" }
-  &.language-xml { --text: "XML" }
-  &.language-json { --text: "JSON" }
-  &.language-html { --text: "HTML" }
-  &.language-toml { --text: "TOML" }
 }
 
 figure {
@@ -721,13 +719,6 @@ article {
   }
 
   .footnotes-list > li {
-    list-style-position: inside;
-    display: list-item;
-
-    & > p {
-      display: inline;
-    }
-
     &:target {
       padding: var(--space);
       outline: var(--border-width) var(--color-accent) dotted;

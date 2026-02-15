@@ -87,7 +87,7 @@ file. Consequently, we are able to analyze regular expressions written
 in the PCRE language! Let's try in a shell at first with the
 `hoa compiler:pp` tool:
 
-```sh
+```console
 $ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --visitor dump
 >  #expression
 >  >  #concatenation
@@ -129,7 +129,7 @@ to learn more).
 Still in the shell, we can get the result of the lexical analyzer by
 using the `--token-sequence` option; thus:
 
-```sh
+```console
 $ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --token-sequence
   #  …  token name   token value  offset
 -----------------------------------------

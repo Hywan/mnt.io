@@ -64,21 +64,21 @@ Let's consider the `echo` program that prints all its options/arguments
 on its output. Thus, in the following example, `foobar` is printed on
 the screen:
 
-```sh
+```console
 $ echo 'foobar'
 ```
 
 And in the following example, `foobar` is redirected to a file called
 `log`:
 
-```sh
+```console
 $ echo 'foobar' > log
 ```
 
 We are also able to redirect the output to another program, like `wc`
 that counts stuff:
 
-```sh
+```console
 $ echo 'foobar' | wc -c
 7
 ```
@@ -86,7 +86,7 @@ $ echo 'foobar' | wc -c
 Now we know there are 7 characters in `foobar`… no! `echo` automatically
 adds a new-line (`\n`) after each line; so:
 
-```sh
+```console
 $ echo -n 'foobar' | wc -c
 6
 ```
@@ -130,7 +130,7 @@ var_dump(Hoa\Console\Console::isRedirection(STDOUT));
 
 Now, let's test our program:
 
-```sh
+```console
 $ php Type.php
 is direct:      bool(true)
 is pipe:        bool(false)
@@ -253,14 +253,14 @@ if(true === $verbose) {
 
 Then, let's execute this program:
 
-```sh
+```console
 $ php toUpperCase.php 'Hello world!'
 Hello world! becomes HELLO WORLD! in upper case!
 ```
 
 And now, let's execute this program with a pipe:
 
-```sh
+```console
 $ php toUpperCase.php 'Hello world!' | xargs -I@ echo @
 HELLO WORLD!
 ```
@@ -332,7 +332,7 @@ the terminal name `_name_`, or `_n_/_name_` where `_n_` is the first
 letter of the terminal name. The terminal name is stored in the `TERM`
 environment variable. For instance, on my computer:
 
-```sh
+```console
 $ echo $TERM
 xterm-256color
 $ file /usr/share/terminfo/78/xterm-256color

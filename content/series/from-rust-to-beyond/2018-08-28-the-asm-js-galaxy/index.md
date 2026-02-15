@@ -150,7 +150,7 @@ best companion to compile the WebAssembly binary into an ASM.js module.
 It is part of Binaryen project. Then, assuming we have the WebAssembly
 binary of our program, all we have to do is:
 
-```sh
+```console
 $ wasm2js --pedantic --output gutenberg_post_parser.asm.js gutenberg_post_parser.wasm
 ```
 
@@ -161,7 +161,7 @@ a little bit. To optimise and shrink the ASM.js module, we will use [the
 `uglify-es` tool](https://github.com/mishoo/UglifyJS2/tree/harmony),
 like this:
 
-```sh
+```console
 $ # Transform code, and embed in a function.
 $ sed -i '' '1s/^/function GUTENBERG_POST_PARSER_ASM_MODULE() {/; s/export //' gutenberg_post_parser.asm.js
 $ echo 'return { root, alloc, dealloc, memory }; }' >> gutenberg_post_parser.asm.js
@@ -175,7 +175,7 @@ Just like we did for the WebAssembly binary, we can compress the
 resulting files with [`gzip`](http://www.gzip.org/) and
 [`brotli`](https://github.com/google/brotli):
 
-```sh
+```console
 $ # Compress.
 $ gzip --best --stdout gutenberg_post_parser.asm.js > gutenberg_post_parser.asm.js.gz
 $ brotli --best --stdout --lgwin=24 gutenberg_post_parser.asm.js > gutenberg_post_parser.asm.js.br

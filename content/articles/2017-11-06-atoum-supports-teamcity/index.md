@@ -23,7 +23,7 @@ TeamCity, and activate all its UI features.
 
 If you have Composer, just run:
 
-```sh
+```console
 $ composer require atoum/teamcity-extension '~1.0'
 ```
 

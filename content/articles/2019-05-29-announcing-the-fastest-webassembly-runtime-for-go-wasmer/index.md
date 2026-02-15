@@ -46,8 +46,8 @@ fast](https://github.com/wasmerio/go-ext-wasm).
 First, let’s install `wasmer` in your go environment (*with cgo
 support*).
 
-```sh
-export CGO_ENABLED=1; export CC=gcc; go install github.com/wasmerio/go-ext-wasm/wasmer
+```console
+$ export CGO_ENABLED=1; export CC=gcc; go install github.com/wasmerio/go-ext-wasm/wasmer
 ```
 
 Let’s jump immediately into some

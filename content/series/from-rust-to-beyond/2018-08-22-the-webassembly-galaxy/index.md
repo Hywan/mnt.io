@@ -435,7 +435,7 @@ future), the nightly toolchain is needed to compile the project, so make
 sure you have the latest nightly version of `rustc` & co. installed with
 `rustup update nightly`. Let's run `cargo`:
 
-```sh
+```console
 $ RUSTFLAGS='-g' cargo +nightly build --target wasm32-unknown-unknown --release
 ```
 
@@ -455,7 +455,7 @@ size. For that, the following tools will be required:
 
 Basically, what we do is the following:
 
-```sh
+```console
 $ # Garbage-collect unused data.
 $ wasm-gc gutenberg_post_parser.wasm
 

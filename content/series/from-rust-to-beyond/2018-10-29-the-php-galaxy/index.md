@@ -68,7 +68,7 @@ This script is accessible from the source of the Zend Engine virtual
 machine (which we will refer to as `php-src`). One can invoke the script
 like this:
 
-```sh
+```console
 $ cd php-src/ext/
 $ ./ext_skel.php \
       --ext gutenberg_post_parser \
@@ -100,7 +100,7 @@ we will use `phpize` instead. `phpize` is an executable that comes with
 extensions against an already compiled `php` binary, which is perfect in
 our case! We will use it like this :
 
-```sh
+```console
 $ cd /path/to/extension/gutenberg_post_parser
 
 $ # Get the bin directory for PHP utilities.
@@ -148,7 +148,7 @@ We must add the `libgutenberg_post_parser.a` and
 `gutenberg_post_parser.h` files in the same directory (a symlink is
 perfect), to get a structure such as:
 
-```sh
+```console
 $ ls gutenberg_post_parser
 tests/                       # from ext_skel
 .gitignore                   # from ext_skel
@@ -544,7 +544,7 @@ extension is compiled, the generated `gutenberg_post_parser.so` file
 must be located in the extension directory. This directory can be found
 with the following command:
 
-```sh
+```console
 $ php-config --extension-dir
 ```
 
@@ -553,7 +553,7 @@ For instance, in my computer, the extension directory is
 
 Then, to enable the extension for a given execution, you must write:
 
-```sh
+```console
 $ php -d extension=gutenberg_post_parser -m | \
       grep gutenberg_post_parser
 ```
@@ -561,7 +561,7 @@ $ php -d extension=gutenberg_post_parser -m | \
 Or, to enable the extension for all executions, locate the `php.ini`
 file with `php --ini` and edit it to add:
 
-```sh
+```console
 extension=gutenberg_post_parser
 ```
 
@@ -570,7 +570,7 @@ Done!
 Now, let's use some reflection to check the extension is correctly
 loaded and handled by PHP:
 
-```sh
+```console
 $ php --re gutenberg_post_parser
 Extension [ <persistent> extension #64 gutenberg_post_parser version 0.1.0 ] {
 

@@ -65,7 +65,7 @@ Everything we are going to share with you has been implemented in [a library
 called `eyeball`][`eyeball`]. To give you a good idea of what reactive
 programming in Rust can look like, let's create a Rust program:
 
-```sh
+```console
 $ cargo new --bin playground
     Creating binary (application) `playground` package
 $ cd playground
@@ -105,7 +105,7 @@ is: It is possible to subscribe to it, see `subscriber`. Both `observable` and
 `subscriber` are seeing the same initial value: 7. When `observable` receives a
 new value, 13, both `observable` and `subscriber` are seeing the updated value. Let's take it for a spin:
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:8:5] Observable::get(&observable) = 7
 [src/main.rs:9:5] subscriber.get() = 7
@@ -138,7 +138,7 @@ fn main() {
 }
 ```
 
-```sh
+```console
 $ cargo run --quiet
 error[E0728]: `await` is only allowed inside `async` functions and blocks
   --> src/main.rs:16:28
@@ -154,7 +154,7 @@ Indeed. Almighty `rustc` is correct. The `main` function is not `async`. We need
 an asynchronous runtime. Let's use [the `smol` project][`smol`], I enjoy it a
 lot: it's a small, fast and well-written async runtime:
 
-```sh
+```console
 $ cargo add smol
     Updating crates.io index
       Adding smol v2.0.2 to dependencies
@@ -189,7 +189,7 @@ fn main() {
 
 Please `rustc`, be nice…
 
-```sh
+```console
 [src/main.rs:9:9] Observable::get(&observable) = 7
 [src/main.rs:10:9] subscriber.get() = 7
 [src/main.rs:14:9] Observable::get(&observable) = 13
@@ -207,7 +207,7 @@ crate][`smol-macros`] which sets up a default [async runtime
 with something else (reactive programming), and don't want to focus on the async
 runtime itself:
 
-```sh
+```console
 $ cargo add smol-macros macro_rules_attribute
     Updating crates.io index
       Adding smol-macros v0.1.1 to dependencies
@@ -264,7 +264,7 @@ The little `Timer::after` calls are here to pretend the values are coming from
 random events, for the moment. Let's run it again to see if we get the same
 result:
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:16:13] new_value = 13
 [src/main.rs:16:13] new_value = 17
@@ -322,7 +322,7 @@ do that, we can use [the `smol::yield_now` function][`smol::yield_now`]:
 
 Let's see what happens:
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:14:13] new_value = 13
 [src/main.rs:14:13] new_value = 23
@@ -593,7 +593,7 @@ impl<T: Clone + Send + Sync + 'static> Stream for VectorSubscriberStream<T> {
 
 Dust blown away, the puzzle starts to appear clearly. Let's back on coding!
 
-```sh
+```console
 $ cargo add eyeball-im futures
     Updating crates.io index
       Adding eyeball-im v0.5.0 to dependencies
@@ -660,7 +660,7 @@ async fn main(executor: &Executor) {
 
 Time to show off:
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:18:13] new_value = PushBack {
     value: 'a',
@@ -742,7 +742,7 @@ async fn main(_executor: &Executor) {
 }
 ```
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:16:9] subscriber.next().await = Some(
     PushBack {
@@ -829,7 +829,7 @@ assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'b' });
 
 If the `subscriber` receives `a`, it must fail, otherwise no error:
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:25:5] subscriber.next().await = Some(
     PushBack {
@@ -888,7 +888,7 @@ assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'a' });
 // no need to assert the others
 ```
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:36:5] subscriber.next().await = Some(
     PushBack {
@@ -914,7 +914,7 @@ observable.push_back('r');
 assert_next_eq!(subscriber, VectorDiff::PushBack { value: 'a' });
 ```
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:38:5] subscriber.next().await = Some(
     Reset {
@@ -958,7 +958,7 @@ let mut observable = ObservableVector::with_capacity(32);
 //                                     ^^^^^^^^^^^^^^^^^ new!
 ```
 
-```sh
+```console
 $ cargo run --quiet
 [src/main.rs:38:5] subscriber.next().await = Some(
     PushBack {

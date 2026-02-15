@@ -59,7 +59,7 @@ Section of the
 documentation](https://github.com/wasmerio/postgres-ext-wasm#installation)
 explains the details; here is a summary:
 
-```sh
+```console
 $ # Build the shared library.
 $ just build
 
