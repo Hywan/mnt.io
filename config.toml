@@ -12,6 +12,7 @@ feed_filenames = ["atom.xml", "rss.xml"]
 bottom_footnotes = true
 external_links_target_blank = true
 lazy_async_image = true
+insert_anchor_links = "right"
 
 [markdown.highlighting]
 error_on_missing_language = true
