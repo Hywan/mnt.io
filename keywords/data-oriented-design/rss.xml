@@ -313,7 +313,7 @@ the way. Next, let&#x27;s see how a sorter works, and how it could be responsibl
 for our memory pressure and lock contention.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;randomness&quot;&gt;Randomness&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#randomness&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
-&lt;p&gt;Taking a step back, I was asking myself: &lt;q&gt;Is it really frozen?&lt;&#x2F;q&gt;. Cherry
+&lt;p&gt;Taking a step back, I was asking myself: &lt;q&gt;Is it really frozen?&lt;&#x2F;q&gt;. The cherry
 on the cake: I was unable to reproduce the problem! Even the reporters of
 the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.&lt;&#x2F;p&gt;
@@ -342,11 +342,11 @@ Sometimes, up to 5 minutes on a phone. Alright, we have two problems to solve
 here:&lt;&#x2F;p&gt;
 &lt;ol&gt;
 &lt;li&gt;Why is it random?&lt;&#x2F;li&gt;
-&lt;li&gt;Why so much memory allocations and deallocations?&lt;&#x2F;li&gt;
+&lt;li&gt;Why so many memory allocations and deallocations?&lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
 &lt;p&gt;The second problem will be discussed in the next section. Let&#x27;s start with the
 first problem in this section, shall we?&lt;&#x2F;p&gt;
-&lt;p&gt;Let&#x27;s dig by the beginning. &lt;code&gt;eyeball_im_util::vector::sort::SortBy&lt;&#x2F;code&gt; is used
+&lt;p&gt;Let&#x27;s start at the beginning. &lt;code&gt;eyeball_im_util::vector::sort::SortBy&lt;&#x2F;code&gt; is used
 like so:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;stream&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;sort_by&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;new_sorter_lexicographic&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -354,7 +354,7 @@ like so:&lt;&#x2F;p&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        Box&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;new_sorter_recency&lt;&#x2F;span&gt;&lt;span&gt;()),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        Box&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;new_sorter_name&lt;&#x2F;span&gt;&lt;span&gt;()),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    ]))&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;&lt;code&gt;sort_by&lt;&#x2F;code&gt; receives a sorter: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-ui&#x2F;0.16.0&#x2F;matrix_sdk_ui&#x2F;room_list_service&#x2F;sorters&#x2F;fn.new_sorter_lexicographic.html&quot;&gt;&lt;code&gt;new_sorter_lexicographic&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, it&#x27;s from
+&lt;p&gt;&lt;code&gt;sort_by&lt;&#x2F;code&gt; receives a sorter: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-ui&#x2F;0.16.0&#x2F;matrix_sdk_ui&#x2F;room_list_service&#x2F;sorters&#x2F;fn.new_sorter_lexicographic.html&quot;&gt;&lt;code&gt;new_sorter_lexicographic&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. It&#x27;s from
 &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-ui&#x2F;0.16.0&#x2F;matrix_sdk_ui&#x2F;room_list_service&#x2F;sorters&#x2F;&quot;&gt;&lt;code&gt;matrix_sdk_ui::room_list::sorters&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, and it&#x27;s a constructor for a…
 lexicographic sorter. All sorters must implement &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;matrix-sdk-ui&#x2F;0.16.0&#x2F;matrix_sdk_ui&#x2F;room_list_service&#x2F;sorters&#x2F;trait.Sorter.html&quot;&gt;the &lt;code&gt;Sorter&lt;&#x2F;code&gt; trait&lt;&#x2F;a&gt;.
 Once again, it&#x27;s a trait from &lt;code&gt;matrix_sdk_ui&lt;&#x2F;code&gt;, nothing fancy, it&#x27;s simply this:&lt;&#x2F;p&gt;
@@ -389,13 +389,13 @@ products&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;To make it short, we are executing 3 sorters: by &lt;em&gt;latest event&lt;&#x2F;em&gt;, by &lt;em&gt;recency&lt;&#x2F;em&gt;
+&lt;p&gt;In short, we are executing 3 sorters: by &lt;em&gt;latest event&lt;&#x2F;em&gt;, by &lt;em&gt;recency&lt;&#x2F;em&gt;
 and by &lt;em&gt;name&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;None of these sorters are using any form of randomness. It&#x27;s a
 &lt;em lang=&quot;fr&quot;&gt;cul-de-sac&lt;&#x2F;em&gt;. Let&#x27;s take a step back by looking at &lt;code&gt;SortBy&lt;&#x2F;code&gt;
-in &lt;code&gt;eyeball_im_util&lt;&#x2F;code&gt; itself maybe? &lt;i&gt;scroll the documentation&lt;&#x2F;i&gt;, not here,
+in &lt;code&gt;eyeball_im_util&lt;&#x2F;code&gt; itself maybe? &lt;i&gt;Scroll the documentation&lt;&#x2F;i&gt;, not here,
 &lt;i&gt;read the initial patch&lt;&#x2F;i&gt;, hmm, I see a mention of a binary search, &lt;i&gt;jump
-on the code&lt;&#x2F;i&gt;, ah, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;blob&#x2F;b7dc6fde71e507459ecbd7519a8a22f12bf2a8de&#x2F;eyeball-im-util&#x2F;src&#x2F;vector&#x2F;sort.rs#L315-L318&quot;&gt;here, look at the comment&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+into the code&lt;&#x2F;i&gt;, ah, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;blob&#x2F;b7dc6fde71e507459ecbd7519a8a22f12bf2a8de&#x2F;eyeball-im-util&#x2F;src&#x2F;vector&#x2F;sort.rs#L315-L318&quot;&gt;here, look at the comment&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;When looking for the &lt;em&gt;position&lt;&#x2F;em&gt; of a value (e.g. where to insert a new
 value?), &lt;code&gt;Vector::binary_search_by&lt;&#x2F;code&gt; is used — it is possible because the
@@ -432,11 +432,11 @@ sorted&lt;&#x2F;em&gt; one way or another. What do you think?&lt;&#x2F;p&gt;
 &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jneem&#x2F;imbl&#x2F;blob&#x2F;6feb48d04ed9bd2a004968541d1a90d61c423d31&#x2F;src&#x2F;sort.rs#L177-L185&quot;&gt;it actually creates a pseudo random number generator (PRNG) to do the
 quicksort&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;Phew. Finally. Time for a cup of tea and a biscuit&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-biscuit-1&quot;&gt;&lt;a href=&quot;#fn-biscuit&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;My guess here is the following. Depending of the (pseudo randomly) generated
-pivot index, the number of comparisons aren&#x27;t identical. We can enter
-in a pathological case where more comparisons means more memory pressure,
+&lt;p&gt;My guess here is the following. Depending on the (pseudo randomly) generated
+pivot index, the number of comparisons may vary each time this runs. We can enter
+a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List&lt;sup&gt;&lt;abbr
-title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, &lt;i&gt;play a horror movie music&lt;&#x2F;i&gt;!&lt;&#x2F;p&gt;
+title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, &lt;i&gt;play horror movie music&lt;&#x2F;i&gt;!&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;memory-pressure&quot;&gt;Memory Pressure&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#memory-pressure&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
 &lt;p&gt;A memory allocator is responsible to… well… allocate the memory. If you believe

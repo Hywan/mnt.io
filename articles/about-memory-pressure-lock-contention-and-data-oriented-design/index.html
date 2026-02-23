@@ -368,7 +368,7 @@ the way. Next, let's see how a sorter works, and how it could be responsible
 for our memory pressure and lock contention.</p>
 <h2 id="randomness">Randomness<a role="presentation" class="anchor" href="#randomness" title="Anchor link to this header">#</a>
 </h2>
-<p>Taking a step back, I was asking myself: <q>Is it really frozen?</q>. Cherry
+<p>Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The cherry
 on the cake: I was unable to reproduce the problem! Even the reporters of
 the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.</p>
@@ -397,11 +397,11 @@ Sometimes, up to 5 minutes on a phone. Alright, we have two problems to solve
 here:</p>
 <ol>
 <li>Why is it random?</li>
-<li>Why so much memory allocations and deallocations?</li>
+<li>Why so many memory allocations and deallocations?</li>
 </ol>
 <p>The second problem will be discussed in the next section. Let's start with the
 first problem in this section, shall we?</p>
-<p>Let's dig by the beginning. <code>eyeball_im_util::vector::sort::SortBy</code> is used
+<p>Let's start at the beginning. <code>eyeball_im_util::vector::sort::SortBy</code> is used
 like so:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable">stream</span></span>
 <span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">sort_by</span><span>(</span><span class="z-entity z-name z-function">new_sorter_lexicographic</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span></span>
@@ -409,7 +409,7 @@ like so:</p>
 <span class="giallo-l"><span class="z-entity z-name">        Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_recency</span><span>()),</span></span>
 <span class="giallo-l"><span class="z-entity z-name">        Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_name</span><span>()),</span></span>
 <span class="giallo-l"><span>    ]))</span></span></code></pre>
-<p><code>sort_by</code> receives a sorter: <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html"><code>new_sorter_lexicographic</code></a>, it's from
+<p><code>sort_by</code> receives a sorter: <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html"><code>new_sorter_lexicographic</code></a>. It's from
 <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/"><code>matrix_sdk_ui::room_list::sorters</code></a>, and it's a constructor for a…
 lexicographic sorter. All sorters must implement <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/trait.Sorter.html">the <code>Sorter</code> trait</a>.
 Once again, it's a trait from <code>matrix_sdk_ui</code>, nothing fancy, it's simply this:</p>
@@ -444,13 +444,13 @@ products</a>.</p>
 
   </div>
 </div>
-<p>To make it short, we are executing 3 sorters: by <em>latest event</em>, by <em>recency</em>
+<p>In short, we are executing 3 sorters: by <em>latest event</em>, by <em>recency</em>
 and by <em>name</em>.</p>
 <p>None of these sorters are using any form of randomness. It's a
 <em lang="fr">cul-de-sac</em>. Let's take a step back by looking at <code>SortBy</code>
-in <code>eyeball_im_util</code> itself maybe? <i>scroll the documentation</i>, not here,
+in <code>eyeball_im_util</code> itself maybe? <i>Scroll the documentation</i>, not here,
 <i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
-on the code</i>, ah, <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318">here, look at the comment</a>:</p>
+into the code</i>, ah, <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318">here, look at the comment</a>:</p>
 <blockquote>
 <p>When looking for the <em>position</em> of a value (e.g. where to insert a new
 value?), <code>Vector::binary_search_by</code> is used — it is possible because the
@@ -487,11 +487,11 @@ sorted</em> one way or another. What do you think?</p>
 <a rel="noopener external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/sort.rs#L177-L185">it actually creates a pseudo random number generator (PRNG) to do the
 quicksort</a>.</p>
 <p>Phew. Finally. Time for a cup of tea and a biscuit<sup class="footnote-reference" id="fr-biscuit-1"><a href="#fn-biscuit">4</a></sup>.</p>
-<p>My guess here is the following. Depending of the (pseudo randomly) generated
-pivot index, the number of comparisons aren't identical. We can enter
-in a pathological case where more comparisons means more memory pressure,
+<p>My guess here is the following. Depending on the (pseudo randomly) generated
+pivot index, the number of comparisons may vary each time this runs. We can enter
+a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List<sup><abbr
-title="Trademark">TM</abbr></sup>, <i>play a horror movie music</i>!</p>
+title="Trademark">TM</abbr></sup>, <i>play horror movie music</i>!</p>
 <h2 id="memory-pressure">Memory Pressure<a role="presentation" class="anchor" href="#memory-pressure" title="Anchor link to this header">#</a>
 </h2>
 <p>A memory allocator is responsible to… well… allocate the memory. If you believe
