@@ -43,7 +43,7 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Style */
 
 :root {
-  color-scheme: dark;
+  color-scheme: dark light;
 
   --color-white: light-dark(#000, #fff);
   --color-dark: light-dark(
@@ -275,7 +275,7 @@ code {
 pre {
   --_padding: var(--space);
 
-  color-scheme: dark;
+  color-scheme: only dark;
   overflow-x: scroll;
   margin-block: var(--space);
   line-height: 1.3em;
@@ -325,7 +325,7 @@ figure {
   &:has(img, picture, [role="img"], .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
-    color-scheme: dark;
+    color-scheme: only dark;
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
     border-radius: var(--space-small);
@@ -479,7 +479,7 @@ main {
 }
 
 #menu {
-  color-scheme: dark;
+  color-scheme: only dark;
   color: var(--color-white);
   background: var(--color-accent2);
 
@@ -632,7 +632,7 @@ article {
 
 .label {
   color: var(--color-white);
-  color-scheme: dark;
+  color-scheme: only dark;
   font-size: 0.7rem;
   font-weight: bold;
   padding: var(--space-very-very-small) var(--space-small);
@@ -647,7 +647,7 @@ article {
   display: grid;
   grid-template-columns: minmax(60px, 16%) 1fr;
   gap: var(--_space);
-  color-scheme: dark;
+  color-scheme: only dark;
   color: var(--color-dark);
   min-width: 0;
   min-height: 0;
