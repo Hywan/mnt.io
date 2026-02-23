@@ -437,7 +437,7 @@ except… what's a lexicographic sorter?</p>
     <p>Should I really quote the documentation of <code>new_sorter_lexicographic</code>? My work
 here is turning into a tragedy.</p>
 <p>It creates a new sorter that will run multiple sorters. When the
-<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns
+<math><msup><mi>n</mi><mtext>th</mtext></msup></math> sorter returns
 <code>Ordering::Equal</code>, the next sorter is called. It stops as soon as a sorter
 returns <code>Ordering::Greater</code> or <code>Ordering::Less</code>.</p>
 <p>This is an implementation of a lexicographic order as defined for <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products">cartesian

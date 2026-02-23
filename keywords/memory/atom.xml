@@ -390,7 +390,7 @@ except… what&#x27;s a lexicographic sorter?&lt;&#x2F;p&gt;
     &lt;p&gt;Should I really quote the documentation of &lt;code&gt;new_sorter_lexicographic&lt;&#x2F;code&gt;? My work
 here is turning into a tragedy.&lt;&#x2F;p&gt;
 &lt;p&gt;It creates a new sorter that will run multiple sorters. When the
-&lt;math&gt;&lt;msup&gt;&lt;mi&gt;n&lt;&#x2F;mi&gt;&lt;mtext&gt;nth&lt;&#x2F;mtext&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt; sorter returns
+&lt;math&gt;&lt;msup&gt;&lt;mi&gt;n&lt;&#x2F;mi&gt;&lt;mtext&gt;th&lt;&#x2F;mtext&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt; sorter returns
 &lt;code&gt;Ordering::Equal&lt;&#x2F;code&gt;, the next sorter is called. It stops as soon as a sorter
 returns &lt;code&gt;Ordering::Greater&lt;&#x2F;code&gt; or &lt;code&gt;Ordering::Less&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;This is an implementation of a lexicographic order as defined for &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Lexicographic_order#Cartesian_products&quot;&gt;cartesian
