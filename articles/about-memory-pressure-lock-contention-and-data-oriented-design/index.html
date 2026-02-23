@@ -70,12 +70,12 @@
     </header>
 
     <p>I'm here to narrate you a story about performance. Recently, I was in the same
-room than a Memory Pressure and a Lock Contention. It took me a while to
-recognize them. The legend says it only happens in obscure, low-level systems,
-but I'm here to refute the legend. While exploring, I had the pleasure to fix a
+room as some Memory Pressure and some Lock Contention. It took me a while to
+recognize them. Legend says it only happens in obscure, low-level systems,
+but I'm here to refute the legend. While exploring, I had the pleasure of fixing a
 funny bug in a higher-order stream: lucky us, to top it all off, we even have a
-sweet treat! This story is also a pretext to introduce you Data-oriented Design,
-and to show how it has improved the execution time by 98.7% and the throughput
+sweet treat! This story is also a pretext to introduce you to Data-oriented Design,
+and to show how it improved execution time by 98.7% and throughput
 by 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
 and <em lang="fr">bon appétit !</em></p>
 <h2 id="on-a-beautiful-morning">On a Beautiful Morning…<a role="presentation" class="anchor" href="#on-a-beautiful-morning" title="Anchor link to this header">#</a>
@@ -85,17 +85,17 @@ my colleagues, when suddenly I come across this message:</p>
 <blockquote>
 <p>Does anyone also experience a frozen room list?</p>
 </blockquote>
-<p>Ah yeah, since some years now, I'm employed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> to work on the <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix
+<p>Ah yeah, for some years now, I've been employed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> to work on the <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix
 Rust SDK</a>. If one needs to write a complete, modern, cross-platform, fast Matrix
 client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed to be used directly by
-the developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the stack,
-where the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. Despite
-being a bit opinionated, they are designed to provide high-quality features
+crates. Some are very low in the stack and are not aimed at being used directly by
+developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the stack -
+the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. While
+it is a bit opinionated, it is designed to provide the high-quality features
 everybody expects in a modern Matrix client.</p>
-<p>One of them is the Room List. The Room List is the place where most users spent
-their time in a messaging application (along with the Timeline, i.e. the room's
-messages). Some expectations from this component:</p>
+<p>One of these features is the Room List. The Room List is a place where users spend
+a lot of their time in a messaging application (along with the Timeline, i.e. the room's
+messages). Some expectations for this component:</p>
 <ul>
 <li>Be superfast,</li>
 <li>List all the rooms,</li>
@@ -104,10 +104,10 @@ messages). Some expectations from this component:</p>
 <li>Sort the rooms.</li>
 </ul>
 <p>Let's focus on the part that interests us today: <em>Sort the rooms</em>. The Room List
-holds… no room. It actually provides a <em>stream of updates about rooms</em>; more
-precisely a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;Room&gt;&gt;&gt;</code>. What does it mean? This
+holds… no rooms. It actually provides a <em>stream of updates about rooms</em>; more
+precisely a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;Room&gt;&gt;&gt;</code>. What does this mean? The
 stream yields a vector of “diffs” of rooms. I'm writing <a href="https://mnt.io/series/reactive-programming-in-rust/">a series about reactive
-programming</a>, you might be
+programming</a> - you might be
 interested to read more about it. Otherwise, here is what you need to know.</p>
 <p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/enum.VectorDiff.html">The <code>VectorDiff</code> type</a> comes from <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/">the <code>eyeball-im</code>
 crate</a>, initially created for the Matrix Rust SDK as a solid
@@ -149,8 +149,8 @@ changes</a>, and will receive… well… <code>VectorDiff</code>s!</p>
 <p>The Room List type merges several streams into a single stream representing
 the list of rooms. For example, let's imagine the room at index 3 receives a
 new message. Its “preview” (the <em>latest event</em> displayed beneath the room's
-name, you know, <q>Alice: Hello!</q>) changes. Moreover, the Room List is
-also sorting rooms by their “recency” (the <em>time</em> of the room). And since the
+name e.g. <q>Alice: Hello!</q>) changes. Also, the Room List
+sorts rooms by their “recency” (the <em>time</em> something happened in the room). And since the
 “preview” has changed, its “recency” changes too, which means the room is sorted
 and re-positioned. Then, we expect the Room List's stream to yield:</p>
 <ol>
@@ -175,20 +175,20 @@ and re-positioned. Then, we expect the Room List's stream to yield:</p>
 because <code>Room</code> contains <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html">an <code>Arc</code></a> over the real struct type). This is
 pretty small for an update. Not only it brings a small memory footprint, but it
 crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin. Languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
+like Swift or Kotlin - languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
 <a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>.</p>
 
   </div>
 </div>
-<p>Absolutely! Two popular UI components where a <code>VectorDiff</code> maps
+<p>Absolutely! These are two popular UI components where a <code>VectorDiff</code> maps
 straightforwardly to their List component update operations. They are actually
-remarkably pretty close<sup class="footnote-reference" id="fr-vectordiff_on_other_uis-1"><a href="#fn-vectordiff_on_other_uis">1</a></sup>.</p>
+(remarkably) pretty similar to each other<sup class="footnote-reference" id="fr-vectordiff_on_other_uis-1"><a href="#fn-vectordiff_on_other_uis">1</a></sup>.</p>
 <p>You're always a good digression companion, thank you. Let's go back on our
 problem:</p>
 <blockquote>
-<p>What frozen means here?</p>
+<p>What does "frozen" mean for the Room List?</p>
 </blockquote>
-<p>The Room List is simply… <em>blank</em>, <em>empty</em>, <em lang="fr">vide</em>, <em
+<p>It means that the Room List is simply… <em>blank</em>, <em>empty</em>, <em lang="fr">vide</em>, <em
 lang="es">vacía</em>, <em lang="it">vuoto</em>, <em lang="ar">خلو</em>… well,
 you get the idea.</p>
 <blockquote>
@@ -213,7 +213,7 @@ frozen Room List? Hmm, no, everything works as expected here. Moreover, local
 data should be displayed.</li>
 <li>The “source streams” used by the Room List are not yielding the expected
 updates? No, everything works like a charm.</li>
-<li>The “merge of streams” is broken for some reasons? No, still not.</li>
+<li>The “merge of streams” is broken for some reasons? No, it seems fine.</li>
 <li>The filtering of the streams? Not touched since a long time.</li>
 <li>The sorting? Ah, maybe, I reckon we have changed something here…</li>
 </ul>
@@ -252,7 +252,7 @@ updates? No, everything works like a charm.</li>
 <span class="giallo-l"><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">switch</span><span>();</span></span></code></pre>
 <p>There is a lot going on here. Sadly, we are not going to explain everything in
 this beautiful piece of art<sup class="footnote-reference" id="fr-switch-1"><a href="#fn-switch">2</a></sup>.</p>
-<p>The <code>.filter()</code>, <code>.sort_by()</code>, <code>.dynamic_head_with_initial_value()</code> methods
+<p>The <code>.filter()</code>, <code>.sort_by()</code> and <code>.dynamic_head_with_initial_value()</code> methods
 are part of <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/">the <code>eyeball-im-util</code> crate</a>. They are used
 to filter, sort etc. a stream: They are essentially mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code>. In
 other terms, they “change” the <code>VectorDiff</code>s on-the-fly to simulate filtering,
@@ -260,9 +260,9 @@ sorting, or something else. Let's see a very concrete example with <a rel="noope
 higher-order stream</a> (the following example
 is mostly a copy of the documentation of <code>Sort</code>, but <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/43">since I wrote this
 algorithm, I guess you, dear reader, will find it acceptable</a>).</p>
-<p>How about a vector of <code>char</code>? We want a <code>Stream</code> of <em>changes</em> about this vector
+<p>Let's imagine we have a vector of <code>char</code>. We want a <code>Stream</code> of <em>changes</em> about this vector
 (the famous <code>VectorDiff</code>). We also want to <em>simulate</em> a sorted vector, by only
-modifying the <em>changes</em>. It looks like so:</p>
+modifying the <em>changes</em>. The solution looks like this:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">cmp</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Ordering</span><span>;</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">ObservableVector</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span>};</span></span>
@@ -287,7 +287,7 @@ modifying the <em>changes</em>. It looks like so:</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">assert!</span><span>(</span><span class="z-variable">initial_values</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_empty</span><span>());</span></span>
 <span class="giallo-l"><span class="z-entity z-name z-function">assert_pending!</span><span>(</span><span class="z-variable">stream</span><span>);</span></span></code></pre>
 <p>Alrighty. That's a good start. <code>vector</code> is empty, so the initial values from the
-subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="#fn-stream_assert">3</a></sup>. Time to
+subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="#fn-stream_assert">3</a></sup>. I think it's time to
 play with this new toy, isn't it?</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// Append unsorted values.</span></span>
 <span class="giallo-l"><span class="z-variable">vector</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">append</span><span>(</span><span class="z-entity z-name z-function">vector!</span><span>[</span><span class="z-string">&#39;d&#39;</span><span>,</span><span class="z-string"> &#39;b&#39;</span><span>,</span><span class="z-string"> &#39;e&#39;</span><span>]);</span></span>
@@ -356,7 +356,7 @@ pretty efficient. And…</p>
   </div>
   <div class="conversation--message">
     <p>… as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you dont't mind if… I suggest to you that… you
+details. Nonetheless, I hope you don't mind if… I suggest to you that… you
 might want to, maybe, go back to… <small>the main… subject, don't you think?</small></p>
 
   </div>
@@ -364,7 +364,7 @@ might want to, maybe, go back to… <small>the main… subject, don't you think?
 <p>Which topic? Ah! The frozen Room List! Sorters are <em>not</em> the culprit. There.
 Happy? Short enough?</p>
 <p>These details were important. Kind of. I hope you've learned something along
-the lines. Next, let's see how a sorter works, and how it could be responsible
+the way. Next, let's see how a sorter works, and how it could be responsible
 for our memory pressure and lock contention.</p>
 <h2 id="randomness">Randomness<a role="presentation" class="anchor" href="#randomness" title="Anchor link to this header">#</a>
 </h2>

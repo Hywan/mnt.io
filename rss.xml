@@ -15,12 +15,12 @@
           <link>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</link>
           <guid>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</guid>
           <description xml:base="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/">&lt;p&gt;I&#x27;m here to narrate you a story about performance. Recently, I was in the same
-room than a Memory Pressure and a Lock Contention. It took me a while to
-recognize them. The legend says it only happens in obscure, low-level systems,
-but I&#x27;m here to refute the legend. While exploring, I had the pleasure to fix a
+room as some Memory Pressure and some Lock Contention. It took me a while to
+recognize them. Legend says it only happens in obscure, low-level systems,
+but I&#x27;m here to refute the legend. While exploring, I had the pleasure of fixing a
 funny bug in a higher-order stream: lucky us, to top it all off, we even have a
-sweet treat! This story is also a pretext to introduce you Data-oriented Design,
-and to show how it has improved the execution time by 98.7% and the throughput
+sweet treat! This story is also a pretext to introduce you to Data-oriented Design,
+and to show how it improved execution time by 98.7% and throughput
 by 7718.5%. I believe we have all the ingredients for a juicy story. Let&#x27;s cook,
 and &lt;em lang=&quot;fr&quot;&gt;bon appétit !&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;on-a-beautiful-morning&quot;&gt;On a Beautiful Morning…&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#on-a-beautiful-morning&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
@@ -30,17 +30,17 @@ my colleagues, when suddenly I come across this message:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Does anyone also experience a frozen room list?&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;Ah yeah, since some years now, I&#x27;m employed by &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;element.io&#x2F;&quot;&gt;Element&lt;&#x2F;a&gt; to work on the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix
+&lt;p&gt;Ah yeah, for some years now, I&#x27;ve been employed by &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;element.io&#x2F;&quot;&gt;Element&lt;&#x2F;a&gt; to work on the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix
 Rust SDK&lt;&#x2F;a&gt;. If one needs to write a complete, modern, cross-platform, fast Matrix
 client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed to be used directly by
-the developers, like &lt;code&gt;matrix_sdk_crypto&lt;&#x2F;code&gt;. Some others are higher in the stack,
-where the highest is for User Interfaces (UI) with &lt;code&gt;matrix_sdk_ui&lt;&#x2F;code&gt;. Despite
-being a bit opinionated, they are designed to provide high-quality features
+crates. Some are very low in the stack and are not aimed at being used directly by
+developers, like &lt;code&gt;matrix_sdk_crypto&lt;&#x2F;code&gt;. Some others are higher in the stack -
+the highest is for User Interfaces (UI) with &lt;code&gt;matrix_sdk_ui&lt;&#x2F;code&gt;. While
+it is a bit opinionated, it is designed to provide the high-quality features
 everybody expects in a modern Matrix client.&lt;&#x2F;p&gt;
-&lt;p&gt;One of them is the Room List. The Room List is the place where most users spent
-their time in a messaging application (along with the Timeline, i.e. the room&#x27;s
-messages). Some expectations from this component:&lt;&#x2F;p&gt;
+&lt;p&gt;One of these features is the Room List. The Room List is a place where users spend
+a lot of their time in a messaging application (along with the Timeline, i.e. the room&#x27;s
+messages). Some expectations for this component:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Be superfast,&lt;&#x2F;li&gt;
 &lt;li&gt;List all the rooms,&lt;&#x2F;li&gt;
@@ -49,10 +49,10 @@ messages). Some expectations from this component:&lt;&#x2F;p&gt;
 &lt;li&gt;Sort the rooms.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;Let&#x27;s focus on the part that interests us today: &lt;em&gt;Sort the rooms&lt;&#x2F;em&gt;. The Room List
-holds… no room. It actually provides a &lt;em&gt;stream of updates about rooms&lt;&#x2F;em&gt;; more
-precisely a &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;Room&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. What does it mean? This
+holds… no rooms. It actually provides a &lt;em&gt;stream of updates about rooms&lt;&#x2F;em&gt;; more
+precisely a &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;Room&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. What does this mean? The
 stream yields a vector of “diffs” of rooms. I&#x27;m writing &lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;reactive-programming-in-rust&#x2F;&quot;&gt;a series about reactive
-programming&lt;&#x2F;a&gt;, you might be
+programming&lt;&#x2F;a&gt; - you might be
 interested to read more about it. Otherwise, here is what you need to know.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;enum.VectorDiff.html&quot;&gt;The &lt;code&gt;VectorDiff&lt;&#x2F;code&gt; type&lt;&#x2F;a&gt; comes from &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;&quot;&gt;the &lt;code&gt;eyeball-im&lt;&#x2F;code&gt;
 crate&lt;&#x2F;a&gt;, initially created for the Matrix Rust SDK as a solid
@@ -94,8 +94,8 @@ changes&lt;&#x2F;a&gt;, and will receive… well… &lt;code&gt;VectorDiff&lt;&#
 &lt;p&gt;The Room List type merges several streams into a single stream representing
 the list of rooms. For example, let&#x27;s imagine the room at index 3 receives a
 new message. Its “preview” (the &lt;em&gt;latest event&lt;&#x2F;em&gt; displayed beneath the room&#x27;s
-name, you know, &lt;q&gt;Alice: Hello!&lt;&#x2F;q&gt;) changes. Moreover, the Room List is
-also sorting rooms by their “recency” (the &lt;em&gt;time&lt;&#x2F;em&gt; of the room). And since the
+name e.g. &lt;q&gt;Alice: Hello!&lt;&#x2F;q&gt;) changes. Also, the Room List
+sorts rooms by their “recency” (the &lt;em&gt;time&lt;&#x2F;em&gt; something happened in the room). And since the
 “preview” has changed, its “recency” changes too, which means the room is sorted
 and re-positioned. Then, we expect the Room List&#x27;s stream to yield:&lt;&#x2F;p&gt;
 &lt;ol&gt;
@@ -120,20 +120,20 @@ and re-positioned. Then, we expect the Room List&#x27;s stream to yield:&lt;&#x
 because &lt;code&gt;Room&lt;&#x2F;code&gt; contains &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;sync&#x2F;struct.Arc.html&quot;&gt;an &lt;code&gt;Arc&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; over the real struct type). This is
 pretty small for an update. Not only it brings a small memory footprint, but it
 crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin. Languages that provide UI components, like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.apple.com&#x2F;swiftui&#x2F;&quot;&gt;SwiftUI&lt;&#x2F;a&gt; or
+like Swift or Kotlin - languages that provide UI components, like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.apple.com&#x2F;swiftui&#x2F;&quot;&gt;SwiftUI&lt;&#x2F;a&gt; or
 &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.android.com&#x2F;compose&quot;&gt;Jetpack Compose&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;Absolutely! Two popular UI components where a &lt;code&gt;VectorDiff&lt;&#x2F;code&gt; maps
+&lt;p&gt;Absolutely! These are two popular UI components where a &lt;code&gt;VectorDiff&lt;&#x2F;code&gt; maps
 straightforwardly to their List component update operations. They are actually
-remarkably pretty close&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-vectordiff_on_other_uis-1&quot;&gt;&lt;a href=&quot;#fn-vectordiff_on_other_uis&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+(remarkably) pretty similar to each other&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-vectordiff_on_other_uis-1&quot;&gt;&lt;a href=&quot;#fn-vectordiff_on_other_uis&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;You&#x27;re always a good digression companion, thank you. Let&#x27;s go back on our
 problem:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;What frozen means here?&lt;&#x2F;p&gt;
+&lt;p&gt;What does &quot;frozen&quot; mean for the Room List?&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;The Room List is simply… &lt;em&gt;blank&lt;&#x2F;em&gt;, &lt;em&gt;empty&lt;&#x2F;em&gt;, &lt;em lang=&quot;fr&quot;&gt;vide&lt;&#x2F;em&gt;, &lt;em
+&lt;p&gt;It means that the Room List is simply… &lt;em&gt;blank&lt;&#x2F;em&gt;, &lt;em&gt;empty&lt;&#x2F;em&gt;, &lt;em lang=&quot;fr&quot;&gt;vide&lt;&#x2F;em&gt;, &lt;em
 lang=&quot;es&quot;&gt;vacía&lt;&#x2F;em&gt;, &lt;em lang=&quot;it&quot;&gt;vuoto&lt;&#x2F;em&gt;, &lt;em lang=&quot;ar&quot;&gt;خلو&lt;&#x2F;em&gt;… well,
 you get the idea.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
@@ -158,7 +158,7 @@ frozen Room List? Hmm, no, everything works as expected here. Moreover, local
 data should be displayed.&lt;&#x2F;li&gt;
 &lt;li&gt;The “source streams” used by the Room List are not yielding the expected
 updates? No, everything works like a charm.&lt;&#x2F;li&gt;
-&lt;li&gt;The “merge of streams” is broken for some reasons? No, still not.&lt;&#x2F;li&gt;
+&lt;li&gt;The “merge of streams” is broken for some reasons? No, it seems fine.&lt;&#x2F;li&gt;
 &lt;li&gt;The filtering of the streams? Not touched since a long time.&lt;&#x2F;li&gt;
 &lt;li&gt;The sorting? Ah, maybe, I reckon we have changed something here…&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
@@ -197,7 +197,7 @@ updates? No, everything works like a charm.&lt;&#x2F;li&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;switch&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;There is a lot going on here. Sadly, we are not going to explain everything in
 this beautiful piece of art&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-switch-1&quot;&gt;&lt;a href=&quot;#fn-switch&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;The &lt;code&gt;.filter()&lt;&#x2F;code&gt;, &lt;code&gt;.sort_by()&lt;&#x2F;code&gt;, &lt;code&gt;.dynamic_head_with_initial_value()&lt;&#x2F;code&gt; methods
+&lt;p&gt;The &lt;code&gt;.filter()&lt;&#x2F;code&gt;, &lt;code&gt;.sort_by()&lt;&#x2F;code&gt; and &lt;code&gt;.dynamic_head_with_initial_value()&lt;&#x2F;code&gt; methods
 are part of &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im-util&#x2F;0.10.0&#x2F;eyeball_im_util&#x2F;&quot;&gt;the &lt;code&gt;eyeball-im-util&lt;&#x2F;code&gt; crate&lt;&#x2F;a&gt;. They are used
 to filter, sort etc. a stream: They are essentially mapping a &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;T&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt; to another &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;T&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. In
 other terms, they “change” the &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;s on-the-fly to simulate filtering,
@@ -205,9 +205,9 @@ sorting, or something else. Let&#x27;s see a very concrete example with &lt;a re
 higher-order stream&lt;&#x2F;a&gt; (the following example
 is mostly a copy of the documentation of &lt;code&gt;Sort&lt;&#x2F;code&gt;, but &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;pull&#x2F;43&quot;&gt;since I wrote this
 algorithm, I guess you, dear reader, will find it acceptable&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
-&lt;p&gt;How about a vector of &lt;code&gt;char&lt;&#x2F;code&gt;? We want a &lt;code&gt;Stream&lt;&#x2F;code&gt; of &lt;em&gt;changes&lt;&#x2F;em&gt; about this vector
+&lt;p&gt;Let&#x27;s imagine we have a vector of &lt;code&gt;char&lt;&#x2F;code&gt;. We want a &lt;code&gt;Stream&lt;&#x2F;code&gt; of &lt;em&gt;changes&lt;&#x2F;em&gt; about this vector
 (the famous &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;). We also want to &lt;em&gt;simulate&lt;&#x2F;em&gt; a sorted vector, by only
-modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. It looks like so:&lt;&#x2F;p&gt;
+modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. The solution looks like this:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; std&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;cmp&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Ordering&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; eyeball_im&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;ObservableVector&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; VectorDiff&lt;&#x2F;span&gt;&lt;span&gt;};&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -232,7 +232,7 @@ modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. It looks like so:&lt;&#x2F;p&gt
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;initial_values&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;is_empty&lt;&#x2F;span&gt;&lt;span&gt;());&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_pending!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;stream&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Alrighty. That&#x27;s a good start. &lt;code&gt;vector&lt;&#x2F;code&gt; is empty, so the initial values from the
-subscribe are empty, and the &lt;code&gt;stream&lt;&#x2F;code&gt; is also pending&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-stream_assert-1&quot;&gt;&lt;a href=&quot;#fn-stream_assert&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. Time to
+subscribe are empty, and the &lt;code&gt;stream&lt;&#x2F;code&gt; is also pending&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-stream_assert-1&quot;&gt;&lt;a href=&quot;#fn-stream_assert&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. I think it&#x27;s time to
 play with this new toy, isn&#x27;t it?&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Append unsorted values.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;vector&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vector!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt;&amp;#39;d&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; &amp;#39;b&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; &amp;#39;e&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;]);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -301,7 +301,7 @@ pretty efficient. And…&lt;&#x2F;p&gt;
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
     &lt;p&gt;… as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you dont&#x27;t mind if… I suggest to you that… you
+details. Nonetheless, I hope you don&#x27;t mind if… I suggest to you that… you
 might want to, maybe, go back to… &lt;small&gt;the main… subject, don&#x27;t you think?&lt;&#x2F;small&gt;&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
@@ -309,7 +309,7 @@ might want to, maybe, go back to… &lt;small&gt;the main… subject, don&#x27;t
 &lt;p&gt;Which topic? Ah! The frozen Room List! Sorters are &lt;em&gt;not&lt;&#x2F;em&gt; the culprit. There.
 Happy? Short enough?&lt;&#x2F;p&gt;
 &lt;p&gt;These details were important. Kind of. I hope you&#x27;ve learned something along
-the lines. Next, let&#x27;s see how a sorter works, and how it could be responsible
+the way. Next, let&#x27;s see how a sorter works, and how it could be responsible
 for our memory pressure and lock contention.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;randomness&quot;&gt;Randomness&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#randomness&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
