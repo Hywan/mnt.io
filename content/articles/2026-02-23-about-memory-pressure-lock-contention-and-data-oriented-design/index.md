@@ -437,15 +437,15 @@ title="Trademark">TM</abbr></sup>, <i>play a horror movie music</i>!
 
 ## Memory Pressure
 
-A memory allocator is responsible to… well… allocate the memory. If you believe
-it's a simple problem, please retract this offensive thought quickly; what an
+A memory allocator is responsible for… well… allocating the memory. If you believe
+this is a simple problem, please retract this offensive thought quickly: what an
 oaf! Memory is managed based on the strategy or strategies used by the memory
 allocator: there is not a unique solution. Each memory allocator comes with
 tradeoffs: do you allocate and replace multiple similar small objects several
 times in a row, do you need fixed-size blocks of memory, dynamic blocks etc.
 
-Allocating memory is not free. Not only the memory allocator has a cost on its
-own —which could be mitigated by implementing a custom memory allocator maybe—,
+Allocating memory is not free. The memory allocator has a cost in itself
+—which could be mitigated by implementing a custom memory allocator maybe—,
 but there is also **a hardware cost**, and it's comparatively more difficult to
 mitigate. Memory is allocated on the heap, i.e. _the RAM_, also called _the
 main memory_ (not be confused with [CPU caches: L1, L2…][cpu-caches]). The RAM
@@ -455,16 +455,16 @@ something on the heap and…
 {% comte() %}
 
 Hold on a second. I heard it is around 100-150 nanoseconds to fetch a data from
-the heap. In which world it is “costly” or “is far”?
+the heap. In what world is this “costly”? How is this “far” from the CPU?
 
 I understand we are talking about _random_ accesses (the _R_ in RAM), and
-multiple indirections, but still, it sounds pretty fast, isn't it?
+multiple indirections, but still, it sounds pretty fast, right?
 
 {% end %}
 
-Hmm, <i>refrain to open the Pandora's box</i>, let's try to stay high-level
-here, do we? Be careful: numbers I am going to present can vary depending of
-your hardware, but the important part is **the scale**, keep that in mind.
+Hmm, <i>refrain from opening the Pandora's box</i> - let's try to stay high-level
+here, shall we? Be careful: the numbers I am going to present can vary depending on
+your hardware, but the important part is **the scale**: keep that in mind.
 
 <figure>
 
@@ -498,8 +498,8 @@ the scale here: we imagine 1ns maps to 1min.
 </figure>
 
 Do you see the difference between the L1/L2 caches and the main memory? 1ns to
-100ns is the same difference than 1mn to 1h40. So, yes, it takes time to read
-the memory. That's why we try to avoid allocations as much as possible.
+100ns is the same difference as 1mn to 1h40. So, yes, it takes time to read
+from memory. That's why we try to avoid allocations as much as possible.
 
 <figure>
 
@@ -539,7 +539,7 @@ Not comfortable with numbers? Let's try to visualise it with 1ns = 1s!
 
 Sadly, in our case, it appears we are allocating 322'042 times to sort the
 initial rooms of the Room List, for a total of 743'151'616 bits allocated,
-be 287 bytes per allocation. Of course, if we are doing quick napkin
+with 287 bytes per allocation. Of course, if we are doing quick napkin
 maths[^napkin-math], it should take around 200ms. We are far from The Frozen
 Room List<sup><abbr title="Trademark">TM</abbr></sup>, but there is more going
 on.[^suspens]
@@ -561,7 +561,7 @@ What are our solutions then?
 {% factotum() %}
 
 May I suggest an approach? What about finding where we are allocating and
-deallocating memory. Then we might be able to reduce either the number of
+deallocating memory? Then we might be able to reduce either the number of
 allocations, or the size of the value being allocated (and deallocated), with
 the hope of making the memory allocator happier. Possible solutions:
 
@@ -573,7 +573,7 @@ the hope of making the memory allocator happier. Possible solutions:
 {% end %}
 
 Excellent ideas. Let's track which sorter creates the problem. We start
-with the sorter recently modified: `latest_event`. Shortly, this sorter
+with the sorter that was recently modified: `latest_event`. In short, this sorter
 compares the `LatestEventValue` of two rooms: the idea is that rooms with a
 `LatestEventValue` representing a _local event_, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, [let's look at
@@ -604,12 +604,12 @@ is our culprit. The size of the [`LatestEventValue`][latesteventvalue-v0] type
 is 144 bytes (it doesn't count the size of the event itself, because this size
 is dynamic).
 
-Before going further, let's check if another sorter may have a similar problem,
+Before going further, let's check whether another sorter has a similar problem,
 shall we? <i>Look at the other sorters</i>, oh!, turns out [the `recency`
 sorter][sorter-recency-v0] also uses the `latest_event` method! Damn, this is
 becoming really annoying.
 
-Question: do we need the entire type? Probably not!
+Question: do we need the entire `LatestEventValue`? Probably not!
 
 - For the `latest_event` sorter, we actually only need to know when this
   `LatestEventValue` is _local_, that's it.
