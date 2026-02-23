@@ -381,7 +381,7 @@ Should I really quote the documentation of `new_sorter_lexicographic`? My work
 here is turning into a tragedy.
 
 It creates a new sorter that will run multiple sorters. When the
-<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns
+<math><msup><mi>n</mi><mtext>th</mtext></msup></math> sorter returns
 `Ordering::Equal`, the next sorter is called. It stops as soon as a sorter
 returns `Ordering::Greater` or `Ordering::Less`.
 
