@@ -439,14 +439,14 @@ which means slower sorting, which means… A Frozen Room List&lt;sup&gt;&lt;abb
 title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, &lt;i&gt;play horror movie music&lt;&#x2F;i&gt;!&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;memory-pressure&quot;&gt;Memory Pressure&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#memory-pressure&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
-&lt;p&gt;A memory allocator is responsible to… well… allocate the memory. If you believe
-it&#x27;s a simple problem, please retract this offensive thought quickly; what an
+&lt;p&gt;A memory allocator is responsible for… well… allocating the memory. If you believe
+this is a simple problem, please retract this offensive thought quickly: what an
 oaf! Memory is managed based on the strategy or strategies used by the memory
 allocator: there is not a unique solution. Each memory allocator comes with
 tradeoffs: do you allocate and replace multiple similar small objects several
 times in a row, do you need fixed-size blocks of memory, dynamic blocks etc.&lt;&#x2F;p&gt;
-&lt;p&gt;Allocating memory is not free. Not only the memory allocator has a cost on its
-own —which could be mitigated by implementing a custom memory allocator maybe—,
+&lt;p&gt;Allocating memory is not free. The memory allocator has a cost in itself
+—which could be mitigated by implementing a custom memory allocator maybe—,
 but there is also &lt;strong&gt;a hardware cost&lt;&#x2F;strong&gt;, and it&#x27;s comparatively more difficult to
 mitigate. Memory is allocated on the heap, i.e. &lt;em&gt;the RAM&lt;&#x2F;em&gt;, also called &lt;em&gt;the
 main memory&lt;&#x2F;em&gt; (not be confused with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CPU_cache&quot;&gt;CPU caches: L1, L2…&lt;&#x2F;a&gt;). The RAM
@@ -465,15 +465,15 @@ something on the heap and…&lt;&#x2F;p&gt;
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
     &lt;p&gt;Hold on a second. I heard it is around 100-150 nanoseconds to fetch a data from
-the heap. In which world it is “costly” or “is far”?&lt;&#x2F;p&gt;
+the heap. In what world is this “costly”? How is this “far” from the CPU?&lt;&#x2F;p&gt;
 &lt;p&gt;I understand we are talking about &lt;em&gt;random&lt;&#x2F;em&gt; accesses (the &lt;em&gt;R&lt;&#x2F;em&gt; in RAM), and
-multiple indirections, but still, it sounds pretty fast, isn&#x27;t it?&lt;&#x2F;p&gt;
+multiple indirections, but still, it sounds pretty fast, right?&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;Hmm, &lt;i&gt;refrain to open the Pandora&#x27;s box&lt;&#x2F;i&gt;, let&#x27;s try to stay high-level
-here, do we? Be careful: numbers I am going to present can vary depending of
-your hardware, but the important part is &lt;strong&gt;the scale&lt;&#x2F;strong&gt;, keep that in mind.&lt;&#x2F;p&gt;
+&lt;p&gt;Hmm, &lt;i&gt;refrain from opening the Pandora&#x27;s box&lt;&#x2F;i&gt; - let&#x27;s try to stay high-level
+here, shall we? Be careful: the numbers I am going to present can vary depending on
+your hardware, but the important part is &lt;strong&gt;the scale&lt;&#x2F;strong&gt;: keep that in mind.&lt;&#x2F;p&gt;
 &lt;figure&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Operation&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Time&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: right&quot;&gt;“Human scale”&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;Fetch from L1 cache&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: right&quot;&gt;1ns&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: right&quot;&gt;1mn&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
@@ -499,8 +499,8 @@ the scale here: we imagine 1ns maps to 1min.&lt;&#x2F;p&gt;
 &lt;&#x2F;figcaption&gt;
 &lt;&#x2F;figure&gt;
 &lt;p&gt;Do you see the difference between the L1&#x2F;L2 caches and the main memory? 1ns to
-100ns is the same difference than 1mn to 1h40. So, yes, it takes time to read
-the memory. That&#x27;s why we try to avoid allocations as much as possible.&lt;&#x2F;p&gt;
+100ns is the same difference as 1mn to 1h40. So, yes, it takes time to read
+from memory. That&#x27;s why we try to avoid allocations as much as possible.&lt;&#x2F;p&gt;
 &lt;figure&gt;
 &lt;svg viewBox=&quot;0 0 200 35&quot; role=&quot;img&quot;&gt;
   &lt;style&gt;
@@ -533,7 +533,7 @@ the memory. That&#x27;s why we try to avoid allocations as much as possible.&lt;
 &lt;&#x2F;figure&gt;
 &lt;p&gt;Sadly, in our case, it appears we are allocating 322&#x27;042 times to sort the
 initial rooms of the Room List, for a total of 743&#x27;151&#x27;616 bits allocated,
-be 287 bytes per allocation. Of course, if we are doing quick napkin
+with 287 bytes per allocation. Of course, if we are doing quick napkin
 maths&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-napkin-math-1&quot;&gt;&lt;a href=&quot;#fn-napkin-math&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, it should take around 200ms. We are far from The Frozen
 Room List&lt;sup&gt;&lt;abbr title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, but there is more going
 on.&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-suspens-1&quot;&gt;&lt;a href=&quot;#fn-suspens&quot;&gt;6&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
@@ -560,7 +560,7 @@ this use case.&lt;&#x2F;p&gt;
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
     &lt;p&gt;May I suggest an approach? What about finding where we are allocating and
-deallocating memory. Then we might be able to reduce either the number of
+deallocating memory? Then we might be able to reduce either the number of
 allocations, or the size of the value being allocated (and deallocated), with
 the hope of making the memory allocator happier. Possible solutions:&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -573,7 +573,7 @@ fragment of it?&lt;&#x2F;li&gt;
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
 &lt;p&gt;Excellent ideas. Let&#x27;s track which sorter creates the problem. We start
-with the sorter recently modified: &lt;code&gt;latest_event&lt;&#x2F;code&gt;. Shortly, this sorter
+with the sorter that was recently modified: &lt;code&gt;latest_event&lt;&#x2F;code&gt;. In short, this sorter
 compares the &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt; of two rooms: the idea is that rooms with a
 &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt; representing a &lt;em&gt;local event&lt;&#x2F;em&gt;, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;blob&#x2F;3eb693acadb08db8e41de90ef51730d206168e7c&#x2F;crates&#x2F;matrix-sdk-ui&#x2F;src&#x2F;room_list_service&#x2F;sorters&#x2F;latest_event.rs#L64C1-L69C2&quot;&gt;let&#x27;s look at
@@ -595,11 +595,11 @@ is important here as we don&#x27;t want to hold the read lock for too long. This
 is our culprit. The size of the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;blob&#x2F;3eb693acadb08db8e41de90ef51730d206168e7c&#x2F;crates&#x2F;matrix-sdk-base&#x2F;src&#x2F;latest_event.rs#L29&quot;&gt;&lt;code&gt;LatestEventValue&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; type
 is 144 bytes (it doesn&#x27;t count the size of the event itself, because this size
 is dynamic).&lt;&#x2F;p&gt;
-&lt;p&gt;Before going further, let&#x27;s check if another sorter may have a similar problem,
+&lt;p&gt;Before going further, let&#x27;s check whether another sorter has a similar problem,
 shall we? &lt;i&gt;Look at the other sorters&lt;&#x2F;i&gt;, oh!, turns out &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;blob&#x2F;01c0775e5974ad8a8690f5c580e79612ddcdfa2d&#x2F;crates&#x2F;matrix-sdk-ui&#x2F;src&#x2F;room_list_service&#x2F;sorters&#x2F;recency.rs#L90&quot;&gt;the &lt;code&gt;recency&lt;&#x2F;code&gt;
 sorter&lt;&#x2F;a&gt; also uses the &lt;code&gt;latest_event&lt;&#x2F;code&gt; method! Damn, this is
 becoming really annoying.&lt;&#x2F;p&gt;
-&lt;p&gt;Question: do we need the entire type? Probably not!&lt;&#x2F;p&gt;
+&lt;p&gt;Question: do we need the entire &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt;? Probably not!&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;For the &lt;code&gt;latest_event&lt;&#x2F;code&gt; sorter, we actually only need to know when this
 &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt; is &lt;em&gt;local&lt;&#x2F;em&gt;, that&#x27;s it.&lt;&#x2F;li&gt;
