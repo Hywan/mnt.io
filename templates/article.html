@@ -19,5 +19,14 @@
     </header>
 
     {{ page.content | safe }}
+
+    <nav class="previous-next-articles">
+      {%- if page.higher -%}
+        <a href="{{ page.higher.permalink }}" class="button text-align-start">❮&nbsp;{{ page.higher.title }}</a>
+      {%- endif -%}
+      {%- if page.lower -%}
+        <a href="{{ page.lower.permalink }}" class="button text-align-end">{{ page.lower.title }}&nbsp;❯</a>
+      {%- endif -%}
+    </nav>
   </article>
 {% endblock body %}
