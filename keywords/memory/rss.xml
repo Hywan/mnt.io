@@ -500,16 +500,16 @@ imagine 1ns maps to 1min.&lt;&#x2F;p&gt;
 100ns is the same difference as 1mn to 1h40. So, yes, it takes time to read
 from memory. That&#x27;s why we try to avoid allocations as much as possible.&lt;&#x2F;p&gt;
 &lt;figure&gt;
-&lt;svg viewBox=&quot;0 0 200 55&quot; role=&quot;img&quot;&gt;
+&lt;svg viewBox=&quot;0 0 200 55&quot; role=&quot;img&quot; id=&quot;memory-race&quot;&gt;
   &lt;style&gt;
-  text { font-size: 4pt }
-  circle {
+  #memory-race text { font-size: 4pt }
+  #memory-race circle {
     fill: oklch(69.50% .140 76.18);
     animation: 4s linear 0s infinite alternate slide;
   }
-  .l1 { animation-duration: .5s }
-  .l2 { animation-duration: 2s }
-  .ram { animation-duration: 50s }
+  #memory-race .l1 { animation-duration: .5s }
+  #memory-race .l2 { animation-duration: 2s }
+  #memory-race .ram { animation-duration: 50s }
   @keyframes slide {
     from {
       transform: translateX(15%);
