@@ -501,16 +501,16 @@ from memory. That's why we try to avoid allocations as much as possible.
 
 <figure>
 
-<svg viewBox="0 0 200 55" role="img">
+<svg viewBox="0 0 200 55" role="img" id="memory-race">
   <style>
-  text { font-size: 4pt }
-  circle {
+  #memory-race text { font-size: 4pt }
+  #memory-race circle {
     fill: oklch(69.50% .140 76.18);
     animation: 4s linear 0s infinite alternate slide;
   }
-  .l1 { animation-duration: .5s }
-  .l2 { animation-duration: 2s }
-  .ram { animation-duration: 50s }
+  #memory-race .l1 { animation-duration: .5s }
+  #memory-race .l2 { animation-duration: 2s }
+  #memory-race .ram { animation-duration: 50s }
   @keyframes slide {
     from {
       transform: translateX(15%);
