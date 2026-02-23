@@ -941,7 +941,7 @@ Of course you're valuable! Now, the surprise.
 ## The Dessert
 
 Of course, let's not forget about our dessert! I won't dig too much: the
-patch contains all the necessary gory details. In sort, it's about how
+patch contains all the necessary gory details. In short, it's about how
 `VectorDiff::Set` can create a nasty bug in `SortBy`. Basically, when a value
 in the vector is updated, a `VectorDiff::Set` is emitted. `SortBy` is then
 responsible for computing a new `VectorDiff`:
