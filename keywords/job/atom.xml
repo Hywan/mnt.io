@@ -24,8 +24,8 @@
         
         <content type="html" xml:base="https://mnt.io/articles/i-leave-wasmer/">&lt;p&gt;This article could also have been titled &lt;em&gt;How I failed to change
 Wasmer&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;Today is my last day at &lt;a href=&quot;https:&#x2F;&#x2F;wasmer.io&#x2F;&quot;&gt;Wasmer&lt;&#x2F;a&gt;. For those who
-don&#x27;t know this name, it has a twofold meaning: it&#x27;s a &lt;a href=&quot;http:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&quot;&gt;very popular
+&lt;p&gt;Today is my last day at &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wasmer.io&#x2F;&quot;&gt;Wasmer&lt;&#x2F;a&gt;. For those who
+don&#x27;t know this name, it has a twofold meaning: it&#x27;s a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&quot;&gt;very popular
 WebAssembly runtime&lt;&#x2F;a&gt;, as well as a
 startup. I want to write about what I&#x27;ve been able to accomplish during
 my time at Wasmer (a high overview, not a technical view), and what
@@ -33,9 +33,10 @@ my time at Wasmer (a high overview, not a technical view), and what
 reckon my testimony can help other people to avoid digging into the hell
 I (and my colleagues) had to endure. I&#x27;m available for work, you can
 contact me at &lt;a href=&quot;mailto:ivan@mnt.io&quot;&gt;ivan@mnt.io&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&quot;&gt;@mnt_io&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;ivan-enderlin&#x2F;&quot;&gt;ivan-enderlin&lt;&#x2F;a&gt; (LinkedIn).&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;from-nothing-to-pure-awesomeness&quot;&gt;From nothing to pure awesomeness&lt;&#x2F;h2&gt;
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&quot;&gt;@mnt_io&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;ivan-enderlin&#x2F;&quot;&gt;ivan-enderlin&lt;&#x2F;a&gt; (LinkedIn).&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;from-nothing-to-pure-awesomeness&quot;&gt;From nothing to pure awesomeness&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#from-nothing-to-pure-awesomeness&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;I&#x27;ve joined the Wasmer company at its early beginning, in March 2019.
 The company was 3 months old. My initial role was to write and to
 improve the runtime itself, and to create many embeddings, i.e. ways to
@@ -48,19 +49,19 @@ the &lt;strong&gt;passion&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;At the time of writing, Wasmer has an incredible growth. In 2.5 years
 only, the runtime has more than 10&#x27;500 stars on Github, and is &lt;strong&gt;one of
 the most popular WebAssembly runtime in the world&lt;&#x2F;strong&gt;! It&#x27;s used by many
-various companies, such as &lt;a href=&quot;https:&#x2F;&#x2F;confio.tech&#x2F;&quot;&gt;Confio&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;fluence.network&#x2F;&quot;&gt;Fluence
-Labs&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;hotg.dev&#x2F;&quot;&gt;HOT-G&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;brave.com&#x2F;&quot;&gt;Brave&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;google.com&#x2F;&quot;&gt;Google&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;www.apple.com&#x2F;&quot;&gt;Apple&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;spacemesh.io&#x2F;&quot;&gt;SpaceMesh&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;linkerd.io&#x2F;&quot;&gt;Linkerd&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;www.singlestore.com&#x2F;&quot;&gt;SingleStore&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;www.clever-cloud.com&#x2F;&quot;&gt;CleverCloud&lt;&#x2F;a&gt; or
-&lt;a href=&quot;https:&#x2F;&#x2F;konghq.com&#x2F;&quot;&gt;Kong&lt;&#x2F;a&gt; to name a few (for the ones I can name
+various companies, such as &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;confio.tech&#x2F;&quot;&gt;Confio&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;fluence.network&#x2F;&quot;&gt;Fluence
+Labs&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;hotg.dev&#x2F;&quot;&gt;HOT-G&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;brave.com&#x2F;&quot;&gt;Brave&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;google.com&#x2F;&quot;&gt;Google&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.apple.com&#x2F;&quot;&gt;Apple&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;spacemesh.io&#x2F;&quot;&gt;SpaceMesh&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;linkerd.io&#x2F;&quot;&gt;Linkerd&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.singlestore.com&#x2F;&quot;&gt;SingleStore&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.clever-cloud.com&#x2F;&quot;&gt;CleverCloud&lt;&#x2F;a&gt; or
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;konghq.com&#x2F;&quot;&gt;Kong&lt;&#x2F;a&gt; to name a few (for the ones I can name
 though, however other companies are also using Wasmer in very critical
 environments).&lt;&#x2F;p&gt;
 &lt;p&gt;Most of my engineering job happened on the Wasmer runtime itself. At the
 time of writing, I&#x27;m the #2 contributor on the project. I was working
-on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;f9ff574e10d4ee97f836565bdae99035e04ac879&#x2F;lib&quot;&gt;every parts of the
+on &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;f9ff574e10d4ee97f836565bdae99035e04ac879&#x2F;lib&quot;&gt;every parts of the
 runtime&lt;&#x2F;a&gt;:
 the API, the C API, the compilers, the ABI (mostly WASI), the engines,
 the middlewares, and the VM itself which is the most low-level
@@ -69,67 +70,67 @@ foundamental layer of the runtime.&lt;&#x2F;p&gt;
 runtime for WebAssembly, and I&#x27;m saying that with a neutral and
 respectful mindset. Not everything is perfect obviously but I did my
 best to set up a truly user-friendly learning environment, with an
-important documentation and &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;f9ff574e10d4ee97f836565bdae99035e04ac879&#x2F;examples&quot;&gt;a collection of
+important documentation and &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;f9ff574e10d4ee97f836565bdae99035e04ac879&#x2F;examples&quot;&gt;a collection of
 examples&lt;&#x2F;a&gt;
 that illustrate many features. I strongly believe it contributed to
 Wasmer&#x27;s popularity to great extent.&lt;&#x2F;p&gt;
 &lt;p&gt;I would like to highlight the most notable embedding projects I&#x27;ve
 created:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;master&#x2F;lib&#x2F;c-api&quot;&gt;&lt;code&gt;wasmer-c-api&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&#x2F;tree&#x2F;master&#x2F;lib&#x2F;c-api&quot;&gt;&lt;code&gt;wasmer-c-api&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is
 the C embedding for Wasmer. It&#x27;s part of the Wasmer runtime itself, and is
 fully written in Rust.
-&lt;a href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;wasmer-c-api&#x2F;*&#x2F;wasmer_c_api&#x2F;wasm_c_api&#x2F;index.html&quot;&gt;The documentation, the C
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;wasmer-c-api&#x2F;*&#x2F;wasmer_c_api&#x2F;wasm_c_api&#x2F;index.html&quot;&gt;The documentation, the C
 examples&lt;&#x2F;a&gt;,
-everything is super polished to offer the best experience possible. &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;MarkMcCaskey&quot;&gt;Mark
+everything is super polished to offer the best experience possible. &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;MarkMcCaskey&quot;&gt;Mark
 McCaskey&lt;&#x2F;a&gt; and I are the authors of this
 project.&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-python&quot;&gt;&lt;code&gt;wasmer-python&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Python
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-python&quot;&gt;&lt;code&gt;wasmer-python&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Python
 embedding for Wasmer. At the time of writing, it&#x27;s been installed more than 5
 millions times (I&#x27;m counting the compiler packages too, like
 &lt;code&gt;wasmer-compiler-cranelift&lt;&#x2F;code&gt; and so on), and 1300 stars on Github. There is
 about 300&#x27;000 downloads per months, and it continues to grow! The code is
 written in Rust, and it relies on
-&lt;a href=&quot;https:&#x2F;&#x2F;pyo3.rs&#x2F;&quot;&gt;the awesome &lt;code&gt;pyo3&lt;&#x2F;code&gt; project&lt;&#x2F;a&gt; .&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-go&#x2F;&quot;&gt;&lt;code&gt;wasmer-go&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Go embedding for
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;pyo3.rs&#x2F;&quot;&gt;the awesome &lt;code&gt;pyo3&lt;&#x2F;code&gt; project&lt;&#x2F;a&gt; .&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-go&#x2F;&quot;&gt;&lt;code&gt;wasmer-go&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Go embedding for
 Wasmer. It&#x27;s hard to know how much total downloads we have because of how the
 Go ecosystem is designed, but we have about 60&#x27;000 downloads per months from
 Github (I&#x27;m excluding the forks of the project), and 1600 stars on Github. The
-code is written in Go and uses &lt;a href=&quot;https:&#x2F;&#x2F;golang.org&#x2F;cmd&#x2F;cgo&#x2F;&quot;&gt;&lt;code&gt;cgo&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; to bind
+code is written in Go and uses &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;golang.org&#x2F;cmd&#x2F;cgo&#x2F;&quot;&gt;&lt;code&gt;cgo&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; to bind
 against the C API. Almost all blockchain projects that use WebAssembly are
 using &lt;code&gt;wasmer-go&lt;&#x2F;code&gt;, which is a popularity I wasn&#x27;t expecting.&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-ruby&#x2F;&quot;&gt;&lt;code&gt;wasmer-ruby&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Ruby
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-ruby&#x2F;&quot;&gt;&lt;code&gt;wasmer-ruby&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is the Ruby
 embedding for Wasmer. It&#x27;s not as popular as the others, but it&#x27;s also very
 polished and it&#x27;s finding its place in the Ruby ecosystem. The code is written
 in Rust, and it relies on
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;danielpclark&#x2F;rutie&quot;&gt;the awesome &lt;code&gt;rutie&lt;&#x2F;code&gt; project&lt;&#x2F;a&gt; .&lt;&#x2F;li&gt;
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;danielpclark&#x2F;rutie&quot;&gt;the awesome &lt;code&gt;rutie&lt;&#x2F;code&gt; project&lt;&#x2F;a&gt; .&lt;&#x2F;li&gt;
 &lt;li&gt;I won&#x27;t detail all the projects, but there is also
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-php&quot;&gt;&lt;code&gt;wasmer-php&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-java&quot;&gt;&lt;code&gt;wasmer-java&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-postgres&quot;&gt;&lt;code&gt;wasmer-postgres&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;… Because of
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-php&quot;&gt;&lt;code&gt;wasmer-php&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-java&quot;&gt;&lt;code&gt;wasmer-java&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer-postgres&quot;&gt;&lt;code&gt;wasmer-postgres&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;… Because of
 the Wasmer runtime API and C API we have designed, many developers around the
 globe have been able to create a lot more embeddings, such as in
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;migueldeicaza&#x2F;WasmerSharp&quot;&gt;C#&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;chances&#x2F;wasmer-d&quot;&gt;D&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tessi&#x2F;wasmex&quot;&gt;Elixir&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dirkschumacher&#x2F;wasmr&quot;&gt;R&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;AlwaysRightInstitute&#x2F;SwiftyWasmer&quot;&gt;Swift&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;zigwasm&#x2F;wasmer-zig&quot;&gt;Zig&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dart-lang&#x2F;wasm&quot;&gt;Dart&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;helmutkian&#x2F;cl-wasm-runtime&quot;&gt;Lisp&lt;&#x2F;a&gt; and so on.&lt;&#x2F;li&gt;
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;migueldeicaza&#x2F;WasmerSharp&quot;&gt;C#&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;chances&#x2F;wasmer-d&quot;&gt;D&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tessi&#x2F;wasmex&quot;&gt;Elixir&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dirkschumacher&#x2F;wasmr&quot;&gt;R&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;AlwaysRightInstitute&#x2F;SwiftyWasmer&quot;&gt;Swift&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;zigwasm&#x2F;wasmer-zig&quot;&gt;Zig&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dart-lang&#x2F;wasm&quot;&gt;Dart&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;helmutkian&#x2F;cl-wasm-runtime&quot;&gt;Lisp&lt;&#x2F;a&gt; and so on.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;Other fun notable projects are:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;sonde-rs&quot;&gt;&lt;code&gt;sonde-rs&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a library to
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;sonde-rs&quot;&gt;&lt;code&gt;sonde-rs&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a library to
 compile USDT probes into a Rust library,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;llvm-custom-builds&quot;&gt;&lt;code&gt;llvm-custom-builds&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;llvm-custom-builds&quot;&gt;&lt;code&gt;llvm-custom-builds&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a
 sandbox to produce custom LLVM builds for various platforms,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;loupe&quot;&gt;&lt;code&gt;loupe&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a set of tools to
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;loupe&quot;&gt;&lt;code&gt;loupe&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a set of tools to
 analyse and to profile Rust code,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;interface-types&quot;&gt;&lt;code&gt;wasmer-interface-types&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;interface-types&quot;&gt;&lt;code&gt;wasmer-interface-types&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, a
 “living” (understand an unstable playground) library that implements
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;interface-types&quot;&gt;the WebAssembly Interface Types proposal&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hywan&#x2F;inline-c-rs&#x2F;&quot;&gt;&lt;code&gt;inline-c-rs&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, to write and
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;interface-types&quot;&gt;the WebAssembly Interface Types proposal&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hywan&#x2F;inline-c-rs&#x2F;&quot;&gt;&lt;code&gt;inline-c-rs&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, to write and
 to execute C code inside Rust,&lt;&#x2F;li&gt;
 &lt;li&gt;in-memory filesystem, that acts exactly like &lt;code&gt;std::fs&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
@@ -141,7 +142,7 @@ passion.&lt;&#x2F;p&gt;
 &lt;p&gt;This list above shows released projects, but I&#x27;ve also experimented (and
 sometimes at two hairs of a release) with:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Unikernel&quot;&gt;Unikernels&lt;&#x2F;a&gt;; this one was really
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Unikernel&quot;&gt;Unikernels&lt;&#x2F;a&gt;; this one was really
 fun, given a WebAssembly module and a filesystem, we were able to generate a
 unikernel that was executing the given program,&lt;&#x2F;li&gt;
 &lt;li&gt;Parser; to write the fastest WebAssembly parser possible, it was working, but
@@ -149,32 +150,33 @@ never released,&lt;&#x2F;li&gt;
 &lt;li&gt;HAL (Hardware Abstraction Layer) ABI for WebAssembly, so that we can run
 WebAssembly on small chips super easily (think of IoT),&lt;&#x2F;li&gt;
 &lt;li&gt;Networking; an extension to WASI to support networking (TCP and UDP sockets),
-with an implementation in &lt;a href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;C_standard_library&quot;&gt;libc&lt;&#x2F;a&gt;, and even
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ziglang&#x2F;zig&#x2F;&quot;&gt;Zig&lt;&#x2F;a&gt;! We were able to compile C programs to
+with an implementation in &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;C_standard_library&quot;&gt;libc&lt;&#x2F;a&gt;, and even
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ziglang&#x2F;zig&#x2F;&quot;&gt;Zig&lt;&#x2F;a&gt;! We were able to compile C programs to
 WebAssembly like cURL, or TCP servers written with kqueue or epoll etc, and to
 execute them on any platforms.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;All those things were working.&lt;&#x2F;p&gt;
 &lt;p&gt;It&#x27;s absolutely crazy what WebAssembly can do today, and I still truly
 and deeply believe in this technology. I&#x27;m not the only one:
-&lt;a href=&quot;https:&#x2F;&#x2F;www.ycombinator.com&#x2F;companies&#x2F;wasmer&quot;&gt;YCombinator&lt;&#x2F;a&gt; and
-&lt;a href=&quot;https:&#x2F;&#x2F;medium.com&#x2F;speedinvest&#x2F;the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922&quot;&gt;SpeedInvest&lt;&#x2F;a&gt;
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.ycombinator.com&#x2F;companies&#x2F;wasmer&quot;&gt;YCombinator&lt;&#x2F;a&gt; and
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;medium.com&#x2F;speedinvest&#x2F;the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922&quot;&gt;SpeedInvest&lt;&#x2F;a&gt;
 are also founders that believe in Wasmer.&lt;&#x2F;p&gt;
 &lt;p&gt;So. What a dream, huh?&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;the-toxic-working-environment&quot;&gt;The toxic working environment&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;the-toxic-working-environment&quot;&gt;The toxic working environment&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#the-toxic-working-environment&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;WebAssembly is &lt;em&gt;nothing&lt;&#x2F;em&gt; without its community. I won&#x27;t name people to
 avoid missing important persons, but all the contributors are doing
 amazing work, to create something new, something special, something
 &lt;em&gt;right&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;Wasmer is a success. The Wasmer runtime is &lt;em&gt;nothing&lt;&#x2F;em&gt; without the
 incredible, marvelous, exceptional team of engineers behind it. In no
-particular order: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lachlansneff&quot;&gt;Lachlan Sneff&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;MarkMcCaskey&quot;&gt;Mark McCaskey&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jubianchi&quot;&gt;Julien
-Bianchi&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nlewycky&quot;&gt;Nick
-Lewycky&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;losfair&quot;&gt;Heyang
-Zhou&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;xmclark&quot;&gt;Mackenzie
-Clark&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bjfish&quot;&gt;Brandon
+particular order: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lachlansneff&quot;&gt;Lachlan Sneff&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;MarkMcCaskey&quot;&gt;Mark McCaskey&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jubianchi&quot;&gt;Julien
+Bianchi&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nlewycky&quot;&gt;Nick
+Lewycky&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;losfair&quot;&gt;Heyang
+Zhou&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;xmclark&quot;&gt;Mackenzie
+Clark&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bjfish&quot;&gt;Brandon
 Fish&lt;&#x2F;a&gt;. All of them, with no exception, have
 put a lot of passion in this project. It is what it is today because of
 them and also because of the contributors we have been honored to
@@ -197,7 +199,7 @@ features, at an incredible pace. New hats: Release manager, project manager,
 more product ownership, more customers to be connected with, more contributors
 to help, more issues to triage, blog writer etc. The pace was accelerating too
 fast, something we did notice on multiple occasions.&lt;&#x2F;li&gt;
-&lt;li&gt;The CEO, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;syrusakbary&quot;&gt;Syrus Akbary&lt;&#x2F;a&gt;, had evidently a lot
+&lt;li&gt;The CEO, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;syrusakbary&quot;&gt;Syrus Akbary&lt;&#x2F;a&gt;, had evidently a lot
 of pressure on its shoulders. It sadly resulted in the worst possible way:
 micro-management, stress, pressure, bad leadership, lack of vision, lack of
 trust in the employees, changing the roadmap constantly, lies, secrets etc.&lt;&#x2F;li&gt;
@@ -257,7 +259,8 @@ ever being sick again (otherwise I will be fired), dividing my equities,
 asking me to work more, saying I&#x27;ve never been involved in the company
 etc. That was the final straw to me. That&#x27;s &lt;em&gt;the&lt;&#x2F;em&gt; wrong way to treat an
 employee, a collaborator, a contributor, the co-founder.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;what-s-next&quot;&gt;What&#x27;s next?&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;what-s-next&quot;&gt;What&#x27;s next?&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#what-s-next&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;I need to recover. As you can imagine, working 2.5 years at this pace
 leaves sequelae. Hopefully a couple of months should suffice.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;m still in love with Wasmer, the &lt;strong&gt;runtime&lt;&#x2F;strong&gt;, the open source projects
@@ -278,10 +281,10 @@ things can improve or even slightly change. We have built something
 great. Please take a great care of it.&lt;&#x2F;p&gt;
 &lt;p&gt;As I said, I&#x27;m available for a new adventure, you can contact me at
 &lt;a href=&quot;mailto:ivan@mnt.io&quot;&gt;ivan@mnt.io&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&quot;&gt;@mnt_io&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;ivan-enderlin&#x2F;&quot;&gt;ivan-enderlin&lt;&#x2F;a&gt; (LinkedIn).&lt;&#x2F;p&gt;
-&lt;p&gt;Discussions &lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&#x2F;status&#x2F;1445310721185783811&quot;&gt;on
-Twitter&lt;&#x2F;a&gt; and &lt;a href=&quot;https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=28772863&quot;&gt;on
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&quot;&gt;@mnt_io&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;ivan-enderlin&#x2F;&quot;&gt;ivan-enderlin&lt;&#x2F;a&gt; (LinkedIn).&lt;&#x2F;p&gt;
+&lt;p&gt;Discussions &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;mnt_io&#x2F;status&#x2F;1445310721185783811&quot;&gt;on
+Twitter&lt;&#x2F;a&gt; and &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=28772863&quot;&gt;on
 HackerNews&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 </content>
         
@@ -302,7 +305,7 @@ HackerNews&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
         <link rel="alternate" type="text/html" href="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/"/>
         <id>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</id>
         
-        <content type="html" xml:base="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/">&lt;p&gt;Today is my first day at &lt;a href=&quot;https:&#x2F;&#x2F;wasmer.io&#x2F;&quot;&gt;Wasmer&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/">&lt;p&gt;Today is my first day at &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wasmer.io&#x2F;&quot;&gt;Wasmer&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;It&#x27;s with a lot of regrets that I leave Automattic. To be clear, I&#x27;m not
 leaving because something negative happened, I&#x27;m leaving because I&#x27;ve
 received the same job offer, 3 times in 10 days, from Wasmer, Google and
@@ -310,7 +313,7 @@ Mozilla. Namely to work with Rust or C++ to build a WebAssembly runtime.
 This is an offer I can barely decline. It&#x27;s an opportunity and a dream
 for me. And I was lucky enough to get a choice between 3 excellent
 companies!&lt;&#x2F;p&gt;
-&lt;p&gt;I can only encourage you to &lt;a href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;work-with-us&#x2F;&quot;&gt;work with
+&lt;p&gt;I can only encourage you to &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;work-with-us&#x2F;&quot;&gt;work with
 Automattic&lt;&#x2F;a&gt;. It&#x27;s definitely the
 best company I&#x27;ve ever work with; stealing the 1st place to Mozilla.
 Automattic is not only about WordPress.com and other services: It&#x27;s a
@@ -320,20 +323,20 @@ experience.&lt;&#x2F;p&gt;
 &lt;p&gt;I could write 100 pages about my team. They have all been &lt;em&gt;remarkable&lt;&#x2F;em&gt;
 in many ways. I&#x27;m closer to them although they live at 10&#x27;000km, rather
 than colleagues I met everyday in person in the past. Congrats to
-&lt;a href=&quot;https:&#x2F;&#x2F;ma.tt&#x2F;about&#x2F;&quot;&gt;Matt&lt;&#x2F;a&gt; for this incredible project.&lt;&#x2F;p&gt;
-&lt;p&gt;Now it&#x27;s time to work on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&quot;&gt;Wasmer&lt;&#x2F;a&gt;.
-It&#x27;s a &lt;a href=&quot;https:&#x2F;&#x2F;webassembly.org&#x2F;&quot;&gt;WebAssembly&lt;&#x2F;a&gt; runtime written in
-&lt;a href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt;: My two current passions. It&#x27;s
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ma.tt&#x2F;about&#x2F;&quot;&gt;Matt&lt;&#x2F;a&gt; for this incredible project.&lt;&#x2F;p&gt;
+&lt;p&gt;Now it&#x27;s time to work on &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;wasmerio&#x2F;wasmer&quot;&gt;Wasmer&lt;&#x2F;a&gt;.
+It&#x27;s a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;webassembly.org&#x2F;&quot;&gt;WebAssembly&lt;&#x2F;a&gt; runtime written in
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt;: My two current passions. It&#x27;s
 powerful, modular, well-designed, and it comes with great ambitions. I&#x27;m
-really exciting. I work with an extraordinary team: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;syrusakbary&quot;&gt;Syrus
+really exciting. I work with an extraordinary team: &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;syrusakbary&quot;&gt;Syrus
 Akbary&lt;&#x2F;a&gt; (the author of
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;graphql-python&#x2F;graphene&quot;&gt;Graphene&lt;&#x2F;a&gt;, a GraphQL
-framework in Python), &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lachlansneff&quot;&gt;Lachlan Sneff&lt;&#x2F;a&gt;
-(the author of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nebulet&#x2F;nebulet&quot;&gt;Nebulet&lt;&#x2F;a&gt;, a
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;graphql-python&#x2F;graphene&quot;&gt;Graphene&lt;&#x2F;a&gt;, a GraphQL
+framework in Python), &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lachlansneff&quot;&gt;Lachlan Sneff&lt;&#x2F;a&gt;
+(the author of &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;nebulet&#x2F;nebulet&quot;&gt;Nebulet&lt;&#x2F;a&gt;, a
 microkernel that implements a WebAssembly &quot;usermode&quot; that runs in Ring
-0), &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bjfish&quot;&gt;Brandon Fish&lt;&#x2F;a&gt; (a great contributor of
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;oracle&#x2F;truffleruby&quot;&gt;Truffleruby&lt;&#x2F;a&gt;, a high performance
-implementation of Ruby with GraalVM), &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;xmclark&quot;&gt;Mackenzie
+0), &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bjfish&quot;&gt;Brandon Fish&lt;&#x2F;a&gt; (a great contributor of
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;oracle&#x2F;truffleruby&quot;&gt;Truffleruby&lt;&#x2F;a&gt;, a high performance
+implementation of Ruby with GraalVM), &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;xmclark&quot;&gt;Mackenzie
 Clark&lt;&#x2F;a&gt;, and soon more.&lt;&#x2F;p&gt;
 &lt;p&gt;My job will consist to work on the runtime of course, and also to
 integrate&#x2F;embed the runtime into different languages, such as PHP —like
@@ -362,7 +365,7 @@ realities 🎉!&lt;&#x2F;p&gt;
         <content type="html" xml:base="https://mnt.io/articles/automattic-grand-meetup-2017/">&lt;p&gt;Awesome company, awesome teams, awesome people. Thanks everyone for this
 moment!&lt;&#x2F;p&gt;
 &lt;figure&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;automattic-grand-meetup-2017&#x2F;.&#x2F;gm.jpg&quot; alt=&quot;All the people&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;automattic-grand-meetup-2017&#x2F;.&#x2F;gm.jpg&quot; alt=&quot;All the people&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
   &lt;figcaption&gt;
 &lt;p&gt;All the people!&lt;&#x2F;p&gt;
   &lt;&#x2F;figcaption&gt;
@@ -392,7 +395,8 @@ This is a world-wide distributed company. The first three weeks you
 incarn a Happiness Engineer. This is part of the Happiness Rotation
 duty. This article explains why I loved it, and why I reckon you should
 do it too.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;happiness-engineer-really&quot;&gt;Happiness Engineer, really?&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;happiness-engineer-really&quot;&gt;Happiness Engineer, really?&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#happiness-engineer-really&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;Does it sound mad as a Cheshire cat? Pretentious maybe? Actually, it&#x27;s
 not at all.&lt;&#x2F;p&gt;
 &lt;p&gt;As a Happiness Engineer, I had to make the support. This is part of the
@@ -404,7 +408,8 @@ help our users. I will go back on this later.&lt;&#x2F;p&gt;
 &lt;li&gt;Listen to and understand their issues,&lt;&#x2F;li&gt;
 &lt;li&gt;Find a way to fix the issues.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;meet-the-users&quot;&gt;Meet the users&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;meet-the-users&quot;&gt;Meet the users&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#meet-the-users&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;I need motivations in my job. Learning who our users are, and what they
 want to achieve, is a great motivation. After these three weeks, I know
 what my contributions will serve. It gives a meaning to each
@@ -413,7 +418,8 @@ contribution, to each day I wake up.&lt;&#x2F;p&gt;
 world-wide, they speak almost all the languages on Earth, they are
 present on all continents. Their needs vary a lot, they use our
 software in ways I was not able to foresee.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;listen-to-understand-and-fix-their-issues&quot;&gt;Listen to, understand, and fix their issues&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;listen-to-understand-and-fix-their-issues&quot;&gt;Listen to, understand, and fix their issues&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#listen-to-understand-and-fix-their-issues&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;When you are chatting with a “support guy”, you cannot imagine this is a
 real engineer. This is not a random person filling a pre-defined vague
 form somewhere where it is cheap to hire her. You will chat with someone
@@ -439,17 +445,19 @@ appropriated teams,&lt;&#x2F;li&gt;
 &lt;p&gt;This is why it is called &lt;em&gt;Welcome to Chaos&lt;&#x2F;em&gt;. Yes, you have to learn a
 lot in three weeks, but it is extremely educative. This is like a speed
 training.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;happiness&quot;&gt;Happiness&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;happiness&quot;&gt;Happiness&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#happiness&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;I can ensure that when a user is grateful after you fixed its issue, the
 term Happiness Engineer makes a lot of sense. Automattic provides a lot
 of freedom to their Happiness Engineers to make people really happy,
 both in term of tooling or financial.&lt;&#x2F;p&gt;
 &lt;p&gt;This is the first time I see a company that is that much generous with
 its customers.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;thanks-buddy&quot;&gt;Thanks buddy&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;thanks-buddy&quot;&gt;Thanks buddy&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#thanks-buddy&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;Of course, when embracing the chaos, you are not alone. Everyone is here
 to help you, and to answer your questions. After all, this is part of
-&lt;a href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;creed&#x2F;&quot;&gt;the Automattic&#x27;s creed&lt;&#x2F;a&gt; (&lt;a href=&quot;https:&#x2F;&#x2F;ma.tt&#x2F;2011&#x2F;09&#x2F;automattic-creed&#x2F;&quot;&gt;story of the
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;creed&#x2F;&quot;&gt;the Automattic&#x27;s creed&lt;&#x2F;a&gt; (&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ma.tt&#x2F;2011&#x2F;09&#x2F;automattic-creed&#x2F;&quot;&gt;story of the
 creed&lt;&#x2F;a&gt;):&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;I will never stop learning. I won’t just work on things that are
@@ -467,13 +475,15 @@ day. Given time, there is no problem that’s insurmountable.&lt;&#x2F;p&gt;
 &lt;p&gt;In addition to everyone willing to help, a buddy was assigned to me. A
 person that helps and teaches you every time. This is very helpful. Thank
 you Hannah!&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;happiness-rotation&quot;&gt;Happiness Rotation&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;happiness-rotation&quot;&gt;Happiness Rotation&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#happiness-rotation&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;This experience is great. But after some time, you might forget it. So
 as a reminder, once a year, you incarn a Happiness Engineer again. This
 is part of the happiness rotation. As far as I understand, it implies
 almost everyone in the company.&lt;&#x2F;p&gt;
 &lt;p&gt;Note: Obviously, there is permanent happiness engineers.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#conclusion&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;I deeply think this approach has many advantages. Some of them are
 listed above. It helps to understand the company, and more importantly
 the users. The happiness rotation stresses the fact that users are
@@ -502,21 +512,23 @@ worth it.&lt;&#x2F;p&gt;
         <link rel="alternate" type="text/html" href="https://mnt.io/articles/bye-bye-liip-hello-automattic/"/>
         <id>https://mnt.io/articles/bye-bye-liip-hello-automattic/</id>
         
-        <content type="html" xml:base="https://mnt.io/articles/bye-bye-liip-hello-automattic/">&lt;p&gt;Since April 2017, I have left &lt;a href=&quot;https:&#x2F;&#x2F;www.liip.ch&#x2F;&quot;&gt;Liip&lt;&#x2F;a&gt; to join
-&lt;a href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;&quot;&gt;Automattic&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;bye-bye-liip&quot;&gt;Bye bye Liip&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://mnt.io/articles/bye-bye-liip-hello-automattic/">&lt;p&gt;Since April 2017, I have left &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.liip.ch&#x2F;&quot;&gt;Liip&lt;&#x2F;a&gt; to join
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;&quot;&gt;Automattic&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bye-bye-liip&quot;&gt;Bye bye Liip&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#bye-bye-liip&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;After almost 20 months at Liip, I am leaving. Liip was a great
 experience. It was my first industrial non-remote job. It was also my
 first job in the country I am currently living in. And I have discovered
 a new way of working.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;first-industrial-non-remote-job&quot;&gt;First industrial non-remote job&lt;&#x2F;h3&gt;
-&lt;p&gt;Before working for Liip, I was working for &lt;a href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;&quot;&gt;fruux&lt;&#x2F;a&gt;.
+&lt;h3 id=&quot;first-industrial-non-remote-job&quot;&gt;First industrial non-remote job&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#first-industrial-non-remote-job&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
+&lt;p&gt;Before working for Liip, I was working for &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;&quot;&gt;fruux&lt;&#x2F;a&gt;.
 My situation was the following: A french citizen, living as a foreigner
 in Switzerland, working for a German company, with employees from
 Germany, Holland, and Canada. Everything happened on chat, mail, and
 Skype. When my son was born, I had to change my work to simplify my
 life. It was not the only reason, but one of them.&lt;&#x2F;p&gt;
-&lt;p&gt;And before fruux, I was working for &lt;a href=&quot;https:&#x2F;&#x2F;www.inria.fr&#x2F;en&#x2F;&quot;&gt;INRIA&lt;&#x2F;a&gt;, a
+&lt;p&gt;And before fruux, I was working for &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.inria.fr&#x2F;en&#x2F;&quot;&gt;INRIA&lt;&#x2F;a&gt;, a
 research institute in France. It was partially a remote job.&lt;&#x2F;p&gt;
 &lt;p&gt;Liip has several offices. I was based in Lausanne.&lt;&#x2F;p&gt;
 &lt;p&gt;So, yes, Liip was my first industrial non-remote job. And I liked it.
@@ -525,50 +537,52 @@ people, everything in my local language. Because yes, it was my first
 job in my native language too.&lt;&#x2F;p&gt;
 &lt;p&gt;Everything was simpler. And when you have your first baby, anything else
 that is simpler saves your life.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;introducing-holacracy&quot;&gt;Introducing Holacracy&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;introducing-holacracy&quot;&gt;Introducing Holacracy&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#introducing-holacracy&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;Giant discussions were happening to remove any form of hierarchy in
 Liip. Then we discovered
-&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Holacracy&quot;&gt;Holacracy&lt;&#x2F;a&gt;, and we started
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Holacracy&quot;&gt;Holacracy&lt;&#x2F;a&gt;, and we started
 moving to this system. This is a new governance system. If you are
 familiar with distributed network topologies in Computer Science, or
-data structures, it really looks like a &lt;a href=&quot;https:&#x2F;&#x2F;hal.archives-ouvertes.fr&#x2F;hal-00560821&#x2F;document&quot;&gt;Distributed Spanning
+data structures, it really looks like a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;hal.archives-ouvertes.fr&#x2F;hal-00560821&#x2F;document&quot;&gt;Distributed Spanning
 Tree&lt;&#x2F;a&gt;
-[&lt;a href=&quot;http:&#x2F;&#x2F;dblp.org&#x2F;rec&#x2F;html&#x2F;journals&#x2F;tpds&#x2F;DahanPN09&quot;&gt;DahanPN09&lt;&#x2F;a&gt;]. Note:
+[&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;dblp.org&#x2F;rec&#x2F;html&#x2F;journals&#x2F;tpds&#x2F;DahanPN09&quot;&gt;DahanPN09&lt;&#x2F;a&gt;]. Note:
 I am sure that the authors of Holacracy are not aware of DST, but, eh.&lt;&#x2F;p&gt;
 &lt;p&gt;So nothing new from a research point of view, but it is cool to see this
 algorithm coming alive in real life. And it worked: Less meetings, more
 self-organisation, more shared responsabilities, no more “boss” etc.
 This is not a tool for all companies, but I am sure that if you are
 reading my blog, then your company should give it a try.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;open-source-projects&quot;&gt;Open source projects&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;open-source-projects&quot;&gt;Open source projects&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#open-source-projects&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;Liip has been very generous with me regarding my open source
-engagements. I was involved in &lt;a href=&quot;https:&#x2F;&#x2F;hoa-project.net&#x2F;&quot;&gt;Hoa&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;atoum.org&#x2F;&quot;&gt;atoum&lt;&#x2F;a&gt;, and
-&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;FriendsOfPHP&#x2F;pickle&quot;&gt;Pickle&lt;&#x2F;a&gt; when joining the
+engagements. I was involved in &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;hoa-project.net&#x2F;&quot;&gt;Hoa&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;atoum.org&#x2F;&quot;&gt;atoum&lt;&#x2F;a&gt;, and
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;FriendsOfPHP&#x2F;pickle&quot;&gt;Pickle&lt;&#x2F;a&gt; when joining the
 company. Liip gave me a 5% budget, so roughly 1 hour per day to work on
 Hoa. Thank you for that!&lt;&#x2F;p&gt;
-&lt;p&gt;After that, I have started a new big project, called &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tagua-vm&#x2F;tagua-vm&quot;&gt;Tagua
+&lt;p&gt;After that, I have started a new big project, called &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tagua-vm&#x2F;tagua-vm&quot;&gt;Tagua
 VM&lt;&#x2F;a&gt;. They gave me an additional 5%
 budget. So I got 2 hours per day to work on Hoa and Tagua VM. Again, thank
 you for that!&lt;&#x2F;p&gt;
-&lt;p&gt;Finally, I have started an in-house open project called &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;liip&#x2F;TheA11yMachine&quot;&gt;The A11y
+&lt;p&gt;Finally, I have started an in-house open project called &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;liip&#x2F;TheA11yMachine&quot;&gt;The A11y
 Machine&lt;&#x2F;a&gt; (a11ym for short). I
 have written a case study for this tool on the Liip&#x27;s blog:
-&lt;a href=&quot;https:&#x2F;&#x2F;blog.liip.ch&#x2F;archive&#x2F;2016&#x2F;12&#x2F;06&#x2F;accessibility-with-a11ym.html&quot;&gt;Accessibility: make your website barrier-free with
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;blog.liip.ch&#x2F;archive&#x2F;2016&#x2F;12&#x2F;06&#x2F;accessibility-with-a11ym.html&quot;&gt;Accessibility: make your website barrier-free with
 a11ym!&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;The goal of a11ym is to automate the accessibility testing of any site
 by crawling and testing each page. A sweet report is generated, showing
 all errors, warnings, and notices, with all information needed by the
 developer to fix the issues as fast as possible.&lt;&#x2F;p&gt;
 &lt;figure&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-liip-hello-automattic&#x2F;.&#x2F;dashboard.jpg&quot; alt=&quot;Dashboard&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-liip-hello-automattic&#x2F;.&#x2F;dashboard.jpg&quot; alt=&quot;Dashboard&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
   &lt;figcaption&gt;
 &lt;p&gt;Dashboard of a11ym, showing the evolution of the accessibility of a site
 in time&lt;&#x2F;p&gt;
   &lt;&#x2F;figcaption&gt;
 &lt;&#x2F;figure&gt;
 &lt;figure&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-liip-hello-automattic&#x2F;.&#x2F;report.png&quot; alt=&quot;Report&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-liip-hello-automattic&#x2F;.&#x2F;report.png&quot; alt=&quot;Report&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
   &lt;figcaption&gt;
 &lt;p&gt;A typical a11ym report listing all errors, warnings, and notices for a
 given URL&lt;&#x2F;p&gt;
@@ -579,7 +593,8 @@ community. It has been downloaded 7000 times so far, which is not bad
 considering the niche it targets.&lt;&#x2F;p&gt;
 &lt;p&gt;A new SaaS platform is being build around this software. I enjoyed
 working on it, and it was really tangible.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;main-customer-huge-project&quot;&gt;Main customer, huge project&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;&quot;&gt;Main customer, huge project&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;Liip is a Web agency, so you have dozens of customers at the same time.
 However, I was in a special team for an important customer. The site is
 a luxury watches and jewellery e-commerce platform, located in several
@@ -600,19 +615,21 @@ better things: How to transform a really crappy software into something
 understandable by everyone, how to not break a 10+ years old progam with
 no test etc. And it requires skills. I learned it the hard way, but I
 learned it.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;why-leaving&quot;&gt;Why leaving?&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;-1&quot;&gt;Why leaving?&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#-1&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h3&gt;
 &lt;p&gt;Because even if I learned during my time at Liip, the Web agency model
 was definitively not for me. I am very thankful to every Liiper, I had a
 great time, I love the Web, but not in an agency.&lt;&#x2F;p&gt;
 &lt;p&gt;My son is now 21 months old, and I need fresh air. I can take new
 challenges.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;welcome-automattic&quot;&gt;Welcome Automattic&lt;&#x2F;h2&gt;
-&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;&quot;&gt;Automattic&lt;&#x2F;a&gt; is the company behind
-&lt;a href=&quot;https:&#x2F;&#x2F;wordpress.com&#x2F;&quot;&gt;WordPress.com&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;woocommerce.com&#x2F;&quot;&gt;WooCommerce&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;akismet.com&#x2F;&quot;&gt;Akismet&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;simplenote.com&#x2F;&quot;&gt;Simplenote&lt;&#x2F;a&gt;,
-&lt;a href=&quot;https:&#x2F;&#x2F;cloudup.com&#x2F;&quot;&gt;Cloudup&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;simperium.com&quot;&gt;Simperium&lt;&#x2F;a&gt;,
-&lt;a href=&quot;http:&#x2F;&#x2F;en.gravatar.com&#x2F;&quot;&gt;Gravatar&lt;&#x2F;a&gt; and other giant services.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;-2&quot;&gt;Welcome Automattic&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#-2&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;automattic.com&#x2F;&quot;&gt;Automattic&lt;&#x2F;a&gt; is the company behind
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wordpress.com&#x2F;&quot;&gt;WordPress.com&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;woocommerce.com&#x2F;&quot;&gt;WooCommerce&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;akismet.com&#x2F;&quot;&gt;Akismet&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;simplenote.com&#x2F;&quot;&gt;Simplenote&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;cloudup.com&#x2F;&quot;&gt;Cloudup&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;simperium.com&quot;&gt;Simperium&lt;&#x2F;a&gt;,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;en.gravatar.com&#x2F;&quot;&gt;Gravatar&lt;&#x2F;a&gt; and other giant services.&lt;&#x2F;p&gt;
 &lt;p&gt;I came to Automattic by coincidence. I was looking for a sponsor for
 Tagua VM, and someone pointed me out Automattic. After some researches
 about the company, it appears that it could be a really great place
@@ -621,7 +638,7 @@ where to work. So I applied.&lt;&#x2F;p&gt;
 happened at the same time than a big sprint at Liip (remember the SaaS
 platform for The A11y Machine?). But after 4 months, it appears I
 succeeded, and I am very glad of that fact!&lt;&#x2F;p&gt;
-&lt;p&gt;I am just starting my job at Automattic. I don&#x27;t have anything strong
+&lt;p&gt;I am just starting my job at Automattic. I don&amp;#39;t have anything strong
 and finite to say now, apart that everything is just awesome so far. In
 few weeks, I am likely to write about my start at Automattic I did, see
 &lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;welcome-to-chaos&#x2F;&quot;&gt;Welcome to Chaos&lt;&#x2F;a&gt;. They
@@ -646,7 +663,8 @@ have a very interesting way to get you on board.&lt;&#x2F;p&gt;
         <link rel="alternate" type="text/html" href="https://mnt.io/articles/hello-fruux/"/>
         <id>https://mnt.io/articles/hello-fruux/</id>
         
-        <content type="html" xml:base="https://mnt.io/articles/hello-fruux/">&lt;h2 id=&quot;leaving-the-research-world&quot;&gt;Leaving the research world&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://mnt.io/articles/hello-fruux/">&lt;h2 id=&quot;leaving-the-research-world&quot;&gt;Leaving the research world&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#leaving-the-research-world&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;I have really enjoyed my time at INRIA and Femto-ST, 2 research
 institutes in France. But after 8 years at the university and a hard PhD
 thesis (but with great results by the way!), I would like to see other
@@ -663,27 +681,28 @@ right now, I have to get a change of air! So I asked on Twitter:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;I (Ivan Enderlin, a fresh PhD, creator of Hoa) am looking for a job.
 Here is my CV:
-&lt;a href=&quot;http:&#x2F;&#x2F;t.co&#x2F;dAdLm35RUu&quot;&gt;http:&#x2F;&#x2F;t.co&#x2F;dAdLm35RUu&lt;&#x2F;a&gt;.
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;t.co&#x2F;dAdLm35RUu&quot;&gt;http:&#x2F;&#x2F;t.co&#x2F;dAdLm35RUu&lt;&#x2F;a&gt;.
 Please, contact me!
-&lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;hashtag&#x2F;hoajob?src=hash&quot;&gt;#hoajob&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;— Hoa project (@hoaproject) &lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;hoaproject&#x2F;status&#x2F;492382581271572480&quot;&gt;July 24th,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;hashtag&#x2F;hoajob?src=hash&quot;&gt;#hoajob&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;— Hoa project (@hoaproject) &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;hoaproject&#x2F;status&#x2F;492382581271572480&quot;&gt;July 24th,
 2014&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;And what a surprise! A &lt;strong&gt;lot&lt;&#x2F;strong&gt; of companies answered to my tweet (most
 of them in private of course), but the most interesting one at my eyes
 was… fruux 😉.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;fruux&quot;&gt;fruux&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;fruux&quot;&gt;fruux&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#fruux&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;fruux defines itself as: “A unified contacts&#x2F;calendaring system that
-works across &lt;a href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;supported-devices&#x2F;&quot;&gt;platforms and
+works across &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;supported-devices&#x2F;&quot;&gt;platforms and
 devices&lt;&#x2F;a&gt;. We are behind
-&lt;a href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;opensource&quot;&gt;&lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, which is the most popular
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;fruux.com&#x2F;opensource&quot;&gt;&lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, which is the most popular
 open-source implementation of the
-&lt;a href=&quot;http:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CardDAV&quot;&gt;CardDAV&lt;&#x2F;a&gt; and
-&lt;a href=&quot;http:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CardDAV&quot;&gt;CalDAV&lt;&#x2F;a&gt; standards. Besides us,
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CardDAV&quot;&gt;CardDAV&lt;&#x2F;a&gt; and
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CardDAV&quot;&gt;CalDAV&lt;&#x2F;a&gt; standards. Besides us,
 developers and companies around the globe use our &lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt; technology
 to deliver sync functionality to millions of users”.&lt;&#x2F;p&gt;
 &lt;figure&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;hello-fruux&#x2F;.&#x2F;fruux-logo.png&quot; alt=&quot;Fruux&amp;#39;s logo&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;hello-fruux&#x2F;.&#x2F;fruux-logo.png&quot; alt=&quot;Fruux&amp;#39;s logo&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
   &lt;figcaption&gt;
   fruux&#x27;s logo.
   &lt;&#x2F;figcaption&gt;
@@ -697,12 +716,12 @@ to deliver sync functionality to millions of users”.&lt;&#x2F;p&gt;
 &lt;li&gt;touching millions of people,&lt;&#x2F;li&gt;
 &lt;li&gt;standards in minds.&lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
-&lt;p&gt;The first point is the most important for me. I don&#x27;t want to make a
+&lt;p&gt;The first point is the most important for me. I don&amp;#39;t want to make a
 company richer without any benefits for the rest of the world. I want my
 work to be beneficial to the rest of the world, to share my work, I want
 my work to be reused, hacked, criticized, updated and shared again. This
 is the spirit of the open-source and the hackability paradigms. And
-fortunately for me, fruux&#x27;s low-layers are 100% open-source, namely
+fortunately for me, fruux&amp;#39;s low-layers are 100% open-source, namely
 &lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt; &amp;amp; co.&lt;&#x2F;p&gt;
 &lt;p&gt;However, being able to eat at the end of the month with open-source is
 not that simple. Fortunately for me, fruux has a stable economic model,
@@ -710,7 +729,7 @@ based on open-source. Obviously, I have to work on closed projects,
 obviously, I have to work for some specific customers, but I can go back
 to open-source goodnesses all the time 😉.&lt;&#x2F;p&gt;
 &lt;p&gt;In addition, I am currently living in Switzerland and fruux is located
-in Germany. Fortunately for me, fruux&#x27;s team is kind of dispatched all
+in Germany. Fortunately for me, fruux&amp;#39;s team is kind of dispatched all
 around Europe and the world. Naturally, they accept me to work remotely.
 Whilst it can be inconvenient for some people, I enjoy to have my own
 hours, to organize myself as I would like etc. Periodical meetings and
@@ -726,28 +745,29 @@ lot of people and it gives meaning to my work on a daily basis. Also,
 the last thing I love at fruux is this desire to respect standards, RFC,
 recommandations etc. They are involved in these processes, consortiums
 and groups (for instance
-&lt;a href=&quot;http:&#x2F;&#x2F;calconnect.org&#x2F;mbrlist.shtml&quot;&gt;CalConnect&lt;&#x2F;a&gt;). I love standards and
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;calconnect.org&#x2F;mbrlist.shtml&quot;&gt;CalConnect&lt;&#x2F;a&gt;). I love standards and
 specifications, and this methodology reminds me the scientific approach
 I had with my PhD thesis. I consider that a standard without an
 implementation has no meaning, and a well-designed standard is a piece
 of a delicious cake, especially when everyone respects this standard 😄.&lt;&#x2F;p&gt;
 &lt;p&gt;(… but the cake is a lie!)&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;sabre&quot;&gt;&lt;code&gt;sabre&#x2F;*&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;sabre&quot;&gt;&lt;code&gt;sabre&#x2F;*&lt;&#x2F;code&gt;&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#sabre&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;fruux has mostly hired me because of my experience on
-&lt;a href=&quot;http:&#x2F;&#x2F;hoa-project.net&#x2F;&quot;&gt;Hoa&lt;&#x2F;a&gt;. One of my main public job is to work on
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;hoa-project.net&#x2F;&quot;&gt;Hoa&lt;&#x2F;a&gt;. One of my main public job is to work on
 all the &lt;code&gt;sabre&#x2F;*&lt;&#x2F;code&gt; libraries, which include:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-dav&quot;&gt;&lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-davclient&quot;&gt;&lt;code&gt;sabre&#x2F;davclient&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-event&quot;&gt;&lt;code&gt;sabre&#x2F;event&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-http&quot;&gt;&lt;code&gt;sabre&#x2F;http&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-proxy&quot;&gt;&lt;code&gt;sabre&#x2F;proxy&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-tzserver&quot;&gt;&lt;code&gt;sabre&#x2F;tzserver&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-vobject&quot;&gt;&lt;code&gt;sabre&#x2F;vobject&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-xml&quot;&gt;&lt;code&gt;sabre&#x2F;xml&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-dav&quot;&gt;&lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-davclient&quot;&gt;&lt;code&gt;sabre&#x2F;davclient&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-event&quot;&gt;&lt;code&gt;sabre&#x2F;event&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-http&quot;&gt;&lt;code&gt;sabre&#x2F;http&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-proxy&quot;&gt;&lt;code&gt;sabre&#x2F;proxy&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-tzserver&quot;&gt;&lt;code&gt;sabre&#x2F;tzserver&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-vobject&quot;&gt;&lt;code&gt;sabre&#x2F;vobject&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fruux&#x2F;sabre-xml&quot;&gt;&lt;code&gt;sabre&#x2F;xml&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;You will find the documentations and the news on
-&lt;a href=&quot;http:&#x2F;&#x2F;sabre.io&#x2F;&quot;&gt;sabre.io&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;sabre.io&#x2F;&quot;&gt;sabre.io&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;All these libraries serve the first one: &lt;code&gt;sabre&#x2F;dav&lt;&#x2F;code&gt;, which is an
 implementation of the WebDAV technology, including extensions for
 CalDAV, and CardDAV, respectively for calendars, tasks and address
@@ -755,13 +775,14 @@ books. For the one who does not know what is WebDAV, in few words: The
 Web is mostly a read-only media, but WebDAV extends HTTP in order to be
 able to write and collaborate on documents. The way WebDAV is defined is
 fascinating, and even more, the way it can be extended.&lt;&#x2F;p&gt;
-&lt;p&gt;Most of the work is already done by &lt;a href=&quot;http:&#x2F;&#x2F;evertpot.com&#x2F;&quot;&gt;Evert&lt;&#x2F;a&gt; and
+&lt;p&gt;Most of the work is already done by &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;evertpot.com&#x2F;&quot;&gt;Evert&lt;&#x2F;a&gt; and
 many contributors, but we can go deeper! More extensions, more
 standards, better code, better algorithms etc.!&lt;&#x2F;p&gt;
 &lt;p&gt;If you are interested in the work I am doing on &lt;code&gt;sabre&#x2F;*&lt;&#x2F;code&gt;, you can
-check this &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;search?q=user%3Afruux+author%3Ahywan&amp;amp;type=Issues&quot;&gt;search result on
+check this &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;search?q=user%3Afruux+author%3Ahywan&amp;amp;type=Issues&quot;&gt;search result on
 Github&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;future-of-hoa&quot;&gt;Future of Hoa&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;&quot;&gt;Future of Hoa&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;Certain people have asked me about the future of Hoa: Whether I am going
 to stop it or not since I have a job now.&lt;&#x2F;p&gt;
 &lt;p&gt;Firstly, a PhD thesis is exhausting, and believe me, it requires more
@@ -771,17 +792,18 @@ no holidays, you are always out of time, you always have a ton (sic) of
 articles and documents to read… there is no break, no end. In these
 conditions, I was able to maintain Hoa and to grow the project though,
 thanks to a very helpful and present community!&lt;&#x2F;p&gt;
-&lt;p&gt;Secondly, fruux is planning to use Hoa. I don&#x27;t know how or when, but if
+&lt;p&gt;Secondly, fruux is planning to use Hoa. I don&amp;#39;t know how or when, but if
 at a certain moment, using Hoa makes sense, they will. What does it
 imply for Hoa and me? It means that I will be paid to work on Hoa at a
-little percentage. I don&#x27;t know how much, it will depend of the moments,
+little percentage. I don&amp;#39;t know how much, it will depend of the moments,
 but this is a big step forward for the project. Moreover, a project like
-fruux using Hoa is a big chance! I hope to see the fruux&#x27;s logo very
-soon on the homepage of the Hoa&#x27;s website.&lt;&#x2F;p&gt;
+fruux using Hoa is a big chance! I hope to see the fruux&amp;#39;s logo very
+soon on the homepage of the Hoa&amp;#39;s website.&lt;&#x2F;p&gt;
 &lt;p&gt;Thus, to conclude, I will have more time (on evenings, weekends,
 holidays and sometimes during the day) to work on Hoa. Do not be afraid,
 the future is bright 😄.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;-1&quot;&gt;Conclusion&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#-1&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;&lt;em&gt;Bref&lt;&#x2F;em&gt;, I am working at fruux!&lt;&#x2F;p&gt;
 </content>
         

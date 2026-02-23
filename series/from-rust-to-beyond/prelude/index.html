@@ -7,7 +7,7 @@
 
   <title>Prelude</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -73,26 +73,27 @@
 
     </header>
 
-    <p><a href="https://automattic.com/">At my work</a>, I had an opportunity to start an
-experiment: Writing a single parser implementation in Rust for <a href="https://github.com/WordPress/gutenberg">the new
+    <p><a rel="noopener external" target="_blank" href="https://automattic.com/">At my work</a>, I had an opportunity to start an
+experiment: Writing a single parser implementation in Rust for <a rel="noopener external" target="_blank" href="https://github.com/WordPress/gutenberg">the new
 Gutenberg post format</a>, bound to
 many platforms and environments.</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./gutenberg.png" alt="Gutenberg&#39;s logo" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./gutenberg.png" alt="Gutenberg&#39;s logo" loading="lazy" decoding="async" /></p>
   <figcaption>
-<p>Gutenberg's logo.</p>
+<p>Gutenberg&#39;s logo.</p>
   </figcaption>
 </figure>
 <p>This series of posts is about those bindings, and explains how to send
 Rust beyond earth, into many different galaxies.</p>
-<h2 id="the-gutenberg-post-format">The Gutenberg post format</h2>
-<p>Let's introduce quickly what Gutenberg is, and why a new post format. If
-you want an in-depth presentation, I highly recommend to read <a href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
+<h2 id="">The Gutenberg post format<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+</h2>
+<p>Let&#39;s introduce quickly what Gutenberg is, and why a new post format. If
+you want an in-depth presentation, I highly recommend to read <a rel="noopener external" target="_blank" href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
 Language of
 Gutenberg</a>.
 Note that this is <em>not</em> required for the reader to understand the
 Gutenberg post format.</p>
-<p><a href="https://github.com/WordPress/gutenberg">Gutenberg</a> is the next
+<p><a rel="noopener external" target="_blank" href="https://github.com/WordPress/gutenberg">Gutenberg</a> is the next
 WordPress editor. It is a little revolution on its own. The features it
 unlocks are very powerful.</p>
 <blockquote>
@@ -104,13 +105,12 @@ discovery. — Matt Mullenweg</p>
 <p>The format of a blog post was HTML. And it continues to be. However,
 another semantics layer is added through annotations. Annotations are
 written in comments and borrow the XML syntax, e.g.:</p>
-<pre data-lang="xml" class="language-xml z-code"><code class="language-xml" data-lang="xml"><span class="z-text z-xml"><span class="z-comment z-block z-xml"><span class="z-punctuation z-definition z-comment z-begin z-xml">&lt;!--</span> wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} <span class="z-punctuation z-definition z-comment z-end z-xml">--&gt;</span></span>
-</span><span class="z-text z-xml">  <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">p</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>phrase<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">p</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml"><span class="z-comment z-block z-xml"><span class="z-punctuation z-definition z-comment z-begin z-xml">&lt;!--</span> /wp:ns/block-name <span class="z-punctuation z-definition z-comment z-end z-xml">--&gt;</span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-comment">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} --&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">  &lt;</span><span class="z-entity z-name z-tag">p</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>phrase</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">p</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-comment">&lt;!-- /wp:ns/block-name --&gt;</span></span></code></pre>
 <p>The Gutenberg format provides 2 constructions: Block, and Phrase. The
 example above contains both: There is a block wrapping a phrase. A
-phrase is basically anything that is not a block. Let's describe the
+phrase is basically anything that is not a block. Let&#39;s describe the
 example:</p>
 <ul>
 <li>It starts with an annotation (<code>&lt;!-- … --&gt;</code>),</li>
@@ -119,119 +119,118 @@ example:</p>
 namespace (here sets to <code>ns</code> , defaults to <code>core</code>) and a block name (here
 sets to <code>block-name</code>), separated by a slash,</li>
 <li>A block has optional attributes encoded as a JSON object (see
-<a href="https://tools.ietf.org/html/rfc7159">RFC 7159, Section 4, Objects</a>),</li>
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc7159">RFC 7159, Section 4, Objects</a>),</li>
 <li>Finally, a block has optional children, i.e. a heterogeneous collection of
 blocks or phrases. In the example above, there is one child that is the phrase
 <code>&lt;p&gt;phrase&lt;/p&gt;</code>. And the following example below shows a block with no child:</li>
 </ul>
-<pre data-lang="xml" class="language-xml z-code"><code class="language-xml" data-lang="xml"><span class="z-text z-xml"><span class="z-comment z-block z-xml"><span class="z-punctuation z-definition z-comment z-begin z-xml">&lt;!--</span> wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /<span class="z-punctuation z-definition z-comment z-end z-xml">--&gt;</span></span>
-</span></code></pre>
-<p>The complete grammar can be found in <a href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser's
+<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-comment">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /--&gt;</span></span></code></pre>
+<p>The complete grammar can be found in <a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser&#39;s
 documentation</a>.</p>
 <p>Finally, the parser is used on the <em>editor</em> side, not on the <em>rendering</em>
 side. Once rendered, the blog post is a regular HTML file. Some blocks
 are dynamics though, but this is another topic.</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./block-logic-flow.png" alt="Block logic flow" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./block-logic-flow.png" alt="Block logic flow" loading="lazy" decoding="async" /></p>
   <figcaption>
-<p>The logic flow of the editor (<a href="https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/">How Little Blocks
+<p>The logic flow of the editor (<a rel="noopener external" target="_blank" href="https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/">How Little Blocks
 Work</a>).</p>
   </figcaption>
 </figure>
 <p>The grammar is relatively small. The challenges are however to be as
 much performant and memory efficient as possible on many platforms. Some
-posts can reach megabytes, and we don't want the parser to be the
+posts can reach megabytes, and we don&#39;t want the parser to be the
 bottleneck. Even if it is used when creating the post state (cf. the
 schema above), we have measured several seconds to load some posts. Time
 during which the user is blocked, and waits, or see an error. In other
-scenarii, we have hit memory limit of the language's virtual machines.</p>
+scenarii, we have hit memory limit of the language&#39;s virtual machines.</p>
 <p>Hence this experimental project! The current parsers are written in
-JavaScript (with <a href="https://pegjs.org/">PEG.js</a>) and in PHP (with
-<a href="https://github.com/nylen/phpegjs"><code>phpegjs</code></a>). This Rust project
+JavaScript (with <a rel="noopener external" target="_blank" href="https://pegjs.org/">PEG.js</a>) and in PHP (with
+<a rel="noopener external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code></a>). This Rust project
 proposes a parser written in Rust, that can run in the JavaScript and in
-the PHP virtual machines, and on many other platforms. Let's try to be
+the PHP virtual machines, and on many other platforms. Let&#39;s try to be
 very performant and memory efficient!</p>
-<h2 id="why-rust">Why Rust?</h2>
-<p>That's an excellent question! Thanks for asking. I can summarize my
+<h2 id="-1">Why Rust?<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+</h2>
+<p>That&#39;s an excellent question! Thanks for asking. I can summarize my
 choice with a bullet list:</p>
 <ul>
 <li>It is fast, and we need speed,</li>
 <li>It is memory safe, and also memory efficient,</li>
 <li>No garbage collector, which simplifies memory management across
 environments,</li>
-<li>It can expose a C API (<a href="https://doc.rust-lang.org/std/ffi/index.html">with Foreign Function Interface,
+<li>It can expose a C API (<a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/ffi/index.html">with Foreign Function Interface,
 FFI</a>), which eases the
 integration into multiple environments,</li>
-<li>It compiles to <a href="https://doc.rust-lang.org/nightly/rustc/platform-support.html">many
+<li>It compiles to <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/nightly/rustc/platform-support.html">many
 targets</a>,</li>
 <li>Because I love it.</li>
 </ul>
 <p>One of the goal of the experimentation is to maintain a single
 implementation (maybe the future reference implementation) with multiple
 bindings.</p>
-<h2 id="the-parser">The parser</h2>
-<p>The parser is written in Rust. It relies on the fabulous <a href="https://github.com/Geal/nom/">nom
+<h2 id="-2">The parser<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+</h2>
+<p>The parser is written in Rust. It relies on the fabulous <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/">nom
 library</a>.</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./nom.png" alt="nom" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./nom.png" alt="nom" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p><em>nom will happily take a byte out of your files</em> 🙂</p>
   </figcaption>
 </figure>
-<p>The source code is available in <a href="https://github.com/Hywan/gutenberg-parser-rs">the <code>src/</code> directory in the
+<p>The source code is available in <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs">the <code>src/</code> directory in the
 repository</a>. It is very
 small and fun to read.</p>
 <p>The parser produces an Abstract Syntax Tree (AST) of the grammar, where
 nodes of the tree are defined as:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-enum z-rust">enum</span> <span class="z-entity z-name z-enum z-rust">Node</span>&lt;&#39;a&gt; <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust">    Block <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        name<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-generic z-rust">Input<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-generic z-rust">Input<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        attributes<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Option</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust">Input<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        children<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust">Node<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust">    Phrase<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-generic z-rust">Input<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
-</span></code></pre>
-<p>That's all! We find again the block name, the attributes and the
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-entity z-name"> Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;),</span></span>
+<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span>    },</span></span>
+<span class="giallo-l"><span class="z-entity z-name z-function">    Phrase</span><span>(</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>That&#39;s all! We find again the block name, the attributes and the
 children, and the phrase. Block children are defined as a collection of
 node, this is recursive. <code>Input&lt;'a&gt;</code> is defined as <code>&amp;'a [u8]</code>, i.e. a
 slice of bytes.</p>
-<p>The main parser entry is <a href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code>
+<p>The main parser entry is <a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code>
 function</a>.
 It represents the axiom of the grammar, and is defined as:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">root</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust">    <span class="z-variable z-parameter z-rust">input</span><span class="z-punctuation z-separator z-rust">:</span> Input
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Input, <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-path z-rust">ast<span class="z-punctuation z-accessor z-rust">::</span></span>Node<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-section z-group z-end z-rust">)</span>, <span class="z-meta z-path z-rust">nom<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Err</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Input<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> root</span><span>(</span></span>
+<span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>
+<span class="giallo-l"><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;(</span><span class="z-entity z-name">Input</span><span>,</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-variable">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&gt;),</span><span class="z-variable"> nom</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&gt;&gt;;</span></span></code></pre>
 <p>So the parser returns a collection of nodes in the best case. Here is an
 simple example:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">gutenberg_post_parser<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>root<span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-path z-rust">ast<span class="z-punctuation z-accessor z-rust">::</span></span>Node</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span><span class="z-source z-rust">
-</span><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> input <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>&lt;!-- wp:foo {<span class="z-constant z-character z-escape z-rust">\&quot;</span>bar<span class="z-constant z-character z-escape z-rust">\&quot;</span>: true} /--&gt;<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-keyword z-operator z-range z-rust">..</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> output <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">Ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> The remaining data.
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span><span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-keyword z-operator z-range z-rust">..</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> The Abstract Syntax Tree.
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        <span class="z-support z-macro z-rust">vec!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            <span class="z-meta z-path z-rust">Node<span class="z-punctuation z-accessor z-rust">::</span></span>Block <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">                name<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>core<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-keyword z-operator z-range z-rust">..</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>foo<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-keyword z-operator z-range z-rust">..</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">                attributes<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">Some</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-string z-quoted z-double z-rust"><span class="z-storage z-type z-string z-rust">b</span><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>{<span class="z-constant z-character z-escape z-rust">\&quot;</span>bar<span class="z-constant z-character z-escape z-rust">\&quot;</span>: true}<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-keyword z-operator z-range z-rust">..</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">                children<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-macro z-rust">vec!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">            </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        <span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">    </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span><span class="z-source z-rust">
-</span><span class="z-source z-rust"><span class="z-support z-macro z-rust">assert_eq!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-support z-function z-rust">root</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>input</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span> output</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span>{root,</span><span class="z-entity z-name"> ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>};</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> = &amp;</span><span class="z-string">b&quot;&lt;!-- wp:foo {</span><span class="z-constant z-character">\&quot;</span><span class="z-string">bar</span><span class="z-constant z-character">\&quot;</span><span class="z-string">: true} /--&gt;&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>];</span></span>
+<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> output</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Ok</span><span>(</span></span>
+<span class="giallo-l"><span>    (</span></span>
+<span class="giallo-l"><span class="z-comment">        // The remaining data.</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">        &amp;</span><span class="z-string">b&quot;&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>],</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">        // The Abstract Syntax Tree.</span></span>
+<span class="giallo-l"><span class="z-entity z-name z-function">        vec!</span><span>[</span></span>
+<span class="giallo-l"><span class="z-entity z-name">            Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable">                name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-keyword z-operator">&amp;</span><span class="z-string">b&quot;core&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>],</span><span class="z-keyword z-operator"> &amp;</span><span class="z-string">b&quot;foo&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-variable">                attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-string">b&quot;{</span><span class="z-constant z-character">\&quot;</span><span class="z-string">bar</span><span class="z-constant z-character">\&quot;</span><span class="z-string">: true}&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-variable">                children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> vec!</span><span>[]</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        ]</span></span>
+<span class="giallo-l"><span>    )</span></span>
+<span class="giallo-l"><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input</span><span>),</span><span class="z-variable"> output</span><span>);</span></span></code></pre>
 <p>The <code>root</code> function and the AST will be the items we are going to use
 and manipulate in the bindings. The internal items of the parser will
 stay private.</p>
-<h2 id="bindings">Bindings</h2>
+<h2 id="-3">Bindings<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header">#</a>
+</h2>
 <figure role="presentation">
-<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./rust-to.png" alt="Rust to" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./rust-to.png" alt="Rust to" loading="lazy" decoding="async" /></p>
 </figure>
 <p>From now, our goal is to expose the <code>root</code> function and the <code>Node</code> enum
 in different platforms or environments. Ready?</p>

@@ -7,7 +7,7 @@
 
   <title>The ASM.js galaxy</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -80,7 +80,8 @@ browser. The goal is to use ASM.js as a fallback to WebAssembly when it
 is not available. I highly recommend to read <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous
 episode</a>
 about WebAssembly since they have a lot in common.</p>
-<h2 id="what-is-asm-js-and-why">What is ASM.js, and why?</h2>
+<h2 id="what-is-asm-js-and-why">What is ASM.js, and why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header">#</a>
+</h2>
 <p>The main programming language on the Web is Javascript. Applications
 that want to exist on the Web had to compile to Javascript, like for
 example games. But a problem occurs: The resulting file is heavy (hence
@@ -91,7 +92,7 @@ Javascript is a compilation target, and as such, some language
 constructions are useless (like <code>eval</code>).</p>
 <p>So what if a “new” language can be a compilation target and still be
 executed by Javascript virtual machines? This is WebAssembly today, but
-in 2013, the solution was <a href="http://asmjs.org/">ASM.js</a>:</p>
+in 2013, the solution was <a rel="noopener external" target="_blank" href="http://asmjs.org/">ASM.js</a>:</p>
 <blockquote>
 <p><strong>asm.js</strong>, a strict subset of Javascript that can be used as a
 low-level, efficient target language for compilers. This sublanguage
@@ -110,11 +111,10 @@ system. For instance, <code>x | 0</code> annotes <code>x</code> to be an integer
 annotates <code>x</code> to be a double, and <code>fround(x)</code> annotates <code>x</code> to be a
 float. The following example declares a function
 <code>fn increment(x: u32) -&gt; u32</code>:</p>
-<pre data-lang="js" class="language-js z-code"><code class="language-js" data-lang="js"><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-storage z-type z-function z-ts">function</span> <span class="z-meta z-definition z-function z-ts"><span class="z-entity z-name z-function z-ts">increment</span></span><span class="z-meta z-parameters z-ts"><span class="z-punctuation z-definition z-parameters z-begin z-ts">(</span><span class="z-variable z-parameter z-ts">x</span><span class="z-punctuation z-definition z-parameters z-end z-ts">)</span></span> <span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">{</span>
-</span></span></span><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-meta z-block z-ts">    <span class="z-variable z-other z-readwrite z-ts">x</span> <span class="z-keyword z-operator z-assignment z-ts">=</span> <span class="z-variable z-other z-readwrite z-ts">x</span> <span class="z-keyword z-operator z-bitwise z-ts">|</span> <span class="z-constant z-numeric z-decimal z-ts">0</span><span class="z-punctuation z-terminator z-statement z-ts">;</span>
-</span></span></span><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-meta z-block z-ts">    <span class="z-keyword z-control z-flow z-ts">return</span> <span class="z-meta z-brace z-round z-ts">(</span><span class="z-variable z-other z-readwrite z-ts">x</span> <span class="z-keyword z-operator z-arithmetic z-ts">+</span> <span class="z-constant z-numeric z-decimal z-ts">1</span><span class="z-meta z-brace z-round z-ts">)</span> <span class="z-keyword z-operator z-bitwise z-ts">|</span> <span class="z-constant z-numeric z-decimal z-ts">0</span><span class="z-punctuation z-terminator z-statement z-ts">;</span>
-</span></span></span><span class="z-source z-ts"><span class="z-meta z-function z-ts"><span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">}</span></span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> increment</span><span>(</span><span class="z-variable z-parameter">x</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-variable">    x</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> x</span><span class="z-keyword z-operator"> |</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-keyword">    return</span><span> (</span><span class="z-variable">x</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 1</span><span>)</span><span class="z-keyword z-operator"> |</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>Another important difference is that ASM.js works by module in order to
 isolate them from Javascript. A module is a function that takes 3
 arguments:</p>
@@ -130,23 +130,23 @@ machine has no specific optimisations for ASM.js, it is executed as any
 regular Javascript program. And if it does, then you get a pleasant
 boost.</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./asm-benchmarks.png" alt="Graph" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./asm-benchmarks.png" alt="Graph" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>A graph showing 3 benchmarks running against different Javascript engines:
 Firefox, Firefox + asm.js, Google, and native.</p>
   </figcaption>
 </figure>
 <p>Remember that ASM.js has been designed to be a compilation target. So
-normally you don't have to care about that because it is the role of the
+normally you don&#39;t have to care about that because it is the role of the
 compiler. The typical compilation and execution pipeline from C or C++
 to the Web looks like this:</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./asm-pipeline.png" alt="Pipeline" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./asm-pipeline.png" alt="Pipeline" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>Classical ASM.js compilation and execution pipeline from C or C++ to the Web.</p>
   </figcaption>
 </figure>
-<p><a href="http://kripken.github.io/emscripten-site/">Emscripten</a>, as seen in the
+<p><a rel="noopener external" target="_blank" href="http://kripken.github.io/emscripten-site/">Emscripten</a>, as seen in the
 schema above, is a very important project in this whole evolution of the
 Web platform. Emscripten is:</p>
 <blockquote>
@@ -157,16 +157,17 @@ plugins.</p>
 <p>You are very likely to see this name one day or another if you work with
 ASM.js or WebAssembly.</p>
 <p>I will not explain deeply what ASM.js is with a lot of examples. I
-recommend instead to read <a href="https://johnresig.com/blog/asmjs-javascript-compile-target/">Asm.js: The Javascript Compile
+recommend instead to read <a rel="noopener external" target="_blank" href="https://johnresig.com/blog/asmjs-javascript-compile-target/">Asm.js: The Javascript Compile
 Target</a> by
-John Resig, or <a href="http://kripken.github.io/mloc_emscripten_talk/">Big Web app? Compile
+John Resig, or <a rel="noopener external" target="_blank" href="http://kripken.github.io/mloc_emscripten_talk/">Big Web app? Compile
 it!</a> by Alon Zakai.</p>
 <p>Our process will be different though. We will not compile our Rust code
 directly to ASM.js, but instead, we will compile it to WebAssembly,
 which in turn will be compiled into ASM.js.</p>
-<h2 id="rust-rocket-asm-js">Rust 🚀 ASM.js</h2>
+<h2 id="">Rust 🚀 ASM.js<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+</h2>
 <figure role="presentation">
-<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-to-asm-js.png" alt="Rust to ASM.js" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-to-asm-js.png" alt="Rust to ASM.js" loading="lazy" decoding="async" /></p>
 </figure>
 <p>This episode will be very short, and somehow the most easiest one. To
 compile Rust to ASM.js, you need to first compile it to WebAssembly
@@ -182,56 +183,54 @@ our program on the Web.</p>
 <li>Compile your WebAssembly binary into an ASM.js module,</li>
 <li>Optimise and shrink the ASM.js module.</li>
 </ol>
-<p><a href="https://github.com/WebAssembly/binaryen">The wasm2js tool</a> will be your
+<p><a rel="noopener external" target="_blank" href="https://github.com/WebAssembly/binaryen">The wasm2js tool</a> will be your
 best companion to compile the WebAssembly binary into an ASM.js module.
 It is part of Binaryen project. Then, assuming we have the WebAssembly
 binary of our program, all we have to do is:</p>
-<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> wasm2js<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>pedantic</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>output</span> gutenberg_post_parser.asm.js gutenberg_post_parser.wasm</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> wasm2js --pedantic --output gutenberg_post_parser.asm.js gutenberg_post_parser.wasm</span></span></code></pre>
 <p>At this step, the <code>gutenberg_post_parser.asm.js</code> weights 212kb. The file
 contains ECMAScript 6 code. And remember that old browsers are
 considered, like Internet Explorer, so the code needs to be transformed
-a little bit. To optimise and shrink the ASM.js module, we will use <a href="https://github.com/mishoo/UglifyJS2/tree/harmony">the
+a little bit. To optimise and shrink the ASM.js module, we will use <a rel="noopener external" target="_blank" href="https://github.com/mishoo/UglifyJS2/tree/harmony">the
 <code>uglify-es</code> tool</a>,
 like this:</p>
-<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Transform code, and embed in a function.</span><span class="z-comment z-line z-number-sign z-shell">
-</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> sed<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>i</span> <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span><span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>1s/^/function GUTENBERG_POST_PARSER_ASM_MODULE() {/; s/export //<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> gutenberg_post_parser.asm.js</span>
-</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> echo <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>return { root, alloc, dealloc, memory }; }<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;&gt;</span> gutenberg_post_parser.asm.js</span>
-</span><span class="z-source z-shell z-bash">
-</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Shrink the code.</span><span class="z-comment z-line z-number-sign z-shell">
-</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> uglifyjs<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>compress</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>mangle</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>output</span> .temp.asm.js gutenberg_post_parser.asm.js</span>
-</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> mv .temp.asm.js gutenberg_post_parser.asm.js</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Transform code, and embed in a</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function">.</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> sed -i </span><span class="z-string">&#39;&#39; &#39;1s/^/function GUTENBERG_POST_PARSER_ASM_MODULE() {/; s/export //&#39;</span><span> gutenberg_post_parser.asm.js</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;return { root, alloc, dealloc, memory }; }&#39;</span><span class="z-keyword z-operator"> &gt;&gt;</span><span> gutenberg_post_parser.asm.js</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Shrink the code.</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> uglifyjs --compress --mangle --output .temp.asm.js gutenberg_post_parser.asm.js</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> mv .temp.asm.js gutenberg_post_parser.asm.js</span></span></code></pre>
 <p>Just like we did for the WebAssembly binary, we can compress the
-resulting files with <a href="http://www.gzip.org/"><code>gzip</code></a> and
-<a href="https://github.com/google/brotli"><code>brotli</code></a>:</p>
-<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Compress.</span><span class="z-comment z-line z-number-sign z-shell">
-</span></span></span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> gzip<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>best</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>stdout</span> gutenberg_post_parser.asm.js <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> gutenberg_post_parser.asm.js.gz</span>
-</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> brotli<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>best</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>stdout</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>lgwin</span><span class="z-keyword z-operator z-assignment z-option z-shell">=</span>24 gutenberg_post_parser.asm.js <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> gutenberg_post_parser.asm.js.br</span>
-</span></code></pre>
+resulting files with <a rel="noopener external" target="_blank" href="http://www.gzip.org/"><code>gzip</code></a> and
+<a rel="noopener external" target="_blank" href="https://github.com/google/brotli"><code>brotli</code></a>:</p>
+<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Compress.</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> gzip --best --stdout gutenberg_post_parser.asm.js </span><span class="z-keyword z-operator">&gt;</span><span> gutenberg_post_parser.asm.js.gz</span></span>
+<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> brotli --best --stdout</span><span class="z-variable"> --lgwin</span><span class="z-keyword z-operator">=</span><span class="z-string">24</span><span class="z-entity z-name"> gutenberg_post_parser.asm.js</span><span class="z-keyword z-operator"> &gt;</span><span class="z-string"> gutenberg_post_parser.asm.js.br</span></span></code></pre>
 <p>We end up with the following file sizes:</p>
 <ul>
 <li><code>.asm.js</code>: 54kb,</li>
 <li><code>.asm.js.gz</code>: 13kb,</li>
 <li><code>.asm.js.br</code>: 11kb.</li>
 </ul>
-<p>That's again pretty small!</p>
+<p>That&#39;s again pretty small!</p>
 <p>When you think about it, this is a lot of transformations: From Rust to
 WebAssembly to Javascript/ASM.js… The amount of tools is rather small
 compared to the amount of work. It shows a well-designed pipeline and a
 collaboration between many groups of people.</p>
 <p>Aside: If you are reading this post, I assume you are developers. And as
-such, I'm sure you can spend hours looking at a source code like if it
+such, I&#39;m sure you can spend hours looking at a source code like if it
 is a master painting. Did you ever wonder what a Rust program looks like
 once compiled to Javascript? See bellow:</p>
 <figure>
-<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-as-asm-js.png" alt="Rust as ASM.js" /></p>
+<p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-as-asm-js.png" alt="Rust as ASM.js" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>A Rust program compiled as WebAssembly compiled as ASM.js.</p>
   </figcaption>
 </figure>
 <p>I like it probably too much.</p>
-<h2 id="asm-js-rocket-javascript">ASM.js 🚀 Javascript</h2>
+<h2 id="-1">ASM.js 🚀 Javascript<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+</h2>
 <p>The resulting <code>gutenberg_post_parser.asm.js</code> file contains a single
 function named <code>GUTENBERG_POST_PARSER_ASM_MODULE</code> which returns an
 object pointing to 4 private functions:</p>
@@ -243,7 +242,7 @@ object pointing to 4 private functions:</p>
 </ol>
 <p>It sounds familiar if you have read <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous episode with
 WebAssembly</a>.
-Don't expect <code>root</code> to return a full AST: It will return a pointer to
+Don&#39;t expect <code>root</code> to return a full AST: It will return a pointer to
 the memory, and the data need to be encoded and decoded, and to write
 into and to read from the memory the same way. Yes, the same way. <em>The
 exact same way</em>. So the code of the boundary layer is strictly the same.
@@ -251,13 +250,14 @@ Do you remember the <code>Module</code> object in our WebAssembly Javascript
 boundary? This is exactly what the <code>GUTENBERG_POST_PARSER_ASM_MODULE</code>
 function returns. You can replace <code>Module</code> by the returned object, <em>et
 voilà</em>!</p>
-<p><a href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands
 here</a>.
 It completely reuses the Javascript boundary layer for WebAssembly. It
 just sets the <code>Module</code> differently, and it does not load the WebAssembly
 binary. Consequently, the ASM.js boundary layer is made of 34 lines of
 code, only 🙃. It compresses to 218 bytes.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="-2">Conclusion<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+</h2>
 <p>We have seen that ASM.js can be fallback to WebAssembly in environments
 that only support Javascript (like Internet Explorer), with or without
 ASM.js optimisations.</p>
@@ -270,24 +270,24 @@ been able to observe the same statement for WebAssembly compared to the
 actual Javascript parser for the Gutenberg project. However, is it still
 true for the ASM.js module? In this case, ASM.js is a fallback, and like
 all fallbacks, they are notably slower than the targeted
-implementations. Let's run the same benchmark but use the Rust parser as
+implementations. Let&#39;s run the same benchmark but use the Rust parser as
 an ASM.js module:</p>
 <figure>
 <table><thead><tr><th>Document</th><th>Javascript parser (ms)</th><th>Rust parser as an ASM.js module (ms)</th><th>speedup</th></tr></thead><tbody>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>15.368</td><td>2.718</td><td>× 6</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>31.022</td><td>8.004</td><td>× 4</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>106.416</td><td>19.223</td><td>× 6</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>82.92</td><td>27.197</td><td>× 3</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>119.880</td><td>38.321</td><td>× 3</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>349.075</td><td>23.656</td><td>× 15</td></tr>
-<tr><td><a href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>2,543.75</td><td>361.423</td><td>× 7</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>15.368</td><td>2.718</td><td>× 6</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>31.022</td><td>8.004</td><td>× 4</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>106.416</td><td>19.223</td><td>× 6</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>82.92</td><td>27.197</td><td>× 3</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>119.880</td><td>38.321</td><td>× 3</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>349.075</td><td>23.656</td><td>× 15</td></tr>
+<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>2,543.75</td><td>361.423</td><td>× 7</td></tr>
 </tbody></table>
   <figcaption>
 <p>Benchmark between Javascript parser and Rust parser as an ASM.js module.</p>
   </figcaption>
 </figure>
 <p>The ASM.js module of the Rust parser is in average 6 times faster than
-the actual Javascript implementation. The median speedup is 6. That's
+the actual Javascript implementation. The median speedup is 6. That&#39;s
 far from the WebAssembly results, but this is a fallback, and in
 average, it is 6 times faster, which is really great!</p>
 <p>So not only the whole pipeline is safer because it starts from Rust, but

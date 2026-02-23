@@ -7,7 +7,7 @@
 
   <title>RFCs should provide executable test suites</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -75,156 +75,154 @@ been found. This article, first, quickly list them and, second, ask questions
 about how such errors can be present and how they can be easily revealed. If
 reading my dry humor about RFC errata is boring, the next sections are more
 interesting. The whole idea is: Why RFCs do not provide executable test suites?</p>
-<h2 id="what-is-xcal-and-xcard">What is xCal and xCard?</h2>
+<h2 id="what-is-xcal-and-xcard">What is xCal and xCard?<a role="presentation" class="anchor" href="#what-is-xcal-and-xcard" title="Anchor link to this header">#</a>
+</h2>
 <p>The Web is a read-only media. It is based on the HTTP protocol. However,
-there is the <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> protocol,
+there is the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> protocol,
 standing for Web Distributed Authoring and Versioning. This is an
 extension to HTTP. <em>Et voilà !</em> The Web is a read and write media.
-WebDAV is standardized in <a href="https://tools.ietf.org/html/rfc2518">RFC2518</a>
-and <a href="https://tools.ietf.org/html/rfc4918">RFC4918</a>.</p>
-<p>Based on WebDAV, we have <a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a>
-and <a href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>, respectively for
+WebDAV is standardized in <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc2518">RFC2518</a>
+and <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc4918">RFC4918</a>.</p>
+<p>Based on WebDAV, we have <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a>
+and <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>, respectively for
 reading and writing calendars and addressbooks. They are standardized in
-<a href="https://tools.ietf.org/html/rfc4791">RFC4791</a>,
-<a href="https://tools.ietf.org/html/rfc6638">RFC6638</a> and
-<a href="https://tools.ietf.org/html/rfc6352">RFC6352</a>. Good! But these
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc4791">RFC4791</a>,
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6638">RFC6638</a> and
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6352">RFC6352</a>. Good! But these
 protocols only explain how to read and write, not how to represent a
 real calendar or an addressbook. So let's leave protocols for formats.</p>
-<p>The <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> format
+<p>The <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> format
 represents calendar events, like events (<code>VEVENT</code>), tasks (<code>VTODO</code>),
 journal entry (<code>VJOURNAL</code>, very rare…), free/busy time (<code>VFREEBUSY</code>)
-etc. The <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> format represents
+etc. The <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/VCard">vCard</a> format represents
 cards. The formats are very similar and share a common ancestry: This is
 a <strong>horrible</strong> line-, colon- and semicolon-, randomly-escaped based
 format. For instance:</p>
-<pre data-lang="text" class="language-text z-code"><code class="language-text" data-lang="text"><span class="z-text z-plain">BEGIN:VCALENDAR
-</span><span class="z-text z-plain">VERSION:2.0
-</span><span class="z-text z-plain">CALSCALE:GREGORIAN
-</span><span class="z-text z-plain">PRODID:-//Example Inc.//Example Calendar//EN
-</span><span class="z-text z-plain">BEGIN:VEVENT
-</span><span class="z-text z-plain">DTSTAMP:20080205T191224Z
-</span><span class="z-text z-plain">DTSTART;VALUE=DATE:20081006
-</span><span class="z-text z-plain">SUMMARY:Planning meeting
-</span><span class="z-text z-plain">UID:4088E990AD89CB3DBB484909
-</span><span class="z-text z-plain">END:VEVENT
-</span><span class="z-text z-plain">END:VCALENDAR
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>BEGIN:VCALENDAR</span></span>
+<span class="giallo-l"><span>VERSION:2.0</span></span>
+<span class="giallo-l"><span>CALSCALE:GREGORIAN</span></span>
+<span class="giallo-l"><span>PRODID:-//Example Inc.//Example Calendar//EN</span></span>
+<span class="giallo-l"><span>BEGIN:VEVENT</span></span>
+<span class="giallo-l"><span>DTSTAMP:20080205T191224Z</span></span>
+<span class="giallo-l"><span>DTSTART;VALUE=DATE:20081006</span></span>
+<span class="giallo-l"><span>SUMMARY:Planning meeting</span></span>
+<span class="giallo-l"><span>UID:4088E990AD89CB3DBB484909</span></span>
+<span class="giallo-l"><span>END:VEVENT</span></span>
+<span class="giallo-l"><span>END:VCALENDAR</span></span></code></pre>
 <p>Horrible, yes. You were warned. These formats are standardized in
 several RFCs, to list some of them:
-<a href="https://tools.ietf.org/html/rfc5545">RFC5545</a>,
-<a href="http://tools.ietf.org/html/rfc2426">RFC2426</a> and
-<a href="http://tools.ietf.org/html/rfc6350">RFC6350</a>.</p>
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc5545">RFC5545</a>,
+<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc2426">RFC2426</a> and
+<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc6350">RFC6350</a>.</p>
 <p>This format is impossible to read, even for a computer. That's why we
 have jCal and jCard, which are respectively another representation of
-iCalendar and vCard but in <a href="http://json.org/">JSON</a>. JSON is quite
+iCalendar and vCard but in <a rel="noopener external" target="_blank" href="http://json.org/">JSON</a>. JSON is quite
 popular in the Web today, especially because it eases the manipulation
 and exchange of data in Javascript. This is just a very simple, and
 —from my point of view— human readable, serialization format. jCal and
 jCard are respectively standardized in
-<a href="http://tools.ietf.org/html/rfc7265">RFC7265</a> and
-<a href="http://tools.ietf.org/html/rfc7095">RFC7095</a>. Thus, the equivalent of
+<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc7265">RFC7265</a> and
+<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc7095">RFC7095</a>. Thus, the equivalent of
 the previous iCalendar example in jCal is:</p>
-<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json">    <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>vcalendar<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json">    <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">        <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>version<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>text<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>2.0<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">        <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>calscale<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>text<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>GREGORIAN<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">        <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>prodid<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>text<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>-<span class="z-constant z-character z-escape z-json">\/</span><span class="z-constant z-character z-escape z-json">\/</span>Example Inc.<span class="z-constant z-character z-escape z-json">\/</span><span class="z-constant z-character z-escape z-json">\/</span>Example Calendar<span class="z-constant z-character z-escape z-json">\/</span><span class="z-constant z-character z-escape z-json">\/</span>EN<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">    <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json">    <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">        <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
-</span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">            <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>vevent<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">            <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
-</span></span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">                <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dtstamp<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>date-time<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>2008-02-05T19:12:24Z<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">                <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dtstart<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>date<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>2008-10-06<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">                <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>summary<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>text<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>Planning meeting<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
-</span></span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">                <span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>uid<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>text<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>4088E990AD89CB3DBB484909<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">            <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">        <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-meta z-sequence z-json">    <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></span><span class="z-source z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="json"><span class="giallo-l"><span>[</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;vcalendar&quot;</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>    [</span></span>
+<span class="giallo-l"><span>        [</span><span class="z-string">&quot;version&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;text&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;2.0&quot;</span><span>]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>        [</span><span class="z-string">&quot;calscale&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;text&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;GREGORIAN&quot;</span><span>]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>        [</span><span class="z-string">&quot;prodid&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;text&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;-</span><span class="z-constant z-character">\/\/</span><span class="z-string">Example Inc.</span><span class="z-constant z-character">\/\/</span><span class="z-string">Example Calendar</span><span class="z-constant z-character">\/\/</span><span class="z-string">EN&quot;</span><span>]</span></span>
+<span class="giallo-l"><span>    ]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>    [</span></span>
+<span class="giallo-l"><span>        [</span></span>
+<span class="giallo-l"><span class="z-string">            &quot;vevent&quot;</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>            [</span></span>
+<span class="giallo-l"><span>                [</span><span class="z-string">&quot;dtstamp&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;date-time&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;2008-02-05T19:12:24Z&quot;</span><span>]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>                [</span><span class="z-string">&quot;dtstart&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;date&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;2008-10-06&quot;</span><span>]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>                [</span><span class="z-string">&quot;summary&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;text&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;Planning meeting&quot;</span><span>]</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span>                [</span><span class="z-string">&quot;uid&quot;</span><span class="z-punctuation z-separator">,</span><span> {}</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;text&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;4088E990AD89CB3DBB484909&quot;</span><span>]</span></span>
+<span class="giallo-l"><span>            ]</span></span>
+<span class="giallo-l"><span>        ]</span></span>
+<span class="giallo-l"><span>    ]</span></span>
+<span class="giallo-l"><span>]</span></span></code></pre>
 <p>Much better. But this is JSON, which is a rather loose format, so we
 also have xCal and xCard another representation of iCalendar and vCard
-but in <a href="https://en.wikipedia.org/wiki/XML">XML</a>. They are standardized
-in <a href="https://tools.ietf.org/html/rfc6321">RFC6321</a> and
-<a href="https://tools.ietf.org/html/rfc6351">RFC6351</a>. The same example in xCal
+but in <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/XML">XML</a>. They are standardized
+in <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6321">RFC6321</a> and
+<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6351">RFC6351</a>. The same example in xCal
 looks like this:</p>
-<pre data-lang="xml" class="language-xml z-code"><code class="language-xml" data-lang="xml"><span class="z-text z-xml"><span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">icalendar</span> <span class="z-entity z-other z-attribute-name z-localname z-xml">xmlns</span><span class="z-punctuation z-separator z-key-value z-xml">=</span><span class="z-string z-quoted z-double z-xml"><span class="z-punctuation z-definition z-string z-begin z-xml">&quot;</span>urn:ietf:params:xml:ns:icalendar-2.0<span class="z-punctuation z-definition z-string z-end z-xml">&quot;</span></span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">  <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">vcalendar</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">    <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">properties</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">version</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">        <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>2.0<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">version</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">calscale</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">        <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>GREGORIAN<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">calscale</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">prodid</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">        <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>-//Example Inc.//Example Calendar//EN<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">prodid</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">    <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">properties</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">    <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">components</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">vevent</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">        <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">properties</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">dtstamp</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">            <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">date-time</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>2008-02-05T19:12:24Z<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">date-time</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">dtstamp</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">dtstart</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">            <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">date</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>2008-10-06<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">date</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">dtstart</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">summary</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">            <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>Planning meeting<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">summary</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">uid</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">            <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>4088E990AD89CB3DBB484909<span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">text</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">          <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">uid</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">        <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">properties</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">      <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">vevent</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">    <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">components</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml">  <span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">vcalendar</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span><span class="z-text z-xml"><span class="z-meta z-tag z-xml"><span class="z-punctuation z-definition z-tag z-begin z-xml">&lt;/</span><span class="z-entity z-name z-tag z-localname z-xml">icalendar</span><span class="z-punctuation z-definition z-tag z-end z-xml">&gt;</span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-punctuation z-definition z-tag">&lt;</span><span class="z-entity z-name z-tag">icalendar</span><span class="z-entity z-other z-attribute-name"> xmlns</span><span>=</span><span class="z-string">&quot;urn:ietf:params:xml:ns:icalendar-2.0&quot;</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">  &lt;</span><span class="z-entity z-name z-tag">vcalendar</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">    &lt;</span><span class="z-entity z-name z-tag">properties</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;</span><span class="z-entity z-name z-tag">version</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">        &lt;</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>2.0</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;/</span><span class="z-entity z-name z-tag">version</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;</span><span class="z-entity z-name z-tag">calscale</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">        &lt;</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>GREGORIAN</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;/</span><span class="z-entity z-name z-tag">calscale</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;</span><span class="z-entity z-name z-tag">prodid</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">        &lt;</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>-//Example Inc.//Example Calendar//EN</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;/</span><span class="z-entity z-name z-tag">prodid</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">    &lt;/</span><span class="z-entity z-name z-tag">properties</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">    &lt;</span><span class="z-entity z-name z-tag">components</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;</span><span class="z-entity z-name z-tag">vevent</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">        &lt;</span><span class="z-entity z-name z-tag">properties</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;</span><span class="z-entity z-name z-tag">dtstamp</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">            &lt;</span><span class="z-entity z-name z-tag">date-time</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>2008-02-05T19:12:24Z</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">date-time</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;/</span><span class="z-entity z-name z-tag">dtstamp</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;</span><span class="z-entity z-name z-tag">dtstart</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">            &lt;</span><span class="z-entity z-name z-tag">date</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>2008-10-06</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">date</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;/</span><span class="z-entity z-name z-tag">dtstart</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;</span><span class="z-entity z-name z-tag">summary</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">            &lt;</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>Planning meeting</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;/</span><span class="z-entity z-name z-tag">summary</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;</span><span class="z-entity z-name z-tag">uid</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">            &lt;</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>4088E990AD89CB3DBB484909</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">text</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">          &lt;/</span><span class="z-entity z-name z-tag">uid</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">        &lt;/</span><span class="z-entity z-name z-tag">properties</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">      &lt;/</span><span class="z-entity z-name z-tag">vevent</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">    &lt;/</span><span class="z-entity z-name z-tag">components</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">  &lt;/</span><span class="z-entity z-name z-tag">vcalendar</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
+<span class="giallo-l"><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">icalendar</span><span class="z-punctuation z-definition z-tag">&gt;</span></span></code></pre>
 <p>More semantics, more meaning, easier to read (from my point of view),
 namespaces… It is very easy to <strong>embed</strong> xCal and xCard inside other XML
 formats.</p>
 <p>Managing all these formats is an extremely laborious task. I suggest you
-to take a look at <a href="http://sabre.io/vobject/"><code>sabre/vobject</code></a> (see <a href="https://github.com/fruux/sabre-vobject/">the
+to take a look at <a rel="noopener external" target="_blank" href="http://sabre.io/vobject/"><code>sabre/vobject</code></a> (see <a rel="noopener external" target="_blank" href="https://github.com/fruux/sabre-vobject/">the
 Github repository of
 <code>sabre/vobject</code></a>). This is a
 PHP library to manage all the weird formats. The following example shows
 how to read from iCalendar and write to jCal and xCal:</p>
-<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> Read iCalendar.
-</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>document</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">Sabre</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-other z-namespace z-php">VObject</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">Reader</span></span><span class="z-meta z-function-call z-static z-php"><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-variable z-function z-php">read</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>icalendar</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> Write jCal.
-</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-support z-function z-construct z-php">echo</span> <span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">Sabre</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-other z-namespace z-php">VObject</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">Writer</span></span><span class="z-meta z-function-call z-static z-php"><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-variable z-function z-php">writeJson</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>document</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-comment z-line z-double-slash z-php"><span class="z-punctuation z-definition z-comment z-php">//</span> Write xCal.
-</span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-support z-function z-construct z-php">echo</span> <span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">Sabre</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-other z-namespace z-php">VObject</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">Writer</span></span><span class="z-meta z-function-call z-static z-php"><span class="z-punctuation z-accessor z-double-colon z-php">::</span><span class="z-variable z-function z-php">writeXml</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>document</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span></code></pre>
+<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">// Read iCalendar.</span></span>
+<span class="giallo-l"><span class="z-variable">$document</span><span class="z-keyword z-operator"> =</span><span> Sabre</span><span class="z-punctuation z-separator">\</span><span>VObject</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Reader</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">read</span><span>(</span><span class="z-variable">$icalendar</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">// Write jCal.</span></span>
+<span class="giallo-l"><span class="z-support z-function">echo</span><span> Sabre</span><span class="z-punctuation z-separator">\</span><span>VObject</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Writer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">writeJson</span><span>(</span><span class="z-variable">$document</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">// Write xCal.</span></span>
+<span class="giallo-l"><span class="z-support z-function">echo</span><span> Sabre</span><span class="z-punctuation z-separator">\</span><span>VObject</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Writer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">writeXml</span><span>(</span><span class="z-variable">$document</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Magic when you know the complexity of these formats (in both term of
 parsing and validation)!</p>
-<h2 id="list-of-errata">List of errata</h2>
+<h2 id="list-of-errata">List of errata<a role="presentation" class="anchor" href="#list-of-errata" title="Anchor link to this header">#</a>
+</h2>
 <p>Now, let's talk about all the errata I submited recently:</p>
 <ul>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4241">4241, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4241">4241, in
 RFC6351</a>
 (xCard),</li>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4243">4243, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4243">4243, in
 RFC6351</a>
 (xCard),</li>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4246">4246, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4246">4246, in
 RFC6350</a>
 (vCard),</li>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4247">4247, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4247">4247, in
 RFC6351</a>
 (xCard),</li>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4245">4245, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4245">4245, in
 RFC6350</a>
 (vCard),</li>
-<li><a href="http://www.rfc-editor.org/errata_search.php?eid=4261">4261, in
+<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4261">4261, in
 RFC6350</a>
 (vCard).</li>
 </ul>
@@ -234,7 +232,7 @@ under-statement when you are reading RFCs for days straight, you have 10
 of them opened in your browser and trying to figure out how everything
 fits together and if you are doing everything correctly. Finding typos
 at that point in your process can be very confusing…</p>
-<p>4247 is more subtle. The RFC about xCard comes with an <a href="https://en.wikipedia.org/wiki/XML_Schema_%28W3C%29">XML
+<p>4247 is more subtle. The RFC about xCard comes with an <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/XML_Schema_%28W3C%29">XML
 Schema</a>. That's
 great! It will help us to test our documents and see if they are valid
 or not! No? No.</p>
@@ -245,19 +243,19 @@ or <code>---28</code> is a conceivable date and time format? How long did I slee
 “Well” — was I saying to myself, “do not make a drama, we have the XML
 Schema!”. No. Because there is an error in the schema. More precisely,
 in a regular expression:</p>
-<pre data-lang="text" class="language-text z-code"><code class="language-text" data-lang="text"><span class="z-text z-plain">value-time = element time {
-</span><span class="z-text z-plain">    xsd:string { pattern = &quot;(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)&quot;
-</span><span class="z-text z-plain">                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }
-</span><span class="z-text z-plain">}
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>value-time = element time {</span></span>
+<span class="giallo-l"><span>    xsd:string { pattern = &quot;(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)&quot;</span></span>
+<span class="giallo-l"><span>                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>Did you find the error? <code>(\d\d?)</code> is invalid, this is <code>(\d\d)?</code>. Don't
 get me wrong: Everyone makes mistakes, but not this kind of error. I
 will explain why in the next section.</p>
 <p>4245 is not an editorial error but a technical one, under review.</p>
 <p>4261 is crazy. It deserves a whole sub-section.</p>
-<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the crazy world of date and time formats</h3>
+<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the crazy world of date and time formats<a role="presentation" class="anchor" href="#welcome-in-the-crazy-world-of-date-and-time-formats" title="Anchor link to this header">#</a>
+</h3>
 <p>There are two major popular date and time format:
-<a href="http://tools.ietf.org/html/rfc2822">RFC2822</a> and ISO.8601. Examples:</p>
+<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc2822">RFC2822</a> and ISO.8601. Examples:</p>
 <ul>
 <li><code>Fri, 27 Feb 2015 16:06:58 +0100</code> and</li>
 <li><code>2015-02-27T16:07:16+01:00</code>.</li>
@@ -265,33 +263,32 @@ will explain why in the next section.</p>
 <p>The second one is a good candidate for a computer representation: no
 locale, only digits, all information are present…</p>
 <p>Maybe you noticed there is no link on ISO.8601. Why? Because ISO
-standards are not free and I don't want <a href="http://www.iso.org/iso/catalogue_detail?csnumber=40874">to pay
+standards are not free and I don't want <a rel="noopener external" target="_blank" href="http://www.iso.org/iso/catalogue_detail?csnumber=40874">to pay
 140€</a> to buy a
 standard…</p>
 <p>The date and time format adopted by iCalendar and vCard (and the rest of
 the family) is ISO.8601.2004. I cannot read it. However, since we said
 in xCard we have an XML Schema; we can read this (after having applied
 erratum 4247):</p>
-<pre data-lang="text" class="language-text z-code"><code class="language-text" data-lang="text"><span class="z-text z-plain"># 4.3.1
-</span><span class="z-text z-plain">value-date = element date {
-</span><span class="z-text z-plain">    xsd:string { pattern = &quot;\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d&quot; }
-</span><span class="z-text z-plain">}
-</span><span class="z-text z-plain">
-</span><span class="z-text z-plain"># 4.3.2
-</span><span class="z-text z-plain">value-time = element time {
-</span><span class="z-text z-plain">    xsd:string { pattern = &quot;(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)&quot;
-</span><span class="z-text z-plain">                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }
-</span><span class="z-text z-plain">}
-</span><span class="z-text z-plain">
-</span><span class="z-text z-plain"># 4.3.3
-</span><span class="z-text z-plain">value-date-time = element date-time {
-</span><span class="z-text z-plain">    xsd:string { pattern = &quot;(\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?&quot;
-</span><span class="z-text z-plain">                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }
-</span><span class="z-text z-plain">}
-</span><span class="z-text z-plain">
-</span><span class="z-text z-plain"># 4.3.4
-</span><span class="z-text z-plain">value-date-and-or-time = value-date | value-date-time | value-time
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span># 4.3.1</span></span>
+<span class="giallo-l"><span>value-date = element date {</span></span>
+<span class="giallo-l"><span>    xsd:string { pattern = &quot;\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d&quot; }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span># 4.3.2</span></span>
+<span class="giallo-l"><span>value-time = element time {</span></span>
+<span class="giallo-l"><span>    xsd:string { pattern = &quot;(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)&quot;</span></span>
+<span class="giallo-l"><span>                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span># 4.3.3</span></span>
+<span class="giallo-l"><span>value-date-time = element date-time {</span></span>
+<span class="giallo-l"><span>    xsd:string { pattern = &quot;(\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?&quot;</span></span>
+<span class="giallo-l"><span>                         ~ &quot;(Z|[+\-]\d\d(\d\d)?)?&quot; }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span># 4.3.4</span></span>
+<span class="giallo-l"><span>value-date-and-or-time = value-date | value-date-time | value-time</span></span></code></pre>
 <p>Question: <strong><code>--10</code> is October or 10 seconds</strong>?</p>
 <p><code>--10</code> can fit into <code>value-date</code> and <code>value-time</code>:</p>
 <ul>
@@ -307,7 +304,8 @@ is always October. Nevertheless, if we have a time value, <code>--10</code> is
 standardized. Why should we drag this crazy format along?</p>
 <p>Oh, and I assume every format depending on ISO.8601.2004 has this bug.
 But I am not sure because ISO standards are not free.</p>
-<h2 id="how-can-rfcs-have-such-errors">How can RFCs have such errors?</h2>
+<h2 id="how-can-rfcs-have-such-errors">How can RFCs have such errors?<a role="presentation" class="anchor" href="#how-can-rfcs-have-such-errors" title="Anchor link to this header">#</a>
+</h2>
 <p>So far, RFCs are textual standards. Great. But they are just text.
 Written by humans, and thus they are subject to errors or failures. It
 is even error-prone. I do not understand: Why an RFC does not come with
@@ -317,8 +315,9 @@ will try to create a test suite on its own.</p>
 few people read the RFC and tried to write an implementation. This is my
 guess. However, it does not avoid the fact an executable test suite
 should (must?) be provided.</p>
-<h2 id="how-did-i-find-them">How did I find them?</h2>
-<p>This is how I found these errors. I wrote <a href="https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php">a test suite for xCal and
+<h2 id="how-did-i-find-them">How did I find them?<a role="presentation" class="anchor" href="#how-did-i-find-them" title="Anchor link to this header">#</a>
+</h2>
+<p>This is how I found these errors. I wrote <a rel="noopener external" target="_blank" href="https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php">a test suite for xCal and
 xCard in
 <code>sabre/vobject</code></a>.
 I would love to write a test suite agnostic of the implementation, but I
@@ -330,7 +329,8 @@ and 4261 (with the regular expressions), I found the error by applying the
 algorithms presented in
 <a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/">Generate strings based on regular expressions</a>
 .</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+</h2>
 <p><code>sabre/vobject</code> supports xCal and xCard.</p>
 
   </article>

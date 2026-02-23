@@ -110,6 +110,10 @@ p, h1, h2, h3, h4, h5, h6 {
   }
 }
 
+html {
+  scroll-padding-top: var(--space-very-large);
+}
+
 body {
   --_background-color: var(--color-dark);
 
@@ -139,7 +143,23 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  --_margin-block-start: var(--space-very-large);
+
   line-height: 1.25em;
+  margin-block: var(--_margin-block-start) var(--space-large);
+
+  :not(section:not(:first-child)) > &:is(:first-child, :last-child) {
+    --_margin-block-start: 0;
+  }
+
+  > .anchor {
+    display: none;
+  }
+
+  &:is(:hover, :focus) > .anchor {
+    display: inline-block;
+    margin-inline-start: var(--space-small);
+  }
 
   &.separator {
     --_color: var(--border-color-lighter);
@@ -151,7 +171,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--_color);
     text-align: center;
     max-width: 60%;
-    margin-inline: auto;
+    margin: var(--space-very-large) auto;
 
     > span {
       padding-inline: var(--space);
@@ -171,20 +191,6 @@ h1, h2, h3, h4, h5, h6 {
       right: 0;
       border-top: var(--_width) var(--_color) solid;
     }
-  }
-}
-
-:is(h1, h2, h3, h4, h5, h6) {
-  --_margin-block-start: var(--space-very-large);
-
-  margin-block: var(--_margin-block-start) var(--space-large);
-
-  :not(section:not(:first-child)) > &:is(:first-child, :last-child) {
-    --_margin-block-start: 0;
-  }
-
-  &.separator {
-    margin-block: var(--space-very-large);
   }
 }
 
@@ -245,7 +251,15 @@ li {
 }
 
 small {
-  font-size: .6em;
+  font-size: .8em;
+
+  :is(h1, h2, h3) & {
+    font-size: .6em;
+  }
+}
+
+sup > abbr {
+  font-variant-caps: all-small-caps;
 }
 
 code {
@@ -268,6 +282,8 @@ pre {
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
 
+  --_text: "Code";
+
   code {
     display: block;
     margin: var(--_padding);
@@ -275,29 +291,25 @@ pre {
     background: transparent;
   }
 
-  &[class^="language-"] {
-    --text: "Code";
+  &:has(> code[data-lang="rust"]) { --_text: "Rust" }
+  &:has(> code[data-lang="shellsession"], > code[data-lang="shellscript"]) { --_text: "Shell" }
+  &:has(> code[data-lang="java"]) { --_text: "Java" }
+  &:has(> code[data-lang="sql"]) { --_text: "SQL" }
+  &:has(> code[data-lang="php"]) { --_text: "PHP" }
+  &:has(> code[data-lang="xml"]) { --_text: "XML" }
+  &:has(> code[data-lang="json"]) { --_text: "JSON" }
+  &:has(> code[data-lang="html"]) { --_text: "HTML" }
+  &:has(> code[data-lang="toml"]) { --_text: "TOML" }
 
-    &::before {
-      content: var(--text) " session";
-      position: sticky;
-      top: 0;
-      left: 0;
-      padding: var(--space-small) var(--_padding);
-      font-size: .85em;
-      background: var(--border-color);
-    }
+  &:has(> code[data-lang])::before {
+    content: var(--_text) " session";
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: var(--space-small) var(--_padding);
+    font-size: .85em;
+    background: var(--border-color);
   }
-
-  &.language-rust { --text: "Rust" }
-  &.language-sh { --text: "Shell" }
-  &.language-java { --text: "Java" }
-  &.language-sql { --text: "SQL" }
-  &.language-php { --text: "PHP" }
-  &.language-xml { --text: "XML" }
-  &.language-json { --text: "JSON" }
-  &.language-html { --text: "HTML" }
-  &.language-toml { --text: "TOML" }
 }
 
 figure {
@@ -310,12 +322,13 @@ figure {
     margin-block-end: 0;
   }
 
-  &:has(img, picture, .youtube-player) {
+  &:has(img, picture, [role="img"], .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
-  color-scheme: dark;
+    color-scheme: dark;
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
+    border-radius: var(--space-small);
 
     code {
       background: none;
@@ -630,75 +643,54 @@ article {
 .conversation {
   --_space: var(--space);
 
-  position: relative;
-  color: var(--color-dark);
+  display: grid;
+  grid-template-columns: minmax(60px, 16%) 1fr;
+  gap: var(--_space);
   color-scheme: dark;
+  color: var(--color-dark);
   padding: var(--_space);
   border-radius: var(--space-small);
   background: var(--color-accent-darker);
-  background-size: 100px auto;
+
+  > .conversation--character {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+
+    span {
+      font-size: .8em;
+      font-style: italic;
+      text-align: center;
+    }
+  }
 
   &[data-character="comte"] ~ &[data-character="comte"],
   &[data-character="factotum"] ~ &[data-character="factotum"],
   &[data-character="procureur"] ~ &[data-character="procureur"] {
-    .conversation--character {
-      picture {
-        margin-block-end: 0;
-      }
-
+    > .conversation--character {
       span {
         display: none;
       }
     }
   }
 
-  > .conversation--character {
-    position: relative;
-    min-width: 80px;
-    max-width: 16%;
-
-    float: inline-start;
-    margin-inline-end: var(--_space);
-
-    picture {
-      margin-block-end: 1rem;
+  > .conversation--message {
+    a, a:hover, a:focus {
+      color: currentColor;
+      text-decoration-color: currentColor;
+      text-decoration-line: underline;
+      text-decoration-thickness: 3px;
     }
 
-    span {
-      position: absolute;
-      font-size: .8em;
-      font-style: italic;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
+    code {
+      padding-inline: 0;
+      background-color: transparent;
     }
-  }
 
-  &::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-
-  > p:first-of-type {
-    margin-block-start: 0;
-  }
-
-  a, a:hover, a:focus {
-    color: currentColor;
-    text-decoration-color: currentColor;
-    text-decoration-line: underline;
-    text-decoration-thickness: 3px;
-  }
-
-  code {
-    padding-inline: 0;
-    background-color: transparent;
-  }
-
-  blockquote {
-    border: 0;
+    > p:first-of-type {
+      margin-block-start: 0;
+    }
   }
 }
 
@@ -737,13 +729,6 @@ article {
   }
 
   .footnotes-list > li {
-    list-style-position: inside;
-    display: list-item;
-
-    & > p {
-      display: inline;
-    }
-
     &:target {
       padding: var(--space);
       outline: var(--border-width) var(--color-accent) dotted;

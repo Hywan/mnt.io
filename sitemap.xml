@@ -7,6 +7,10 @@
         <loc>https://mnt.io/articles/</loc>
     </url>
     <url>
+        <loc>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</loc>
+        <lastmod>2026-02-23</lastmod>
+    </url>
+    <url>
         <loc>https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/</loc>
         <lastmod>2019-05-29</lastmod>
     </url>
@@ -153,6 +157,9 @@
         <loc>https://mnt.io/keywords/console/</loc>
     </url>
     <url>
+        <loc>https://mnt.io/keywords/data-oriented-design/</loc>
+    </url>
+    <url>
         <loc>https://mnt.io/keywords/data/</loc>
     </url>
     <url>
@@ -189,7 +196,13 @@
         <loc>https://mnt.io/keywords/job/</loc>
     </url>
     <url>
+        <loc>https://mnt.io/keywords/lock/</loc>
+    </url>
+    <url>
         <loc>https://mnt.io/keywords/matrix/</loc>
+    </url>
+    <url>
+        <loc>https://mnt.io/keywords/memory/</loc>
     </url>
     <url>
         <loc>https://mnt.io/keywords/messaging/</loc>

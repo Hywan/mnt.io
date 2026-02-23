@@ -7,7 +7,7 @@
 
   <title>atoum supports TeamCity</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -69,41 +69,40 @@
 
     </header>
 
-    <p><a href="http://atoum.org/">atoum</a> is a popular PHP test framework.
-<a href="https://www.jetbrains.com/teamcity/">TeamCity</a> is a Continuous
+    <p><a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> is a popular PHP test framework.
+<a rel="noopener external" target="_blank" href="https://www.jetbrains.com/teamcity/">TeamCity</a> is a Continuous
 Integration and Continuous Delivery software developed by Jetbrains.
-Despites <a href="http://atoum.org/features.html#reports">atoum supports many industry
+Despites <a rel="noopener external" target="_blank" href="http://atoum.org/features.html#reports">atoum supports many industry
 standards</a> to report test
-execution verdicts, TeamCity uses <a href="https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity">its own non-standard
+execution verdicts, TeamCity uses <a rel="noopener external" target="_blank" href="https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity">its own non-standard
 report</a>,
 and thus atoum is not compatible with TeamCity… until now.</p>
 <p>The <code>atoum/teamcity-extension</code> provides TeamCity support inside atoum.
 When executing tests, the reported verdicts are understandable by
 TeamCity, and activate all its UI features.</p>
-<h2 id="install">Install</h2>
+<h2 id="install">Install<a role="presentation" class="anchor" href="#install" title="Anchor link to this header">#</a>
+</h2>
 <p>If you have Composer, just run:</p>
-<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> composer require atoum/teamcity-extension <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>~1.0<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> composer require atoum/teamcity-extension </span><span class="z-string">&#39;~1.0&#39;</span></span></code></pre>
 <p>From this point, you need to enable the extension in your <code>.atoum.php</code>
 configuration file. The following example forces to enable the extension
 for every test execution:</p>
-<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>extension</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-keyword z-other z-new z-php">new</span> <span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-other z-namespace z-php">teamcity</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">extension</span></span><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>script</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>extension</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">addToRunner</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>runner</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span></code></pre>
+<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-variable">$extension</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> atoum</span><span class="z-punctuation z-separator">\</span><span>teamcity</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">extension</span><span>(</span><span class="z-variable">$script</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-variable">$extension</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">addToRunner</span><span>(</span><span class="z-variable">$runner</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>The following example enables the extension <strong>only within</strong> a TeamCity
 environment:</p>
-<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>extension</span> <span class="z-keyword z-operator z-assignment z-php">=</span> <span class="z-keyword z-other z-new z-php">new</span> <span class="z-meta z-path z-php"><span class="z-support z-other z-namespace z-php">atoum</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-other z-namespace z-php">teamcity</span><span class="z-punctuation z-separator z-namespace z-php">\</span><span class="z-support z-class z-php">extension</span></span><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>script</span><span class="z-punctuation z-section z-group z-end z-php">)</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>extension</span><span class="z-meta z-function-call z-method z-php"><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-function z-php">addToRunnerWithinTeamCityEnvironment</span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-variable z-other z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>runner</span><span class="z-meta z-function-call z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span></span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span></code></pre>
+<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-variable">$extension</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> atoum</span><span class="z-punctuation z-separator">\</span><span>teamcity</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">extension</span><span>(</span><span class="z-variable">$script</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-variable">$extension</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">addToRunnerWithinTeamCityEnvironment</span><span>(</span><span class="z-variable">$runner</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>This latter installation is recommended. That's it 🙂.</p>
-<h2 id="glance">Glance</h2>
+<h2 id="glance">Glance<a role="presentation" class="anchor" href="#glance" title="Anchor link to this header">#</a>
+</h2>
 <p>The default CLI report looks like this:</p>
 <figure>
-<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./cli.png" alt="Default atoum CLI report" /></p>
+<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./cli.png" alt="Default atoum CLI report" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>The default CLI report is the default one from atoum.</p>
   </figcaption>
@@ -111,7 +110,7 @@ environment:</p>
 <p>The TeamCity report looks like this in your terminal (note the
 <code>TEAMCITY_VERSION</code> variable as a way to emulate a TeamCity environment):</p>
 <figure>
-<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./cli-teamcity.png" alt="TeamCity report inside the terminal" /></p>
+<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./cli-teamcity.png" alt="TeamCity report inside the terminal" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>The TeamCity report is text-based, but it is aimed at being consumed by a
 formatter to produce HTML.</p>
@@ -120,16 +119,16 @@ formatter to produce HTML.</p>
 <p>Which is less easy to read. However, when it comes into TeamCity UI, we
 will have the following result:</p>
 <figure>
-<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./teamcity.png" alt="TeamCity running atoum" /></p>
+<p><img src="https://mnt.io/articles/atoum-supports-teamcity/./teamcity.png" alt="TeamCity running atoum" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>The final rendering, at an HTML document inside TeamCity itself.</p>
   </figcaption>
 </figure>
-<p>We are using it at <a href="https://automattic.com/">Automattic</a>. Hope it is
+<p>We are using it at <a rel="noopener external" target="_blank" href="https://automattic.com/">Automattic</a>. Hope it is
 useful for someone else!</p>
 <p>If you find any bugs, or would like any other features, please use
 Github at the following repository:
-<a href="https://github.com/Hywan/atoum-teamcity-extension/">https://github.com/Hywan/atoum-teamcity-extension/</a>.</p>
+<a rel="noopener external" target="_blank" href="https://github.com/Hywan/atoum-teamcity-extension/">https://github.com/Hywan/atoum-teamcity-extension/</a>.</p>
 
   </article>
 

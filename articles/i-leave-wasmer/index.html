@@ -7,7 +7,7 @@
 
   <title>I&#x27;ve loved Wasmer, I still love Wasmer</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -71,8 +71,8 @@
 
     <p>This article could also have been titled <em>How I failed to change
 Wasmer</em>.</p>
-<p>Today is my last day at <a href="https://wasmer.io/">Wasmer</a>. For those who
-don't know this name, it has a twofold meaning: it's a <a href="http://github.com/wasmerio/wasmer">very popular
+<p>Today is my last day at <a rel="noopener external" target="_blank" href="https://wasmer.io/">Wasmer</a>. For those who
+don't know this name, it has a twofold meaning: it's a <a rel="noopener external" target="_blank" href="http://github.com/wasmerio/wasmer">very popular
 WebAssembly runtime</a>, as well as a
 startup. I want to write about what I've been able to accomplish during
 my time at Wasmer (a high overview, not a technical view), and what
@@ -80,9 +80,10 @@ my time at Wasmer (a high overview, not a technical view), and what
 reckon my testimony can help other people to avoid digging into the hell
 I (and my colleagues) had to endure. I'm available for work, you can
 contact me at <a href="mailto:ivan@mnt.io">ivan@mnt.io</a>,
-<a href="https://twitter.com/mnt_io">@mnt_io</a>,
-<a href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
-<h2 id="from-nothing-to-pure-awesomeness">From nothing to pure awesomeness</h2>
+<a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a>,
+<a rel="noopener external" target="_blank" href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
+<h2 id="from-nothing-to-pure-awesomeness">From nothing to pure awesomeness<a role="presentation" class="anchor" href="#from-nothing-to-pure-awesomeness" title="Anchor link to this header">#</a>
+</h2>
 <p>I've joined the Wasmer company at its early beginning, in March 2019.
 The company was 3 months old. My initial role was to write and to
 improve the runtime itself, and to create many embeddings, i.e. ways to
@@ -95,19 +96,19 @@ the <strong>passion</strong>.</p>
 <p>At the time of writing, Wasmer has an incredible growth. In 2.5 years
 only, the runtime has more than 10'500 stars on Github, and is <strong>one of
 the most popular WebAssembly runtime in the world</strong>! It's used by many
-various companies, such as <a href="https://confio.tech/">Confio</a>, <a href="https://fluence.network/">Fluence
-Labs</a>, <a href="https://hotg.dev/">HOT-G</a>,
-<a href="https://brave.com/">Brave</a>, <a href="https://google.com/">Google</a>,
-<a href="https://www.apple.com/">Apple</a>, <a href="https://spacemesh.io/">SpaceMesh</a>,
-<a href="https://linkerd.io/">Linkerd</a>,
-<a href="https://www.singlestore.com/">SingleStore</a>,
-<a href="https://www.clever-cloud.com/">CleverCloud</a> or
-<a href="https://konghq.com/">Kong</a> to name a few (for the ones I can name
+various companies, such as <a rel="noopener external" target="_blank" href="https://confio.tech/">Confio</a>, <a rel="noopener external" target="_blank" href="https://fluence.network/">Fluence
+Labs</a>, <a rel="noopener external" target="_blank" href="https://hotg.dev/">HOT-G</a>,
+<a rel="noopener external" target="_blank" href="https://brave.com/">Brave</a>, <a rel="noopener external" target="_blank" href="https://google.com/">Google</a>,
+<a rel="noopener external" target="_blank" href="https://www.apple.com/">Apple</a>, <a rel="noopener external" target="_blank" href="https://spacemesh.io/">SpaceMesh</a>,
+<a rel="noopener external" target="_blank" href="https://linkerd.io/">Linkerd</a>,
+<a rel="noopener external" target="_blank" href="https://www.singlestore.com/">SingleStore</a>,
+<a rel="noopener external" target="_blank" href="https://www.clever-cloud.com/">CleverCloud</a> or
+<a rel="noopener external" target="_blank" href="https://konghq.com/">Kong</a> to name a few (for the ones I can name
 though, however other companies are also using Wasmer in very critical
 environments).</p>
 <p>Most of my engineering job happened on the Wasmer runtime itself. At the
 time of writing, I'm the #2 contributor on the project. I was working
-on <a href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/lib">every parts of the
+on <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/lib">every parts of the
 runtime</a>:
 the API, the C API, the compilers, the ABI (mostly WASI), the engines,
 the middlewares, and the VM itself which is the most low-level
@@ -116,67 +117,67 @@ foundamental layer of the runtime.</p>
 runtime for WebAssembly, and I'm saying that with a neutral and
 respectful mindset. Not everything is perfect obviously but I did my
 best to set up a truly user-friendly learning environment, with an
-important documentation and <a href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/examples">a collection of
+important documentation and <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/examples">a collection of
 examples</a>
 that illustrate many features. I strongly believe it contributed to
 Wasmer's popularity to great extent.</p>
 <p>I would like to highlight the most notable embedding projects I've
 created:</p>
 <ul>
-<li><a href="https://github.com/wasmerio/wasmer/tree/master/lib/c-api"><code>wasmer-c-api</code></a> is
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/c-api"><code>wasmer-c-api</code></a> is
 the C embedding for Wasmer. It's part of the Wasmer runtime itself, and is
 fully written in Rust.
-<a href="https://docs.rs/wasmer-c-api/*/wasmer_c_api/wasm_c_api/index.html">The documentation, the C
+<a rel="noopener external" target="_blank" href="https://docs.rs/wasmer-c-api/*/wasmer_c_api/wasm_c_api/index.html">The documentation, the C
 examples</a>,
-everything is super polished to offer the best experience possible. <a href="https://github.com/MarkMcCaskey">Mark
+everything is super polished to offer the best experience possible. <a rel="noopener external" target="_blank" href="https://github.com/MarkMcCaskey">Mark
 McCaskey</a> and I are the authors of this
 project.</li>
-<li><a href="https://github.com/wasmerio/wasmer-python"><code>wasmer-python</code></a> is the Python
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-python"><code>wasmer-python</code></a> is the Python
 embedding for Wasmer. At the time of writing, it's been installed more than 5
 millions times (I'm counting the compiler packages too, like
 <code>wasmer-compiler-cranelift</code> and so on), and 1300 stars on Github. There is
 about 300'000 downloads per months, and it continues to grow! The code is
 written in Rust, and it relies on
-<a href="https://pyo3.rs/">the awesome <code>pyo3</code> project</a> .</li>
-<li><a href="https://github.com/wasmerio/wasmer-go/"><code>wasmer-go</code></a> is the Go embedding for
+<a rel="noopener external" target="_blank" href="https://pyo3.rs/">the awesome <code>pyo3</code> project</a> .</li>
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-go/"><code>wasmer-go</code></a> is the Go embedding for
 Wasmer. It's hard to know how much total downloads we have because of how the
 Go ecosystem is designed, but we have about 60'000 downloads per months from
 Github (I'm excluding the forks of the project), and 1600 stars on Github. The
-code is written in Go and uses <a href="https://golang.org/cmd/cgo/"><code>cgo</code></a> to bind
+code is written in Go and uses <a rel="noopener external" target="_blank" href="https://golang.org/cmd/cgo/"><code>cgo</code></a> to bind
 against the C API. Almost all blockchain projects that use WebAssembly are
 using <code>wasmer-go</code>, which is a popularity I wasn't expecting.</li>
-<li><a href="https://github.com/wasmerio/wasmer-ruby/"><code>wasmer-ruby</code></a> is the Ruby
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-ruby/"><code>wasmer-ruby</code></a> is the Ruby
 embedding for Wasmer. It's not as popular as the others, but it's also very
 polished and it's finding its place in the Ruby ecosystem. The code is written
 in Rust, and it relies on
-<a href="https://github.com/danielpclark/rutie">the awesome <code>rutie</code> project</a> .</li>
+<a rel="noopener external" target="_blank" href="https://github.com/danielpclark/rutie">the awesome <code>rutie</code> project</a> .</li>
 <li>I won't detail all the projects, but there is also
-<a href="https://github.com/wasmerio/wasmer-php"><code>wasmer-php</code></a>,
-<a href="https://github.com/wasmerio/wasmer-java"><code>wasmer-java</code></a>,
-<a href="https://github.com/wasmerio/wasmer-postgres"><code>wasmer-postgres</code></a>… Because of
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-php"><code>wasmer-php</code></a>,
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-java"><code>wasmer-java</code></a>,
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer-postgres"><code>wasmer-postgres</code></a>… Because of
 the Wasmer runtime API and C API we have designed, many developers around the
 globe have been able to create a lot more embeddings, such as in
-<a href="https://github.com/migueldeicaza/WasmerSharp">C#</a>,
-<a href="https://github.com/chances/wasmer-d">D</a>,
-<a href="https://github.com/tessi/wasmex">Elixir</a>,
-<a href="https://github.com/dirkschumacher/wasmr">R</a>,
-<a href="https://github.com/AlwaysRightInstitute/SwiftyWasmer">Swift</a>,
-<a href="https://github.com/zigwasm/wasmer-zig">Zig</a>,
-<a href="https://github.com/dart-lang/wasm">Dart</a>,
-<a href="https://github.com/helmutkian/cl-wasm-runtime">Lisp</a> and so on.</li>
+<a rel="noopener external" target="_blank" href="https://github.com/migueldeicaza/WasmerSharp">C#</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/chances/wasmer-d">D</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/tessi/wasmex">Elixir</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/dirkschumacher/wasmr">R</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/AlwaysRightInstitute/SwiftyWasmer">Swift</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/zigwasm/wasmer-zig">Zig</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/dart-lang/wasm">Dart</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/helmutkian/cl-wasm-runtime">Lisp</a> and so on.</li>
 </ul>
 <p>Other fun notable projects are:</p>
 <ul>
-<li><a href="https://github.com/wasmerio/sonde-rs"><code>sonde-rs</code></a>, a library to
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/sonde-rs"><code>sonde-rs</code></a>, a library to
 compile USDT probes into a Rust library,</li>
-<li><a href="https://github.com/wasmerio/llvm-custom-builds"><code>llvm-custom-builds</code></a>, a
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/llvm-custom-builds"><code>llvm-custom-builds</code></a>, a
 sandbox to produce custom LLVM builds for various platforms,</li>
-<li><a href="https://github.com/wasmerio/loupe"><code>loupe</code></a>, a set of tools to
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/loupe"><code>loupe</code></a>, a set of tools to
 analyse and to profile Rust code,</li>
-<li><a href="https://github.com/wasmerio/interface-types"><code>wasmer-interface-types</code></a>, a
+<li><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/interface-types"><code>wasmer-interface-types</code></a>, a
 “living” (understand an unstable playground) library that implements
-<a href="https://github.com/WebAssembly/interface-types">the WebAssembly Interface Types proposal</a>,</li>
-<li><a href="https://github.com/Hywan/inline-c-rs/"><code>inline-c-rs</code></a>, to write and
+<a rel="noopener external" target="_blank" href="https://github.com/WebAssembly/interface-types">the WebAssembly Interface Types proposal</a>,</li>
+<li><a rel="noopener external" target="_blank" href="https://github.com/Hywan/inline-c-rs/"><code>inline-c-rs</code></a>, to write and
 to execute C code inside Rust,</li>
 <li>in-memory filesystem, that acts exactly like <code>std::fs</code>.</li>
 </ul>
@@ -188,7 +189,7 @@ passion.</p>
 <p>This list above shows released projects, but I've also experimented (and
 sometimes at two hairs of a release) with:</p>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Unikernel">Unikernels</a>; this one was really
+<li><a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Unikernel">Unikernels</a>; this one was really
 fun, given a WebAssembly module and a filesystem, we were able to generate a
 unikernel that was executing the given program,</li>
 <li>Parser; to write the fastest WebAssembly parser possible, it was working, but
@@ -196,32 +197,33 @@ never released,</li>
 <li>HAL (Hardware Abstraction Layer) ABI for WebAssembly, so that we can run
 WebAssembly on small chips super easily (think of IoT),</li>
 <li>Networking; an extension to WASI to support networking (TCP and UDP sockets),
-with an implementation in <a href="https://www.rust-lang.org/">Rust</a>,
-<a href="https://en.wikipedia.org/wiki/C_standard_library">libc</a>, and even
-<a href="https://github.com/ziglang/zig/">Zig</a>! We were able to compile C programs to
+with an implementation in <a rel="noopener external" target="_blank" href="https://www.rust-lang.org/">Rust</a>,
+<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/C_standard_library">libc</a>, and even
+<a rel="noopener external" target="_blank" href="https://github.com/ziglang/zig/">Zig</a>! We were able to compile C programs to
 WebAssembly like cURL, or TCP servers written with kqueue or epoll etc, and to
 execute them on any platforms.</li>
 </ul>
 <p>All those things were working.</p>
 <p>It's absolutely crazy what WebAssembly can do today, and I still truly
 and deeply believe in this technology. I'm not the only one:
-<a href="https://www.ycombinator.com/companies/wasmer">YCombinator</a> and
-<a href="https://medium.com/speedinvest/the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922">SpeedInvest</a>
+<a rel="noopener external" target="_blank" href="https://www.ycombinator.com/companies/wasmer">YCombinator</a> and
+<a rel="noopener external" target="_blank" href="https://medium.com/speedinvest/the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922">SpeedInvest</a>
 are also founders that believe in Wasmer.</p>
 <p>So. What a dream, huh?</p>
-<h2 id="the-toxic-working-environment">The toxic working environment</h2>
+<h2 id="the-toxic-working-environment">The toxic working environment<a role="presentation" class="anchor" href="#the-toxic-working-environment" title="Anchor link to this header">#</a>
+</h2>
 <p>WebAssembly is <em>nothing</em> without its community. I won't name people to
 avoid missing important persons, but all the contributors are doing
 amazing work, to create something new, something special, something
 <em>right</em>.</p>
 <p>Wasmer is a success. The Wasmer runtime is <em>nothing</em> without the
 incredible, marvelous, exceptional team of engineers behind it. In no
-particular order: <a href="https://github.com/lachlansneff">Lachlan Sneff</a>,
-<a href="https://github.com/MarkMcCaskey">Mark McCaskey</a>, <a href="https://github.com/jubianchi">Julien
-Bianchi</a>, <a href="https://github.com/nlewycky">Nick
-Lewycky</a>, <a href="https://github.com/losfair">Heyang
-Zhou</a>, <a href="https://github.com/xmclark">Mackenzie
-Clark</a>, <a href="https://github.com/bjfish">Brandon
+particular order: <a rel="noopener external" target="_blank" href="https://github.com/lachlansneff">Lachlan Sneff</a>,
+<a rel="noopener external" target="_blank" href="https://github.com/MarkMcCaskey">Mark McCaskey</a>, <a rel="noopener external" target="_blank" href="https://github.com/jubianchi">Julien
+Bianchi</a>, <a rel="noopener external" target="_blank" href="https://github.com/nlewycky">Nick
+Lewycky</a>, <a rel="noopener external" target="_blank" href="https://github.com/losfair">Heyang
+Zhou</a>, <a rel="noopener external" target="_blank" href="https://github.com/xmclark">Mackenzie
+Clark</a>, <a rel="noopener external" target="_blank" href="https://github.com/bjfish">Brandon
 Fish</a>. All of them, with no exception, have
 put a lot of passion in this project. It is what it is today because of
 them and also because of the contributors we have been honored to
@@ -244,7 +246,7 @@ features, at an incredible pace. New hats: Release manager, project manager,
 more product ownership, more customers to be connected with, more contributors
 to help, more issues to triage, blog writer etc. The pace was accelerating too
 fast, something we did notice on multiple occasions.</li>
-<li>The CEO, <a href="https://github.com/syrusakbary">Syrus Akbary</a>, had evidently a lot
+<li>The CEO, <a rel="noopener external" target="_blank" href="https://github.com/syrusakbary">Syrus Akbary</a>, had evidently a lot
 of pressure on its shoulders. It sadly resulted in the worst possible way:
 micro-management, stress, pressure, bad leadership, lack of vision, lack of
 trust in the employees, changing the roadmap constantly, lies, secrets etc.</li>
@@ -304,7 +306,8 @@ ever being sick again (otherwise I will be fired), dividing my equities,
 asking me to work more, saying I've never been involved in the company
 etc. That was the final straw to me. That's <em>the</em> wrong way to treat an
 employee, a collaborator, a contributor, the co-founder.</p>
-<h2 id="what-s-next">What's next?</h2>
+<h2 id="what-s-next">What's next?<a role="presentation" class="anchor" href="#what-s-next" title="Anchor link to this header">#</a>
+</h2>
 <p>I need to recover. As you can imagine, working 2.5 years at this pace
 leaves sequelae. Hopefully a couple of months should suffice.</p>
 <p>I'm still in love with Wasmer, the <strong>runtime</strong>, the open source projects
@@ -325,10 +328,10 @@ things can improve or even slightly change. We have built something
 great. Please take a great care of it.</p>
 <p>As I said, I'm available for a new adventure, you can contact me at
 <a href="mailto:ivan@mnt.io">ivan@mnt.io</a>,
-<a href="https://twitter.com/mnt_io">@mnt_io</a>,
-<a href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
-<p>Discussions <a href="https://twitter.com/mnt_io/status/1445310721185783811">on
-Twitter</a> and <a href="https://news.ycombinator.com/item?id=28772863">on
+<a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a>,
+<a rel="noopener external" target="_blank" href="https://www.linkedin.com/in/ivan-enderlin/">ivan-enderlin</a> (LinkedIn).</p>
+<p>Discussions <a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io/status/1445310721185783811">on
+Twitter</a> and <a rel="noopener external" target="_blank" href="https://news.ycombinator.com/item?id=28772863">on
 HackerNews</a>.</p>
 
   </article>

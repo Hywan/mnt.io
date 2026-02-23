@@ -7,7 +7,7 @@
 
   <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -70,24 +70,23 @@
     </header>
 
     <p>Sit down comfortably. Take a cushion if you wish. This is, <i>clear its
-throat</i>, the story of a funny performance quest. The <a href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a> is a
+throat</i>, the story of a funny performance quest. The <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a> is a
 set of crates aiming at providing all the necessary tooling to develop robust
-and safe <a href="https://matrix.org/">Matrix</a> clients. Of course, it involves databases to persist some
-data. The Matrix Rust SDK supports multiple databases: in-memory, <a href="https://sqlite.org/">SQLite</a>, and
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a>. This story is about the SQLite database.</p>
+and safe <a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> clients. Of course, it involves databases to persist some
+data. The Matrix Rust SDK supports multiple databases: in-memory, <a rel="noopener external" target="_blank" href="https://sqlite.org/">SQLite</a>, and
+<a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a>. This story is about the SQLite database.</p>
 <p>The structure we want to persist is a novel type we have designed specifically
-for the Matrix Rust SDK: a <a href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/linked_chunk/index.html"><code>LinkedChunk</code></a>. It's the underlying structure that
+for the Matrix Rust SDK: a <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/linked_chunk/index.html"><code>LinkedChunk</code></a>. It's the underlying structure that
 holds all events manipulated by the Matrix Rust SDK. It is somewhat similar to
-a <a href="https://en.wikipedia.org/wiki/Linked_List">linked list</a>; the differences are subtle and the goal of this article is
+a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Linked_List">linked list</a>; the differences are subtle and the goal of this article is
 <em>not</em> to present all the details. We have developed many API around this type
 to make all operations fast and efficient in the context of the Matrix protocol.
 What we need to know is that in a <code>LinkedChunk&lt;_, Item, Gap&gt;</code>, each node
 contains a <code>ChunkContent&lt;Item, Gap&gt;</code> defined as:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-storage z-type z-enum z-rust">enum</span> <span class="z-entity z-name z-enum z-rust">ChunkContent</span>&lt;Item, Gap&gt; <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust">    Gap<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>Gap</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust">    Items<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Item<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-enum z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">enum</span><span class="z-entity z-name"> ChunkContent</span><span>&lt;</span><span class="z-entity z-name">Item</span><span>,</span><span class="z-entity z-name"> Gap</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-entity z-name z-function">    Gap</span><span>(</span><span class="z-entity z-name">Gap</span><span>),</span></span>
+<span class="giallo-l"><span class="z-entity z-name z-function">    Items</span><span>(</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-entity z-name">Item</span><span>&gt;),</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>Put it differently: each node can contain a <em>gap</em>, or a set of <em>items</em> (be
 Matrix events).</p>
 <div class="conversation" data-character="comte">
@@ -97,81 +96,81 @@ Matrix events).</p>
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
-      <img src="/image/comte.png" />
+      <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
 
   </div>
-  <p>May I recapitulate?</p>
+  <div class="conversation--message">
+    <p>May I recapitulate?</p>
 <p>Each Matrix <em>room</em> contains a <code>LinkedChunk</code>, which is a set of <em>chunks</em>. Each
 <em>chunk</em> is either a <em>gap</em> or a set of <em>events</em>. It seems to map fairly easily to
 SQL tables, isn't it?</p>
 
+  </div>
 </div>
 <p>You're right: it's pretty straightforward! Let's see the first table:
 <code>linked_chunks</code> which contains all the chunks. (Note that the schemas are
 simplified for the sake of clarity).</p>
-<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql">&quot;<span class="z-entity z-name z-function z-sql">linked_chunks</span>&quot;</span> (
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Which linked chunk does this chunk belong to?
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>linked_chunk_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Identifier of the chunk, unique per linked chunk.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span> <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Identifier of the previous chunk.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>previous<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Identifier of the next chunk.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>next<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Our enum for the content of the chunk: `E` for events, `G` for a gap.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>type<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">TEXT</span> <span class="z-storage z-modifier z-sql">CHECK</span>(<span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>type<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-keyword z-operator z-logical z-sql">IN</span> (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>E<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>G<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>)) <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> … other things …
-</span></span><span class="z-source z-sql">);
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">linked_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this chunk belong to?</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Identifier of the chunk, unique per linked chunk.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Identifier of the previous chunk.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;previous&quot;</span><span class="z-storage"> INTEGER</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Identifier of the next chunk.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;next&quot;</span><span class="z-storage"> INTEGER</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Our enum for the content of the chunk: `E` for events, `G` for a gap.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;type&quot;</span><span class="z-storage"> TEXT CHECK</span><span>(</span><span class="z-string">&quot;type&quot;</span><span class="z-keyword"> IN</span><span> (</span><span class="z-string">&#39;E&#39;</span><span>, </span><span class="z-string">&#39;G&#39;</span><span>)) </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span>);</span></span></code></pre>
 <p>Alrighty. Next contenders: the <code>event_chunks</code> and the <code>gap_chunks</code> tables, which
 store the <code>ChunkContent</code>s of each chunk, respectively for <code>ChunkContent::Items</code>
 and <code>ChunkContent::Gap</code>. In <code>event_chunks</code>, each row corresponds to an event. In
 <code>gap_chunks</code>, each row corresponds to a gap.</p>
-<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql">&quot;<span class="z-entity z-name z-function z-sql">event_chunks</span>&quot;</span> (
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Which linked chunk does this event belong to?
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>linked_chunk_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Which chunk does this event refer to?
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>chunk_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span> <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> The event ID.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>event_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Position (index) in the **chunk**.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>position<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span> <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> … other things …
-</span></span><span class="z-source z-sql">);
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql">&quot;<span class="z-entity z-name z-function z-sql">gap_chunks</span>&quot;</span> (
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Which linked chunk does this event belong to?
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>linked_chunk_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Which chunk does this gap refer to?
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>chunk_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> <span class="z-storage z-type z-sql">INTEGER</span> <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> … other things …
-</span></span><span class="z-source z-sql">);
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">event_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this event belong to?</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Which chunk does this event refer to?</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;chunk_id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- The event ID.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Position (index) in the **chunk**.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;position&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">gap_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this event belong to?</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- Which chunk does this gap refer to?</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;chunk_id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span>);</span></span></code></pre>
 <p>Last contender, <code>events</code>. The assiduous reader may have noted that
 <code>event_chunks</code> doesn't contain the content of the events: only its ID and its
 position, <i>roll its eyes</i>… let's digress a bit, should we? Why is that? To
 handle out-of-band events. In the Matrix protocol, we can receive events via:</p>
 <ul>
-<li><a href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3sync">the <code>/sync</code> endpoint</a>, it's the main source of inputs, we get most
+<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3sync">the <code>/sync</code> endpoint</a>, it's the main source of inputs, we get most
 of the events via this API,</li>
-<li><a href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidmessages">the <code>/messages</code> endpoint</a>, when we need to get events around a
+<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidmessages">the <code>/messages</code> endpoint</a>, when we need to get events around a
 particular events; this is helpful if we need to paginate backwards or
 forwards around an event,</li>
-<li><a href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidcontexteventid">the <code>/context</code> endpoint</a>, if we need to get more context about
+<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidcontexteventid">the <code>/context</code> endpoint</a>, if we need to get more context about
 an event.</li>
-<li>but there is more, like <a href="https://spec.matrix.org/v1.15/client-server-api/#mroompinned_events">pinned events</a>, and so on.</li>
+<li>but there is more, like <a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#mroompinned_events">pinned events</a>, and so on.</li>
 </ul>
 <p>When an event is fetched but cannot be positioned regarding other events, it is
 considered <em>out-of-band</em>: it belongs to zero linked chunk, but we keep it in the
@@ -179,17 +178,16 @@ database. Maybe we can attach it to a linked chunk later, or we want to keep it
 for saving future network requests. Anyway. You're a great digression companion.
 Let's jump back to our tables.</p>
 <p>The <code>events</code> table contains <em>all</em> the events: in-band <em>and</em> out-of-band.</p>
-<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Events and their content.
-</span></span><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql">&quot;<span class="z-entity z-name z-function z-sql">events</span>&quot;</span> (
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> The ID of the event.
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>event_id<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> The JSON encoded content of the event (it&#39;s an encrypted value).
-</span></span><span class="z-source z-sql">    <span class="z-string z-quoted z-double z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&quot;</span>content<span class="z-punctuation z-definition z-string z-end z-sql">&quot;</span></span> BLOB <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
-</span><span class="z-source z-sql">
-</span><span class="z-source z-sql">    <span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> … other things …
-</span></span><span class="z-source z-sql">);
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-comment">-- Events and their content.</span></span>
+<span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">events</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-comment">    -- The ID of the event.</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- The JSON encoded content of the event (it&#39;s an encrypted value).</span></span>
+<span class="giallo-l"><span class="z-string">    &quot;content&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span>);</span></span></code></pre>
 <p>At some point, we need to fetch metadata about a <code>LinkedChunk</code>. A certain
 algorithm needs these metadata to work efficiently. We don't need to load all
 events, however we need:</p>
@@ -200,8 +198,9 @@ events, however we need:</p>
 </ul>
 <p>A first implementation has landed in the Matrix Rust SDK. All good. When
 suddenly…</p>
-<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q></h2>
-<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="#fn-power-user">1</a></sup> was <a href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
+<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header">#</a>
+</h2>
+<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="#fn-power-user">1</a></sup> was <a rel="noopener external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
 a delicate situation. How to know the reason of the slowness? Is it the device?
 The network? The asynchronous runtime? A lock contention? The file system? …
 The database?</p>
@@ -210,58 +209,56 @@ nice and willing to help! We have added a bunch of logs, then the user has
 reproduced the problem, and shared their logs (via a rageshake) with us. Logs
 are never trivial to analyse. However, here is a tip we use in the Matrix Rust
 SDK: we have a special tracing type that logs the time spent in a portion of the
-code; called <a href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/tracing_timer/struct.TracingTimer.html"><code>TracingTimer</code></a>.</p>
+code; called <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/tracing_timer/struct.TracingTimer.html"><code>TracingTimer</code></a>.</p>
 <p>Basically, when a <code>TracingTimer</code> is created, it keeps its creation time in
 memory. And when the <code>TracingTimer</code> is dropped, it emits a log containing the
 elapsed time since its creation. It looks like this (it uses
-<a href="https://docs.rs/tracing/">the <code>tracing</code> library</a>):</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">TracingTimer</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust">    <span class="z-variable z-other z-member z-rust">id</span><span class="z-punctuation z-separator z-type z-rust">:</span> String,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust">    <span class="z-variable z-other z-member z-rust">callsite</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;static</span> DefaultCallsite,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust">    <span class="z-variable z-other z-member z-rust">start</span><span class="z-punctuation z-separator z-type z-rust">:</span> Instant,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust">    <span class="z-variable z-other z-member z-rust">level</span><span class="z-punctuation z-separator z-type z-rust">:</span> <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span>Level,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
-</span><span class="z-source z-rust">
-</span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span> </span><span class="z-meta z-impl z-rust">Drop <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">TracingTimer</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust">    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">drop</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-variable z-parameter z-rust">self</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> enabled <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span>level_enabled<span class="z-keyword z-operator z-logical z-rust">!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>level</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-logical z-rust">&amp;&amp;</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">            <span class="z-storage z-type z-rust">let</span> interest <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>callsite<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">interest</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">            <span class="z-keyword z-operator z-logical z-rust">!</span>interest<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">is_never</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">                <span class="z-keyword z-operator z-logical z-rust">&amp;&amp;</span> <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">__macro_support<span class="z-punctuation z-accessor z-rust">::</span></span>__is_enabled<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>callsite<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">metadata</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span> interest</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-keyword z-control z-rust">if</span> <span class="z-keyword z-operator z-logical z-rust">!</span>enabled <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">            <span class="z-keyword z-control z-rust">return</span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> message <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-macro z-rust">format!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>_<span class="z-constant z-other z-placeholder z-rust">{}</span>_ finished in <span class="z-constant z-other z-placeholder z-rust">{:?}</span><span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-separator z-rust">,</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>id<span class="z-punctuation z-separator z-rust">,</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>start<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">elapsed</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> metadata <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-variable z-language z-rust">self</span><span class="z-punctuation z-accessor z-dot z-rust">.</span>callsite<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">metadata</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> fields <span class="z-keyword z-operator z-assignment z-rust">=</span> metadata<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">fields</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> message_field <span class="z-keyword z-operator z-assignment z-rust">=</span> fields<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">field</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>message<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> values <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>message_field<span class="z-punctuation z-separator z-rust">,</span> <span class="z-support z-type z-rust">Some</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>message <span class="z-keyword z-operator z-rust">as</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>dyn <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span>Value</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> This function is hidden from docs, but we have to use it
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> because there is no other way of obtaining a `ValueSet`.
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> It&#39;s not entirely clear why it is private. See this issue:
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> https://github.com/tokio-rs/tracing/issues/2363
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> values <span class="z-keyword z-operator z-assignment z-rust">=</span> fields<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">value_set</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>values</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">Event<span class="z-punctuation z-accessor z-rust">::</span></span>dispatch<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>metadata<span class="z-punctuation z-separator z-rust">,</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>values</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
-</span></code></pre>
-<p>And with that, let's use its companion macro <a href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/macro.timer.html"><code>timer!</code></a> (I won't copy-paste it
+<a rel="noopener external" target="_blank" href="https://docs.rs/tracing/">the <code>tracing</code> library</a>):</p>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> TracingTimer</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable">    id</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> String</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">    callsite</span><span class="z-keyword z-operator">: &amp;</span><span>&#39;</span><span class="z-entity z-name">static DefaultCallsite</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">    start</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Instant</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">    level</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Level</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">impl</span><span class="z-entity z-name"> Drop</span><span class="z-keyword"> for</span><span class="z-entity z-name"> TracingTimer</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> drop</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> self</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> enabled</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">level_enabled!</span><span>(</span><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>level)</span><span class="z-keyword z-operator"> &amp;&amp;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> interest</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">interest</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword z-operator">            !</span><span class="z-variable">interest</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_never</span><span>()</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">                &amp;&amp;</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">__macro_support</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">__is_enabled</span><span>(</span><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">metadata</span><span>(),</span><span class="z-variable"> interest</span><span>)</span></span>
+<span class="giallo-l"><span>        };</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword z-operator"> !</span><span class="z-variable">enabled</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">            return</span><span>;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> message</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> format!</span><span>(</span><span class="z-string">&quot;_{}_ finished in {:?}&quot;</span><span>,</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>id,</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>start</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">elapsed</span><span>());</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">metadata</span><span>();</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> fields</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">fields</span><span>();</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> message_field</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> fields</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">field</span><span>(</span><span class="z-string">&quot;message&quot;</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> values</span><span class="z-keyword z-operator"> =</span><span> [(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">message_field</span><span>,</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">message</span><span class="z-keyword"> as</span><span class="z-keyword z-operator"> &amp;</span><span class="z-keyword">dyn</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Value</span><span>))];</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">        // This function is hidden from docs, but we have to use it</span></span>
+<span class="giallo-l"><span class="z-comment">        // because there is no other way of obtaining a `ValueSet`.</span></span>
+<span class="giallo-l"><span class="z-comment">        // It&#39;s not entirely clear why it is private. See this issue:</span></span>
+<span class="giallo-l"><span class="z-comment">        // https://github.com/tokio-rs/tracing/issues/2363</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> values</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> fields</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">value_set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">values</span><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-entity z-name">        tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Event</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">dispatch</span><span>(</span><span class="z-variable">metadata</span><span>,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable">values</span><span>);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>And with that, let's use its companion macro <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/macro.timer.html"><code>timer!</code></a> (I won't copy-paste it
 here, it's pretty straightforward):</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> _timer <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-macro z-rust">timer!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>built something important<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">
-</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> … build something important …
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">
-</span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> `_timer` is dropped here, and will emit a log.
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> _timer</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> timer!</span><span>(</span><span class="z-string">&quot;built something important&quot;</span><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    // … build something important …</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    // `_timer` is dropped here, and will emit a log.</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>With this technique, we were able to inspect the logs and saw immediately what
 was slow… assuming we have added <code>timer!</code>s at the right places! It's not magic,
 it doesn't find performance issues for you. You have to probe the correct places
@@ -273,17 +270,19 @@ in your code, and refine if necessary.</p>
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
-      <img src="/image/comte.png" />
+      <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
 
   </div>
-  <p>I don't know if you heard about <em>sampling profilers</em>, but those are programs
+  <div class="conversation--message">
+    <p>I don't know if you heard about <em>sampling profilers</em>, but those are programs
 far superior at analysing performance problems, compared to your… rustic
 <code>TracingTimer</code> (pun intended!). Such programs can provide flamegraphs, call
 trees etc.</p>
-<p>I'm personally a regular user of <a href="https://github.com/mstange/samply">samply</a>, a command line CPU profiler relying
-on the <a href="https://github.com/firefox-devtools/profiler">Firefox profiler</a> for its UI. It works on macOS, Linux and Windows.</p>
+<p>I'm personally a regular user of <a rel="noopener external" target="_blank" href="https://github.com/mstange/samply">samply</a>, a command line CPU profiler relying
+on the <a rel="noopener external" target="_blank" href="https://github.com/firefox-devtools/profiler">Firefox profiler</a> for its UI. It works on macOS, Linux and Windows.</p>
 
+  </div>
 </div>
 <p>I do also use <code>samply</code> pretty often! But you need an access to the processes
 to use such tools. Here, the Matrix Rust SDK is used and embedded inside Matrix
@@ -291,37 +290,36 @@ clients. We have no access to it. It lives on devices everywhere around the
 world. We may use better log analysers to infer “call trees”, but supporting
 asynchronous logs (because the code is asynchronous) makes it very difficult.
 And I honestly don't know if such a thing exists.</p>
-<p>So. Yes. <a href="https://github.com/matrix-org/matrix-rust-sdk/pull/5407">We found the culprit</a>. With <a href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, we were able to scan
+<p>So. Yes. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5407">We found the culprit</a>. With <a rel="noopener external" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, we were able to scan
 megabytes of logs and find the culprit pretty quickly. I was looking for lags of
 the order of a second. I wasn't disappointed:</p>
-<pre data-lang="shell" class="language-shell z-code"><code class="language-shell" data-lang="shell"><span class="z-text z-plain">$ rg &#39;_method_ finished in.*&gt; load_all_chunks_metadata&#39; all.log | rg &#39;\d+(\.\d+)?s&#39; --only-matching | sort --numeric-sort --reverse
-</span><span class="z-text z-plain">107.121747125s
-</span><span class="z-text z-plain">79.909931458s
-</span><span class="z-text z-plain">10.348993583s
-</span><span class="z-text z-plain">8.827636417s
-</span><span class="z-text z-plain">8.614481625s
-</span><span class="z-text z-plain">8.009787875s
-</span><span class="z-text z-plain">5.99637875s
-</span><span class="z-text z-plain">4.118492334s
-</span><span class="z-text z-plain">3.910040333s
-</span><span class="z-text z-plain">3.718858334s
-</span><span class="z-text z-plain">3.689340667s
-</span><span class="z-text z-plain">3.661383208s
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> rg </span><span class="z-string">&#39;_method_ finished in.*&gt; load_all_chunks_metadata&#39;</span><span> all.log </span><span class="z-keyword z-operator">|</span><span class="z-entity z-name"> rg</span><span class="z-string"> &#39;\d+(\.\d+)?s&#39;</span><span class="z-constant z-other"> --only-matching</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> sort</span><span class="z-constant z-other"> --numeric-sort --reverse</span></span>
+<span class="giallo-l"><span>107.121747125s</span></span>
+<span class="giallo-l"><span>79.909931458s</span></span>
+<span class="giallo-l"><span>10.348993583s</span></span>
+<span class="giallo-l"><span>8.827636417s</span></span>
+<span class="giallo-l"><span>8.614481625s</span></span>
+<span class="giallo-l"><span>8.009787875s</span></span>
+<span class="giallo-l"><span>5.99637875s</span></span>
+<span class="giallo-l"><span>4.118492334s</span></span>
+<span class="giallo-l"><span>3.910040333s</span></span>
+<span class="giallo-l"><span>3.718858334s</span></span>
+<span class="giallo-l"><span>3.689340667s</span></span>
+<span class="giallo-l"><span>3.661383208s</span></span></code></pre>
 <p>107 seconds. Be 1 minute and 47 seconds. Hello sweety.</p>
-<h2 id="the-slow-query">The slow query</h2>
+<h2 id="the-slow-query">The slow query<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header">#</a>
+</h2>
 <p><code>load_all_chunks_metadata</code> is a method that runs this SQL query:</p>
-<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span>
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">id</span>,
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">previous</span>,
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">next</span>,
-</span><span class="z-source z-sql">    <span class="z-support z-function z-aggregate z-sql">COUNT</span>(<span class="z-constant z-other z-database-name z-sql">ec</span>.<span class="z-constant z-other z-table-name z-sql">event_id</span>) <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> number_of_events
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">FROM</span> linked_chunks <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> lc
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">LEFT JOIN</span> event_chunks <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> ec
-</span><span class="z-source z-sql">ON <span class="z-constant z-other z-database-name z-sql">ec</span>.<span class="z-constant z-other z-table-name z-sql">chunk_id</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">id</span>
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">linked_chunk_id</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> ?
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">GROUP BY</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">id</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">SELECT</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">id</span><span>,</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">previous</span><span>,</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">next</span><span>,</span></span>
+<span class="giallo-l"><span class="z-support z-function">    COUNT</span><span>(</span><span class="z-constant z-other">ec</span><span>.</span><span class="z-constant z-other">event_id</span><span>) </span><span class="z-keyword">as</span><span> number_of_events</span></span>
+<span class="giallo-l"><span class="z-keyword">FROM</span><span> linked_chunks </span><span class="z-keyword">as</span><span> lc</span></span>
+<span class="giallo-l"><span class="z-keyword">LEFT JOIN</span><span> event_chunks </span><span class="z-keyword">as</span><span> ec</span></span>
+<span class="giallo-l"><span class="z-keyword">ON</span><span class="z-constant z-other"> ec</span><span>.</span><span class="z-constant z-other">chunk_id</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span>
+<span class="giallo-l"><span class="z-keyword">WHERE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">linked_chunk_id</span><span class="z-keyword z-operator"> =</span><span> ?</span></span>
+<span class="giallo-l"><span class="z-keyword">GROUP BY</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span></code></pre>
 <p>For each chunk of the linked chunk, it counts the number of events associated to
 this chunk. That's it.</p>
 <p>Do you remember that a chunk can be of two kinds: <code>ChunkContent::Items</code> if it
@@ -339,8 +337,9 @@ are 300 gaps for this linked chunk, and 5000 events, 1.5 millions events will
 be scanned for <strong>no reason</strong>!</li>
 </ol>
 <p>How lovingly inefficient.</p>
-<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> faster</h2>
-<p><q>Let's use an <a href="https://sqlite.org/lang_createindex.html"><code>INDEX</code></a></q> I hear you say (let's pretend
+<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#12-6x-faster" title="Anchor link to this header">#</a>
+</h2>
+<p><q>Let's use an <a rel="noopener external" target="_blank" href="https://sqlite.org/lang_createindex.html"><code>INDEX</code></a></q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).</p>
 <p>A database index provides rapid lookups after all. It has become a reflex
 amongst the developer community.</p>
@@ -351,10 +350,11 @@ amongst the developer community.</p>
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
-      <img src="/image/procureur.png" />
+      <img src="/image/procureur.png" loading="lazy" decoding="async" />
     </picture>
   </div>
-  <p>Indexes are designed to quickly locate data without scanning the full table. An
+  <div class="conversation--message">
+    <p>Indexes are designed to quickly locate data without scanning the full table. An
 index contains a copy of the data, organised in a way enabling very efficient
 search. Behind the scene, it uses various data structures, involving trade-offs
 between lookup performance and index size. Most of the time, an index makes it
@@ -372,19 +372,20 @@ to a logarithmic lookup,
 <mo>)</mo>
 <mo>)</mo>
 </math>.
-See <a href="https://en.wikipedia.org/wiki/Database_index">Database index</a> to learn more.</p>
+See <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Database_index">Database index</a> to learn more.</p>
 
+  </div>
 </div>
 <p>That's correct. But we didn't want to use an index here. The reason is twofold:</p>
 <ol>
 <li><strong>More spaces</strong>. Remember that <em>Le Procureur</em> said an index contains a
-<em>copy</em> of the data. Here, the data is <a href="https://spec.matrix.org/v1.15/appendices/#event-ids">the event ID</a>. It's not
+<em>copy</em> of the data. Here, the data is <a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/appendices/#event-ids">the event ID</a>. It's not
 heavy, but it's not nothing. Moreover, we are not counting the <em>key</em> to
 associate the <em>copied data</em> to the row containing the real data in the source
 table.</li>
 <li><strong>Still extra useless time</strong>. We would still need to traverse the index for
 gaps, which is pointless.
-<a href="https://sqlite.org/arch.html">SQLite implements indexes as B-Trees</a>, which is really
+<a rel="noopener external" target="_blank" href="https://sqlite.org/arch.html">SQLite implements indexes as B-Trees</a>, which is really
 efficient, but still, we already know that a gap has zero event because…
 it's… a gap between events!</li>
 </ol>
@@ -399,11 +400,12 @@ events—, and <code>G</code> when of kind <code>ChunkContent::Gap</code> —it 
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
-      <img src="/image/factotum.png" />
+      <img src="/image/factotum.png" loading="lazy" decoding="async" />
     </picture>
   </div>
-  <p>May I interrupt?</p>
-<p>Do you know that SQLite provides <a href="https://sqlite.org/lang_expr.html#the_case_expression">a <code>CASE</code> expression</a>? I know it's
+  <div class="conversation--message">
+    <p>May I interrupt?</p>
+<p>Do you know that SQLite provides <a rel="noopener external" target="_blank" href="https://sqlite.org/lang_expr.html#the_case_expression">a <code>CASE</code> expression</a>? I know it's
 unusual. SQL designers prefer to think in terms of sets, sub-sets, joins,
 temporal tables, partial indexes… but honestly, for what I'm concerned, in
 our case, it's simple enough and it can be powerful. It's a maddeningly
@@ -411,27 +413,27 @@ pragmatic <code>match</code> statement.</p>
 <p>Moreover, the <code>type</code> column is already typed as an enum with the <code>CHECK("type" IN ('E', 'G'))</code> constraint. Maybe the SQL engine can run some even smarter
 optimisations for us.</p>
 
+  </div>
 </div>
 <p>Oh, that would be brilliant! If <code>type</code> is <code>E</code>, we count the number of events,
 otherwise we conclude it's <em>de facto</em> zero, isn't it? Let's try. The SQL query
 then becomes:</p>
-<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span>
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">id</span>,
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">previous</span>,
-</span><span class="z-source z-sql">    <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">next</span>,
-</span><span class="z-source z-sql">    <span class="z-keyword z-other z-DML z-sql">CASE</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">type</span>
-</span><span class="z-source z-sql">    <span class="z-keyword z-other z-DML z-sql">WHEN</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>E<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span> <span class="z-keyword z-other z-DML z-sql">THEN</span> (
-</span><span class="z-source z-sql">        <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-support z-function z-aggregate z-sql">COUNT</span>(<span class="z-constant z-other z-database-name z-sql">ec</span>.<span class="z-constant z-other z-table-name z-sql">event_id</span>)
-</span><span class="z-source z-sql">        <span class="z-keyword z-other z-DML z-sql">FROM</span> event_chunks <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> ec
-</span><span class="z-source z-sql">        <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-constant z-other z-database-name z-sql">ec</span>.<span class="z-constant z-other z-table-name z-sql">chunk_id</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">id</span>
-</span><span class="z-source z-sql">    )
-</span><span class="z-source z-sql">    <span class="z-keyword z-other z-DML z-sql">ELSE</span>
-</span><span class="z-source z-sql">        <span class="z-constant z-numeric z-sql">0</span>
-</span><span class="z-source z-sql">    <span class="z-keyword z-other z-DML z-sql">END</span>
-</span><span class="z-source z-sql">    <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> number_of_events
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">FROM</span> linked_chunks <span class="z-keyword z-operator z-assignment z-alias z-sql">as</span> lc
-</span><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-constant z-other z-database-name z-sql">lc</span>.<span class="z-constant z-other z-table-name z-sql">linked_chunk_id</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> ?
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">SELECT</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">id</span><span>,</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">previous</span><span>,</span></span>
+<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">next</span><span>,</span></span>
+<span class="giallo-l"><span class="z-keyword">    CASE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">type</span></span>
+<span class="giallo-l"><span class="z-keyword">    WHEN</span><span class="z-string"> &#39;E&#39;</span><span class="z-keyword"> THEN</span><span> (</span></span>
+<span class="giallo-l"><span class="z-keyword">        SELECT</span><span class="z-support z-function"> COUNT</span><span>(</span><span class="z-constant z-other">ec</span><span>.</span><span class="z-constant z-other">event_id</span><span>)</span></span>
+<span class="giallo-l"><span class="z-keyword">        FROM</span><span> event_chunks </span><span class="z-keyword">as</span><span> ec</span></span>
+<span class="giallo-l"><span class="z-keyword">        WHERE</span><span class="z-constant z-other"> ec</span><span>.</span><span class="z-constant z-other">chunk_id</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span>
+<span class="giallo-l"><span>    )</span></span>
+<span class="giallo-l"><span class="z-keyword">    ELSE</span></span>
+<span class="giallo-l"><span class="z-constant z-numeric">        0</span></span>
+<span class="giallo-l"><span class="z-keyword">    END</span></span>
+<span class="giallo-l"><span class="z-keyword">    as</span><span> number_of_events</span></span>
+<span class="giallo-l"><span class="z-keyword">FROM</span><span> linked_chunks </span><span class="z-keyword">as</span><span> lc</span></span>
+<span class="giallo-l"><span class="z-keyword">WHERE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">linked_chunk_id</span><span class="z-keyword z-operator"> =</span><span> ?</span></span></code></pre>
 <p>Since we have spotted the problem, we have written a benchmark to measure the
 solutions. The benchmark simulates 10'000 events, with 1 gap every 80 events.
 A set of data we consider <em>realistic</em> somehow for a normal user (not for a
@@ -496,15 +498,15 @@ are the before/after results.</p>
 the <code>LEFT JOIN</code> approach</p>
   </summary>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg" alt="Probability distribution function" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Probability Distribution Function for the <code>LEFT JOIN</code> approach.</p>
+<p>Benchmark&#39;s Probability Distribution Function for the <code>LEFT JOIN</code> approach.</p>
   </figcaption>
   </figure>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg" alt="Iteration times" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg" alt="Iteration times" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Iteration Times for the <code>LEFT JOIN</code> approach.</p>
+<p>Benchmark&#39;s Iteration Times for the <code>LEFT JOIN</code> approach.</p>
   </figcaption>
   </figure>
 </details>
@@ -558,7 +560,7 @@ the <code>LEFT JOIN</code> approach</p>
     </tbody>
   </table>
   <figcaption>
-<p>Benchmark's results for the new query with the <code>CASE</code> expression.</p>
+<p>Benchmark&#39;s results for the new query with the <code>CASE</code> expression.</p>
   </figcaption>
 </figure>
 <details>
@@ -567,28 +569,29 @@ the <code>LEFT JOIN</code> approach</p>
 for the <code>CASE</code> approach</p>
   </summary>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg" alt="Probability distribution function" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Probability Distribution Function for the <code>CASE</code> approach.</p>
+<p>Benchmark&#39;s Probability Distribution Function for the <code>CASE</code> approach.</p>
   </figcaption>
   </figure>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg" alt="Linear regression" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg" alt="Linear regression" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Linear Regression for the <code>CASE</code> approach.</p>
+<p>Benchmark&#39;s Linear Regression for the <code>CASE</code> approach.</p>
   </figcaption>
   </figure>
 </details>
 <p>The throughput and the time are <math><mn>12.6</mn><mo>×</mo></math> better. No
-<code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
+<code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
 patches containing the benchmark and the fix</a>.</p>
-<p>But that's not all…</p>
-<h2 id="211x-faster"><math><mn>211</mn><mo>×</mo></math> faster</h2>
-<p>It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
+<p>But that&#39;s not all…</p>
+<h2 id=""><math><mn>211</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+</h2>
+<p>It&#39;s clearly better, but we couldn&#39;t stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that
 we are running one query per chunk of kind <code>ChunkContent::Items</code>. If the linked
 chunk contains 100 chunks, it will run 101 queries.</p>
-<p>Then suddenly, <i>hit forehead with the hand's palm</i>, an idea pops! What if
+<p>Then suddenly, <i>hit forehead with the hand&#39;s palm</i>, an idea pops! What if
 we could only use 2 queries for all scenarios!</p>
 <ol>
 <li>The first query would count all events for each chunk in <code>events_chunk</code> in
@@ -598,63 +601,61 @@ one pass, and would store that in a <code>HashMap</code>,</li>
 in the <code>HashMap</code>.</li>
 </ol>
 <p>The first query translates like so in Rust:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> The first query.
-</span></span><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> number_of_events_by_chunk_ids <span class="z-keyword z-operator z-assignment z-rust">=</span> transaction
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">prepare</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">        <span class="z-string z-quoted z-double z-raw z-rust"><span class="z-storage z-type z-string z-rust">r</span><span class="z-punctuation z-definition z-string z-begin z-rust">#&quot;</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        SELECT
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            ec.chunk_id,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            COUNT(ec.event_id)
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        FROM event_chunks as ec
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        WHERE ec.linked_chunk_id = ?
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        GROUP BY ec.chunk_id
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        <span class="z-punctuation z-definition z-string z-end z-rust">&quot;#</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">query_map</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>hashed_linked_chunk_id<span class="z-punctuation z-separator z-rust">,</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">row</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-support z-type z-rust">Ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-storage z-type z-rust">u64</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-storage z-type z-rust">usize</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">collect<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust">HashMap<span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>, <span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// The first query.</span></span>
+<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> number_of_events_by_chunk_ids</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> transaction</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">prepare</span><span>(</span></span>
+<span class="giallo-l"><span class="z-string">        r#&quot;</span></span>
+<span class="giallo-l"><span class="z-string">        SELECT</span></span>
+<span class="giallo-l"><span class="z-string">            ec.chunk_id,</span></span>
+<span class="giallo-l"><span class="z-string">            COUNT(ec.event_id)</span></span>
+<span class="giallo-l"><span class="z-string">        FROM event_chunks as ec</span></span>
+<span class="giallo-l"><span class="z-string">        WHERE ec.linked_chunk_id = ?</span></span>
+<span class="giallo-l"><span class="z-string">        GROUP BY ec.chunk_id</span></span>
+<span class="giallo-l"><span class="z-string">        &quot;#</span><span>,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator">?</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">query_map</span><span>((</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">hashed_linked_chunk_id</span><span>,),</span><span class="z-keyword z-operator"> |</span><span class="z-variable">row</span><span class="z-keyword z-operator">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>((</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> u64</span><span>&gt;(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> usize</span><span>&gt;(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">?</span></span>
+<span class="giallo-l"><span>        ))</span></span>
+<span class="giallo-l"><span>    })</span><span class="z-keyword z-operator">?</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Result</span><span>&lt;</span><span class="z-entity z-name">HashMap</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-variable"> _</span><span>&gt;,</span><span class="z-variable"> _</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">?</span><span>;</span></span></code></pre>
 <p>And the second query translates like so<sup class="footnote-reference" id="fr-simplified-code-1"><a href="#fn-simplified-code">2</a></sup>:</p>
-<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust">transaction
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">prepare</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">        <span class="z-string z-quoted z-double z-raw z-rust"><span class="z-storage z-type z-string z-rust">r</span><span class="z-punctuation z-definition z-string z-begin z-rust">#&quot;</span>
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        SELECT
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            lc.id,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            lc.previous,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            lc.next,
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">            lc.type
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        FROM linked_chunks as lc
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        WHERE lc.linked_chunk_id = ?
-</span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-raw z-rust">        <span class="z-punctuation z-definition z-string z-end z-rust">&quot;#</span></span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">query_map</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>hashed_linked_chunk_id<span class="z-punctuation z-separator z-rust">,</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">row</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-support z-type z-rust">Ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-storage z-type z-rust">u64</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Option</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-type z-rust">u64</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Option</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-type z-rust">u64</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">2</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">            row<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">get<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span>, <span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">3</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-group z-rust">        </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span>
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">map</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">metadata</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>identifier<span class="z-punctuation z-separator z-rust">,</span> previous<span class="z-punctuation z-separator z-rust">,</span> next<span class="z-punctuation z-separator z-rust">,</span> chunk_type</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-assignment z-rust">=</span> metadata<span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Let&#39;s use the `HashMap` from the first query here!
-</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> number_of_events <span class="z-keyword z-operator z-assignment z-rust">=</span> number_of_events_by_chunk_ids<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">get</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>id</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">copied</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap_or</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-support z-type z-rust">Ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>ChunkMetadata <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">            identifier<span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">            previous<span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">            next<span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">            number_of_events<span class="z-punctuation z-separator z-rust">,</span>
-</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-block z-rust">        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span><span class="z-source z-rust">    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-meta z-path z-rust">collect<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span>, <span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
-</span></code></pre>
-<p>Only two queries. All tests are passing. Now let's see what the benchmark has to
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable">transaction</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">prepare</span><span>(</span></span>
+<span class="giallo-l"><span class="z-string">        r#&quot;</span></span>
+<span class="giallo-l"><span class="z-string">        SELECT</span></span>
+<span class="giallo-l"><span class="z-string">            lc.id,</span></span>
+<span class="giallo-l"><span class="z-string">            lc.previous,</span></span>
+<span class="giallo-l"><span class="z-string">            lc.next,</span></span>
+<span class="giallo-l"><span class="z-string">            lc.type</span></span>
+<span class="giallo-l"><span class="z-string">        FROM linked_chunks as lc</span></span>
+<span class="giallo-l"><span class="z-string">        WHERE lc.linked_chunk_id = ?</span></span>
+<span class="giallo-l"><span class="z-string">        &quot;#</span><span>,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator">?</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">query_map</span><span>((</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">hashed_linked_chunk_id</span><span>,),</span><span class="z-keyword z-operator"> |</span><span class="z-variable">row</span><span class="z-keyword z-operator">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>((</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> u64</span><span>&gt;(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">u64</span><span>&gt;&gt;(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">u64</span><span>&gt;&gt;(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> String</span><span>&gt;(</span><span class="z-constant z-numeric">3</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span>        ))</span></span>
+<span class="giallo-l"><span>    })</span><span class="z-keyword z-operator">?</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">map</span><span>(</span><span class="z-keyword z-operator">|</span><span class="z-variable">metadata</span><span class="z-keyword z-operator">| -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;</span><span class="z-variable">_</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span> (</span><span class="z-variable">identifier</span><span>,</span><span class="z-variable"> previous</span><span>,</span><span class="z-variable"> next</span><span>,</span><span class="z-variable"> chunk_type</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator">?</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">        // Let&#39;s use the `HashMap` from the first query here!</span></span>
+<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> number_of_events</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> number_of_events_by_chunk_ids</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">id</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">copied</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap_or</span><span>(</span><span class="z-constant z-numeric">0</span><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>(</span><span class="z-entity z-name">ChunkMetadata</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable">            identifier</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            previous</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            next</span><span>,</span></span>
+<span class="giallo-l"><span class="z-variable">            number_of_events</span><span>,</span></span>
+<span class="giallo-l"><span>        })</span></span>
+<span class="giallo-l"><span>    })</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Result</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;,</span><span class="z-variable"> _</span><span>&gt;&gt;()</span></span></code></pre>
+<p>Only two queries. All tests are passing. Now let&#39;s see what the benchmark has to
 say!</p>
 <figure>
   <table>
@@ -706,7 +707,7 @@ say!</p>
     </tbody>
   </table>
   <figcaption>
-<p>Benchmark's results for the two queries approach.</p>
+<p>Benchmark&#39;s results for the two queries approach.</p>
   </figcaption>
 </figure>
 <details>
@@ -715,54 +716,55 @@ say!</p>
 for the two queries approach</p>
   </summary>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg" alt="Probability distribution function" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Probability Distribution Function for the two queries approach.</p>
+<p>Benchmark&#39;s Probability Distribution Function for the two queries approach.</p>
   </figcaption>
   </figure>
   <figure>
-<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg" alt="Linear regression" /></a></p>
+<p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg" alt="Linear regression" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark's Linear Regression for the two queries approach.</p>
+<p>Benchmark&#39;s Linear Regression for the two queries approach.</p>
   </figcaption>
   </figure>
 </details>
 <p><strong>It is <math><mn>16.7</mn><mo>×</mo></math> faster compared to the previous
 solution, so <math><mn>211</mn><mo>×</mo></math> faster than the first query!
-We went from 502ms to 2ms. That's mental! From a throughput of 19.9 Kelem/s
-to 4.2 Melem/s!</strong> <a href="https://github.com/matrix-org/matrix-rust-sdk/pull/5425">You can see the patches containing the improvement</a>.</p>
+We went from 502ms to 2ms. That&#39;s mental! From a throughput of 19.9 Kelem/s
+to 4.2 Melem/s!</strong> <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5425">You can see the patches containing the improvement</a>.</p>
 <p>The throughput is measured by <em>element</em>, where an <em>element</em> here represents
 a Matrix event. Consequently, 4 Melem/s means 4 millions events per second,
 which means that <code>load_all_chunks_metadata</code> can do its computation at a rate of
 4 millions events per second.</p>
 <p>I think we can stop here. Performance are finally acceptable.</p>
-<h2 id="lessons">Lessons</h2>
+<h2 id="-1">Lessons<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+</h2>
 <ul>
-<li><a href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>
+<li><a rel="noopener external" target="_blank" href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>
 <li>Run benchmarks.</li>
-<li>Be aware of <a href="https://sqlite.org/queryplanner-ng.html">the SQL query planner</a>.</li>
+<li>Be aware of <a rel="noopener external" target="_blank" href="https://sqlite.org/queryplanner-ng.html">the SQL query planner</a>.</li>
 <li>Be careful with joins.</li>
 <li>Know your data.</li>
 <li>Take a step back and count.</li>
 <li>SQLite is fast.</li>
 </ul>
-<p>Notice how the SQL tables layout didn't change. Notice how the <code>LinkedChunk</code>
-implementation didn't change. Only the SQL queries have changed, and it has
+<p>Notice how the SQL tables layout didn&#39;t change. Notice how the <code>LinkedChunk</code>
+implementation didn&#39;t change. Only the SQL queries have changed, and it has
 dramatically improved the situation.</p>
-<p>This is joint effort between <a href="https://bouvier.cc/">Benjamin Bouvier</a>, <a href="https://github.com/poljar">Damir Jelić</a> and
+<p>This is joint effort between <a rel="noopener external" target="_blank" href="https://bouvier.cc/">Benjamin Bouvier</a>, <a rel="noopener external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> and
 I.</p>
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-power-user">
 <p>We consider a <em>power-user</em> a user with more than 2000 rooms. I
 hear your laugth! But guess what? We have users with more than 4000 rooms.
-And I'm excluding bots here. The Matrix Rust SDK can be used to develop
+And I&#39;m excluding bots here. The Matrix Rust SDK can be used to develop
 bots, which can sit in thousands and thousands rooms easily. That said: we
 have to be performant. <a href="#fr-power-user-1">↩</a></p>
 </li>
 <li id="fn-simplified-code">
 <p>The code has been simplified a little bit. In reality, basic
-Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk's types. <a href="#fr-simplified-code-1">↩</a></p>
+Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk&#39;s types. <a href="#fr-simplified-code-1">↩</a></p>
 </li>
 </ol>
 </section>

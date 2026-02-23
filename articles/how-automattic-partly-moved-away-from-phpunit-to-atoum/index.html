@@ -7,7 +7,7 @@
 
   <title>How Automattic (WordPress.com &amp; co.) partly moved away from PHPUnit to atoum?</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -70,33 +70,34 @@
     </header>
 
     <p>Hello fellow developers and testers,</p>
-<p>Few months ago at <a href="https://automattic.com/">Automattic</a>, my team and I
+<p>Few months ago at <a rel="noopener external" target="_blank" href="https://automattic.com/">Automattic</a>, my team and I
 started a new project: <strong>Having better tests for the payment system</strong>.
 The payment system is used by all the services at Automattic, i.e.
-<a href="https://wordpress.com/">WordPress</a>,
-<a href="https://vaultpress.com/">VaultPress</a>, <a href="https://jetpack.com/">Jetpack</a>,
-<a href="http://akismet.com/">Akismet</a>, <a href="http://polldaddy.com/">PollDaddy</a> etc.
+<a rel="noopener external" target="_blank" href="https://wordpress.com/">WordPress</a>,
+<a rel="noopener external" target="_blank" href="https://vaultpress.com/">VaultPress</a>, <a rel="noopener external" target="_blank" href="https://jetpack.com/">Jetpack</a>,
+<a rel="noopener external" target="_blank" href="http://akismet.com/">Akismet</a>, <a rel="noopener external" target="_blank" href="http://polldaddy.com/">PollDaddy</a> etc.
 It's a big challenge! Cherry on the cake: Our experiment could define
 the future of the testing practices for the entire company. No pressure.</p>
 <p>This post is a summary about what have been accomplished so far, the
 achievements, the failures, and the future, focused around manual tests.
 As the title of this post suggests, we are going to talk about
-<a href="https://phpunit.de/">PHPUnit</a> and <a href="http://atoum.org/">atoum</a>, which are
+<a rel="noopener external" target="_blank" href="https://phpunit.de/">PHPUnit</a> and <a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a>, which are
 two PHP test frameworks. This is not a PHPUnit vs. atoum fight. These
 are observations made for our software, in our context, with our
 requirements, and our expectations. I think the discussion can be useful
 for many projects outside Automattic. I would like to apologize in
 advance if some parts sound too abstract, I hope you understand I can't
 reveal any details about the payment system for obvious reasons.</p>
-<h2 id="where-we-were-and-where-to-go">Where we were, and where to go</h2>
+<h2 id="where-we-were-and-where-to-go">Where we were, and where to go<a role="presentation" class="anchor" href="#where-we-were-and-where-to-go" title="Anchor link to this header">#</a>
+</h2>
 <p>For historical reasons, WordPress, VaultPress, Jetpack &amp; siblings use
-<a href="https://phpunit.de/">PHPUnit</a> for server-side manual tests. There are
+<a rel="noopener external" target="_blank" href="https://phpunit.de/">PHPUnit</a> for server-side manual tests. There are
 unit, integration, and system manual tests. There are also end-to-end
 tests or benchmarks, but we are not interested in them now. When those
 products were built, PHPUnit was the main test framework in town. Since
 then, the test landscape has considerably changed in PHP. New
-competitors, like <a href="http://atoum.org/">atoum</a> or
-<a href="http://behat.org/">Behat</a>, have a good position in the game.</p>
+competitors, like <a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> or
+<a rel="noopener external" target="_blank" href="http://behat.org/">Behat</a>, have a good position in the game.</p>
 <p>Those tests exist for many years. Some of them grew organically. PHPUnit
 does not require any form of structure, which is —despite being
 questionable according to me— a reason for its success. It is a
@@ -112,7 +113,7 @@ moving to another test framework. The amount of work it represents is
 colossal. Any new test framework does not worth the price for this huge
 refactoring. But maybe the new test frameworks can help us to better
 test our code?</p>
-<p>I'm a <a href="https://github.com/atoum/atoum/graphs/contributors">long term contributor of
+<p>I'm a <a rel="noopener external" target="_blank" href="https://github.com/atoum/atoum/graphs/contributors">long term contributor of
 atoum</a> (top 3
 contributors). And at the time of writing, I'm a core member. You have
 to believe me when I say that, at each step of the discussions or the
@@ -125,15 +126,17 @@ solve issues we have.</p>
 atoum. A survey and a meeting were scheduled 2 months later to decide
 whether we should continue or not. Spoiler: We will partly continue with
 it.</p>
-<h2 id="our-needs-and-requirements">Our needs and requirements</h2>
+<h2 id="our-needs-and-requirements">Our needs and requirements<a role="presentation" class="anchor" href="#our-needs-and-requirements" title="Anchor link to this header">#</a>
+</h2>
 <p>Our code is difficult to test. In other words, the testability is low
 for some parts of the code. atoum has features to help increase the
 testability. I will try to summarize those features in the following
 short sections.</p>
-<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code></h3>
+<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code><a role="presentation" class="anchor" href="#atoum-phpunit-extension" title="Anchor link to this header">#</a>
+</h3>
 <p>As I said, it's not possible to rewrite/migrate all the existing tests.
 This is a colossal effort with a non-neglieable cost. Then, enter
-<a href="https://github.com/atoum/phpunit-extension"><code>atoum/phpunit-extension</code></a>.</p>
+<a rel="noopener external" target="_blank" href="https://github.com/atoum/phpunit-extension"><code>atoum/phpunit-extension</code></a>.</p>
 <p>As far as I know, atoum is the only PHP framework that is able to run
 tests that have been written for another framework. The
 <code>atoum/phpunit-extension</code> does exactly that. It runs tests written with
@@ -163,8 +166,9 @@ can be different, some PHPUnit extensions may not work properly etc.
 Fortunately, our usage of PHPUnit is pretty raw: No extensions except
 home-made ones, few hacks… Everything went well. We also have been able
 to contribute easily to the extension.</p>
-<h3 id="mock-engines-plural">Mock engines (plural)</h3>
-<p>atoum comes with <a href="http://docs.atoum.org/en/latest/mocking_systems.html">3 mock
+<h3 id="mock-engines-plural">Mock engines (plural)<a role="presentation" class="anchor" href="#mock-engines-plural" title="Anchor link to this header">#</a>
+</h3>
+<p>atoum comes with <a rel="noopener external" target="_blank" href="http://docs.atoum.org/en/latest/mocking_systems.html">3 mock
 engines</a>:</p>
 <ul>
 <li>Class-like mock engine for classes and interfaces,</li>
@@ -176,20 +180,20 @@ feature for us. It suddenly increases the testability of our code! The
 following example is fictional, but it's a good illustration. WordPress
 is full of global functions, but it is possible to mock them with atoum
 like this:</p>
-<pre data-lang="php" class="language-php z-code"><code class="language-php" data-lang="php"><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-punctuation z-section z-embedded z-begin z-php">&lt;?php</span></span><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php">
-</span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-storage z-modifier z-php">public</span> <span class="z-storage z-type z-function z-php">function</span> <span class="z-entity z-name z-function z-php">test_foo</span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-begin z-php">(</span></span></span><span class="z-meta z-function z-parameters z-php"><span class="z-meta z-group z-php"><span class="z-punctuation z-section z-group z-end z-php">)</span></span></span><span class="z-meta z-function z-php"> <span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-begin z-php">{</span></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">
-</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php">    <span class="z-variable z-language z-php"><span class="z-punctuation z-definition z-variable z-php">$</span>this</span><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">function</span><span class="z-punctuation z-accessor z-arrow z-php">-&gt;</span><span class="z-variable z-other z-member z-php">get_userdata</span> <span class="z-keyword z-operator z-assignment z-php">=</span> (<span class="z-storage z-type z-php">object</span>) <span class="z-meta z-array z-php"><span class="z-punctuation z-section z-array z-begin z-php">[</span>
-</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-meta z-array z-php">        <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">user_login</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span> <span class="z-keyword z-operator z-key z-php">=&gt;</span> …,
-</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-meta z-array z-php">        <span class="z-string z-quoted z-single z-php"><span class="z-punctuation z-definition z-string z-begin z-php">&#39;</span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php"></span></span><span class="z-string z-quoted z-single z-php"><span class="z-meta z-string-contents z-quoted z-single z-php">user_pass</span><span class="z-punctuation z-definition z-string z-end z-php">&#39;</span></span> <span class="z-keyword z-operator z-key z-php">=&gt;</span> …,
-</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-meta z-array z-php">        …
-</span></span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-meta z-array z-php">    <span class="z-punctuation z-section z-array z-end z-php">]</span></span><span class="z-punctuation z-terminator z-expression z-php">;</span>
-</span></span></span></span></span></span><span class="z-embedding z-php"><span class="z-text z-html z-basic"><span class="z-meta z-embedded z-block z-php"><span class="z-source z-php"><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"></span></span><span class="z-meta z-function z-php"><span class="z-meta z-block z-php"><span class="z-punctuation z-section z-block z-end z-php">}</span></span></span>
-</span></span></span></span></code></pre>
+<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-storage">public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> test_foo</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-variable z-language">    $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">function</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">get_userdata</span><span class="z-keyword z-operator"> =</span><span> (</span><span class="z-storage">object</span><span>)</span><span class="z-punctuation z-section"> [</span></span>
+<span class="giallo-l"><span class="z-string">        &#39;user_login&#39;</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-constant z-other"> …</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span class="z-string">        &#39;user_pass&#39;</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-constant z-other"> …</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span class="z-constant z-other">        …</span></span>
+<span class="giallo-l"><span class="z-punctuation z-section">    ]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>In one line of code, it was possible to mock the
-<a href="https://codex.wordpress.org/Function_Reference/get_userdata"><code>get_userdata</code></a>
+<a rel="noopener external" target="_blank" href="https://codex.wordpress.org/Function_Reference/get_userdata"><code>get_userdata</code></a>
 function.</p>
-<h3 id="runner-engines">Runner engines</h3>
+<h3 id="runner-engines">Runner engines<a role="presentation" class="anchor" href="#runner-engines" title="Anchor link to this header">#</a>
+</h3>
 <p>Being able to isolate test execution is a necessity to avoid flakey
 tests, and to increase the trust we put in the test verdicts. atoum
 comes with <em>de facto</em> 3 runner engines:</p>
@@ -208,26 +212,30 @@ the execution time to be close to the <em>inline</em> engine, while still
 ensuring a strict isolation.</p>
 <p>Fun fact: By using atoum and the <code>atoum/phpunit-extension</code>, we are able
 to run PHPUnit tests concurrently with a strict isolation!</p>
-<h3 id="code-coverage-reports">Code coverage reports</h3>
+<h3 id="code-coverage-reports">Code coverage reports<a role="presentation" class="anchor" href="#code-coverage-reports" title="Anchor link to this header">#</a>
+</h3>
 <p>At the time of writing, PHPUnit is not able to generate code coverage
 reports containing the Branch- or Path Coverage Criteria data. atoum
 supports them natively with the
-<a href="https://github.com/atoum/reports-extension"><code>atoum/reports-extension</code></a>
-(including nice graphs, see <a href="http://atoum.org/reports-extension/">the
+<a rel="noopener external" target="_blank" href="https://github.com/atoum/reports-extension"><code>atoum/reports-extension</code></a>
+(including nice graphs, see <a rel="noopener external" target="_blank" href="http://atoum.org/reports-extension/">the
 demonstration</a>). And we need those
 data.</p>
-<h2 id="the-difficulties">The difficulties</h2>
+<h2 id="the-difficulties">The difficulties<a role="presentation" class="anchor" href="#the-difficulties" title="Anchor link to this header">#</a>
+</h2>
 <p>On paper, most of the pain points sound addressable. It was time to
 experiment.</p>
-<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration server</h3>
+<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration server<a role="presentation" class="anchor" href="#integration-to-the-continuous-integration-server" title="Anchor link to this header">#</a>
+</h3>
 <p>Our CI does not natively support standard test execution report formats.
 Thus we had to create the
-<a href="https://github.com/Hywan/atoum-teamcity-extension/"><code>atoum/teamcity-extension</code></a>.
+<a rel="noopener external" target="_blank" href="https://github.com/Hywan/atoum-teamcity-extension/"><code>atoum/teamcity-extension</code></a>.
 <a href="https://mnt.io/articles/atoum-supports-teamcity/">Learn more</a> by
 reading a blog post I wrote recently. The TeamCity support is native
-inside PHPUnit (see the <a href="http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity"><code>--log-teamcity</code>
+inside PHPUnit (see the <a rel="noopener external" target="_blank" href="http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity"><code>--log-teamcity</code>
 option</a>).</p>
-<h3 id="bootstrap-test-environments">Bootstrap test environments</h3>
+<h3 id="bootstrap-test-environments">Bootstrap test environments<a role="presentation" class="anchor" href="#bootstrap-test-environments" title="Anchor link to this header">#</a>
+</h3>
 <p>Our bootstrap files are… challenging. It's expected though. Setting up a
 functional test environment for a software like WordPress.com is not a
 task one can accomplish in 2 minutes. Fortunately, we have been able to
@@ -240,7 +248,8 @@ needs to be invested.</p>
 bootstrap so that some parts can be shared between the test runners
 (because we didn't switch the whole company to atoum yet, it was an
 experiment).</p>
-<h3 id="documentation-and-help">Documentation and help</h3>
+<h3 id="documentation-and-help">Documentation and help<a role="presentation" class="anchor" href="#documentation-and-help" title="Anchor link to this header">#</a>
+</h3>
 <p>Here is an interesting paradox. The majority of the team recognized that
 atoum's documentation is better than PHPUnit's, even if some parts must
 be rewritten or reworked. <em>But</em> developers already know PHPUnit, so they
@@ -261,12 +270,13 @@ the same period, and the tests we are building are not simple _Hello,
 World!_s as you might think, so it increases the effort.</p>
 <p>To be honest, this was not the biggest difficulty, but still, it is
 important to notice.</p>
-<h3 id="concurrent-integration-test-executions">Concurrent integration test executions</h3>
+<h3 id="concurrent-integration-test-executions">Concurrent integration test executions<a role="presentation" class="anchor" href="#concurrent-integration-test-executions" title="Anchor link to this header">#</a>
+</h3>
 <p>Due to some MySQL limitations combined with the complexity of our code,
 we are not able to run integration (and system) tests concurrently yet.
 Therefore it takes time to run them, probably too much in our
 development environments. Even if atoum has friendly options to reduce
-the debug loop (e.g. see <a href="http://docs.atoum.org/en/latest/mode-loop.html">the <code>--loop</code>
+the debug loop (e.g. see <a rel="noopener external" target="_blank" href="http://docs.atoum.org/en/latest/mode-loop.html">the <code>--loop</code>
 option</a>), the execution
 is still slow. The problem can be solved but it requires time, and deep
 modifications of our code.</p>
@@ -277,7 +287,8 @@ isolation, rather than fast test execution but no confidence in the test
 verdict. So that's partly a difficulty. It's a mix of a positive feature
 and a needle in the foot, and a needle we can live with. atoum is not
 responsible of this latency: The state of our code is.</p>
-<h2 id="the-results">The results</h2>
+<h2 id="the-results">The results<a role="presentation" class="anchor" href="#the-results" title="Anchor link to this header">#</a>
+</h2>
 <p>First, let's start by the positive impacts:</p>
 <ul>
 <li>In 2 months, we have observed that the testability of our code has been
@@ -318,20 +329,21 @@ something else exists, and that we can go further.</p>
 <p>I said we stopped using atoum “for manual tests”. Yes. Because we also
 have <em>automatically generated tests</em>. The experiment was not only about
 switching to atoum. Many other aspects of the experiment are still
-running! For instance, <a href="https://github.com/hoaproject/Kitab">Kitab</a> is
+running! For instance, <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a> is
 used for our code documentation. Kitab is able to (i) <em>render</em> the
 documentation, and (ii) <em>test</em> the examples written inside the
 documentation. That way the documentation is ensured to be always
 up-to-date and working. Kitab generates tests for- and executes tests
 with atoum. It was easy to set up: We just had to use the existing test
-bootstraps designed for atoum. We also have another tool to <a href="https://github.com/Hywan/atoum-apiblueprint-extension">compile
+bootstraps designed for atoum. We also have another tool to <a rel="noopener external" target="_blank" href="https://github.com/Hywan/atoum-apiblueprint-extension">compile
 HTTP API Blueprint specifications into executable
 tests</a>. So far,
 everyone is happy with those tools, no need to go back, everything is
 automat(t)ic. Other tools are likely to be introduced in the future to
 automatically generate tests. I want to detail this particular topic in
 another blog post.</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+</h2>
 <p>Moving to another test framework is a huge decision with many factors.
 The fact atoum has <code>atoum/phpunit-extension</code> is a time saver.
 Nonetheless a new test framework does not mean it will fix all the
@@ -341,7 +353,7 @@ case. <em>atoum solves issues that are not our priorities</em>. So yes, atoum
 can help us to solve important issues, but since these issues are not
 priorities, then the move to atoum was too early. During the project, we
 gained new automatic test tools, like
-<a href="https://github.com/hoaproject/Kitab">Kitab</a>. The experiment is not a
+<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a>. The experiment is not a
 failure. Will we retry atoum? It's very likely. When? I hope in a year.</p>
 
   </article>

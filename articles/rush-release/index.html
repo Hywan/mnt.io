@@ -7,7 +7,7 @@
 
   <title>Rüsh Release</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=631633ee7bd4fb5e8ead">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=c1d7c9eded14e7411b85">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -69,7 +69,7 @@
 
     </header>
 
-    <p>Since 2 years, at <a href="http://hoa-project.net/">Hoa</a>, we are looking for the
+    <p>Since 2 years, at <a rel="noopener external" target="_blank" href="http://hoa-project.net/">Hoa</a>, we are looking for the
 perfect release process. Today, we have finalized the last thing related
 to this new process: we have found a name. It is called <strong>Rüsh
 Release</strong>, standing for <em>Rolling Ünd ScHeduled Release</em>.</p>
@@ -77,10 +77,11 @@ Release</strong>, standing for <em>Rolling Ünd ScHeduled Release</em>.</p>
 from the developer point of view. It means that we do not explain all
 the branches and the workflow between all of them. We will settle for
 the user final impact.</p>
-<h2 id="rolling-release">Rolling Release</h2>
+<h2 id="rolling-release">Rolling Release<a role="presentation" class="anchor" href="#rolling-release" title="Anchor link to this header">#</a>
+</h2>
 <p>On one hand, Hoa is not and will never be finished. We will never reach
 the “Holy 1.0 Grail”. So, one might reckon that Hoa is rolling-released?
-Let's dive into this direction. There are plenty <a href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
+Let's dive into this direction. There are plenty <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
 types</a> out there, such
 as:</p>
 <ul>
@@ -104,30 +105,33 @@ development model”, which is the case of Hoa. Consequently and finally,
 the <code>master</code> branch is the final public branch, it means that it
 <strong>always</strong> contains the latest version, and users constantly fetch
 updates from it.</p>
-<h2 id="versioning">Versioning</h2>
+<h2 id="versioning">Versioning<a role="presentation" class="anchor" href="#versioning" title="Anchor link to this header">#</a>
+</h2>
 <p>Sounds good. On the other hand, the majority of programs that are using
 Hoa use tools called dependency managers. The most popular in PHP is
-<a href="http://getcomposer.org/">Composer</a>. This is a fantastic tool but with a
+<a rel="noopener external" target="_blank" href="http://getcomposer.org/">Composer</a>. This is a fantastic tool but with a
 little spine that hurts us a lot: it does not support rolling release!
 Most of the time, dependency managers work with version numbers, mainly
 of the form <code>_x_._y_._z_</code>, with a specific semantics for <code>_x_</code>, <code>_y_</code>
 and <code>_z_</code>. For instance, some people have agreed about
-<a href="http://semver.org/">semver</a>, standing for <em>Semantic Versioning</em>.</p>
+<a rel="noopener external" target="_blank" href="http://semver.org/">semver</a>, standing for <em>Semantic Versioning</em>.</p>
 <p>Also, we are not extremist. We understand the challenges and the needs
 behind versioning. So, how to mix both: rolling release and versioning?
 Before answering this question, let's progress a little step forward and
 learn more about an alternative versioning approach.</p>
-<h3 id="scheduled-based-release">Scheduled-based release</h3>
+<h3 id="scheduled-based-release">Scheduled-based release<a role="presentation" class="anchor" href="#scheduled-based-release" title="Anchor link to this header">#</a>
+</h3>
 <p>Scheduled-based, also known as date-based, release allows to define
 releases at regular periods of time. This approach is widely adopted for
-projects that progress quickly, such as Firefox or PHP (see the <a href="https://wiki.php.net/rfc/releaseprocess">PHP
+projects that progress quickly, such as Firefox or PHP (see the <a rel="noopener external" target="_blank" href="https://wiki.php.net/rfc/releaseprocess">PHP
 RFC: Release Process</a> for
 example). For Firefox, every 6 weeks, a new version is released. Note
 that we should say <em>a new update</em> to be honest: the term <em>version</em> has
 an unclear meaning here.</p>
 <p>The scheduled-based release seems a good candidate to be mixed with
 rolling release, isn't it?</p>
-<h2 id="rush-release">Rüsh Release</h2>
+<h2 id="rush-release">Rüsh Release<a role="presentation" class="anchor" href="#rush-release" title="Anchor link to this header">#</a>
+</h2>
 <p>Rüsh Release is a mix between part- and true-rolling release and
 scheduled-based release. The <code>master</code> branch is part- and true-rolling
 release, but with a semi-automatically versioning:</p>
@@ -151,21 +155,19 @@ Consequently, the new and last version format is
 libraries while ensuring the safety and embracing the pros of
 versioning.</p>
 <p>So, now, you will be able to change your <code>composer.json</code> files from:</p>
-<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>require<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>hoa/websocket<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dev-master<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">  <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>minimum-stability<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>dev<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
-</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
-</span></code></pre>
-<p>to (<a href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn more about the tilde
+<pre class="giallo z-code"><code data-lang="json"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-support z-type z-property-name">  &quot;require&quot;</span><span class="z-punctuation z-separator">:</span><span> {</span></span>
+<span class="giallo-l"><span class="z-support z-type z-property-name">    &quot;hoa/websocket&quot;</span><span class="z-punctuation z-separator">:</span><span class="z-string"> &quot;dev-master&quot;</span></span>
+<span class="giallo-l"><span>  }</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span class="z-support z-type z-property-name">  &quot;minimum-stability&quot;</span><span class="z-punctuation z-separator">:</span><span class="z-string"> &quot;dev&quot;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>to (<a rel="noopener external" target="_blank" href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn more about the tilde
 operator</a>):</p>
-<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
-</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>require<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json">        </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>hoa/websocket<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>~1.0<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
-</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">    <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
-</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
-</span></code></pre>
+<pre class="giallo z-code"><code data-lang="json"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-support z-type z-property-name">    &quot;require&quot;</span><span class="z-punctuation z-separator">:</span><span> {</span></span>
+<span class="giallo-l"><span class="z-support z-type z-property-name">        &quot;hoa/websocket&quot;</span><span class="z-punctuation z-separator">:</span><span class="z-string"> &quot;~1.0&quot;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>\o/</p>
 
   </article>
