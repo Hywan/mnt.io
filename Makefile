@@ -1,5 +1,5 @@
 build-css:
-	lightningcss static/style/*.css --minify --targets '>0.1%, defaults' --output-dir static/style/min/
+	lightningcss static/style/*.css --minify --output-dir static/style/min/
 
 build-site:
 	zola build
