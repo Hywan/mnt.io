@@ -25,18 +25,18 @@ my colleagues, when suddenly I come across this message:
 
 > Does anyone also experience a frozen room list?
 
-Ah yeah, for some years now, I've been employed by [Element] to work on the [Matrix
-Rust SDK]. If one needs to write a complete, modern, cross-platform, fast Matrix
-client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed at being used directly by
-developers, like `matrix_sdk_crypto`. Some others are higher in the stack -
-the highest is for User Interfaces (UI) with `matrix_sdk_ui`. While
-it is a bit opinionated, it is designed to provide the high-quality features
-everybody expects in a modern Matrix client.
+Ah yeah, for some years now, I've been employed by [Element] to work on the
+[Matrix Rust SDK]. If one needs to write a complete, modern, cross-platform,
+fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
+of many crates. Some are very low in the stack and are not aimed at being used
+directly by developers, like `matrix_sdk_crypto`. Some others are higher in the
+stack — the highest is for User Interfaces (UI) with `matrix_sdk_ui`. While it is
+a bit opinionated, it is designed to provide the high-quality features everybody
+expects in a modern Matrix client.
 
-One of these features is the Room List. The Room List is a place where users spend
-a lot of their time in a messaging application (along with the Timeline, i.e. the room's
-messages). Some expectations for this component:
+One of these features is the Room List. The Room List is a place where users
+spend a lot of their time in a messaging application (along with the Timeline,
+i.e. the room's messages). Some expectations for this component:
 
 - Be superfast,
 - List all the rooms,
@@ -93,13 +93,13 @@ It represents a _change_ in [an `ObservableVector`][`ObservableVector`].
 This is like a `Vec`, but [one can subscribe to the
 changes][`ObservableVector::subscribe`], and will receive… well… `VectorDiff`s!
 
-The Room List type merges several streams into a single stream representing
-the list of rooms. For example, let's imagine the room at index 3 receives a
-new message. Its “preview” (the _latest event_ displayed beneath the room's
-name e.g. <q>Alice: Hello!</q>) changes. Also, the Room List
-sorts rooms by their “recency” (the _time_ something happened in the room). And since the
-“preview” has changed, its “recency” changes too, which means the room is sorted
-and re-positioned. Then, we expect the Room List's stream to yield:
+The Room List type merges several streams into a single stream representing the
+list of rooms. For example, let's imagine the room at index 3 receives a new
+message. Its “preview” (the _latest event_ displayed beneath the room's name,
+e.g. <q>Alice: Hello!</q>) changes. Also, the Room List sorts rooms by their
+“recency” (the _time_ something happened in the room). And since the “preview”
+has changed, its “recency” changes too, which means the room is sorted and
+re-positioned. Then, we expect the Room List's stream to yield:
 
 1. `VectorDiff::Set { index: 3, value: new_room }` because of the new “preview”,
 2. `VectorDiff::Remove { index: 3 }` to remove the room… immediately followed by
@@ -109,11 +109,11 @@ This reactive programming mechanism has proven to be extremely efficient.
 
 {% comte() %}
 
-I did my calculation: the size of `VectorDiff<Room>` is 72 bytes (mostly
-because `Room` contains [an `Arc`][`Arc`] over the real struct type). This is
-pretty small for an update. Not only it brings a small memory footprint, but it
-crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin - languages that provide UI components, like [SwiftUI] or
+I did my calculation: the size of `VectorDiff<Room>` is 72 bytes (mostly because
+`Room` contains [an `Arc`][`Arc`] over the real struct type). This is pretty
+small for an update. Not only it brings a small memory footprint, but it crosses
+the FFI boundary pretty easily, making it easy to map to other languages like
+Swift or Kotlin — languages that provide UI components, like [SwiftUI] or
 [Jetpack Compose].
 
 [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
@@ -131,9 +131,9 @@ problem:
 
 > What does "frozen" mean for the Room List?
 
-It means that the Room List is simply… _blank_, _empty_, <em lang="fr">vide</em>, <em
-lang="es">vacía</em>, <em lang="it">vuoto</em>, <em lang="ar">خلو</em>… well,
-you get the idea.
+It means that the Room List is simply… _blank_, _empty_, <em
+lang="fr">vide</em>, <em lang="es">vacía</em>, <em lang="it">vuoto</em>, <em
+lang="ar">خلو</em>… well, you get the idea.
 
 > What could freeze the Room List?
 
@@ -197,13 +197,13 @@ to filter, sort etc. a stream: They are essentially mapping a `Stream<Item
 = Vec<VectorDiff<T>>>` to another `Stream<Item = Vec<VectorDiff<T>>>`. In
 other terms, they “change” the `VectorDiff`s on-the-fly to simulate filtering,
 sorting, or something else. Let's see a very concrete example with [the `Sort`
-higher-order stream][`eyeball_im_util::vector::Sort`] (the following example
-is mostly a copy of the documentation of `Sort`, but [since I wrote this
-algorithm, I guess you, dear reader, will find it acceptable][eyeball#43]).
+higher-order stream][`eyeball_im_util::vector::Sort`] (the following example is
+mostly a copy of the documentation of `Sort`, but [since I wrote this algorithm,
+I guess you, dear reader, will find it acceptable][eyeball#43]).
 
-Let's imagine we have a vector of `char`. We want a `Stream` of _changes_ about this vector
-(the famous `VectorDiff`). We also want to _simulate_ a sorted vector, by only
-modifying the _changes_. The solution looks like this:
+Let's imagine we have a vector of `char`. We want a `Stream` of _changes_ about
+this vector (the famous `VectorDiff`). We also want to _simulate_ a sorted
+vector, by only modifying the _changes_. The solution looks like this:
 
 ```rust
 use std::cmp::Ordering;
@@ -232,8 +232,8 @@ assert_pending!(stream);
 ```
 
 Alrighty. That's a good start. `vector` is empty, so the initial values from the
-subscribe are empty, and the `stream` is also pending[^stream_assert]. I think it's time to
-play with this new toy, isn't it?
+subscribe are empty, and the `stream` is also pending[^stream_assert]. I think
+it's time to play with this new toy, isn't it?
 
 ```rust
 // Append unsorted values.
@@ -300,23 +300,23 @@ pretty efficient. And…
 {% comte() %}
 
 … as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you don't mind if… I suggest to you that… you
-might want to, maybe, go back to… <small>the main… subject, don't you think?</small>
+details. Nonetheless, I hope you don't mind if… I suggest to you that… you might
+want to, maybe, go back to… <small>the main… subject, don't you think?</small>
 
 {% end %}
 
 Which topic? Ah! The frozen Room List! Sorters are _not_ the culprit. There.
 Happy? Short enough?
 
-These details were important. Kind of. I hope you've learned something along
-the way. Next, let's see how a sorter works, and how it could be responsible
-for our memory pressure and lock contention.
+These details were important. Kind of. I hope you've learned something along the
+way. Next, let's see how a sorter works, and how it could be responsible for our
+memory pressure and lock contention.
 
 ## Randomness
 
-Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The cherry
-on the cake: I was unable to reproduce the problem! Even the reporters of
-the problem were unable to reproduce it consistently. Hmm, a random problem?
+Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The
+cherry on the cake: I was unable to reproduce the problem! Even the reporters
+of the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.
 
 {% figure_image(file="./memory-pressure") %}
@@ -377,12 +377,13 @@ except… what's a lexicographic sorter?
 
 {% procureur() %}
 
-Should I really quote the documentation of `new_sorter_lexicographic`? My work here is turning into a tragedy.
+Should I really quote the documentation of `new_sorter_lexicographic`? My work
+here is turning into a tragedy.
 
 It creates a new sorter that will run multiple sorters. When the
-<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns `Ordering::Equal`, the next
-sorter is called. It stops as soon as a sorter returns `Ordering::Greater` or
-`Ordering::Less`.
+<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns
+`Ordering::Equal`, the next sorter is called. It stops as soon as a sorter
+returns `Ordering::Greater` or `Ordering::Less`.
 
 This is an implementation of a lexicographic order as defined for [cartesian
 products].
@@ -394,9 +395,9 @@ products].
 In short, we are executing 3 sorters: by _latest event_, by _recency_
 and by _name_.
 
-None of these sorters are using any form of randomness. It's a
-<em lang="fr">cul-de-sac</em>. Let's take a step back by looking at `SortBy`
-in `eyeball_im_util` itself maybe? <i>Scroll the documentation</i>, not here,
+None of these sorters are using any form of randomness. It's a <em
+lang="fr">cul-de-sac</em>. Let's take a step back by looking at `SortBy` in
+`eyeball_im_util` itself maybe? <i>Scroll the documentation</i>, not here,
 <i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
 into the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
 
@@ -405,7 +406,8 @@ into the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
 > `Vector` is sorted. When looking for the _unsorted index_ of a value,
 > `Iterator::position` is used.
 
-[`Vector::binary_search_by`] doesn't mention any form of randomness in its documentation. Another <em lang="fr">cul-de-sac</em>.
+[`Vector::binary_search_by`] doesn't mention any form of randomness in its
+documentation. Another <em lang="fr">cul-de-sac</em>.
 
 {% comte() %}
 
@@ -430,27 +432,28 @@ quicksort][`quicksort`].
 Phew. Finally. Time for a cup of tea and a biscuit[^biscuit].
 
 My guess here is the following. Depending on the (pseudo randomly) generated
-pivot index, the number of comparisons may vary each time this runs. We can enter
-a pathological case where more comparisons means more memory pressure,
+pivot index, the number of comparisons may vary each time this runs. We can
+enter a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List<sup><abbr
 title="Trademark">TM</abbr></sup>, <i>play horror movie music</i>!
 
 ## Memory Pressure
 
-A memory allocator is responsible for… well… allocating the memory. If you believe
-this is a simple problem, please retract this offensive thought quickly: what an
-oaf! Memory is managed based on the strategy or strategies used by the memory
-allocator: there is not a unique solution. Each memory allocator comes with
-tradeoffs: do you allocate and replace multiple similar small objects several
-times in a row, do you need fixed-size blocks of memory, dynamic blocks etc.
+A memory allocator is responsible for… well… allocating the memory. If you
+believe this is a simple problem, please retract this offensive thought quickly:
+what an oaf! Memory is managed based on the strategy or strategies used by the
+memory allocator: there is not a unique solution. Each memory allocator comes
+with tradeoffs: do you allocate and replace multiple similar small objects
+several times in a row, do you need fixed-size blocks of memory, dynamic blocks
+etc.
 
-Allocating memory is not free. The memory allocator has a cost in itself
-—which could be mitigated by implementing a custom memory allocator maybe—,
-but there is also **a hardware cost**, and it's comparatively more difficult to
-mitigate. Memory is allocated on the heap, i.e. _the RAM_, also called _the
-main memory_ (not be confused with [CPU caches: L1, L2…][cpu-caches]). The RAM
-is nice and all, but it lives far from the CPU. It _takes time_ to allocate
-something on the heap and…
+Allocating memory is not free. The memory allocator has a cost in itself —which
+could be mitigated by implementing a custom memory allocator maybe—, but there
+is also **a hardware cost**, and it's comparatively more difficult to mitigate.
+Memory is allocated on the heap, i.e. _the RAM_, also called _the main memory_
+(not be confused with [CPU caches: L1, L2…][cpu-caches]). The RAM is nice and
+all, but it lives far from the CPU. It _takes time_ to allocate something on the
+heap and…
 
 {% comte() %}
 
@@ -462,9 +465,9 @@ multiple indirections, but still, it sounds pretty fast, right?
 
 {% end %}
 
-Hmm, <i>refrain from opening the Pandora's box</i> - let's try to stay high-level
-here, shall we? Be careful: the numbers I am going to present can vary depending on
-your hardware, but the important part is **the scale**: keep that in mind.
+Hmm, <i>refrain from opening the Pandora's box</i>, let's try to stay high-level
+here, shall we? Be careful: the numbers I am going to present can vary depending
+on your hardware, but the important part is **the scale**: keep that in mind.
 
 <figure>
 
@@ -484,14 +487,9 @@ Latency numbers for the year 2020 for various operations (source:
 Berkeley)][latency-numbers]).
 
 The time in the second column is given in nanoseconds, i.e.
-<math>
-  <mfrac>
-    <mn>1</mn>
-    <mn>1'000'000'000</mn>
-  </mfrac>
-</math>
-second. The time in the third column is “humanized” to give us a better sense of
-the scale here: we imagine 1ns maps to 1min.
+<math><mfrac><mn>1</mn><mn>1'000'000'000</mn></mfrac></math> second. The time in
+the third column is “humanized” to give us a better sense of the scale here: we
+imagine 1ns maps to 1min.
 
 </figcaption>
 
@@ -503,7 +501,7 @@ from memory. That's why we try to avoid allocations as much as possible.
 
 <figure>
 
-<svg viewBox="0 0 200 35" role="img">
+<svg viewBox="0 0 200 55" role="img">
   <style>
   text { font-size: 4pt }
   circle {
@@ -511,6 +509,7 @@ from memory. That's why we try to avoid allocations as much as possible.
     animation: 4s linear 0s infinite alternate slide;
   }
   .l1 { animation-duration: .5s }
+  .l2 { animation-duration: 2s }
   .ram { animation-duration: 50s }
   @keyframes slide {
     from {
@@ -523,15 +522,21 @@ from memory. That's why we try to avoid allocations as much as possible.
   </style>
   <text x="0" y="12">CPU</text>
   <text x="0" y="27">CPU</text>
+  <text x="0" y="42">CPU</text>
   <text x="180" y="12">L1</text>
-  <text x="180" y="27">RAM</text>
+  <text x="180" y="27">L2</text>
+  <text x="180" y="42">RAM</text>
   <circle cx="0" cy="10" r="4" class="l1" />
-  <circle cx="0" cy="25" r="4" class="ram" />
+  <circle cx="0" cy="25" r="4" class="l2" />
+  <circle cx="0" cy="40" r="4" class="ram" />
 </svg>
 
 <figcaption>
 
-Not comfortable with numbers? Let's try to visualise it with 1ns = 1s!
+Not comfortable with numbers? Let's try to visualise it with 1ns = 1s! On
+the left: the CPU. On the right, the L1 cache, the L2 cache, and the RAM. The
+“balls” represent the time it takes to move information between the CPU and the
+L1/L2 caches or the RAM.
 
 </figcaption>
 
@@ -572,8 +577,8 @@ the hope of making the memory allocator happier. Possible solutions:
 
 {% end %}
 
-Excellent ideas. Let's track which sorter creates the problem. We start
-with the sorter that was recently modified: `latest_event`. In short, this sorter
+Excellent ideas. Let's track which sorter creates the problem. We start with
+the sorter that was recently modified: `latest_event`. In short, this sorter
 compares the `LatestEventValue` of two rooms: the idea is that rooms with a
 `LatestEventValue` representing a _local event_, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, [let's look at
@@ -660,7 +665,8 @@ wasn't the only problem.
 
 ## Lock Contention
 
-The assiduous reader may have noticed that we are still dealing with a lock here.
+The assiduous reader may have noticed that we are still dealing with a lock
+here.
 
 ```rust
 self.info.read().latest_event.…
@@ -669,7 +675,8 @@ self.info.read().latest_event.…
 //        this read lock acquisition
 ```
 
-Do you remember we had 322'042 allocations? It represents the number of times the `latest_event` method was called basically, which means…
+Do you remember we had 322'042 allocations? It represents the number of times
+the `latest_event` method was called basically, which means…
 
 {% comte() %}
 
@@ -686,8 +693,8 @@ a climax.
 
 Anyway. Avoiding a lock isn't an easy task. However, this lock around `info`
 is particularly annoying because it's called by almost all sorters! They need
-information about a `Room`; all the information is in this `info` field, which is a
-read-write lock. Hmmm.
+information about a `Room`; all the information is in this `info` field, which
+is a read-write lock. Hmmm.
 
 Let's change our strategy. We need to take a step back:
 
@@ -779,8 +786,8 @@ On my system for example, the L1 (data) cache size is 65Kb, and the cache line
 size is 128 bytes.
 
 Ideally, we —at the very least— want one `RoomListItem` to fit in a cache line.
-Compacting the type to avoid inner padding would be ideal. If there is a
-_cache miss_ in L1, the CPU will look at the next cache, so L2, and so on, until
+Compacting the type to avoid inner padding would be ideal. If there is a _cache
+miss_ in L1, the CPU will look at the next cache, so L2, and so on, until
 reaching the main memory. So the cost of a cache miss is: look up in L1, plus
 cache miss, plus look up in L2, etc.
 
@@ -803,9 +810,9 @@ pub fn new_sorter() -> impl Sorter {
 }
 ```
 
-The lock acquisitions happen only in `refresh_cached_data`, when a new
-update happens, not during the filtering or sorting anymore. Let's see what
-the benchmark has to say now.
+The lock acquisitions happen only in `refresh_cached_data`, when a new update
+happens, not during the filtering or sorting anymore. Let's see what the
+benchmark has to say now.
 
 Before:
 
@@ -857,8 +864,8 @@ suggests we are not hitting the RAM anymore in the filters and sorters (not
 in an uncivilised way at least). Also, it's funny that the difference between
 an L1/L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
-here. It also suggests we are hitting L1 more frequently than L2, which is a good
-sign!
+here. It also suggests we are hitting L1 more frequently than L2, which is a
+good sign!
 
 {% end %}
 
@@ -896,10 +903,10 @@ The second graph is the kind of graph I like. Predictable.
 
 In this concrete case, it's difficult to improve the performance further because
 `RoomListItem` is used by sorters, and by filters, and in other places of the
-code. The current usage of `RoomListItem` falls into the definition of _Array
-of Structures_ in the Data-oriented Design terminology. After all, we clearly
-have a `Vec<RoomListItem>` at the root of everything. It is efficient but
-_Structure of Arrays_ might be even more efficient. Instead of having:
+code. The current usage of `RoomListItem` falls into the definition of _Array of
+Structures_ in the Data-oriented Design terminology. After all, we clearly have
+a `Vec<RoomListItem>` at the root of everything. It is efficient but _Structure
+of Arrays_ might be even more efficient. Instead of having:
 
 ```rust
 struct RoomListItem {
@@ -975,12 +982,14 @@ You can view the patch [Fix an infinite loop when `SortBy<Stream<Item
 type][eyeball-im-util#80] to learn more.
 
 I think this is a concrete example of when jumping on an optimisation can lead
-to a bug. I'm not saying we should not prematurely optimise our programs: I'm a partisan of the “we should” camp. I'm
-saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoided if we hadn't taken a shortcut in this algorithm. It's important to be
-correct first, then measure, then improve.
+to a bug. I'm not saying we should not prematurely optimise our programs: I'm
+a partisan of the “we should” camp. I'm saying that bugs can be pretty subtle
+sometimes, and this bug would have been avoided if we hadn't taken a shortcut in
+this algorithm. It's important to be correct first, then measure, then improve.
 
 I hope you've learned a couple of things, and you've enjoyed your reading.
+
+I would to thank [Andy Balaam][andy] for the reviews and the feedback!
 
 [defy]: https://dygma.com/pages/defy
 [Element]: https://element.io/
@@ -1021,6 +1030,7 @@ I hope you've learned a couple of things, and you've enjoyed your reading.
 [best-of-talks]: https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf
 [roomlistitem]: https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4
 [eyeball-im-util#80]: https://github.com/jplatte/eyeball/pull/80
+[andy]: https://artificialworlds.net/blog/
 
 [^vectordiff_on_other_uis]: On [SwiftUI], there is the
     [`CollectionDifference.Change`] enum. For example: `VectorDiff::PushFront`
