@@ -938,23 +938,23 @@ summarise Wikipedia entries.
 
 Of course you're valuable! Now, the surprise.
 
-## The Desert
+## The Dessert
 
-Of course, let's not forget about our desert! I won't dig too much: the
-patch contains all the necessary gory details. Shortly, it's about how
+Of course, let's not forget about our dessert! I won't dig too much: the
+patch contains all the necessary gory details. In short, it's about how
 `VectorDiff::Set` can create a nasty bug in `SortBy`. Basically, when a value
-in the vector was updated, a `VectorDiff::Set` was emitted. `SortBy` was then
-responsible to compute a new `VectorDiff`:
+in the vector is updated, a `VectorDiff::Set` is emitted. `SortBy` is then
+responsible for computing a new `VectorDiff`:
 
 - it was calculating the old position of the value,
 - it was calculating the new position,
-- depending of that, it was emitting the appropriate `VectorDiff`s.
+- depending on that, it was emitting the appropriate `VectorDiff`s.
 
 However, the old “value” wasn't removed from the buffer _immediately_ and
 not _every time_. In theory, it should not cause any problem —it was an
 optimisation after all— except if… the items manipulated by the stream are
 “shallow clones”. Shallow cloning a value won't copy the value entirely: we get
-a new value, but its state is synced with the original value. It happens with
+a new value, but its state is synced with the original value. This happens with
 types such as:
 
 ```rust
@@ -977,7 +977,7 @@ type][eyeball-im-util#80] to learn more.
 I think this is a concrete example of when jumping on an optimisation can lead
 to a bug. I'm not saying we should not prematurely optimise our programs: I'm a partisan of the “we should” camp. I'm
 saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoidable without taking a shortcut in this algorithm. It's important to be
+avoided if we hadn't taken a shortcut in this algorithm. It's important to be
 correct first, then measure, then improve.
 
 I hope you've learned a couple of things, and you've enjoyed your reading.
