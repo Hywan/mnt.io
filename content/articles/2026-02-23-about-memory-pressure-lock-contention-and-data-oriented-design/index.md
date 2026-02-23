@@ -20,8 +20,8 @@ and <em lang="fr">bon appétit !</em>
 
 ## On a Beautiful Morning…
 
-Switching on my [Dygma Defy][defy], unlocking my computer, reading the news from
-my colleagues, when suddenly I come across this message:
+While powering on my [Dygma Defy][defy], unlocking my computer, and checking
+messages from my colleagues, I suddenly come across this one:
 
 > Does anyone also experience a frozen room list?
 
@@ -989,7 +989,8 @@ this algorithm. It's important to be correct first, then measure, then improve.
 
 I hope you've learned a couple of things, and you've enjoyed your reading.
 
-I would like to thank [Andy Balaam][andy] for the reviews and the feedback!
+I would like to thank [Andy Balaam][andy] and [Damir Jelić][damir] for the
+reviews and the feedback!
 
 [defy]: https://dygma.com/pages/defy
 [Element]: https://element.io/
@@ -1031,6 +1032,7 @@ I would like to thank [Andy Balaam][andy] for the reviews and the feedback!
 [roomlistitem]: https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4
 [eyeball-im-util#80]: https://github.com/jplatte/eyeball/pull/80
 [andy]: https://artificialworlds.net/blog/
+[damir]: https://github.com/poljar
 
 [^vectordiff_on_other_uis]: On [SwiftUI], there is the
     [`CollectionDifference.Change`] enum. For example: `VectorDiff::PushFront`
