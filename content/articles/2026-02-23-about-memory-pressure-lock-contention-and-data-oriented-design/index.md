@@ -48,7 +48,7 @@ Let's focus on the part that interests us today: _Sort the rooms_. The Room Lis
 holds… no rooms. It actually provides a _stream of updates about rooms_; more
 precisely a `Stream<Item = Vec<VectorDiff<Room>>>`. What does this mean? The
 stream yields a vector of “diffs” of rooms. I'm writing [a series about reactive
-programming](@/series/reactive-programming-in-rust/_index.md) - you might be
+programming](@/series/reactive-programming-in-rust/_index.md) — you might be
 interested to read more about it. Otherwise, here is what you need to know.
 
 [The `VectorDiff` type][`VectorDiff`] comes from [the `eyeball-im`
