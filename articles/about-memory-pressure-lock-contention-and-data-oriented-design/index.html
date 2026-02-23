@@ -985,23 +985,23 @@ summarise Wikipedia entries.</p>
   </div>
 </div>
 <p>Of course you&#39;re valuable! Now, the surprise.</p>
-<h2 id="">The Desert<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h2 id="">The Dessert<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
 </h2>
-<p>Of course, let&#39;s not forget about our desert! I won&#39;t dig too much: the
-patch contains all the necessary gory details. Shortly, it&#39;s about how
+<p>Of course, let&#39;s not forget about our dessert! I won&#39;t dig too much: the
+patch contains all the necessary gory details. In short, it&#39;s about how
 <code>VectorDiff::Set</code> can create a nasty bug in <code>SortBy</code>. Basically, when a value
-in the vector was updated, a <code>VectorDiff::Set</code> was emitted. <code>SortBy</code> was then
-responsible to compute a new <code>VectorDiff</code>:</p>
+in the vector is updated, a <code>VectorDiff::Set</code> is emitted. <code>SortBy</code> is then
+responsible for computing a new <code>VectorDiff</code>:</p>
 <ul>
 <li>it was calculating the old position of the value,</li>
 <li>it was calculating the new position,</li>
-<li>depending of that, it was emitting the appropriate <code>VectorDiff</code>s.</li>
+<li>depending on that, it was emitting the appropriate <code>VectorDiff</code>s.</li>
 </ul>
 <p>However, the old “value” wasn&#39;t removed from the buffer <em>immediately</em> and
 not <em>every time</em>. In theory, it should not cause any problem —it was an
 optimisation after all— except if… the items manipulated by the stream are
 “shallow clones”. Shallow cloning a value won&#39;t copy the value entirely: we get
-a new value, but its state is synced with the original value. It happens with
+a new value, but its state is synced with the original value. This happens with
 types such as:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[derive(</span><span class="z-entity z-name">Clone</span><span>)]</span></span>
 <span class="giallo-l"><span class="z-storage">struct</span><span class="z-entity z-name"> S</span><span> {</span></span>
@@ -1016,7 +1016,7 @@ type</a> to learn more.</p>
 <p>I think this is a concrete example of when jumping on an optimisation can lead
 to a bug. I&#39;m not saying we should not prematurely optimise our programs: I&#39;m a partisan of the “we should” camp. I&#39;m
 saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoidable without taking a shortcut in this algorithm. It&#39;s important to be
+avoided if we hadn&#39;t taken a shortcut in this algorithm. It&#39;s important to be
 correct first, then measure, then improve.</p>
 <p>I hope you&#39;ve learned a couple of things, and you&#39;ve enjoyed your reading.</p>
 <section class="footnotes">
