@@ -681,22 +681,22 @@ Do you remember we had 322'042 allocations? It represents the number of times t
 
 {% end %}
 
-… yes… and please, stop interrupting me, I was trying to build up a suspense for
+… yes… and please, stop interrupting me, I was trying to build up the suspense for
 a climax.
 
 Anyway. Avoiding a lock isn't an easy task. However, this lock around `info`
 is particularly annoying because it's called by almost all sorters! They need
-information about a `Room`; all information are in this `info` field, which is a
+information about a `Room`; all the information is in this `info` field, which is a
 read-write lock. Hmmm.
 
 Let's change our strategy. We need to take a step back:
 
-1. The sorters need these data.
-2. The data won't change when the sorters run.
-3. When a data changes, it actually runs the sorters.
+1. The sorters need this data.
+2. Running the sorters won't change this data.
+3. When the data does change the sorters will be re-run.
 
 Maybe we could fetch, ahead of time, all the necessary data for all sorters in
-a single type: it will be refreshed when the data change, so right before the
+a single type: it will be refreshed when the data changes, which is right before the
 sorters run again.
 
 {% procureur() %}
@@ -735,8 +735,8 @@ I highly recommend watching the following talks[^talks] if you want to learn mor
 
 </details>
 
-So. Let's be serious: I suggest to try to do some Data-oriented Design here,
-shall we? We start by putting all our data in a single type:
+So. Let's be serious: I suggest trying to do some Data-oriented Design here.
+We start by putting all our data in a single type:
 
 ```rust
 pub struct RoomListItem {
@@ -779,10 +779,10 @@ On my system for example, the L1 (data) cache size is 65Kb, and the cache line
 size is 128 bytes.
 
 Ideally, we —at the very least— want one `RoomListItem` to fit in a cache line.
-Compacting the type to avoid inner paddings would be ideal. If there is a
+Compacting the type to avoid inner padding would be ideal. If there is a
 _cache miss_ in L1, the CPU will look at the next cache, so L2, and so on, until
-reaching the main memory. The cost of a cache miss is then: look up in L1, plus
-cache miss, plus look up in L2 etc.
+reaching the main memory. So the cost of a cache miss is: look up in L1, plus
+cache miss, plus look up in L2, etc.
 
 [`sysctl`]: https://man.freebsd.org/cgi/man.cgi?query=sysctl
 [`getconf`]: https://linux.die.net/man/1/getconf
@@ -803,8 +803,8 @@ pub fn new_sorter() -> impl Sorter {
 }
 ```
 
-The lock acquisitions happen only in the `refresh_cached_data`, when a new
-update happens, but not during the filtering or sorting anymore. Let's see what
+The lock acquisitions happen only in `refresh_cached_data`, when a new
+update happens, not during the filtering or sorting anymore. Let's see what
 the benchmark has to say now.
 
 Before:
@@ -849,15 +849,15 @@ the difference is pretty noticeable).
 
 Data-oriented Design is fascinating. Understanding how computers work, how the
 memory and the CPU work, is crucial to optimise algorithms. The changes we've
-applied are small compared to performance improvement it has brought!
+applied are small compared to the performance improvement they have provided!
 
 You said everything above 200ms is unacceptable. With 676µs, I reckon the target
 is reached. It's even below the napkin maths about main memory access, which
 suggests we are not hitting the RAM anymore in the filters and sorters (not
 in an uncivilised way at least). Also, it's funny that the difference between
-a L1-L2 caches access (1-4ns) and a main memory access (100ns) is in average
+an L1/L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
-here. It confirms we are hitting L1 more frequently than L2, which is a good
+here. It also suggests we are hitting L1 more frequently than L2, which is a good
 sign!
 
 {% end %}
@@ -925,8 +925,8 @@ let rooms: RoomListItems;
 
 This is not applicable in our situation because sorters are iterating over
 different fields. However, if you're sure only one field in a single loop is
-used, this _Structure of Arrays_ is cache friendlier as it loads less data in
-the CPU caches: less padding, less useless bytes. By making a better use of the
+used, this _Structure of Arrays_ is cache friendlier as it loads less data into
+the CPU caches: less padding, fewer useless bytes. By making better use of the
 cache line, not only we are pretty sure the program will run faster, but the
 CPU will be better at predicting what data will be loaded in the cache line,
 boosting the performance even more!
