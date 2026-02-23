@@ -107,7 +107,7 @@ i.e. the room's messages). Some expectations for this component:</p>
 holds… no rooms. It actually provides a <em>stream of updates about rooms</em>; more
 precisely a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;Room&gt;&gt;&gt;</code>. What does this mean? The
 stream yields a vector of “diffs” of rooms. I'm writing <a href="https://mnt.io/series/reactive-programming-in-rust/">a series about reactive
-programming</a> - you might be
+programming</a> — you might be
 interested to read more about it. Otherwise, here is what you need to know.</p>
 <p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/enum.VectorDiff.html">The <code>VectorDiff</code> type</a> comes from <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/">the <code>eyeball-im</code>
 crate</a>, initially created for the Matrix Rust SDK as a solid

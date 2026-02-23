@@ -60,7 +60,7 @@ i.e. the room&#x27;s messages). Some expectations for this component:&lt;&#x2F;p
 holds… no rooms. It actually provides a &lt;em&gt;stream of updates about rooms&lt;&#x2F;em&gt;; more
 precisely a &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;Room&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. What does this mean? The
 stream yields a vector of “diffs” of rooms. I&#x27;m writing &lt;a href=&quot;https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;reactive-programming-in-rust&#x2F;&quot;&gt;a series about reactive
-programming&lt;&#x2F;a&gt; - you might be
+programming&lt;&#x2F;a&gt; — you might be
 interested to read more about it. Otherwise, here is what you need to know.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;enum.VectorDiff.html&quot;&gt;The &lt;code&gt;VectorDiff&lt;&#x2F;code&gt; type&lt;&#x2F;a&gt; comes from &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;&quot;&gt;the &lt;code&gt;eyeball-im&lt;&#x2F;code&gt;
 crate&lt;&#x2F;a&gt;, initially created for the Matrix Rust SDK as a solid
