@@ -673,20 +673,20 @@ wasn&#x27;t the only problem.&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;… yes… and please, stop interrupting me, I was trying to build up a suspense for
+&lt;p&gt;… yes… and please, stop interrupting me, I was trying to build up the suspense for
 a climax.&lt;&#x2F;p&gt;
 &lt;p&gt;Anyway. Avoiding a lock isn&#x27;t an easy task. However, this lock around &lt;code&gt;info&lt;&#x2F;code&gt;
 is particularly annoying because it&#x27;s called by almost all sorters! They need
-information about a &lt;code&gt;Room&lt;&#x2F;code&gt;; all information are in this &lt;code&gt;info&lt;&#x2F;code&gt; field, which is a
+information about a &lt;code&gt;Room&lt;&#x2F;code&gt;; all the information is in this &lt;code&gt;info&lt;&#x2F;code&gt; field, which is a
 read-write lock. Hmmm.&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s change our strategy. We need to take a step back:&lt;&#x2F;p&gt;
 &lt;ol&gt;
-&lt;li&gt;The sorters need these data.&lt;&#x2F;li&gt;
-&lt;li&gt;The data won&#x27;t change when the sorters run.&lt;&#x2F;li&gt;
-&lt;li&gt;When a data changes, it actually runs the sorters.&lt;&#x2F;li&gt;
+&lt;li&gt;The sorters need this data.&lt;&#x2F;li&gt;
+&lt;li&gt;Running the sorters won&#x27;t change this data.&lt;&#x2F;li&gt;
+&lt;li&gt;When the data does change the sorters will be re-run.&lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
 &lt;p&gt;Maybe we could fetch, ahead of time, all the necessary data for all sorters in
-a single type: it will be refreshed when the data change, so right before the
+a single type: it will be refreshed when the data changes, which is right before the
 sorters run again.&lt;&#x2F;p&gt;
 &lt;div class=&quot;conversation&quot; data-character=&quot;procureur&quot;&gt;
   &lt;div class=&quot;conversation--character&quot;&gt;
@@ -750,8 +750,8 @@ contention and the memory pressure entirely!&lt;&#x2F;p&gt;
   &lt;&#x2F;figcaption&gt;
 &lt;&#x2F;figure&gt;
 &lt;&#x2F;details&gt;
-&lt;p&gt;So. Let&#x27;s be serious: I suggest to try to do some Data-oriented Design here,
-shall we? We start by putting all our data in a single type:&lt;&#x2F;p&gt;
+&lt;p&gt;So. Let&#x27;s be serious: I suggest trying to do some Data-oriented Design here.
+We start by putting all our data in a single type:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;pub&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt; struct&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; RoomListItem&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; Cache of `Room::latest_event_timestamp`.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    cached_latest_event_timestamp&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;MilliSecondsSinceUnixEpoch&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -796,10 +796,10 @@ run &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot
 &lt;p&gt;On my system for example, the L1 (data) cache size is 65Kb, and the cache line
 size is 128 bytes.&lt;&#x2F;p&gt;
 &lt;p&gt;Ideally, we —at the very least— want one &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; to fit in a cache line.
-Compacting the type to avoid inner paddings would be ideal. If there is a
+Compacting the type to avoid inner padding would be ideal. If there is a
 &lt;em&gt;cache miss&lt;&#x2F;em&gt; in L1, the CPU will look at the next cache, so L2, and so on, until
-reaching the main memory. The cost of a cache miss is then: look up in L1, plus
-cache miss, plus look up in L2 etc.&lt;&#x2F;p&gt;
+reaching the main memory. So the cost of a cache miss is: look up in L1, plus
+cache miss, plus look up in L2, etc.&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
@@ -813,8 +813,8 @@ example, the &lt;code&gt;latest_event&lt;&#x2F;code&gt; sorter now looks like:&l
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    move&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; |&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;left&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; right&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;| -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Ordering&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; cmp&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;latest_events&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; left&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; right&lt;&#x2F;span&gt;&lt;span&gt;) }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;The lock acquisitions happen only in the &lt;code&gt;refresh_cached_data&lt;&#x2F;code&gt;, when a new
-update happens, but not during the filtering or sorting anymore. Let&#x27;s see what
+&lt;p&gt;The lock acquisitions happen only in &lt;code&gt;refresh_cached_data&lt;&#x2F;code&gt;, when a new
+update happens, not during the filtering or sorting anymore. Let&#x27;s see what
 the benchmark has to say now.&lt;&#x2F;p&gt;
 &lt;p&gt;Before:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;shellscript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; cargo bench&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other&quot;&gt; --bench&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; room_list&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -857,14 +857,14 @@ the benchmark runs (the benchmark does a lot of allocations for the setup, but
 the difference is pretty noticeable).&lt;&#x2F;p&gt;
 &lt;p&gt;Data-oriented Design is fascinating. Understanding how computers work, how the
 memory and the CPU work, is crucial to optimise algorithms. The changes we&#x27;ve
-applied are small compared to performance improvement it has brought!&lt;&#x2F;p&gt;
+applied are small compared to the performance improvement they have provided!&lt;&#x2F;p&gt;
 &lt;p&gt;You said everything above 200ms is unacceptable. With 676µs, I reckon the target
 is reached. It&#x27;s even below the napkin maths about main memory access, which
 suggests we are not hitting the RAM anymore in the filters and sorters (not
 in an uncivilised way at least). Also, it&#x27;s funny that the difference between
-a L1-L2 caches access (1-4ns) and a main memory access (100ns) is in average
+an L1&#x2F;L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
-here. It confirms we are hitting L1 more frequently than L2, which is a good
+here. It also suggests we are hitting L1 more frequently than L2, which is a good
 sign!&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
@@ -919,8 +919,8 @@ have a &lt;code&gt;Vec&amp;lt;RoomListItem&amp;gt;&lt;&#x2F;code&gt; at the root
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; rooms&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; RoomListItems&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;This is not applicable in our situation because sorters are iterating over
 different fields. However, if you&#x27;re sure only one field in a single loop is
-used, this &lt;em&gt;Structure of Arrays&lt;&#x2F;em&gt; is cache friendlier as it loads less data in
-the CPU caches: less padding, less useless bytes. By making a better use of the
+used, this &lt;em&gt;Structure of Arrays&lt;&#x2F;em&gt; is cache friendlier as it loads less data into
+the CPU caches: less padding, fewer useless bytes. By making better use of the
 cache line, not only we are pretty sure the program will run faster, but the
 CPU will be better at predicting what data will be loaded in the cache line,
 boosting the performance even more!&lt;&#x2F;p&gt;
