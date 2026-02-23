@@ -565,17 +565,18 @@ article {
         }
       }
     }
+  }
 
-    .previous-next-episodes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-large);
-      margin-block-start: var(--space-very-large);
+  nav.previous-next-episodes,
+  nav.previous-next-articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-large);
+    margin-block-start: var(--space-very-large);
 
-      > * {
-        flex: 1;
-        min-width: fit-content;
-      }
+    > * {
+      flex: 1;
+      min-width: fit-content;
     }
   }
 }
