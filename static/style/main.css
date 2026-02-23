@@ -344,7 +344,7 @@ figure {
     color: var(--_figcaption-color, currentColor);
     margin-block-start: var(--_block-space);
     margin-inline: auto;
-    max-width: 70%;
+    max-width: 80%;
     text-align: center;
     text-wrap: balance;
 
