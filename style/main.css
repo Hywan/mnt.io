@@ -344,7 +344,7 @@ figure {
     color: var(--_figcaption-color, currentColor);
     margin-block-start: var(--_block-space);
     margin-inline: auto;
-    max-width: 70%;
+    max-width: 80%;
     text-align: center;
     text-wrap: balance;
 
@@ -648,6 +648,8 @@ article {
   gap: var(--_space);
   color-scheme: dark;
   color: var(--color-dark);
+  min-width: 0;
+  min-height: 0;
   padding: var(--_space);
   border-radius: var(--space-small);
   background: var(--color-accent-darker);
@@ -676,6 +678,8 @@ article {
   }
 
   > .conversation--message {
+    min-width: 0;
+
     a, a:hover, a:focus {
       color: currentColor;
       text-decoration-color: currentColor;
