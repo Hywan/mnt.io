@@ -989,7 +989,7 @@ this algorithm. It's important to be correct first, then measure, then improve.
 
 I hope you've learned a couple of things, and you've enjoyed your reading.
 
-I would to thank [Andy Balaam][andy] for the reviews and the feedback!
+I would like to thank [Andy Balaam][andy] for the reviews and the feedback!
 
 [defy]: https://dygma.com/pages/defy
 [Element]: https://element.io/
