@@ -314,7 +314,7 @@ for our memory pressure and lock contention.
 
 ## Randomness
 
-Taking a step back, I was asking myself: <q>Is it really frozen?</q>. Cherry
+Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The cherry
 on the cake: I was unable to reproduce the problem! Even the reporters of
 the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.
@@ -339,12 +339,12 @@ Sometimes, up to 5 minutes on a phone. Alright, we have two problems to solve
 here:
 
 1. Why is it random?
-2. Why so much memory allocations and deallocations?
+2. Why so many memory allocations and deallocations?
 
 The second problem will be discussed in the next section. Let's start with the
 first problem in this section, shall we?
 
-Let's dig by the beginning. `eyeball_im_util::vector::sort::SortBy` is used
+Let's start at the beginning. `eyeball_im_util::vector::sort::SortBy` is used
 like so:
 
 ```rust
@@ -356,7 +356,7 @@ stream
     ]))
 ```
 
-`sort_by` receives a sorter: [`new_sorter_lexicographic`], it's from
+`sort_by` receives a sorter: [`new_sorter_lexicographic`]. It's from
 [`matrix_sdk_ui::room_list::sorters`], and it's a constructor for a…
 lexicographic sorter. All sorters must implement [the `Sorter` trait][`Sorter`].
 Once again, it's a trait from `matrix_sdk_ui`, nothing fancy, it's simply this:
@@ -391,14 +391,14 @@ products].
 
 {% end %}
 
-To make it short, we are executing 3 sorters: by _latest event_, by _recency_
+In short, we are executing 3 sorters: by _latest event_, by _recency_
 and by _name_.
 
 None of these sorters are using any form of randomness. It's a
 <em lang="fr">cul-de-sac</em>. Let's take a step back by looking at `SortBy`
-in `eyeball_im_util` itself maybe? <i>scroll the documentation</i>, not here,
+in `eyeball_im_util` itself maybe? <i>Scroll the documentation</i>, not here,
 <i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
-on the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
+into the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
 
 > When looking for the _position_ of a value (e.g. where to insert a new
 > value?), `Vector::binary_search_by` is used — it is possible because the
@@ -429,11 +429,11 @@ quicksort][`quicksort`].
 
 Phew. Finally. Time for a cup of tea and a biscuit[^biscuit].
 
-My guess here is the following. Depending of the (pseudo randomly) generated
-pivot index, the number of comparisons aren't identical. We can enter
-in a pathological case where more comparisons means more memory pressure,
+My guess here is the following. Depending on the (pseudo randomly) generated
+pivot index, the number of comparisons may vary each time this runs. We can enter
+a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List<sup><abbr
-title="Trademark">TM</abbr></sup>, <i>play a horror movie music</i>!
+title="Trademark">TM</abbr></sup>, <i>play horror movie music</i>!
 
 ## Memory Pressure
 
