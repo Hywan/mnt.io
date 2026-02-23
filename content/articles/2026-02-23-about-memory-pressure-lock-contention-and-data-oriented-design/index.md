@@ -1,7 +1,7 @@
 +++
-title = "About memory pressure, lock contention, and data-oriented design"
-date = "2026-02-12"
-description = ""
+title = "About memory pressure, lock contention, and Data-oriented Design"
+date = "2026-02-23"
+description = "I illustrate how _Data-oriented Design_ helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem/s to 1.4M elem/s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck."
 [taxonomies]
 keywords=["rust", "performance", "lock", "memory", "data-oriented design"]
 [extra]
@@ -9,12 +9,14 @@ pinned = true
 +++
 
 I'm here to narrate you a story about performance. Recently, I was in the same
-room than a Memory Pressure and a Lock Contention. It took me a while to recognize
-them. The legend says it only happens in obscure, low-level systems, but I'm
-here to refute the legend. While exploring, I had the pleasure to fix a funny
-bug in a higher-order stream: lucky us, to top it all off, we even have a sweet
-treat! I believe we have all the ingredients for a juicy story. Let's cook, and
-<em lang="fr">bon appétit !</em>
+room than a Memory Pressure and a Lock Contention. It took me a while to
+recognize them. The legend says it only happens in obscure, low-level systems,
+but I'm here to refute the legend. While exploring, I had the pleasure to fix a
+funny bug in a higher-order stream: lucky us, to top it all off, we even have a
+sweet treat! This story is also a pretext to introduce you Data-oriented Design,
+and to show how it has improved the execution time by 98.7% and the throughput
+by 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
+and <em lang="fr">bon appétit !</em>
 
 ## On a Beautiful Morning…
 
@@ -32,9 +34,9 @@ where the highest is for User Interfaces (UI) with `matrix_sdk_ui`. Despite
 being a bit opinionated, they are designed to provide high-quality features
 everybody expects in a modern Matrix client.
 
-One of them is the Room List. The Room List is the place where most of users
-spent their time in a messaging application (along with the Timeline, i.e. the
-room's messages). Some expectations from this component:
+One of them is the Room List. The Room List is the place where most users spent
+their time in a messaging application (along with the Timeline, i.e. the room's
+messages). Some expectations from this component:
 
 - Be superfast,
 - List all the rooms,
@@ -42,7 +44,7 @@ room's messages). Some expectations from this component:
 - Filter the rooms,
 - Sort the rooms.
 
-Let's focus on the part that interests us today: _Sort the rooms_. The Room List
+Let's focus on the part that interests us today: _Sort the rooms_. The Room List
 holds… no room. It actually provides a _stream of updates about rooms_; more
 precisely a `Stream<Item = Vec<VectorDiff<Room>>>`. What does it mean? This
 stream yields a vector of “diffs” of rooms. I'm writing [a series about reactive
@@ -91,17 +93,17 @@ It represents a _change_ in [an `ObservableVector`][`ObservableVector`].
 This is like a `Vec`, but [one can subscribe to the
 changes][`ObservableVector::subscribe`], and will receive… well… `VectorDiff`s!
 
-The Room List type merges several streams into a single stream representing
+The Room List type merges several streams into a single stream representing
 the list of rooms. For example, let's imagine the room at index 3 receives a
 new message. Its “preview” (the _latest event_ displayed beneath the room's
-name, you know, <q>Alice: Hello!</q>) has changed. Moreover, the Room List is
+name, you know, <q>Alice: Hello!</q>) changes. Moreover, the Room List is
 also sorting rooms by their “recency” (the _time_ of the room). And since the
 “preview” has changed, its “recency” changes too, which means the room is sorted
-and re-positioned. Then, we expect the Room List's stream to yield:
+and re-positioned. Then, we expect the Room List's stream to yield:
 
 1. `VectorDiff::Set { index: 3, value: new_room }` because of the new “preview”,
 2. `VectorDiff::Remove { index: 3 }` to remove the room… immediately followed by
-3. `VectorDiff::PushFront { value: new_room }` to insert the room at the top of the Room List.
+3. `VectorDiff::PushFront { value: new_room }` to insert the room at the top of the Room List.
 
 This reactive programming mechanism has proven to be extremely efficient.
 
@@ -129,11 +131,11 @@ problem:
 
 > What frozen means here?
 
-The Room List is simply… _blank_, _empty_, <em lang="fr">vide</em>, <em
+The Room List is simply… _blank_, _empty_, <em lang="fr">vide</em>, <em
 lang="es">vacía</em>, <em lang="it">vuoto</em>, <em lang="ar">خلو</em>… well,
 you get the idea.
 
-> What could freeze the Room List?
+> What could freeze the Room List?
 
 What are our options?
 
@@ -142,9 +144,9 @@ What are our options?
 It would be a real pleasure if you let me assist you in this task.
 
 - The network sync is not running properly, hence giving the _impression_ of a
-  frozen Room List? Hmm, no, everything works as expected here. Moreover, local
+  frozen Room List? Hmm, no, everything works as expected here. Moreover, local
   data should be displayed.
-- The “source streams” used by the Room List are not yielding the expected
+- The “source streams” used by the Room List are not yielding the expected
   updates? No, everything works like a charm.
 - The “merge of streams” is broken for some reasons? No, still not.
 - The filtering of the streams? Not touched since a long time.
@@ -152,7 +154,7 @@ It would be a real pleasure if you let me assist you in this task.
 
 {% end %}
 
-Indeed, we have changed one sorter recently. Let's take a look at how this Room List stream is computed, shall we?
+Indeed, we have changed one sorter recently. Let's take a look at how this Room List stream is computed, shall we?
 
 ```rust
 let stream = stream! {
@@ -161,12 +163,12 @@ let stream = stream! {
         let filter = filter_cell.take().await;
 
         // Get the “raw” entries.
-        let (values, stream) = self.entries();
+        let (initial_values, stream) = self.entries();
 
         // Combine normal stream updates with other room updates.
-        let stream = merge_streams(values.clone(), stream, other_updates);
+        let stream = merge_streams(initial_values.clone(), stream, other_updates);
 
-        let (values, stream) = (values, stream)
+        let (initial_values, stream) = (initial_values, stream)
             .filter(filter)
             .sort_by(new_sorter_lexicographic(vec![
                 // Sort by latest event's kind.
@@ -179,7 +181,7 @@ let stream = stream! {
             .dynamic_head_with_initial_value(page_size, limit_stream);
 
         // Clearing the stream before chaining with the real stream.
-        yield once(ready(vec![VectorDiff::Reset { values }]))
+        yield once(ready(vec![VectorDiff::Reset { values: initial_values }]))
             .chain(stream);
     }
 }
@@ -303,14 +305,14 @@ might want to, maybe, go back to… <small>the main… subject, don't you think?
 
 {% end %}
 
-Which topic? Ah! The frozen Room List! Sorters are _not_ the culprit. There.
+Which topic? Ah! The frozen Room List! Sorters are _not_ the culprit. There.
 Happy? Short enough?
 
 These details were important. Kind of. I hope you've learned something along
-the lines. Next, let's see how a sorter works, and how it is responsible for our
-memory pressure and lock contention.
+the lines. Next, let's see how a sorter works, and how it could be responsible
+for our memory pressure and lock contention.
 
-### Randomness
+## Randomness
 
 Taking a step back, I was asking myself: <q>Is it really frozen?</q>. Cherry
 on the cake: I was unable to reproduce the problem! Even the reporters of
@@ -321,15 +323,18 @@ Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.
 
 Memory analysis of Element X in Android Studio (Element X is based on the Matrix
 Rust SDK). It presents a callback tree, with the number of allocations and
-deallocations for each node in this tree.
+deallocations for each node in this tree. Thanks [Jorge]!
 
 And, holy cow, we see **a lot** of memory allocations, exactly 322'042 to be
 precise, counting for 743Mib, for the `eyeball_im_util::vector::sort::SortBy`
-type!
+type! I don't remember exactly how many rooms are part of the Room List, but
+it's probably around 500-600.
+
+[Jorge]: https://github.com/jmartinesp
 
 {% end %}
 
-The Room List wasn't frozen. It was taking **a lot** of time to yield values.
+The Room List wasn't frozen. It was taking **a lot** of time to yield values.
 Sometimes, up to 5 minutes on a phone. Alright, we have two problems to solve
 here:
 
@@ -375,7 +380,7 @@ except… what's a lexicographic sorter?
 Should I really quote the documentation of `new_sorter_lexicographic`? My work here is turning into a tragedy.
 
 It creates a new sorter that will run multiple sorters. When the
-<math><mi>n</mi></math><sup>th</sup> sorter returns `Ordering::Equal`, the next
+<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns `Ordering::Equal`, the next
 sorter is called. It stops as soon as a sorter returns `Ordering::Greater` or
 `Ordering::Less`.
 
@@ -404,7 +409,7 @@ on the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
 
 {% comte() %}
 
-Remember that the Room List appears frozen but it is actually blank. The problem
+Remember that the Room List appears frozen but it is actually blank. The problem
 is not when the stream receives an update, but when the stream is “created”,
 i.e. when the initial items are sorted for the first time before receiving
 updates.
@@ -427,10 +432,10 @@ Phew. Finally. Time for a cup of tea and a biscuit[^biscuit].
 My guess here is the following. Depending of the (pseudo randomly) generated
 pivot index, the number of comparisons aren't identical. We can enter
 in a pathological case where more comparisons means more memory pressure,
-which means slower sorting, which means… A Frozen Room List<sup><abbr
+which means slower sorting, which means… A Frozen Room List<sup><abbr
 title="Trademark">TM</abbr></sup>, <i>play a horror movie music</i>!
 
-### Memory Pressure
+## Memory Pressure
 
 A memory allocator is responsible to… well… allocate the memory. If you believe
 it's a simple problem, please retract this offensive thought quickly; what an
@@ -463,7 +468,7 @@ your hardware, but the important part is **the scale**, keep that in mind.
 
 <figure>
 
-| Operation | Time | “Human scale”<br />(1ns = 1min) |
+| Operation | Time | “Human scale” |
 |-|-:|-:|
 | Fetch from L1 cache | 1ns | 1mn |
 | Branch misprediction | 3ns | 3mn |
@@ -496,15 +501,51 @@ Do you see the difference between the L1/L2 caches and the main memory? 1ns to
 100ns is the same difference than 1mn to 1h40. So, yes, it takes time to read
 the memory. That's why we try to avoid allocations as much as possible.
 
+<figure>
+
+<svg viewBox="0 0 200 35" role="img">
+  <style>
+  text { font-size: 4pt }
+  circle {
+    fill: oklch(69.50% .140 76.18);
+    animation: 4s linear 0s infinite alternate slide;
+  }
+  .l1 { animation-duration: .5s }
+  .ram { animation-duration: 50s }
+  @keyframes slide {
+    from {
+      transform: translateX(15%);
+    }
+    to {
+      transform: translateX(85%);
+    }
+  }
+  </style>
+  <text x="0" y="12">CPU</text>
+  <text x="0" y="27">CPU</text>
+  <text x="180" y="12">L1</text>
+  <text x="180" y="27">RAM</text>
+  <circle cx="0" cy="10" r="4" class="l1" />
+  <circle cx="0" cy="25" r="4" class="ram" />
+</svg>
+
+<figcaption>
+
+Not comfortable with numbers? Let's try to visualise it with 1ns = 1s!
+
+</figcaption>
+
+</figure>
+
 Sadly, in our case, it appears we are allocating 322'042 times to sort the
-initial rooms of the Room List, for a total of 743'151'616 bits allocated,
+initial rooms of the Room List, for a total of 743'151'616 bits allocated,
 be 287 bytes per allocation. Of course, if we are doing quick napkin
 maths[^napkin-math], it should take around 200ms. We are far from The Frozen
-Room List<sup><abbr title="Trademark">TM</abbr></sup>, but there is more going
+Room List<sup><abbr title="Trademark">TM</abbr></sup>, but there is more going
 on.[^suspens]
 
-Do you remember the memory allocator? Its role is to avoid _fragmentation_ as
-much as possible. The number of memory “blocks” isn't infinite: when memory
+Do you remember the memory allocator? Its role is to also avoid _fragmentation_
+as much as possible. The number of memory “blocks” isn't infinite: when memory
 blocks are freed, and new ones are allocated later, maybe the previous blocks
 are no longer available and cannot be reused. The allocator has to find a good
 place, while keeping fragmentation under control. Maybe the blocks must be moved
@@ -535,7 +576,7 @@ Excellent ideas. Let's track which sorter creates the problem. We start
 with the sorter recently modified: `latest_event`. Shortly, this sorter
 compares the `LatestEventValue` of two rooms: the idea is that rooms with a
 `LatestEventValue` representing a _local event_, i.e. an event that is not sent
-yet, or is sending, must be at the top of the Room List. Alright, [let's look at
+yet, or is sending, must be at the top of the Room List. Alright, [let's look at
 its core part][sorter-latestevent-v0]:
 
 ```rust
@@ -613,10 +654,11 @@ remaining 4 minutes 6 seconds then? This is still unacceptable, right?
 
 {% end %}
 
-Definitely yes! Everything above 200ms is unacceptable here. Memory pressure was
-an important problem, and it's now solved, but it wasn't the only problem.
+Definitely yes! Everything above 200ms (from our napkin maths) is unacceptable
+here. Memory pressure was an important problem, and it's now solved, but it
+wasn't the only problem.
 
-### Lock Contention
+## Lock Contention
 
 The assiduous reader may have noticed that we are still dealing with a lock here.
 
@@ -653,23 +695,24 @@ Let's change our strategy. We need to take a step back:
 2. The data won't change when the sorters run.
 3. When a data changes, it actually runs the sorters.
 
-Maybe we could fetch all the necessary data for all sorters in a single type: it
-will be refreshed when the data change, so right before the sorters are run.
+Maybe we could fetch, ahead of time, all the necessary data for all sorters in
+a single type: it will be refreshed when the data change, so right before the
+sorters run again.
 
 {% procureur() %}
 
 The idea here is to organise the data around a specific layout. The focus on the
 data layout aims at being CPU cache friendly as much as possible. This kind of
-approach is called [_data-oriented design_][dod].
+approach is called [_Data-oriented Design_][dod].
 
 [dod]: https://en.wikipedia.org/wiki/Data-oriented_design
 
 {% end %}
 
-That's correct. If the type is small enough, it can fit in the CPU caches, like
-L1 or L2. Do you remember how fast they are? 1ns and 4ns, much faster than the
-100ns for the main memory. Moreover, it removes the lock contention and the
-memory pressure entirely.
+That's correct. If the type is small enough, it can fit more easily in the
+CPU caches, like L1 or L2. Do you remember how fast they are? 1ns and 4ns,
+much faster than the 100ns for the main memory. Moreover, it removes the lock
+contention and the memory pressure entirely!
 
 <details>
 <summary>
@@ -692,7 +735,7 @@ I highly recommend watching the following talks[^talks] if you want to learn mor
 
 </details>
 
-So. Let's be serious: I suggest to try to do some data-oriented design here,
+So. Let's be serious: I suggest to try to do some Data-oriented Design here,
 shall we? We start by putting all our data in a single type:
 
 ```rust
@@ -728,22 +771,27 @@ At this point, the size of `RoomListItem` is 64 bytes, acceptably small!
 
 {% factotum() %}
 
-The L1 and L2 caches nowadays have a size of several megabytes. You can try to
-run [`sysctl hw`][`sysctl`] in a shell to see how much your hardware supports
-(look for an entry like `hw.cachelinesize` for example).
+The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
+run [`sysctl`] or [`getconf`] in a shell to see how much your hardware supports
+(look for an entry like “cache line”, or “cache line size” for example).
 
-Ideally, we at the very least want two `RoomListItem`s to fit in a CPU cache
-line. If there is a _cache miss_ in L1, the CPU will look at the next cache
-line, so L2, and so on. The cost of a cache miss is then: look up in L1, plus
+On my system for example, the L1 (data) cache size is 65Kb, and the cache line
+size is 128 bytes.
+
+Ideally, we —at the very least— want one `RoomListItem` to fit in a cache line.
+Compacting the type to avoid inner paddings would be ideal. If there is a
+_cache miss_ in L1, the CPU will look at the next cache, so L2, and so on, until
+reaching the main memory. The cost of a cache miss is then: look up in L1, plus
 cache miss, plus look up in L2 etc.
 
 [`sysctl`]: https://man.freebsd.org/cgi/man.cgi?query=sysctl
+[`getconf`]: https://linux.die.net/man/1/getconf
 
 {% end %}
 
-A bit of plumbing later, this new `RoomListItem` type is used everywhere
-by the Room List, by all its filters and all its sorters. For example, the
-`latest_event` sorter now looks like:
+[A bit of plumbing later][roomlistitem], this new `RoomListItem` type is
+used everywhere by the Room List, by all its filters and all its sorters. For
+example, the `latest_event` sorter now looks like:
 
 ```rust
 pub fn new_sorter() -> impl Sorter {
@@ -784,29 +832,37 @@ RoomList/Create/1000 rooms × 1000 events
 Boom!
 
 We don't see the 5 minutes lag mentioned by the reporters, but remember it's
-random. Nonetheless, the performance is huge. From 18.8Kelem/s to 1.4Melem/s.
-From 53ms to 676µs. The throughput has improved by 7718.5%, and the time by
-98.7%.
+random. Nonetheless, **the performance impact is huge**:
+
+- From 18.8Kelem/s to 1.4Melem/s,
+- From 53ms to 676µs, or —to compare with the same unit— 0.676ms, so **78× faster**!
+- The throughput has improved by 7718.5%, and the time by 98.7%.
 
 Can we claim victory now?
 
 {% comte() %}
 
 Apparently yes! The reporters were unable to reproduce the problem anymore. It
-seems it's solved!
+seems it's solved! Looking at profilers, we see millions fewer allocations in
+the benchmark runs (the benchmark does a lot of allocations for the setup, but
+the difference is pretty noticeable).
 
 Data-oriented Design is fascinating. Understanding how computers work, how the
 memory and the CPU work, is crucial to optimise algorithms. The changes we've
 applied are small compared to performance improvement it has brought!
 
-You said everything above 200ms is unacceptable. 676µs is 0.676ms. I reckon the
-target is reached. It's even below the napkin math about main memory access,
-which suggests we are not hitting the RAM anymore in the filters and sorters
-(not in an uncivilised way at least).
+You said everything above 200ms is unacceptable. With 676µs, I reckon the target
+is reached. It's even below the napkin maths about main memory access, which
+suggests we are not hitting the RAM anymore in the filters and sorters (not
+in an uncivilised way at least). Also, it's funny that the difference between
+a L1-L2 caches access (1-4ns) and a main memory access (100ns) is in average
+40 times faster, which looks suspiciously similar to the 78 times factor we see
+here. It confirms we are hitting L1 more frequently than L2, which is a good
+sign!
 
 {% end %}
 
-The Iteration Times is interesting to look at.
+The benchmark Iteration Times and Regression graphs are interesting to look at.
 
 <figure>
 
@@ -827,7 +883,8 @@ follow any “trend”. It's a clear sign the program is acting erratically.
 
 <figcaption>
 
-The final Iteration Times, after our patches. Notice how the points are linear.
+The final Iteration Times/Regression, after our patches. Notice how the points
+are linear.
 
 </figcaption>
 
@@ -835,9 +892,55 @@ The final Iteration Times, after our patches. Notice how the points are linear.
 
 The second graph is the kind of graph I like. Predictable.
 
-### The Desert
+{% procureur() %}
 
-Of course, let's not forget about our desert. I won't dig too much: the
+In this concrete case, it's difficult to improve the performance further because
+`RoomListItem` is used by sorters, and by filters, and in other places of the
+code. The current usage of `RoomListItem` falls into the definition of _Array
+of Structures_ in the Data-oriented Design terminology. After all, we clearly
+have a `Vec<RoomListItem>` at the root of everything. It is efficient but
+_Structure of Arrays_ might be even more efficient. Instead of having:
+
+```rust
+struct RoomListItem {
+    a: bool,
+    b: u64,
+    c: bool,
+}
+
+let rooms: Vec<RoomListItem>;
+```
+
+we would have:
+
+```rust
+struct RoomListItems {
+    a: Vec<bool>,
+    b: Vec<u64>,
+    c: Vec<bool>,
+}
+
+let rooms: RoomListItems;
+```
+
+This is not applicable in our situation because sorters are iterating over
+different fields. However, if you're sure only one field in a single loop is
+used, this _Structure of Arrays_ is cache friendlier as it loads less data in
+the CPU caches: less padding, less useless bytes. By making a better use of the
+cache line, not only we are pretty sure the program will run faster, but the
+CPU will be better at predicting what data will be loaded in the cache line,
+boosting the performance even more!
+
+Just so you know my role here is not restricted to recite documentation or to
+summarise Wikipedia entries.
+
+{% end %}
+
+Of course you're valuable! Now, the surprise.
+
+## The Desert
+
+Of course, let's not forget about our desert! I won't dig too much: the
 patch contains all the necessary gory details. Shortly, it's about how
 `VectorDiff::Set` can create a nasty bug in `SortBy`. Basically, when a value
 in the vector was updated, a `VectorDiff::Set` was emitted. `SortBy` was then
@@ -848,8 +951,8 @@ responsible to compute a new `VectorDiff`:
 - depending of that, it was emitting the appropriate `VectorDiff`s.
 
 However, the old “value” wasn't removed from the buffer _immediately_ and
-not _every time_. In practice, it should not cause any problem —it was an
-optimisation after all— except if the items manipulated by the stream are
+not _every time_. In theory, it should not cause any problem —it was an
+optimisation after all— except if… the items manipulated by the stream are
 “shallow clones”. Shallow cloning a value won't copy the value entirely: we get
 a new value, but its state is synced with the original value. It happens with
 types such as:
@@ -872,9 +975,10 @@ You can view the patch [Fix an infinite loop when `SortBy<Stream<Item
 type][eyeball-im-util#80] to learn more.
 
 I think this is a concrete example of when jumping on an optimisation can lead
-to a bug. I'm not saying we should not prematurely optimise our programs. I'm
+to a bug. I'm not saying we should not prematurely optimise our programs: I'm a partisan of the “we should” camp. I'm
 saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoidable without taking a shortcut in this algorithm.
+avoidable without taking a shortcut in this algorithm. It's important to be
+correct first, then measure, then improve.
 
 I hope you've learned a couple of things, and you've enjoyed your reading.
 
@@ -915,6 +1019,7 @@ I hope you've learned a couple of things, and you've enjoyed your reading.
 [sorter-recency-v0]: https://github.com/matrix-org/matrix-rust-sdk/blob/01c0775e5974ad8a8690f5c580e79612ddcdfa2d/crates/matrix-sdk-ui/src/room_list_service/sorters/recency.rs#L90
 [patch-0]: https://github.com/matrix-org/matrix-rust-sdk/commit/62eb1996d917fb1928bdb9bba40d78a6eefe0bbd
 [best-of-talks]: https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf
+[roomlistitem]: https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4
 [eyeball-im-util#80]: https://github.com/jplatte/eyeball/pull/80
 
 [^vectordiff_on_other_uis]: On [SwiftUI], there is the
@@ -938,9 +1043,3 @@ I hope you've learned a couple of things, and you've enjoyed your reading.
     [a playlist of interesting talks I've watched][best-of-talks]. Also
     you can read this old article [Once conference per day, for one year
     (2017)](@/articles/2018-01-25-one-conference-per-day-for-one-year-2017/index.md).
-
-<!--
-
-size of `VectorDiff<Room>` at the end is 120 bytes
-
--->
