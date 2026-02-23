@@ -443,7 +443,7 @@ A memory allocator is responsible for… well… allocating the memory. If you
 believe this is a simple problem, please retract this offensive thought quickly:
 what an oaf! Memory is managed based on the strategy or strategies used by the
 memory allocator: there is not a unique solution. Each memory allocator comes
-with tradeoffs: do you allocate and replace multiple similar small objects
+with trade-offs: do you allocate and replace multiple similar small objects
 several times in a row, do you need fixed-size blocks of memory, dynamic blocks
 etc.
 
