@@ -453,7 +453,7 @@ title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, &lt;i&gt;p
 believe this is a simple problem, please retract this offensive thought quickly:
 what an oaf! Memory is managed based on the strategy or strategies used by the
 memory allocator: there is not a unique solution. Each memory allocator comes
-with tradeoffs: do you allocate and replace multiple similar small objects
+with trade-offs: do you allocate and replace multiple similar small objects
 several times in a row, do you need fixed-size blocks of memory, dynamic blocks
 etc.&lt;&#x2F;p&gt;
 &lt;p&gt;Allocating memory is not free. The memory allocator has a cost in itself —which
