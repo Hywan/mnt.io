@@ -9,12 +9,12 @@ pinned = true
 +++
 
 I'm here to narrate you a story about performance. Recently, I was in the same
-room than a Memory Pressure and a Lock Contention. It took me a while to
-recognize them. The legend says it only happens in obscure, low-level systems,
-but I'm here to refute the legend. While exploring, I had the pleasure to fix a
+room as some Memory Pressure and some Lock Contention. It took me a while to
+recognize them. Legend says it only happens in obscure, low-level systems,
+but I'm here to refute the legend. While exploring, I had the pleasure of fixing a
 funny bug in a higher-order stream: lucky us, to top it all off, we even have a
-sweet treat! This story is also a pretext to introduce you Data-oriented Design,
-and to show how it has improved the execution time by 98.7% and the throughput
+sweet treat! This story is also a pretext to introduce you to Data-oriented Design,
+and to show how it improved execution time by 98.7% and throughput
 by 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
 and <em lang="fr">bon appétit !</em>
 
@@ -25,18 +25,18 @@ my colleagues, when suddenly I come across this message:
 
 > Does anyone also experience a frozen room list?
 
-Ah yeah, since some years now, I'm employed by [Element] to work on the [Matrix
+Ah yeah, for some years now, I've been employed by [Element] to work on the [Matrix
 Rust SDK]. If one needs to write a complete, modern, cross-platform, fast Matrix
 client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed to be used directly by
-the developers, like `matrix_sdk_crypto`. Some others are higher in the stack,
-where the highest is for User Interfaces (UI) with `matrix_sdk_ui`. Despite
-being a bit opinionated, they are designed to provide high-quality features
+crates. Some are very low in the stack and are not aimed at being used directly by
+developers, like `matrix_sdk_crypto`. Some others are higher in the stack -
+the highest is for User Interfaces (UI) with `matrix_sdk_ui`. While
+it is a bit opinionated, it is designed to provide the high-quality features
 everybody expects in a modern Matrix client.
 
-One of them is the Room List. The Room List is the place where most users spent
-their time in a messaging application (along with the Timeline, i.e. the room's
-messages). Some expectations from this component:
+One of these features is the Room List. The Room List is a place where users spend
+a lot of their time in a messaging application (along with the Timeline, i.e. the room's
+messages). Some expectations for this component:
 
 - Be superfast,
 - List all the rooms,
@@ -45,10 +45,10 @@ messages). Some expectations from this component:
 - Sort the rooms.
 
 Let's focus on the part that interests us today: _Sort the rooms_. The Room List
-holds… no room. It actually provides a _stream of updates about rooms_; more
-precisely a `Stream<Item = Vec<VectorDiff<Room>>>`. What does it mean? This
+holds… no rooms. It actually provides a _stream of updates about rooms_; more
+precisely a `Stream<Item = Vec<VectorDiff<Room>>>`. What does this mean? The
 stream yields a vector of “diffs” of rooms. I'm writing [a series about reactive
-programming](@/series/reactive-programming-in-rust/_index.md), you might be
+programming](@/series/reactive-programming-in-rust/_index.md) - you might be
 interested to read more about it. Otherwise, here is what you need to know.
 
 [The `VectorDiff` type][`VectorDiff`] comes from [the `eyeball-im`
@@ -96,8 +96,8 @@ changes][`ObservableVector::subscribe`], and will receive… well… `VectorDiff
 The Room List type merges several streams into a single stream representing
 the list of rooms. For example, let's imagine the room at index 3 receives a
 new message. Its “preview” (the _latest event_ displayed beneath the room's
-name, you know, <q>Alice: Hello!</q>) changes. Moreover, the Room List is
-also sorting rooms by their “recency” (the _time_ of the room). And since the
+name e.g. <q>Alice: Hello!</q>) changes. Also, the Room List
+sorts rooms by their “recency” (the _time_ something happened in the room). And since the
 “preview” has changed, its “recency” changes too, which means the room is sorted
 and re-positioned. Then, we expect the Room List's stream to yield:
 
@@ -113,7 +113,7 @@ I did my calculation: the size of `VectorDiff<Room>` is 72 bytes (mostly
 because `Room` contains [an `Arc`][`Arc`] over the real struct type). This is
 pretty small for an update. Not only it brings a small memory footprint, but it
 crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin. Languages that provide UI components, like [SwiftUI] or
+like Swift or Kotlin - languages that provide UI components, like [SwiftUI] or
 [Jetpack Compose].
 
 [`Arc`]: https://doc.rust-lang.org/std/sync/struct.Arc.html
@@ -122,16 +122,16 @@ like Swift or Kotlin. Languages that provide UI components, like [SwiftUI] or
 
 {% end %}
 
-Absolutely! Two popular UI components where a `VectorDiff` maps
+Absolutely! These are two popular UI components where a `VectorDiff` maps
 straightforwardly to their List component update operations. They are actually
-remarkably pretty close[^vectordiff_on_other_uis].
+(remarkably) pretty similar to each other[^vectordiff_on_other_uis].
 
 You're always a good digression companion, thank you. Let's go back on our
 problem:
 
-> What frozen means here?
+> What does "frozen" mean for the Room List?
 
-The Room List is simply… _blank_, _empty_, <em lang="fr">vide</em>, <em
+It means that the Room List is simply… _blank_, _empty_, <em lang="fr">vide</em>, <em
 lang="es">vacía</em>, <em lang="it">vuoto</em>, <em lang="ar">خلو</em>… well,
 you get the idea.
 
@@ -148,7 +148,7 @@ It would be a real pleasure if you let me assist you in this task.
   data should be displayed.
 - The “source streams” used by the Room List are not yielding the expected
   updates? No, everything works like a charm.
-- The “merge of streams” is broken for some reasons? No, still not.
+- The “merge of streams” is broken for some reasons? No, it seems fine.
 - The filtering of the streams? Not touched since a long time.
 - The sorting? Ah, maybe, I reckon we have changed something here…
 
@@ -191,7 +191,7 @@ let stream = stream! {
 There is a lot going on here. Sadly, we are not going to explain everything in
 this beautiful piece of art[^switch].
 
-The `.filter()`, `.sort_by()`, `.dynamic_head_with_initial_value()` methods
+The `.filter()`, `.sort_by()` and `.dynamic_head_with_initial_value()` methods
 are part of [the `eyeball-im-util` crate][`eyeball_im_util`]. They are used
 to filter, sort etc. a stream: They are essentially mapping a `Stream<Item
 = Vec<VectorDiff<T>>>` to another `Stream<Item = Vec<VectorDiff<T>>>`. In
@@ -201,9 +201,9 @@ higher-order stream][`eyeball_im_util::vector::Sort`] (the following example
 is mostly a copy of the documentation of `Sort`, but [since I wrote this
 algorithm, I guess you, dear reader, will find it acceptable][eyeball#43]).
 
-How about a vector of `char`? We want a `Stream` of _changes_ about this vector
+Let's imagine we have a vector of `char`. We want a `Stream` of _changes_ about this vector
 (the famous `VectorDiff`). We also want to _simulate_ a sorted vector, by only
-modifying the _changes_. It looks like so:
+modifying the _changes_. The solution looks like this:
 
 ```rust
 use std::cmp::Ordering;
@@ -232,7 +232,7 @@ assert_pending!(stream);
 ```
 
 Alrighty. That's a good start. `vector` is empty, so the initial values from the
-subscribe are empty, and the `stream` is also pending[^stream_assert]. Time to
+subscribe are empty, and the `stream` is also pending[^stream_assert]. I think it's time to
 play with this new toy, isn't it?
 
 ```rust
@@ -300,7 +300,7 @@ pretty efficient. And…
 {% comte() %}
 
 … as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you dont't mind if… I suggest to you that… you
+details. Nonetheless, I hope you don't mind if… I suggest to you that… you
 might want to, maybe, go back to… <small>the main… subject, don't you think?</small>
 
 {% end %}
@@ -309,7 +309,7 @@ Which topic? Ah! The frozen Room List! Sorters are _not_ the culprit. There.
 Happy? Short enough?
 
 These details were important. Kind of. I hope you've learned something along
-the lines. Next, let's see how a sorter works, and how it could be responsible
+the way. Next, let's see how a sorter works, and how it could be responsible
 for our memory pressure and lock contention.
 
 ## Randomness
