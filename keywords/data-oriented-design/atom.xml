@@ -38,17 +38,17 @@ my colleagues, when suddenly I come across this message:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Does anyone also experience a frozen room list?&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;Ah yeah, for some years now, I&#x27;ve been employed by &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;element.io&#x2F;&quot;&gt;Element&lt;&#x2F;a&gt; to work on the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix
-Rust SDK&lt;&#x2F;a&gt;. If one needs to write a complete, modern, cross-platform, fast Matrix
-client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed at being used directly by
-developers, like &lt;code&gt;matrix_sdk_crypto&lt;&#x2F;code&gt;. Some others are higher in the stack -
-the highest is for User Interfaces (UI) with &lt;code&gt;matrix_sdk_ui&lt;&#x2F;code&gt;. While
-it is a bit opinionated, it is designed to provide the high-quality features
-everybody expects in a modern Matrix client.&lt;&#x2F;p&gt;
-&lt;p&gt;One of these features is the Room List. The Room List is a place where users spend
-a lot of their time in a messaging application (along with the Timeline, i.e. the room&#x27;s
-messages). Some expectations for this component:&lt;&#x2F;p&gt;
+&lt;p&gt;Ah yeah, for some years now, I&#x27;ve been employed by &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;element.io&#x2F;&quot;&gt;Element&lt;&#x2F;a&gt; to work on the
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix Rust SDK&lt;&#x2F;a&gt;. If one needs to write a complete, modern, cross-platform,
+fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
+of many crates. Some are very low in the stack and are not aimed at being used
+directly by developers, like &lt;code&gt;matrix_sdk_crypto&lt;&#x2F;code&gt;. Some others are higher in the
+stack — the highest is for User Interfaces (UI) with &lt;code&gt;matrix_sdk_ui&lt;&#x2F;code&gt;. While it is
+a bit opinionated, it is designed to provide the high-quality features everybody
+expects in a modern Matrix client.&lt;&#x2F;p&gt;
+&lt;p&gt;One of these features is the Room List. The Room List is a place where users
+spend a lot of their time in a messaging application (along with the Timeline,
+i.e. the room&#x27;s messages). Some expectations for this component:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Be superfast,&lt;&#x2F;li&gt;
 &lt;li&gt;List all the rooms,&lt;&#x2F;li&gt;
@@ -99,13 +99,13 @@ foundation for reactive programming. It looks like this:&lt;&#x2F;p&gt;
 &lt;p&gt;It represents a &lt;em&gt;change&lt;&#x2F;em&gt; in &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;struct.ObservableVector.html&quot;&gt;an &lt;code&gt;ObservableVector&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.
 This is like a &lt;code&gt;Vec&lt;&#x2F;code&gt;, but &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im&#x2F;0.8.0&#x2F;eyeball_im&#x2F;struct.ObservableVector.html#method.subscribe&quot;&gt;one can subscribe to the
 changes&lt;&#x2F;a&gt;, and will receive… well… &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;s!&lt;&#x2F;p&gt;
-&lt;p&gt;The Room List type merges several streams into a single stream representing
-the list of rooms. For example, let&#x27;s imagine the room at index 3 receives a
-new message. Its “preview” (the &lt;em&gt;latest event&lt;&#x2F;em&gt; displayed beneath the room&#x27;s
-name e.g. &lt;q&gt;Alice: Hello!&lt;&#x2F;q&gt;) changes. Also, the Room List
-sorts rooms by their “recency” (the &lt;em&gt;time&lt;&#x2F;em&gt; something happened in the room). And since the
-“preview” has changed, its “recency” changes too, which means the room is sorted
-and re-positioned. Then, we expect the Room List&#x27;s stream to yield:&lt;&#x2F;p&gt;
+&lt;p&gt;The Room List type merges several streams into a single stream representing the
+list of rooms. For example, let&#x27;s imagine the room at index 3 receives a new
+message. Its “preview” (the &lt;em&gt;latest event&lt;&#x2F;em&gt; displayed beneath the room&#x27;s name,
+e.g. &lt;q&gt;Alice: Hello!&lt;&#x2F;q&gt;) changes. Also, the Room List sorts rooms by their
+“recency” (the &lt;em&gt;time&lt;&#x2F;em&gt; something happened in the room). And since the “preview”
+has changed, its “recency” changes too, which means the room is sorted and
+re-positioned. Then, we expect the Room List&#x27;s stream to yield:&lt;&#x2F;p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;VectorDiff::Set { index: 3, value: new_room }&lt;&#x2F;code&gt; because of the new “preview”,&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;code&gt;VectorDiff::Remove { index: 3 }&lt;&#x2F;code&gt; to remove the room… immediately followed by&lt;&#x2F;li&gt;
@@ -124,11 +124,11 @@ and re-positioned. Then, we expect the Room List&#x27;s stream to yield:&lt;&#x
 
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
-    &lt;p&gt;I did my calculation: the size of &lt;code&gt;VectorDiff&amp;lt;Room&amp;gt;&lt;&#x2F;code&gt; is 72 bytes (mostly
-because &lt;code&gt;Room&lt;&#x2F;code&gt; contains &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;sync&#x2F;struct.Arc.html&quot;&gt;an &lt;code&gt;Arc&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; over the real struct type). This is
-pretty small for an update. Not only it brings a small memory footprint, but it
-crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin - languages that provide UI components, like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.apple.com&#x2F;swiftui&#x2F;&quot;&gt;SwiftUI&lt;&#x2F;a&gt; or
+    &lt;p&gt;I did my calculation: the size of &lt;code&gt;VectorDiff&amp;lt;Room&amp;gt;&lt;&#x2F;code&gt; is 72 bytes (mostly because
+&lt;code&gt;Room&lt;&#x2F;code&gt; contains &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;sync&#x2F;struct.Arc.html&quot;&gt;an &lt;code&gt;Arc&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; over the real struct type). This is pretty
+small for an update. Not only it brings a small memory footprint, but it crosses
+the FFI boundary pretty easily, making it easy to map to other languages like
+Swift or Kotlin — languages that provide UI components, like &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.apple.com&#x2F;swiftui&#x2F;&quot;&gt;SwiftUI&lt;&#x2F;a&gt; or
 &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;developer.android.com&#x2F;compose&quot;&gt;Jetpack Compose&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
@@ -141,9 +141,9 @@ problem:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;What does &quot;frozen&quot; mean for the Room List?&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;It means that the Room List is simply… &lt;em&gt;blank&lt;&#x2F;em&gt;, &lt;em&gt;empty&lt;&#x2F;em&gt;, &lt;em lang=&quot;fr&quot;&gt;vide&lt;&#x2F;em&gt;, &lt;em
-lang=&quot;es&quot;&gt;vacía&lt;&#x2F;em&gt;, &lt;em lang=&quot;it&quot;&gt;vuoto&lt;&#x2F;em&gt;, &lt;em lang=&quot;ar&quot;&gt;خلو&lt;&#x2F;em&gt;… well,
-you get the idea.&lt;&#x2F;p&gt;
+&lt;p&gt;It means that the Room List is simply… &lt;em&gt;blank&lt;&#x2F;em&gt;, &lt;em&gt;empty&lt;&#x2F;em&gt;, &lt;em
+lang=&quot;fr&quot;&gt;vide&lt;&#x2F;em&gt;, &lt;em lang=&quot;es&quot;&gt;vacía&lt;&#x2F;em&gt;, &lt;em lang=&quot;it&quot;&gt;vuoto&lt;&#x2F;em&gt;, &lt;em
+lang=&quot;ar&quot;&gt;خلو&lt;&#x2F;em&gt;… well, you get the idea.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;What could freeze the Room List?&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -210,12 +210,12 @@ are part of &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; hr
 to filter, sort etc. a stream: They are essentially mapping a &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;T&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt; to another &lt;code&gt;Stream&amp;lt;Item = Vec&amp;lt;VectorDiff&amp;lt;T&amp;gt;&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. In
 other terms, they “change” the &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;s on-the-fly to simulate filtering,
 sorting, or something else. Let&#x27;s see a very concrete example with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;eyeball-im-util&#x2F;0.10.0&#x2F;eyeball_im_util&#x2F;vector&#x2F;struct.Sort.html&quot;&gt;the &lt;code&gt;Sort&lt;&#x2F;code&gt;
-higher-order stream&lt;&#x2F;a&gt; (the following example
-is mostly a copy of the documentation of &lt;code&gt;Sort&lt;&#x2F;code&gt;, but &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;pull&#x2F;43&quot;&gt;since I wrote this
-algorithm, I guess you, dear reader, will find it acceptable&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
-&lt;p&gt;Let&#x27;s imagine we have a vector of &lt;code&gt;char&lt;&#x2F;code&gt;. We want a &lt;code&gt;Stream&lt;&#x2F;code&gt; of &lt;em&gt;changes&lt;&#x2F;em&gt; about this vector
-(the famous &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;). We also want to &lt;em&gt;simulate&lt;&#x2F;em&gt; a sorted vector, by only
-modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. The solution looks like this:&lt;&#x2F;p&gt;
+higher-order stream&lt;&#x2F;a&gt; (the following example is
+mostly a copy of the documentation of &lt;code&gt;Sort&lt;&#x2F;code&gt;, but &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;pull&#x2F;43&quot;&gt;since I wrote this algorithm,
+I guess you, dear reader, will find it acceptable&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s imagine we have a vector of &lt;code&gt;char&lt;&#x2F;code&gt;. We want a &lt;code&gt;Stream&lt;&#x2F;code&gt; of &lt;em&gt;changes&lt;&#x2F;em&gt; about
+this vector (the famous &lt;code&gt;VectorDiff&lt;&#x2F;code&gt;). We also want to &lt;em&gt;simulate&lt;&#x2F;em&gt; a sorted
+vector, by only modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. The solution looks like this:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; std&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;cmp&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Ordering&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; eyeball_im&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;ObservableVector&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; VectorDiff&lt;&#x2F;span&gt;&lt;span&gt;};&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -240,8 +240,8 @@ modifying the &lt;em&gt;changes&lt;&#x2F;em&gt;. The solution looks like this:&l
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;initial_values&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;is_empty&lt;&#x2F;span&gt;&lt;span&gt;());&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_pending!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;stream&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Alrighty. That&#x27;s a good start. &lt;code&gt;vector&lt;&#x2F;code&gt; is empty, so the initial values from the
-subscribe are empty, and the &lt;code&gt;stream&lt;&#x2F;code&gt; is also pending&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-stream_assert-1&quot;&gt;&lt;a href=&quot;#fn-stream_assert&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. I think it&#x27;s time to
-play with this new toy, isn&#x27;t it?&lt;&#x2F;p&gt;
+subscribe are empty, and the &lt;code&gt;stream&lt;&#x2F;code&gt; is also pending&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-stream_assert-1&quot;&gt;&lt;a href=&quot;#fn-stream_assert&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;. I think
+it&#x27;s time to play with this new toy, isn&#x27;t it?&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Append unsorted values.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;vector&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;append&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vector!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt;&amp;#39;d&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; &amp;#39;b&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; &amp;#39;e&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;]);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
@@ -309,21 +309,21 @@ pretty efficient. And…&lt;&#x2F;p&gt;
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
     &lt;p&gt;… as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you don&#x27;t mind if… I suggest to you that… you
-might want to, maybe, go back to… &lt;small&gt;the main… subject, don&#x27;t you think?&lt;&#x2F;small&gt;&lt;&#x2F;p&gt;
+details. Nonetheless, I hope you don&#x27;t mind if… I suggest to you that… you might
+want to, maybe, go back to… &lt;small&gt;the main… subject, don&#x27;t you think?&lt;&#x2F;small&gt;&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
 &lt;p&gt;Which topic? Ah! The frozen Room List! Sorters are &lt;em&gt;not&lt;&#x2F;em&gt; the culprit. There.
 Happy? Short enough?&lt;&#x2F;p&gt;
-&lt;p&gt;These details were important. Kind of. I hope you&#x27;ve learned something along
-the way. Next, let&#x27;s see how a sorter works, and how it could be responsible
-for our memory pressure and lock contention.&lt;&#x2F;p&gt;
+&lt;p&gt;These details were important. Kind of. I hope you&#x27;ve learned something along the
+way. Next, let&#x27;s see how a sorter works, and how it could be responsible for our
+memory pressure and lock contention.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;randomness&quot;&gt;Randomness&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#randomness&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
-&lt;p&gt;Taking a step back, I was asking myself: &lt;q&gt;Is it really frozen?&lt;&#x2F;q&gt;. The cherry
-on the cake: I was unable to reproduce the problem! Even the reporters of
-the problem were unable to reproduce it consistently. Hmm, a random problem?
+&lt;p&gt;Taking a step back, I was asking myself: &lt;q&gt;Is it really frozen?&lt;&#x2F;q&gt;. The
+cherry on the cake: I was unable to reproduce the problem! Even the reporters
+of the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.&lt;&#x2F;p&gt;
 &lt;figure&gt;
   &lt;picture&gt;
@@ -387,11 +387,12 @@ except… what&#x27;s a lexicographic sorter?&lt;&#x2F;p&gt;
     &lt;&#x2F;picture&gt;
   &lt;&#x2F;div&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
-    &lt;p&gt;Should I really quote the documentation of &lt;code&gt;new_sorter_lexicographic&lt;&#x2F;code&gt;? My work here is turning into a tragedy.&lt;&#x2F;p&gt;
+    &lt;p&gt;Should I really quote the documentation of &lt;code&gt;new_sorter_lexicographic&lt;&#x2F;code&gt;? My work
+here is turning into a tragedy.&lt;&#x2F;p&gt;
 &lt;p&gt;It creates a new sorter that will run multiple sorters. When the
-&lt;math&gt;&lt;msup&gt;&lt;mi&gt;n&lt;&#x2F;mi&gt;&lt;mtext&gt;nth&lt;&#x2F;mtext&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt; sorter returns &lt;code&gt;Ordering::Equal&lt;&#x2F;code&gt;, the next
-sorter is called. It stops as soon as a sorter returns &lt;code&gt;Ordering::Greater&lt;&#x2F;code&gt; or
-&lt;code&gt;Ordering::Less&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;math&gt;&lt;msup&gt;&lt;mi&gt;n&lt;&#x2F;mi&gt;&lt;mtext&gt;nth&lt;&#x2F;mtext&gt;&lt;&#x2F;msup&gt;&lt;&#x2F;math&gt; sorter returns
+&lt;code&gt;Ordering::Equal&lt;&#x2F;code&gt;, the next sorter is called. It stops as soon as a sorter
+returns &lt;code&gt;Ordering::Greater&lt;&#x2F;code&gt; or &lt;code&gt;Ordering::Less&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;This is an implementation of a lexicographic order as defined for &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Lexicographic_order#Cartesian_products&quot;&gt;cartesian
 products&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 
@@ -399,9 +400,9 @@ products&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;p&gt;In short, we are executing 3 sorters: by &lt;em&gt;latest event&lt;&#x2F;em&gt;, by &lt;em&gt;recency&lt;&#x2F;em&gt;
 and by &lt;em&gt;name&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;None of these sorters are using any form of randomness. It&#x27;s a
-&lt;em lang=&quot;fr&quot;&gt;cul-de-sac&lt;&#x2F;em&gt;. Let&#x27;s take a step back by looking at &lt;code&gt;SortBy&lt;&#x2F;code&gt;
-in &lt;code&gt;eyeball_im_util&lt;&#x2F;code&gt; itself maybe? &lt;i&gt;Scroll the documentation&lt;&#x2F;i&gt;, not here,
+&lt;p&gt;None of these sorters are using any form of randomness. It&#x27;s a &lt;em
+lang=&quot;fr&quot;&gt;cul-de-sac&lt;&#x2F;em&gt;. Let&#x27;s take a step back by looking at &lt;code&gt;SortBy&lt;&#x2F;code&gt; in
+&lt;code&gt;eyeball_im_util&lt;&#x2F;code&gt; itself maybe? &lt;i&gt;Scroll the documentation&lt;&#x2F;i&gt;, not here,
 &lt;i&gt;read the initial patch&lt;&#x2F;i&gt;, hmm, I see a mention of a binary search, &lt;i&gt;jump
 into the code&lt;&#x2F;i&gt;, ah, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;blob&#x2F;b7dc6fde71e507459ecbd7519a8a22f12bf2a8de&#x2F;eyeball-im-util&#x2F;src&#x2F;vector&#x2F;sort.rs#L315-L318&quot;&gt;here, look at the comment&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
@@ -410,7 +411,8 @@ value?), &lt;code&gt;Vector::binary_search_by&lt;&#x2F;code&gt; is used — it i
 &lt;code&gt;Vector&lt;&#x2F;code&gt; is sorted. When looking for the &lt;em&gt;unsorted index&lt;&#x2F;em&gt; of a value,
 &lt;code&gt;Iterator::position&lt;&#x2F;code&gt; is used.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;imbl&#x2F;7.0.0&#x2F;imbl&#x2F;type.Vector.html#method.binary_search_by&quot;&gt;&lt;code&gt;Vector::binary_search_by&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; doesn&#x27;t mention any form of randomness in its documentation. Another &lt;em lang=&quot;fr&quot;&gt;cul-de-sac&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;imbl&#x2F;7.0.0&#x2F;imbl&#x2F;type.Vector.html#method.binary_search_by&quot;&gt;&lt;code&gt;Vector::binary_search_by&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; doesn&#x27;t mention any form of randomness in its
+documentation. Another &lt;em lang=&quot;fr&quot;&gt;cul-de-sac&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
 &lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
   &lt;div class=&quot;conversation--character&quot;&gt;
     &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
@@ -441,25 +443,26 @@ sorted&lt;&#x2F;em&gt; one way or another. What do you think?&lt;&#x2F;p&gt;
 quicksort&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;Phew. Finally. Time for a cup of tea and a biscuit&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-biscuit-1&quot;&gt;&lt;a href=&quot;#fn-biscuit&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;My guess here is the following. Depending on the (pseudo randomly) generated
-pivot index, the number of comparisons may vary each time this runs. We can enter
-a pathological case where more comparisons means more memory pressure,
+pivot index, the number of comparisons may vary each time this runs. We can
+enter a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List&lt;sup&gt;&lt;abbr
 title=&quot;Trademark&quot;&gt;TM&lt;&#x2F;abbr&gt;&lt;&#x2F;sup&gt;, &lt;i&gt;play horror movie music&lt;&#x2F;i&gt;!&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;memory-pressure&quot;&gt;Memory Pressure&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#memory-pressure&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
-&lt;p&gt;A memory allocator is responsible for… well… allocating the memory. If you believe
-this is a simple problem, please retract this offensive thought quickly: what an
-oaf! Memory is managed based on the strategy or strategies used by the memory
-allocator: there is not a unique solution. Each memory allocator comes with
-tradeoffs: do you allocate and replace multiple similar small objects several
-times in a row, do you need fixed-size blocks of memory, dynamic blocks etc.&lt;&#x2F;p&gt;
-&lt;p&gt;Allocating memory is not free. The memory allocator has a cost in itself
-—which could be mitigated by implementing a custom memory allocator maybe—,
-but there is also &lt;strong&gt;a hardware cost&lt;&#x2F;strong&gt;, and it&#x27;s comparatively more difficult to
-mitigate. Memory is allocated on the heap, i.e. &lt;em&gt;the RAM&lt;&#x2F;em&gt;, also called &lt;em&gt;the
-main memory&lt;&#x2F;em&gt; (not be confused with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CPU_cache&quot;&gt;CPU caches: L1, L2…&lt;&#x2F;a&gt;). The RAM
-is nice and all, but it lives far from the CPU. It &lt;em&gt;takes time&lt;&#x2F;em&gt; to allocate
-something on the heap and…&lt;&#x2F;p&gt;
+&lt;p&gt;A memory allocator is responsible for… well… allocating the memory. If you
+believe this is a simple problem, please retract this offensive thought quickly:
+what an oaf! Memory is managed based on the strategy or strategies used by the
+memory allocator: there is not a unique solution. Each memory allocator comes
+with tradeoffs: do you allocate and replace multiple similar small objects
+several times in a row, do you need fixed-size blocks of memory, dynamic blocks
+etc.&lt;&#x2F;p&gt;
+&lt;p&gt;Allocating memory is not free. The memory allocator has a cost in itself —which
+could be mitigated by implementing a custom memory allocator maybe—, but there
+is also &lt;strong&gt;a hardware cost&lt;&#x2F;strong&gt;, and it&#x27;s comparatively more difficult to mitigate.
+Memory is allocated on the heap, i.e. &lt;em&gt;the RAM&lt;&#x2F;em&gt;, also called &lt;em&gt;the main memory&lt;&#x2F;em&gt;
+(not be confused with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CPU_cache&quot;&gt;CPU caches: L1, L2…&lt;&#x2F;a&gt;). The RAM is nice and
+all, but it lives far from the CPU. It &lt;em&gt;takes time&lt;&#x2F;em&gt; to allocate something on the
+heap and…&lt;&#x2F;p&gt;
 &lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
   &lt;div class=&quot;conversation--character&quot;&gt;
     &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
@@ -479,9 +482,9 @@ multiple indirections, but still, it sounds pretty fast, right?&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;Hmm, &lt;i&gt;refrain from opening the Pandora&#x27;s box&lt;&#x2F;i&gt; - let&#x27;s try to stay high-level
-here, shall we? Be careful: the numbers I am going to present can vary depending on
-your hardware, but the important part is &lt;strong&gt;the scale&lt;&#x2F;strong&gt;: keep that in mind.&lt;&#x2F;p&gt;
+&lt;p&gt;Hmm, &lt;i&gt;refrain from opening the Pandora&#x27;s box&lt;&#x2F;i&gt;, let&#x27;s try to stay high-level
+here, shall we? Be careful: the numbers I am going to present can vary depending
+on your hardware, but the important part is &lt;strong&gt;the scale&lt;&#x2F;strong&gt;: keep that in mind.&lt;&#x2F;p&gt;
 &lt;figure&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Operation&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Time&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: right&quot;&gt;“Human scale”&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;Fetch from L1 cache&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: right&quot;&gt;1ns&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: right&quot;&gt;1mn&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
@@ -496,21 +499,16 @@ your hardware, but the important part is &lt;strong&gt;the scale&lt;&#x2F;strong
 &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;people.eecs.berkeley.edu&#x2F;~rcs&#x2F;research&#x2F;interactive_latency.html&quot;&gt;&lt;cite&gt;Latency Numbers Every Programmer Shoud Know&lt;&#x2F;cite&gt; from Colin Scott (UC
 Berkeley)&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
 &lt;p&gt;The time in the second column is given in nanoseconds, i.e.
-&lt;math&gt;
-&lt;mfrac&gt;
-&lt;mn&gt;1&lt;&#x2F;mn&gt;
-&lt;mn&gt;1&#x27;000&#x27;000&#x27;000&lt;&#x2F;mn&gt;
-&lt;&#x2F;mfrac&gt;
-&lt;&#x2F;math&gt;
-second. The time in the third column is “humanized” to give us a better sense of
-the scale here: we imagine 1ns maps to 1min.&lt;&#x2F;p&gt;
+&lt;math&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;&#x2F;mn&gt;&lt;mn&gt;1&#x27;000&#x27;000&#x27;000&lt;&#x2F;mn&gt;&lt;&#x2F;mfrac&gt;&lt;&#x2F;math&gt; second. The time in
+the third column is “humanized” to give us a better sense of the scale here: we
+imagine 1ns maps to 1min.&lt;&#x2F;p&gt;
 &lt;&#x2F;figcaption&gt;
 &lt;&#x2F;figure&gt;
 &lt;p&gt;Do you see the difference between the L1&#x2F;L2 caches and the main memory? 1ns to
 100ns is the same difference as 1mn to 1h40. So, yes, it takes time to read
 from memory. That&#x27;s why we try to avoid allocations as much as possible.&lt;&#x2F;p&gt;
 &lt;figure&gt;
-&lt;svg viewBox=&quot;0 0 200 35&quot; role=&quot;img&quot;&gt;
+&lt;svg viewBox=&quot;0 0 200 55&quot; role=&quot;img&quot;&gt;
   &lt;style&gt;
   text { font-size: 4pt }
   circle {
@@ -518,6 +516,7 @@ from memory. That&#x27;s why we try to avoid allocations as much as possible.&lt
     animation: 4s linear 0s infinite alternate slide;
   }
   .l1 { animation-duration: .5s }
+  .l2 { animation-duration: 2s }
   .ram { animation-duration: 50s }
   @keyframes slide {
     from {
@@ -530,13 +529,19 @@ from memory. That&#x27;s why we try to avoid allocations as much as possible.&lt
   &lt;&#x2F;style&gt;
   &lt;text x=&quot;0&quot; y=&quot;12&quot;&gt;CPU&lt;&#x2F;text&gt;
   &lt;text x=&quot;0&quot; y=&quot;27&quot;&gt;CPU&lt;&#x2F;text&gt;
+  &lt;text x=&quot;0&quot; y=&quot;42&quot;&gt;CPU&lt;&#x2F;text&gt;
   &lt;text x=&quot;180&quot; y=&quot;12&quot;&gt;L1&lt;&#x2F;text&gt;
-  &lt;text x=&quot;180&quot; y=&quot;27&quot;&gt;RAM&lt;&#x2F;text&gt;
+  &lt;text x=&quot;180&quot; y=&quot;27&quot;&gt;L2&lt;&#x2F;text&gt;
+  &lt;text x=&quot;180&quot; y=&quot;42&quot;&gt;RAM&lt;&#x2F;text&gt;
   &lt;circle cx=&quot;0&quot; cy=&quot;10&quot; r=&quot;4&quot; class=&quot;l1&quot; &#x2F;&gt;
-  &lt;circle cx=&quot;0&quot; cy=&quot;25&quot; r=&quot;4&quot; class=&quot;ram&quot; &#x2F;&gt;
+  &lt;circle cx=&quot;0&quot; cy=&quot;25&quot; r=&quot;4&quot; class=&quot;l2&quot; &#x2F;&gt;
+  &lt;circle cx=&quot;0&quot; cy=&quot;40&quot; r=&quot;4&quot; class=&quot;ram&quot; &#x2F;&gt;
 &lt;&#x2F;svg&gt;
 &lt;figcaption&gt;
-&lt;p&gt;Not comfortable with numbers? Let&#x27;s try to visualise it with 1ns = 1s!&lt;&#x2F;p&gt;
+&lt;p&gt;Not comfortable with numbers? Let&#x27;s try to visualise it with 1ns = 1s! On
+the left: the CPU. On the right, the L1 cache, the L2 cache, and the RAM. The
+“balls” represent the time it takes to move information between the CPU and the
+L1&#x2F;L2 caches or the RAM.&lt;&#x2F;p&gt;
 &lt;&#x2F;figcaption&gt;
 &lt;&#x2F;figure&gt;
 &lt;p&gt;Sadly, in our case, it appears we are allocating 322&#x27;042 times to sort the
@@ -580,8 +585,8 @@ fragment of it?&lt;&#x2F;li&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;p&gt;Excellent ideas. Let&#x27;s track which sorter creates the problem. We start
-with the sorter that was recently modified: &lt;code&gt;latest_event&lt;&#x2F;code&gt;. In short, this sorter
+&lt;p&gt;Excellent ideas. Let&#x27;s track which sorter creates the problem. We start with
+the sorter that was recently modified: &lt;code&gt;latest_event&lt;&#x2F;code&gt;. In short, this sorter
 compares the &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt; of two rooms: the idea is that rooms with a
 &lt;code&gt;LatestEventValue&lt;&#x2F;code&gt; representing a &lt;em&gt;local event&lt;&#x2F;em&gt;, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&#x2F;blob&#x2F;3eb693acadb08db8e41de90ef51730d206168e7c&#x2F;crates&#x2F;matrix-sdk-ui&#x2F;src&#x2F;room_list_service&#x2F;sorters&#x2F;latest_event.rs#L64C1-L69C2&quot;&gt;let&#x27;s look at
@@ -657,12 +662,14 @@ here. Memory pressure was an important problem, and it&#x27;s now solved, but it
 wasn&#x27;t the only problem.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;lock-contention&quot;&gt;Lock Contention&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#lock-contention&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
-&lt;p&gt;The assiduous reader may have noticed that we are still dealing with a lock here.&lt;&#x2F;p&gt;
+&lt;p&gt;The assiduous reader may have noticed that we are still dealing with a lock
+here.&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;info&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;read&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;latest_event&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;…&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;        ^^^^^^&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;        |&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;        this read lock acquisition&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;Do you remember we had 322&#x27;042 allocations? It represents the number of times the &lt;code&gt;latest_event&lt;&#x2F;code&gt; method was called basically, which means…&lt;&#x2F;p&gt;
+&lt;p&gt;Do you remember we had 322&#x27;042 allocations? It represents the number of times
+the &lt;code&gt;latest_event&lt;&#x2F;code&gt; method was called basically, which means…&lt;&#x2F;p&gt;
 &lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
   &lt;div class=&quot;conversation--character&quot;&gt;
     &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
@@ -685,8 +692,8 @@ wasn&#x27;t the only problem.&lt;&#x2F;p&gt;
 a climax.&lt;&#x2F;p&gt;
 &lt;p&gt;Anyway. Avoiding a lock isn&#x27;t an easy task. However, this lock around &lt;code&gt;info&lt;&#x2F;code&gt;
 is particularly annoying because it&#x27;s called by almost all sorters! They need
-information about a &lt;code&gt;Room&lt;&#x2F;code&gt;; all the information is in this &lt;code&gt;info&lt;&#x2F;code&gt; field, which is a
-read-write lock. Hmmm.&lt;&#x2F;p&gt;
+information about a &lt;code&gt;Room&lt;&#x2F;code&gt;; all the information is in this &lt;code&gt;info&lt;&#x2F;code&gt; field, which
+is a read-write lock. Hmmm.&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s change our strategy. We need to take a step back:&lt;&#x2F;p&gt;
 &lt;ol&gt;
 &lt;li&gt;The sorters need this data.&lt;&#x2F;li&gt;
@@ -804,8 +811,8 @@ run &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot
 &lt;p&gt;On my system for example, the L1 (data) cache size is 65Kb, and the cache line
 size is 128 bytes.&lt;&#x2F;p&gt;
 &lt;p&gt;Ideally, we —at the very least— want one &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; to fit in a cache line.
-Compacting the type to avoid inner padding would be ideal. If there is a
-&lt;em&gt;cache miss&lt;&#x2F;em&gt; in L1, the CPU will look at the next cache, so L2, and so on, until
+Compacting the type to avoid inner padding would be ideal. If there is a &lt;em&gt;cache
+miss&lt;&#x2F;em&gt; in L1, the CPU will look at the next cache, so L2, and so on, until
 reaching the main memory. So the cost of a cache miss is: look up in L1, plus
 cache miss, plus look up in L2, etc.&lt;&#x2F;p&gt;
 
@@ -821,9 +828,9 @@ example, the &lt;code&gt;latest_event&lt;&#x2F;code&gt; sorter now looks like:&l
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    move&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; |&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;left&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; right&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;| -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Ordering&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; cmp&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;latest_events&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; left&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; right&lt;&#x2F;span&gt;&lt;span&gt;) }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;The lock acquisitions happen only in &lt;code&gt;refresh_cached_data&lt;&#x2F;code&gt;, when a new
-update happens, not during the filtering or sorting anymore. Let&#x27;s see what
-the benchmark has to say now.&lt;&#x2F;p&gt;
+&lt;p&gt;The lock acquisitions happen only in &lt;code&gt;refresh_cached_data&lt;&#x2F;code&gt;, when a new update
+happens, not during the filtering or sorting anymore. Let&#x27;s see what the
+benchmark has to say now.&lt;&#x2F;p&gt;
 &lt;p&gt;Before:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;shellscript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;$&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; cargo bench&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other&quot;&gt; --bench&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; room_list&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;RoomList&#x2F;Create&#x2F;1000&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; rooms ×&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 1000&lt;&#x2F;span&gt;&lt;span class=&quot;z-string&quot;&gt; events&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -872,8 +879,8 @@ suggests we are not hitting the RAM anymore in the filters and sorters (not
 in an uncivilised way at least). Also, it&#x27;s funny that the difference between
 an L1&#x2F;L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
-here. It also suggests we are hitting L1 more frequently than L2, which is a good
-sign!&lt;&#x2F;p&gt;
+here. It also suggests we are hitting L1 more frequently than L2, which is a
+good sign!&lt;&#x2F;p&gt;
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
@@ -906,10 +913,10 @@ are linear.&lt;&#x2F;p&gt;
   &lt;div class=&quot;conversation--message&quot;&gt;
     &lt;p&gt;In this concrete case, it&#x27;s difficult to improve the performance further because
 &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; is used by sorters, and by filters, and in other places of the
-code. The current usage of &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; falls into the definition of &lt;em&gt;Array
-of Structures&lt;&#x2F;em&gt; in the Data-oriented Design terminology. After all, we clearly
-have a &lt;code&gt;Vec&amp;lt;RoomListItem&amp;gt;&lt;&#x2F;code&gt; at the root of everything. It is efficient but
-&lt;em&gt;Structure of Arrays&lt;&#x2F;em&gt; might be even more efficient. Instead of having:&lt;&#x2F;p&gt;
+code. The current usage of &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; falls into the definition of &lt;em&gt;Array of
+Structures&lt;&#x2F;em&gt; in the Data-oriented Design terminology. After all, we clearly have
+a &lt;code&gt;Vec&amp;lt;RoomListItem&amp;gt;&lt;&#x2F;code&gt; at the root of everything. It is efficient but &lt;em&gt;Structure
+of Arrays&lt;&#x2F;em&gt; might be even more efficient. Instead of having:&lt;&#x2F;p&gt;
 &lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;struct&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; RoomListItem&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    a&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; bool&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    b&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; u64&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
@@ -967,11 +974,12 @@ Funky isn&amp;#39;t it?&lt;&#x2F;p&gt;
 &lt;p&gt;You can view the patch &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;eyeball&#x2F;pull&#x2F;80&quot;&gt;Fix an infinite loop when &lt;code&gt;SortBy&amp;lt;Stream&amp;lt;Item = T&amp;gt;&amp;gt;&lt;&#x2F;code&gt; handles a &lt;code&gt;VectorDiff::Set&lt;&#x2F;code&gt; where &lt;code&gt;T&lt;&#x2F;code&gt; is a shallow clone
 type&lt;&#x2F;a&gt; to learn more.&lt;&#x2F;p&gt;
 &lt;p&gt;I think this is a concrete example of when jumping on an optimisation can lead
-to a bug. I&amp;#39;m not saying we should not prematurely optimise our programs: I&amp;#39;m a partisan of the “we should” camp. I&amp;#39;m
-saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoided if we hadn&amp;#39;t taken a shortcut in this algorithm. It&amp;#39;s important to be
-correct first, then measure, then improve.&lt;&#x2F;p&gt;
+to a bug. I&amp;#39;m not saying we should not prematurely optimise our programs: I&amp;#39;m
+a partisan of the “we should” camp. I&amp;#39;m saying that bugs can be pretty subtle
+sometimes, and this bug would have been avoided if we hadn&amp;#39;t taken a shortcut in
+this algorithm. It&amp;#39;s important to be correct first, then measure, then improve.&lt;&#x2F;p&gt;
 &lt;p&gt;I hope you&amp;#39;ve learned a couple of things, and you&amp;#39;ve enjoyed your reading.&lt;&#x2F;p&gt;
+&lt;p&gt;I would to thank &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;artificialworlds.net&#x2F;blog&#x2F;&quot;&gt;Andy Balaam&lt;&#x2F;a&gt; for the reviews and the feedback!&lt;&#x2F;p&gt;
 &lt;section class=&quot;footnotes&quot;&gt;
 &lt;ol class=&quot;footnotes-list&quot;&gt;
 &lt;li id=&quot;fn-vectordiff_on_other_uis&quot;&gt;

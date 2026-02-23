@@ -55,7 +55,7 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2026-02-23" property="datePublished">February 23, 2026</time>
-    <span title="Reading time" property="timeRequired" content="PT27M">27 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT28M">28 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, performance, lock, memory, data-oriented design">
       Keywords:&nbsp;<a href="/keywords/rust">rust</a>, <a href="/keywords/performance">performance</a>, <a href="/keywords/lock">lock</a>, <a href="/keywords/memory">memory</a>, <a href="/keywords/data-oriented-design">data-oriented design</a></span>
@@ -85,17 +85,17 @@ my colleagues, when suddenly I come across this message:</p>
 <blockquote>
 <p>Does anyone also experience a frozen room list?</p>
 </blockquote>
-<p>Ah yeah, for some years now, I've been employed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> to work on the <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix
-Rust SDK</a>. If one needs to write a complete, modern, cross-platform, fast Matrix
-client or bot, this SDK is an excellent choice. The SDK is composed of many
-crates. Some are very low in the stack and are not aimed at being used directly by
-developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the stack -
-the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. While
-it is a bit opinionated, it is designed to provide the high-quality features
-everybody expects in a modern Matrix client.</p>
-<p>One of these features is the Room List. The Room List is a place where users spend
-a lot of their time in a messaging application (along with the Timeline, i.e. the room's
-messages). Some expectations for this component:</p>
+<p>Ah yeah, for some years now, I've been employed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> to work on the
+<a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. If one needs to write a complete, modern, cross-platform,
+fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
+of many crates. Some are very low in the stack and are not aimed at being used
+directly by developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the
+stack — the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. While it is
+a bit opinionated, it is designed to provide the high-quality features everybody
+expects in a modern Matrix client.</p>
+<p>One of these features is the Room List. The Room List is a place where users
+spend a lot of their time in a messaging application (along with the Timeline,
+i.e. the room's messages). Some expectations for this component:</p>
 <ul>
 <li>Be superfast,</li>
 <li>List all the rooms,</li>
@@ -146,13 +146,13 @@ foundation for reactive programming. It looks like this:</p>
 <p>It represents a <em>change</em> in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html">an <code>ObservableVector</code></a>.
 This is like a <code>Vec</code>, but <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html#method.subscribe">one can subscribe to the
 changes</a>, and will receive… well… <code>VectorDiff</code>s!</p>
-<p>The Room List type merges several streams into a single stream representing
-the list of rooms. For example, let's imagine the room at index 3 receives a
-new message. Its “preview” (the <em>latest event</em> displayed beneath the room's
-name e.g. <q>Alice: Hello!</q>) changes. Also, the Room List
-sorts rooms by their “recency” (the <em>time</em> something happened in the room). And since the
-“preview” has changed, its “recency” changes too, which means the room is sorted
-and re-positioned. Then, we expect the Room List's stream to yield:</p>
+<p>The Room List type merges several streams into a single stream representing the
+list of rooms. For example, let's imagine the room at index 3 receives a new
+message. Its “preview” (the <em>latest event</em> displayed beneath the room's name,
+e.g. <q>Alice: Hello!</q>) changes. Also, the Room List sorts rooms by their
+“recency” (the <em>time</em> something happened in the room). And since the “preview”
+has changed, its “recency” changes too, which means the room is sorted and
+re-positioned. Then, we expect the Room List's stream to yield:</p>
 <ol>
 <li><code>VectorDiff::Set { index: 3, value: new_room }</code> because of the new “preview”,</li>
 <li><code>VectorDiff::Remove { index: 3 }</code> to remove the room… immediately followed by</li>
@@ -171,11 +171,11 @@ and re-positioned. Then, we expect the Room List's stream to yield:</p>
 
   </div>
   <div class="conversation--message">
-    <p>I did my calculation: the size of <code>VectorDiff&lt;Room&gt;</code> is 72 bytes (mostly
-because <code>Room</code> contains <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html">an <code>Arc</code></a> over the real struct type). This is
-pretty small for an update. Not only it brings a small memory footprint, but it
-crosses the FFI boundary pretty easily, making it easy to map to other languages
-like Swift or Kotlin - languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
+    <p>I did my calculation: the size of <code>VectorDiff&lt;Room&gt;</code> is 72 bytes (mostly because
+<code>Room</code> contains <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html">an <code>Arc</code></a> over the real struct type). This is pretty
+small for an update. Not only it brings a small memory footprint, but it crosses
+the FFI boundary pretty easily, making it easy to map to other languages like
+Swift or Kotlin — languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
 <a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>.</p>
 
   </div>
@@ -188,9 +188,9 @@ problem:</p>
 <blockquote>
 <p>What does "frozen" mean for the Room List?</p>
 </blockquote>
-<p>It means that the Room List is simply… <em>blank</em>, <em>empty</em>, <em lang="fr">vide</em>, <em
-lang="es">vacía</em>, <em lang="it">vuoto</em>, <em lang="ar">خلو</em>… well,
-you get the idea.</p>
+<p>It means that the Room List is simply… <em>blank</em>, <em>empty</em>, <em
+lang="fr">vide</em>, <em lang="es">vacía</em>, <em lang="it">vuoto</em>, <em
+lang="ar">خلو</em>… well, you get the idea.</p>
 <blockquote>
 <p>What could freeze the Room List?</p>
 </blockquote>
@@ -257,12 +257,12 @@ are part of <a rel="noopener external" target="_blank" href="https://docs.rs/eye
 to filter, sort etc. a stream: They are essentially mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code>. In
 other terms, they “change” the <code>VectorDiff</code>s on-the-fly to simulate filtering,
 sorting, or something else. Let's see a very concrete example with <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/vector/struct.Sort.html">the <code>Sort</code>
-higher-order stream</a> (the following example
-is mostly a copy of the documentation of <code>Sort</code>, but <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/43">since I wrote this
-algorithm, I guess you, dear reader, will find it acceptable</a>).</p>
-<p>Let's imagine we have a vector of <code>char</code>. We want a <code>Stream</code> of <em>changes</em> about this vector
-(the famous <code>VectorDiff</code>). We also want to <em>simulate</em> a sorted vector, by only
-modifying the <em>changes</em>. The solution looks like this:</p>
+higher-order stream</a> (the following example is
+mostly a copy of the documentation of <code>Sort</code>, but <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/43">since I wrote this algorithm,
+I guess you, dear reader, will find it acceptable</a>).</p>
+<p>Let's imagine we have a vector of <code>char</code>. We want a <code>Stream</code> of <em>changes</em> about
+this vector (the famous <code>VectorDiff</code>). We also want to <em>simulate</em> a sorted
+vector, by only modifying the <em>changes</em>. The solution looks like this:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">cmp</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Ordering</span><span>;</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">ObservableVector</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span>};</span></span>
@@ -287,8 +287,8 @@ modifying the <em>changes</em>. The solution looks like this:</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">assert!</span><span>(</span><span class="z-variable">initial_values</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_empty</span><span>());</span></span>
 <span class="giallo-l"><span class="z-entity z-name z-function">assert_pending!</span><span>(</span><span class="z-variable">stream</span><span>);</span></span></code></pre>
 <p>Alrighty. That's a good start. <code>vector</code> is empty, so the initial values from the
-subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="#fn-stream_assert">3</a></sup>. I think it's time to
-play with this new toy, isn't it?</p>
+subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="#fn-stream_assert">3</a></sup>. I think
+it's time to play with this new toy, isn't it?</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// Append unsorted values.</span></span>
 <span class="giallo-l"><span class="z-variable">vector</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">append</span><span>(</span><span class="z-entity z-name z-function">vector!</span><span>[</span><span class="z-string">&#39;d&#39;</span><span>,</span><span class="z-string"> &#39;b&#39;</span><span>,</span><span class="z-string"> &#39;e&#39;</span><span>]);</span></span>
 <span class="giallo-l"></span>
@@ -356,21 +356,21 @@ pretty efficient. And…</p>
   </div>
   <div class="conversation--message">
     <p>… as your favourite digression companion, I really, deeply, appreciate these
-details. Nonetheless, I hope you don't mind if… I suggest to you that… you
-might want to, maybe, go back to… <small>the main… subject, don't you think?</small></p>
+details. Nonetheless, I hope you don't mind if… I suggest to you that… you might
+want to, maybe, go back to… <small>the main… subject, don't you think?</small></p>
 
   </div>
 </div>
 <p>Which topic? Ah! The frozen Room List! Sorters are <em>not</em> the culprit. There.
 Happy? Short enough?</p>
-<p>These details were important. Kind of. I hope you've learned something along
-the way. Next, let's see how a sorter works, and how it could be responsible
-for our memory pressure and lock contention.</p>
+<p>These details were important. Kind of. I hope you've learned something along the
+way. Next, let's see how a sorter works, and how it could be responsible for our
+memory pressure and lock contention.</p>
 <h2 id="randomness">Randomness<a role="presentation" class="anchor" href="#randomness" title="Anchor link to this header">#</a>
 </h2>
-<p>Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The cherry
-on the cake: I was unable to reproduce the problem! Even the reporters of
-the problem were unable to reproduce it consistently. Hmm, a random problem?
+<p>Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The
+cherry on the cake: I was unable to reproduce the problem! Even the reporters
+of the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.</p>
 <figure>
   <picture>
@@ -434,11 +434,12 @@ except… what's a lexicographic sorter?</p>
     </picture>
   </div>
   <div class="conversation--message">
-    <p>Should I really quote the documentation of <code>new_sorter_lexicographic</code>? My work here is turning into a tragedy.</p>
+    <p>Should I really quote the documentation of <code>new_sorter_lexicographic</code>? My work
+here is turning into a tragedy.</p>
 <p>It creates a new sorter that will run multiple sorters. When the
-<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns <code>Ordering::Equal</code>, the next
-sorter is called. It stops as soon as a sorter returns <code>Ordering::Greater</code> or
-<code>Ordering::Less</code>.</p>
+<math><msup><mi>n</mi><mtext>nth</mtext></msup></math> sorter returns
+<code>Ordering::Equal</code>, the next sorter is called. It stops as soon as a sorter
+returns <code>Ordering::Greater</code> or <code>Ordering::Less</code>.</p>
 <p>This is an implementation of a lexicographic order as defined for <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products">cartesian
 products</a>.</p>
 
@@ -446,9 +447,9 @@ products</a>.</p>
 </div>
 <p>In short, we are executing 3 sorters: by <em>latest event</em>, by <em>recency</em>
 and by <em>name</em>.</p>
-<p>None of these sorters are using any form of randomness. It's a
-<em lang="fr">cul-de-sac</em>. Let's take a step back by looking at <code>SortBy</code>
-in <code>eyeball_im_util</code> itself maybe? <i>Scroll the documentation</i>, not here,
+<p>None of these sorters are using any form of randomness. It's a <em
+lang="fr">cul-de-sac</em>. Let's take a step back by looking at <code>SortBy</code> in
+<code>eyeball_im_util</code> itself maybe? <i>Scroll the documentation</i>, not here,
 <i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
 into the code</i>, ah, <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318">here, look at the comment</a>:</p>
 <blockquote>
@@ -457,7 +458,8 @@ value?), <code>Vector::binary_search_by</code> is used — it is possible becaus
 <code>Vector</code> is sorted. When looking for the <em>unsorted index</em> of a value,
 <code>Iterator::position</code> is used.</p>
 </blockquote>
-<p><a rel="noopener external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.binary_search_by"><code>Vector::binary_search_by</code></a> doesn't mention any form of randomness in its documentation. Another <em lang="fr">cul-de-sac</em>.</p>
+<p><a rel="noopener external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.binary_search_by"><code>Vector::binary_search_by</code></a> doesn't mention any form of randomness in its
+documentation. Another <em lang="fr">cul-de-sac</em>.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
@@ -488,25 +490,26 @@ sorted</em> one way or another. What do you think?</p>
 quicksort</a>.</p>
 <p>Phew. Finally. Time for a cup of tea and a biscuit<sup class="footnote-reference" id="fr-biscuit-1"><a href="#fn-biscuit">4</a></sup>.</p>
 <p>My guess here is the following. Depending on the (pseudo randomly) generated
-pivot index, the number of comparisons may vary each time this runs. We can enter
-a pathological case where more comparisons means more memory pressure,
+pivot index, the number of comparisons may vary each time this runs. We can
+enter a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List<sup><abbr
 title="Trademark">TM</abbr></sup>, <i>play horror movie music</i>!</p>
 <h2 id="memory-pressure">Memory Pressure<a role="presentation" class="anchor" href="#memory-pressure" title="Anchor link to this header">#</a>
 </h2>
-<p>A memory allocator is responsible for… well… allocating the memory. If you believe
-this is a simple problem, please retract this offensive thought quickly: what an
-oaf! Memory is managed based on the strategy or strategies used by the memory
-allocator: there is not a unique solution. Each memory allocator comes with
-tradeoffs: do you allocate and replace multiple similar small objects several
-times in a row, do you need fixed-size blocks of memory, dynamic blocks etc.</p>
-<p>Allocating memory is not free. The memory allocator has a cost in itself
-—which could be mitigated by implementing a custom memory allocator maybe—,
-but there is also <strong>a hardware cost</strong>, and it's comparatively more difficult to
-mitigate. Memory is allocated on the heap, i.e. <em>the RAM</em>, also called <em>the
-main memory</em> (not be confused with <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CPU_cache">CPU caches: L1, L2…</a>). The RAM
-is nice and all, but it lives far from the CPU. It <em>takes time</em> to allocate
-something on the heap and…</p>
+<p>A memory allocator is responsible for… well… allocating the memory. If you
+believe this is a simple problem, please retract this offensive thought quickly:
+what an oaf! Memory is managed based on the strategy or strategies used by the
+memory allocator: there is not a unique solution. Each memory allocator comes
+with tradeoffs: do you allocate and replace multiple similar small objects
+several times in a row, do you need fixed-size blocks of memory, dynamic blocks
+etc.</p>
+<p>Allocating memory is not free. The memory allocator has a cost in itself —which
+could be mitigated by implementing a custom memory allocator maybe—, but there
+is also <strong>a hardware cost</strong>, and it's comparatively more difficult to mitigate.
+Memory is allocated on the heap, i.e. <em>the RAM</em>, also called <em>the main memory</em>
+(not be confused with <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CPU_cache">CPU caches: L1, L2…</a>). The RAM is nice and
+all, but it lives far from the CPU. It <em>takes time</em> to allocate something on the
+heap and…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
@@ -526,9 +529,9 @@ multiple indirections, but still, it sounds pretty fast, right?</p>
 
   </div>
 </div>
-<p>Hmm, <i>refrain from opening the Pandora's box</i> - let's try to stay high-level
-here, shall we? Be careful: the numbers I am going to present can vary depending on
-your hardware, but the important part is <strong>the scale</strong>: keep that in mind.</p>
+<p>Hmm, <i>refrain from opening the Pandora's box</i>, let's try to stay high-level
+here, shall we? Be careful: the numbers I am going to present can vary depending
+on your hardware, but the important part is <strong>the scale</strong>: keep that in mind.</p>
 <figure>
 <table><thead><tr><th>Operation</th><th style="text-align: right">Time</th><th style="text-align: right">“Human scale”</th></tr></thead><tbody>
 <tr><td>Fetch from L1 cache</td><td style="text-align: right">1ns</td><td style="text-align: right">1mn</td></tr>
@@ -543,21 +546,16 @@ your hardware, but the important part is <strong>the scale</strong>: keep that i
 <a rel="noopener external" target="_blank" href="https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html"><cite>Latency Numbers Every Programmer Shoud Know</cite> from Colin Scott (UC
 Berkeley)</a>).</p>
 <p>The time in the second column is given in nanoseconds, i.e.
-<math>
-<mfrac>
-<mn>1</mn>
-<mn>1'000'000'000</mn>
-</mfrac>
-</math>
-second. The time in the third column is “humanized” to give us a better sense of
-the scale here: we imagine 1ns maps to 1min.</p>
+<math><mfrac><mn>1</mn><mn>1'000'000'000</mn></mfrac></math> second. The time in
+the third column is “humanized” to give us a better sense of the scale here: we
+imagine 1ns maps to 1min.</p>
 </figcaption>
 </figure>
 <p>Do you see the difference between the L1/L2 caches and the main memory? 1ns to
 100ns is the same difference as 1mn to 1h40. So, yes, it takes time to read
 from memory. That's why we try to avoid allocations as much as possible.</p>
 <figure>
-<svg viewBox="0 0 200 35" role="img">
+<svg viewBox="0 0 200 55" role="img">
   <style>
   text { font-size: 4pt }
   circle {
@@ -565,6 +563,7 @@ from memory. That's why we try to avoid allocations as much as possible.</p>
     animation: 4s linear 0s infinite alternate slide;
   }
   .l1 { animation-duration: .5s }
+  .l2 { animation-duration: 2s }
   .ram { animation-duration: 50s }
   @keyframes slide {
     from {
@@ -577,13 +576,19 @@ from memory. That's why we try to avoid allocations as much as possible.</p>
   </style>
   <text x="0" y="12">CPU</text>
   <text x="0" y="27">CPU</text>
+  <text x="0" y="42">CPU</text>
   <text x="180" y="12">L1</text>
-  <text x="180" y="27">RAM</text>
+  <text x="180" y="27">L2</text>
+  <text x="180" y="42">RAM</text>
   <circle cx="0" cy="10" r="4" class="l1" />
-  <circle cx="0" cy="25" r="4" class="ram" />
+  <circle cx="0" cy="25" r="4" class="l2" />
+  <circle cx="0" cy="40" r="4" class="ram" />
 </svg>
 <figcaption>
-<p>Not comfortable with numbers? Let's try to visualise it with 1ns = 1s!</p>
+<p>Not comfortable with numbers? Let's try to visualise it with 1ns = 1s! On
+the left: the CPU. On the right, the L1 cache, the L2 cache, and the RAM. The
+“balls” represent the time it takes to move information between the CPU and the
+L1/L2 caches or the RAM.</p>
 </figcaption>
 </figure>
 <p>Sadly, in our case, it appears we are allocating 322'042 times to sort the
@@ -627,8 +632,8 @@ fragment of it?</li>
 
   </div>
 </div>
-<p>Excellent ideas. Let's track which sorter creates the problem. We start
-with the sorter that was recently modified: <code>latest_event</code>. In short, this sorter
+<p>Excellent ideas. Let's track which sorter creates the problem. We start with
+the sorter that was recently modified: <code>latest_event</code>. In short, this sorter
 compares the <code>LatestEventValue</code> of two rooms: the idea is that rooms with a
 <code>LatestEventValue</code> representing a <em>local event</em>, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-ui/src/room_list_service/sorters/latest_event.rs#L64C1-L69C2">let's look at
@@ -704,12 +709,14 @@ here. Memory pressure was an important problem, and it's now solved, but it
 wasn't the only problem.</p>
 <h2 id="lock-contention">Lock Contention<a role="presentation" class="anchor" href="#lock-contention" title="Anchor link to this header">#</a>
 </h2>
-<p>The assiduous reader may have noticed that we are still dealing with a lock here.</p>
+<p>The assiduous reader may have noticed that we are still dealing with a lock
+here.</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>info</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">read</span><span>()</span><span class="z-keyword z-operator">.</span><span>latest_event</span><span class="z-keyword z-operator">.</span><span>…</span></span>
 <span class="giallo-l"><span class="z-comment">//        ^^^^^^</span></span>
 <span class="giallo-l"><span class="z-comment">//        |</span></span>
 <span class="giallo-l"><span class="z-comment">//        this read lock acquisition</span></span></code></pre>
-<p>Do you remember we had 322'042 allocations? It represents the number of times the <code>latest_event</code> method was called basically, which means…</p>
+<p>Do you remember we had 322'042 allocations? It represents the number of times
+the <code>latest_event</code> method was called basically, which means…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
@@ -732,8 +739,8 @@ wasn't the only problem.</p>
 a climax.</p>
 <p>Anyway. Avoiding a lock isn't an easy task. However, this lock around <code>info</code>
 is particularly annoying because it's called by almost all sorters! They need
-information about a <code>Room</code>; all the information is in this <code>info</code> field, which is a
-read-write lock. Hmmm.</p>
+information about a <code>Room</code>; all the information is in this <code>info</code> field, which
+is a read-write lock. Hmmm.</p>
 <p>Let's change our strategy. We need to take a step back:</p>
 <ol>
 <li>The sorters need this data.</li>
@@ -851,8 +858,8 @@ run <a rel="noopener external" target="_blank" href="https://man.freebsd.org/cgi
 <p>On my system for example, the L1 (data) cache size is 65Kb, and the cache line
 size is 128 bytes.</p>
 <p>Ideally, we —at the very least— want one <code>RoomListItem</code> to fit in a cache line.
-Compacting the type to avoid inner padding would be ideal. If there is a
-<em>cache miss</em> in L1, the CPU will look at the next cache, so L2, and so on, until
+Compacting the type to avoid inner padding would be ideal. If there is a <em>cache
+miss</em> in L1, the CPU will look at the next cache, so L2, and so on, until
 reaching the main memory. So the cost of a cache miss is: look up in L1, plus
 cache miss, plus look up in L2, etc.</p>
 
@@ -868,9 +875,9 @@ example, the <code>latest_event</code> sorter now looks like:</p>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">    move</span><span class="z-keyword z-operator"> |</span><span class="z-variable">left</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">| -&gt;</span><span class="z-entity z-name"> Ordering</span><span> {</span><span class="z-entity z-name z-function"> cmp</span><span>(</span><span class="z-variable">latest_events</span><span>,</span><span class="z-variable"> left</span><span>,</span><span class="z-variable"> right</span><span>) }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>The lock acquisitions happen only in <code>refresh_cached_data</code>, when a new
-update happens, not during the filtering or sorting anymore. Let's see what
-the benchmark has to say now.</p>
+<p>The lock acquisitions happen only in <code>refresh_cached_data</code>, when a new update
+happens, not during the filtering or sorting anymore. Let's see what the
+benchmark has to say now.</p>
 <p>Before:</p>
 <pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-entity z-name">$</span><span class="z-string"> cargo bench</span><span class="z-constant z-other"> --bench</span><span class="z-string"> room_list</span></span>
 <span class="giallo-l"><span class="z-entity z-name">RoomList/Create/1000</span><span class="z-string"> rooms ×</span><span class="z-constant z-numeric"> 1000</span><span class="z-string"> events</span></span>
@@ -919,8 +926,8 @@ suggests we are not hitting the RAM anymore in the filters and sorters (not
 in an uncivilised way at least). Also, it's funny that the difference between
 an L1/L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
-here. It also suggests we are hitting L1 more frequently than L2, which is a good
-sign!</p>
+here. It also suggests we are hitting L1 more frequently than L2, which is a
+good sign!</p>
 
   </div>
 </div>
@@ -953,10 +960,10 @@ are linear.</p>
   <div class="conversation--message">
     <p>In this concrete case, it's difficult to improve the performance further because
 <code>RoomListItem</code> is used by sorters, and by filters, and in other places of the
-code. The current usage of <code>RoomListItem</code> falls into the definition of <em>Array
-of Structures</em> in the Data-oriented Design terminology. After all, we clearly
-have a <code>Vec&lt;RoomListItem&gt;</code> at the root of everything. It is efficient but
-<em>Structure of Arrays</em> might be even more efficient. Instead of having:</p>
+code. The current usage of <code>RoomListItem</code> falls into the definition of <em>Array of
+Structures</em> in the Data-oriented Design terminology. After all, we clearly have
+a <code>Vec&lt;RoomListItem&gt;</code> at the root of everything. It is efficient but <em>Structure
+of Arrays</em> might be even more efficient. Instead of having:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">struct</span><span class="z-entity z-name"> RoomListItem</span><span> {</span></span>
 <span class="giallo-l"><span class="z-variable">    a</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
 <span class="giallo-l"><span class="z-variable">    b</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> u64</span><span>,</span></span>
@@ -1014,11 +1021,12 @@ Funky isn&#39;t it?</p>
 <p>You can view the patch <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/80">Fix an infinite loop when <code>SortBy&lt;Stream&lt;Item = T&gt;&gt;</code> handles a <code>VectorDiff::Set</code> where <code>T</code> is a shallow clone
 type</a> to learn more.</p>
 <p>I think this is a concrete example of when jumping on an optimisation can lead
-to a bug. I&#39;m not saying we should not prematurely optimise our programs: I&#39;m a partisan of the “we should” camp. I&#39;m
-saying that bugs can be pretty subtle sometimes, and this bug would have been
-avoided if we hadn&#39;t taken a shortcut in this algorithm. It&#39;s important to be
-correct first, then measure, then improve.</p>
+to a bug. I&#39;m not saying we should not prematurely optimise our programs: I&#39;m
+a partisan of the “we should” camp. I&#39;m saying that bugs can be pretty subtle
+sometimes, and this bug would have been avoided if we hadn&#39;t taken a shortcut in
+this algorithm. It&#39;s important to be correct first, then measure, then improve.</p>
 <p>I hope you&#39;ve learned a couple of things, and you&#39;ve enjoyed your reading.</p>
+<p>I would to thank <a rel="noopener external" target="_blank" href="https://artificialworlds.net/blog/">Andy Balaam</a> for the reviews and the feedback!</p>
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-vectordiff_on_other_uis">
