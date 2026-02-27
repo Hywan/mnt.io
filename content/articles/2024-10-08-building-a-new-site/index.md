@@ -237,7 +237,7 @@ discipline.
 
 At this step, it should be clear the site has been optimised for smallness,
 speed and semantics. Even the fonts aren't custom: I use [Modern Font Stacks]
-to find a font stacks that work on most computers. Two devices may not have the
+to find a font stack that work on most computers. Two devices may not have the
 same look and feel for this site and that's perfectly fine. That's the nature of
 the Web.
 
