@@ -11,12 +11,6 @@ img, picture, video, canvas, svg {
   max-width: 100%;
 }
 
-.icon {
-  height: 1em;
-  display: inline-block;
-  vertical-align: middle;
-}
-
 input, button, textarea, select {
   font: inherit;
   color: currentColor;
@@ -121,7 +115,7 @@ body {
   font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   font-weight: normal;
-  font-variant: diagonal-fractions slashed-zero;
+  font-variant: slashed-zero;
   line-height: var(--text-line-height);
 
   color: var(--color-light);
@@ -712,6 +706,12 @@ article {
   &:after {
     content: ' )';
   }
+}
+
+.icon {
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .footnotes {
