@@ -2142,7 +2142,7 @@ discipline.&lt;&#x2F;p&gt;
 &lt;&#x2F;h2&gt;
 &lt;p&gt;At this step, it should be clear the site has been optimised for smallness,
 speed and semantics. Even the fonts aren&#x27;t custom: I use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;modernfontstacks.com&#x2F;&quot;&gt;Modern Font Stacks&lt;&#x2F;a&gt;
-to find a font stacks that work on most computers. Two devices may not have the
+to find a font stack that work on most computers. Two devices may not have the
 same look and feel for this site and that&#x27;s perfectly fine. That&#x27;s the nature of
 the Web.&lt;&#x2F;p&gt;
 &lt;p&gt;I encourage you &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hywan&#x2F;mnt.io&quot;&gt;to read the source code of this site&lt;&#x2F;a&gt;, to fork it, to
