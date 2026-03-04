@@ -18,7 +18,7 @@ input, button, textarea, select {
     /* because Pagefind adds an inline `padding-right` (as of 2025-11-04). */
     !important;
   border: var(--border-width) var(--color-accent) solid;
-  background: var(--_background-color);
+  background: var(--color-canvas);
 
   &:focus {
     outline: var(--border-width-larger) solid var(--color-accent);
@@ -70,6 +70,7 @@ p, h1, h2, h3, h4, h5, h6 {
   );
   --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
   --color-accent2: oklch(59.1% .236 10.25);
+  --color-canvas: var(--color-dark);
 
   --space-very-very-small: .2rem;
   --space-very-small: .25rem;
@@ -104,13 +105,28 @@ p, h1, h2, h3, h4, h5, h6 {
   }
 }
 
+* {
+  scrollbar-color: var(--color-accent) transparent;
+  scrollbar-width: thin;
+}
+
+::selection {
+  /* For a selection, we reverse the color theme: light to dark, or dark to light */
+  color-scheme: light;
+
+  @media (prefers-color-scheme: light) {
+    color-scheme: dark;
+  }
+
+  color: var(--color-light);
+  background: var(--color-canvas);
+}
+
 html {
   scroll-padding-top: var(--space-very-large);
 }
 
 body {
-  --_background-color: var(--color-dark);
-
   /* Thanks https://modernfontstacks.com/! */
   font-size: var(--text-size);
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
@@ -120,7 +136,7 @@ body {
 
   color: var(--color-light);
   accent-color: var(--color-accent);
-  background: var(--_background-color);
+  background: var(--color-canvas);
 
   scroll-behavior: smooth;
 }
@@ -171,7 +187,7 @@ h1, h2, h3, h4, h5, h6 {
       padding-inline: var(--space);
       display: inline-block;
       max-width: 57%;
-      background: var(--_background-color);
+      background: var(--color-canvas);
     }
 
     &::before {
