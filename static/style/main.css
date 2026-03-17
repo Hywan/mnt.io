@@ -254,10 +254,6 @@ ol {
 }
 
 li {
-  + li {
-    margin-block-start: var(--space-small);
-  }
-
   p {
     --paragraph-margin: var(--space-small);
   }
@@ -279,7 +275,7 @@ code {
   font-family: var(--font-monospace);
   font-weight: normal;
   font-size: .85em;
-  hyphens: auto;
+  text-wrap: nowrap;
   padding: var(--space-very-small);
   background: var(--color-dark-lighter);
 }
