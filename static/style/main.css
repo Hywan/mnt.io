@@ -460,10 +460,6 @@ math {
   &[display='inline'] {
     math-style: compact;
   }
-
-  mi, mtext {
-    font-family: var(--font-text);
-  }
 }
 
 .content-grid {
