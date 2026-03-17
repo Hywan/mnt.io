@@ -273,10 +273,10 @@ help of [the `futures` crate][`futures`].
 ```rust
 // `StreamExt` is the trait that “extends” the `Stream` trait.
 // It contains all the combinators.
-use futures::stream::{self, StreamExt};
+use futures::{executor, stream::{self, StreamExt}};
 
 fn main() {
-    futures::executor::block_on(async {
+    executor::block_on(async {
         let outer_stream = stream::iter(vec![
             // First inner streams.
             stream::iter(vec![1, 2, 3]),
@@ -292,29 +292,29 @@ fn main() {
 }
 ```
 
-There is a lot going on here. `futures::executor` is an asynchronous runtime,
-also called an executor. The `block_on` function is a special executor that runs
-a future to completion on the current thread. It's perfect in our case as we
-just want to run a single asynchronous block.
+There is a lot going on here.
 
-[`stream::iter`][`futures::stream::iter`] builds a special stream called
-[`Iter`]. It converts an [`Iterator`] into a `Stream`. One can argue this is a
-bit useless as all items are already known. To whom I would gently remind… it's
-an example! It's here to illustrate the behaviour of `flatten`.
+- `futures::executor` is an asynchronous runtime, also called an executor. The
+  `block_on` function is a special executor that runs a future to completion on
+  the current thread. It's perfect in our case as we just want to run a single
+  asynchronous block.
+- [`stream::iter`][`futures::stream::iter`] builds a special stream called
+  [`Iter`]. It converts an [`Iterator`] into a `Stream`. One can argue this is
+  a bit useless as all items are already known. To whom I would gently remind…
+  it's an example! It's here to illustrate the behaviour of `flatten`.
+- So. `stream::iter`. We are building the outer stream that produces three inner
+  streams. These inner streams are all `stream::iter` streams too. How lovingly
+  pleasant.
+- Finally, [`flatten()`][`futures::StreamExt::flatten`] is called right before returning the `outer_stream`.
 
-So. `stream::iter`. We are building the outer stream that produces three inner
-streams. These inner streams are all `stream::iter` streams too. How lovingly
-pleasant.
-
-Finally, `flatten()` is called right before returning the `outer_stream`.
-
-To test what the stream will return, we use the special combinator `collect`,
-which collects all items, here in a `Vec`. Since `collect` does _not_ return
-a `Stream` but a `Future`: it produces a single value, not many. So we need to
-`await` for the result. And the result is…
+To test what the stream will return, we use the combinator
+[`collect`][`futures::StreamExt::collect`], which collects all items, here in a
+`Vec`. Since `collect` does _not_ return a `Stream` but a `Future`: it produces
+a single value, not many. That's why we can simply `await` for the result. And
+speaking of result: it displays…
 
 ```text
-[src/main.rs:12:9] &outer_stream.collect::<Vec<_>>().await = [
+[src/main.rs:17:9] &outer_stream.collect::<Vec<_>>().await = [
     1,
     2,
     3,
@@ -354,7 +354,7 @@ if it produces non-stream items, and a stream is a higher-order stream if:
 - the produced items are streams.
 
 In the case of `flatten`, it transforms a stream of streams of `T` into a stream
-of `T`. We go from a higher-order stream to a first-order stream.
+of `U`. We go from a higher-order stream to a first-order stream.
 
 {% end %}
 
@@ -417,6 +417,174 @@ The produced inner stream is kept until… the outer stream produces a new inner
 stream. `flatten` consumes the inner stream entirely, regardless of the outer
 stream being ready with a new inner stream.
 
+<figure>
+
+<svg viewBox="0 0 817 212" role="img">
+  <style>
+  text { font-size: 11pt }
+  </style>
+
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M498 31h303"/>
+    <path d="m806 31-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M8 31h43"/>
+    <path d="m56 31-7 3 2-3-2-4Z"/>
+  </g>
+  <circle cx="87" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M118 31h93"/>
+    <path d="m216 31-7 3 2-3-2-4Z"/>
+  </g>
+  <circle cx="247" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M278 31h153"/>
+    <path d="m436 31-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M468 61v20q0 10 10 10h130q10 0 10 10v70q0 10 10 10h23"/>
+    <path d="m656 181-7 3 2-3-2-4Z"/>
+  </g>
+  <circle cx="467" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+  <g>
+    <circle cx="157" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+    <text x="157" y="185" text-anchor="middle">1</text>
+  </g>
+  <g>
+    <circle cx="337" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
+    <text x="337" y="185" text-anchor="middle">3</text>
+  </g>
+  <g>
+    <circle cx="247" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+    <text x="247" y="185" text-anchor="middle">2</text>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M88 61v110q0 10 10 10h23"/>
+    <path d="m126 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M188 181h23"/>
+    <path d="m216 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M278 181h23"/>
+    <path d="m306 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M498 181h20-10 13"/>
+    <path d="m526 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g>
+    <circle cx="467" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+    <text x="467" y="185" text-anchor="middle">4</text>
+  </g>
+  <g>
+    <circle cx="557" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
+    <text x="557" y="185" text-anchor="middle">5</text>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M248 61v50q0 10 10 10h130q10 0 10 10v40q0 10 10 10h23"/>
+    <path d="m436 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M718 181h20-10 13"/>
+    <path d="m746 181-7 3 2-3-2-4Z"/>
+  </g>
+  <g>
+    <circle cx="687" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
+    <text x="687" y="185" text-anchor="middle">6</text>
+  </g>
+  <g>
+    <circle cx="777" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
+    <text x="777" y="185" text-anchor="middle">7</text>
+  </g>
+</svg>
+
+<figcaption>
+
+Hello you
+
+</figcaption>
+
+</figure>
+
+<figure>
+
+<svg viewBox="0 0 817 212" role="img">
+  <style>
+  text { font-size: 11pt }
+  </style>
+
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M397.5 30.5h403.63"/>
+    <path d="m806.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M7.5 30.5h43.63"/>
+    <path d="m56.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <circle cx="87" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M117.5 30.5h33.63"/>
+    <path d="m156.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <circle cx="187" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M217.5 30.5h113.63"/>
+    <path d="m336.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M367.5 60.5v20q0 10 10 10h5q5 0 5 10v70q0 10 10 10h23.63"/>
+    <path d="m426.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <circle cx="367" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+  <g>
+    <circle cx="157" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="157" y="185" text-anchor="middle">1</text>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M87.5 60.5v110q0 10 10 10h23.63"/>
+    <path d="m126.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <g fill="none" stroke="#000" stroke-miterlimit="10">
+    <path d="M337.5 180.5h20-10 20"/>
+    <path d="m363.5 184.5-8-8m8 0-8 8"/>
+  </g>
+  <g>
+    <circle cx="307" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="307" y="185" text-anchor="middle">4</text>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M187.5 60.5v50q0 10 10 10h30q10 0 10 10v40q0 10 10 10h23.63"/>
+    <path d="m276.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <g stroke="#000" stroke-miterlimit="10">
+    <path fill="none" d="M487.5 180.5h20-10 13.63"/>
+    <path d="m516.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+  </g>
+  <g>
+    <circle cx="457" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="457" y="185" text-anchor="middle">6</text>
+  </g>
+  <g>
+    <circle cx="547" cy="180" r="30" fill="none" stroke="#000" stroke-width="2"/>
+    <text x="547" y="185" text-anchor="middle">7</text>
+  </g>
+  <g fill="none" stroke="#000" stroke-miterlimit="10">
+    <path d="M187.5 180.5h30"/>
+    <path d="m213.5 184.5-8-8m8 0-8 8"/>
+  </g>
+</svg>
+
+<figcaption>
+
+Hello you
+
+</figcaption>
+
+</figure>
+
 Let's take an example:
 
 ```rust
@@ -439,7 +607,7 @@ assert_eq!(
 {% comte() %}
 
 Huh. The first and second inner streams are ignored. Like if the outer stream
-was polled until being pending.
+was polled repeatedly until being pending.
 
 Note, it matches the documentation when it says:
 
@@ -514,7 +682,7 @@ wait a second, how do we create a `Stream` quickly without having to implement
 
 {% factotum() %}
 
-<q lang="la">Aut disce, aut discede</q> (see, I know Latin too!). <i>clear its
+<q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear its
 throat</i>. Hum hum. Once again, the `futures` crate got you covered! There
 is this excellent [`stream::poll_fn`][`futures::stream::poll_fn`] function: it
 creates a `Stream` that runs the given function when polled.
@@ -605,6 +773,8 @@ _dynamically_. How cool is that?
 [_Pin_]: https://without.boats/blog/pin/
 [`futures`]: https://docs.rs/futures/0.3.32/futures/
 [`futures::stream::iter`]: https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html
+[`futures::StreamExt::flatten`]: https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.flatten
+[`futures::StreamExt::collect`]: https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.collect
 [`Iter`]: https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html
 [`Iterator`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html
 [`futures::channel::mpsc`]: https://docs.rs/futures/0.3.32/futures/channel/mpsc/index.html
