@@ -83,6 +83,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --border-width-larger: 3px;
   --border-color: var(--color-dark-lighter);
   --border-color-lighter: var(--color-light-darker);
+  --border-radius: var(--space-small);
 
   /* Thanks https://modernfontstacks.com/! */
   --font-text: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
@@ -289,6 +290,7 @@ pre {
   line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   --_text: 'Code';
 
@@ -317,6 +319,7 @@ pre {
     padding: var(--space-small) var(--_padding);
     font-size: .85em;
     background: var(--border-color);
+    border-radius: 0 0 var(--border-radius) 0;
   }
 }
 
@@ -336,7 +339,7 @@ figure {
     color-scheme: only dark;
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
-    border-radius: var(--space-small);
+    border-radius: var(--border-radius);
 
     code {
       background: none;
@@ -411,6 +414,7 @@ details {
 
   padding: var(--_padding);
   border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   summary {
     cursor: pointer;
@@ -677,7 +681,7 @@ article {
   min-width: 0;
   min-height: 0;
   padding: var(--_space);
-  border-radius: var(--space-small);
+  border-radius: var(--border-radius);
   background: var(--color-accent-darker);
 
   > .conversation--character {
