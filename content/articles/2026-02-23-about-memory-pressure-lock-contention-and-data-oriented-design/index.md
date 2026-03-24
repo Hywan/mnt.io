@@ -326,7 +326,7 @@ Rust SDK). It presents a callback tree, with the number of allocations and
 deallocations for each node in this tree. Thanks [Jorge]!
 
 And, holy cow, we see **a lot** of memory allocations, exactly 322'042 to be
-precise, counting for 743Mib, for the `eyeball_im_util::vector::sort::SortBy`
+precise, counting for 743MiB, for the `eyeball_im_util::vector::sort::SortBy`
 type! I don't remember exactly how many rooms are part of the Room List, but
 it's probably around 500-600.
 
@@ -782,7 +782,7 @@ The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
 run [`sysctl`] or [`getconf`] in a shell to see how much your hardware supports
 (look for an entry like “cache line”, or “cache line size” for example).
 
-On my system for example, the L1 (data) cache size is 65Kb, and the cache line
+On my system for example, the L1 (data) cache size is 65KB, and the cache line
 size is 128 bytes.
 
 Ideally, we —at the very least— want one `RoomListItem` to fit in a cache line.
