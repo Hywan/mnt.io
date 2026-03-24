@@ -336,7 +336,7 @@ Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.&lt
 Rust SDK). It presents a callback tree, with the number of allocations and
 deallocations for each node in this tree. Thanks &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jmartinesp&quot;&gt;Jorge&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
 &lt;p&gt;And, holy cow, we see &lt;strong&gt;a lot&lt;&#x2F;strong&gt; of memory allocations, exactly 322&#x27;042 to be
-precise, counting for 743Mib, for the &lt;code&gt;eyeball_im_util::vector::sort::SortBy&lt;&#x2F;code&gt;
+precise, counting for 743MiB, for the &lt;code&gt;eyeball_im_util::vector::sort::SortBy&lt;&#x2F;code&gt;
 type! I don&#x27;t remember exactly how many rooms are part of the Room List, but
 it&#x27;s probably around 500-600.&lt;&#x2F;p&gt;
 
@@ -808,7 +808,7 @@ We start by putting all our data in a single type:&lt;&#x2F;p&gt;
     &lt;p&gt;The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
 run &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;man.freebsd.org&#x2F;cgi&#x2F;man.cgi?query=sysctl&quot;&gt;&lt;code&gt;sysctl&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; or &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;linux.die.net&#x2F;man&#x2F;1&#x2F;getconf&quot;&gt;&lt;code&gt;getconf&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; in a shell to see how much your hardware supports
 (look for an entry like “cache line”, or “cache line size” for example).&lt;&#x2F;p&gt;
-&lt;p&gt;On my system for example, the L1 (data) cache size is 65Kb, and the cache line
+&lt;p&gt;On my system for example, the L1 (data) cache size is 65KB, and the cache line
 size is 128 bytes.&lt;&#x2F;p&gt;
 &lt;p&gt;Ideally, we —at the very least— want one &lt;code&gt;RoomListItem&lt;&#x2F;code&gt; to fit in a cache line.
 Compacting the type to avoid inner padding would be ideal. If there is a &lt;em&gt;cache

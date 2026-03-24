@@ -383,7 +383,7 @@ Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.</p
 Rust SDK). It presents a callback tree, with the number of allocations and
 deallocations for each node in this tree. Thanks <a rel="noopener external" target="_blank" href="https://github.com/jmartinesp">Jorge</a>!</p>
 <p>And, holy cow, we see <strong>a lot</strong> of memory allocations, exactly 322'042 to be
-precise, counting for 743Mib, for the <code>eyeball_im_util::vector::sort::SortBy</code>
+precise, counting for 743MiB, for the <code>eyeball_im_util::vector::sort::SortBy</code>
 type! I don't remember exactly how many rooms are part of the Room List, but
 it's probably around 500-600.</p>
 
@@ -855,7 +855,7 @@ We start by putting all our data in a single type:</p>
     <p>The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
 run <a rel="noopener external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=sysctl"><code>sysctl</code></a> or <a rel="noopener external" target="_blank" href="https://linux.die.net/man/1/getconf"><code>getconf</code></a> in a shell to see how much your hardware supports
 (look for an entry like “cache line”, or “cache line size” for example).</p>
-<p>On my system for example, the L1 (data) cache size is 65Kb, and the cache line
+<p>On my system for example, the L1 (data) cache size is 65KB, and the cache line
 size is 128 bytes.</p>
 <p>Ideally, we —at the very least— want one <code>RoomListItem</code> to fit in a cache line.
 Compacting the type to avoid inner padding would be ideal. If there is a <em>cache
