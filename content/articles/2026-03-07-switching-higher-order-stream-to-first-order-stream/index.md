@@ -419,91 +419,95 @@ stream being ready with a new inner stream.
 
 <figure>
 
-<svg viewBox="0 0 817 212" role="img">
-  <style>
-  text { font-size: 11pt }
-  </style>
-
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M498 31h303"/>
-    <path d="m806 31-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M8 31h43"/>
-    <path d="m56 31-7 3 2-3-2-4Z"/>
-  </g>
-  <circle cx="87" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M118 31h93"/>
-    <path d="m216 31-7 3 2-3-2-4Z"/>
-  </g>
-  <circle cx="247" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M278 31h153"/>
-    <path d="m436 31-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M468 61v20q0 10 10 10h130q10 0 10 10v70q0 10 10 10h23"/>
-    <path d="m656 181-7 3 2-3-2-4Z"/>
-  </g>
-  <circle cx="467" cy="30" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-  <g>
-    <circle cx="157" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-    <text x="157" y="185" text-anchor="middle">1</text>
-  </g>
-  <g>
-    <circle cx="337" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
-    <text x="337" y="185" text-anchor="middle">3</text>
-  </g>
-  <g>
-    <circle cx="247" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-    <text x="247" y="185" text-anchor="middle">2</text>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M88 61v110q0 10 10 10h23"/>
-    <path d="m126 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M188 181h23"/>
-    <path d="m216 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M278 181h23"/>
-    <path d="m306 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M498 181h20-10 13"/>
-    <path d="m526 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g>
-    <circle cx="467" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-    <text x="467" y="185" text-anchor="middle">4</text>
-  </g>
-  <g>
-    <circle cx="557" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
-    <text x="557" y="185" text-anchor="middle">5</text>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M248 61v50q0 10 10 10h130q10 0 10 10v40q0 10 10 10h23"/>
-    <path d="m436 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M718 181h20-10 13"/>
-    <path d="m746 181-7 3 2-3-2-4Z"/>
-  </g>
-  <g>
-    <circle cx="687" cy="180" r="30" fill="none" stroke="#000" transform="translate(1 1)"/>
-    <text x="687" y="185" text-anchor="middle">6</text>
-  </g>
-  <g>
-    <circle cx="777" cy="180" r="30" fill="none" stroke="#000" stroke-width="2" transform="translate(1 1)"/>
-    <text x="777" y="185" text-anchor="middle">7</text>
+<svg viewBox="0 0 886 214" role="img">
+  <g transform="translate(0 1)">
+    <path class="arrow" stroke-miterlimit="10" d="M7.5 180.5h810"/>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M567.5 30.5h303.63"/>
+      <path class="arrow-end" d="m876.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M7.5 30.5h113.63"/>
+      <path class="arrow-end" d="m126.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="157" cy="30" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="157" y="35" font-size="12" text-anchor="middle">A</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M187.5 30.5h93.63"/>
+      <path class="arrow-end" d="m286.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="317" cy="30" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="317" y="35" font-size="12" text-anchor="middle">B</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M347.5 30.5h153.63"/>
+      <path class="arrow-end" d="m506.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M537.5 60.5v20.07q0 10 10 10h130q10 0 10 10v70q0 10 10 9.98l23.63-.04"/>
+      <path class="arrow-end" d="m726.38 180.5-6.99 3.51 1.74-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M557 85h91v15h-91z"/>
+      <text x="602.27" y="94">Inner stream</text>
+    </g>
+    <circle cx="537" cy="30" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="537" y="35" font-size="12" text-anchor="middle">C</text>
+    <circle cx="227" cy="180" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="227" y="185" font-size="12" text-anchor="middle">1</text>
+    <circle cx="407" cy="180" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="407" y="185" font-size="12" text-anchor="middle">3</text>
+    <circle cx="317" cy="180" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="317" y="185" font-size="12" text-anchor="middle">2</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M157.5 60.5v110q0 10 10 10h23.63"/>
+      <path class="arrow-end" d="m196.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M123 104h69v15h-69z"/>
+      <text x="156.67" y="115">Inner stream</text>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M257.5 180.5h23.63"/>
+      <path class="arrow-end" d="m286.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M347.5 180.5h23.63"/>
+      <path class="arrow-end" d="m376.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M567.5 180.57h20-10 13.63"/>
+      <path class="arrow-end" d="m596.38 180.57-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="537" cy="180" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="537" y="185" font-size="12" text-anchor="middle">4</text>
+    <circle cx="627" cy="180" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="627" y="185" font-size="12" text-anchor="middle">5</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M317.5 60.5v50q0 10 10 10h130q10 0 10 10v40q0 10 10 10h23.63"/>
+      <path class="arrow-end" d="m506.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M342 113h91v15h-91z"/>
+      <text x="387.67" y="124.67">Inner stream</text>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M787.5 180.57h20-10l13.63-.03"/>
+      <path class="arrow-end" d="m816.38 180.53-6.99 3.52 1.74-3.51-1.75-3.49Z"/>
+    </g>
+    <circle cx="757" cy="180" r="30" fill="#fff" stroke="#000" transform="translate(.5 .5)"/>
+    <text x="757" y="185" font-size="12" text-anchor="middle">6</text>
+    <circle cx="847" cy="180" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="847" y="185" font-size="12" text-anchor="middle">7</text>
+    <path fill="none" d="M17.5.5h90v30h-90z"/>
+    <text x="19" y="20" font-size="12">Outer stream</text>
+    <path fill="none" d="M17.5 150.5h110v30h-110z"/>
+    <text x="19" y="170" font-size="12">Resulting stream</text>
   </g>
 </svg>
 
 <figcaption>
 
-Hello you
+Flatten
 
 </figcaption>
 
@@ -511,75 +515,105 @@ Hello you
 
 <figure>
 
-<svg viewBox="0 0 817 212" role="img">
+<svg viewBox="0 0 656 214" role="img">
   <style>
-  text { font-size: 11pt }
+    :root {
+      --color-svg-schema-accent: oklch(0.601 0.14 60.19);
+      --color-svg-schema-accent-light: oklch(from var(--color-svg-schema-accent) .95 c h);
+      --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
+      /* */
+      --color-svg-schema-accent: oklch(0.59 0.158 60.19);
+      --color-svg-schema-accent-light: oklch(0.95 0.04 60.19);
+      --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
+    }
+    text {
+      fill: var(--color-svg-schema-accent);
+    }
+    circle {
+      fill: var(--color-svg-schema-accent-light);
+      stroke: var(--color-svg-schema-accent);
+    }
+    path.arrow {
+      fill: none;
+      stroke: var(--color-svg-schema-arrow);
+    }
+    path.arrow-end {
+      fill: var(--color-svg-schema-arrow);
+      stroke: var(--color-svg-schema-arrow);
+    }
   </style>
-
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M397.5 30.5h403.63"/>
-    <path d="m806.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M7.5 30.5h43.63"/>
-    <path d="m56.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <circle cx="87" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M117.5 30.5h33.63"/>
-    <path d="m156.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <circle cx="187" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M217.5 30.5h113.63"/>
-    <path d="m336.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M367.5 60.5v20q0 10 10 10h5q5 0 5 10v70q0 10 10 10h23.63"/>
-    <path d="m426.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <circle cx="367" cy="30" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-  <g>
-    <circle cx="157" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-    <text x="157" y="185" text-anchor="middle">1</text>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M87.5 60.5v110q0 10 10 10h23.63"/>
-    <path d="m126.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <g fill="none" stroke="#000" stroke-miterlimit="10">
-    <path d="M337.5 180.5h20-10 20"/>
-    <path d="m363.5 184.5-8-8m8 0-8 8"/>
-  </g>
-  <g>
-    <circle cx="307" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-    <text x="307" y="185" text-anchor="middle">4</text>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M187.5 60.5v50q0 10 10 10h30q10 0 10 10v40q0 10 10 10h23.63"/>
-    <path d="m276.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <g stroke="#000" stroke-miterlimit="10">
-    <path fill="none" d="M487.5 180.5h20-10 13.63"/>
-    <path d="m516.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
-  </g>
-  <g>
-    <circle cx="457" cy="180" r="30" fill="none" stroke="#000" transform="translate(.5 .5)"/>
-    <text x="457" y="185" text-anchor="middle">6</text>
-  </g>
-  <g>
-    <circle cx="547" cy="180" r="30" fill="none" stroke="#000" stroke-width="2"/>
-    <text x="547" y="185" text-anchor="middle">7</text>
-  </g>
-  <g fill="none" stroke="#000" stroke-miterlimit="10">
-    <path d="M187.5 180.5h30"/>
-    <path d="m213.5 184.5-8-8m8 0-8 8"/>
+  <g transform="translate(0 1)">
+    <path class="arrow" stroke-miterlimit="10" d="M7.5 180.5h640"/>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M467.5 30.5h173.63"/>
+      <path class="arrow-end" d="m646.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="157" cy="30" r="30" transform="translate(.5 .5)"/>
+    <text x="157" y="35" font-size="12" text-anchor="middle">A</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M187.5 30.5h33.63"/>
+      <path class="arrow-end" d="m226.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="257" cy="30" r="30" transform="translate(.5 .5)"/>
+    <text x="257" y="35" font-size="12" text-anchor="middle">B</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M287.5 30.5h113.63"/>
+      <path class="arrow-end" d="m406.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M437.5 60.5v20q0 10 10 10h5q5 0 5 10v70q0 10 10 10h23.63"/>
+      <path class="arrow-end" d="m496.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M425 124h69v15h-69z"/>
+      <text x="458.5" y="135.5">Inner stream</text>
+    </g>
+    <circle cx="437" cy="30" r="30" transform="translate(.5 .5)"/>
+    <text x="437" y="35" font-size="12" text-anchor="middle">C</text>
+    <circle cx="227" cy="180" r="30" transform="translate(.5 .5)"/>
+    <text x="227" y="185" font-size="12" text-anchor="middle">1</text>
+    <g stroke="#000" stroke-miterlimit="10">
+      <path class="arrow" d="M157.5 60.5v110q0 10 10 10h23.63"/>
+      <path class="arrow-end" d="m196.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M124 113h69v15h-69z"/>
+      <text x="157.5" y="124.5">Inner stream</text>
+    </g>
+    <path class="arrow" stroke-miterlimit="10" d="M407.5 180.5h20-10 20"/>
+    <circle cx="377" cy="180" r="30" transform="translate(.5 .5)"/>
+    <text x="377" y="185" font-size="12" text-anchor="middle">4</text>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M257.5 60.5v50q0 10 10 10h30q10 0 10 10v40q0 10 10 10h23.63"/>
+      <path class="arrow-end" d="m346.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <path fill="#fff" d="M223 81h69v15h-69z"/>
+      <text x="256.5" y="92.5">Inner stream</text>
+    </g>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M557.5 180.5h20-10 13.63"/>
+      <path class="arrow-end" d="m586.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <circle cx="527" cy="180" r="30" transform="translate(.5 .5)"/>
+    <text x="527" y="185" font-size="12" text-anchor="middle">6</text>
+    <circle cx="617" cy="180" r="30" stroke-width="2"/>
+    <text x="617" y="185" font-size="12" text-anchor="middle">7</text>
+    <path class="arrow" stroke-miterlimit="10" d="M257.5 180.5h30"/>
+    <g stroke-miterlimit="10">
+      <path class="arrow" d="M7.5 30.5h113.63"/>
+      <path class="arrow-end" d="m126.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z"/>
+    </g>
+    <path fill="none" d="M17.5.5h90v30h-90z"/>
+    <text x="19" y="20" font-size="12">Outer stream</text>
+    <path fill="none" d="M17.5 150.5h100v30h-100z"/>
+    <text x="19" y="170" font-size="12">Resulting stream</text>
   </g>
 </svg>
 
 <figcaption>
 
-Hello you
+Switch
 
 </figcaption>
 
