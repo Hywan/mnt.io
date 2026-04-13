@@ -38,7 +38,7 @@ trait Stream {
 
     fn poll_next(
         self: Pin<&mut Self>,
-        cx: &mut Context<'_>,
+        context: &mut Context<'_>,
     ) -> Poll<Option<Self::Item>>;
 }
 
@@ -50,7 +50,7 @@ enum Poll<T> {
 }
 ```
 
-(Let's ignore [`Pin`] and [`Context`] for the moment[^pin]).
+(Let's ignore [`Pin`] and [`Context`] in this article[^pin]).
 
 `Poll::Pending` means that no value is ready yet: the `Stream` must be polled
 later. When is the best time to poll the `Stream` again is not the topic of this
@@ -125,7 +125,7 @@ trait Stream {
 }
 ```
 
-The method `map` takes a function `F` that maps the item of the `Stream` (of
+The method `map` takes a function `F` that maps the items of the `Stream` (of
 type `Stream::Item`) to a new type `U`, resulting in another `Stream<U>`.
 
 Let's see another example with _filter_, shall we?
@@ -167,12 +167,15 @@ trait Stream {
 }
 ```
 
-The method `filter` takes a function `F` that tells if the item of the `Stream`
+The method `filter` takes a function `F` that tells if the items of the `Stream`
 should be kept or not, resulting in another `Stream` with the same type for
 the items.
 
-Okay. Another one. And just like `Iterator::flatten`, `Stream::flatten` can
-exist too. Things start to be fun, let's dig a bit.
+## Flatten
+
+Okay. Another one? Just like `Iterator::flatten`, `Stream::flatten` can exist
+too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
+inner streams. Things start to be fun, let's dig a bit.
 
 <math display="block">
   <mrow>
@@ -241,185 +244,94 @@ The Mathematical notation was easier on this one.
 {% end %}
 
 It's probably easier but it doesn't explain what `flatten` does exactly. Let's
-see a bit of pseudo-code to understand how it would work:
+see a bit of Rust code to understand how it would work:
 
 ```rust
-// Pseudo Rust-ish code.
+/// Type to flatten a stream.
+// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.
+pub struct Flatten<Outer, Inner> {
+    /// The outer stream that produces the inner streams.
+    #[pin]
+    outer_stream: Outer,
 
-'outer_stream: loop {
-    let mut inner_stream = match outer_stream.poll_next() {
-        Poll::Ready(Some(inner_stream)) => inner_stream,
-        Poll::Ready(None) => break, // closed!
-        Poll::Pending => yield pending,
-    };
+    /// The most recently produced inner stream.
+    #[pin]
+    inner_stream: Option<Inner>,
+}
+```
 
-    'inner_stream: loop {
-        match inner_stream.poll_next() {
-            Poll::Ready(Some(item)) => yield item,
-            Poll::Ready(None) => break, // closed!
-            Poll::Pending => yield pending,
+Good, good. Baby steps. Now, let's implement `Stream` on `Flatten` shouldn't we?
+
+```rust
+impl<Outer> Stream for Flatten<Outer, Outer::Item>
+//                                    ^^^^^^^^^^^
+//                                    |
+//                                    our inner stream type!
+where
+    // My name is stream, `Outer` stream 🕵️.
+    Outer: Stream,
+    // `Outer` is a stream that produces streams!
+    Outer::Item: Stream,
+{
+    type Item = <Outer::Item as Stream>::Item;
+
+    fn poll_next(
+        self: Pin<&mut Self>,
+        context: &mut Context<'_>
+    ) -> Poll<Option<Self::Item>>
+    {
+        // Ignore this. We said we keep `Pin` and projection aside.
+        let mut this = self.pin_projection();
+
+        loop {
+            if let Some(inner_stream) = this.inner_stream.as_mut().as_pin_mut() {
+                // There is an inner stream: let's poll it!
+                match inner_stream.poll_next(context) {
+                    // The inner stream produced an `item`!
+                    Poll::Ready(Some(item)) => return Poll::Ready(Some(item)),
+
+                    // The inner stream is closed: let's forget it.
+                    Poll::Ready(None) => {
+                        this.inner_stream.set(None);
+                        // Let the loop run again.
+                    }
+
+                    // The inner stream is pending: nothing to do.
+                    Poll::Pending => return Poll::Pending,
+                }
+            } else {
+                // No inner stream? No problem: let's poll the outer stream!
+                match this.outer_stream.as_mut().poll_next(context) {
+                    // New inner stream!
+                    // “Welcooomme iinneer streeaaam” says the crowd.
+                    Poll::Ready(Some(inner_stream)) => {
+                        this.inner_stream.set(Some(inner_stream));
+                        // Let the loop run again.
+                    }
+
+                    // The outer stream is closed: let's close everything.
+                    Poll::Ready(None) => return Poll::Ready(None),
+
+                    // The outer stream is pending: nothing to do.
+                    Poll::Pending => return Poll::Pending,
+                }
+            }
         }
     }
 }
+
 ```
 
-Each new polled inner stream —i.e. produced by the outer stream— is consumed
-entirely until it's closed. Then, a new inner stream is polled, and it keeps
-going until the outer stream is closed.
+A cake walk. Thanks to `Poll` being an enum, and `match` being [`match`], this
+code is easy to read and to understand. No surprise. Almost boring.
 
-We can see that via a basic example, this time with real Rust code, and with the
-help of [the `futures` crate][`futures`].
-
-```rust
-// `StreamExt` is the trait that “extends” the `Stream` trait.
-// It contains all the combinators.
-use futures::{executor, stream::{self, StreamExt}};
-
-fn main() {
-    executor::block_on(async {
-        let outer_stream = stream::iter(vec![
-            // First inner streams.
-            stream::iter(vec![1, 2, 3]),
-            // Second inner stream.
-            stream::iter(vec![4, 5]),
-            // Third inner stream.
-            stream::iter(vec![6, 7, 8, 9]),
-        ])
-        .flatten();
-
-        dbg!(&outer_stream.collect::<Vec<_>>().await);
-    });
-}
-```
-
-There is a lot going on here.
-
-- `futures::executor` is an asynchronous runtime, also called an executor. The
-  `block_on` function is a special executor that runs a future to completion on
-  the current thread. It's perfect in our case as we just want to run a single
-  asynchronous block.
-- [`stream::iter`][`futures::stream::iter`] builds a special stream called
-  [`Iter`]. It converts an [`Iterator`] into a `Stream`. One can argue this is
-  a bit useless as all items are already known. To whom I would gently remind…
-  it's an example! It's here to illustrate the behaviour of `flatten`.
-- So. `stream::iter`. We are building the outer stream that produces three inner
-  streams. These inner streams are all `stream::iter` streams too. How lovingly
-  pleasant.
-- Finally, [`flatten()`][`futures::StreamExt::flatten`] is called right before returning the `outer_stream`.
-
-To test what the stream will return, we use the combinator
-[`collect`][`futures::StreamExt::collect`], which collects all items, here in a
-`Vec`. Since `collect` does _not_ return a `Stream` but a `Future`: it produces
-a single value, not many. That's why we can simply `await` for the result. And
-speaking of result: it displays…
-
-```text
-[src/main.rs:17:9] &outer_stream.collect::<Vec<_>>().await = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-]
-```
-
-Each inner stream is consumed entirely, i.e. until it's closed, one after the
-other, until the outer stream is closed.
-
-This is a classical example of a higher-order stream!
-
-{% procureur() %}
-
-The terms _first-order_ and _higher-order_ can be intimating at first, but they
-are rather simple to understand.
-
-A function `fn(x) -> y` is a first-order function. However, `fn(fn(x) -> y)
--> z` is a higher-order function: it's a function that takes a function as an
-argument. The function `fn(x) -> fn(y) -> z` is also a higher-order function
-because it returns a function.
-
-Said differently: A function is a higher-order function if at least:
-
-- it takes another function as arguments,
-- it returns a function.
-
-This is analog for a stream. A stream doesn't have _arguments_ nor _returns_
-something: it _produces_ items. Knowing that, a stream is a first-order stream
-if it produces non-stream items, and a stream is a higher-order stream if:
-
-- the produced items are streams.
-
-In the case of `flatten`, it transforms a stream of streams of `T` into a stream
-of `U`. We go from a higher-order stream to a first-order stream.
-
-{% end %}
-
-## <q lang="la">Ad astra</q>
-
-Good news: this is the end of the introduction. Another good news: now we can
-talk about the `switch` combinator!
-
-{% comte() %}
-
-All this was just an introduction? Really? I can't imagine how traumatized your
-kids are when they ask a simple <q>why</q>…
-
-That said, while we are on the subject of showing off with Latin quotes… one
-comes to my mind timely: <q lang="la">fabricando fit faber</q>!
-
-{% end %}
-
-Exactly. We needed to explain all that to understand what the `switch`
-combinator does. It _switches_ a higher-order stream to a first-order stream,
-but not like `flatten`.
-
-<math display="block">
-  <mrow>
-    <mi>switch</mi>
-    <mo rspace="1rem">:</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-    <mo form="postfix">⟩</mo>
-    <mo>→</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-  </mrow>
-</math>
-
-Okay, the signature of the combinator is exactly the same, but the behaviour is
-different! Do you remember that `flatten` uses the outer stream to produce an
-inner stream, which is consumed entirely before polling the outer stream again?
-`switch` is different, <i>open the documentation</i>:
-
-> This combinator flattens a stream of streams, i.e. an outer stream yielding
-> inner streams. This combinator always keeps the most recently yielded inner
-> stream, and yields items from it, until the outer stream produces a new inner
-> stream, at which point the inner stream to yield items from is switched to the
-> new one.
-
-The produced inner stream is kept until… the outer stream produces a new inner
-stream. `flatten` consumes the inner stream entirely, regardless of the outer
-stream being ready with a new inner stream.
+We notice that each newly polled inner stream —i.e. produced by the outer
+stream— is consumed **entirely** until it's closed. Then, a new inner stream is
+polled, and it keeps going until the outer stream is closed.
 
 <figure>
 
-<svg viewBox="0 0 886 214" role="img">
+<svg viewBox="0 0 886 214" role="img" class="schema">
   <g transform="translate(0 1)">
     <path class="arrow" stroke-miterlimit="10" d="M7.5 180.5h810"/>
     <g stroke-miterlimit="10">
@@ -507,41 +419,180 @@ stream being ready with a new inner stream.
 
 <figcaption>
 
-Flatten
+Behaviour of `Flatten`: An outer stream produces inner streams. Each inner
+stream is consumed entirely before jumping on the next inner stream produced
+by the outer stream. Even if the outer stream would be ready with a new inner
+stream, it's not polled until the current inner stream is closed.
+
+The outer stream produces the inner stream _A_ that produces 1, 2 and 3. Then,
+since _A_ is closed, the outer stream is polled again and produces the new inner
+stream _B_, which itself produces 4 and 5. It keeps going with the outer stream
+producing the inner stream _C_, which itself produces 6 and 7.
 
 </figcaption>
 
 </figure>
 
+Action time via a basic example, this time with the help of [the `futures`
+crate][`futures`].
+
+```rust
+// `StreamExt` is the trait that “extends” the `Stream` trait.
+// It contains all the combinators.
+use futures::{executor, stream::{self, StreamExt}};
+
+fn main() {
+    executor::block_on(async {
+        let stream = stream::iter(vec![
+            // First inner streams.
+            stream::iter(vec![1, 2, 3]),
+            // Second inner stream.
+            stream::iter(vec![4, 5]),
+            // Third inner stream.
+            stream::iter(vec![6, 7, 8, 9]),
+        ])
+        .flatten();
+//       ^^^^^^^
+//       |
+//       the important piece
+
+        dbg!(&stream.collect::<Vec<_>>().await);
+    });
+}
+```
+
+There is a lot going on here.
+
+- `futures::executor` is an asynchronous runtime, also called an executor. The
+  `block_on` function is a special executor that runs a future to completion on
+  the current thread. It's perfect in our case as we just want to run a single
+  asynchronous block, i.e. a future.
+- [`stream::iter`][`futures::stream::iter`] builds a special stream called
+  [`Iter`]. It converts an [`Iterator`] into a `Stream`. One can argue this is
+  a bit useless as all items are already known. To whom I would gently remind…
+  it's an example! It's here to illustrate the behaviour of `flatten`.
+- So. `stream::iter`. We are building the outer stream that produces three inner
+  streams. These inner streams are all `stream::iter` streams too. How lovingly
+  pleasant.
+- Finally, [`flatten`][`futures::StreamExt::flatten`] is called right before
+  returning the flattened `stream`.
+
+To test what the stream will return, we use the combinator
+[`collect`][`futures::StreamExt::collect`], which collects all items, here in a
+`Vec`. Since `collect` does _not_ return a `Stream` but a `Future`: it produces
+a single value, not many. That's why we can simply `await` for the result. And
+speaking of result: it displays…
+
+```text
+[src/main.rs:17:9] &stream.collect::<Vec<_>>().await = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+]
+```
+
+<i>throw confetti</i>.
+
+`Flatten` is a classical example of a higher-order stream!
+
+{% procureur() %}
+
+The terms _first-order_ and _higher-order_ can be intimating at first, but they
+are rather simple to understand.
+
+A function `fn(x) -> y` is a first-order function. However, `fn(fn(x) -> y)
+-> z` is a higher-order function: it's a function that takes a function as an
+argument. The function `fn(x) -> fn(y) -> z` is also a higher-order function
+because it returns a function.
+
+Said differently: A function is a higher-order function if at least:
+
+- it takes another function as argument,
+- it returns a function.
+
+This is analog for a stream. A stream doesn't have _arguments_ nor _returns_
+something: it _produces_ items. Knowing that, a stream is a first-order stream
+if it produces non-stream items, and a stream is a higher-order stream if:
+
+- the produced items are streams.
+
+In the case of `flatten`, it transforms a stream of streams of `T` into a stream
+of `T`. We go from a higher-order stream to a first-order stream.
+
+{% end %}
+
+## <q lang="la">Ad astra</q>
+
+Good news: this is the end of the introduction. Another good news: now we can
+talk about the `switch` combinator!
+
+{% comte() %}
+
+All this was just an introduction? Really? I can't imagine how traumatized your
+kids are when they ask a simple <q>why</q>…
+
+That said, while we are on the subject of showing off with Latin quotes… one
+comes to my mind timely: <q lang="la">fabricando fit faber</q>!
+
+{% end %}
+
+Exactly. We needed to explain all that to understand what the `switch`
+combinator does. It _switches_ a higher-order stream to a first-order stream,
+but not like `flatten`.
+
+<math display="block">
+  <mrow>
+    <mi>switch</mi>
+    <mo rspace="1rem">:</mo>
+    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+    <mo form="prefix">⟨</mo>
+    <mi>Item</mi>
+    <mo form="infix">=</mo>
+    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+    <mo form="prefix">⟨</mo>
+    <mi>Item</mi>
+    <mo form="infix">=</mo>
+    <mi>T</mi>
+    <mo form="postfix">⟩</mo>
+    <mo form="postfix">⟩</mo>
+    <mo>→</mo>
+    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+    <mo form="prefix">⟨</mo>
+    <mi>Item</mi>
+    <mo form="infix">=</mo>
+    <mi>T</mi>
+    <mo form="postfix">⟩</mo>
+  </mrow>
+</math>
+
+Okay, the signature of the combinator is exactly the same than `flatten`, but
+the behaviour is different! Do you remember that `flatten` uses the outer stream
+to produce an inner stream, which is consumed _entirely_ before polling the outer
+stream again? `switch` is different, <i>open the documentation</i>:
+
+> This combinator flattens a stream of streams, i.e. an outer stream yielding
+> inner streams. This combinator always keeps the most recently yielded inner
+> stream, and yields items from it, until the outer stream produces a new inner
+> stream, at which point the inner stream to yield items from is switched to the
+> new one.
+
+The produced inner stream is kept until… the outer stream produces a new inner
+stream.
+
+- `flatten` polls the outer stream when there is no inner stream, or when the
+  inner stream is closed.
+- `switch` polls the outer stream every time and will poll the inner stream if
+  the outer stream is pending or closed.
+
 <figure>
 
-<svg viewBox="0 0 656 214" role="img">
-  <style>
-    :root {
-      --color-svg-schema-accent: oklch(0.601 0.14 60.19);
-      --color-svg-schema-accent-light: oklch(from var(--color-svg-schema-accent) .95 c h);
-      --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
-      /* */
-      --color-svg-schema-accent: oklch(0.59 0.158 60.19);
-      --color-svg-schema-accent-light: oklch(0.95 0.04 60.19);
-      --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
-    }
-    text {
-      fill: var(--color-svg-schema-accent);
-    }
-    circle {
-      fill: var(--color-svg-schema-accent-light);
-      stroke: var(--color-svg-schema-accent);
-    }
-    path.arrow {
-      fill: none;
-      stroke: var(--color-svg-schema-arrow);
-    }
-    path.arrow-end {
-      fill: var(--color-svg-schema-arrow);
-      stroke: var(--color-svg-schema-arrow);
-    }
-  </style>
+<svg viewBox="0 0 656 214" role="img" class="schema">
   <g transform="translate(0 1)">
     <path class="arrow" stroke-miterlimit="10" d="M7.5 180.5h640"/>
     <g stroke-miterlimit="10">
@@ -613,24 +664,133 @@ Flatten
 
 <figcaption>
 
-Switch
+Behaviour of `Switch`: An outer stream produces inner streams. Each inner stream
+is consumed as long as the outer stream is pending. As soon as the outer stream
+is ready with a new inner stream, the current inner stream is replaced by the
+new one.
+
+The outer stream produces the inner stream _A_. It starts producing 1, when
+suddenly, the outer stream is ready with a new inner stream _B_. The inner
+stream _A_ is replaced by _B_, which produces 4. Then, the outer stream is ready
+with a new inner stream _C_, which replaces _B_. It produces 6 and 7.
 
 </figcaption>
 
 </figure>
 
-Let's take an example:
+Let's see how we can implement that in Rust:
 
 ```rust
-let outer_stream = stream::iter([
-    // First inner stream.
-    stream::iter(vec![1, 2, 3]),
-    // Second inner stream.
-    stream::iter(vec![4, 5]),
-    /// Third inner stream.
-    stream::iter(vec![6, 7, 8, 9]),
-])
-.switch();
+/// Type to switch a stream.
+// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.
+pub struct Switch<Outer>
+where
+    Outer: Stream
+{
+    /// The outer stream that produces the inner streams.
+    #[pin]
+    outer_stream: Outer,
+
+    /// The state of the inner stream.
+    #[pin]
+    inner_stream_state: InnerStreamState<Outer::Item>,
+}
+
+/// `Option` with more super-powers.
+// Ignore the `#[pin]`. Blah blah blah, you know the score.
+enum InnerStreamState<Inner> {
+    /// No inner stream has been yielded yet.
+    None,
+
+    /// The latest yielded inner stream.
+    Some {
+        #[pin]
+        inner_stream: Inner,
+    }
+}
+```
+
+And now, the moment we are all waiting for, the implementation of `Stream`:
+
+```rust
+impl<Outer> Stream for Switch<Outer>
+where
+    // My name is stream, `Outer` stream 🕵️.
+    Outer: Stream,
+    // `Outer` is a stream that produces streams!
+    Outer::Item: Stream,
+{
+    type Item = <Outer::Item as Stream>::Item;
+
+    fn poll_next(
+        self: Pin<&mut Self>,
+        context: &mut Context<'_>
+    ) -> Poll<Option<Self::Item>>
+    {
+        // Ignore this. We said we keep `Pin` and projection aside.
+        let mut this = self.pin_projection();
+
+        let mut outer_stream_is_closed = false;
+
+        // Poll the latest inner stream eagerly.
+        while let Poll::Ready(ready) = this.outer_stream.as_mut().poll_next(context) {
+            match ready {
+                // There is a new `inner_stream`!
+                Some(inner_stream) => {
+                    this.inner_stream_state.set(InnerStreamState::Some { inner_stream });
+                    // Let the loop run.
+                }
+
+                None => {
+                    outer_stream_is_closed = true;
+                    break;
+                }
+            }
+        }
+
+        match this.inner_stream_state.pin_projection() {
+            // No inner stream has been produced yet.
+            InnerStreamState::None => {
+                // The stream' state is the outer stream' state.
+                if outer_stream_is_closed {
+                    Poll::Ready(None)
+                } else {
+                    Poll::Pending
+                }
+            }
+
+            // An inner stream exists: poll it!
+            InnerStreamState::Some { inner_stream } => match inner_stream.poll_next(context) {
+                // Inner stream produced an item.
+                Poll::Ready(Some(item)) => Poll::Ready(Some(item)),
+
+                // Both inner and outer streams are closed.
+                Poll::Ready(None) if outer_stream_is_closed => Poll::Ready(None),
+
+                // Only inner stream is closed or is pending.
+                Poll::Ready(None) | Poll::Pending => Poll::Pending,
+            },
+        }
+    }
+}
+```
+
+Not rocket science, but as much fun! Now… action time!
+
+```rust
+let stream =
+    stream::iter([
+        // First inner stream.
+        stream::iter(vec![1, 2, 3]),
+        // Second inner stream.
+        stream::iter(vec![4, 5]),
+        /// Third inner stream.
+        stream::iter(vec![6, 7, 8, 9]),
+    ])
+    .switch();
+//   ^^^^^^
+//   |
+//   oh dear!
 
 assert_eq!(
     stream.collect::<Vec<_>>().await,
@@ -643,7 +803,7 @@ assert_eq!(
 Huh. The first and second inner streams are ignored. Like if the outer stream
 was polled repeatedly until being pending.
 
-Note, it matches the documentation when it says:
+Note, it matches the code _and_ the documentation when it says:
 
 > This combinator always keeps the most recently yielded inner stream, and
 > yields items from it
@@ -721,7 +881,7 @@ throat</i>. Hum hum. Once again, the `futures` crate got you covered! There
 is this excellent [`stream::poll_fn`][`futures::stream::poll_fn`] function: it
 creates a `Stream` that runs the given function when polled.
 
-[`futures::stream::poll_fn`]: https://docs.rs/futures/0.3.32/futures/future/fn.poll_fn.html
+[`futures::stream::poll_fn`]: https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html
 
 {% end %}
 
@@ -797,14 +957,28 @@ assert_eq!(
 );
 ```
 
-Tada! It's the same `stream`. We keep polling it. But the inner stream is reset
+Tadaa! It's the same `stream`. We keep polling it. But the inner stream is reset
 _dynamically_. How cool is that?
 
 <q lang="la">Acta fabula est</q>
 
+In this journey, we played with streams. We can even brag we understand
+what first-order and higher-order streams mean. We introduced a new kind
+of stream: `Switch`. We also saw how the `futures` crate contains _many_
+useful tools. That's why I've opened the [pull request #2997, _feat: Add
+`StreamExt::switch`_ on `rust-lang/futures-rs`][futures-rs#2997]. This
+is a port of the [`async_rx::Switch`] implementation, written by Jonas
+Platte and maintained by Jonas and I, initially for the purpose of the
+[Matrix Rust SDK][matrix-rust-sdk]. We thought it could be useful for other
+persons, so we are. This was the motivation behind this article: explaining how
+`switch` differs from `flatten`, and how useful it can be.
+
+Hope you had fun!
+
 [`Pin`]: https://doc.rust-lang.org/std/pin/struct.Pin.html
 [`Context`]: https://doc.rust-lang.org/std/task/struct.Context.html
 [_Pin_]: https://without.boats/blog/pin/
+[`match`]: https://doc.rust-lang.org/reference/expressions/match-expr.html
 [`futures`]: https://docs.rs/futures/0.3.32/futures/
 [`futures::stream::iter`]: https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html
 [`futures::StreamExt::flatten`]: https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.flatten
@@ -813,6 +987,9 @@ _dynamically_. How cool is that?
 [`Iterator`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html
 [`futures::channel::mpsc`]: https://docs.rs/futures/0.3.32/futures/channel/mpsc/index.html
 [`impl Stream for Receiver`]: https://docs.rs/futures/0.3.32/futures/channel/mpsc/struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E
+[futures-rs#2997]: https://github.com/rust-lang/futures-rs/pull/2997
+[`async_rx::Switch`]: https://github.com/jplatte/async-rx
+[matrix-rust-sdk]: https://github.com/matrix-org/matrix-rust-sdk
 
 [^pin]: I recommend to read [_Pin_], it's an excellent article that goes in
     depth about pinning.
