@@ -72,6 +72,11 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-accent2: oklch(59.1% .236 10.25);
   --color-canvas: var(--color-dark);
 
+  --color-svg-schema-dark: var(--color-dark);
+  --color-svg-schema-accent: oklch(from var(--color-accent) .475 0.067 h);
+  --color-svg-schema-accent-light: oklch(from var(--color-accent) 0.882 0.069 h);
+  --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
+
   --space-very-very-small: .2rem;
   --space-very-small: .25rem;
   --space-small: .5rem;
@@ -276,6 +281,7 @@ code {
   font-family: var(--font-monospace);
   font-weight: normal;
   font-size: .85em;
+  font-synthesis-style: none;
   text-wrap: nowrap;
   padding: var(--space-very-small);
   background: var(--color-dark-lighter);
@@ -378,6 +384,27 @@ figure {
 
   &:has(> table) {
     overflow: scroll hidden;
+  }
+}
+
+svg.schema {
+  text {
+    fill: var(--color-svg-schema-dark);
+  }
+
+  circle {
+    fill: var(--color-svg-schema-accent-light);
+    stroke: var(--color-svg-schema-accent);
+  }
+
+  path.arrow {
+    fill: none;
+    stroke: var(--color-svg-schema-arrow);
+  }
+
+  path.arrow-end {
+    fill: var(--color-svg-schema-arrow);
+    stroke: var(--color-svg-schema-arrow);
   }
 }
 
