@@ -1045,7 +1045,7 @@ reviews and the feedback!
     but <del>it's probably for another article!. Meanwhile, you
     can take a look at [`async_rx::Switch`]</del> Wait no more, the article is
     here: [_Switching higher-order stream to first-order
-    stream_](@/articles/2026-03-07-switching-higher-order-stream-to-first-order-stream/index.md)!
+    stream_](@/articles/2026-04-13-switching-higher-order-stream-to-first-order-stream/index.md)!
 [^stream_assert]: Do you know [`stream_assert`]? It's another crate we've
     written to easily apply assertions on `Stream`s. Pretty convenient.
 [^biscuit]: Yes, [biscuit].
