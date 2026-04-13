@@ -1042,10 +1042,8 @@ reviews and the feedback!
 [^switch]: I would _love_ to talk about how this `Stream` produces
     a `Stream`, how the outer stream and the inner stream are switched (with
     `.switch()`!), how we've implemented that from scratch,
-    but <del>it's probably for another article!. Meanwhile, you
-    can take a look at [`async_rx::Switch`]</del> Wait no more, the article is
-    here: [_Switching higher-order stream to first-order
-    stream_](@/articles/2026-04-13-switching-higher-order-stream-to-first-order-stream/index.md)!
+    but it's probably for another article. Meanwhile, you
+    can take a look at [`async_rx::Switch`]!
 [^stream_assert]: Do you know [`stream_assert`]? It's another crate we've
     written to easily apply assertions on `Stream`s. Pretty convenient.
 [^biscuit]: Yes, [biscuit].
