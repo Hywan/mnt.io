@@ -2,7 +2,7 @@ build-css:
 	lightningcss static/style/*.css --minify --output-dir static/style/min/
 
 build-site:
-	zola build
+	zola build --drafts
 
 build-search:
 	export PATH=".:$$PATH"; pagefind --site public/ --output-subdir search/ --glob '{articles/*/index.html,series/*/*/index.html}'
@@ -10,4 +10,4 @@ build-search:
 build: build-css build-site build-search
 
 watch:
-	zola serve && fg
+	zola serve --drafts && fg

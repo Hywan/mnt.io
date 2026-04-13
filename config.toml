@@ -8,6 +8,8 @@ taxonomies = [
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
+ignored_content = ["*.drawio"]
+
 [markdown]
 bottom_footnotes = true
 external_links_target_blank = true

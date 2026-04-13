@@ -19,7 +19,7 @@
     <h1 class="separator"><span>{{ year}}</span></h1>
 
     <div role="list">
-    {% for page in pages -%}
+    {% for page in pages | filter(attribute="draft", value = false) -%}
       <div role="listitem" class="article-poster" property="itemListElement" typeof="Article">
         {{- article::poster(page = page) -}}
       </div>
