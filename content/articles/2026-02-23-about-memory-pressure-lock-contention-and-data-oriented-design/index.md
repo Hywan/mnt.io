@@ -1041,8 +1041,9 @@ reviews and the feedback!
     `MutableList.clear()`!
 [^switch]: I would _love_ to talk about how this `Stream` produces
     a `Stream`, how the outer stream and the inner stream are switched (with
-    `.switch()`!), how we've implemented that from scratch, but it's probably
-    for another article. Meanwhile, you can take a look at [`async_rx::Switch`].
+    `.switch()`!), how we've implemented that from scratch,
+    but it's probably for another article. Meanwhile, you
+    can take a look at [`async_rx::Switch`]!
 [^stream_assert]: Do you know [`stream_assert`]? It's another crate we've
     written to easily apply assertions on `Stream`s. Pretty convenient.
 [^biscuit]: Yes, [biscuit].

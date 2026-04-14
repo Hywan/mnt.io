@@ -72,6 +72,11 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-accent2: oklch(59.1% .236 10.25);
   --color-canvas: var(--color-dark);
 
+  --color-svg-schema-dark: var(--color-dark);
+  --color-svg-schema-accent: oklch(from var(--color-accent) .475 0.067 h);
+  --color-svg-schema-accent-light: oklch(from var(--color-accent) 0.882 0.069 h);
+  --color-svg-schema-arrow: oklch(0.582 0.008 97.431);
+
   --space-very-very-small: .2rem;
   --space-very-small: .25rem;
   --space-small: .5rem;
@@ -83,6 +88,11 @@ p, h1, h2, h3, h4, h5, h6 {
   --border-width-larger: 3px;
   --border-color: var(--color-dark-lighter);
   --border-color-lighter: var(--color-light-darker);
+  --border-radius: var(--space-small);
+
+  /* Thanks https://modernfontstacks.com/! */
+  --font-text: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+  --font-monospace: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 
   --text-size: 1.05rem;
   --text-line-height: 1.5;
@@ -127,9 +137,8 @@ html {
 }
 
 body {
-  /* Thanks https://modernfontstacks.com/! */
   font-size: var(--text-size);
-  font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+  font-family: var(--font-text);
   font-weight: normal;
   font-variant: slashed-zero;
   line-height: var(--text-line-height);
@@ -237,7 +246,7 @@ ul {
   padding-inline-start: var(--space-large);
 
   > li::before {
-    content: "•";
+    content: '•';
     position: absolute;
     left: 0;
     display: inline-block;
@@ -251,10 +260,6 @@ ol {
 }
 
 li {
-  + li {
-    margin-block-start: var(--space-small);
-  }
-
   p {
     --paragraph-margin: var(--space-small);
   }
@@ -273,11 +278,10 @@ sup > abbr {
 }
 
 code {
-  /* Thanks https://modernfontstacks.com/! */
-  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-family: var(--font-monospace);
   font-weight: normal;
   font-size: .85em;
-  hyphens: auto;
+  font-synthesis-style: none;
   padding: var(--space-very-small);
   background: var(--color-dark-lighter);
 }
@@ -291,8 +295,9 @@ pre {
   line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
-  --_text: "Code";
+  --_text: 'Code';
 
   code {
     display: block;
@@ -301,24 +306,25 @@ pre {
     background: transparent;
   }
 
-  &:has(> code[data-lang="rust"]) { --_text: "Rust" }
-  &:has(> code[data-lang="shellsession"], > code[data-lang="shellscript"]) { --_text: "Shell" }
-  &:has(> code[data-lang="java"]) { --_text: "Java" }
-  &:has(> code[data-lang="sql"]) { --_text: "SQL" }
-  &:has(> code[data-lang="php"]) { --_text: "PHP" }
-  &:has(> code[data-lang="xml"]) { --_text: "XML" }
-  &:has(> code[data-lang="json"]) { --_text: "JSON" }
-  &:has(> code[data-lang="html"]) { --_text: "HTML" }
-  &:has(> code[data-lang="toml"]) { --_text: "TOML" }
+  &:has(> code[data-lang='rust']) { --_text: 'Rust' }
+  &:has(> code[data-lang='shellsession'], > code[data-lang='shellscript']) { --_text: 'Shell' }
+  &:has(> code[data-lang='java']) { --_text: 'Java' }
+  &:has(> code[data-lang='sql']) { --_text: 'SQL' }
+  &:has(> code[data-lang='php']) { --_text: 'PHP' }
+  &:has(> code[data-lang='xml']) { --_text: 'XML' }
+  &:has(> code[data-lang='json']) { --_text: 'JSON' }
+  &:has(> code[data-lang='html']) { --_text: 'HTML' }
+  &:has(> code[data-lang='toml']) { --_text: 'TOML' }
 
   &:has(> code[data-lang])::before {
-    content: var(--_text) " session";
+    content: var(--_text) ' session';
     position: sticky;
     top: 0;
     left: 0;
     padding: var(--space-small) var(--_padding);
     font-size: .85em;
     background: var(--border-color);
+    border-radius: 0 0 var(--border-radius) 0;
   }
 }
 
@@ -332,13 +338,13 @@ figure {
     margin-block-end: 0;
   }
 
-  &:has(img, picture, [role="img"], .youtube-player) {
+  &:has(img, picture, [role='img'], .youtube-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
     color-scheme: only dark;
     padding: var(--_block-space) var(--_inline-space);
     background: var(--color-white);
-    border-radius: var(--space-small);
+    border-radius: var(--border-radius);
 
     code {
       background: none;
@@ -380,6 +386,27 @@ figure {
   }
 }
 
+svg.schema {
+  text {
+    fill: var(--color-svg-schema-dark);
+  }
+
+  circle {
+    fill: var(--color-svg-schema-accent-light);
+    stroke: var(--color-svg-schema-accent);
+  }
+
+  path.arrow {
+    fill: none;
+    stroke: var(--color-svg-schema-arrow);
+  }
+
+  path.arrow-end {
+    fill: var(--color-svg-schema-arrow);
+    stroke: var(--color-svg-schema-arrow);
+  }
+}
+
 table {
   font-variant: tabular-nums;
   border-collapse: collapse;
@@ -413,6 +440,7 @@ details {
 
   padding: var(--_padding);
   border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   summary {
     cursor: pointer;
@@ -445,6 +473,28 @@ mark {
   border-radius: 5px;
   background: oklch(90% .177 75);
   padding-inline: var(--space-very-small);
+}
+
+math {
+  font-family: math;
+  display: inline math;
+  math-style: normal;
+
+  &[display='block'] {
+    math-style: normal;
+    display: block math;
+    margin-block: var(--space);
+    margin-inline: auto;
+  }
+
+  &[display='inline'] {
+    math-style: compact;
+  }
+}
+
+.math:has(math[display='block']) {
+  max-width: 100%;
+  overflow: scroll;
 }
 
 .content-grid {
@@ -544,7 +594,7 @@ footer {
       padding-inline-start: 0;
 
       li::before {
-        content: "";
+        content: '';
       }
     }
   }
@@ -560,6 +610,23 @@ article {
 
     > .metadata {
       margin-block-start: var(--space);
+    }
+  }
+
+  &.article {
+    &.draft::after {
+      content: 'DRAFT';
+      position: fixed;
+      top: 30%;
+      left: -10rem;
+      right: -10rem;
+      pointer-events: none;
+      opacity: .4;
+
+      font-size: 10vh;
+      text-align: center;
+      background: grey;
+      transform: rotate(-10deg);
     }
   }
 
@@ -662,7 +729,7 @@ article {
   min-width: 0;
   min-height: 0;
   padding: var(--_space);
-  border-radius: var(--space-small);
+  border-radius: var(--border-radius);
   background: var(--color-accent-darker);
 
   > .conversation--character {
@@ -678,9 +745,9 @@ article {
     }
   }
 
-  &[data-character="comte"] ~ &[data-character="comte"],
-  &[data-character="factotum"] ~ &[data-character="factotum"],
-  &[data-character="procureur"] ~ &[data-character="procureur"] {
+  &[data-character='comte'] ~ &[data-character='comte'],
+  &[data-character='factotum'] ~ &[data-character='factotum'],
+  &[data-character='procureur'] ~ &[data-character='procureur'] {
     > .conversation--character {
       span {
         display: none;
@@ -755,7 +822,7 @@ article {
       outline: var(--border-width) var(--color-accent) dotted;
     }
 
-    a[href^="#"] {
+    a[href^='#'] {
       font-variant-emoji: text;
     }
   }
@@ -765,7 +832,7 @@ article {
   position: relative;
 
   &::after {
-    content: "[" attr(accesskey) "]";
+    content: '[' attr(accesskey) ']';
     font-size: small;
     position: absolute;
     top: -.5rem;
