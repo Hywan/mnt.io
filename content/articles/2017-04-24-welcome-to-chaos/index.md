@@ -4,8 +4,6 @@ date = "2017-04-24"
 description = "Recently, [I joined Automattic](@/articles/2017-04-18-bye-bye-liip-hello-automattic/index.md). This is a world-wide distributed company. The first three weeks you incarn a Happiness Engineer. This is part of the Happiness Rotation duty. This article explains why I loved it, and why I reckon you should do it too."
 [taxonomies]
 keywords=["job"]
-[extra]
-pinned = true
 +++
 
 Recently, [I joined
