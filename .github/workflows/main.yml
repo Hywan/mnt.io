@@ -14,6 +14,7 @@ jobs:
         uses: shalzz/zola-deploy-action@v0.22.1
         env:
           BUILD_ONLY: true
+          BUILD_FLAGS: --drafts
       - name: 'search: prepare'
         uses: robinraju/release-downloader@v1
         with:
