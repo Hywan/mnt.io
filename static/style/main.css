@@ -282,7 +282,6 @@ code {
   font-weight: normal;
   font-size: .85em;
   font-synthesis-style: none;
-  text-wrap: nowrap;
   padding: var(--space-very-small);
   background: var(--color-dark-lighter);
 }
@@ -493,6 +492,11 @@ math {
   }
 }
 
+.math:has(math[display='block']) {
+  max-width: 100%;
+  overflow: scroll;
+}
+
 .content-grid {
   --padding-inline: 1rem;
   --content-max-width: 70ch;
@@ -606,6 +610,23 @@ article {
 
     > .metadata {
       margin-block-start: var(--space);
+    }
+  }
+
+  &.article {
+    &.draft::after {
+      content: 'DRAFT';
+      position: fixed;
+      top: 30%;
+      left: -10rem;
+      right: -10rem;
+      pointer-events: none;
+      opacity: .4;
+
+      font-size: 10vh;
+      text-align: center;
+      background: grey;
+      transform: rotate(-10deg);
     }
   }
 

@@ -89,25 +89,27 @@ Exactly! That's really exciting because it brings really nice features.
 
 Let's see an example with _map_:
 
-<math display="block">
-  <mrow>
-    <mi>map</mi>
-    <mo rspace="1rem">:</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-    <mo>→</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>U</mi>
-    <mo form="postfix">⟩</mo>
-  </mrow>
-</math>
+<div class="math">
+  <math display="block">
+    <mrow>
+      <mi>map</mi>
+      <mo rspace="1rem">:</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+      <mo>→</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>U</mi>
+      <mo form="postfix">⟩</mo>
+    </mrow>
+  </math>
+</div>
 
 In Rust, it would look like this:
 
@@ -131,25 +133,27 @@ type `Stream::Item`) to a new type `U`, resulting in another `Stream<U>`.
 
 Let's see another example with _filter_, shall we?
 
-<math display="block">
-  <mrow>
-    <mi>filter</mi>
-    <mo rspace="1rem">:</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-    <mo>→</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-  </mrow>
-</math>
+<div class="math">
+  <math display="block">
+    <mrow>
+      <mi>filter</mi>
+      <mo rspace="1rem">:</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+      <mo>→</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+    </mrow>
+  </math>
+</div>
 
 In Rust, it would look like this:
 
@@ -178,30 +182,32 @@ Okay. Another one? Just like `Iterator::flatten`, `Stream::flatten` can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
 inner streams. Things start to be fun, let's dig a bit.
 
-<math display="block">
-  <mrow>
-    <mi>flatten</mi>
-    <mo rspace="1rem">:</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-    <mo form="postfix">⟩</mo>
-    <mo>→</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-  </mrow>
-</math>
+<div class="math">
+  <math display="block">
+    <mrow>
+      <mi>flatten</mi>
+      <mo rspace="1rem">:</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+      <mo form="postfix">⟩</mo>
+      <mo>→</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+    </mrow>
+  </math>
+</div>
 
 In Rust, it would look like this:
 
@@ -547,30 +553,32 @@ Exactly. We needed to explain all that to understand what the `switch`
 combinator does. It _switches_ a higher-order stream to a first-order stream,
 but not like `flatten`.
 
-<math display="block">
-  <mrow>
-    <mi>switch</mi>
-    <mo rspace="1rem">:</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-    <mo form="postfix">⟩</mo>
-    <mo>→</mo>
-    <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
-    <mo form="prefix">⟨</mo>
-    <mi>Item</mi>
-    <mo form="infix">=</mo>
-    <mi>T</mi>
-    <mo form="postfix">⟩</mo>
-  </mrow>
-</math>
+<div class="math">
+  <math display="block">
+    <mrow>
+      <mi>switch</mi>
+      <mo rspace="1rem">:</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+      <mo form="postfix">⟩</mo>
+      <mo>→</mo>
+      <mtext>𝚂𝚝𝚛𝚎𝚊𝚖</mtext>
+      <mo form="prefix">⟨</mo>
+      <mi>Item</mi>
+      <mo form="infix">=</mo>
+      <mi>T</mi>
+      <mo form="postfix">⟩</mo>
+    </mrow>
+  </math>
+</div>
 
 Okay, the signature of the combinator is exactly the same than `flatten`, but
 the behaviour is different! Do you remember that `flatten` uses the outer stream
