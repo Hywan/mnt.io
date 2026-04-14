@@ -939,7 +939,8 @@ these two streams and —come on!— let&#x27;s use the &lt;code&gt;switch&lt;&#
 &lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Tadaa! It&#x27;s the same &lt;code&gt;stream&lt;&#x2F;code&gt;. We keep polling it. But the inner stream is reset
 &lt;em&gt;dynamically&lt;&#x2F;em&gt;. How cool is that?&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;q lang=&quot;la&quot;&gt;Acta fabula est&lt;&#x2F;q&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;acta-fabula-est&quot;&gt;&lt;q lang=&quot;la&quot;&gt;Acta fabula est&lt;&#x2F;q&gt;&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#acta-fabula-est&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
 &lt;p&gt;In this journey, we played with streams. We can even brag we understand
 what first-order and higher-order streams mean. We introduced a new kind
 of stream: &lt;code&gt;Switch&lt;&#x2F;code&gt;. We also saw how the &lt;code&gt;futures&lt;&#x2F;code&gt; crate contains &lt;em&gt;many&lt;&#x2F;em&gt;
