@@ -11,7 +11,7 @@
 {%- endblock long_title %}
 
 {% block body %}
-  <article class="article{%- if page.draft %} draft{%- endif -%}" typeof="Article"{%- if page.draft == false %} data-pagefind-body{%- else %} data-pagefind-ignore{%- endif %}>
+  <article class="article{%- if page.draft %} draft{%- endif -%}" typeof="Article"{%- if page.draft == false %} data-pagefind-body{%- else %} data-pagefind-ignore="all"{%- endif %}>
     <header>
       <h1 property="name" style="view-transition-name: article-title-{{ page.slug }}">{{ page.title | markdown(inline = true) | safe }}</h1>
 
