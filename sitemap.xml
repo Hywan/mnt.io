@@ -119,6 +119,10 @@
         <lastmod>2024-10-30</lastmod>
     </url>
     <url>
+        <loc>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</loc>
+        <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
         <loc>https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/</loc>
         <lastmod>2017-06-19</lastmod>
     </url>
@@ -137,6 +141,9 @@
     </url>
     <url>
         <loc>https://mnt.io/keywords/async/</loc>
+    </url>
+    <url>
+        <loc>https://mnt.io/keywords/asynchronous/</loc>
     </url>
     <url>
         <loc>https://mnt.io/keywords/atoum/</loc>

@@ -7,7 +7,960 @@
       <generator>Zola</generator>
       <language>en</language>
       <atom:link href="https://mnt.io/keywords/rust/rss.xml" rel="self" type="application/rss+xml"/>
-      <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate>
+      <lastBuildDate>Mon, 13 Apr 2026 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Switching higher-order stream to first-order stream</title>
+          <pubDate>Mon, 13 Apr 2026 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</link>
+          <guid>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</guid>
+          <description xml:base="https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/">&lt;p&gt;&lt;em&gt;Stream&lt;&#x2F;em&gt; is to &lt;em&gt;Future&lt;&#x2F;em&gt; what &lt;em&gt;Iterator&lt;&#x2F;em&gt; is to &lt;em&gt;value&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;An iterator produces values synchronously,&lt;&#x2F;li&gt;
+&lt;li&gt;A stream produces values asynchronously,&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;In terms of Rust, an &lt;code&gt;Iterator&lt;&#x2F;code&gt; is defined as:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;trait&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Iterator&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; self&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;enum&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; There is no value.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    None&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; There is a value!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And a &lt;code&gt;Stream&lt;&#x2F;code&gt; is defined as:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;trait&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;        self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Pin&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; Self&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;        context&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Context&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&amp;#39;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    )&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;enum&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The value is not ready yet.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Pending&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The value is immediately ready!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;(Let&#x27;s ignore &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;pin&#x2F;struct.Pin.html&quot;&gt;&lt;code&gt;Pin&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; and &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;task&#x2F;struct.Context.html&quot;&gt;&lt;code&gt;Context&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; in this article&lt;sup class=&quot;footnote-reference&quot; id=&quot;fr-pin-1&quot;&gt;&lt;a href=&quot;#fn-pin&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;).&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;Poll::Pending&lt;&#x2F;code&gt; means that no value is ready yet: the &lt;code&gt;Stream&lt;&#x2F;code&gt; must be polled
+later. When is the best time to poll the &lt;code&gt;Stream&lt;&#x2F;code&gt; again is not the topic of this
+article and won&#x27;t be discussed. &lt;code&gt;Poll::Ready(Some(T))&lt;&#x2F;code&gt; means the value is ready
+and returned. Finally, &lt;code&gt;Poll::Ready(None)&lt;&#x2F;code&gt; means the &lt;code&gt;Stream&lt;&#x2F;code&gt; has been &lt;em&gt;closed&lt;&#x2F;em&gt;
+and must not be polled again!&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;Concise and straightforward. I like the similarities: &lt;code&gt;next&lt;&#x2F;code&gt; vs. &lt;code&gt;poll_next&lt;&#x2F;code&gt;,
+&lt;code&gt;Option&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; vs. &lt;code&gt;Poll&amp;lt;Option&amp;lt;T&amp;gt;&amp;gt;&lt;&#x2F;code&gt;. Did I tell you how much I appreciate
+consistency?&lt;&#x2F;p&gt;
+&lt;p&gt;Additionally, one of the strengths of &lt;code&gt;Iterator&lt;&#x2F;code&gt; is the &lt;em&gt;combinators&lt;&#x2F;em&gt;: a way
+to transform an &lt;code&gt;Iterator&lt;&#x2F;code&gt; into another &lt;code&gt;Iterator&lt;&#x2F;code&gt;. These combinators can be
+chained, like that:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;iterator&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;skip_while&lt;&#x2F;span&gt;&lt;span&gt;(…)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;filter&lt;&#x2F;span&gt;&lt;span&gt;(…)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;enumerate&lt;&#x2F;span&gt;&lt;span&gt;(…)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;(…)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;They are nothing more than methods returning a new &lt;code&gt;Iterator&lt;&#x2F;code&gt;, that&#x27;s the secret
+to chain them.&lt;&#x2F;p&gt;
+&lt;p&gt;And similarly to &lt;code&gt;Iterator&lt;&#x2F;code&gt;, a &lt;code&gt;Stream&lt;&#x2F;code&gt; can have many &lt;em&gt;combinators&lt;&#x2F;em&gt;: a way to
+transform a &lt;code&gt;Stream&lt;&#x2F;code&gt; into another &lt;code&gt;Stream&lt;&#x2F;code&gt;! Once again: consistency…&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Exactly! That&#x27;s really exciting because it brings really nice features.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s see an example with &lt;em&gt;map&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;math&quot;&gt;
+  &lt;math display=&quot;block&quot;&gt;
+    &lt;mrow&gt;
+      &lt;mi&gt;map&lt;&#x2F;mi&gt;
+      &lt;mo rspace=&quot;1rem&quot;&gt;:&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo&gt;→&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;U&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+    &lt;&#x2F;mrow&gt;
+  &lt;&#x2F;math&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;In Rust, it would look like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;trait&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; map&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;U&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; F&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; f&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; F&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; impl&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;U&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        F&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; FnMut&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; U&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The method &lt;code&gt;map&lt;&#x2F;code&gt; takes a function &lt;code&gt;F&lt;&#x2F;code&gt; that maps the items of the &lt;code&gt;Stream&lt;&#x2F;code&gt; (of
+type &lt;code&gt;Stream::Item&lt;&#x2F;code&gt;) to a new type &lt;code&gt;U&lt;&#x2F;code&gt;, resulting in another &lt;code&gt;Stream&amp;lt;U&amp;gt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s see another example with &lt;em&gt;filter&lt;&#x2F;em&gt;, shall we?&lt;&#x2F;p&gt;
+&lt;div class=&quot;math&quot;&gt;
+  &lt;math display=&quot;block&quot;&gt;
+    &lt;mrow&gt;
+      &lt;mi&gt;filter&lt;&#x2F;mi&gt;
+      &lt;mo rspace=&quot;1rem&quot;&gt;:&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo&gt;→&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+    &lt;&#x2F;mrow&gt;
+  &lt;&#x2F;math&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;In Rust, it would look like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;trait&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; filter&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;F&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; f&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; F&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; impl&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        F&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; FnMut&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; bool&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The method &lt;code&gt;filter&lt;&#x2F;code&gt; takes a function &lt;code&gt;F&lt;&#x2F;code&gt; that tells if the items of the &lt;code&gt;Stream&lt;&#x2F;code&gt;
+should be kept or not, resulting in another &lt;code&gt;Stream&lt;&#x2F;code&gt; with the same type for
+the items.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;flatten&quot;&gt;Flatten&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#flatten&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Okay. Another one? Just like &lt;code&gt;Iterator::flatten&lt;&#x2F;code&gt;, &lt;code&gt;Stream::flatten&lt;&#x2F;code&gt; can exist
+too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
+inner streams. Things start to be fun, let&#x27;s dig a bit.&lt;&#x2F;p&gt;
+&lt;div class=&quot;math&quot;&gt;
+  &lt;math display=&quot;block&quot;&gt;
+    &lt;mrow&gt;
+      &lt;mi&gt;flatten&lt;&#x2F;mi&gt;
+      &lt;mo rspace=&quot;1rem&quot;&gt;:&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo&gt;→&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+    &lt;&#x2F;mrow&gt;
+  &lt;&#x2F;math&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;In Rust, it would look like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;trait&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; flatten&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;        self&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    )&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; impl&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; as&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;        Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; …&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Do not be intimidated by the syntax. Try read it one piece at a time.&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;Hmm, let&#x27;s dissect the &lt;code&gt;where&lt;&#x2F;code&gt; clause:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Self&lt;&#x2F;code&gt; represents the type implementing &lt;code&gt;Stream&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Self::Item&lt;&#x2F;code&gt; represents the type of the items produced by the &lt;code&gt;Stream&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;So &lt;code&gt;Self::Item: Stream&lt;&#x2F;code&gt; means that the items are… streams! Phrased a bit
+differently: the stream produces streams.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And the return type:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;impl Stream&lt;&#x2F;code&gt; means &lt;em&gt;any type that implements &lt;code&gt;Stream&lt;&#x2F;code&gt;&lt;&#x2F;em&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;(We know that the stream produces streams with &lt;code&gt;Self::Item: Stream&lt;&#x2F;code&gt; so…)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;Self::Item as Stream&amp;gt;::Item&lt;&#x2F;code&gt; represents the type of items produced by the
+produced streams.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The Mathematical notation was easier on this one.&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;It&#x27;s probably easier but it doesn&#x27;t explain what &lt;code&gt;flatten&lt;&#x2F;code&gt; does exactly. Let&#x27;s
+see a bit of Rust code to understand how it would work:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;&#x2F; Type to flatten a stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Ignore the `#[pin]`. We said we keep `Pin` and projection aside.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;pub&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt; struct&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Flatten&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Inner&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The outer stream that produces the inner streams.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    #[pin]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    outer_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Outer&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The most recently produced inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    #[pin]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Inner&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Good, good. Baby steps. Now, let&#x27;s implement &lt;code&gt;Stream&lt;&#x2F;code&gt; on &lt;code&gt;Flatten&lt;&#x2F;code&gt; shouldn&#x27;t we?&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;impl&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; for&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Flatten&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;                                    ^^^^^^^^^^^&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;                                    |&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;                                    our inner stream type!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; My name is stream, `Outer` stream 🕵️.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; `Outer` is a stream that produces streams!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; as&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;        self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Pin&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; Self&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;        context&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Context&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&amp;#39;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    )&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; Ignore this. We said we keep `Pin` and projection aside.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;        let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;pin_projection&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;        loop&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;            if&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt; let&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;inner_stream&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;as_mut&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;as_pin_mut&lt;&#x2F;span&gt;&lt;span&gt;() {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; There is an inner stream: let&amp;#39;s poll it!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;                match&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;context&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; The inner stream produced an `item`!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;item&lt;&#x2F;span&gt;&lt;span&gt;))&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; return&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;item&lt;&#x2F;span&gt;&lt;span&gt;)),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; The inner stream is closed: let&amp;#39;s forget it.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;                        this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                        &#x2F;&#x2F; Let the loop run again.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; The inner stream is pending: nothing to do.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; return&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;            }&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; else&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; No inner stream? No problem: let&amp;#39;s poll the outer stream!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;                match&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;outer_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;as_mut&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;context&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; New inner stream!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; “Welcooomme iinneer streeaaam” says the crowd.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;inner_stream&lt;&#x2F;span&gt;&lt;span&gt;))&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;                        this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;inner_stream&lt;&#x2F;span&gt;&lt;span&gt;));&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                        &#x2F;&#x2F; Let the loop run again.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; The outer stream is closed: let&amp;#39;s close everything.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; return&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; The outer stream is pending: nothing to do.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; return&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;            }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;A cake walk. Thanks to &lt;code&gt;Poll&lt;&#x2F;code&gt; being an enum, and &lt;code&gt;match&lt;&#x2F;code&gt; being &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;reference&#x2F;expressions&#x2F;match-expr.html&quot;&gt;&lt;code&gt;match&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, this
+code is easy to read and to understand. No surprise. Almost boring.&lt;&#x2F;p&gt;
+&lt;p&gt;We notice that each newly polled inner stream —i.e. produced by the outer
+stream— is consumed &lt;strong&gt;entirely&lt;&#x2F;strong&gt; until it&#x27;s closed. Then, a new inner stream is
+polled, and it keeps going until the outer stream is closed.&lt;&#x2F;p&gt;
+&lt;figure&gt;
+&lt;svg viewBox=&quot;0 0 886 214&quot; role=&quot;img&quot; class=&quot;schema&quot;&gt;
+  &lt;g transform=&quot;translate(0 1)&quot;&gt;
+    &lt;path class=&quot;arrow&quot; stroke-miterlimit=&quot;10&quot; d=&quot;M7.5 180.5h810&quot;&#x2F;&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M567.5 30.5h303.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m876.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M7.5 30.5h113.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m126.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;157&quot; cy=&quot;30&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;157&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;A&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M187.5 30.5h93.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m286.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;317&quot; cy=&quot;30&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;317&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;B&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M347.5 30.5h153.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m506.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M537.5 60.5v20.07q0 10 10 10h130q10 0 10 10v70q0 10 10 9.98l23.63-.04&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m726.38 180.5-6.99 3.51 1.74-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M557 85h91v15h-91z&quot;&#x2F;&gt;
+      &lt;text x=&quot;602.27&quot; y=&quot;94&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;537&quot; cy=&quot;30&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;537&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;C&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;227&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;227&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;1&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;407&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;&#x2F;&gt;
+    &lt;text x=&quot;407&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;3&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;317&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;317&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;2&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M157.5 60.5v110q0 10 10 10h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m196.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M123 104h69v15h-69z&quot;&#x2F;&gt;
+      &lt;text x=&quot;156.67&quot; y=&quot;115&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M257.5 180.5h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m286.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M347.5 180.5h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m376.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M567.5 180.57h20-10 13.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m596.38 180.57-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;537&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;537&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;4&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;627&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;&#x2F;&gt;
+    &lt;text x=&quot;627&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;5&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M317.5 60.5v50q0 10 10 10h130q10 0 10 10v40q0 10 10 10h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m506.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M342 113h91v15h-91z&quot;&#x2F;&gt;
+      &lt;text x=&quot;387.67&quot; y=&quot;124.67&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M787.5 180.57h20-10l13.63-.03&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m816.38 180.53-6.99 3.52 1.74-3.51-1.75-3.49Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;757&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;757&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;6&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;847&quot; cy=&quot;180&quot; r=&quot;30&quot; fill=&quot;#fff&quot; stroke=&quot;#000&quot; stroke-width=&quot;2&quot;&#x2F;&gt;
+    &lt;text x=&quot;847&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;7&lt;&#x2F;text&gt;
+    &lt;path fill=&quot;none&quot; d=&quot;M17.5.5h90v30h-90z&quot;&#x2F;&gt;
+    &lt;text x=&quot;19&quot; y=&quot;20&quot; font-size=&quot;12&quot;&gt;Outer stream&lt;&#x2F;text&gt;
+    &lt;path fill=&quot;none&quot; d=&quot;M17.5 150.5h110v30h-110z&quot;&#x2F;&gt;
+    &lt;text x=&quot;19&quot; y=&quot;170&quot; font-size=&quot;12&quot;&gt;Resulting stream&lt;&#x2F;text&gt;
+  &lt;&#x2F;g&gt;
+&lt;&#x2F;svg&gt;
+&lt;figcaption&gt;
+&lt;p&gt;Behaviour of &lt;code&gt;Flatten&lt;&#x2F;code&gt;: An outer stream produces inner streams. Each inner
+stream is consumed entirely before jumping on the next inner stream produced
+by the outer stream. Even if the outer stream would be ready with a new inner
+stream, it&#x27;s not polled until the current inner stream is closed.&lt;&#x2F;p&gt;
+&lt;p&gt;The outer stream produces the inner stream &lt;em&gt;A&lt;&#x2F;em&gt; that produces 1, 2 and 3. Then,
+since &lt;em&gt;A&lt;&#x2F;em&gt; is closed, the outer stream is polled again and produces the new inner
+stream &lt;em&gt;B&lt;&#x2F;em&gt;, which itself produces 4 and 5. It keeps going with the outer stream
+producing the inner stream &lt;em&gt;C&lt;&#x2F;em&gt;, which itself produces 6 and 7.&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;p&gt;Action time via a basic example, this time with the help of &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;&quot;&gt;the &lt;code&gt;futures&lt;&#x2F;code&gt;
+crate&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; `StreamExt` is the trait that “extends” the `Stream` trait.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; It contains all the combinators.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; futures&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;{executor,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; StreamExt&lt;&#x2F;span&gt;&lt;span&gt;}};&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; main&lt;&#x2F;span&gt;&lt;span&gt;() {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    executor&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;block_on&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;async&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;        let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;            &#x2F;&#x2F; First inner streams.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 3&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;            &#x2F;&#x2F; Second inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 5&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;            &#x2F;&#x2F; Third inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 8&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 9&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        ])&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;        .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;flatten&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;       ^^^^^^^&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;       |&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;       the important piece&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;        dbg!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    });&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;There is a lot going on here.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;futures::executor&lt;&#x2F;code&gt; is an asynchronous runtime, also called an executor. The
+&lt;code&gt;block_on&lt;&#x2F;code&gt; function is a special executor that runs a future to completion on
+the current thread. It&#x27;s perfect in our case as we just want to run a single
+asynchronous block, i.e. a future.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;stream&#x2F;fn.iter.html&quot;&gt;&lt;code&gt;stream::iter&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; builds a special stream called
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;stream&#x2F;fn.iter.html&quot;&gt;&lt;code&gt;Iter&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. It converts an &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;std&#x2F;iter&#x2F;trait.Iterator.html&quot;&gt;&lt;code&gt;Iterator&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; into a &lt;code&gt;Stream&lt;&#x2F;code&gt;. One can argue this is
+a bit useless as all items are already known. To whom I would gently remind…
+it&#x27;s an example! It&#x27;s here to illustrate the behaviour of &lt;code&gt;flatten&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;So. &lt;code&gt;stream::iter&lt;&#x2F;code&gt;. We are building the outer stream that produces three inner
+streams. These inner streams are all &lt;code&gt;stream::iter&lt;&#x2F;code&gt; streams too. How lovingly
+pleasant.&lt;&#x2F;li&gt;
+&lt;li&gt;Finally, &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;stream&#x2F;trait.StreamExt.html#method.flatten&quot;&gt;&lt;code&gt;flatten&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is called right before
+returning the flattened &lt;code&gt;stream&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;To test what the stream will return, we use the combinator
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;stream&#x2F;trait.StreamExt.html#method.collect&quot;&gt;&lt;code&gt;collect&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, which collects all items, here in a
+&lt;code&gt;Vec&lt;&#x2F;code&gt;. Since &lt;code&gt;collect&lt;&#x2F;code&gt; does &lt;em&gt;not&lt;&#x2F;em&gt; return a &lt;code&gt;Stream&lt;&#x2F;code&gt; but a &lt;code&gt;Future&lt;&#x2F;code&gt;: it produces
+a single value, not many. That&#x27;s why we can simply &lt;code&gt;await&lt;&#x2F;code&gt; for the result. And
+speaking of result: it displays…&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;plain&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;[src&#x2F;main.rs:17:9] &amp;amp;stream.collect::&amp;lt;Vec&amp;lt;_&amp;gt;&amp;gt;().await = [&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    1,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    2,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    3,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    4,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    5,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    6,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    7,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    8,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    9,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;i&gt;throw confetti&lt;&#x2F;i&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;Flatten&lt;&#x2F;code&gt; is a classical example of a higher-order stream!&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;procureur&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Procureur&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;procureur.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;procureur.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;procureur.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;The terms &lt;em&gt;first-order&lt;&#x2F;em&gt; and &lt;em&gt;higher-order&lt;&#x2F;em&gt; can be intimating at first, but they
+are rather simple to understand.&lt;&#x2F;p&gt;
+&lt;p&gt;A function &lt;code&gt;fn(x) -&amp;gt; y&lt;&#x2F;code&gt; is a first-order function. However, &lt;code&gt;fn(fn(x) -&amp;gt; y) -&amp;gt; z&lt;&#x2F;code&gt; is a higher-order function: it&#x27;s a function that takes a function as an
+argument. The function &lt;code&gt;fn(x) -&amp;gt; fn(y) -&amp;gt; z&lt;&#x2F;code&gt; is also a higher-order function
+because it returns a function.&lt;&#x2F;p&gt;
+&lt;p&gt;Said differently: A function is a higher-order function if at least:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;it takes another function as argument,&lt;&#x2F;li&gt;
+&lt;li&gt;it returns a function.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This is analog for a stream. A stream doesn&#x27;t have &lt;em&gt;arguments&lt;&#x2F;em&gt; nor &lt;em&gt;returns&lt;&#x2F;em&gt;
+something: it &lt;em&gt;produces&lt;&#x2F;em&gt; items. Knowing that, a stream is a first-order stream
+if it produces non-stream items, and a stream is a higher-order stream if:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;the produced items are streams.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;In the case of &lt;code&gt;flatten&lt;&#x2F;code&gt;, it transforms a stream of streams of &lt;code&gt;T&lt;&#x2F;code&gt; into a stream
+of &lt;code&gt;T&lt;&#x2F;code&gt;. We go from a higher-order stream to a first-order stream.&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;ad-astra&quot;&gt;&lt;q lang=&quot;la&quot;&gt;Ad astra&lt;&#x2F;q&gt;&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#ad-astra&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;&#x2F;h2&gt;
+&lt;p&gt;Good news: this is the end of the introduction. Another good news: now we can
+talk about the &lt;code&gt;switch&lt;&#x2F;code&gt; combinator!&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;All this was just an introduction? Really? I can&#x27;t imagine how traumatized your
+kids are when they ask a simple &lt;q&gt;why&lt;&#x2F;q&gt;…&lt;&#x2F;p&gt;
+&lt;p&gt;That said, while we are on the subject of showing off with Latin quotes… one
+comes to my mind timely: &lt;q lang=&quot;la&quot;&gt;fabricando fit faber&lt;&#x2F;q&gt;!&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Exactly. We needed to explain all that to understand what the &lt;code&gt;switch&lt;&#x2F;code&gt;
+combinator does. It &lt;em&gt;switches&lt;&#x2F;em&gt; a higher-order stream to a first-order stream,
+but not like &lt;code&gt;flatten&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;div class=&quot;math&quot;&gt;
+  &lt;math display=&quot;block&quot;&gt;
+    &lt;mrow&gt;
+      &lt;mi&gt;switch&lt;&#x2F;mi&gt;
+      &lt;mo rspace=&quot;1rem&quot;&gt;:&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+      &lt;mo&gt;→&lt;&#x2F;mo&gt;
+      &lt;mtext&gt;𝚂𝚝𝚛𝚎𝚊𝚖&lt;&#x2F;mtext&gt;
+      &lt;mo form=&quot;prefix&quot;&gt;⟨&lt;&#x2F;mo&gt;
+      &lt;mi&gt;Item&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;infix&quot;&gt;=&lt;&#x2F;mo&gt;
+      &lt;mi&gt;T&lt;&#x2F;mi&gt;
+      &lt;mo form=&quot;postfix&quot;&gt;⟩&lt;&#x2F;mo&gt;
+    &lt;&#x2F;mrow&gt;
+  &lt;&#x2F;math&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Okay, the signature of the combinator is exactly the same than &lt;code&gt;flatten&lt;&#x2F;code&gt;, but
+the behaviour is different! Do you remember that &lt;code&gt;flatten&lt;&#x2F;code&gt; uses the outer stream
+to produce an inner stream, which is consumed &lt;em&gt;entirely&lt;&#x2F;em&gt; before polling the outer
+stream again? &lt;code&gt;switch&lt;&#x2F;code&gt; is different, &lt;i&gt;open the documentation&lt;&#x2F;i&gt;:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This combinator flattens a stream of streams, i.e. an outer stream yielding
+inner streams. This combinator always keeps the most recently yielded inner
+stream, and yields items from it, until the outer stream produces a new inner
+stream, at which point the inner stream to yield items from is switched to the
+new one.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;The produced inner stream is kept until… the outer stream produces a new inner
+stream.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;flatten&lt;&#x2F;code&gt; polls the outer stream when there is no inner stream, or when the
+inner stream is closed.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;switch&lt;&#x2F;code&gt; polls the outer stream every time and will poll the inner stream if
+the outer stream is pending or closed.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;figure&gt;
+&lt;svg viewBox=&quot;0 0 656 214&quot; role=&quot;img&quot; class=&quot;schema&quot;&gt;
+  &lt;g transform=&quot;translate(0 1)&quot;&gt;
+    &lt;path class=&quot;arrow&quot; stroke-miterlimit=&quot;10&quot; d=&quot;M7.5 180.5h640&quot;&#x2F;&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M467.5 30.5h173.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m646.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;157&quot; cy=&quot;30&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;157&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;A&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M187.5 30.5h33.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m226.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;257&quot; cy=&quot;30&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;257&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;B&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M287.5 30.5h113.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m406.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M437.5 60.5v20q0 10 10 10h5q5 0 5 10v70q0 10 10 10h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m496.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M425 124h69v15h-69z&quot;&#x2F;&gt;
+      &lt;text x=&quot;458.5&quot; y=&quot;135.5&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;437&quot; cy=&quot;30&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;437&quot; y=&quot;35&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;C&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;227&quot; cy=&quot;180&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;227&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;1&lt;&#x2F;text&gt;
+    &lt;g stroke=&quot;#000&quot; stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M157.5 60.5v110q0 10 10 10h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m196.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M124 113h69v15h-69z&quot;&#x2F;&gt;
+      &lt;text x=&quot;157.5&quot; y=&quot;124.5&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;path class=&quot;arrow&quot; stroke-miterlimit=&quot;10&quot; d=&quot;M407.5 180.5h20-10 20&quot;&#x2F;&gt;
+    &lt;circle cx=&quot;377&quot; cy=&quot;180&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;377&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;4&lt;&#x2F;text&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M257.5 60.5v50q0 10 10 10h30q10 0 10 10v40q0 10 10 10h23.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m346.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;
+      &lt;path fill=&quot;#fff&quot; d=&quot;M223 81h69v15h-69z&quot;&#x2F;&gt;
+      &lt;text x=&quot;256.5&quot; y=&quot;92.5&quot;&gt;Inner stream&lt;&#x2F;text&gt;
+    &lt;&#x2F;g&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M557.5 180.5h20-10 13.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m586.38 180.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;circle cx=&quot;527&quot; cy=&quot;180&quot; r=&quot;30&quot; transform=&quot;translate(.5 .5)&quot;&#x2F;&gt;
+    &lt;text x=&quot;527&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;6&lt;&#x2F;text&gt;
+    &lt;circle cx=&quot;617&quot; cy=&quot;180&quot; r=&quot;30&quot; stroke-width=&quot;2&quot;&#x2F;&gt;
+    &lt;text x=&quot;617&quot; y=&quot;185&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot;&gt;7&lt;&#x2F;text&gt;
+    &lt;path class=&quot;arrow&quot; stroke-miterlimit=&quot;10&quot; d=&quot;M257.5 180.5h30&quot;&#x2F;&gt;
+    &lt;g stroke-miterlimit=&quot;10&quot;&gt;
+      &lt;path class=&quot;arrow&quot; d=&quot;M7.5 30.5h113.63&quot;&#x2F;&gt;
+      &lt;path class=&quot;arrow-end&quot; d=&quot;m126.38 30.5-7 3.5 1.75-3.5-1.75-3.5Z&quot;&#x2F;&gt;
+    &lt;&#x2F;g&gt;
+    &lt;path fill=&quot;none&quot; d=&quot;M17.5.5h90v30h-90z&quot;&#x2F;&gt;
+    &lt;text x=&quot;19&quot; y=&quot;20&quot; font-size=&quot;12&quot;&gt;Outer stream&lt;&#x2F;text&gt;
+    &lt;path fill=&quot;none&quot; d=&quot;M17.5 150.5h100v30h-100z&quot;&#x2F;&gt;
+    &lt;text x=&quot;19&quot; y=&quot;170&quot; font-size=&quot;12&quot;&gt;Resulting stream&lt;&#x2F;text&gt;
+  &lt;&#x2F;g&gt;
+&lt;&#x2F;svg&gt;
+&lt;figcaption&gt;
+&lt;p&gt;Behaviour of &lt;code&gt;Switch&lt;&#x2F;code&gt;: An outer stream produces inner streams. Each inner stream
+is consumed as long as the outer stream is pending. As soon as the outer stream
+is ready with a new inner stream, the current inner stream is replaced by the
+new one.&lt;&#x2F;p&gt;
+&lt;p&gt;The outer stream produces the inner stream &lt;em&gt;A&lt;&#x2F;em&gt;. It starts producing 1, when
+suddenly, the outer stream is ready with a new inner stream &lt;em&gt;B&lt;&#x2F;em&gt;. The inner
+stream &lt;em&gt;A&lt;&#x2F;em&gt; is replaced by &lt;em&gt;B&lt;&#x2F;em&gt;, which produces 4. Then, the outer stream is ready
+with a new inner stream &lt;em&gt;C&lt;&#x2F;em&gt;, which replaces &lt;em&gt;B&lt;&#x2F;em&gt;. It produces 6 and 7.&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+&lt;p&gt;Let&#x27;s see how we can implement that in Rust:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;&#x2F; Type to switch a stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Ignore the `#[pin]`. We said we keep `Pin` and projection aside.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;pub&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt; struct&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Switch&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The outer stream that produces the inner streams.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    #[pin]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    outer_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Outer&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The state of the inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    #[pin]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    inner_stream_state&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; InnerStreamState&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;&#x2F; `Option` with more super-powers.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Ignore the `#[pin]`. Blah blah blah, you know the score.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;enum&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; InnerStreamState&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Inner&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; No inner stream has been yielded yet.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    None&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F;&#x2F; The latest yielded inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Some&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        #[pin]&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;        inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Inner&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And now, the moment we are all waiting for, the implementation of &lt;code&gt;Stream&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;impl&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; for&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Switch&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;where&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; My name is stream, `Outer` stream 🕵️.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; `Outer` is a stream that produces streams!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    type&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Outer&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; as&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Stream&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;    fn&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;        self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Pin&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; Self&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;        context&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Context&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&amp;#39;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    )&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; -&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Option&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt;Self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Item&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; Ignore this. We said we keep `Pin` and projection aside.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;        let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable z-language&quot;&gt; self&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;pin_projection&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;        let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; outer_stream_is_closed&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-language&quot;&gt; false&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; Poll the latest inner stream eagerly.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;        while&lt;&#x2F;span&gt;&lt;span class=&quot;z-storage&quot;&gt; let&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;ready&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;outer_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;as_mut&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;context&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;            match&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; ready&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; There is a new `inner_stream`!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;inner_stream&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;                    this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;inner_stream_state&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;InnerStreamState&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; inner_stream&lt;&#x2F;span&gt;&lt;span&gt; });&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                    &#x2F;&#x2F; Let the loop run.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                None&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;                    outer_stream_is_closed&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-language&quot;&gt; true&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;                    break&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;            }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;        match&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; this&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;inner_stream_state&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;pin_projection&lt;&#x2F;span&gt;&lt;span&gt;() {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;            &#x2F;&#x2F; No inner stream has been produced yet.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            InnerStreamState&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; The stream&amp;#39; state is the outer stream&amp;#39; state.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;                if&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; outer_stream_is_closed&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; else&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;                }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;            }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;            &#x2F;&#x2F; An inner stream exists: poll it!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            InnerStreamState&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; inner_stream&lt;&#x2F;span&gt;&lt;span&gt; }&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; match&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; inner_stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_next&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;context&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; Inner stream produced an item.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;item&lt;&#x2F;span&gt;&lt;span&gt;))&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;item&lt;&#x2F;span&gt;&lt;span&gt;)),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; Both inner and outer streams are closed.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt; if&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; outer_stream_is_closed&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;                &#x2F;&#x2F; Only inner stream is closed or is pending.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;                Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;None&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; |&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&amp;gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Pending&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;            },&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Not rocket science, but as much fun! Now… action time!&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;([&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; First inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 3&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; Second inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 5&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F;&#x2F; Third inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 8&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 9&lt;&#x2F;span&gt;&lt;span&gt;]),&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    ])&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;switch&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   ^^^^^^&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   |&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   oh dear!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 8&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 9&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;div class=&quot;conversation&quot; data-character=&quot;comte&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Comte&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;comte.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;comte.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;Huh. The first and second inner streams are ignored. Like if the outer stream
+was polled repeatedly until being pending.&lt;&#x2F;p&gt;
+&lt;p&gt;Note, it matches the code &lt;em&gt;and&lt;&#x2F;em&gt; the documentation when it says:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This combinator always keeps the most recently yielded inner stream, and
+yields items from it&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Correct! To understand the rest of the documentation and &lt;em&gt;why&lt;&#x2F;em&gt; the &lt;code&gt;switch&lt;&#x2F;code&gt; combinator is pretty powerful, we need to imagine a funny example. &lt;i&gt;close eyes, and try to imagine a relevant example…&lt;&#x2F;i&gt;&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;factotum&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Factotum&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;factotum.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;May I? We could imagine this flow:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;outer stream produces 7:
+&lt;ul&gt;
+&lt;li&gt;inner stream produces 7, 8, 9, 10, 11…&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;outer stream produces 42:
+&lt;ul&gt;
+&lt;li&gt;inner stream produces: 42, 43, 44, 45, 46…&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This example illustrates pretty well the power of &lt;code&gt;switch&lt;&#x2F;code&gt;: inner streams are
+computed dynamically depending of the outer stream. It instantiates to a lot of concrete use cases, e.g.:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;given a UI component for a list&lt;&#x2F;li&gt;
+&lt;li&gt;the list can be updated via &lt;em&gt;diff&lt;&#x2F;em&gt; operations, e.g.:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Insert { index, value }&lt;&#x2F;code&gt; to insert new item &lt;code&gt;value&lt;&#x2F;code&gt; at &lt;code&gt;index&lt;&#x2F;code&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Remove { index }&lt;&#x2F;code&gt; to remove an item at &lt;code&gt;index&lt;&#x2F;code&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Set { index, value }&lt;&#x2F;code&gt; to update item at &lt;code&gt;index&lt;&#x2F;code&gt; to &lt;code&gt;value&lt;&#x2F;code&gt;,&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Reset { values }&lt;&#x2F;code&gt; to clear all items and insert new ones,&lt;&#x2F;li&gt;
+&lt;li&gt;and so on.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;the list can be dynamically filtered by a term: when the filter is updated,
+the list must be reset (with &lt;code&gt;Reset&lt;&#x2F;code&gt;), and then new updates can be produced…&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This is similar to the first example with 7 and 42.&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Excellent idea! Let&#x27;s write it.&lt;&#x2F;p&gt;
+&lt;p&gt;First off, we need a way to have a stream that produces values coming from
+another channel. &lt;i&gt;head is getting warm&lt;&#x2F;i&gt; Eh, &lt;em&gt;channel&lt;&#x2F;em&gt;! The &lt;code&gt;futures&lt;&#x2F;code&gt; crate
+provides a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;channel&#x2F;mpsc&#x2F;index.html&quot;&gt;&lt;code&gt;channel::mpsc&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; module! &lt;code&gt;mpsc&lt;&#x2F;code&gt; stands
+for &lt;em&gt;multi-producer, single-consumer&lt;&#x2F;em&gt;, that&#x27;s one kind of queue for sending
+values across asynchronous tasks. Basically, we have one or many &lt;em&gt;senders&lt;&#x2F;em&gt; (the
+&lt;em&gt;producers&lt;&#x2F;em&gt;) and a &lt;em&gt;receiver&lt;&#x2F;em&gt; (the &lt;em&gt;consumer&lt;&#x2F;em&gt;). &lt;i&gt;scroll the documentation&lt;&#x2F;i&gt;.
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;channel&#x2F;mpsc&#x2F;struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E&quot;&gt;The &lt;code&gt;Receiver&lt;&#x2F;code&gt; type implements &lt;code&gt;Stream&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;! Okay,
+it&#x27;s official, the &lt;em&gt;receiver&lt;&#x2F;em&gt; part is our outer stream here:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; futures&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;channel&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;mpsc;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; The queue is “infinite”, we said it is “unbounded”.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; receiver&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;  =&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; mpsc&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; receiver&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; `stream` is pending until the outer stream `receiver`&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; produces something.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded_send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded_send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;42&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 42&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That&#x27;s a good start, isn&#x27;t it?&lt;&#x2F;p&gt;
+&lt;p&gt;So far, &lt;code&gt;stream&lt;&#x2F;code&gt; is a first-order stream. Let&#x27;s compute inner streams! Hum,
+wait a second, how do we create a &lt;code&gt;Stream&lt;&#x2F;code&gt; quickly without having to implement
+&lt;code&gt;Stream&lt;&#x2F;code&gt; on a new structure?&lt;&#x2F;p&gt;
+&lt;div class=&quot;conversation&quot; data-character=&quot;factotum&quot;&gt;
+  &lt;div class=&quot;conversation--character&quot;&gt;
+    &lt;span lang=&quot;fr&quot;&gt;Le Factotum&lt;&#x2F;span&gt;
+
+    &lt;picture role=&quot;presentation&quot;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.avif&quot; type=&quot;image&#x2F;avif&quot; &#x2F;&gt;
+      &lt;source srcset=&quot;&#x2F;image&#x2F;factotum.webp&quot; type=&quot;image&#x2F;webp&quot; &#x2F;&gt;
+      &lt;img src=&quot;&#x2F;image&#x2F;factotum.png&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; &#x2F;&gt;
+    &lt;&#x2F;picture&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;conversation--message&quot;&gt;
+    &lt;p&gt;&lt;q lang=&quot;la&quot;&gt;Aut disce aut discede&lt;&#x2F;q&gt; (see, I know Latin too!). &lt;i&gt;clear its
+throat&lt;&#x2F;i&gt;. Hum hum. Once again, the &lt;code&gt;futures&lt;&#x2F;code&gt; crate got you covered! There
+is this excellent &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;futures&#x2F;0.3.32&#x2F;futures&#x2F;stream&#x2F;fn.poll_fn.html&quot;&gt;&lt;code&gt;stream::poll_fn&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; function: it
+creates a &lt;code&gt;Stream&lt;&#x2F;code&gt; that runs the given function when polled.&lt;&#x2F;p&gt;
+
+  &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;I swear, I have nothing to do with these people. Nonetheless, it&#x27;s a good
+recommendation. Let&#x27;s start easy:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword&quot;&gt;use&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; std&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;task&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Poll&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; next_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;:&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; usize&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 7&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_fn&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;move&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; |&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;    let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; current_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; next_value&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    next_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; next_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;saturating_add&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;    Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;current_value&lt;&#x2F;span&gt;&lt;span&gt;))&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;});&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;take&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 8&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 9&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 10&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 11&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 12&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The created stream never closes itself, that&#x27;s why we need to use the &lt;code&gt;take&lt;&#x2F;code&gt;
+combinator to… well… &lt;em&gt;take&lt;&#x2F;em&gt;… only 6 values here. But it works! Damn, it works!
+Every time the stream is polled, it produces the next integer. Let&#x27;s combine
+these two streams and —come on!— let&#x27;s use the &lt;code&gt;switch&lt;&#x2F;code&gt; combinator or what?!&lt;&#x2F;p&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;rust&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; receiver&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt; mpsc&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt; pin!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;receiver&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;    &#x2F;&#x2F; For every new received value from `sender`…&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;|&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;init_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;        &#x2F;&#x2F; … let&amp;#39;s create a new inner stream:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;        let mut&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; next_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; init_value&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;        stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;poll_fn&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;move&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; |&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt; {&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-storage&quot;&gt;            let&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; current_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; next_value&lt;&#x2F;span&gt;&lt;span&gt;;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;            next_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt; =&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt; new_value&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;saturating_add&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;            Poll&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;Ready&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;current_value&lt;&#x2F;span&gt;&lt;span&gt;))&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        })&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    })&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;    .&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;switch&lt;&#x2F;span&gt;&lt;span&gt;());&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   ^^^^^^^^&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   |&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F;   finally!&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded_send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; `stream` has switched to the inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Let&amp;#39;s take 5 items.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;by_ref&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;take&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 8&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 9&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 10&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 11&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Let&amp;#39;s take 5 more items.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;by_ref&lt;&#x2F;span&gt;&lt;span&gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;take&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;12&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 13&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 14&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 15&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 16&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; All good.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; Let&amp;#39;s trigger a new inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;sender&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unbounded_send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;42&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-comment&quot;&gt;&#x2F;&#x2F; `stream` has been “reset” and produces a new inner stream.&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;assert_eq!&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-variable&quot;&gt;    stream&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;take&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;collect&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-variable&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;()&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator&quot;&gt;.&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword&quot;&gt;await&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name z-function&quot;&gt;    vec!&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt;42&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 43&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 44&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 45&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-numeric&quot;&gt; 46&lt;&#x2F;span&gt;&lt;span&gt;],&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;);&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Tadaa! It&#x27;s the same &lt;code&gt;stream&lt;&#x2F;code&gt;. We keep polling it. But the inner stream is reset
+&lt;em&gt;dynamically&lt;&#x2F;em&gt;. How cool is that?&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;q lang=&quot;la&quot;&gt;Acta fabula est&lt;&#x2F;q&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;In this journey, we played with streams. We can even brag we understand
+what first-order and higher-order streams mean. We introduced a new kind
+of stream: &lt;code&gt;Switch&lt;&#x2F;code&gt;. We also saw how the &lt;code&gt;futures&lt;&#x2F;code&gt; crate contains &lt;em&gt;many&lt;&#x2F;em&gt;
+useful tools. That&#x27;s why I&#x27;ve opened the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;futures-rs&#x2F;pull&#x2F;2997&quot;&gt;pull request #2997, &lt;em&gt;feat: Add
+&lt;code&gt;StreamExt::switch&lt;&#x2F;code&gt;&lt;&#x2F;em&gt; on &lt;code&gt;rust-lang&#x2F;futures-rs&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. This
+is a port of the &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jplatte&#x2F;async-rx&quot;&gt;&lt;code&gt;async_rx::Switch&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; implementation, written by Jonas
+Platte and maintained by Jonas and I, initially for the purpose of the
+&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;matrix-org&#x2F;matrix-rust-sdk&quot;&gt;Matrix Rust SDK&lt;&#x2F;a&gt;. We thought it could be useful for other
+persons, so we are. This was the motivation behind this article: explaining how
+&lt;code&gt;switch&lt;&#x2F;code&gt; differs from &lt;code&gt;flatten&lt;&#x2F;code&gt;, and how useful it can be.&lt;&#x2F;p&gt;
+&lt;p&gt;Hope you had fun!&lt;&#x2F;p&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn-pin&quot;&gt;
+&lt;p&gt;I recommend to read &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;without.boats&#x2F;blog&#x2F;pin&#x2F;&quot;&gt;&lt;em&gt;Pin&lt;&#x2F;em&gt;&lt;&#x2F;a&gt;, it&#x27;s an excellent article that goes in
+depth about pinning. &lt;a href=&quot;#fr-pin-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;section&gt;
+</description>
+      </item>
       <item>
           <title>About memory pressure, lock contention, and Data-oriented Design</title>
           <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
