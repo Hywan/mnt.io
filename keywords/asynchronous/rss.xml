@@ -160,7 +160,7 @@ type &lt;code&gt;Stream::Item&lt;&#x2F;code&gt;) to a new type &lt;code&gt;U&lt;
 &lt;p&gt;The method &lt;code&gt;filter&lt;&#x2F;code&gt; takes a function &lt;code&gt;F&lt;&#x2F;code&gt; that tells if the items of the &lt;code&gt;Stream&lt;&#x2F;code&gt;
 should be kept or not, resulting in another &lt;code&gt;Stream&lt;&#x2F;code&gt; with the same type for
 the items.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;flatten&quot;&gt;Flatten&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#flatten&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;h2 id=&quot;gesta-non-verba-flatten&quot;&gt;&lt;q lang=&quot;la&quot;&gt;Gesta non verba&lt;&#x2F;q&gt; — Flatten&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#gesta-non-verba-flatten&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
 &lt;p&gt;Okay. Another one? Just like &lt;code&gt;Iterator::flatten&lt;&#x2F;code&gt;, &lt;code&gt;Stream::flatten&lt;&#x2F;code&gt; can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
@@ -500,7 +500,7 @@ of &lt;code&gt;T&lt;&#x2F;code&gt;. We go from a higher-order stream to a first-
 
   &lt;&#x2F;div&gt;
 &lt;&#x2F;div&gt;
-&lt;h2 id=&quot;ad-astra&quot;&gt;&lt;q lang=&quot;la&quot;&gt;Ad astra&lt;&#x2F;q&gt;&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#ad-astra&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
+&lt;h2 id=&quot;ad-astra-switching-between-streams-dynamically&quot;&gt;&lt;q lang=&quot;la&quot;&gt;Ad astra&lt;&#x2F;q&gt; — Switching Between Streams Dynamically&lt;a role=&quot;presentation&quot; class=&quot;anchor&quot; href=&quot;#ad-astra-switching-between-streams-dynamically&quot; title=&quot;Anchor link to this header&quot;&gt;#&lt;&#x2F;a&gt;
 &lt;&#x2F;h2&gt;
 &lt;p&gt;Good news: this is the end of the introduction. Another good news: now we can
 talk about the &lt;code&gt;switch&lt;&#x2F;code&gt; combinator!&lt;&#x2F;p&gt;
