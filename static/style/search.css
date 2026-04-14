@@ -25,8 +25,8 @@
   background: var(--color-canvas);
   overflow: hidden;
 
-  transition: height var(--transition-duration-long);
-  transition-timing-function: var(--transition-timing-snap);
+  transition: height var(--transition-duration-bounce);
+  transition-timing-function: var(--transition-timing-bounce);
 
   &::backdrop {
     backdrop-filter: blur(var(--blur)) brightness(50%) grayscale(60%);
