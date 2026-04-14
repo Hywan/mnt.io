@@ -119,7 +119,7 @@ trait Stream {
 
     // …
 
-    fn map<U, F>(self, f: F) -> impl Stream<U>
+    fn map<U, F>(self, f: F) -> impl Stream<Item = U>
     where
         F: FnMut(Self::Item) -> U,
     {
@@ -163,7 +163,7 @@ trait Stream {
 
     // …
 
-    fn filter<F>(self, f: F) -> impl Stream<Self::Item>
+    fn filter<F>(self, f: F) -> impl Stream<Item = Self::Item>
     where
         F: FnMut(&Self::Item) -> bool,
     {
@@ -976,11 +976,11 @@ what first-order and higher-order streams mean. We introduced a new kind
 of stream: `Switch`. We also saw how the `futures` crate contains _many_
 useful tools. That's why I've opened the [pull request #2997, _feat: Add
 `StreamExt::switch`_ on `rust-lang/futures-rs`][futures-rs#2997]. This
-is a port of the [`async_rx::Switch`] implementation, written by Jonas
-Platte and maintained by Jonas and I, initially for the purpose of the
+is a port of the [`async_rx::Switch`] implementation, written by [Jonas
+Platte] and maintained by Jonas and I, initially for the purpose of the
 [Matrix Rust SDK][matrix-rust-sdk]. We thought it could be useful for other
-persons, so we are. This was the motivation behind this article: explaining how
-`switch` differs from `flatten`, and how useful it can be.
+persons, so here we are. This was the motivation behind this article: explaining
+how `switch` differs from `flatten`, and how useful it can be.
 
 Hope you had fun!
 
@@ -998,6 +998,7 @@ Hope you had fun!
 [`impl Stream for Receiver`]: https://docs.rs/futures/0.3.32/futures/channel/mpsc/struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E
 [futures-rs#2997]: https://github.com/rust-lang/futures-rs/pull/2997
 [`async_rx::Switch`]: https://github.com/jplatte/async-rx
+[Jonas Platte]: https://social.tchncs.de/@jplatte
 [matrix-rust-sdk]: https://github.com/matrix-org/matrix-rust-sdk
 
 [^pin]: I recommend to read [_Pin_], it's an excellent article that goes in
