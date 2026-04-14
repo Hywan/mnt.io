@@ -176,7 +176,7 @@ The method `filter` takes a function `F` that tells if the items of the `Stream`
 should be kept or not, resulting in another `Stream` with the same type for
 the items.
 
-## Flatten
+## <q lang="la">Gesta non verba</q> — Flatten
 
 Okay. Another one? Just like `Iterator::flatten`, `Stream::flatten` can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
@@ -534,7 +534,7 @@ of `T`. We go from a higher-order stream to a first-order stream.
 
 {% end %}
 
-## <q lang="la">Ad astra</q>
+## <q lang="la">Ad astra</q> — Switching Between Streams Dynamically
 
 Good news: this is the end of the introduction. Another good news: now we can
 talk about the `switch` combinator!
