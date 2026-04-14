@@ -168,7 +168,7 @@ transform a <code>Stream</code> into another <code>Stream</code>! Once again: co
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> map</span><span>&lt;</span><span class="z-entity z-name">U</span><span>,</span><span class="z-entity z-name"> F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">U</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> map</span><span>&lt;</span><span class="z-entity z-name">U</span><span>,</span><span class="z-entity z-name"> F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> U</span><span>&gt;</span></span>
 <span class="giallo-l"><span class="z-keyword">    where</span></span>
 <span class="giallo-l"><span class="z-entity z-name">        F</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> FnMut</span><span>(</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> U</span><span>,</span></span>
 <span class="giallo-l"><span>    {</span></span>
@@ -205,7 +205,7 @@ type <code>Stream::Item</code>) to a new type <code>U</code>, resulting in anoth
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> filter</span><span>&lt;</span><span class="z-entity z-name">F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> filter</span><span>&lt;</span><span class="z-entity z-name">F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
 <span class="giallo-l"><span class="z-keyword">    where</span></span>
 <span class="giallo-l"><span class="z-entity z-name">        F</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> FnMut</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> bool</span><span>,</span></span>
 <span class="giallo-l"><span>    {</span></span>
@@ -1001,11 +1001,11 @@ what first-order and higher-order streams mean. We introduced a new kind
 of stream: <code>Switch</code>. We also saw how the <code>futures</code> crate contains <em>many</em>
 useful tools. That's why I've opened the <a rel="noopener external" target="_blank" href="https://github.com/rust-lang/futures-rs/pull/2997">pull request #2997, <em>feat: Add
 <code>StreamExt::switch</code></em> on <code>rust-lang/futures-rs</code></a>. This
-is a port of the <a rel="noopener external" target="_blank" href="https://github.com/jplatte/async-rx"><code>async_rx::Switch</code></a> implementation, written by Jonas
-Platte and maintained by Jonas and I, initially for the purpose of the
+is a port of the <a rel="noopener external" target="_blank" href="https://github.com/jplatte/async-rx"><code>async_rx::Switch</code></a> implementation, written by <a rel="noopener external" target="_blank" href="https://social.tchncs.de/@jplatte">Jonas
+Platte</a> and maintained by Jonas and I, initially for the purpose of the
 <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. We thought it could be useful for other
-persons, so we are. This was the motivation behind this article: explaining how
-<code>switch</code> differs from <code>flatten</code>, and how useful it can be.</p>
+persons, so here we are. This was the motivation behind this article: explaining
+how <code>switch</code> differs from <code>flatten</code>, and how useful it can be.</p>
 <p>Hope you had fun!</p>
 <section class="footnotes">
 <ol class="footnotes-list">
