@@ -22,7 +22,7 @@
   padding: 0;
   border: 1px var(--color-accent) solid;
   border-radius: var(--space-small);
-  background: var(--_background-color);
+  background: var(--color-canvas);
   overflow: hidden;
 
   transition: height var(--transition-duration-long);

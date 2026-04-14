@@ -993,8 +993,9 @@ is equivalent to &lt;code&gt;Change.insert(offset: 0)&lt;&#x2F;code&gt;. On &lt;
 &lt;li id=&quot;fn-switch&quot;&gt;
 &lt;p&gt;I would &lt;em&gt;love&lt;&#x2F;em&gt; to talk about how this &lt;code&gt;Stream&lt;&#x2F;code&gt; produces
 a &lt;code&gt;Stream&lt;&#x2F;code&gt;, how the outer stream and the inner stream are switched (with
-&lt;code&gt;.switch()&lt;&#x2F;code&gt;!), how we&amp;#39;ve implemented that from scratch, but it&amp;#39;s probably
-for another article. Meanwhile, you can take a look at &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;async-rx&#x2F;0.1.3&#x2F;async_rx&#x2F;struct.Switch.html&quot;&gt;&lt;code&gt;async_rx::Switch&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. &lt;a href=&quot;#fr-switch-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;code&gt;.switch()&lt;&#x2F;code&gt;!), how we&amp;#39;ve implemented that from scratch,
+but it&amp;#39;s probably for another article. Meanwhile, you
+can take a look at &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;async-rx&#x2F;0.1.3&#x2F;async_rx&#x2F;struct.Switch.html&quot;&gt;&lt;code&gt;async_rx::Switch&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;! &lt;a href=&quot;#fr-switch-1&quot;&gt;↩&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li id=&quot;fn-stream_assert&quot;&gt;
 &lt;p&gt;Do you know &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.rs&#x2F;stream_assert&#x2F;0.1.1&#x2F;stream_assert&#x2F;&quot;&gt;&lt;code&gt;stream_assert&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;? It&amp;#39;s another crate we&amp;#39;ve
