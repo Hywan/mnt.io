@@ -2,6 +2,7 @@
   --_height: 80vh;
   --_margin: var(--space-very-large);
   --_input-height: 4rem;
+  --_border-size: 4px;
   position: fixed;
 
   width: min(100%, var(--content-max-width));
@@ -14,19 +15,19 @@
 
   /* Closed */
   &:has(input:placeholder-shown) {
-    height: var(--_input-height);
+    height: calc(var(--_input-height) + 2 * var(--_border-size));
     overflow-y: none;
   }
 
   color: currentColor;
   padding: 0;
-  border: 1px var(--color-accent) solid;
+  border: var(--_border-size) var(--color-accent) solid;
   border-radius: var(--space-small);
   background: var(--color-canvas);
   overflow: hidden;
 
-  transition: height var(--transition-duration-long);
-  transition-timing-function: var(--transition-timing-snap);
+  transition: height var(--transition-duration-bounce);
+  transition-timing-function: var(--transition-timing-bounce);
 
   &::backdrop {
     backdrop-filter: blur(var(--blur)) brightness(50%) grayscale(60%);
@@ -36,7 +37,7 @@
     .pagefind-ui__search-input {
       width: 100%;
       height: var(--_input-height);
-      margin: 0;
+      margin: 1px 0 0 0;
       padding: 0;
       border-width: 0 0 1px 0;
 
