@@ -969,7 +969,7 @@ assert_eq!(
 Tadaa! It's the same `stream`. We keep polling it. But the inner stream is reset
 _dynamically_. How cool is that?
 
-<q lang="la">Acta fabula est</q>
+## <q lang="la">Acta fabula est</q>
 
 In this journey, we played with streams. We can even brag we understand
 what first-order and higher-order streams mean. We introduced a new kind
