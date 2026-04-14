@@ -7,7 +7,7 @@
     <updated>2026-04-13T00:00:00+00:00</updated>
     <id>https://mnt.io/atom.xml</id>
     <entry xml:lang="en">
-        <title>Switching higher-order stream to first-order stream</title>
+        <title>Switching higher-order streams to first-order streams</title>
         <published>2026-04-13T00:00:00+00:00</published>
         <updated>2026-04-13T00:00:00+00:00</updated>
         
@@ -19,10 +19,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/"/>
-        <id>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</id>
+        <link rel="alternate" type="text/html" href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"/>
+        <id>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</id>
         
-        <content type="html" xml:base="https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/">&lt;p&gt;&lt;em&gt;Stream&lt;&#x2F;em&gt; is to &lt;em&gt;Future&lt;&#x2F;em&gt; what &lt;em&gt;Iterator&lt;&#x2F;em&gt; is to &lt;em&gt;value&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/">&lt;p&gt;&lt;em&gt;Stream&lt;&#x2F;em&gt; is to &lt;em&gt;Future&lt;&#x2F;em&gt; what &lt;em&gt;Iterator&lt;&#x2F;em&gt; is to &lt;em&gt;value&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;An iterator produces values synchronously,&lt;&#x2F;li&gt;
 &lt;li&gt;A stream produces values asynchronously,&lt;&#x2F;li&gt;

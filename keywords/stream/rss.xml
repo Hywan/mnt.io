@@ -9,12 +9,12 @@
       <atom:link href="https://mnt.io/keywords/stream/rss.xml" rel="self" type="application/rss+xml"/>
       <lastBuildDate>Mon, 13 Apr 2026 00:00:00 +0000</lastBuildDate>
       <item>
-          <title>Switching higher-order stream to first-order stream</title>
+          <title>Switching higher-order streams to first-order streams</title>
           <pubDate>Mon, 13 Apr 2026 00:00:00 +0000</pubDate>
           <author>Unknown</author>
-          <link>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</link>
-          <guid>https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/</guid>
-          <description xml:base="https://mnt.io/articles/switching-higher-order-stream-to-first-order-stream/">&lt;p&gt;&lt;em&gt;Stream&lt;&#x2F;em&gt; is to &lt;em&gt;Future&lt;&#x2F;em&gt; what &lt;em&gt;Iterator&lt;&#x2F;em&gt; is to &lt;em&gt;value&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+          <link>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</link>
+          <guid>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</guid>
+          <description xml:base="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/">&lt;p&gt;&lt;em&gt;Stream&lt;&#x2F;em&gt; is to &lt;em&gt;Future&lt;&#x2F;em&gt; what &lt;em&gt;Iterator&lt;&#x2F;em&gt; is to &lt;em&gt;value&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;An iterator produces values synchronously,&lt;&#x2F;li&gt;
 &lt;li&gt;A stream produces values asynchronously,&lt;&#x2F;li&gt;
