@@ -228,7 +228,7 @@ trait Stream {
 }
 ```
 
-Do not be intimidated by the syntax. Try read it one piece at a time.
+Do not be intimidated by the syntax. Try to read it one piece at a time.
 
 {% comte() %}
 
@@ -329,7 +329,7 @@ where
 
 ```
 
-A cake walk. Thanks to `Poll` being an enum, and `match` being [`match`], this
+A cakewalk. Thanks to `Poll` being an enum, and `match` being [`match`], this
 code is easy to read and to understand. No surprise. Almost boring.
 
 We notice that each newly polled inner stream —i.e. produced by the outer
