@@ -5,6 +5,8 @@ taxonomies = [
   { name = "keywords", feed = true, render = true },
 ]
 
+generate_sitemap = true
+generate_robots_txt = true
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
