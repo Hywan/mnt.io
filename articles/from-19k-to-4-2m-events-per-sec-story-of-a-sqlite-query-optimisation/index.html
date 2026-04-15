@@ -198,7 +198,7 @@ events, however we need:</p>
 </ul>
 <p>A first implementation has landed in the Matrix Rust SDK. All good. When
 suddenly…</p>
-<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header">#</a>
+<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="#fn-power-user">1</a></sup> was <a rel="noopener external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
 a delicate situation. How to know the reason of the slowness? Is it the device?
@@ -307,7 +307,7 @@ the order of a second. I wasn't disappointed:</p>
 <span class="giallo-l"><span>3.689340667s</span></span>
 <span class="giallo-l"><span>3.661383208s</span></span></code></pre>
 <p>107 seconds. Be 1 minute and 47 seconds. Hello sweety.</p>
-<h2 id="the-slow-query">The slow query<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header">#</a>
+<h2 id="the-slow-query">The slow query<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>load_all_chunks_metadata</code> is a method that runs this SQL query:</p>
 <pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">SELECT</span></span>
@@ -337,7 +337,7 @@ are 300 gaps for this linked chunk, and 5000 events, 1.5 millions events will
 be scanned for <strong>no reason</strong>!</li>
 </ol>
 <p>How lovingly inefficient.</p>
-<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#12-6x-faster" title="Anchor link to this header">#</a>
+<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#12-6x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><q>Let's use an <a rel="noopener external" target="_blank" href="https://sqlite.org/lang_createindex.html"><code>INDEX</code></a></q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).</p>
@@ -585,7 +585,7 @@ for the <code>CASE</code> approach</p>
 <code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
 patches containing the benchmark and the fix</a>.</p>
 <p>But that&#39;s not all…</p>
-<h2 id=""><math><mn>211</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h2 id=""><math><mn>211</mn><mo>×</mo></math> faster<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It&#39;s clearly better, but we couldn&#39;t stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that
@@ -737,7 +737,7 @@ a Matrix event. Consequently, 4 Melem/s means 4 millions events per second,
 which means that <code>load_all_chunks_metadata</code> can do its computation at a rate of
 4 millions events per second.</p>
 <p>I think we can stop here. Performance are finally acceptable.</p>
-<h2 id="-1">Lessons<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h2 id="-1">Lessons<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <ul>
 <li><a rel="noopener external" target="_blank" href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>

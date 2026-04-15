@@ -130,7 +130,7 @@ maybe we can start with examples.</p>
   </div>
 </div>
 <p>Alrighty. Fair. Before digging into the really fun bits, we need some basis.</p>
-<h2 id="baby-steps-with-reactive-programming">Baby steps with reactive programming<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header">#</a>
+<h2 id="baby-steps-with-reactive-programming">Baby steps with reactive programming<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Everything we are going to share with you has been implemented in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball">a library
 called <code>eyeball</code></a>. To give you a good idea of what reactive
@@ -375,7 +375,7 @@ this time. And thus, the program will finish gracefully.</p>
 <code>Sync</code>, i.e. if the observed type implements these traits. That's pretty useful
 actually: it is possible to send the subscriber in a different thread, and keep
 waiting for new updates.</p>
-<h2 id="attack-of-the-clones">Attack of the Clones<a role="presentation" class="anchor" href="#attack-of-the-clones" title="Anchor link to this header">#</a>
+<h2 id="attack-of-the-clones">Attack of the Clones<a role="presentation" class="anchor" href="#attack-of-the-clones" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>However, at the beginning of this episode, we were talking about a collection.
 Let's focus on <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html"><code>Vec</code></a>.</p>
@@ -527,7 +527,7 @@ crate provides <a rel="noopener external" target="_blank" href="https://docs.rs/
 head and tail chunking<sup class="footnote-reference" id="fr-UCR2014-1"><a href="#fn-UCR2014">4</a></sup>, and allocates in the stack or on the heap
 depending on the size of the collection, similarly to <a rel="noopener external" target="_blank" href="https://docs.rs/smallvec">the <code>smallvec</code>
 crate</a>. End of digression)</p>
-<h2 id="observable-immutable-collection">Observable (immutable) collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header">#</a>
+<h2 id="observable-immutable-collection">Observable (immutable) collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The <code>imbl</code> crate then. It provides <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. <code>eyeball</code>
 provides a crate for working with immutable data structures (how surprising
@@ -988,7 +988,7 @@ the buffer.</p>
 
   </div>
 </div>
-<h2 id="observable-differences">Observable differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header">#</a>
+<h2 id="observable-differences">Observable differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
@@ -1094,7 +1094,7 @@ current state!</q>. This is not ideal, but the subscriber is responsible to not
 lag, and this design avoids having missing values. If a subscriber receives
 too much <code>VectorDiff::Reset</code>s, the user may consider increasing the capacity of
 the <code>ObservableVector</code>.</p>
-<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and sorting with higher-order <code>Stream</code>s<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header">#</a>
+<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and sorting with higher-order <code>Stream</code>s<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are reaching the end of this episode. And you know what? We have set all the
 parts to talk about higher-order <code>Stream</code>, <i>chante victory and dance at the

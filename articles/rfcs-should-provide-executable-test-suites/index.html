@@ -75,7 +75,7 @@ been found. This article, first, quickly list them and, second, ask questions
 about how such errors can be present and how they can be easily revealed. If
 reading my dry humor about RFC errata is boring, the next sections are more
 interesting. The whole idea is: Why RFCs do not provide executable test suites?</p>
-<h2 id="what-is-xcal-and-xcard">What is xCal and xCard?<a role="presentation" class="anchor" href="#what-is-xcal-and-xcard" title="Anchor link to this header">#</a>
+<h2 id="what-is-xcal-and-xcard">What is xCal and xCard?<a role="presentation" class="anchor" href="#what-is-xcal-and-xcard" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The Web is a read-only media. It is based on the HTTP protocol. However,
 there is the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> protocol,
@@ -203,7 +203,7 @@ how to read from iCalendar and write to jCal and xCal:</p>
 <span class="giallo-l"><span class="z-support z-function">echo</span><span> Sabre</span><span class="z-punctuation z-separator">\</span><span>VObject</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Writer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">writeXml</span><span>(</span><span class="z-variable">$document</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Magic when you know the complexity of these formats (in both term of
 parsing and validation)!</p>
-<h2 id="list-of-errata">List of errata<a role="presentation" class="anchor" href="#list-of-errata" title="Anchor link to this header">#</a>
+<h2 id="list-of-errata">List of errata<a role="presentation" class="anchor" href="#list-of-errata" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Now, let's talk about all the errata I submited recently:</p>
 <ul>
@@ -252,7 +252,7 @@ get me wrong: Everyone makes mistakes, but not this kind of error. I
 will explain why in the next section.</p>
 <p>4245 is not an editorial error but a technical one, under review.</p>
 <p>4261 is crazy. It deserves a whole sub-section.</p>
-<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the crazy world of date and time formats<a role="presentation" class="anchor" href="#welcome-in-the-crazy-world-of-date-and-time-formats" title="Anchor link to this header">#</a>
+<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the crazy world of date and time formats<a role="presentation" class="anchor" href="#welcome-in-the-crazy-world-of-date-and-time-formats" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>There are two major popular date and time format:
 <a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc2822">RFC2822</a> and ISO.8601. Examples:</p>
@@ -304,7 +304,7 @@ is always October. Nevertheless, if we have a time value, <code>--10</code> is
 standardized. Why should we drag this crazy format along?</p>
 <p>Oh, and I assume every format depending on ISO.8601.2004 has this bug.
 But I am not sure because ISO standards are not free.</p>
-<h2 id="how-can-rfcs-have-such-errors">How can RFCs have such errors?<a role="presentation" class="anchor" href="#how-can-rfcs-have-such-errors" title="Anchor link to this header">#</a>
+<h2 id="how-can-rfcs-have-such-errors">How can RFCs have such errors?<a role="presentation" class="anchor" href="#how-can-rfcs-have-such-errors" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So far, RFCs are textual standards. Great. But they are just text.
 Written by humans, and thus they are subject to errors or failures. It
@@ -315,7 +315,7 @@ will try to create a test suite on its own.</p>
 few people read the RFC and tried to write an implementation. This is my
 guess. However, it does not avoid the fact an executable test suite
 should (must?) be provided.</p>
-<h2 id="how-did-i-find-them">How did I find them?<a role="presentation" class="anchor" href="#how-did-i-find-them" title="Anchor link to this header">#</a>
+<h2 id="how-did-i-find-them">How did I find them?<a role="presentation" class="anchor" href="#how-did-i-find-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This is how I found these errors. I wrote <a rel="noopener external" target="_blank" href="https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php">a test suite for xCal and
 xCard in
@@ -329,7 +329,7 @@ and 4261 (with the regular expressions), I found the error by applying the
 algorithms presented in
 <a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/">Generate strings based on regular expressions</a>
 .</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>sabre/vobject</code> supports xCal and xCard.</p>
 

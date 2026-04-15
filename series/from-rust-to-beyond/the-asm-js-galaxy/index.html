@@ -80,7 +80,7 @@ browser. The goal is to use ASM.js as a fallback to WebAssembly when it
 is not available. I highly recommend to read <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous
 episode</a>
 about WebAssembly since they have a lot in common.</p>
-<h2 id="what-is-asm-js-and-why">What is ASM.js, and why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header">#</a>
+<h2 id="what-is-asm-js-and-why">What is ASM.js, and why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The main programming language on the Web is Javascript. Applications
 that want to exist on the Web had to compile to Javascript, like for
@@ -164,7 +164,7 @@ it!</a> by Alon Zakai.</p>
 <p>Our process will be different though. We will not compile our Rust code
 directly to ASM.js, but instead, we will compile it to WebAssembly,
 which in turn will be compiled into ASM.js.</p>
-<h2 id="">Rust 🚀 ASM.js<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h2 id="">Rust 🚀 ASM.js<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-to-asm-js.png" alt="Rust to ASM.js" loading="lazy" decoding="async" /></p>
@@ -229,7 +229,7 @@ once compiled to Javascript? See bellow:</p>
   </figcaption>
 </figure>
 <p>I like it probably too much.</p>
-<h2 id="-1">ASM.js 🚀 Javascript<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h2 id="-1">ASM.js 🚀 Javascript<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The resulting <code>gutenberg_post_parser.asm.js</code> file contains a single
 function named <code>GUTENBERG_POST_PARSER_ASM_MODULE</code> which returns an
@@ -256,7 +256,7 @@ It completely reuses the Javascript boundary layer for WebAssembly. It
 just sets the <code>Module</code> differently, and it does not load the WebAssembly
 binary. Consequently, the ASM.js boundary layer is made of 34 lines of
 code, only 🙃. It compresses to 218 bytes.</p>
-<h2 id="-2">Conclusion<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+<h2 id="-2">Conclusion<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that ASM.js can be fallback to WebAssembly in environments
 that only support Javascript (like Internet Explorer), with or without

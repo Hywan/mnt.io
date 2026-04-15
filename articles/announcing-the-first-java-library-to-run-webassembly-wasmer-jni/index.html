@@ -104,7 +104,7 @@ and even</li>
 <p>…we are jazzed to announce that <strong><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/java-ext-wasm">Wasmer has now landed in
 Java</a></strong>!</p>
 <p>Let’s discover the Wasmer JNI library together.</p>
-<h2 id="installation">Installation<a role="presentation" class="anchor" href="#installation" title="Anchor link to this header">#</a>
+<h2 id="installation">Installation<a role="presentation" class="anchor" href="#installation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The Wasmer JNI (<em>Java Native Interface</em>) library is based on the <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer
 runtime</a>, which is written in
@@ -142,7 +142,7 @@ Wasmer JNI as a dependency of your project (assuming you use
 <code>[wasmer-jni](https://bintray.com/wasmer/wasmer-jni/wasmer-jni)</code>
 project. They are also attached to our <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/java-ext-wasm/releases">Github releases as
 assets</a>.</p>
-<h2 id="calling-a-webassembly-function-from-java">Calling a WebAssembly function from Java<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-java" title="Anchor link to this header">#</a>
+<h2 id="calling-a-webassembly-function-from-java">Calling a WebAssembly function from Java<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-java" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As usual, let’s start with a simple Rust program that we will compile to
 WebAssembly, and then execute from Java.</p>
@@ -223,7 +223,7 @@ actual function (of kind <code>org.wasmer.exports.Function</code>):</p>
 <span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
 <p>But a WebAssembly module not only exports functions, it also exports
 memory.</p>
-<h2 id="reading-the-memory">Reading the memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header">#</a>
+<h2 id="reading-the-memory">Reading the memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly instance has one or more linear memories, a contiguous and
 byte-addressable range of memory spanning from offset 0 and extending up
@@ -292,7 +292,7 @@ the garbage collector.</p>
 Example</a>
 to see a more in-depth usage of the <code>Memory</code> API.</p>
 </blockquote>
-<h2 id="more-documentation">More documentation<a role="presentation" class="anchor" href="#more-documentation" title="Anchor link to this header">#</a>
+<h2 id="more-documentation">More documentation<a role="presentation" class="anchor" href="#more-documentation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The project comes with a <code>Makefile</code>. The <code>make javadoc</code> command will
 generate a traditional local Javadoc for you, in the
@@ -304,7 +304,7 @@ Section</a>.</p>
 examples</a>.
 Use the <code>make run-example EXAMPLE=Simple</code> to run the
 <code>SimpleExample.java</code> example for instance.</p>
-<h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header">#</a>
+<h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>WebAssembly aims at being safe, but also fast. Since Wasmer JNI is the
 <em>first</em> Java library to execute WebAssembly, we can’t compare to prior
@@ -314,7 +314,7 @@ article about it: <a rel="noopener external" target="_blank" href="https://mediu
 tale</a>.
 The Wasmer JNI library uses the Cranelift backend for the moment, which
 offers the best compromise between compilation-time and execution-time.</p>
-<h2 id="credits">Credits<a role="presentation" class="anchor" href="#credits" title="Anchor link to this header">#</a>
+<h2 id="credits">Credits<a role="presentation" class="anchor" href="#credits" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Asami (<a rel="noopener external" target="_blank" href="https://twitter.com/d0iasm">d0iasm</a> on Twitter) has improved
 this project during its internship at Wasmer under my guidance. She
@@ -327,7 +327,7 @@ and the rest of the team is from US, Spain, China etc. Feel free to
 contact me (<a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a> or
 <a rel="noopener external" target="_blank" href="https://twitter.com/syrusakbary">@syrusakbary</a> on Twitter) if you want
 to join us on this big adventure!</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Wasmer JNI is a library to execute WebAssembly directly in Java. It
 embeds the WebAssembly runtime

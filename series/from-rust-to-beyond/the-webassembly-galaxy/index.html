@@ -77,7 +77,7 @@
 (Wasm) galaxy. This post will explain what WebAssembly is, how to
 compile the parser into WebAssembly, and how to use the WebAssembly
 binary with Javascript in a browser and with NodeJS.</p>
-<h2 id="what-is-webassembly-and-why">What is WebAssembly, and why?<a role="presentation" class="anchor" href="#what-is-webassembly-and-why" title="Anchor link to this header">#</a>
+<h2 id="what-is-webassembly-and-why">What is WebAssembly, and why?<a role="presentation" class="anchor" href="#what-is-webassembly-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>If you already know WebAssembly, you can skip this section.</p>
 <p><a rel="noopener external" target="_blank" href="https://webassembly.org/">WebAssembly</a> defines itself as:</p>
@@ -126,7 +126,7 @@ Wasm</a>).</p>
 <p>I think it is important to remind that WebAssembly is not here to
 replace Javascript. It is just another technology which solves many
 problems we can meet today, like load-time, safety, or speed.</p>
-<h2 id="rust-rocket-webassembly">Rust 🚀 WebAssembly<a role="presentation" class="anchor" href="#rust-rocket-webassembly" title="Anchor link to this header">#</a>
+<h2 id="rust-rocket-webassembly">Rust 🚀 WebAssembly<a role="presentation" class="anchor" href="#rust-rocket-webassembly" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/./rust-to-wasm.png" alt="Rust to Wasm" loading="lazy" decoding="async" /></p>
@@ -161,7 +161,7 @@ respectively defined as:</p>
 <span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>
 <span class="giallo-l"><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;(</span><span class="z-entity z-name">Input</span><span>,</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-variable">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&gt;),</span><span class="z-variable"> nom</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&gt;&gt;;</span></span></code></pre>
 <p>Knowing that, let&#39;s go!</p>
-<h3 id="">General design<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h3 id="">General design<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Here is our general design or workflow:</p>
 <ol>
@@ -192,7 +192,7 @@ memory, and responsible of exposing a friendly API.</p>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs">The entire code lands
 here</a>.
 It is approximately 150 lines of code. We explain it.</p>
-<h3 id="-1">Memory allocation<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h3 id="-1">Memory allocation<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s start by the memory allocator. I choose to use <a rel="noopener external" target="_blank" href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> for
 the memory allocator</a>. It is
@@ -290,7 +290,7 @@ is marked as unsafe, so we need to delimit it in an <code>unsafe</code> block so
 that the <code>dealloc</code> function is considered as safe.</p>
 <p>The variable <code>_</code> contains our data to deallocate, and it goes out of
 scope immediately, so Rust drops it.</p>
-<h3 id="-2">From input to a flat AST<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+<h3 id="-2">From input to a flat AST<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now the core of the binding! The <code>root</code> function reads the blog post to
 parse based on a pointer and a length, then it parses it. If the result
@@ -431,7 +431,7 @@ list above the code.</p>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Here we are. <code>alloc</code>, <code>dealloc</code>, <code>root</code>, and <code>into_bytes</code>. Four
 functions, and everything is done.</p>
-<h3 id="-3">Producing and optimising the WebAssembly binary<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header">#</a>
+<h3 id="-3">Producing and optimising the WebAssembly binary<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To get a WebAssembly binary, the project has to be compiled to the
 <code>wasm32-unknown-unknown</code> target. For now (and it will change in a near
@@ -489,7 +489,7 @@ weights 6.2kb:</p>
   </figcaption>
 </figure>
 <p>The WebAssembly binary is ready to run!</p>
-<h2 id="-4">WebAssembly 🚀 Javascript<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header">#</a>
+<h2 id="-4">WebAssembly 🚀 Javascript<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/./wasm-to-js.png" alt="Wasm to JS" loading="lazy" decoding="async" /></p>
@@ -508,7 +508,7 @@ here</a>.
 It is approximately 150 lines of code too. I won&#39;t explain the whole
 code since some parts of it is the “friendly API” that is exposed to the
 user. So I will rather explain the major pieces.</p>
-<h3 id="-5">Loading/streaming and instanciating<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header">#</a>
+<h3 id="-5">Loading/streaming and instanciating<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly">The <code>WebAssembly</code>
 API</a>
@@ -534,7 +534,7 @@ which will make you give up quickly.</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">        then</span><span>(</span><span class="z-variable z-parameter">instance</span><span class="z-storage z-type z-function"> =&gt;</span><span> {</span><span class="z-comment"> /* step 2 */</span><span> })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>The WebAssembly binary has been instanciated! Now we can move to the
 next step.</p>
-<h3 id="-6">Last polish before running the parser<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header">#</a>
+<h3 id="-6">Last polish before running the parser<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Remember that the WebAssembly binary exports 3 functions: <code>alloc</code>,
 <code>dealloc</code>, and <code>root</code>. They can be found on the <code>exports</code> property,
@@ -550,7 +550,7 @@ along with the memory. Let&#39;s write that:</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">            runParser</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39;&lt;!-- wp:foo /--&gt;xyz&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span>        })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Great, everything is ready to write the <code>runParser</code> function!</p>
-<h3 id="-7">The parser runner<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header">#</a>
+<h3 id="-7">The parser runner<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As a reminder, this function has to: Write the <code>input</code> (the blog post to
 parse) in the WebAssembly module memory (<code>Module.memory</code>), to call the
@@ -583,7 +583,7 @@ unknown at this step.</li>
 </ul>
 <p>Great! So we have 2 functions to write right now: <code>writeBuffer</code>​ and
 <code>readNodes</code>.</p>
-<h3 id="-8">Writing the data in memory<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header">#</a>
+<h3 id="-8">Writing the data in memory<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s go with the first one, <code>writeBuffer</code>:</p>
 <pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> writeBuffer</span><span>(</span><span class="z-variable z-parameter">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> buffer</span><span>) {</span></span>
@@ -610,7 +610,7 @@ basic, and return the pointer.</li>
 <p>Note that, unlike C strings, adding a <code>NUL</code> byte at the end is not
 mandatory. This is just the raw data (on the Rust side, we read it with
 <code>slice::from_raw_parts</code>, slice is a very simple structure).</p>
-<h3 id="-9">Reading the output of the parser<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header">#</a>
+<h3 id="-9">Reading the output of the parser<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>So at this step, the input has been written in memory, and the <code>root</code>
 function has been called so it means the parser has run. It has returned
@@ -722,7 +722,7 @@ this:</p>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The final output will be an array of those objects. Easy!</p>
-<h2 id="-10">WebAssembly 🚀 NodeJS<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header">#</a>
+<h2 id="-10">WebAssembly 🚀 NodeJS<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/./wasm-to-nodejs.png" alt="Wasm to NodeJS" loading="lazy" decoding="async" /></p>
@@ -749,7 +749,7 @@ Borins</a>
 at the JSConf EU 2018 to understand all the story about that.</p>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs">The entire code lands
 here</a>.</p>
-<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header">#</a>
+<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen in details how to write a real world parser in Rust, how to
 compile it into a WebAssembly binary, and how to use it with Javascript

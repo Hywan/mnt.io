@@ -88,7 +88,7 @@ requirements, and our expectations. I think the discussion can be useful
 for many projects outside Automattic. I would like to apologize in
 advance if some parts sound too abstract, I hope you understand I can't
 reveal any details about the payment system for obvious reasons.</p>
-<h2 id="where-we-were-and-where-to-go">Where we were, and where to go<a role="presentation" class="anchor" href="#where-we-were-and-where-to-go" title="Anchor link to this header">#</a>
+<h2 id="where-we-were-and-where-to-go">Where we were, and where to go<a role="presentation" class="anchor" href="#where-we-were-and-where-to-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>For historical reasons, WordPress, VaultPress, Jetpack &amp; siblings use
 <a rel="noopener external" target="_blank" href="https://phpunit.de/">PHPUnit</a> for server-side manual tests. There are
@@ -126,13 +126,13 @@ solve issues we have.</p>
 atoum. A survey and a meeting were scheduled 2 months later to decide
 whether we should continue or not. Spoiler: We will partly continue with
 it.</p>
-<h2 id="our-needs-and-requirements">Our needs and requirements<a role="presentation" class="anchor" href="#our-needs-and-requirements" title="Anchor link to this header">#</a>
+<h2 id="our-needs-and-requirements">Our needs and requirements<a role="presentation" class="anchor" href="#our-needs-and-requirements" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Our code is difficult to test. In other words, the testability is low
 for some parts of the code. atoum has features to help increase the
 testability. I will try to summarize those features in the following
 short sections.</p>
-<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code><a role="presentation" class="anchor" href="#atoum-phpunit-extension" title="Anchor link to this header">#</a>
+<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code><a role="presentation" class="anchor" href="#atoum-phpunit-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As I said, it's not possible to rewrite/migrate all the existing tests.
 This is a colossal effort with a non-neglieable cost. Then, enter
@@ -166,7 +166,7 @@ can be different, some PHPUnit extensions may not work properly etc.
 Fortunately, our usage of PHPUnit is pretty raw: No extensions except
 home-made ones, few hacks… Everything went well. We also have been able
 to contribute easily to the extension.</p>
-<h3 id="mock-engines-plural">Mock engines (plural)<a role="presentation" class="anchor" href="#mock-engines-plural" title="Anchor link to this header">#</a>
+<h3 id="mock-engines-plural">Mock engines (plural)<a role="presentation" class="anchor" href="#mock-engines-plural" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>atoum comes with <a rel="noopener external" target="_blank" href="http://docs.atoum.org/en/latest/mocking_systems.html">3 mock
 engines</a>:</p>
@@ -192,7 +192,7 @@ like this:</p>
 <p>In one line of code, it was possible to mock the
 <a rel="noopener external" target="_blank" href="https://codex.wordpress.org/Function_Reference/get_userdata"><code>get_userdata</code></a>
 function.</p>
-<h3 id="runner-engines">Runner engines<a role="presentation" class="anchor" href="#runner-engines" title="Anchor link to this header">#</a>
+<h3 id="runner-engines">Runner engines<a role="presentation" class="anchor" href="#runner-engines" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Being able to isolate test execution is a necessity to avoid flakey
 tests, and to increase the trust we put in the test verdicts. atoum
@@ -212,7 +212,7 @@ the execution time to be close to the <em>inline</em> engine, while still
 ensuring a strict isolation.</p>
 <p>Fun fact: By using atoum and the <code>atoum/phpunit-extension</code>, we are able
 to run PHPUnit tests concurrently with a strict isolation!</p>
-<h3 id="code-coverage-reports">Code coverage reports<a role="presentation" class="anchor" href="#code-coverage-reports" title="Anchor link to this header">#</a>
+<h3 id="code-coverage-reports">Code coverage reports<a role="presentation" class="anchor" href="#code-coverage-reports" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>At the time of writing, PHPUnit is not able to generate code coverage
 reports containing the Branch- or Path Coverage Criteria data. atoum
@@ -221,11 +221,11 @@ supports them natively with the
 (including nice graphs, see <a rel="noopener external" target="_blank" href="http://atoum.org/reports-extension/">the
 demonstration</a>). And we need those
 data.</p>
-<h2 id="the-difficulties">The difficulties<a role="presentation" class="anchor" href="#the-difficulties" title="Anchor link to this header">#</a>
+<h2 id="the-difficulties">The difficulties<a role="presentation" class="anchor" href="#the-difficulties" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>On paper, most of the pain points sound addressable. It was time to
 experiment.</p>
-<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration server<a role="presentation" class="anchor" href="#integration-to-the-continuous-integration-server" title="Anchor link to this header">#</a>
+<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration server<a role="presentation" class="anchor" href="#integration-to-the-continuous-integration-server" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Our CI does not natively support standard test execution report formats.
 Thus we had to create the
@@ -234,7 +234,7 @@ Thus we had to create the
 reading a blog post I wrote recently. The TeamCity support is native
 inside PHPUnit (see the <a rel="noopener external" target="_blank" href="http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity"><code>--log-teamcity</code>
 option</a>).</p>
-<h3 id="bootstrap-test-environments">Bootstrap test environments<a role="presentation" class="anchor" href="#bootstrap-test-environments" title="Anchor link to this header">#</a>
+<h3 id="bootstrap-test-environments">Bootstrap test environments<a role="presentation" class="anchor" href="#bootstrap-test-environments" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Our bootstrap files are… challenging. It's expected though. Setting up a
 functional test environment for a software like WordPress.com is not a
@@ -248,7 +248,7 @@ needs to be invested.</p>
 bootstrap so that some parts can be shared between the test runners
 (because we didn't switch the whole company to atoum yet, it was an
 experiment).</p>
-<h3 id="documentation-and-help">Documentation and help<a role="presentation" class="anchor" href="#documentation-and-help" title="Anchor link to this header">#</a>
+<h3 id="documentation-and-help">Documentation and help<a role="presentation" class="anchor" href="#documentation-and-help" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Here is an interesting paradox. The majority of the team recognized that
 atoum's documentation is better than PHPUnit's, even if some parts must
@@ -270,7 +270,7 @@ the same period, and the tests we are building are not simple _Hello,
 World!_s as you might think, so it increases the effort.</p>
 <p>To be honest, this was not the biggest difficulty, but still, it is
 important to notice.</p>
-<h3 id="concurrent-integration-test-executions">Concurrent integration test executions<a role="presentation" class="anchor" href="#concurrent-integration-test-executions" title="Anchor link to this header">#</a>
+<h3 id="concurrent-integration-test-executions">Concurrent integration test executions<a role="presentation" class="anchor" href="#concurrent-integration-test-executions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Due to some MySQL limitations combined with the complexity of our code,
 we are not able to run integration (and system) tests concurrently yet.
@@ -287,7 +287,7 @@ isolation, rather than fast test execution but no confidence in the test
 verdict. So that's partly a difficulty. It's a mix of a positive feature
 and a needle in the foot, and a needle we can live with. atoum is not
 responsible of this latency: The state of our code is.</p>
-<h2 id="the-results">The results<a role="presentation" class="anchor" href="#the-results" title="Anchor link to this header">#</a>
+<h2 id="the-results">The results<a role="presentation" class="anchor" href="#the-results" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>First, let's start by the positive impacts:</p>
 <ul>
@@ -342,7 +342,7 @@ everyone is happy with those tools, no need to go back, everything is
 automat(t)ic. Other tools are likely to be introduced in the future to
 automatically generate tests. I want to detail this particular topic in
 another blog post.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Moving to another test framework is a huge decision with many factors.
 The fact atoum has <code>atoum/phpunit-extension</code> is a time saver.

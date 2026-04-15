@@ -77,7 +77,7 @@
 what C is (shortly), how to compile any Rust program in C in theory, and
 how to do that practically with our Rust parser from the Rust side and
 the C side. We will also see how to test such a binding.</p>
-<h2 id="what-is-c-and-why">What is C, and why?<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header">#</a>
+<h2 id="what-is-c-and-why">What is C, and why?<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a> is probably
 the most used and known programming language in the world. Quoting
@@ -107,7 +107,7 @@ will be able to talk directly to any program easily.</p>
 <p>Because languages like PHP or Python are written in C, in our particular
 Gutenberg parser usecase, it means that the parser can be embedded and
 used by PHP or Python directly, with almost no overhead. Neat!</p>
-<h2 id="">Rust 🚀 C<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h2 id="">Rust 🚀 C<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./rust-to-c.png" alt="Rust to C" loading="lazy" decoding="async" /></p>
@@ -117,7 +117,7 @@ used by PHP or Python directly, with almost no overhead. Neat!</p>
 <li>A static library (<code>.a</code> file),</li>
 <li>A header file (<code>.h</code> file).</li>
 </ol>
-<h3 id="-1">The theory<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h3 id="-1">The theory<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To compile a Rust project into a static library, the <code>crate-type</code>
 property must contain the <code>staticlib</code> value. Let&#39;s edit the <code>Cargo.toml</code>
@@ -227,7 +227,7 @@ instructs the compiler to not rename the function, so that the function
 has the same name from the perspective of C.</p>
 <p>OK, that&#39;s all for the theory. Let&#39;s practise now, we have a parser to
 bind to C!</p>
-<h3 id="-2">Practise<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+<h3 id="-2">Practise<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We want to bind a function named <code>parse</code>. The function outputs an AST
 representing the language being analysed. <a href="https://mnt.io/series/from-rust-to-beyond/prelude/">For the
@@ -450,13 +450,13 @@ simple and kind of clear to read, but it wasn&#39;t obvious for me what to
 do beforehand.</p>
 <p>And that&#39;s all for the Rust part! The next section will present the C
 code that calls Rust, and how to compile everything all together.</p>
-<h2 id="-3">C 🚀 executable<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header">#</a>
+<h2 id="-3">C 🚀 executable<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./c-to-executable.png" alt="Rust to C to executable" loading="lazy" decoding="async" /></p>
 </figure>
 <p>Now the Rust part is ready, the C part must be written to call it.</p>
-<h3 id="-4">Minimal Working Example<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header">#</a>
+<h3 id="-4">Minimal Working Example<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s do something very quick to see if it links and compiles:</p>
 <pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &lt;stdlib.h&gt;</span></span>
@@ -548,7 +548,7 @@ this code above is located in the same directory than the
 <span class="giallo-l"><span>      -l m</span></span></code></pre>
 <p>And that&#39;s all! We end up with a <code>gutenberg-post-parser</code> executable that
 runs C and Rust.</p>
-<h3 id="-5">More details<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header">#</a>
+<h3 id="-5">More details<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source
 code</a>,
@@ -622,7 +622,7 @@ its length and its pointer.</p>
 <code>children</code>. It&#39;s a single line:</p>
 <pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">const</span><span> Vector_Node</span><span class="z-keyword z-operator">*</span><span> children </span><span class="z-keyword z-operator">=</span><span class="z-punctuation z-section"> (</span><span class="z-storage">const</span><span> Vector_Node</span><span class="z-keyword z-operator">*</span><span class="z-punctuation z-section">) (</span><span>block.children</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>I think that&#39;s all for the details!</p>
-<h3 id="-6">Testing<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header">#</a>
+<h3 id="-6">Testing<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>I reckon it is also interesting to see how to unit test C bindings
 directly with Rust. To emulate a C binding, first, the inputs must be in
@@ -688,7 +688,7 @@ represents the first element of the vector. If we want to access the
 next elements, we would need to use <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code>
 function</a>
 to get a proper Rust API to manipulate this vector.</p>
-<h2 id="-7">Conclusion<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header">#</a>
+<h2 id="-7">Conclusion<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that Rust can be embedded in C very easily. In this
 example, Rust has been compiled to a static library, and a header file;

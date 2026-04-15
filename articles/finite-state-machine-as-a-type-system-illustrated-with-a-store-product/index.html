@@ -83,7 +83,7 @@ to keep the formulas away from this article to focus on the code.
 Moreover, you might be aware that the PHP <em>runtime</em> type system is
 somewhat very permissive and “poor” (this is not a formal definition),
 hopefully some tricks can help us to express nice constraints.</p>
-<h2 id="the-product-fsm">The Product FSM<a role="presentation" class="anchor" href="#the-product-fsm" title="Anchor link to this header">#</a>
+<h2 id="the-product-fsm">The Product FSM<a role="presentation" class="anchor" href="#the-product-fsm" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A product in a store might have the following states:</p>
 <ul>
@@ -108,7 +108,7 @@ the <code>cancel</code> action is called, it transitions to the <code>D</code> s
 </figure>
 <p>Our goal is to respect this FSM. Invalid actions must be impossible to
 do.</p>
-<h2 id="">Finite-State Machine as a Type System<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h2 id="">Finite-State Machine as a Type System<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Having a FSM is a good thing to define the states and the transitions
 between them: It is formal and clear. However, it is tested at runtime,
@@ -128,7 +128,7 @@ it. We replace an interface on this product, and boom, the IDE tells us
 that the code is broken in <em>x</em> places. It <strong>detects impossible scenarios
 ahead of code execution</strong>.</p>
 <p>No more talking. Here is the code.</p>
-<h3 id="-1">The mighty product<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h3 id="-1">The mighty product<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
 <span class="giallo-l"></span>
@@ -138,7 +138,7 @@ ahead of code execution</strong>.</p>
 <span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Product</span><span> {}</span></span></code></pre>
 <p>A product is a class implementing the <code>Product</code> interface. It allows to
 type a generic product, with no regards about its state.</p>
-<h3 id="-2">Active and inactive<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header">#</a>
+<h3 id="-2">Active and inactive<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
 <span class="giallo-l"></span>
@@ -169,7 +169,7 @@ our FSM.</p>
 express the following constraint: “A valid product cannot be invalid,
 and vice-versa”, i.e. both interfaces cannot be implemented by the same
 value.</p>
-<h3 id="-3">Purchase, renew, and cancel<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header">#</a>
+<h3 id="-3">Purchase, renew, and cancel<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
 <span class="giallo-l"></span>
@@ -215,7 +215,7 @@ is a reflexive transition from the state <code>B</code> to <code>B</code>.</p>
 <p>Finally, a once-off purchasable product has one action: <code>purchase</code> that
 produces a <code>Cancellable</code> product, and it transitions from the state <code>A</code>
 to <code>C</code>.</p>
-<h3 id="-4">Take a breath<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header">#</a>
+<h3 id="-4">Take a breath<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <figure role="presentation">
 <p><img src="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/./schema2.png" alt="Second schema" loading="lazy" decoding="async" /></p>
@@ -225,7 +225,7 @@ to <code>C</code>.</p>
 provides a constraint but also <strong>defines type capabilities</strong>: <strong>What
 operations can be performed on a value implementing a particular
 interface</strong>.</p>
-<h3 id="-5">SecretProduct<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header">#</a>
+<h3 id="-5">SecretProduct<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s consider the <code>SecretProduct</code> as a new super secret product that
 will revolutionise our store:</p>
@@ -316,7 +316,7 @@ interface, and the real cancel action is done in the constructor.</li>
 </ul>
 </li>
 </ul>
-<h3 id="-6">Assert possible and impossible actions<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header">#</a>
+<h3 id="-6">Assert possible and impossible actions<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s try some valid and invalid actions. Those followings are
 <strong>possible actions</strong>:</p>
@@ -361,7 +361,7 @@ compatible.</p>
 impossible actions or impossible states</strong>. No warnings or notices: Fatal
 errors. Most of them are correctly inferred by IDE, so… follow the red
 crosses in your IDE.</p>
-<h2 id="-7">Restoring a product<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header">#</a>
+<h2 id="-7">Restoring a product<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>One major thing is missing: The state of a product is stored in the
 database. When loading the product, we must be able to get an instance
@@ -372,7 +372,7 @@ composition of traits.</p>
 is possible to achieve the same behavior with final named classes. Also
 we are using a repository, which is convenient for this article, but not
 necessarily the best solution.</p>
-<h3 id="-8">Repository<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header">#</a>
+<h3 id="-8">Repository<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The following <code>ProductRepository\load</code> function is just here to give you
 an idea of how it works.</p>
@@ -420,7 +420,7 @@ an idea of how it works.</p>
 <span class="giallo-l"><span class="z-keyword">        default</span><span class="z-punctuation z-terminator">:</span></span>
 <span class="giallo-l"><span class="z-keyword">            throw new</span><span class="z-support z-class"> RuntimeException</span><span>(</span><span class="z-string">&#39;Invalid product state.&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-9">Traits<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header">#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-9">Traits<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The code must look familiar because this is just a split from the
 <code>SecretProduct</code> implementation.</p>
@@ -472,7 +472,7 @@ an idea of how it works.</p>
 <span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
 <span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-10">Assert possible and impossible actions<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header">#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-10">Assert possible and impossible actions<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The <strong>possible actions</strong> are:</p>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
@@ -495,7 +495,7 @@ can renew and cancel it.</p>
 so it has already been purchased. It is impossible to cancel a product
 twice.</p>
 <p><strong>Same garantees apply here</strong>!</p>
-<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header">#</a>
+<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to re-implement <code>SecretProduct</code> with the traits we have
 defined for the <code>ProductRepository</code>, or to use named classes. I let this
@@ -510,7 +510,7 @@ or renewing a once-off purchased product. It is also detected by PHP.</p>
 <p>The product repository is an example of how to restore a product at a
 particular state, with the help of the defined interfaces, and new small
 and simple traits.</p>
-<h2 id="-12">One more thing<a role="presentation" class="anchor" href="#-12" title="Anchor link to this header">#</a>
+<h2 id="-12">One more thing<a role="presentation" class="anchor" href="#-12" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to integrate product categories in this type system (like
 bundles). It is more complex, but possible.</p>

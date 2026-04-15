@@ -108,7 +108,7 @@ announcement</a>.</li>
 <p>We are so happy to announce a newcrazy idea: <strong>WebAssembly on
 Postgres</strong>. Yes, you read that correctly. On
 <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm">Postgres</a>.</p>
-<h2 id="calling-a-webassembly-function-from-postgres">Calling a WebAssembly function from Postgres<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-postgres" title="Anchor link to this header">#</a>
+<h2 id="calling-a-webassembly-function-from-postgres">Calling a WebAssembly function from Postgres<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-postgres" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As usual, we have to go through the installation process. There is no
 package manager for Postgres, so it’s a manual step. The <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm#installation">Installation
@@ -160,7 +160,7 @@ and call the exported <code>sum</code> function:</p>
 <span class="giallo-l"><span class="z-comment">-- (1 row)</span></span></code></pre>
 <p><em>Et voilà !</em> The <code>ns_sum</code> function calls the Rust <code>sum</code> function through
 WebAssembly! How fun is that 😄?</p>
-<h2 id="inspect-a-webassembly-instance">Inspect a WebAssembly instance<a role="presentation" class="anchor" href="#inspect-a-webassembly-instance" title="Anchor link to this header">#</a>
+<h2 id="inspect-a-webassembly-instance">Inspect a WebAssembly instance<a role="presentation" class="anchor" href="#inspect-a-webassembly-instance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This section shows how to inspect a WebAssembly instance. At the same
 time, it quickly explains how the extension works under the hood.</p>
@@ -204,7 +204,7 @@ generate the SQL function to call the WebAssembly exported functions.</p>
 <a rel="noopener external" target="_blank" href="https://www.postgresql.org/docs/current/fdwhandler.html">foreign data
 wrappers</a>,
 which is an awesome feature of Postgres.</p>
-<h2 id="how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql">How fast is it, or: Is it an interesting alternative to PL/pgSQL?<a role="presentation" class="anchor" href="#how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql" title="Anchor link to this header">#</a>
+<h2 id="how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql">How fast is it, or: Is it an interesting alternative to PL/pgSQL?<a role="presentation" class="anchor" href="#how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As we said, the extension API is rather small for now. The idea is to
 explore, to experiment, to have fun with WebAssembly inside a database.
@@ -251,7 +251,7 @@ with n=50, 500 and 5000.</p>
 <p>We notice that the Postgres WebAssembly extension is faster to run
 numeric computations. The WebAssembly approach scales pretty well
 compared to the PL/pgSQL approach, <em>in this situation</em>.</p>
-<h3 id="">When to use the WebAssembly extension?<a role="presentation" class="anchor" href="#" title="Anchor link to this header">#</a>
+<h3 id="">When to use the WebAssembly extension?<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>So far, the extension only supports integers (on 32- and 64-bits). The
 extension doesn’t support strings <em>yet</em>. It also doesn’t support
@@ -261,7 +261,7 @@ first step.</p>
 to PL/pgSQL. But regarding the benchmark results above, we are sure they
 can live side-by-side, WebAssembly has clearly a place in the ecosystem!
 And we want to continue to pursue this exploration.</p>
-<h2 id="-1">Conclusion<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header">#</a>
+<h2 id="-1">Conclusion<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are already talking with people that are interested in using
 WebAssembly inside databases. If you have any particular use cases,

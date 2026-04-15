@@ -138,7 +138,7 @@ itself, it is pointless to use WebAssembly in such conditions!</p>
 <p>It confirms my first intuition though: In our case, <code>wasmi</code> is really
 great to mock something up, but it’s not fast enough for our
 expectations.</p>
-<h2 id="faster-faster-faster">Faster, faster, faster…<a role="presentation" class="anchor" href="#faster-faster-faster" title="Anchor link to this header">#</a>
+<h2 id="faster-faster-faster">Faster, faster, faster…<a role="presentation" class="anchor" href="#faster-faster-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>I wanted to use <a rel="noopener external" target="_blank" href="https://github.com/CraneStation/cranelift">Cranelift</a>
 since the beginning. It’s a code generator, <em>à la</em>
@@ -160,7 +160,7 @@ longer code compilation though.</p>
 native speed. Or we can generate assembly code dynamically. Well, there
 is multiple ways to achieve that. What if a project could provide a
 WebAssembly virtual machine with multiple backends?</p>
-<h2 id="enter-wasmer">Enter Wasmer<a role="presentation" class="anchor" href="#enter-wasmer" title="Anchor link to this header">#</a>
+<h2 id="enter-wasmer">Enter Wasmer<a role="presentation" class="anchor" href="#enter-wasmer" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>And it was at that specific time that I’ve been hired by
 <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a>. To be totally honest, I
@@ -196,7 +196,7 @@ with LLVM. That’s for another article. I’m super happy with Cranelift
 for the moment. (See <a rel="noopener external" target="_blank" href="https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e">our previous blog post to learn how we benchmark
 different backends in Wasmer, and other WebAssembly
 runtimes</a>).</p>
-<h2 id="more-optimizations">More Optimizations<a role="presentation" class="anchor" href="#more-optimizations" title="Anchor link to this header">#</a>
+<h2 id="more-optimizations">More Optimizations<a role="presentation" class="anchor" href="#more-optimizations" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Wasmer provides more features, like module caching. Those features are
 now included in the PHP extension. When booting the <code>nbody.wasm</code> file
@@ -215,7 +215,7 @@ between PHP executions. <code>php-ext-wasm</code> supports that API to get
 persistent modules, <em>et voilà</em>.</p>
 <p>Now it takes <strong>4.2ms</strong> for the first boot of <code>nbody.wasm</code> and
 <strong>0.005ms</strong> for all the next boots. It’s 840 times faster!</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header">#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Wasmer is a young — but mature — framework to build WebAssembly runtimes
 on top of. The default backend is Cranelift, and it shows its promises:

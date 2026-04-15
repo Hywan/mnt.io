@@ -73,7 +73,7 @@
 accurate test data generation. In order to be complete and self-contained, I
 have addressed all kinds of data types, including strings. This article aims at
 showing how to generate accurate and relevant strings under several constraints.</p>
-<h2 id="what-is-a-regular-expression">What is a regular expression?<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header">#</a>
+<h2 id="what-is-a-regular-expression">What is a regular expression?<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are talking about formal language theory here. In the known world,
 there are four kinds of languages. More formally, in 1956, the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky
@@ -115,7 +115,7 @@ PCRE is the regular language I recommend all the time.</p>
 into a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/">Finite State Machine (FSM)</a>. I am not
 going to draw and explain them, but it is interesting to know that behind a
 regular expression there is a basic automaton. No magic.</p>
-<h3 id="why-focussing-regular-expressions">Why focussing regular expressions?<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header">#</a>
+<h3 id="why-focussing-regular-expressions">Why focussing regular expressions?<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>This article focuses on regular languages instead of other kind of
 languages because we use them very often (even daily). I am going to
@@ -123,7 +123,7 @@ address context-free languages in another article, be patient young
 padawan. The needs and constraints with other kind of languages are not
 the same and more complex algorithms must be involved. So we are going
 easy for the first step.</p>
-<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: lex and parse them<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header">#</a>
+<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: lex and parse them<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Compiler"><code>Hoa\Compiler</code> library</a> provides
 both LL(1) LL(k) compiler-compilers. The
@@ -197,7 +197,7 @@ different steps and see how it works.</p>
 <p>Now we are able to analyze any regular expressions in the PCRE format!
 The result of this analysis is a tree. You know what is fun with trees?
 <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Visitor_pattern">Visiting them</a>.</p>
-<h2 id="visiting-the-ast">Visiting the AST<a role="presentation" class="anchor" href="#visiting-the-ast" title="Anchor link to this header">#</a>
+<h2 id="visiting-the-ast">Visiting the AST<a role="presentation" class="anchor" href="#visiting-the-ast" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Unsurprisingly, each node of the AST can be visited thanks to the <a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Visitor"><code>Hoa\Visitor</code>
 library</a>. Here is an example with the
@@ -330,7 +330,7 @@ seen:</p>
 <span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $prettyprint</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p><em>Et voilà !</em></p>
 <p>Now, put all that stuff together!</p>
-<h2 id="isotropic-generation">Isotropic generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header">#</a>
+<h2 id="isotropic-generation">Isotropic generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We can use <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get the AST of any regular
 expressions written in the PCRE format. We can use <code>Hoa\Visitor</code> to
@@ -363,7 +363,7 @@ has <em>c</em> immediate children, the probability <em>C</em> to choose one chil
 <p>We can use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Math"><code>Hoa\Math</code> library</a> that
 provides the <code>Hoa\Math\Sampler\Random</code> class to sample uniform random integers
 and floats. Ready?</p>
-<h3 id="structure-of-the-visitor">Structure of the visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header">#</a>
+<h3 id="structure-of-the-visitor">Structure of the visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The structure of the visitor is the following:</p>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
@@ -401,7 +401,7 @@ expression contained in the <code>$expression</code> variable:</p>
 <span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $generator</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>We are going to change the value of <code>$expression</code> step by step until
 having <code>ab(c|d){2,4}e?</code>.</p>
-<h3 id="case-of-expression">Case of <code>#expression</code><a role="presentation" class="anchor" href="#case-of-expression" title="Anchor link to this header">#</a>
+<h3 id="case-of-expression">Case of <code>#expression</code><a role="presentation" class="anchor" href="#case-of-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A node of type <code>#expression</code> has only one child. Thus, we simply return
 the computation of this node:</p>
@@ -409,7 +409,7 @@ the computation of this node:</p>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;#expression&#39;</span><span class="z-keyword z-operator">:</span></span>
 <span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code><a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header">#</a>
+<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code><a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We consider only one type of token for now: <code>literal</code>. A literal can
 contain an escaped character, can be a single character or can be <code>.</code>
@@ -421,7 +421,7 @@ example (spoil: the whole visitor already exists). Thus:</p>
 <span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueValue</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Here, with <code>$expression = 'a';</code> we get the string <code>a</code>.</p>
-<h3 id="case-of-concatenation">Case of <code>#concatenation</code><a role="presentation" class="anchor" href="#case-of-concatenation" title="Anchor link to this header">#</a>
+<h3 id="case-of-concatenation">Case of <code>#concatenation</code><a role="presentation" class="anchor" href="#case-of-concatenation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A concatenation is just the computation of all children joined in a
 single piece of string. Thus:</p>
@@ -437,7 +437,7 @@ single piece of string. Thus:</p>
 <span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>At this step, with <code>$expression = 'ab';</code> we get the string <code>ab</code>. Totally
 crazy.</p>
-<h3 id="case-of-alternation">Case of <code>#alternation</code><a role="presentation" class="anchor" href="#case-of-alternation" title="Anchor link to this header">#</a>
+<h3 id="case-of-alternation">Case of <code>#alternation</code><a role="presentation" class="anchor" href="#case-of-alternation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>An alternation is a choice between several children. All we have to do
 is to select a child based on the probability given above. The number of
@@ -457,7 +457,7 @@ integers. Thus:</p>
 <span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Now, with <code>$expression = 'ab(c|d)';</code> we get the strings <code>abc</code> or <code>abd</code>
 at random. Try several times to see by yourself.</p>
-<h3 id="case-of-quantification">Case of <code>#quantification</code><a role="presentation" class="anchor" href="#case-of-quantification" title="Anchor link to this header">#</a>
+<h3 id="case-of-quantification">Case of <code>#quantification</code><a role="presentation" class="anchor" href="#case-of-quantification" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A quantification is an alternation of concatenations. Indeed, <code>e{2,4}</code>
 is strictly equivalent to <code>ee|eee|eeee</code>. We have only two
@@ -530,13 +530,13 @@ it? Want more?</p>
 <span class="giallo-l"><span class="z-comment"> *     abcdcce</span></span>
 <span class="giallo-l"><span class="z-comment"> *     abcce</span></span>
 <span class="giallo-l"><span class="z-comment"> *     abddc</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header">#</a>
+<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This is difficult to give numbers because it depends of a lot of parameters:
 your machine configuration, the PHP VM, if other programs run etc. But I have
 generated 1 million strings in less than 25 seconds on my machine (an old
 MacBook Pro), which is pretty reasonable.</p>
-<h2 id="conclusion-and-surprise">Conclusion and surprise<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header">#</a>
+<h2 id="conclusion-and-surprise">Conclusion and surprise<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So, yes, now we know how to generate strings based on regular
 expressions! Supporting all the PCRE format is difficult. That's why the
@@ -558,7 +558,7 @@ to do is:</p>
 specification language I have designed during my PhD thesis. More
 specifically, this algorithm is used inside realistic domains. I am not
 going to explain it today but it allows me to introduce the “surprise”.</p>
-<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate strings based on regular expressions in atoum<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header">#</a>
+<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate strings based on regular expressions in atoum<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> is an awesome unit test framework. You can
 use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>Atoum\PraspelExtension</code>
