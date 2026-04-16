@@ -885,8 +885,8 @@ wait a second, how do we create a `Stream` quickly without having to implement
 
 {% factotum() %}
 
-<q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear its
-throat</i>. Hum hum. Once again, the `futures` crate got you covered! There
+<q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear his
+throat</i>. Hum hum. Once again, the `futures` crate has got you covered! There
 is this excellent [`stream::poll_fn`][`futures::stream::poll_fn`] function: it
 creates a `Stream` that runs the given function when polled.
 
