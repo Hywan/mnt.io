@@ -12,7 +12,7 @@
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"/>
     <id>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</id>
-    <summary type="html">I discuss about streams. It&apos;s a pretext to learn about higher-order streams, like &lt;code&gt;flatten&lt;/code&gt; and to introduce a new stream: &lt;code&gt;switch&lt;/code&gt;! It&apos;s very useful, and will have no secret for you.</summary>
+    <summary type="html">I discuss streams. It&apos;s a pretext to learn about higher-order streams, like &lt;code&gt;flatten&lt;/code&gt; and to introduce a new stream: &lt;code&gt;switch&lt;/code&gt;! It&apos;s very useful, and will have no secret for you.</summary>
   </entry>
   <entry xml:lang="en">
     <title>Observability</title>
