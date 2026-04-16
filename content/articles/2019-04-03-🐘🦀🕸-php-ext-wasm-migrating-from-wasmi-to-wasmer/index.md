@@ -4,8 +4,6 @@ date = "2019-04-03"
 description = "This article explains how and why I've migrated `php-ext-wasm` from wasmi to Wasmer."
 [taxonomies]
 keywords=["rust", "php", "webassembly", "runtime", "binding"]
-[extra]
-pinned = true
 +++
 
 *This is a copy of [an article I wrote for
