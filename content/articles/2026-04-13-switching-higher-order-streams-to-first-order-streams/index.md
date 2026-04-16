@@ -89,7 +89,7 @@ Exactly! That's really exciting because it brings really nice features.
 
 Let's see an example with _map_:
 
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>map</mi>
@@ -133,7 +133,7 @@ type `Stream::Item`) to a new type `U`, resulting in another `Stream<U>`.
 
 Let's see another example with _filter_, shall we?
 
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>filter</mi>
@@ -182,7 +182,7 @@ Okay. Another one? Just like `Iterator::flatten`, `Stream::flatten` can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
 inner streams. Things start to be fun, let's dig a bit.
 
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>flatten</mi>
@@ -553,7 +553,7 @@ Exactly. We needed to explain all that to understand what the `switch`
 combinator does. It _switches_ a higher-order stream to a first-order stream,
 but not like `flatten`.
 
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>switch</mi>
