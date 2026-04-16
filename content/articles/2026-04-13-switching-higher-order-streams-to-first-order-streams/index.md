@@ -2,7 +2,6 @@
 title = "Switching higher-order streams to first-order streams"
 date = "2026-04-13"
 description = "I discuss about streams. It's a pretext to learn about higher-order streams, like `flatten` and to introduce a new stream: `switch`! It's very useful, and will have no secret for you."
-draft = true
 [taxonomies]
 keywords=["rust", "asynchronous", "stream"]
 [extra]
