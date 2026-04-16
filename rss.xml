@@ -8,6 +8,14 @@
     <atom:link href="https://mnt.io/rss.xml" rel="self" type="application/rss+xml"/>
     <lastBuildDate>Mon, 13 Apr 2026 00:00:00 +0000</lastBuildDate>
     <item>
+      <title>Switching higher-order streams to first-order streams</title>
+      <pubDate>Mon, 13 Apr 2026 00:00:00 +0000</pubDate>
+      <author>ivan@mnt.io (Ivan Enderlin)</author>
+      <link>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</link>
+      <guid>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</guid>
+      <description xml:base="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/">I discuss about streams. It&apos;s a pretext to learn about higher-order streams, like &lt;code&gt;flatten&lt;/code&gt; and to introduce a new stream: &lt;code&gt;switch&lt;/code&gt;! It&apos;s very useful, and will have no secret for you.</description>
+    </item>
+    <item>
       <title>About memory pressure, lock contention, and Data-oriented Design</title>
       <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

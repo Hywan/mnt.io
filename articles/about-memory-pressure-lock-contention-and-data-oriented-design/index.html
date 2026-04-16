@@ -7,7 +7,7 @@
 
   <title>About memory pressure, lock contention, and Data-oriented Design</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=2ae51ed86fd71b2c1459">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=53213c33eb2e9f678360">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -1041,8 +1041,10 @@ is equivalent to <code>Change.insert(offset: 0)</code>. On <a rel="noopener exte
 <p>I would <em>love</em> to talk about how this <code>Stream</code> produces
 a <code>Stream</code>, how the outer stream and the inner stream are switched (with
 <code>.switch()</code>!), how we&#39;ve implemented that from scratch,
-but it&#39;s probably for another article. Meanwhile, you
-can take a look at <a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a>! <a href="#fr-switch-1">↩</a></p>
+but <del>it&#39;s probably for another article!. Meanwhile, you
+can take a look at <a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></del> Wait no more, the article is
+here: <a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order
+stream</em></a>! <a href="#fr-switch-1">↩</a></p>
 </li>
 <li id="fn-stream_assert">
 <p>Do you know <a rel="noopener external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It&#39;s another crate we&#39;ve
@@ -1070,7 +1072,7 @@ you can read this old article <a href="https://mnt.io/articles/one-conference-pe
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;" class="button text-align-start" style="view-transition-name: article-title-from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation">❮&nbsp;From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</a></nav>
+    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;" class="button text-align-start" style="view-transition-name: article-title-from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation">❮&nbsp;From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;switching-higher-order-streams-to-first-order-streams&#x2F;" class="button text-align-end" style="view-transition-name: article-title-switching-higher-order-streams-to-first-order-streams">Switching higher-order streams to first-order streams&nbsp;❯</a></nav>
   </article>
 
 </main>

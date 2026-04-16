@@ -7,7 +7,7 @@
 
   <title>Switching higher-order streams to first-order streams</title>
 
-  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=2ae51ed86fd71b2c1459">
+  <link rel="stylesheet" href="https://mnt.io/style/min/main.css?h=53213c33eb2e9f678360">
   <link rel="stylesheet" href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058">
   <link rel="stylesheet" href="https://mnt.io/style/min/search.css" fetchpriority="low">
 
@@ -48,7 +48,7 @@
 
 <main vocab="https://schema.org">
 
-  <article class="article draft" typeof="Article" data-pagefind-ignore="all">
+  <article class="article" typeof="Article" data-pagefind-body>
     <header>
       <h1 property="name" style="view-transition-name: article-title-switching-higher-order-streams-to-first-order-streams">Switching higher-order streams to first-order streams</h1>
 
@@ -141,7 +141,7 @@ transform a <code>Stream</code> into another <code>Stream</code>! Once again: co
 </div>
 <p>Exactly! That's really exciting because it brings really nice features.</p>
 <p>Let's see an example with <em>map</em>:</p>
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>map</mi>
@@ -178,7 +178,7 @@ transform a <code>Stream</code> into another <code>Stream</code>! Once again: co
 <p>The method <code>map</code> takes a function <code>F</code> that maps the items of the <code>Stream</code> (of
 type <code>Stream::Item</code>) to a new type <code>U</code>, resulting in another <code>Stream&lt;U&gt;</code>.</p>
 <p>Let's see another example with <em>filter</em>, shall we?</p>
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>filter</mi>
@@ -220,7 +220,7 @@ the items.</p>
 <p>Okay. Another one? Just like <code>Iterator::flatten</code>, <code>Stream::flatten</code> can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
 inner streams. Things start to be fun, let's dig a bit.</p>
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>flatten</mi>
@@ -581,7 +581,7 @@ comes to my mind timely: <q lang="la">fabricando fit faber</q>!</p>
 <p>Exactly. We needed to explain all that to understand what the <code>switch</code>
 combinator does. It <em>switches</em> a higher-order stream to a first-order stream,
 but not like <code>flatten</code>.</p>
-<div class="math">
+<div class="math-container">
   <math display="block">
     <mrow>
       <mi>switch</mi>
@@ -921,8 +921,8 @@ wait a second, how do we create a <code>Stream</code> quickly without having to 
     </picture>
   </div>
   <div class="conversation--message">
-    <p><q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear its
-throat</i>. Hum hum. Once again, the <code>futures</code> crate got you covered! There
+    <p><q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear his
+throat</i>. Hum hum. Once again, the <code>futures</code> crate has got you covered! There
 is this excellent <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html"><code>stream::poll_fn</code></a> function: it
 creates a <code>Stream</code> that runs the given function when polled.</p>
 

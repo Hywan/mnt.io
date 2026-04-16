@@ -6,6 +6,15 @@
   <updated>2026-04-13T00:00:00+00:00</updated>
   <id>https://mnt.io/keywords/rust/atom.xml</id>
   <entry xml:lang="en">
+    <title>Switching higher-order streams to first-order streams</title>
+    <published>2026-04-13T00:00:00+00:00</published>
+    <updated>2026-04-13T00:00:00+00:00</updated>
+    <author><name>Ivan Enderlin</name></author>
+    <link rel="alternate" type="text/html" href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"/>
+    <id>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</id>
+    <summary type="html">I discuss about streams. It&apos;s a pretext to learn about higher-order streams, like &lt;code&gt;flatten&lt;/code&gt; and to introduce a new stream: &lt;code&gt;switch&lt;/code&gt;! It&apos;s very useful, and will have no secret for you.</summary>
+  </entry>
+  <entry xml:lang="en">
     <title>About memory pressure, lock contention, and Data-oriented Design</title>
     <published>2026-02-23T00:00:00+00:00</published>
     <updated>2026-02-23T00:00:00+00:00</updated>

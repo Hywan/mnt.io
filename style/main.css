@@ -492,7 +492,7 @@ math {
   }
 }
 
-.math:has(math[display='block']) {
+.math-container:has(math[display='block']) {
   max-width: 100%;
   overflow: scroll;
 }
