@@ -579,7 +579,7 @@ but not like `flatten`.
   </math>
 </div>
 
-Okay, the signature of the combinator is exactly the same than `flatten`, but
+Okay, the signature of the combinator is exactly the same as `flatten`, but
 the behaviour is different! Do you remember that `flatten` uses the outer stream
 to produce an inner stream, which is consumed _entirely_ before polling the outer
 stream again? `switch` is different, <i>open the documentation</i>:
