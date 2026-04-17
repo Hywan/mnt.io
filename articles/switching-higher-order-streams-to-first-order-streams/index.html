@@ -710,33 +710,24 @@ with a new inner stream <em>C</em>, which replaces <em>B</em>. It produces 6 and
 <p>Let's see how we can implement that in Rust:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">/// Type to switch a stream.</span></span>
 <span class="giallo-l"><span class="z-comment">// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">where</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span></span>
+<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Inner</span><span>&gt;</span></span>
 <span class="giallo-l"><span>{</span></span>
 <span class="giallo-l"><span class="z-comment">    /// The outer stream that produces the inner streams.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
 <span class="giallo-l"><span class="z-variable">    outer_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Outer</span><span>,</span></span>
 <span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-comment">    /// Whether the outer stream is closed.</span></span>
+<span class="giallo-l"><span class="z-variable">    outer_stream_is_closed</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">    /// The state of the inner stream.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">    inner_stream_state</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> InnerStreamState</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;,</span></span>
-<span class="giallo-l"><span>}</span></span>
-<span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/// `Option` with more super-powers.</span></span>
-<span class="giallo-l"><span class="z-comment">// Ignore the `#[pin]`. Blah blah blah, you know the score.</span></span>
-<span class="giallo-l"><span class="z-storage">enum</span><span class="z-entity z-name"> InnerStreamState</span><span>&lt;</span><span class="z-entity z-name">Inner</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-comment">    /// No inner stream has been yielded yet.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    None</span><span>,</span></span>
-<span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// The latest yielded inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Some</span><span> {</span></span>
-<span class="giallo-l"><span>        #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">        inner_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Inner</span><span>,</span></span>
-<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span class="z-variable">    inner_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Inner</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And now, the moment we are all waiting for, the implementation of <code>Stream</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span><span class="z-entity z-name"> Stream</span><span class="z-keyword"> for</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span></span>
+<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span><span class="z-entity z-name"> Stream</span><span class="z-keyword"> for</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-comment">//                                   ^^^^^^^^^^^</span></span>
+<span class="giallo-l"><span class="z-comment">//                                   |</span></span>
+<span class="giallo-l"><span class="z-comment">//                                   our inner stream type!</span></span>
 <span class="giallo-l"><span class="z-keyword">where</span></span>
 <span class="giallo-l"><span class="z-comment">    // My name is stream, `Outer` stream 🕵️.</span></span>
 <span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
@@ -753,29 +744,29 @@ with a new inner stream <em>C</em>, which replaces <em>B</em>. It produces 6 and
 <span class="giallo-l"><span class="z-comment">        // Ignore this. We said we keep `Pin` and projection aside.</span></span>
 <span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> this</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">pin_projection</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> outer_stream_is_closed</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> false</span><span>;</span></span>
-<span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">        // Poll the latest inner stream eagerly.</span></span>
-<span class="giallo-l"><span class="z-keyword">        while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-variable">ready</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>outer_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">context</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-keyword">            match</span><span class="z-variable"> ready</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">                // There is a new `inner_stream`!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                    this</span><span class="z-keyword z-operator">.</span><span>inner_stream_state</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-entity z-name">InnerStreamState</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Some</span><span> {</span><span class="z-variable"> inner_stream</span><span> });</span></span>
-<span class="giallo-l"><span class="z-comment">                    // Let the loop run.</span></span>
-<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword z-operator"> !*</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed {</span></span>
+<span class="giallo-l"><span class="z-keyword">            while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-variable">ready</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>outer_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">cx</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-keyword">                match</span><span class="z-variable"> ready</span><span> {</span></span>
+<span class="giallo-l"><span class="z-comment">                    // There is a new `inner_stream`!</span></span>
+<span class="giallo-l"><span class="z-entity z-name">                    Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-variable">                        this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">inner_stream</span><span>));</span></span>
+<span class="giallo-l"><span class="z-comment">                        // Let the loop run again.</span></span>
+<span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">                None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                    outer_stream_is_closed</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> true</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">                    break</span><span>;</span></span>
+<span class="giallo-l"><span class="z-entity z-name">                    None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword z-operator">                        *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed </span><span class="z-keyword z-operator">=</span><span class="z-constant z-language"> true</span><span>;</span></span>
+<span class="giallo-l"><span class="z-keyword">                        break</span><span>;</span></span>
+<span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"><span>                }</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        match</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>inner_stream_state</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">pin_projection</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-keyword">        match</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_pin_mut</span><span>() {</span></span>
 <span class="giallo-l"><span class="z-comment">            // No inner stream has been produced yet.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            InnerStreamState</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-entity z-name">            None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
 <span class="giallo-l"><span class="z-comment">                // The stream&#39; state is the outer stream&#39; state.</span></span>
-<span class="giallo-l"><span class="z-keyword">                if</span><span class="z-variable"> outer_stream_is_closed</span><span> {</span></span>
+<span class="giallo-l"><span class="z-keyword">                if</span><span class="z-keyword z-operator"> *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed {</span></span>
 <span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span></span>
 <span class="giallo-l"><span>                }</span><span class="z-keyword"> else</span><span> {</span></span>
 <span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span></span>
@@ -783,12 +774,12 @@ with a new inner stream <em>C</em>, which replaces <em>B</em>. It produces 6 and
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">            // An inner stream exists: poll it!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            InnerStreamState</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Some</span><span> {</span><span class="z-variable"> inner_stream</span><span> }</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> match</span><span class="z-variable"> inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">context</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-entity z-name">            Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> match</span><span class="z-variable"> inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">cx</span><span>) {</span></span>
 <span class="giallo-l"><span class="z-comment">                // Inner stream produced an item.</span></span>
 <span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>))</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>)),</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">                // Both inner and outer streams are closed.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword"> if</span><span class="z-variable"> outer_stream_is_closed</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>),</span></span>
+<span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword"> if</span><span class="z-keyword z-operator"> *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed </span><span class="z-keyword z-operator">=&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>),</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-comment">                // Only inner stream is closed or is pending.</span></span>
 <span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span>,</span></span>
