@@ -691,37 +691,28 @@ Let's see how we can implement that in Rust:
 ```rust
 /// Type to switch a stream.
 // Ignore the `#[pin]`. We said we keep `Pin` and projection aside.
-pub struct Switch<Outer>
-where
-    Outer: Stream
+pub struct Switch<Outer, Inner>
 {
     /// The outer stream that produces the inner streams.
     #[pin]
     outer_stream: Outer,
 
+    /// Whether the outer stream is closed.
+    outer_stream_is_closed: bool,
+
     /// The state of the inner stream.
     #[pin]
-    inner_stream_state: InnerStreamState<Outer::Item>,
-}
-
-/// `Option` with more super-powers.
-// Ignore the `#[pin]`. Blah blah blah, you know the score.
-enum InnerStreamState<Inner> {
-    /// No inner stream has been yielded yet.
-    None,
-
-    /// The latest yielded inner stream.
-    Some {
-        #[pin]
-        inner_stream: Inner,
-    }
+    inner_stream: Option<Inner>,
 }
 ```
 
 And now, the moment we are all waiting for, the implementation of `Stream`:
 
 ```rust
-impl<Outer> Stream for Switch<Outer>
+impl<Outer> Stream for Switch<Outer, Outer::Item>
+//                                   ^^^^^^^^^^^
+//                                   |
+//                                   our inner stream type!
 where
     // My name is stream, `Outer` stream 🕵️.
     Outer: Stream,
@@ -738,29 +729,29 @@ where
         // Ignore this. We said we keep `Pin` and projection aside.
         let mut this = self.pin_projection();
 
-        let mut outer_stream_is_closed = false;
-
         // Poll the latest inner stream eagerly.
-        while let Poll::Ready(ready) = this.outer_stream.as_mut().poll_next(context) {
-            match ready {
-                // There is a new `inner_stream`!
-                Some(inner_stream) => {
-                    this.inner_stream_state.set(InnerStreamState::Some { inner_stream });
-                    // Let the loop run.
-                }
+        if !*this.outer_stream_is_closed {
+            while let Poll::Ready(ready) = this.outer_stream.as_mut().poll_next(cx) {
+                match ready {
+                    // There is a new `inner_stream`!
+                    Some(inner_stream) => {
+                        this.inner_stream.set(Some(inner_stream));
+                        // Let the loop run again.
+                    }
 
-                None => {
-                    outer_stream_is_closed = true;
-                    break;
+                    None => {
+                        *this.outer_stream_is_closed = true;
+                        break;
+                    }
                 }
             }
         }
 
-        match this.inner_stream_state.pin_projection() {
+        match this.inner_stream.as_mut().as_pin_mut() {
             // No inner stream has been produced yet.
-            InnerStreamState::None => {
+            None => {
                 // The stream' state is the outer stream' state.
-                if outer_stream_is_closed {
+                if *this.outer_stream_is_closed {
                     Poll::Ready(None)
                 } else {
                     Poll::Pending
@@ -768,12 +759,12 @@ where
             }
 
             // An inner stream exists: poll it!
-            InnerStreamState::Some { inner_stream } => match inner_stream.poll_next(context) {
+            Some(inner_stream) => match inner_stream.poll_next(cx) {
                 // Inner stream produced an item.
                 Poll::Ready(Some(item)) => Poll::Ready(Some(item)),
 
                 // Both inner and outer streams are closed.
-                Poll::Ready(None) if outer_stream_is_closed => Poll::Ready(None),
+                Poll::Ready(None) if *this.outer_stream_is_closed => Poll::Ready(None),
 
                 // Only inner stream is closed or is pending.
                 Poll::Ready(None) | Poll::Pending => Poll::Pending,
