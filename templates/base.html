@@ -7,10 +7,23 @@
 
   <title>{%- block title -%}mnt.io{%- endblock title -%}</title>
 
-  <link rel="icon" href="{{ get_url(path = "/favicon.svg") }}" />
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}">
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}">
-  <link rel="stylesheet" href="{{ get_url(path = "/style/min/search.css") }}" fetchpriority="low">
+  <link
+    rel="icon"
+    href="{{ get_url(path = "/favicon.svg") }}"
+    integrity="sha512-{{ get_hash(path="/favicon.svg", sha_type=512) }}" />
+  <link
+    rel="stylesheet"
+    href="{{ get_url(path = "/style/min/main.css", cachebust = true) }}"
+    integrity="sha512-{{ get_hash(path="/style/min/main.css", sha_type=512) }}">
+  <link
+    rel="stylesheet"
+    href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust = true) }}"
+    integrity="sha512-{{ get_hash(path="/style/min/syntax-theme.css", sha_type=512) }}">
+  <link
+    rel="stylesheet"
+    href="{{ get_url(path = "/style/min/search.css") }}"
+    fetchpriority="low"
+    integrity="sha512-{{ get_hash(path="/style/min/search.css", sha_type=512) }}">
 
   <meta name="author" content="Ivan Enderlin">
   {%- if page.description %}
@@ -38,7 +51,11 @@
   <meta property="og:image" content="{{ get_url(path = "/image/site-poster.jpg") }}">
   <meta name="fediverse:creator" content="@hywan@floss.social">
 
-  <script defer src="{{ get_url(path = "/search/pagefind-ui.js") }}" fetchpriority="low"></script>
+  <script
+    defer
+    src="{{ get_url(path = "/search/pagefind-ui.js") }}"
+    fetchpriority="low"
+    integrity="sha512-{{ get_hash(path="/search/pagefind-ui.js", sha_type=512) }}"></script>
 </head>
 <body class="content-grid">
 
