@@ -24,6 +24,16 @@
     href="{{ get_url(path = "/style/min/search.css") }}"
     fetchpriority="low"
     integrity="sha512-{{ get_hash(path="/style/min/search.css", sha_type=512) }}">
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    href="{{ get_url(path = "/rss.xml") }}"
+    title="All articles">
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    href="{{ get_url(path = "/atom.xml") }}"
+    title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
   {%- if page.description %}
@@ -116,8 +126,8 @@
 
       <ul>
         <li><a href="{{ get_url(path = '@/lore.md' )}}">Lore</a></li>
-        <li><a href="{{ get_url(path = "rss.xml", trailing_slash = false) }}">RSS</a></li>
-        <li><a href="{{ get_url(path = "atom.xml", trailing_slash = false) }}">Atom</a></li>
+        <li><a href="{{ get_url(path = "/rss.xml") }}">RSS</a></li>
+        <li><a href="{{ get_url(path = "/atom.xml") }}">Atom</a></li>
         <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
         <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
       </ul>
