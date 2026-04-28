@@ -240,7 +240,7 @@ p {
   }
 }
 
-ul {
+ul, menu {
   position: relative;
   list-style: none;
   padding-inline-start: var(--space-large);
@@ -543,7 +543,7 @@ main {
   color: var(--color-white);
   background: var(--color-accent2);
 
-  > ul {
+  > menu {
     display: grid;
     grid-template-columns: repeat(5, auto);
     padding: 0;
@@ -551,7 +551,7 @@ main {
     align-items: center;
   }
 
-  > ul > li {
+  > menu > li {
     margin: 0;
     padding: 0;
     text-align: center;
