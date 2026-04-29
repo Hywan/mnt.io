@@ -100,6 +100,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --heading-size-1: 1.8em;
   --heading-size-2: 1.4em;
   --heading-size-3: 1.2em;
+  --heading-line-height: 1.25em;
 
   --blur: .3rem;
 
@@ -168,7 +169,6 @@ a {
 h1, h2, h3, h4, h5, h6 {
   --_margin-block-start: var(--space-very-large);
 
-  line-height: 1.25em;
   margin-block: var(--_margin-block-start) var(--space-large);
 
   :not(section:not(:first-child)) > &:is(:first-child, :last-child) {
@@ -219,14 +219,17 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: var(--heading-size-1);
+  line-height: var(--heading-line-height);
 }
 
 h2, .h2 {
   font-size: var(--heading-size-2);
+  line-height: var(--heading-line-height);
 }
 
 h3, .h3 {
   font-size: var(--heading-size-3);
+  line-height: var(--heading-line-height);
 }
 
 p {
@@ -755,7 +758,7 @@ article {
 
   > a {
     display: inline-block;
-    line-height: 1.25em;
+    line-height: var(--heading-line-height);
 
     &:has(+ .label) {
       margin-inline-end: var(--space);
