@@ -97,6 +97,10 @@ p, h1, h2, h3, h4, h5, h6 {
   --text-size: 1.05rem;
   --text-line-height: 1.5;
 
+  --heading-size-1: 1.8em;
+  --heading-size-2: 1.4em;
+  --heading-size-3: 1.2em;
+
   --blur: .3rem;
 
   --transition-duration-bounce: 500ms;
@@ -214,15 +218,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 1.8em;
+  font-size: var(--heading-size-1);
 }
 
 h2, .h2 {
-  font-size: 1.4em;
+  font-size: var(--heading-size-2);
 }
 
 h3, .h3 {
-  font-size: 1.2em;
+  font-size: var(--heading-size-3);
 }
 
 p {
@@ -686,9 +690,64 @@ article {
   }
 }
 
-.article-poster, .series-poster {
+*:has(> .posters) {
+  container: posters / inline-size;
+}
+
+.posters {
+  --_heading-size: 180px;
+  --_poster-size: min(80cqi, 40ch);
+
+  display: grid;
+  gap: var(--space);
+  grid-auto-flow: column;
+  grid-auto-columns: var(--_poster-size);
+  grid-template-columns: var(--_heading-size);
+  overflow-x: scroll;
+  scroll-snap-type: inline mandatory;
+
+  margin-block-start: var(--space-very-large);
+  padding-block-end: var(--space);
+
+  > * {
+    scroll-snap-align: start;
+  }
+
+  > h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 0;
+    padding: var(--space);
+    border: var(--border-width-larger) transparent solid;
+    border-radius: var(--border-radius);
+    background:
+      linear-gradient(var(--color-canvas), var(--color-canvas)) padding-box,
+      linear-gradient(-45deg in oklab, var(--color-accent), var(--color-accent2)) border-box;
+    font-size: var(--heading-size-2);
+  }
+
+  > .poster {
+    max-height: 30rem;
+    overflow-y: hidden;
+
+    position: relative;
+    margin: 0;
+
+    &::after {
+      position: absolute;
+      pointer-events: none;
+      content: '';
+      inset: 0;
+      background: linear-gradient(to top, var(--color-canvas), transparent 20%);
+    }
+  }
+}
+
+.poster {
   padding: var(--space);
   border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   :has(+ &) {
     margin-block-end: var(--space);
@@ -696,6 +755,7 @@ article {
 
   > a {
     display: inline-block;
+    line-height: 1.25em;
 
     &:has(+ .label) {
       margin-inline-end: var(--space);

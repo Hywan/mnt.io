@@ -18,7 +18,7 @@
 
     <div role="list">
     {% for section_path in section.subsections | reverse %}
-      <div role="listitem" class="series-poster" property="itemListElement" typeof="CreativeWorkSeries">
+      <div role="listitem" class="poster" property="itemListElement" typeof="CreativeWorkSeries">
         {{- series::poster(section = get_section(path = section_path)) -}}
       </div>
     {% endfor %}

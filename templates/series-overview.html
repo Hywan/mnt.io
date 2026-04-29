@@ -20,7 +20,7 @@
 
     <div role="list">
     {% for page in section.pages | reverse  %}
-      <div role="listitem" class="article-poster" property="hasPart" typeof="Article">
+      <div role="listitem" class="poster" property="hasPart" typeof="Article">
         <a href="{{ page.permalink | safe }}" class="h3" property="url">Episode {{ loop.index }} – <span property="name" style="view-transition-name: series-episode-title-{{ page.slug }}">{{ page.title | markdown(inline=true) | safe }}</span></a>
         {{ article::metadata(page = page, full = false) }}
         {% if page.description %}
