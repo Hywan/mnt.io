@@ -20,7 +20,7 @@
     <span title="Keywords" property="keywords" content="{{ page.taxonomies.keywords | join(sep = ", ") }}">
       Keywords:&nbsp;
       {%- for keyword in page.taxonomies.keywords -%}
-        <a href="/keywords/{{ keyword | slugify }}">{{ keyword }}</a> 
+        <a href="/keywords/{{ keyword | slugify }}" title="All articles matching the `{{ keyword }}` keyword">{{ keyword }}</a>
 
         {%- if not loop.last -%}, {% endif %}
       {%- endfor -%}
