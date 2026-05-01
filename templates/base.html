@@ -10,20 +10,20 @@
   <link
     rel="icon"
     href="{{ get_url(path="/icon.svg") }}"
-    integrity="sha512-{{ get_hash(path="/icon.svg", sha_type=512) }}">
+    integrity="sha512-{{ get_hash(path="/icon.svg", sha_type=512) | safe }}">
   <link
     rel="stylesheet"
     href="{{ get_url(path="/style/min/main.css", cachebust=true) }}"
-    integrity="sha512-{{ get_hash(path="/style/min/main.css", sha_type=512) }}">
+    integrity="sha512-{{ get_hash(path="/style/min/main.css", sha_type=512) | safe }}">
   <link
     rel="stylesheet"
     href="{{ get_url(path="/style/min/syntax-theme.css", cachebust=true) }}"
-    integrity="sha512-{{ get_hash(path="/style/min/syntax-theme.css", sha_type=512) }}">
+    integrity="sha512-{{ get_hash(path="/style/min/syntax-theme.css", sha_type=512) | safe }}">
   <link
     rel="stylesheet"
     href="{{ get_url(path="/style/min/search.css") }}"
     fetchpriority="low"
-    integrity="sha512-{{ get_hash(path="/style/min/search.css", sha_type=512) }}">
+    integrity="sha512-{{ get_hash(path="/style/min/search.css", sha_type=512) | safe }}">
   <link
     rel="alternate"
     type="application/rss+xml"
