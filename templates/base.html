@@ -9,30 +9,30 @@
 
   <link
     rel="icon"
-    href="{{ get_url(path = "/icon.svg") }}"
+    href="{{ get_url(path="/icon.svg") }}"
     integrity="sha512-{{ get_hash(path="/icon.svg", sha_type=512) }}">
   <link
     rel="stylesheet"
-    href="{{ get_url(path = "/style/min/main.css", cachebust=true) }}"
+    href="{{ get_url(path="/style/min/main.css", cachebust=true) }}"
     integrity="sha512-{{ get_hash(path="/style/min/main.css", sha_type=512) }}">
   <link
     rel="stylesheet"
-    href="{{ get_url(path = "/style/min/syntax-theme.css", cachebust=true) }}"
+    href="{{ get_url(path="/style/min/syntax-theme.css", cachebust=true) }}"
     integrity="sha512-{{ get_hash(path="/style/min/syntax-theme.css", sha_type=512) }}">
   <link
     rel="stylesheet"
-    href="{{ get_url(path = "/style/min/search.css") }}"
+    href="{{ get_url(path="/style/min/search.css") }}"
     fetchpriority="low"
     integrity="sha512-{{ get_hash(path="/style/min/search.css", sha_type=512) }}">
   <link
     rel="alternate"
     type="application/rss+xml"
-    href="{{ get_url(path = "/rss.xml") }}"
+    href="{{ get_url(path="/rss.xml") }}"
     title="All articles">
   <link
     rel="alternate"
     type="application/atom+xml"
-    href="{{ get_url(path = "/atom.xml") }}"
+    href="{{ get_url(path="/atom.xml") }}"
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
@@ -58,7 +58,7 @@
   {%- else %}
   <meta property="og:url" content="https://mnt.io">
   {%- endif %}
-  <meta property="og:image" content="{{ get_url(path = "/image/site-poster.jpg") }}">
+  <meta property="og:image" content="{{ get_url(path="/image/site-poster.jpg") }}">
   <meta name="fediverse:creator" content="@hywan@floss.social">
 </head>
 <body class="content-grid">
@@ -66,8 +66,8 @@
 <nav id="menu" class="full-width content-grid">
   <menu>
     <li><a href="/" accesskey="h">Home</a></li>
-    <li><a href="{{ get_url(path = '@/articles/_index.md' )}}" accesskey="a">Articles</a></li>
-    <li><a href="{{ get_url(path = '@/series/_index.md') }}" accesskey="s">Series</a></li>
+    <li><a href="{{ get_url(path='@/articles/_index.md' )}}" accesskey="a">Articles</a></li>
+    <li><a href="{{ get_url(path='@/series/_index.md') }}" accesskey="s">Series</a></li>
     <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
     <li>
       <a id="search-opener" accesskey="k">
@@ -119,9 +119,9 @@
       <h2>More</h2>
 
       <ul>
-        <li><a href="{{ get_url(path = '@/lore.md' )}}">Lore</a></li>
-        <li><a href="{{ get_url(path = "/rss.xml") }}">RSS</a></li>
-        <li><a href="{{ get_url(path = "/atom.xml") }}">Atom</a></li>
+        <li><a href="{{ get_url(path='@/lore.md' )}}">Lore</a></li>
+        <li><a href="{{ get_url(path="/rss.xml") }}">RSS</a></li>
+        <li><a href="{{ get_url(path="/atom.xml") }}">Atom</a></li>
         <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
         <li><a href="https://dblp.org/search/index.php?query=Ivan%20Enderlin" title="Computer Science Bibliography">DBLP</a></li>
       </ul>
