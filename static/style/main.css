@@ -697,6 +697,20 @@ article {
   container: posters / inline-size;
 }
 
+@keyframes posters {
+  100%, 35% {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+  }
+
+  0% {
+    opacity: .3;
+    scale: .8;
+    translate: -2rem 0;
+  }
+}
+
 .posters {
   --_heading-size: 180px;
   --_poster-size: min(80cqi, 40ch);
@@ -709,11 +723,14 @@ article {
   overflow-x: scroll;
   scroll-snap-type: inline mandatory;
 
-  margin-block-start: var(--space-very-large);
+  margin-block: var(--space-very-large);
   padding-block-end: var(--space);
 
   > * {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    animation-name: posters;
+    animation-timeline: view(inline);
+    animation-timing-function: linear;
   }
 
   > h1 {
@@ -732,10 +749,10 @@ article {
 
   > .poster {
     max-height: 30rem;
-    overflow-y: hidden;
-
-    position: relative;
     margin: 0;
+
+    overflow-y: hidden;
+    position: relative;
 
     &::after {
       position: absolute;

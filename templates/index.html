@@ -19,7 +19,7 @@
     <div role="list" class="posters">
       <h1 class="h2">
         <span property="name">Pinned articles</span>
-        <small><a href="{{ get_url(path = "@/articles/_index.md") }}" property="url">View all</a></small>
+        <small><a href="{{ get_url(path = "@/articles/_index.md") }}" property="url">View all articles</a></small>
       </h1>
 
       {% set section = get_section(path = "articles/_index.md") -%}
@@ -32,7 +32,7 @@
   </section>
 
   <section typeof="ItemList">
-    <div role="list" class="posters">
+    <div role="list">
       <h1 class="h2">
         <span property="name">Latest series</span>
         <small><a href="{{ get_url(path = "@/series/_index.md") }}" property="url">View all</a></small>
