@@ -439,16 +439,21 @@ failure. Will we retry atoum? It's very likely. When? I hope in a year.</p>
     let search_opener = document.getElementById('search-opener');
     let search_modal = document.getElementById('search');
 
+    let search_initialized = false;
+
     search_opener.addEventListener('click', async (_event) => {
       const _pagefind = await import('search/pagefind-ui');
 
-      new PagefindUI({
-        element: "#search",
-        resetStyles: false,
-        showSubResults: true,
-        showImages: false,
-        bundlePath: '/search/',
-      });
+      if (!search_initialized) {
+        new PagefindUI({
+          element: "#search",
+          resetStyles: false,
+          showSubResults: true,
+          showImages: false,
+          bundlePath: '/search/',
+        });
+        search_initialized = true;
+      }
 
       search_modal.showModal();
     })
