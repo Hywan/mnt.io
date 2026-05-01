@@ -60,12 +60,6 @@
   {%- endif %}
   <meta property="og:image" content="{{ get_url(path = "/image/site-poster.jpg") }}">
   <meta name="fediverse:creator" content="@hywan@floss.social">
-
-  <script
-    defer
-    src="{{ get_url(path = "/search/pagefind-ui.js") }}"
-    fetchpriority="low"
-    integrity="sha512-{{ get_hash(path="/search/pagefind-ui.js", sha_type=512) }}"></script>
 </head>
 <body class="content-grid">
 
@@ -76,7 +70,7 @@
     <li><a href="{{ get_url(path = '@/series/_index.md') }}" accesskey="s">Series</a></li>
     <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
     <li>
-      <a href="javascript:document.getElementById('search').showModal()" accesskey="k">
+      <a id="search-opener" accesskey="k">
         <svg viewBox="0 0 500 500" class="icon" style="max-width: 2rem">
           <description>Search</description>
           <circle r="180" cx="210" cy="210" fill="none" stroke="currentColor" stroke-width="40" />
@@ -135,14 +129,34 @@
   </div>
 </footer>
 
-<script>
+<script type="importmap">
+{
+  "imports": {
+    "search/pagefind-ui": "{{ get_url(path="/search/pagefind-ui.js") }}"
+  },
+  "integrity": {
+    "{{ get_url(path="/search/pagefind-ui.js") }}": "sha512-{{ get_hash(path="/search/pagefind-ui.js", sha_type=512) | safe }}"
+  }
+}
+</script>
+<script type="module">
   window.addEventListener('DOMContentLoaded', (_event) => {
-    new PagefindUI({
-      element: "#search",
-      resetStyles: false,
-      showSubResults: true,
-      showImages: false,
-    });
+    let search_opener = document.getElementById('search-opener');
+    let search_modal = document.getElementById('search');
+
+    search_opener.addEventListener('click', async (_event) => {
+      const _pagefind = await import('search/pagefind-ui');
+
+      new PagefindUI({
+        element: "#search",
+        resetStyles: false,
+        showSubResults: true,
+        showImages: false,
+        bundlePath: '/search/',
+      });
+
+      search_modal.showModal();
+    })
   });
 </script>
 </body>
