@@ -158,6 +158,7 @@ body {
 a {
   color: var(--color-accent);
   text-decoration: none;
+  cursor: pointer;
 
   &:hover, &:focus {
     text-decoration-color: var(--color-accent-darker);
