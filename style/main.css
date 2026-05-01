@@ -701,13 +701,11 @@ article {
   100%, 35% {
     opacity: 1;
     scale: 1;
-    translate: 0 0;
   }
 
   0% {
     opacity: .3;
-    scale: .8;
-    translate: -2rem 0;
+    scale: .95;
   }
 }
 
@@ -716,7 +714,7 @@ article {
   --_poster-size: min(80cqi, 40ch);
 
   display: grid;
-  gap: var(--space);
+  gap: var(--space-small);
   grid-auto-flow: column;
   grid-auto-columns: var(--_poster-size);
   grid-template-columns: var(--_heading-size);
