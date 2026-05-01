@@ -656,7 +656,7 @@ article {
   nav.previous-next-articles {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-large);
+    gap: var(--space);
     margin-block-start: var(--space-very-large);
 
     > * {
@@ -669,6 +669,7 @@ article {
 .button {
   padding: var(--space-small) var(--space);
   color: var(--color-dark);
+  border-radius: var(--border-radius);
   background: var(--color-accent);
 
   a&:hover, a&:focus {
