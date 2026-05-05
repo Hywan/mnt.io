@@ -707,52 +707,42 @@ article {
 
   0% {
     opacity: .3;
-    scale: .95;
+    scale: var(--_poster-smallest-scale);
   }
 }
 
 .posters {
-  --_heading-size: 180px;
-  --_poster-size: min(80cqi, 40ch);
+  --_heading-size: 160px;
+  --_poster-block-size: 30rem;
+  --_poster-inline-size: min(80cqi, 40ch);
+  --_poster-smallest-scale: .8;
+  --_poster-inline-gap: var(--space);
+
+  @container posters (inline-size < 600px) {
+    --_poster-smallest-scale: .95;
+    --_poster-inline-gap: var(--space-small);
+  }
 
   display: grid;
-  gap: var(--space-small);
+  gap: var(--_poster-inline-gap);
   grid-auto-flow: column;
-  grid-auto-columns: var(--_poster-size);
-  grid-template-columns: var(--_heading-size);
+  grid-auto-columns: var(--_poster-inline-size);
   overflow-x: scroll;
   scroll-snap-type: inline mandatory;
 
-  margin-block: var(--space-very-large);
   padding-block-end: var(--space);
 
-  > * {
-    scroll-snap-align: center;
-    animation-name: posters;
-    animation-timeline: view(inline);
-    animation-timing-function: linear;
-  }
-
-  > h1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    margin: 0;
-    padding: var(--space);
-    border: var(--border-width-larger) transparent solid;
-    border-radius: var(--border-radius);
-    background:
-      linear-gradient(var(--color-canvas), var(--color-canvas)) padding-box,
-      linear-gradient(-45deg in oklab, var(--color-accent), var(--color-accent2)) border-box;
-    font-size: var(--heading-size-2);
-  }
-
   > .poster {
-    max-height: 30rem;
+    min-height: var(--_poster-block-size);
     margin: 0;
 
     overflow-y: hidden;
     position: relative;
+
+    scroll-snap-align: center;
+    animation-name: posters;
+    animation-timeline: view(inline);
+    animation-timing-function: linear;
 
     &::after {
       position: absolute;
