@@ -577,6 +577,20 @@ main {
       text-decoration-color: currentcolor;
     }
   }
+
+  button {
+    appearance: none;
+    cursor: pointer;
+    color: inherit;
+    border: 0;
+    padding: 0 !important;
+    background: none;
+
+    &:hover, &:focus {
+      outline: 0;
+      text-decoration-color: currentcolor;
+    }
+  }
 }
 
 footer {
