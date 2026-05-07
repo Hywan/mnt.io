@@ -114,9 +114,31 @@ p, h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Overwrite the platform's theme */
+:root[data-theme = 'dark'] { color-scheme: dark }
+:root[data-theme = 'light'] { color-scheme: light }
+
 @media not (prefers-reduced-motion: reduce) {
   @view-transition {
     navigation: auto;
+  }
+}
+
+.switching-theme {
+  &::view-transition-old(root) { animation-delay: 800ms }
+  &::view-transition-new(root) {
+    animation: switch-theme 800ms;
+    animation-timing-function: cubic-bezier(0.413, 1.249, 0.874, 0.137);
+  }
+}
+
+@keyframes switch-theme {
+  from {
+    clip-path: circle(0% at var(--switch-theme-x, 50%) var(--switch-theme-y, 0%))
+  }
+
+  to {
+    clip-path: circle(max(100vw, 100vh) at var(--switch-theme-x, 50%) var(--switch-theme-y, 0%))
   }
 }
 
@@ -129,13 +151,15 @@ p, h1, h2, h3, h4, h5, h6 {
   /* For a selection, we reverse the color theme: light to dark, or dark to light */
   color-scheme: light;
 
-  @media (prefers-color-scheme: light) {
-    color-scheme: dark;
-  }
-
   color: var(--color-light);
   background: var(--color-canvas);
 }
+
+@media (prefers-color-scheme: light) {
+  ::selection { color-scheme: dark }
+}
+:root[data-theme = 'dark'] ::selection { color-scheme: light }
+:root[data-theme = 'light'] ::selection { color-scheme: dark }
 
 html {
   scroll-padding-top: var(--space-very-large);
@@ -500,6 +524,10 @@ math {
   }
 }
 
+[aria-hidden='true'] {
+  display: none !important;
+}
+
 .math-container:has(math[display='block']) {
   max-width: 100%;
   overflow: scroll;
@@ -553,7 +581,7 @@ main {
 
   > menu {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
     padding: 0;
     height: var(--space-very-large);
     align-items: center;
@@ -574,6 +602,20 @@ main {
     text-decoration: none;
 
     &:hover, &:focus {
+      text-decoration-color: currentcolor;
+    }
+  }
+
+  button {
+    appearance: none;
+    cursor: pointer;
+    color: inherit;
+    border: 0;
+    padding: 0 !important;
+    background: none;
+
+    &:hover, &:focus {
+      outline: 0;
       text-decoration-color: currentcolor;
     }
   }

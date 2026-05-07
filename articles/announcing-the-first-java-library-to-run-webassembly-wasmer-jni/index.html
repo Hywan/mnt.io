@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=1653de148fc590e38927"
-    integrity="sha512-KtBHZqahQMHzIYnL4q/oWTg2wvZjGqIBBQBD5yR3E2lSeSw7XR6IbFrD2o0BiPBNJtE3G4ccTBQX/igqY/9bew==">
+    href="https://mnt.io/style/min/main.css?h=ee64ab6d12ecc3a794c1"
+    integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
@@ -55,16 +55,107 @@
     <li><a href="https://mnt.io/series/" accesskey="s">Series</a></li>
     <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
     <li>
-      <a id="search-opener" accesskey="k">
-        <svg viewBox="0 0 100 100" class="icon" height="1em">
+      <button type="button" id="search-opener" title="Search" accesskey="k">
+        <svg viewBox="0 0 105 105" class="icon" height="1em">
           <description>Search</description>
           <circle r="36" cx="42" cy="42" fill="none" stroke="currentColor" stroke-width="8" />
           <line x1="68" y1="68" x2="96" y2="96" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
         </svg>
-      </a>
+      </button>
+    </li>
+    <li>
+      <button type="button" id="theme-switcher" title="Change theme" accesskey="t">
+        <svg viewBox="0 0 105 105" class="icon" height="1em" aria-hidden="false">
+          <description>Light theme</description>
+          <path d="m26.3 26.3-4.4-4.4M16.4 50h-6.2m16 23.7L22 78.1m28 5.5v6.2m23.7-16 4.4 4.3M83.6 50h6.2m-16-23.7 4.3-4.4M50 16.4v-6.2M69.5 50c1 18.2-25.4 26.8-35.3 11.5-10.9-13.4 3.4-35 19.9-30.6A20 20 0 0 1 69.5 50Z" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+        </svg>
+        <svg viewBox="0 0 105 105" class="icon" height="1em" aria-hidden="true">
+          <description>Dark theme</description>
+          <path d="M50.8 5.8a44 44 0 0 0-40 30 42 42 0 0 0 1.5 32.4C19.5 86 39.7 96 58.3 94c10.3-1 20-6 26.7-14 2.9-2.5 4.6-6 6.8-9a36 36 0 0 1-38.5-9.6 39 39 0 0 1-11.2-37.5 41 41 0 0 1 8.7-18Z" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round" />
+        </svg>
+      </button>
     </li>
   </menu>
 </nav>
+
+<script>
+  // Handle the theme setup as soon as possible, even before
+  // `DOMContentLoaded` and `readyState === 'interactive'`.
+  // The idea is to not get a visible flash or a repaint.
+  //
+  // At this point, `#theme-toggler` and `document` both exist.
+  function theme() {
+    const html = document.documentElement;
+    const switcher = document.getElementById('theme-switcher');
+
+    function select(new_theme, with_view_transition) {
+      const update = () => {
+        html.dataset.theme = new_theme;
+        localStorage.setItem('theme', new_theme);
+
+        const icon = (i, b) => { switcher.children[i].setAttribute('aria-hidden', b) };
+        const light = 0;
+        const dark = 1;
+
+        if (new_theme === 'dark') {
+          icon(light, false);
+          icon(dark, true);
+        } else {
+          icon(light, true);
+          icon(dark, false);
+        }
+      };
+
+      if (with_view_transition && document.startViewTransition !== undefined) {
+        const coordinates = switcher.getBoundingClientRect();
+        html.style.setProperty('--switch-theme-x', `${coordinates.x}px`);
+        html.style.setProperty('--switch-theme-y', `${coordinates.y}px`);
+
+        let view_transition = document.startViewTransition(update);
+        view_transition.ready.then(() => {
+          html.classList.add('switching-theme');
+        });
+        view_transition.finished.then(() => {
+          html.classList.remove('switching-theme');
+        });
+      } else {
+        update();
+      }
+    }
+
+    // Set up initial theme.
+    let current_theme = localStorage.getItem('theme');
+
+    // No theme manually selected? Let's fallback on the platform configuration.
+    if (current_theme === null) {
+      if (window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          current_theme = 'dark';
+        } else {
+          current_theme = 'light';
+        }
+      }
+    }
+
+    select(current_theme, false);
+
+    // Listen to platform's theme.
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        // The platform has changed its theme. If it matches, it has changed
+        // for the dark theme, light otherwise.
+        select(event.matches ? 'dark' : 'light', true);
+      });
+    }
+
+    // Listen to site's theme.
+    switcher.addEventListener('click', (_event) => {
+      select(html.dataset.theme == 'dark' ? 'light': 'dark', true);
+    });
+  }
+
+  theme();
+</script>
 
 <dialog id="search" tabindex="-1" closedby="any"></dialog>
 
@@ -365,7 +456,7 @@ reach us on Twitter at <a rel="noopener external" target="_blank" href="https://
 <p>We look forward to see what you build with this!</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;announcing-the-first-postgres-extension-to-run-webassembly&#x2F;" class="button text-align-start" style="view-transition-name: article-title-announcing-the-first-postgres-extension-to-run-webassembly">❮&nbsp;Announcing the first Postgres extension to run WebAssembly</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-whatsapp-hello&#x2F;" class="button text-align-end" style="view-transition-name: article-title-bye-bye-whatsapp-hello">Bye bye WhatsApp, hello ?&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;announcing-the-first-postgres-extension-to-run-webassembly&#x2F;" class="button text-align-start">❮&nbsp;Announcing the first Postgres extension to run WebAssembly</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-whatsapp-hello&#x2F;" class="button text-align-end">Bye bye WhatsApp, hello ?&nbsp;❯</a></nav>
   </article>
 
 </main>
@@ -423,27 +514,31 @@ reach us on Twitter at <a rel="noopener external" target="_blank" href="https://
 </script>
 <script type="module">
   window.addEventListener('DOMContentLoaded', (_event) => {
-    let search_opener = document.getElementById('search-opener');
-    let search_modal = document.getElementById('search');
+    function search() {
+      let search_opener = document.getElementById('search-opener');
+      let search_modal = document.getElementById('search');
 
-    let search_initialized = false;
+      let search_initialized = false;
 
-    search_opener.addEventListener('click', async (_event) => {
-      const _pagefind = await import('search/pagefind-ui');
+      search_opener.addEventListener('click', async (_event) => {
+        const _pagefind = await import('search/pagefind-ui');
 
-      if (!search_initialized) {
-        new PagefindUI({
-          element: "#search",
-          resetStyles: false,
-          showSubResults: true,
-          showImages: false,
-          bundlePath: '/search/',
-        });
-        search_initialized = true;
-      }
+        if (!search_initialized) {
+          new PagefindUI({
+            element: "#search",
+            resetStyles: false,
+            showSubResults: true,
+            showImages: false,
+            bundlePath: '/search/',
+          });
+          search_initialized = true;
+        }
 
-      search_modal.showModal();
-    })
+        search_modal.showModal();
+      });
+    }
+
+    search();
   });
 </script>
 </body>
