@@ -2,9 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mnt.io/</loc>
+    <priority>1</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mnt.io/articles/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</loc>
@@ -279,6 +283,8 @@
   </url>
   <url>
     <loc>https://mnt.io/series/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mnt.io/series/from-rust-to-beyond/</loc>
