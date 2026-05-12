@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {%- for sitemap_entry in entries %}
+  {%- for entry in entries %}
   <url>
-    <loc>{{ sitemap_entry.permalink | escape_xml | safe }}</loc>
-    {%- if sitemap_entry.updated %}
-    <lastmod>{{ sitemap_entry.updated }}</lastmod>
+    <loc>{{ entry.permalink | escape_xml | safe }}</loc>
+    {%- if entry.updated %}
+    <lastmod>{{ entry.updated }}</lastmod>
+    {%- endif %}
+    {%- if entry.extra.sitemap %}
+    {%- if entry.extra.sitemap.priority %}
+    <priority>{{ entry.extra.sitemap.priority}}</priority>
+    {%- endif %}
+    {%- if entry.extra.sitemap.change_frequency %}
+    <changefreq>{{ entry.extra.sitemap.change_frequency}}</changefreq>
+    {%- endif %}
+    {%- elif loop.first %}
+    {#- the first item is the root of the site, the homepage #}
+    <priority>1</priority>
+    <changefreq>monthly</changefreq>
     {%- endif %}
   </url>
   {%- endfor %}
