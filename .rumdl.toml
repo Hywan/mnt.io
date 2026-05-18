@@ -1,41 +1,118 @@
 [global]
-disable = ["MD013", "MD014", "MD029", "MD031", "MD041", "MD046"]
+# Use the GitHub Markdown flavour, https://github.com/rvben/rumdl/blob/main/docs/flavors/gfm.md.
+flavor = "gfm"
+disable = [
+  # `commands-show-output`, https://github.com/rvben/rumdl/blob/main/docs/md014.md.
+  # Not necessary to show the shell commands output every time.
+  "MD014",
 
-[MD002]
-level = 2
+  # `first-line-heading`, https://github.com/rvben/rumdl/blob/main/docs/md041.md.
+  # Some documents are fragments, the first heading is defined somewhere else.
+  "MD041",
+]
 
+# [MD002]
+# level = 2
+
+# `heading-style`, https://github.com/rvben/rumdl/blob/main/docs/md003.md.
+[MD003]
+style = "atx"
+
+# `ul-style`, https://github.com/rvben/rumdl/blob/main/docs/md004.md.
 [MD004]
 style = "dash"
 
-[MD029]
-style = "ordered"
+# `no-hard-tabs`, https://github.com/rvben/rumdl/blob/main/docs/md010.md.
+[MD010]
+spaces-per-tab = 4
 
+# `no-multiple-blanks`, https://github.com/rvben/rumdl/blob/main/docs/md012.md.
+[MD012]
+maximum = 1
+
+# `line-length`, https://github.com/rvben/rumdl/blob/main/docs/md013.md.
 [MD013]
 line-length = 80
 code-blocks = false
 tables = false
-reflow = false
+reflow = true
 
+# `no-trailing-punctuation`, https://github.com/rvben/rumdl/blob/main/docs/md026.md.
 [MD026]
 punctuation = ".,;:"
 
+# `ol-prefix`, https://github.com/rvben/rumdl/blob/main/docs/md029.md.
+[MD029]
+style = "ordered"
+
+# `no-inline-html`, https://github.com/rvben/rumdl/blob/main/docs/md033.md.
 [MD033]
 allowed-elements = [
   "i",
+  "em",
+  "strong",
+  "del",
   "q",
   "cite",
   "a",
+  "abbr",
+  "small",
   "time",
   "sub",
+  "sup",
   "figure", "figcaption",
   "iframe",
-  "table",
+  "table", "caption",  "colgroup", "col", "thead", "tbody", "tfoot", "th", "tr", "td",
   "summary", "details",
   "math", "mo", "mn", "mi", "semantics", "annotation",
+  "svg", "description", "line", "circle", "rect", "path", "text",
+  "div",
+  "br",
+  "style",
 ]
+fix = true
+fix-mode = "relaxed"
 
+# `code-block-style`, https://github.com/rvben/rumdl/blob/main/docs/md046.md.
+[MD046]
+style = "fenced"
+
+# `code-fence-style`, https://github.com/rvben/rumdl/blob/main/docs/md048.md.
+[MD048]
+style = "backtick"
+
+# `emphasis-style`, https://github.com/rvben/rumdl/blob/main/docs/md049.md.
 [MD049]
 style = "underscore"
 
+# `strong-style`, https://github.com/rvben/rumdl/blob/main/docs/md050.md.
 [MD050]
 style = "asterisk"
+
+# `link-fragments`, https://github.com/rvben/rumdl/blob/main/docs/md051.md.
+[MD051]
+anchor-style = "github"
+
+# `link-image-style`, https://github.com/rvben/rumdl/blob/main/docs/md054.md.
+[MD054]
+autolink = false
+collapsed = false
+preferred-style = "full"
+
+# `table-format`, https://github.com/rvben/rumdl/blob/main/docs/md060.md.
+[MD060]
+enabled = true
+style = "aligned"
+
+# `heading-capitalization`, https://github.com/rvben/rumdl/blob/main/docs/md063.md.
+[MD063]
+enabled = true
+style = "title-case"
+min-level = 1
+max-level = 3
+
+# `list-item-spacing`, https://github.com/rvben/rumdl/blob/main/docs/md076.md.
+[MD076]
+style = "tight"
+allow-loose-continuation = true
+
