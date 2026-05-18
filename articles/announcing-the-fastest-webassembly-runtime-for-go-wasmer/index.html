@@ -212,7 +212,7 @@ gem on RubyGems</a></li>
 <p>We are super happy to announce <code>github.com/wasmerio/go-ext-wasm/wasmer</code>,
 a <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm">Go library to run WebAssembly binaries,
 fast</a>.</p>
-<h2 id="calling-a-webassembly-function-from-go">Calling a WebAssembly function from Go<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="calling-a-webassembly-function-from-go">Calling a WebAssembly Function from Go<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>First, let’s install <code>wasmer</code> in your go environment (<em>with cgo
 support</em>).</p>
@@ -227,8 +227,8 @@ WebAssembly easily, using Rust for instance:</p>
 <span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>,</span><span class="z-variable"> y</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> i32</span><span> {</span></span>
 <span class="giallo-l"><span class="z-variable">    x</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> y</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>After compilation to WebAssembly, we get a file like <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this
-one</a>,
+<p>After compilation to WebAssembly, we get a file like
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this one</a>,
 named <code>simple.wasm</code>.<br />
 The following Go program executes the <code>sum</code> function by passing <code>5</code> and
 <code>37</code> as arguments:</p>
@@ -263,7 +263,7 @@ automatically cast to WebAssembly values. Types are inferred and
 casting is done automatically. Thus, a WebAssembly function acts as
 any regular Go function.</em></p>
 </blockquote>
-<h2 id="webassembly-calling-go-funtions">WebAssembly calling Go funtions<a role="presentation" class="anchor" href="#webassembly-calling-go-funtions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="webassembly-calling-go-funtions">WebAssembly Calling Go Funtions<a role="presentation" class="anchor" href="#webassembly-calling-go-funtions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly module <em>exports</em> some functions, so that they can be
 called from the outside world. This is the entry point to execute
@@ -342,7 +342,7 @@ the WebAssembly module with imports. That’s it.</li>
 <span class="giallo-l"><span class="z-comment">    // = 1 + 2 + 1</span></span>
 <span class="giallo-l"><span class="z-comment">    // = 4</span></span>
 <span class="giallo-l"><span class="z-comment">    // QED</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h2 id="reading-the-memory">Reading the memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h2 id="reading-the-memory">Reading the Memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly instance has a linear memory. Let’s see how to read it.
 Consider the following Rust program:</p>
@@ -376,8 +376,8 @@ can be used as any regular Go slice.</p>
 read, so <code>memory[pointer : pointer+13]</code> is enough to read the bytes,
 that are then cast to a string. <em>Et voilà !</em></p>
 <blockquote>
-<p>You can read <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go">the Greet
-Example</a>
+<p>You can read
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go">the Greet Example</a>
 to see a more advanced usage of the memory API.</p>
 </blockquote>
 <h2 id="benchmarks">Benchmarks<a role="presentation" class="anchor" href="#benchmarks" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -392,18 +392,18 @@ WebAssembly interpreter</li>
 <li><a rel="noopener external" target="_blank" href="https://github.com/go-interpreter/wagon">Wagon</a>, from Go Interpreter,
 a WebAssembly interpreter and toolkit.</li>
 </ul>
-<p>In <a rel="noopener external" target="_blank" href="https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88">our blog post about the PHP
-extension</a>,
-we have used <a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the n-body
-algorithm</a>
-to benchmark the performance. Life provides more benchmarks: <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Fibonacci_number">the
-Fibonacci algorithm</a>
-(the recursive version), <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">the Pollard’s rho
-algorithm</a>, and
-the Snappy Compress operation. The latter works successfully with
-<code>github.com/wasmerio/go-ext-wasm/wasmer</code> but not with Life or Wagon. We
-have removed it from the benchmark suites. <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks">Benchmark
-sources</a>
+<p>In
+<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88">our blog post about the PHP extension</a>,
+we have used
+<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the n-body algorithm</a>
+to benchmark the performance. Life provides more benchmarks:
+<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Fibonacci_number">the Fibonacci algorithm</a> (the
+recursive version),
+<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">the Pollard’s rho algorithm</a>,
+and the Snappy Compress operation. The latter works successfully with
+<code>github.com/wasmerio/go-ext-wasm/wasmer</code> but not with Life or Wagon. We have
+removed it from the benchmark suites.
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks">Benchmark sources</a>
 are online.</p>
 <p>We use Life 20190521143330–57f3819c2df0, and Wagon 0.4.0, i.e. <em>the
 latest versions to date</em>.</p>
@@ -427,21 +427,20 @@ in ms. Lower is better.</p>
 <p>It is important to know that Wasmer comes with 3 backends:
 <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/singlepass-backend">Singlepass</a>,
 <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/clif-backend">Cranelift</a>,
-and
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend">LLVM</a>.
-The default backend that is used by the Go library is Cranelift (<a rel="noopener external" target="_blank" href="https://github.com/CraneStation/cranelift">learn
-more about Cranelift</a>). Using
-LLVM will provide performance close to native, but we decided to start
-with Cranelift as it offers the best tradeoff between compilation-time
-and execution-time (<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different
-backends</a>,
+and <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend">LLVM</a>. The
+default backend that is used by the Go library is Cranelift
+(<a rel="noopener external" target="_blank" href="https://github.com/CraneStation/cranelift">learn more about Cranelift</a>). Using
+LLVM will provide performance close to native, but we decided to start with
+Cranelift as it offers the best tradeoff between compilation-time and
+execution-time
+(<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different backends</a>,
 when to use them, pros and cons etc.).</p>
 <h2 id="">Conclusion<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)</code>
 is a new Go library to execute WebAssembly binaries. It embeds the
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> runtime. The first version
-supports all the required API for the most common usages.</p>
+<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> runtime. The first version supports
+all the required API for the most common usages.</p>
 <p>The current benchmarks (a mix from our benchmark suites and from Life
 suites) show that <strong>Wasmer is — on average — 72 times faster than Life
 and Wagon</strong>, the two major existing WebAssembly runtimes in the Go

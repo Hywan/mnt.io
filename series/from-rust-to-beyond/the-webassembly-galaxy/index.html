@@ -190,7 +190,7 @@
 (Wasm) galaxy. This post will explain what WebAssembly is, how to
 compile the parser into WebAssembly, and how to use the WebAssembly
 binary with Javascript in a browser and with NodeJS.</p>
-<h2 id="what-is-webassembly-and-why">What is WebAssembly, and why?<a role="presentation" class="anchor" href="#what-is-webassembly-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-webassembly-and-why">What Is WebAssembly, and Why?<a role="presentation" class="anchor" href="#what-is-webassembly-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>If you already know WebAssembly, you can skip this section.</p>
 <p><a rel="noopener external" target="_blank" href="https://webassembly.org/">WebAssembly</a> defines itself as:</p>
@@ -213,18 +213,15 @@ large. And because the Web is a network, the files had to be downloaded,
 and it took time. WebAssembly is designed to be encoded in a size- and
 load-time efficient <a rel="noopener external" target="_blank" href="https://webassembly.org/docs/binary-encoding/">binary
 format</a>.</p>
-<p>WebAssembly is also faster than Javascript for many reasons. Despites
-all the crazy optimisations engineers put in the Javascript virtual
-machines, Javascript is a weakly and dynamically typed language, which
-requires to be interpreted. WebAssembly aims to execute at native speed
-by taking advantage of <a rel="noopener external" target="_blank" href="https://webassembly.org/docs/portability/#assumptions-for-efficient-execution">common hardware
-capabilities</a>.
-<a rel="noopener external" target="_blank" href="https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/">WebAssembly also loads faster than
-Javascript</a>
-because parsing and compiling happen while the binary is streamed from
-the network. So once the binary is entirely fetched, it is ready to run:
-No need to wait on the parser and the compiler before running the
-program.</p>
+<p>WebAssembly is also faster than Javascript for many reasons. Despites all the
+crazy optimisations engineers put in the Javascript virtual machines, Javascript
+is a weakly and dynamically typed language, which requires to be interpreted.
+WebAssembly aims to execute at native speed by taking advantage of
+<a rel="noopener external" target="_blank" href="https://webassembly.org/docs/portability/#assumptions-for-efficient-execution">common hardware capabilities</a>.
+<a rel="noopener external" target="_blank" href="https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/">WebAssembly also loads faster than Javascript</a>
+because parsing and compiling happen while the binary is streamed from the
+network. So once the binary is entirely fetched, it is ready to run: No need to
+wait on the parser and the compiler before running the program.</p>
 <p>Today, and our blog series is a perfect example of that, it is possible
 to write a Rust program, and to compile it to run on the Web platform.
 Why? Because WebAssembly is implemented by <a rel="noopener external" target="_blank" href="https://caniuse.com/#search=wasm">all major
@@ -274,7 +271,7 @@ respectively defined as:</p>
 <span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>
 <span class="giallo-l"><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;(</span><span class="z-entity z-name">Input</span><span>,</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-variable">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&gt;),</span><span class="z-variable"> nom</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&gt;&gt;;</span></span></code></pre>
 <p>Knowing that, let&#39;s go!</p>
-<h3 id="">General design<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="">General Design<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Here is our general design or workflow:</p>
 <ol>
@@ -302,10 +299,9 @@ memory, and responsible of exposing a friendly API.</p>
 <li><code>root</code> to run the parser (exported),</li>
 <li><code>into_bytes</code> to transform the AST into a sequence of bytes.</li>
 </ul>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs">The entire code lands
-here</a>.
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs">The entire code lands here</a>.
 It is approximately 150 lines of code. We explain it.</p>
-<h3 id="-1">Memory allocation<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-1">Memory Allocation<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s start by the memory allocator. I choose to use <a rel="noopener external" target="_blank" href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> for
 the memory allocator</a>. It is
@@ -397,13 +393,12 @@ based on a pointer and a capacity, and to let Rust drops it:</p>
 <span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Vec</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_raw_parts</span><span>(</span><span class="z-variable">pointer</span><span>,</span><span class="z-constant z-numeric"> 0</span><span>,</span><span class="z-variable"> capacity</span><span>);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p><a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">The <code>Vec::from_raw_parts</code>
-function</a>
-is marked as unsafe, so we need to delimit it in an <code>unsafe</code> block so
-that the <code>dealloc</code> function is considered as safe.</p>
+<p><a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">The <code>Vec::from_raw_parts</code> function</a>
+is marked as unsafe, so we need to delimit it in an <code>unsafe</code> block so that the
+<code>dealloc</code> function is considered as safe.</p>
 <p>The variable <code>_</code> contains our data to deallocate, and it goes out of
 scope immediately, so Rust drops it.</p>
-<h3 id="-2">From input to a flat AST<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-2">From Input to a Flat AST<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now the core of the binding! The <code>root</code> function reads the blog post to
 parse based on a pointer and a length, then it parses it. If the result
@@ -544,7 +539,7 @@ list above the code.</p>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Here we are. <code>alloc</code>, <code>dealloc</code>, <code>root</code>, and <code>into_bytes</code>. Four
 functions, and everything is done.</p>
-<h3 id="-3">Producing and optimising the WebAssembly binary<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-3">Producing and Optimising the WebAssembly Binary<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To get a WebAssembly binary, the project has to be compiled to the
 <code>wasm32-unknown-unknown</code> target. For now (and it will change in a near
@@ -616,26 +611,23 @@ need to do is the following:</p>
 <li>Read the WebAssembly module memory to load the flat AST (a sequence of bytes)
 and decode it to build a “Javascript AST” (with our own objects).</li>
 </ol>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs">The entire code lands
-here</a>.
-It is approximately 150 lines of code too. I won&#39;t explain the whole
-code since some parts of it is the “friendly API” that is exposed to the
-user. So I will rather explain the major pieces.</p>
-<h3 id="-5">Loading/streaming and instanciating<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs">The entire code lands here</a>.
+It is approximately 150 lines of code too. I won&#39;t explain the whole code since
+some parts of it is the “friendly API” that is exposed to the user. So I will
+rather explain the major pieces.</p>
+<h3 id="-5">Loading/Streaming and Instanciating<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p><a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly">The <code>WebAssembly</code>
-API</a>
-exposes multiple ways to load a WebAssembly binary. The best you can use
-is <a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">the <code>WebAssembly.instanciateStreaming</code>
-function</a>:
-It streams the binary and compiles it in the same time, nothing is
-blocking. This API relies on <a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">the <code>Fetch</code>
-API</a>. You
-might have guessed it: It is asynchronous (it returns a promise).
-WebAssembly itself is not asynchronous (except if you use thread), but
-the instanciation step is. It is possible to avoid that, but this is
-tricky, and Google Chrome has a strong limit of 4kb for the binary size
-which will make you give up quickly.</p>
+<p><a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly">The <code>WebAssembly</code> API</a>
+exposes multiple ways to load a WebAssembly binary. The best you can use is
+<a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming">the <code>WebAssembly.instanciateStreaming</code> function</a>:
+It streams the binary and compiles it in the same time, nothing is blocking.
+This API relies on
+<a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">the <code>Fetch</code> API</a>.
+You might have guessed it: It is asynchronous (it returns a promise).
+WebAssembly itself is not asynchronous (except if you use thread), but the
+instanciation step is. It is possible to avoid that, but this is tricky, and
+Google Chrome has a strong limit of 4kb for the binary size which will make you
+give up quickly.</p>
 <p>To be able to stream the WebAssembly binary, the server must send the
 <code>application/wasm</code> MIME type (with the <code>Content-Type</code> header).</p>
 <p>Let&#39;s instanciate our WebAssembly:</p>
@@ -647,7 +639,7 @@ which will make you give up quickly.</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">        then</span><span>(</span><span class="z-variable z-parameter">instance</span><span class="z-storage z-type z-function"> =&gt;</span><span> {</span><span class="z-comment"> /* step 2 */</span><span> })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>The WebAssembly binary has been instanciated! Now we can move to the
 next step.</p>
-<h3 id="-6">Last polish before running the parser<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-6">Last Polish Before Running the Parser<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Remember that the WebAssembly binary exports 3 functions: <code>alloc</code>,
 <code>dealloc</code>, and <code>root</code>. They can be found on the <code>exports</code> property,
@@ -663,7 +655,7 @@ along with the memory. Let&#39;s write that:</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">            runParser</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39;&lt;!-- wp:foo /--&gt;xyz&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span>        })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p>Great, everything is ready to write the <code>runParser</code> function!</p>
-<h3 id="-7">The parser runner<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-7">The Parser Runner<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As a reminder, this function has to: Write the <code>input</code> (the blog post to
 parse) in the WebAssembly module memory (<code>Module.memory</code>), to call the
@@ -681,8 +673,8 @@ WebAssembly module memory. Let&#39;s do that:</p>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>In details:</p>
 <ul>
-<li>The <code>raw_input</code> is encoded into a sequence of bytes with <a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder">the
-<code>TextEncoder</code>API</a>,
+<li>The <code>raw_input</code> is encoded into a sequence of bytes with
+<a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder">the <code>TextEncoder</code>API</a>,
 in <code>input</code>,</li>
 <li>The input is written into the WebAssembly memory module with
 <code>writeBuffer</code> and its pointer is returned,</li>
@@ -696,7 +688,7 @@ unknown at this step.</li>
 </ul>
 <p>Great! So we have 2 functions to write right now: <code>writeBuffer</code>​ and
 <code>readNodes</code>.</p>
-<h3 id="-8">Writing the data in memory<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-8">Writing the Data in Memory<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let&#39;s go with the first one, <code>writeBuffer</code>:</p>
 <pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> writeBuffer</span><span>(</span><span class="z-variable z-parameter">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> buffer</span><span>) {</span></span>
@@ -723,7 +715,7 @@ basic, and return the pointer.</li>
 <p>Note that, unlike C strings, adding a <code>NUL</code> byte at the end is not
 mandatory. This is just the raw data (on the Rust side, we read it with
 <code>slice::from_raw_parts</code>, slice is a very simple structure).</p>
-<h3 id="-9">Reading the output of the parser<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-9">Reading the Output of the Parser<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>So at this step, the input has been written in memory, and the <code>root</code>
 function has been called so it means the parser has run. It has returned
@@ -849,19 +841,17 @@ has to be instanciated with a buffer directly, like this:
 <li>The <code>TextEncoder</code> and <code>TextDecoder</code> objects do not exist as global
 objects, they are in <code>util.TextEncoder</code> and <code>util.TextDecoder</code>.</li>
 </ul>
-<p>In order to share the code between both environments, it is possible to
-write the boundary layer (the Javascript code we wrote) in a <code>.mjs</code>
-file, aka ECMAScript Module. It allows to write something like
-<code>import { Gutenberg_Post_Parser } from './gutenberg_post_parser.mjs'</code>
-for example (considering the whole code we wrote before is a class). On
-the browser side, the script must be loaded
-with<code>&lt;script type="module" src="…" /&gt;</code>, and on the NodeJS side, <code>node</code>
-must run with the <code>--experimental-modules</code> flag. I can recommend you
-this talk <a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=35ZMoH8T-gc&amp;index=4&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf&amp;t=0s"><em>Please wait… loading: a tale of two loaders</em> by Myles
-Borins</a>
+<p>In order to share the code between both environments, it is possible to write
+the boundary layer (the Javascript code we wrote) in a <code>.mjs</code> file, aka
+ECMAScript Module. It allows to write something like
+<code>import { Gutenberg_Post_Parser } from './gutenberg_post_parser.mjs'</code> for
+example (considering the whole code we wrote before is a class). On the browser
+side, the script must be loaded with<code>&lt;script type="module" src="…" /&gt;</code>, and on
+the NodeJS side, <code>node</code> must run with the <code>--experimental-modules</code> flag. I can
+recommend you this talk
+<a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=35ZMoH8T-gc&amp;index=4&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf&amp;t=0s"><em>Please wait… loading: a tale of two loaders</em> by Myles Borins</a>
 at the JSConf EU 2018 to understand all the story about that.</p>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs">The entire code lands
-here</a>.</p>
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs">The entire code lands here</a>.</p>
 <h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen in details how to write a real world parser in Rust, how to
@@ -898,11 +888,11 @@ cases are very interesting, like <code>moby-dick-parsed.html</code> where it tak
 2.5s with the Javascript parser against 25ms with WebAssembly.</p>
 <p>So not only it is safer, but it is faster than Javascript in this case.
 And it is only 300 lines of code.</p>
-<p>Note that WebAssembly does not support SIMD yet: It is still <a rel="noopener external" target="_blank" href="https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md">a
-proposal</a>.
-Rust is gently supporting it (<a rel="noopener external" target="_blank" href="https://github.com/rust-lang-nursery/stdsimd/pull/549">example with PR
-#549</a>). It will
-dramatically improve the performances!</p>
+<p>Note that WebAssembly does not support SIMD yet: It is still
+<a rel="noopener external" target="_blank" href="https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md">a proposal</a>.
+Rust is gently supporting it
+(<a rel="noopener external" target="_blank" href="https://github.com/rust-lang-nursery/stdsimd/pull/549">example with PR #549</a>).
+It will dramatically improve the performances!</p>
 <p>We will see in the next episodes of this series that Rust can reach a
 lot of galaxies, and the more it travels, the more it gets interesting.</p>
 <p>Thanks for reading!</p>

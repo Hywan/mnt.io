@@ -187,7 +187,7 @@
     </header>
 
     <p>Imagine a collection of values <code>T</code>. This collection can be updated by inserting
-new values, removing existing ones, or the collection can truncated, cleared…
+new values, removing existing ones, or the collection can be truncated, cleared…
 This collection acts as <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html">the standard <code>Vec</code></a>. However, there is a
 subtlety: This collection is <em>observable</em>. It is possible for someone to
 <em>subscribe</em> to this collection and to receive its updates.</p>
@@ -199,11 +199,11 @@ more efficient.</p>
 <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>, a set of Rust libraries that aim at developing robust
 <a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> clients or bridges. It is notoriously used by the next generation
 Matrix client developed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a>, namely <a rel="noopener external" target="_blank" href="https://element.io/labs/element-x">Element X</a>. The Matrix Rust SDK is
-cross-platform. Element X has two implementations: on iOS, iPadOS and macOS with
-Swift, and on Android with Kotlin. Both languages are using our Rust bindings
-to <a rel="noopener external" target="_blank" href="https://www.swift.org/">Swift</a> and <a rel="noopener external" target="_blank" href="https://kotlinlang.org/">Kotlin</a>. This is the story for another series (how we have
-automated this, how we support asynchronous flows from Rust to foreign languages
-etc.), but for the moment, let’s keep focus on reactive programming.</p>
+cross-platform. Element X has two implementations: on iOS, iPadOS, and macOS
+with Swift, and on Android with Kotlin. Both languages are using our Rust
+bindings to <a rel="noopener external" target="_blank" href="https://www.swift.org/">Swift</a> and <a rel="noopener external" target="_blank" href="https://kotlinlang.org/">Kotlin</a>. This is the story for another series (how we
+have automated this, how we support asynchronous flows from Rust to foreign
+languages etc.), but for the moment, let’s keep focus on reactive programming.</p>
 <p>Taking the Element X use case, the room list –which is the central piece of the
 app– is fully dynamic:</p>
 <ul>
@@ -243,7 +243,7 @@ maybe we can start with examples.</p>
   </div>
 </div>
 <p>Alrighty. Fair. Before digging into the really fun bits, we need some basis.</p>
-<h2 id="baby-steps-with-reactive-programming">Baby steps with reactive programming<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="baby-steps-with-reactive-programming">Baby Steps with Reactive Programming<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Everything we are going to share with you has been implemented in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball">a library
 called <code>eyeball</code></a>. To give you a good idea of what reactive
@@ -276,10 +276,11 @@ programming in Rust can look like, let's create a Rust program:</p>
 <span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-entity z-name">Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>));</span></span>
 <span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>());</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>What do we see here? First off, <code>observable</code> is an observable value. Proof
-is: It is possible to subscribe to it, see <code>subscriber</code>. Both <code>observable</code> and
+<p>What do we see here? First off, <code>observable</code> is an observable value. Proof is:
+It is possible to subscribe to it, see <code>subscriber</code>. Both <code>observable</code> and
 <code>subscriber</code> are seeing the same initial value: 7. When <code>observable</code> receives a
-new value, 13, both <code>observable</code> and <code>subscriber</code> are seeing the updated value. Let's take it for a spin:</p>
+new value, 13, both <code>observable</code> and <code>subscriber</code> are seeing the updated value.
+Let's take it for a spin:</p>
 <pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:8:5] Observable::get(&amp;observable) = 7</span></span>
 <span class="giallo-l"><span>[src/main.rs:9:5] subscriber.get() = 7</span></span>
@@ -327,7 +328,7 @@ However, <code>Subscriber::next</code> returns a <a rel="noopener external" targ
 <span class="giallo-l"><span>   |                            ^^^^^ only allowed inside `async` functions and blocks</span></span></code></pre>
 <p>Indeed. Almighty <code>rustc</code> is correct. The <code>main</code> function is not <code>async</code>. We need
 an asynchronous runtime. Let's use <a rel="noopener external" target="_blank" href="https://docs.rs/smol">the <code>smol</code> project</a>, I enjoy it a
-lot: it's a small, fast and well-written async runtime:</p>
+lot: it's a small, fast, and well-written async runtime:</p>
 <pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo add smol</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
 <span class="giallo-l"><span>      Adding smol v2.0.2 to dependencies</span></span>
@@ -556,11 +557,11 @@ are not alone… <i>doing sideways head movement</i></p>
 an <em>assiduous reader</em>, you may have read the end of the documentation, aren't
 you?</p>
 <blockquote>
-<p>However, the <code>Observable</code> will be locked (not updateable) while any read guards
-are alive.</p>
+<p>However, the <code>Observable</code> will be locked (not updateable) while any read
+guards are alive.</p>
 </blockquote>
 <p>Blocking the <code>Observable</code> might be tolerable in some cases, but it cannot be
-generalised to all use cases. A user is more likely to prefer <code>next</code> instead of
+generalised to all use cases. A user is likelier to prefer <code>next</code> instead of
 <code>next_ref</code> by default.</p>
 <p>Back to our <code>Observable&lt;Vec&lt;BigType&gt;&gt;</code> then. Imagine the collection contains a
 lot of items: cloning the entire <code>Vec&lt;_&gt;</code> for every update to every subscriber
@@ -582,8 +583,8 @@ and more complexity.</p>
 <p><q lang="la">Spes salutis</q><sup class="footnote-reference" id="fr-spes_salutis-1"><a href="#fn-spes_salutis">1</a></sup>! Fortunately for us, <em>immutable
 data structures</em> exist in Rust.</p>
 <blockquote>
-<p>An immutable data structure is a data structure which can be copied and modified
-efficiently without altering the original.</p>
+<p>An immutable data structure is a data structure which can be copied and
+modified efficiently without altering the original.</p>
 </blockquote>
 <p>It can be modified. However, as soon as it is copied (or cloned), it is still
 possible to modify the copy but the original data is not modified. That's
@@ -620,9 +621,9 @@ value is cheap.</p>
   <div class="conversation--message">
     <p>Dare I ask how immutable data structures are implemented? It sounds like complex
 beasts.</p>
-<p>I mean… a naive implementation sounds <em>relatively doable</em> but I am guessing there
-is a lot of subtleties, possible conflicts, and many memory guarantees that I am
-not anticipating yet, right?</p>
+<p>I mean… a naive implementation sounds <em>relatively doable</em> but I am guessing
+there is a lot of subtleties, possible conflicts, and many memory guarantees
+that I am not anticipating yet, right?</p>
 
   </div>
 </div>
@@ -640,7 +641,7 @@ crate provides <a rel="noopener external" target="_blank" href="https://docs.rs/
 head and tail chunking<sup class="footnote-reference" id="fr-UCR2014-1"><a href="#fn-UCR2014">4</a></sup>, and allocates in the stack or on the heap
 depending on the size of the collection, similarly to <a rel="noopener external" target="_blank" href="https://docs.rs/smallvec">the <code>smallvec</code>
 crate</a>. End of digression)</p>
-<h2 id="observable-immutable-collection">Observable (immutable) collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="observable-immutable-collection">Observable (Immutable) Collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The <code>imbl</code> crate then. It provides <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. <code>eyeball</code>
 provides a crate for working with immutable data structures (how surprising
@@ -661,9 +662,8 @@ notes</i>,</li>
 <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html"><code>VectorSubscriber&lt;T&gt;</code></a>.</li>
 </ul>
 <p>Let's explore <code>VectorSubscriber</code> a bit more, would you? <i>Scroll the
-document</i>, contrary to
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a>, there is no <code>next</code> method. How
-are we supposed to wait on an update?</p>
+document</i>, contrary to <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a>,
+there is no <code>next</code> method. How are we supposed to wait on an update?</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
@@ -702,7 +702,8 @@ closer</i>, did you notice how <a rel="noopener external" target="_blank" href="
 whilst <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html#tymethod.poll_next"><code>Stream::poll_next</code></a> returns
 <code>Poll&lt;Option&lt;Self::Item&gt;&gt;</code>? It's really similar to <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next"><code>Iterator::next</code></a> which
 returns <code>Option&lt;Self::Item&gt;</code>.</p>
-<p>Let's take a look at <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/enum.Poll.html"><code>Poll&lt;T&gt;</code></a> don't you mind? It's an enum with 2 variants:</p>
+<p>Let's have a look at <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/enum.Poll.html"><code>Poll&lt;T&gt;</code></a> don't you mind? It's an enum with 2
+variants:</p>
 <ul>
 <li><code>Ready(value)</code> means a <code>value</code> is immediately ready,</li>
 <li><code>Pending</code> means no value is ready yet.</li>
@@ -719,11 +720,11 @@ not be called anymore),</li>
 produces multiple values, and <code>Poll::Ready(None)</code> represents the termination of
 the stream, similarly to <code>None</code> to represent the termination of an <code>Iterator</code>.
 Ahh, I love consistency.</p>
-<p>We have the basis. Now let's see <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html"><code>StreamExt</code></a>. It's
-a trait extending <code>Stream</code> to add convenient combinator methods. Amongst other
-things, we find <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next"><code>StreamExt::next</code></a>! Ah ha!
-It returns a <code>Next</code> type which implements a <code>Future</code>, exactly what <code>eyeball</code>
-does actually. Remember our:</p>
+<p>We have the basis. Now let's see <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html"><code>StreamExt</code></a>.
+It's a trait extending <code>Stream</code> to add convenient combinator methods. Amongst
+other things, we find <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next"><code>StreamExt::next</code></a>!
+Ah ha! It returns a <code>Next</code> type which implements a <code>Future</code>, exactly what
+<code>eyeball</code> does actually. Remember our:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// from `main.rs`</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">new_value</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span> {</span></span>
@@ -924,7 +925,7 @@ I love macros. There. I said it. Let's quickly craft one:</p>
 <span class="giallo-l"><span>    };</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>This macro does exactly what our <code>assert_eq!</code> was doing, except now it's shorter
-to use, and thus more pleasant. Don't believe me? See by yourself:</p>
+to use, and thus pleasanter. Don't believe me? See by yourself:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
 <span class="giallo-l"><span class="z-comment">// at the end of the `main` function</span></span>
 <span class="giallo-l"></span>
@@ -1069,9 +1070,8 @@ We would need to look at the implementation to be sure.</p>
 <span class="giallo-l"><span>  left: Some(Reset { values: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;, &#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;] })</span></span>
 <span class="giallo-l"><span> right: Some(PushBack { value: &#39;a&#39; })</span></span>
 <span class="giallo-l"><span>note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span></span></code></pre>
-<p>Oh! An error, great! Our <code>assert_next_eq!</code> has failed. <code>subscriber</code>
-does not receive a <code>VectorDiff::PopBack</code> but a <code>VectorDiff::Reset</code>.
-Let's play with
+<p>Oh! An error, great! Our <code>assert_next_eq!</code> has failed. <code>subscriber</code> does not
+receive a <code>VectorDiff::PopBack</code> but a <code>VectorDiff::Reset</code>. Let's play with
 <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html#method.with_capacity"><code>ObservableVector::with_capacity</code></a>
 a moment, maybe it's related to the buffer capacity? Let's change a single line:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">with_capacity</span><span>(</span><span class="z-constant z-numeric">32</span><span>);</span></span>
@@ -1101,13 +1101,13 @@ the buffer.</p>
 
   </div>
 </div>
-<h2 id="observable-differences">Observable differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="observable-differences">Observable Differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
 subscribers. However, we see that <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im"><code>eyeball-im</code></a>, despite using <a rel="noopener external" target="_blank" href="https://docs.rs/imbl"><code>imbl</code></a>, does
-not share an <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html"><code>imbl::Vector</code></a> but an <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>eyeball_im::VectorDiff</code></a>. Why such design?
-It looks like a drama. A betrayal. An act of treachery!</p>
+not share an <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html"><code>imbl::Vector</code></a> but an <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>eyeball_im::VectorDiff</code></a>. Why such
+design? It looks like a drama. A betrayal. An act of treachery!</p>
 <p>Well. Firstly, <code>eyeball-im</code> is relying on some immutable properties of <code>Vector</code>.
 And secondly, the reason for which <code>VectorDiff</code> exists is simple. If a
 subscriber receives <code>Vector</code>s, how is the user able to see what has changed? The
@@ -1160,7 +1160,7 @@ the implementation of
 <table><thead><tr><th><code>ObservableVector::…</code></th><th><code>VectorDiff::…</code></th><th>Meaning</th></tr></thead><tbody>
 <tr><td><code>append(values)</code></td><td><code>Append { values }</code></td><td>Append many <code>values</code></td></tr>
 <tr><td><code>clear()</code></td><td><code>Clear</code></td><td>Clear out all the values</td></tr>
-<tr><td><code>insert(index, value)</code></td><td><code>Insert { index, value }</code></td><td>Insert a <code>value</code> at <code>index</code> </td></tr>
+<tr><td><code>insert(index, value)</code></td><td><code>Insert { index, value }</code></td><td>Insert a <code>value</code> at <code>index</code></td></tr>
 <tr><td><code>pop_back()</code></td><td><code>PopBack</code></td><td>Remove the value at the back</td></tr>
 <tr><td><code>pop_front()</code></td><td><code>PopFront</code></td><td>Remove the value at the front</td></tr>
 <tr><td><code>push_back(value)</code></td><td><code>PushBack { value }</code></td><td>Add <code>value</code> at the back</td></tr>
@@ -1207,7 +1207,7 @@ current state!</q>. This is not ideal, but the subscriber is responsible to not
 lag, and this design avoids having missing values. If a subscriber receives
 too much <code>VectorDiff::Reset</code>s, the user may consider increasing the capacity of
 the <code>ObservableVector</code>.</p>
-<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and sorting with higher-order <code>Stream</code>s<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and Sorting with Higher-Order <code>Stream</code>s<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are reaching the end of this episode. And you know what? We have set all the
 parts to talk about higher-order <code>Stream</code>, <i>chante victory and dance at the
@@ -1247,14 +1247,16 @@ to learn so much about <code>Stream</code> and <code>Future</code>, it's going t
 <p>Latine expression meaning <em>salvation hope</em>. <a href="#fr-spes_salutis-1">↩</a></p>
 </li>
 <li id="fn-beati_pauperes_in_spiritu">
-<p>Latine expression meaning <em>bless are the poor in spirit</em>. <a href="#fr-beati_pauperes_in_spiritu-1">↩</a></p>
+<p>Latine expression meaning
+<em>bless are the poor in spirit</em>. <a href="#fr-beati_pauperes_in_spiritu-1">↩</a></p>
 </li>
 <li id="fn-SRUB2015">
 <p><cite><a href="https://infoscience.epfl.ch/server/api/core/bitstreams/7c8b929f-1f68-4948-8ea8-e364e4899b2a/content">Relaxed-Radix-Balanced
 (RRR) Vector: A Practical General Purpose Immutable
-Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell P. (2015,
-August), in <i>Proceedings of the 20th ACM SIGPLAN International Conference
-on Functional Programming (pp. 342-354).</i> <a href="#fr-SRUB2015-1">↩</a></p>
+Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell
+P. (2015, August), in <i>Proceedings of the 20th ACM SIGPLAN
+International Conference on Functional Programming (pp.
+342-354).</i> <a href="#fr-SRUB2015-1">↩</a></p>
 </li>
 <li id="fn-UCR2014">
 <p><cite><a href="http://deepsea.inria.fr/pasl/chunkedseq.pdf">Theory

@@ -184,13 +184,13 @@
 
     <p>I'm here to narrate you a story about performance. Recently, I was in the same
 room as some Memory Pressure and some Lock Contention. It took me a while to
-recognize them. Legend says it only happens in obscure, low-level systems,
-but I'm here to refute the legend. While exploring, I had the pleasure of fixing a
+recognize them. Legend says it only happens in obscure, low-level systems, but
+I'm here to refute the legend. While exploring, I had the pleasure of fixing a
 funny bug in a higher-order stream: lucky us, to top it all off, we even have a
-sweet treat! This story is also a pretext to introduce you to Data-oriented Design,
-and to show how it improved execution time by 98.7% and throughput
-by 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
-and <em lang="fr">bon appétit !</em></p>
+sweet treat! This story is also a pretext to introduce you to Data-oriented
+Design, and to show how it improved execution time by 98.7% and throughput by
+7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
+and <em lang="fr">bon appétit!</em></p>
 <h2 id="on-a-beautiful-morning">On a Beautiful Morning…<a role="presentation" class="anchor" href="#on-a-beautiful-morning" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>While powering on my <a rel="noopener external" target="_blank" href="https://dygma.com/pages/defy">Dygma Defy</a>, unlocking my computer, and checking
@@ -203,9 +203,9 @@ messages from my colleagues, I suddenly come across this one:</p>
 fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
 of many crates. Some are very low in the stack and are not aimed at being used
 directly by developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the
-stack — the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. While it is
-a bit opinionated, it is designed to provide the high-quality features everybody
-expects in a modern Matrix client.</p>
+stack — the highest is for User Interfaces (UI) with <code>matrix_sdk_ui</code>. While it
+is a bit opinionated, it is designed to provide the high-quality features
+everybody expects in a modern Matrix client.</p>
 <p>One of these features is the Room List. The Room List is a place where users
 spend a lot of their time in a messaging application (along with the Timeline,
 i.e. the room's messages). Some expectations for this component:</p>
@@ -269,7 +269,8 @@ re-positioned. Then, we expect the Room List's stream to yield:</p>
 <ol>
 <li><code>VectorDiff::Set { index: 3, value: new_room }</code> because of the new “preview”,</li>
 <li><code>VectorDiff::Remove { index: 3 }</code> to remove the room… immediately followed by</li>
-<li><code>VectorDiff::PushFront { value: new_room }</code> to insert the room at the top of the Room List.</li>
+<li><code>VectorDiff::PushFront { value: new_room }</code> to insert the room at the top of
+the Room List.</li>
 </ol>
 <p>This reactive programming mechanism has proven to be extremely efficient.</p>
 <div class="conversation" data-character="comte">
@@ -333,7 +334,8 @@ updates? No, everything works like a charm.</li>
 
   </div>
 </div>
-<p>Indeed, we have changed one sorter recently. Let's take a look at how this Room List stream is computed, shall we?</p>
+<p>Indeed, we have changed one sorter recently. Let's have a look at how this Room
+List stream is computed, shall we?</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> stream!</span><span> {</span></span>
 <span class="giallo-l"><span class="z-keyword">    loop</span><span> {</span></span>
 <span class="giallo-l"><span class="z-comment">        // Wait for the filter to be updated.</span></span>
@@ -642,7 +644,7 @@ multiple indirections, but still, it sounds pretty fast, right?</p>
 
   </div>
 </div>
-<p>Hmm, <i>refrain from opening the Pandora's box</i>, let's try to stay high-level
+<p>Hmm, <i>refrain from opening Pandora's box</i>, let's try to stay high-level
 here, shall we? Be careful: the numbers I am going to present can vary depending
 on your hardware, but the important part is <strong>the scale</strong>: keep that in mind.</p>
 <figure>
@@ -656,7 +658,7 @@ on your hardware, but the important part is <strong>the scale</strong>: keep tha
 </tbody></table>
 <figcaption>
 <p>Latency numbers for the year 2020 for various operations (source:
-<a rel="noopener external" target="_blank" href="https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html"><cite>Latency Numbers Every Programmer Shoud Know</cite> from Colin Scott (UC
+<a rel="noopener external" target="_blank" href="https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html"><cite>Latency Numbers Every Programmer Should Know</cite> from Colin Scott (UC
 Berkeley)</a>).</p>
 <p>The time in the second column is given in nanoseconds, i.e.
 <math><mfrac><mn>1</mn><mn>1'000'000'000</mn></mfrac></math> second. The time in
@@ -848,8 +850,8 @@ the <code>latest_event</code> method was called basically, which means…</p>
 
   </div>
 </div>
-<p>… yes… and please, stop interrupting me, I was trying to build up the suspense for
-a climax.</p>
+<p>… yes… and please, stop interrupting me, I was trying to build up the suspense
+for a climax.</p>
 <p>Anyway. Avoiding a lock isn't an easy task. However, this lock around <code>info</code>
 is particularly annoying because it's called by almost all sorters! They need
 information about a <code>Room</code>; all the information is in this <code>info</code> field, which
@@ -858,11 +860,11 @@ is a read-write lock. Hmmm.</p>
 <ol>
 <li>The sorters need this data.</li>
 <li>Running the sorters won't change this data.</li>
-<li>When the data does change the sorters will be re-run.</li>
+<li>When the data does change the sorters will be rerun.</li>
 </ol>
-<p>Maybe we could fetch, ahead of time, all the necessary data for all sorters in
-a single type: it will be refreshed when the data changes, which is right before the
-sorters run again.</p>
+<p>Maybe we could fetch, ahead of time, all the necessary data for all sorters in a
+single type: it will be refreshed when the data changes, which is right before
+the sorters run again.</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
@@ -886,7 +888,8 @@ much faster than the 100ns for the main memory. Moreover, it removes the lock
 contention and the memory pressure entirely!</p>
 <details>
 <summary>
-<p>I highly recommend watching the following talks<sup class="footnote-reference" id="fr-talks-1"><a href="#fn-talks">7</a></sup> if you want to learn more about Data-oriented Design (DoD)</p>
+<p>I highly recommend watching the following talks<sup class="footnote-reference" id="fr-talks-1"><a href="#fn-talks">7</a></sup> if you want to learn
+more about Data-oriented Design (DoD)</p>
 </summary>
 <figure>
   <iframe
@@ -1010,7 +1013,8 @@ benchmark has to say now.</p>
 random. Nonetheless, <strong>the performance impact is huge</strong>:</p>
 <ul>
 <li>From 18.8Kelem/s to 1.4Melem/s,</li>
-<li>From 53ms to 676µs, or —to compare with the same unit— 0.676ms, so <strong>78× faster</strong>!</li>
+<li>From 53ms to 676µs, or —to compare with the same unit— 0.676ms, so
+<strong>78× faster</strong>!</li>
 <li>The throughput has improved by 7718.5%, and the time by 98.7%.</li>
 </ul>
 <p>Can we claim victory now?</p>
@@ -1151,13 +1155,12 @@ is equivalent to <code>Change.insert(offset: 0)</code>. On <a rel="noopener exte
 <code>MutableList.clear()</code>! <a href="#fr-vectordiff_on_other_uis-1">↩</a></p>
 </li>
 <li id="fn-switch">
-<p>I would <em>love</em> to talk about how this <code>Stream</code> produces
-a <code>Stream</code>, how the outer stream and the inner stream are switched (with
-<code>.switch()</code>!), how we&#39;ve implemented that from scratch,
-but <del>it&#39;s probably for another article!. Meanwhile, you
-can take a look at <a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></del> Wait no more, the article is
-here: <a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order
-stream</em></a>! <a href="#fr-switch-1">↩</a></p>
+<p>I would <em>love</em> to talk about how this <code>Stream</code> produces a <code>Stream</code>,
+how the outer stream and the inner stream are switched (with
+<code>.switch()</code>!), how we&#39;ve implemented that from scratch, but <del>it&#39;s
+probably for another article!. Meanwhile, you can take a look at
+<a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></del> Wait no more, the article is here:
+<a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order stream</em></a>! <a href="#fr-switch-1">↩</a></p>
 </li>
 <li id="fn-stream_assert">
 <p>Do you know <a rel="noopener external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It&#39;s another crate we&#39;ve
@@ -1178,8 +1181,8 @@ the story, I wasn&#39;t aware we had a lock contention yet. <a href="#fr-suspens
 <li id="fn-talks">
 <p>If you are curious and enjoy watching talks, I&#39;m maintaining
 <a rel="noopener external" target="_blank" href="https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf">a playlist of interesting talks I&#39;ve watched</a>. Also
-you can read this old article <a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/">Once conference per day, for one year
-(2017)</a>. <a href="#fr-talks-1">↩</a></p>
+you can read this old article
+<a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/">Once conference per day, for one year (2017)</a>. <a href="#fr-talks-1">↩</a></p>
 </li>
 </ol>
 </section>

@@ -220,27 +220,26 @@ far according to me.</p>
 WebAssembly</a> is:</p>
 <blockquote>
 <p>WebAssembly aims to execute at native speed by taking advantage of
-<a rel="noopener external" target="_blank" href="https://webassembly.org/docs/portability/#assumptions-for-efficient-execution">common hardware
-capabilities</a>
+<a rel="noopener external" target="_blank" href="https://webassembly.org/docs/portability/#assumptions-for-efficient-execution">common hardware capabilities</a>
 available on a wide range of platforms.</p>
 </blockquote>
 <p>And clearly, my extension wasn’t fulfilling this promise. Let’s see a
 basic comparison with a benchmark.</p>
-<p>I chose <a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the <em>n-body</em>
-algorithm</a>
-from <a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">the Computer Language Benchmarks
-Game</a> from
-Debian, mostly because it’s relatively CPU intensive. Also, the
-algorithm has a simple interface: based on an integer, it returns a
-floating-point number; this API doesn’t involve any advanced instance
-memory API, which is perfect to test a proof-of-concept.</p>
-<p>As a baseline, I’ve run the <em>n-body</em> algorithm <a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html">written in
-Rust</a>,
-let’s call it <code>rust-baseline</code>. The same algorithm has been <a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-php-3.html">written in
-PHP</a>,
-let’s call it <code>php</code>. Finally, the algorithm has been compiled from Rust
-to WebAssembly, and executed with the <code>php-ext-wasm</code> extension, let’s
-call that case <code>php+wasmi</code>. All results are for <code>nbody(5000000)</code>:</p>
+<p>I chose
+<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the <em>n-body</em> algorithm</a>
+from
+<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">the Computer Language Benchmarks Game</a>
+from Debian, mostly because it’s relatively CPU intensive. Also, the algorithm
+has a simple interface: based on an integer, it returns a floating-point number;
+this API doesn’t involve any advanced instance memory API, which is perfect to
+test a proof-of-concept.</p>
+<p>As a baseline, I’ve run the <em>n-body</em> algorithm
+<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html">written in Rust</a>,
+let’s call it <code>rust-baseline</code>. The same algorithm has been
+<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-php-3.html">written in PHP</a>,
+let’s call it <code>php</code>. Finally, the algorithm has been compiled from Rust to
+WebAssembly, and executed with the <code>php-ext-wasm</code> extension, let’s call that
+case <code>php+wasmi</code>. All results are for <code>nbody(5000000)</code>:</p>
 <ul>
 <li><code>rust-baseline</code>: 287ms,</li>
 <li><code>php</code>: 19,761ms,</li>
@@ -251,7 +250,7 @@ itself, it is pointless to use WebAssembly in such conditions!</p>
 <p>It confirms my first intuition though: In our case, <code>wasmi</code> is really
 great to mock something up, but it’s not fast enough for our
 expectations.</p>
-<h2 id="faster-faster-faster">Faster, faster, faster…<a role="presentation" class="anchor" href="#faster-faster-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="faster-faster-faster">Faster, Faster, Faster…<a role="presentation" class="anchor" href="#faster-faster-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>I wanted to use <a rel="noopener external" target="_blank" href="https://github.com/CraneStation/cranelift">Cranelift</a>
 since the beginning. It’s a code generator, <em>à la</em>
@@ -302,13 +301,11 @@ really good. Let’s run the benchmark, with the addition of
 <li><code>php+wasmer(cranelift)</code>: 2,365ms 🎉.</li>
 </ul>
 <p>Finally, the PHP extension provides a faster execution than PHP itself!
-<code>php+wasmer(cranelift)</code> is <strong>8.6 times faster</strong> than <code>php</code> to be exact.
-And it is <strong>28.6 times faster</strong> than <code>php+wasmi</code>. Can we reach the
-native speed (represented by <code>rust-baseline</code> here)? It’s very likely
-with LLVM. That’s for another article. I’m super happy with Cranelift
-for the moment. (See <a rel="noopener external" target="_blank" href="https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e">our previous blog post to learn how we benchmark
-different backends in Wasmer, and other WebAssembly
-runtimes</a>).</p>
+<code>php+wasmer(cranelift)</code> is <strong>8.6 times faster</strong> than <code>php</code> to be exact. And it
+is <strong>28.6 times faster</strong> than <code>php+wasmi</code>. Can we reach the native speed
+(represented by <code>rust-baseline</code> here)? It’s very likely with LLVM. That’s for
+another article. I’m super happy with Cranelift for the moment. (See
+<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e">our previous blog post to learn how we benchmark different backends in Wasmer, and other WebAssembly runtimes</a>).</p>
 <h2 id="more-optimizations">More Optimizations<a role="presentation" class="anchor" href="#more-optimizations" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Wasmer provides more features, like module caching. Those features are

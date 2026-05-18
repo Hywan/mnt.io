@@ -198,7 +198,7 @@ many platforms and environments.</p>
 </figure>
 <p>This series of posts is about those bindings, and explains how to send
 Rust beyond earth, into many different galaxies.</p>
-<h2 id="">The Gutenberg post format<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="">The Gutenberg Post Format<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Let&#39;s introduce quickly what Gutenberg is, and why a new post format. If
 you want an in-depth presentation, I highly recommend to read <a rel="noopener external" target="_blank" href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
@@ -238,8 +238,8 @@ blocks or phrases. In the example above, there is one child that is the phrase
 <code>&lt;p&gt;phrase&lt;/p&gt;</code>. And the following example below shows a block with no child:</li>
 </ul>
 <pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-comment">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /--&gt;</span></span></code></pre>
-<p>The complete grammar can be found in <a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser&#39;s
-documentation</a>.</p>
+<p>The complete grammar can be found in
+<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser&#39;s documentation</a>.</p>
 <p>Finally, the parser is used on the <em>editor</em> side, not on the <em>rendering</em>
 side. Once rendered, the blog post is a regular HTML file. Some blocks
 are dynamics though, but this is another topic.</p>
@@ -282,7 +282,7 @@ targets</a>,</li>
 <p>One of the goal of the experimentation is to maintain a single
 implementation (maybe the future reference implementation) with multiple
 bindings.</p>
-<h2 id="-2">The parser<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="-2">The Parser<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The parser is written in Rust. It relies on the fabulous <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/">nom
 library</a>.</p>
@@ -309,8 +309,8 @@ nodes of the tree are defined as:</p>
 children, and the phrase. Block children are defined as a collection of
 node, this is recursive. <code>Input&lt;'a&gt;</code> is defined as <code>&amp;'a [u8]</code>, i.e. a
 slice of bytes.</p>
-<p>The main parser entry is <a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code>
-function</a>.
+<p>The main parser entry is
+<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code> function</a>.
 It represents the axiom of the grammar, and is defined as:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> root</span><span>(</span></span>
 <span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>

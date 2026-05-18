@@ -720,9 +720,9 @@ but not like <code>flatten</code>.</p>
     </mrow>
   </math>
 </div>
-<p>Okay, the signature of the combinator is exactly the same as <code>flatten</code>, but
-the behaviour is different! Do you remember that <code>flatten</code> uses the outer stream
-to produce an inner stream, which is consumed <em>entirely</em> before polling the outer
+<p>Okay, the signature of the combinator is exactly the same as <code>flatten</code>, but the
+behaviour is different! Do you remember that <code>flatten</code> uses the outer stream to
+produce an inner stream, which is consumed <em>entirely</em> before polling the outer
 stream again? <code>switch</code> is different, <i>open the documentation</i>:</p>
 <blockquote>
 <p>This combinator flattens a stream of streams, i.e. an outer stream yielding
@@ -940,7 +940,9 @@ yields items from it</p>
 
   </div>
 </div>
-<p>Correct! To understand the rest of the documentation and <em>why</em> the <code>switch</code> combinator is pretty powerful, we need to imagine a funny example. <i>close eyes, and try to imagine a relevant example…</i></p>
+<p>Correct! To understand the rest of the documentation and <em>why</em> the <code>switch</code>
+combinator is pretty powerful, we need to imagine a funny example. <i>close
+eyes, and try to imagine a relevant example…</i></p>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
@@ -966,7 +968,8 @@ yields items from it</p>
 </li>
 </ul>
 <p>This example illustrates pretty well the power of <code>switch</code>: inner streams are
-computed dynamically depending of the outer stream. It instantiates to a lot of concrete use cases, e.g.:</p>
+computed dynamically depending of the outer stream. It instantiates to a lot of
+concrete use cases, e.g.:</p>
 <ul>
 <li>given a UI component for a list</li>
 <li>the list can be updated via <em>diff</em> operations, e.g.:

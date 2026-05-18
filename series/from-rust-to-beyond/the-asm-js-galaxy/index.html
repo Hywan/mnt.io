@@ -186,14 +186,14 @@
 
     </header>
 
-    <p>The second galaxy that our Rust parser will explore is the ASM.js
-galaxy. This post will explain what ASM.js is, how to compile the parser
-into ASM.js, and how to use the ASM.js module with Javascript in a
-browser. The goal is to use ASM.js as a fallback to WebAssembly when it
-is not available. I highly recommend to read <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous
-episode</a>
+    <p>The second galaxy that our Rust parser will explore is the ASM.js galaxy. This
+post will explain what ASM.js is, how to compile the parser into ASM.js, and how
+to use the ASM.js module with Javascript in a browser. The goal is to use ASM.js
+as a fallback to WebAssembly when it is not available. I highly recommend to
+read
+<a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous episode</a>
 about WebAssembly since they have a lot in common.</p>
-<h2 id="what-is-asm-js-and-why">What is ASM.js, and why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-asm-js-and-why">What Is ASM.js, and Why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The main programming language on the Web is Javascript. Applications
 that want to exist on the Web had to compile to Javascript, like for
@@ -282,10 +282,9 @@ which in turn will be compiled into ASM.js.</p>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-to-asm-js.png" alt="Rust to ASM.js" loading="lazy" decoding="async" /></p>
 </figure>
-<p>This episode will be very short, and somehow the most easiest one. To
-compile Rust to ASM.js, you need to first compile it to WebAssembly
-(<a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">see the previous
-episode</a>),
+<p>This episode will be very short, and somehow the most easiest one. To compile
+Rust to ASM.js, you need to first compile it to WebAssembly
+(<a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">see the previous episode</a>),
 and then compile the WebAssembly binary into ASM.js.</p>
 <p>Actually, ASM.js is mostly required when the browser does not support
 WebAssembly, like Internet Explorer. It is essentially a fallback to run
@@ -353,22 +352,20 @@ object pointing to 4 private functions:</p>
 <li><code>dealloc</code>, to deallocate memory, and</li>
 <li><code>memory</code>, the memory buffer.</li>
 </ol>
-<p>It sounds familiar if you have read <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous episode with
-WebAssembly</a>.
-Don&#39;t expect <code>root</code> to return a full AST: It will return a pointer to
-the memory, and the data need to be encoded and decoded, and to write
-into and to read from the memory the same way. Yes, the same way. <em>The
-exact same way</em>. So the code of the boundary layer is strictly the same.
-Do you remember the <code>Module</code> object in our WebAssembly Javascript
-boundary? This is exactly what the <code>GUTENBERG_POST_PARSER_ASM_MODULE</code>
-function returns. You can replace <code>Module</code> by the returned object, <em>et
-voilà</em>!</p>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands
-here</a>.
-It completely reuses the Javascript boundary layer for WebAssembly. It
-just sets the <code>Module</code> differently, and it does not load the WebAssembly
-binary. Consequently, the ASM.js boundary layer is made of 34 lines of
-code, only 🙃. It compresses to 218 bytes.</p>
+<p>It sounds familiar if you have read
+<a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous episode with WebAssembly</a>.
+Don&#39;t expect <code>root</code> to return a full AST: It will return a pointer to the
+memory, and the data need to be encoded and decoded, and to write into and to
+read from the memory the same way. Yes, the same way. <em>The exact same way</em>. So
+the code of the boundary layer is strictly the same. Do you remember the
+<code>Module</code> object in our WebAssembly Javascript boundary? This is exactly what the
+<code>GUTENBERG_POST_PARSER_ASM_MODULE</code> function returns. You can replace <code>Module</code> by
+the returned object, <em>et voilà</em>!</p>
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands here</a>.
+It completely reuses the Javascript boundary layer for WebAssembly. It just sets
+the <code>Module</code> differently, and it does not load the WebAssembly binary.
+Consequently, the ASM.js boundary layer is made of 34 lines of code, only 🙃. It
+compresses to 218 bytes.</p>
 <h2 id="-2">Conclusion<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that ASM.js can be fallback to WebAssembly in environments

@@ -190,7 +190,7 @@
 what C is (shortly), how to compile any Rust program in C in theory, and
 how to do that practically with our Rust parser from the Rust side and
 the C side. We will also see how to test such a binding.</p>
-<h2 id="what-is-c-and-why">What is C, and why?<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-c-and-why">What Is C, and Why?<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a> is probably
 the most used and known programming language in the world. Quoting
@@ -230,7 +230,7 @@ used by PHP or Python directly, with almost no overhead. Neat!</p>
 <li>A static library (<code>.a</code> file),</li>
 <li>A header file (<code>.h</code> file).</li>
 </ol>
-<h3 id="-1">The theory<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-1">The Theory<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To compile a Rust project into a static library, the <code>crate-type</code>
 property must contain the <code>staticlib</code> value. Let&#39;s edit the <code>Cargo.toml</code>
@@ -463,10 +463,9 @@ terminate with a <code>NULL</code> byte,</li>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Only pointers are used in <code>Vector_Node</code>: Pointer to the output, and the
 length of the output. The conversion is light.</p>
-<p>Now let&#39;s see the <code>into_c</code> function. Some parts will not be detailed;
-Not because they are difficult but because they are repetitive. <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs">The
-entire code lands
-here</a>.</p>
+<p>Now let&#39;s see the <code>into_c</code> function. Some parts will not be detailed; Not
+because they are difficult but because they are repetitive.
+<a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs">The entire code lands here</a>.</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> into_c</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;(</span><span class="z-variable">node</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Node</span><span> {</span></span>
 <span class="giallo-l"><span class="z-keyword">    match</span><span class="z-keyword z-operator"> *</span><span class="z-variable">node</span><span> {</span></span>
 <span class="giallo-l"><span class="z-entity z-name">        ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span><span class="z-variable"> name</span><span>,</span><span class="z-variable"> attributes</span><span>,</span><span class="z-keyword"> ref</span><span class="z-variable"> children</span><span> }</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
@@ -563,7 +562,7 @@ simple and kind of clear to read, but it wasn&#39;t obvious for me what to
 do beforehand.</p>
 <p>And that&#39;s all for the Rust part! The next section will present the C
 code that calls Rust, and how to compile everything all together.</p>
-<h2 id="-3">C 🚀 executable<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="-3">C 🚀 Executable<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./c-to-executable.png" alt="Rust to C to executable" loading="lazy" decoding="async" /></p>
@@ -603,9 +602,8 @@ code that calls Rust, and how to compile everything all together.</p>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-keyword">    return</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
 <span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
-<p>To keep the code concise, I left all the error handlers out of the
-example. <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">The entire code lands
-here</a>
+<p>To keep the code concise, I left all the error handlers out of the example.
+<a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">The entire code lands here</a>
 if you&#39;re curious.</p>
 <p>What happens in this code? The first thing to notice is
 <code>#include "gutenberg_post_parser.h"</code> which is the header file that is
@@ -661,13 +659,12 @@ this code above is located in the same directory than the
 <span class="giallo-l"><span>      -l m</span></span></code></pre>
 <p>And that&#39;s all! We end up with a <code>gutenberg-post-parser</code> executable that
 runs C and Rust.</p>
-<h3 id="-5">More details<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="-5">More Details<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source
-code</a>,
-a recursive function that prints the entire AST on <code>stdout</code> can be
-found, namely <code>print</code> (original, isn&#39;t it?). Here is some side-by-side
-comparisons between Rust syntax and C syntax.</p>
+<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source code</a>,
+a recursive function that prints the entire AST on <code>stdout</code> can be found, namely
+<code>print</code> (original, isn&#39;t it?). Here is some side-by-side comparisons between
+Rust syntax and C syntax.</p>
 <p>The <code>Vector_Node</code> struct in Rust:</p>
 <pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Vector_Node</span><span> {</span></span>
 <span class="giallo-l"><span class="z-variable">    buffer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-constant z-other"> Node</span><span>,</span></span>
@@ -796,10 +793,10 @@ branch is activated if and only if the length of the vector is 1, which
 is expressed with the guard <code>if length == 1</code>. Then the content of the
 phrase is transformed into a Rust string and compared with a regular
 <code>assert_eq!</code> macro.</p>
-<p>Note that —in this case— <code>buffer</code> is of type <code>*const Node</code>, so it
-represents the first element of the vector. If we want to access the
-next elements, we would need to use <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code>
-function</a>
+<p>Note that —in this case— <code>buffer</code> is of type <code>*const Node</code>, so it represents the
+first element of the vector. If we want to access the next elements, we would
+need to use
+<a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code> function</a>
 to get a proper Rust API to manipulate this vector.</p>
 <h2 id="-7">Conclusion<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>

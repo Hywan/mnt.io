@@ -209,7 +209,7 @@ interact with it. We are going to talk about terminal capabilities,
 terminal information (stored in database) and
 <a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Console"><code>Hoa\Console</code></a>,
 a PHP library that provides advanced terminal controls.</p>
-<h2 id="the-basis-of-a-terminal">The basis of a terminal<a role="presentation" class="anchor" href="#the-basis-of-a-terminal" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-basis-of-a-terminal">The Basis of a Terminal<a role="presentation" class="anchor" href="#the-basis-of-a-terminal" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A terminal, or a console, is an interface that allows to interact with
 the computer. This interface is textual. Like a graphical interface,
@@ -244,7 +244,7 @@ adds a new-line (<code>\n</code>) after each line; so:</p>
 <pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo -n </span><span class="z-string">&#39;foobar&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> wc</span><span class="z-constant z-other"> -c</span></span>
 <span class="giallo-l"><span>6</span></span></code></pre>
 <p>This is more correct!</p>
-<h2 id="detecting-type-of-pipes">Detecting type of pipes<a role="presentation" class="anchor" href="#detecting-type-of-pipes" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="detecting-type-of-pipes">Detecting Type of Pipes<a role="presentation" class="anchor" href="#detecting-type-of-pipes" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Inputs and outputs are called <strong>pipes</strong>. Yes, trivial, this is nothing
 more than basic pipes!</p>
@@ -385,7 +385,7 @@ the lowest level would output only the result. Let's try with the
 <pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php toUpperCase.php </span><span class="z-string">&#39;Hello world!&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> xargs</span><span class="z-constant z-other"> -I@</span><span class="z-string"> echo @</span></span>
 <span class="giallo-l"><span>HELLO WORLD!</span></span></code></pre>
 <p>Useful and very simple, isn't it?</p>
-<h2 id="terminal-capabilities">Terminal capabilities<a role="presentation" class="anchor" href="#terminal-capabilities" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="terminal-capabilities">Terminal Capabilities<a role="presentation" class="anchor" href="#terminal-capabilities" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We can control the terminal with the inputs, like the keyboard, but we
 can also control the outputs. How? With the text itself. Actually, an
@@ -396,12 +396,11 @@ To specify that a text must be in red, we must add a control function
 around it.</p>
 <p>Hopefully, these control functions have been standardized in the
 <a rel="noopener external" target="_blank" href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf">ECMA-48</a>
-document: Control Functions for Coded Character Set. However, not all
-terminals implement all this standard, and for historical reasons, some
-terminals use slightly different control functions. Moreover, some
-information do not belong to this standard (because this is out of its
-scope), like: How many colours does the terminal support? or does the
-terminal support the meta key?</p>
+document: Control Functions for Coded Character Set. However, not all terminals
+implement all this standard, and for historical reasons, some terminals use
+slightly different control functions. Moreover, some information do not belong
+to this standard (because this is out of its scope), like: How many colours does
+the terminal support? or does the terminal support the meta key?</p>
 <p>Consequently, each terminal has a list of <strong>capabilities</strong>. This list is
 splitted in <strong>3 categories</strong>:</p>
 <ul>
@@ -426,7 +425,7 @@ or in the <a rel="noopener external" target="_blank" href="http://pubs.opengroup
 xcurses</a>.
 I encourage you to follow these links and see how rich the terminal
 capabilities are!</p>
-<h2 id="terminal-information">Terminal information<a role="presentation" class="anchor" href="#terminal-information" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="terminal-information">Terminal Information<a role="presentation" class="anchor" href="#terminal-information" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Terminal capabilities are stored as <strong>information</strong> in <strong>databases</strong>.
 Where are these databases located? In files with a binary format.
@@ -475,7 +474,7 @@ have:</p>
 <span class="giallo-l"><span class="z-comment">/**</span></span>
 <span class="giallo-l"><span class="z-comment"> * Will output:</span></span>
 <span class="giallo-l"><span class="z-comment"> *     int(8)</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The power in your hand: Control the cursor<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The Power in Your Hand: Control the Cursor<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Let's summarize. We are able to parse and know all the terminal
 capabilities of a specific terminal (including the one of the current
@@ -486,7 +485,7 @@ The cursor is like a pen. We can move it and write something. We are
 going to (partly) see how the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php"><code>Hoa\Console\Cursor</code>
 class</a>
 works.</p>
-<h3 id="i-like-to-move-it">I like to move it!<a role="presentation" class="anchor" href="#i-like-to-move-it" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="i-like-to-move-it">I Like to Move It!<a role="presentation" class="anchor" href="#i-like-to-move-it" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The <code>moveTo</code> static method allows to move the cursor to an absolute
 position. For example:</p>
@@ -570,9 +569,9 @@ screen, <code>clr_eol</code> to clear everything on the right of the cursor,
 </figure>
 <p>The resulting API is portable, clean, simple to read and very easy to
 maintain! This is the right way to do.</p>
-<p>To get more information, please <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Literature/Hack/Console.html#Cursor">read the
-documentation</a>.</p>
-<h3 id="">Colours and decorations<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>To get more information, please
+<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Literature/Hack/Console.html#Cursor">read the documentation</a>.</p>
+<h3 id="">Colours and Decorations<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now: Colours. This is mainly the reason why I decided to write this
 article. We see the same and the same libraries, again and again, doing
@@ -624,15 +623,15 @@ in my actual palette! This is the right way to do.</p>
 <p>For fun, you can change the colours in the palette with the
 <code>Hoa\Console\Cursor::changeColor</code> static method. You can also change the
 style of the cursor, like <code>▋</code>, <code>_</code> or <code>|</code>.</p>
-<p>To get more information, please <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content">read the
-documentation</a>.</p>
-<h2 id="-1">The power in your hand: Readline<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>To get more information, please
+<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content">read the documentation</a>.</p>
+<h2 id="-1">The Power in Your Hand: Readline<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>A more complete usage of <code>Hoa\Console\Cursor</code> and even
-<code>Hoa\Console\Window</code> is the <a rel="noopener external" target="_blank" href="http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php"><code>Hoa\Console\Readline</code>
-class</a>
-that is a powerful readline. More than autocompleters, history, key
-bindings etc., it has an advanced use of cursors. See this in action:</p>
+<p>A more complete usage of <code>Hoa\Console\Cursor</code> and even <code>Hoa\Console\Window</code> is
+the
+<a rel="noopener external" target="_blank" href="http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php"><code>Hoa\Console\Readline</code> class</a>
+that is a powerful readline. More than autocompleters, history, key bindings
+etc., it has an advanced use of cursors. See this in action:</p>
 <figure>
 <p><img src="https://mnt.io/articles/control-the-terminal-the-right-way/./readline_autocompleters.gif" alt="Play with autocompleters" loading="lazy" decoding="async" /></p>
   <figcaption>
@@ -643,9 +642,9 @@ bindings etc., it has an advanced use of cursors. See this in action:</p>
 <p>We use <code>Hoa\Console\Cursor</code> to move the cursor or change the colours and
 <code>Hoa\Console\Window</code> to get the dimensions of the window, scroll some
 text in it etc. I encourage you to read the implementation.</p>
-<p>To get more information, please <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Readline" href="http://hoa-project.net/Literature/Hack/Console.html#Readline">read the
-documentation</a>.</p>
-<h2 id="-2">The power in your hand: Sound 🎵<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>To get more information, please
+<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Readline" href="http://hoa-project.net/Literature/Hack/Console.html#Readline">read the documentation</a>.</p>
+<h2 id="-2">The Power in Your Hand: Sound 🎵<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Yes, even sound is defined by terminal capabilities. The famous bip is
 given by the <code>bell</code> string capability. You would like to make a bip?
@@ -683,8 +682,8 @@ screen, we minimize and restore it, and finally we put it behind all
 other windows just before raising it.</p>
 <iframe src="https://player.vimeo.com/video/115901611?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="aspect-ratio: 16/9; width: 100%;" title="Hoa\Console\Window in action">
 </iframe>
-<p>To get more information, please <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Window" href="http://hoa-project.net/Literature/Hack/Console.html#Window">read the
-documentation</a>.</p>
+<p>To get more information, please
+<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Window" href="http://hoa-project.net/Literature/Hack/Console.html#Window">read the documentation</a>.</p>
 <h2 id="-4">Conclusion<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>In this article, we saw how to control the terminal by: Firstly,

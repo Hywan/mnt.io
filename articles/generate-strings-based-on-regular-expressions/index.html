@@ -186,7 +186,7 @@
 accurate test data generation. In order to be complete and self-contained, I
 have addressed all kinds of data types, including strings. This article aims at
 showing how to generate accurate and relevant strings under several constraints.</p>
-<h2 id="what-is-a-regular-expression">What is a regular expression?<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-a-regular-expression">What Is a Regular Expression?<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are talking about formal language theory here. In the known world,
 there are four kinds of languages. More formally, in 1956, the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky
@@ -211,7 +211,7 @@ most of the time, a simple semantics. For instance <code>ab(c|d)</code> means: a
 word (a data) starting by <code>ab</code> and followed by <code>c</code> or <code>d</code>. We also have
 quantification operators (also known as repetition operators), such as
 <code>?</code>, <code>*</code> and <code>+</code>. We also have <code>{_x_,_y_}</code> to define a repetition
-between <code>_x_</code> and <code>_y_</code>. Thus, <code>? </code> is equivalent to <code>{0,1}</code>, <code>*</code> to
+between <code>_x_</code> and <code>_y_</code>. Thus, <code>?</code> is equivalent to <code>{0,1}</code>, <code>*</code> to
 <code>{0,}</code> and <code>+</code> to <code>{1,}</code>. When <code>_y_</code> is missing, it means +∞, so
 unbounded (or more exactly, bounded by the limits of the machine). So,
 for instance <code>ab(c|d){2,4}e?</code> means: a word starting by <code>ab</code>, followed
@@ -228,7 +228,7 @@ PCRE is the regular language I recommend all the time.</p>
 into a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/">Finite State Machine (FSM)</a>. I am not
 going to draw and explain them, but it is interesting to know that behind a
 regular expression there is a basic automaton. No magic.</p>
-<h3 id="why-focussing-regular-expressions">Why focussing regular expressions?<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="why-focussing-regular-expressions">Why Focussing Regular Expressions?<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>This article focuses on regular languages instead of other kind of
 languages because we use them very often (even daily). I am going to
@@ -236,7 +236,7 @@ address context-free languages in another article, be patient young
 padawan. The needs and constraints with other kind of languages are not
 the same and more complex algorithms must be involved. So we are going
 easy for the first step.</p>
-<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: lex and parse them<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: Lex and Parse Them<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Compiler"><code>Hoa\Compiler</code> library</a> provides
 both LL(1) LL(k) compiler-compilers. The
@@ -250,9 +250,8 @@ compilers”.</p>
 <p>Fortunately, the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex"><code>Hoa\Regex</code> library</a>
 provides the grammar of the PCRE language in the
 <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex/blob/master/Source/Grammar.pp"><code>hoa://Library/Regex/Grammar.pp</code></a>
-file. Consequently, we are able to analyze regular expressions written
-in the PCRE language! Let's try in a shell at first with the
-<code>hoa compiler:pp</code> tool:</p>
+file. Consequently, we are able to analyze regular expressions written in the
+PCRE language! Let's try in a shell at first with the <code>hoa compiler:pp</code> tool:</p>
 <pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> hoa</span><span class="z-string"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-constant z-numeric"> 0</span><span class="z-constant z-other"> --visitor</span><span class="z-string"> dump</span></span>
 <span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span>  #expression</span></span>
 <span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;</span><span class="z-comment">  #concatenation</span></span>
@@ -272,20 +271,19 @@ another quantification. The first quantification is an alternation of (a
 choice betwen) two tokens: <code>c</code> and <code>d</code>, between 2 to 4 times. The second
 quantification is the <code>e</code> token that can appear zero or one time. Pretty
 simple.</p>
-<p>The final output of the <code>Hoa\Compiler\Llk\Parser</code> class is an <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract
-Syntax Tree (AST)</a>.
-The documentation of <code>Hoa\Compiler</code> explains all that stuff, you should read
-it. The LL(k) compiler is cut out into very distinct layers in order to improve
-hackability. Again, the documentation teach us we have <a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process">four levels in the
-compilation
-process</a>:
+<p>The final output of the <code>Hoa\Compiler\Llk\Parser</code> class is an
+<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree (AST)</a>.
+The documentation of <code>Hoa\Compiler</code> explains all that stuff, you should read it.
+The LL(k) compiler is cut out into very distinct layers in order to improve
+hackability. Again, the documentation teach us we have
+<a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process">four levels in the compilation process</a>:
 lexical analyzer, syntactic analyzer, trace and AST. The lexical analyzer (also
 known as lexer) transforms the textual data being analyzed into a sequence of
 tokens (formally known as lexemes). It checks whether the data is composed of
 the good pieces. Then, the syntactic analyzer (also known as parser) checks that
 the order of tokens in this sequence is correct (formally we say that it derives
-the sequence, see the <a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words">Matching words
-section</a>
+the sequence, see the
+<a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words">Matching words section</a>
 to learn more).</p>
 <p>Still in the shell, we can get the result of the lexical analyzer by
 using the <code>--token-sequence</code> option; thus:</p>
@@ -443,7 +441,7 @@ seen:</p>
 <span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $prettyprint</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
 <p><em>Et voilà !</em></p>
 <p>Now, put all that stuff together!</p>
-<h2 id="isotropic-generation">Isotropic generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="isotropic-generation">Isotropic Generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We can use <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get the AST of any regular
 expressions written in the PCRE format. We can use <code>Hoa\Visitor</code> to
@@ -476,7 +474,7 @@ has <em>c</em> immediate children, the probability <em>C</em> to choose one chil
 <p>We can use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Math"><code>Hoa\Math</code> library</a> that
 provides the <code>Hoa\Math\Sampler\Random</code> class to sample uniform random integers
 and floats. Ready?</p>
-<h3 id="structure-of-the-visitor">Structure of the visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="structure-of-the-visitor">Structure of the Visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The structure of the visitor is the following:</p>
 <pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
@@ -649,7 +647,7 @@ it? Want more?</p>
 your machine configuration, the PHP VM, if other programs run etc. But I have
 generated 1 million strings in less than 25 seconds on my machine (an old
 MacBook Pro), which is pretty reasonable.</p>
-<h2 id="conclusion-and-surprise">Conclusion and surprise<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion-and-surprise">Conclusion and Surprise<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So, yes, now we know how to generate strings based on regular
 expressions! Supporting all the PCRE format is difficult. That's why the
@@ -671,7 +669,7 @@ to do is:</p>
 specification language I have designed during my PhD thesis. More
 specifically, this algorithm is used inside realistic domains. I am not
 going to explain it today but it allows me to introduce the “surprise”.</p>
-<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate strings based on regular expressions in atoum<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate Strings Based on Regular Expressions in atoum<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> is an awesome unit test framework. You can
 use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>Atoum\PraspelExtension</code>
