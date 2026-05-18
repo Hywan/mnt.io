@@ -300,19 +300,17 @@ should (must?) be provided.
 
 ## How did I find them?
 
-This is how I found these errors. I wrote [a test suite for xCal and
-xCard in
-`sabre/vobject`](https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php).
-I would love to write a test suite agnostic of the implementation, but I
-ran out of time. This is basically format transformation: R:x→y where R
-can be a reflexive operator or not (depending of the versions of
-iCalendar and vCard we consider).
+This is how I found these errors. I wrote
+[a test suite for xCal and xCard in `sabre/vobject`](https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php).
+I would love to write a test suite agnostic of the implementation, but I ran out
+of time. This is basically format transformation: R:x→y where R can be a
+reflexive operator or not (depending of the versions of iCalendar and vCard we
+consider).
 
 For “simple“ errata, I found the errors by testing it manually. For errata 4247
 and 4261 (with the regular expressions), I found the error by applying the
 algorithms presented in
-[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md)
-.
+[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md).
 
 ## Conclusion
 

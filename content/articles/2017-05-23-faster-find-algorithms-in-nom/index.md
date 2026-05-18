@@ -72,8 +72,8 @@ the implementation for `&str` fallbacks to the former.
 This is small contribution, but it brings a very nice boost. Hope it
 will benefit to other projects!
 
-I am also blowing the dust off of [Algorithms on
-Strings](https://www.amazon.com/Algorithms-Strings-Maxime-Crochemore/dp/0521848997),
-by M. Crochemore, C. Hancart, and T. Lecroq. I am pretty sure it should
-be useful for nom and `tagua-parser`. If you haven't read this book yet,
-I can only encourage you to do so!
+I am also blowing the dust off of
+[Algorithms on Strings](https://www.amazon.com/Algorithms-Strings-Maxime-Crochemore/dp/0521848997),
+by M. Crochemore, C. Hancart, and T. Lecroq. I am pretty sure it should be
+useful for nom and `tagua-parser`. If you haven't read this book yet, I can only
+encourage you to do so!

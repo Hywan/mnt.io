@@ -119,9 +119,9 @@ $ # Compile.
 $ make install
 ```
 
-In this post, we will not show all the edits we have done, but we will
-rather focus on the extension binding. [All the sources can be found
-here](https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser).
+In this post, we will not show all the edits we have done, but we will rather
+focus on the extension binding.
+[All the sources can be found here](https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser).
 Shortly, here is the `config.m4` file:
 
 ```text
@@ -336,12 +336,12 @@ for the module entry definition and other module configuration details.
 
 ### The `gutenberg_post_parse` function
 
-We will now focus on the `gutenberg_post_parse` PHP function. This
-function takes a string as a single argument  and returns either `false`
-if the parsing failed, or an array of objects of kind
-`Gutenberg_Parser_Block` or `Gutenberg_Parser_Phrase` otherwise. Let's
-write it! Notice that it is declared with [the `PHP_FUNCTION`
-macro](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/main/php.h#L400).
+We will now focus on the `gutenberg_post_parse` PHP function. This function
+takes a string as a single argument and returns either `false` if the parsing
+failed, or an array of objects of kind `Gutenberg_Parser_Block` or
+`Gutenberg_Parser_Phrase` otherwise. Let's write it! Notice that it is declared
+with
+[the `PHP_FUNCTION` macro](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/main/php.h#L400).
 
 ```c
 PHP_FUNCTION(gutenberg_post_parse)
@@ -455,17 +455,16 @@ ZVAL_STRINGL(&php_block_name, block.name.pointer, block.name.length);
 ```
 
 Do you remember that namespace, name and other similar data are of type
-`Slice_c_char`? It's just a structure with a pointer and a length. The
-pointer points to the original input string, so that there is no copy
-(and this is the definition of a slice actually). Well, Zend Engine has
-[a `ZVAL_STRINGL`
-macro](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_API.h#L563-L565)
-that allows to create a string from a pointer and a length, great!
-Unfortunately for us, Zend Engine does [a copy behind the
-scene](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_string.h#L152-L159)…
-There is no way to keep the pointer and the length only, but it keeps
-the number of copies small. I think it is to take the full ownership of
-the data, which is required for the garbage collector.
+`Slice_c_char`? It's just a structure with a pointer and a length. The pointer
+points to the original input string, so that there is no copy (and this is the
+definition of a slice actually). Well, Zend Engine has
+[a `ZVAL_STRINGL` macro](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_API.h#L563-L565)
+that allows to create a string from a pointer and a length, great! Unfortunately
+for us, Zend Engine does
+[a copy behind the scene](https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_string.h#L152-L159)…
+There is no way to keep the pointer and the length only, but it keeps the number
+of copies small. I think it is to take the full ownership of the data, which is
+required for the garbage collector.
 
 ```c
 // 2. Create the Gutenberg_Parser_Block object.
@@ -533,8 +532,7 @@ Finally, add the block instance into the array to be returned:
     add_next_index_zval(php_array, &php_block);
 ```
 
-[The entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/php/extension/gutenberg_post_parser/gutenberg_post_parser.c).
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/php/extension/gutenberg_post_parser/gutenberg_post_parser.c).
 
 ## PHP extension 🚀 PHP userland
 
@@ -722,28 +720,27 @@ still hold? From the Rust perspective, yes, but everything that happens
 inside C or PHP must be considered unsafe. A special care must be put in
 the C binding to handle all situations.
 
-Is it still fast? Well, let's benchmark. I would like to remind that the
-first goal of this experiment was to tackle the bad performance of the
-original PEG.js parser. On the JavaScript ground, WASM and ASM.js have
-shown to be very much faster (see [the WebAssembly
-galaxy](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md),
-and [the ASM.js
-galaxy](@/series/from-rust-to-beyond/2018-08-28-the-asm-js-galaxy/index.md)).
-For PHP, [`phpegjs` is used](https://github.com/nylen/phpegjs): It reads
-the grammar written for PEG.js and compiles it to PHP. Let's see how
-they compare:
+Is it still fast? Well, let's benchmark. I would like to remind that the first
+goal of this experiment was to tackle the bad performance of the original PEG.js
+parser. On the JavaScript ground, WASM and ASM.js have shown to be very much
+faster (see
+[the WebAssembly galaxy](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md),
+and
+[the ASM.js galaxy](@/series/from-rust-to-beyond/2018-08-28-the-asm-js-galaxy/index.md)).
+For PHP, [`phpegjs` is used](https://github.com/nylen/phpegjs): It reads the
+grammar written for PEG.js and compiles it to PHP. Let's see how they compare:
 
 <figure>
 
-  | Document | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
-  |-|-|-|-|
-  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 30.409 | 0.0012 | × 25341 |
-  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 76.39 | 0.096 | × 796 |
-  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 225.824 | 0.399 | × 566 |
-  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 173.495 | 0.275 | × 631 |
-  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 280.433 | 0.298 | × 941 |
-  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 377.392 | 0.052 | × 7258 |
-  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 5,437.630 | 5.037 | × 1080 |
+| Document                                                                                                                                                 | PEG PHP parser (ms) | Rust parser as a PHP extension (ms) | speedup |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------- | ------- |
+| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html)                                   | 30.409              | 0.0012                              | × 25341 |
+| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html)         | 76.39               | 0.096                               | × 796   |
+| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 225.824             | 0.399                               | × 566   |
+| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html)                 | 173.495             | 0.275                               | × 631   |
+| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html)   | 280.433             | 0.298                               | × 941   |
+| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html)                 | 377.392             | 0.052                               | × 7258  |
+| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html)                     | 5,437.630           | 5.037                               | × 1080  |
 
   <figcaption>
 

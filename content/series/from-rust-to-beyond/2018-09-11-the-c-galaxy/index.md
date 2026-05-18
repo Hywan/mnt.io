@@ -356,10 +356,9 @@ pub extern "C" fn parse(pointer: *const c_char) -> Result {
 Only pointers are used in `Vector_Node`: Pointer to the output, and the
 length of the output. The conversion is light.
 
-Now let's see the `into_c` function. Some parts will not be detailed;
-Not because they are difficult but because they are repetitive. [The
-entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs).
+Now let's see the `into_c` function. Some parts will not be detailed; Not
+because they are difficult but because they are repetitive.
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs).
 
 ```rust
 fn into_c<'a>(node: &ast::Node<'a>) -> Node {
@@ -523,9 +522,8 @@ int main(int argc, char **argv) {
 }
 ```
 
-To keep the code concise, I left all the error handlers out of the
-example. [The entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c)
+To keep the code concise, I left all the error handlers out of the example.
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c)
 if you're curious.
 
 What happens in this code? The first thing to notice is
@@ -596,11 +594,10 @@ runs C and Rust.
 
 ### More details
 
-[In the original source
-code](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c),
-a recursive function that prints the entire AST on `stdout` can be
-found, namely `print` (original, isn't it?). Here is some side-by-side
-comparisons between Rust syntax and C syntax.
+[In the original source code](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c),
+a recursive function that prints the entire AST on `stdout` can be found, namely
+`print` (original, isn't it?). Here is some side-by-side comparisons between
+Rust syntax and C syntax.
 
 The `Vector_Node` struct in Rust:
 
@@ -774,10 +771,10 @@ is expressed with the guard `if length == 1`. Then the content of the
 phrase is transformed into a Rust string and compared with a regular
 `assert_eq!` macro.
 
-Note that —in this case— `buffer` is of type `*const Node`, so it
-represents the first element of the vector. If we want to access the
-next elements, we would need to use [the `Vec::from_raw_parts`
-function](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts)
+Note that —in this case— `buffer` is of type `*const Node`, so it represents the
+first element of the vector. If we want to access the next elements, we would
+need to use
+[the `Vec::from_raw_parts` function](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts)
 to get a proper Rust API to manipulate this vector.
 
 ## Conclusion

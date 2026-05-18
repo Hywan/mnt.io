@@ -57,17 +57,14 @@ consistently tested, and pre-packaged (available in
 Releases](https://github.com/wasmerio/java-ext-wasm/releases)):
 
 - `amd64-darwin` for macOS, x86 64bits,
-
 - `amd64-linux` for Linux, x86 64 bits,
-
 - `amd64-windows` for Windows, x86 64 bits.
 
-More architectures and more platforms will be added in the near future.
-If you need a specific one, [feel free to
-ask](https://github.com/wasmerio/java-ext-wasm/issues/new?assignees=&labels=%F0%9F%8E%89+enhancement&template=---feature-request.md&title=)!
-However, it is possible to [produce your own JAR for your own platform
-and
-architecture](https://github.com/wasmerio/java-ext-wasm#development).
+More architectures and more platforms will be added in the near future. If you
+need a specific one,
+[feel free to ask](https://github.com/wasmerio/java-ext-wasm/issues/new?assignees=&labels=%F0%9F%8E%89+enhancement&template=---feature-request.md&title=)!
+However, it is possible to
+[produce your own JAR for your own platform and architecture](https://github.com/wasmerio/java-ext-wasm#development).
 
 The JAR files are named as follows:
 `wasmer-jni-$(architecture)-$(os)-$(version).jar`. Thus, to include
@@ -143,11 +140,11 @@ this case, we are reading the first one.
 > runtime, and casting is done automatically. Thus, a WebAssembly
 > function acts as any regular Java function.
 
-Technically, an exported function is a _functional interface_ as defined
-by the Java Language Specification (i.e. it is a
+Technically, an exported function is a _functional interface_ as defined by the
+Java Language Specification (i.e. it is a
 `[FunctionalInterface](https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html)`).
-Thus, it is possible to write the following code where `sum` is an
-actual function (of kind `org.wasmer.exports.Function`):
+Thus, it is possible to write the following code where `sum` is an actual
+function (of kind `org.wasmer.exports.Function`):
 
 ```java
 import org.wasmer.Instance;
@@ -255,8 +252,8 @@ use standard API as much as possible.
 The WebAssembly memory is dissociated from the JVM memory, and thus from
 the garbage collector.
 
-> You can read [the Greet
-> Example](https://github.com/wasmerio/java-ext-wasm/blob/master/examples/GreetExample.java)
+> You can read
+> [the Greet Example](https://github.com/wasmerio/java-ext-wasm/blob/master/examples/GreetExample.java)
 > to see a more in-depth usage of the `Memory` API.
 
 ## More documentation

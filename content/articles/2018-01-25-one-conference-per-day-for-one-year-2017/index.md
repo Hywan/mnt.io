@@ -47,11 +47,11 @@ only, you can find Haskell or Clojure sometimes.
 
 ## My best-of list
 
-In March 2017, more and more people were questionning me, and asked for
-sharing. I then decided to start a [playlist of my “best-of”
-conferences](https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf).
-I've added 78 conferences in 2017, and 3 new conferences have been added
-since then.
+In March 2017, more and more people were questionning me, and asked for sharing.
+I then decided to start a
+[playlist of my “best-of” conferences](https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf).
+I've added 78 conferences in 2017, and 3 new conferences have been added since
+then.
 
 <figure>
   <iframe class="youtube-player" width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?si=9Q6Qf-EOE4nyFgrn&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -65,16 +65,15 @@ since then.
 
 ## Thoughts and conclusion
 
-The challenge was sometimes easy and relaxing, or it was very hard to
-understand everything especially at 2am after a long day (looking at you
-CppCon). But it has been a very enjoyable way to learn a lot in a very
-short period of time. Many speakers are talented, and listening to them
-is a real pleasure. Some others are just… let's say unprepared, and it's
-good to stop and jump onto another talk. It's also a good way to get
-inspired by technologies you don't necessarily know (for instance, I'm
-not a big fan of Clojure, but some projects are really inspiring, like
-[Proto
-REPL](https://www.youtube.com/watch?v=buPPGxOnBnk&index=81&list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf)).
+The challenge was sometimes easy and relaxing, or it was very hard to understand
+everything especially at 2am after a long day (looking at you CppCon). But it
+has been a very enjoyable way to learn a lot in a very short period of time.
+Many speakers are talented, and listening to them is a real pleasure. Some
+others are just… let's say unprepared, and it's good to stop and jump onto
+another talk. It's also a good way to get inspired by technologies you don't
+necessarily know (for instance, I'm not a big fan of Clojure, but some projects
+are really inspiring, like
+[Proto REPL](https://www.youtube.com/watch?v=buPPGxOnBnk&index=81&list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf)).
 
 Sometimes [I tweeted](https://twitter.com/mnt_io) about the talk I
 watched, and it was quite appreciated too. I reckon because it's a fun

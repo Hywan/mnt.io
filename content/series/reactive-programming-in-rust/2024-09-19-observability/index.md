@@ -100,10 +100,11 @@ fn main() {
 }
 ```
 
-What do we see here? First off, `observable` is an observable value. Proof
-is: It is possible to subscribe to it, see `subscriber`. Both `observable` and
+What do we see here? First off, `observable` is an observable value. Proof is:
+It is possible to subscribe to it, see `subscriber`. Both `observable` and
 `subscriber` are seeing the same initial value: 7. When `observable` receives a
-new value, 13, both `observable` and `subscriber` are seeing the updated value. Let's take it for a spin:
+new value, 13, both `observable` and `subscriber` are seeing the updated value.
+Let's take it for a spin:
 
 ```console
 $ cargo run --quiet
@@ -392,8 +393,8 @@ You're right though. There is `Subscriber::next_ref`. However, if you are such
 an _assiduous reader_, you may have read the end of the documentation, aren't
 you?
 
-> However, the `Observable` will be locked (not updateable) while any read guards
-> are alive.
+> However, the `Observable` will be locked (not updateable) while any read
+> guards are alive.
 
 Blocking the `Observable` might be tolerable in some cases, but it cannot be
 generalised to all use cases. A user is more likely to prefer `next` instead of
@@ -421,8 +422,8 @@ and more complexity.
 <q lang="la">Spes salutis</q>[^spes_salutis]! Fortunately for us, _immutable
 data structures_ exist in Rust.
 
-> An immutable data structure is a data structure which can be copied and modified
-> efficiently without altering the original.
+> An immutable data structure is a data structure which can be copied and
+> modified efficiently without altering the original.
 
 It can be modified. However, as soon as it is copied (or cloned), it is still
 possible to modify the copy but the original data is not modified. That's
@@ -451,9 +452,9 @@ value is cheap.
 Dare I ask how immutable data structures are implemented? It sounds like complex
 beasts.
 
-I mean… a naive implementation sounds _relatively doable_ but I am guessing there
-is a lot of subtleties, possible conflicts, and many memory guarantees that I am
-not anticipating yet, right?
+I mean… a naive implementation sounds _relatively doable_ but I am guessing
+there is a lot of subtleties, possible conflicts, and many memory guarantees
+that I am not anticipating yet, right?
 {% end %}
 
 Oh… <q lang="la">beati pauperes in spiritu</q>[^beati_pauperes_in_spiritu]… it
@@ -494,9 +495,8 @@ interesting:
   [`VectorSubscriber<T>`][`eyeball_im::VectorSubscriber`].
 
 Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
-document</i>, contrary to
-[`Subscriber::next`][`eyeball::Subscriber::next`], there is no `next` method. How
-are we supposed to wait on an update?
+document</i>, contrary to [`Subscriber::next`][`eyeball::Subscriber::next`],
+there is no `next` method. How are we supposed to wait on an update?
 
 {% comte() %}
 Confer to the assiduous reader! If you read _carefully_ the documentation of the
@@ -527,7 +527,8 @@ whilst [`Stream::poll_next`][`futures::stream::Stream::poll_next`] returns
 `Poll<Option<Self::Item>>`? It's really similar to [`Iterator::next`] which
 returns `Option<Self::Item>`.
 
-Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2 variants:
+Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2
+variants:
 
 - `Ready(value)` means a `value` is immediately ready,
 - `Pending` means no value is ready yet.
@@ -545,11 +546,11 @@ produces multiple values, and `Poll::Ready(None)` represents the termination of
 the stream, similarly to `None` to represent the termination of an `Iterator`.
 Ahh, I love consistency.
 
-We have the basis. Now let's see [`StreamExt`][`futures::stream::StreamExt`]. It's
-a trait extending `Stream` to add convenient combinator methods. Amongst other
-things, we find [`StreamExt::next`][`futures::stream::StreamExt::next`]! Ah ha!
-It returns a `Next` type which implements a `Future`, exactly what `eyeball`
-does actually. Remember our:
+We have the basis. Now let's see [`StreamExt`][`futures::stream::StreamExt`].
+It's a trait extending `Stream` to add convenient combinator methods. Amongst
+other things, we find [`StreamExt::next`][`futures::stream::StreamExt::next`]!
+Ah ha! It returns a `Next` type which implements a `Future`, exactly what
+`eyeball` does actually. Remember our:
 
 ```rust
 // from `main.rs`
@@ -947,9 +948,8 @@ assertion `left == right` failed
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-Oh! An error, great! Our `assert_next_eq!` has failed. `subscriber`
-does not receive a `VectorDiff::PopBack` but a `VectorDiff::Reset`.
-Let's play with
+Oh! An error, great! Our `assert_next_eq!` has failed. `subscriber` does not
+receive a `VectorDiff::PopBack` but a `VectorDiff::Reset`. Let's play with
 [`ObservableVector::with_capacity`][`eyeball_im::ObservableVector::with_capacity`]
 a moment, maybe it's related to the buffer capacity? Let's change a single line:
 
@@ -985,8 +985,8 @@ For a reason we ignore so far, when the buffer is full, we receive a
 The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
 subscribers. However, we see that [`eyeball-im`], despite using [`imbl`], does
-not share an [`imbl::Vector`] but an [`eyeball_im::VectorDiff`]. Why such design?
-It looks like a drama. A betrayal. An act of treachery!
+not share an [`imbl::Vector`] but an [`eyeball_im::VectorDiff`]. Why such
+design? It looks like a drama. A betrayal. An act of treachery!
 
 Well. Firstly, `eyeball-im` is relying on some immutable properties of `Vector`.
 And secondly, the reason for which `VectorDiff` exists is simple. If a
@@ -1034,18 +1034,18 @@ Each method adding or removing values on the `ObservableVector` emits its own
 
 <figure>
 
-  | `ObservableVector::…` | `VectorDiff::…` | Meaning |
-  |-|-|-|
-  | `append(values)` | `Append { values }` | Append many `values` |
-  | `clear()` | `Clear` | Clear out all the values |
-  | `insert(index, value)` | `Insert { index, value }` | Insert a `value` at `index` |
-  | `pop_back()` | `PopBack` | Remove the value at the back |
-  | `pop_front()` | `PopFront` | Remove the value at the front |
-  | `push_back(value)` | `PushBack { value }` | Add `value` at the back |
-  | `push_front(value)` | `PushFront { value }` | Add `value` at the front |
-  | `remove(index)` | `Remove { index }` | Remove value at `index` |
-  | `set(index, value)` | `Set { index, value }` | Replace value at `index` by `value` |
-  | `truncate(length)` | `Truncate { length }` | Truncate to `length` values |
+| `ObservableVector::…`  | `VectorDiff::…`           | Meaning                             |
+| ---------------------- | ------------------------- | ----------------------------------- |
+| `append(values)`       | `Append { values }`       | Append many `values`                |
+| `clear()`              | `Clear`                   | Clear out all the values            |
+| `insert(index, value)` | `Insert { index, value }` | Insert a `value` at `index`         |
+| `pop_back()`           | `PopBack`                 | Remove the value at the back        |
+| `pop_front()`          | `PopFront`                | Remove the value at the front       |
+| `push_back(value)`     | `PushBack { value }`      | Add `value` at the back             |
+| `push_front(value)`    | `PushFront { value }`     | Add `value` at the front            |
+| `remove(index)`        | `Remove { index }`        | Remove value at `index`             |
+| `set(index, value)`    | `Set { index, value }`    | Replace value at `index` by `value` |
+| `truncate(length)`     | `Truncate { length }`     | Truncate to `length` values         |
 
   <figcaption>
 
@@ -1167,12 +1167,14 @@ to learn so much about `Stream` and `Future`, it's going to be fun!
 [`memcpy`]: https://en.cppreference.com/w/c/string/byte/memcpy
 
 [^spes_salutis]: Latine expression meaning _salvation hope_.
-[^beati_pauperes_in_spiritu]: Latine expression meaning _bless are the poor in spirit_.
+[^beati_pauperes_in_spiritu]: Latine expression meaning
+    _bless are the poor in spirit_.
 [^SRUB2015]: <cite><a href="https://infoscience.epfl.ch/server/api/core/bitstreams/7c8b929f-1f68-4948-8ea8-e364e4899b2a/content">Relaxed-Radix-Balanced
     (RRR) Vector: A Practical General Purpose Immutable
-    Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell P. (2015,
-    August), in <i>Proceedings of the 20th ACM SIGPLAN International Conference
-    on Functional Programming (pp. 342-354).</i>
+    Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell
+    P. (2015, August), in <i>Proceedings of the 20th ACM SIGPLAN
+    International Conference on Functional Programming (pp.
+    342-354).</i>
 [^UCR2014]: <cite><a href="http://deepsea.inria.fr/pasl/chunkedseq.pdf">Theory
     and Practise of Chunked Sequences</a></cite> by Acar U. A., Charguéraud
     A., and Rainey M. (2014), in <i>Algorithms-ESA 2014: 22th Annual European

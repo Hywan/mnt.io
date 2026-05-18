@@ -38,18 +38,15 @@ and it took time. WebAssembly is designed to be encoded in a size- and
 load-time efficient [binary
 format](https://webassembly.org/docs/binary-encoding/).
 
-WebAssembly is also faster than Javascript for many reasons. Despites
-all the crazy optimisations engineers put in the Javascript virtual
-machines, Javascript is a weakly and dynamically typed language, which
-requires to be interpreted. WebAssembly aims to execute at native speed
-by taking advantage of [common hardware
-capabilities](https://webassembly.org/docs/portability/#assumptions-for-efficient-execution).
-[WebAssembly also loads faster than
-Javascript](https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/)
-because parsing and compiling happen while the binary is streamed from
-the network. So once the binary is entirely fetched, it is ready to run:
-No need to wait on the parser and the compiler before running the
-program.
+WebAssembly is also faster than Javascript for many reasons. Despites all the
+crazy optimisations engineers put in the Javascript virtual machines, Javascript
+is a weakly and dynamically typed language, which requires to be interpreted.
+WebAssembly aims to execute at native speed by taking advantage of
+[common hardware capabilities](https://webassembly.org/docs/portability/#assumptions-for-efficient-execution).
+[WebAssembly also loads faster than Javascript](https://hacks.mozilla.org/2018/01/making-webassembly-even-faster-firefoxs-new-streaming-and-tiering-compiler/)
+because parsing and compiling happen while the binary is streamed from the
+network. So once the binary is entirely fetched, it is ready to run: No need to
+wait on the parser and the compiler before running the program.
 
 Today, and our blog series is a perfect example of that, it is possible
 to write a Rust program, and to compile it to run on the Web platform.
@@ -146,8 +143,7 @@ Now, we will focus on the Rust code. It consists of only 4 functions:
 - `root` to run the parser (exported),
 - `into_bytes` to transform the AST into a sequence of bytes.
 
-[The entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs).
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs).
 It is approximately 150 lines of code. We explain it.
 
 ### Memory allocation
@@ -258,10 +254,9 @@ pub extern "C" fn dealloc(pointer: *mut c_void, capacity: usize) {
 }
 ```
 
-[The `Vec::from_raw_parts`
-function](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts)
-is marked as unsafe, so we need to delimit it in an `unsafe` block so
-that the `dealloc` function is considered as safe.
+[The `Vec::from_raw_parts` function](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts)
+is marked as unsafe, so we need to delimit it in an `unsafe` block so that the
+`dealloc` function is considered as safe.
 
 The variable `_` contains our data to deallocate, and it goes out of
 scope immediately, so Rust drops it.
@@ -519,27 +514,24 @@ need to do is the following:
 4. Read the WebAssembly module memory to load the flat AST (a sequence of bytes)
    and decode it to build a “Javascript AST” (with our own objects).
 
-[The entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs).
-It is approximately 150 lines of code too. I won't explain the whole
-code since some parts of it is the “friendly API” that is exposed to the
-user. So I will rather explain the major pieces.
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs).
+It is approximately 150 lines of code too. I won't explain the whole code since
+some parts of it is the “friendly API” that is exposed to the user. So I will
+rather explain the major pieces.
 
 ### Loading/streaming and instanciating
 
-[The `WebAssembly`
-API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
-exposes multiple ways to load a WebAssembly binary. The best you can use
-is [the `WebAssembly.instanciateStreaming`
-function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming):
-It streams the binary and compiles it in the same time, nothing is
-blocking. This API relies on [the `Fetch`
-API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). You
-might have guessed it: It is asynchronous (it returns a promise).
-WebAssembly itself is not asynchronous (except if you use thread), but
-the instanciation step is. It is possible to avoid that, but this is
-tricky, and Google Chrome has a strong limit of 4kb for the binary size
-which will make you give up quickly.
+[The `WebAssembly` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
+exposes multiple ways to load a WebAssembly binary. The best you can use is
+[the `WebAssembly.instanciateStreaming` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming):
+It streams the binary and compiles it in the same time, nothing is blocking.
+This API relies on
+[the `Fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
+You might have guessed it: It is asynchronous (it returns a promise).
+WebAssembly itself is not asynchronous (except if you use thread), but the
+instanciation step is. It is possible to avoid that, but this is tricky, and
+Google Chrome has a strong limit of 4kb for the binary size which will make you
+give up quickly.
 
 To be able to stream the WebAssembly binary, the server must send the
 `application/wasm` MIME type (with the `Content-Type` header).
@@ -601,8 +593,8 @@ function runParser(Module, raw_input) {
 
 In details:
 
-- The `raw_input` is encoded into a sequence of bytes with [the
-  `TextEncoder`API](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder),
+- The `raw_input` is encoded into a sequence of bytes with
+  [the `TextEncoder`API](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder),
   in `input`,
 - The input is written into the WebAssembly memory module with
   `writeBuffer` and its pointer is returned,
@@ -797,20 +789,18 @@ are few:
 - The `TextEncoder` and `TextDecoder` objects do not exist as global
   objects, they are in `util.TextEncoder` and `util.TextDecoder`.
 
-In order to share the code between both environments, it is possible to
-write the boundary layer (the Javascript code we wrote) in a `.mjs`
-file, aka ECMAScript Module. It allows to write something like
-`import { Gutenberg_Post_Parser } from './gutenberg_post_parser.mjs'`
-for example (considering the whole code we wrote before is a class). On
-the browser side, the script must be loaded
-with`<script type="module" src="…" />`, and on the NodeJS side, `node`
-must run with the `--experimental-modules` flag. I can recommend you
-this talk [*Please wait… loading: a tale of two loaders* by Myles
-Borins](https://www.youtube.com/watch?v=35ZMoH8T-gc&index=4&list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf&t=0s)
+In order to share the code between both environments, it is possible to write
+the boundary layer (the Javascript code we wrote) in a `.mjs` file, aka
+ECMAScript Module. It allows to write something like
+`import { Gutenberg_Post_Parser } from './gutenberg_post_parser.mjs'` for
+example (considering the whole code we wrote before is a class). On the browser
+side, the script must be loaded with`<script type="module" src="…" />`, and on
+the NodeJS side, `node` must run with the `--experimental-modules` flag. I can
+recommend you this talk
+[*Please wait… loading: a tale of two loaders* by Myles Borins](https://www.youtube.com/watch?v=35ZMoH8T-gc&index=4&list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf&t=0s)
 at the JSConf EU 2018 to understand all the story about that.
 
-[The entire code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs).
+[The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs).
 
 ## Conclusion
 
@@ -834,15 +824,15 @@ a WebAssembly binary.
 
 <figure>
 
-  | Document | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
-  |-|-|-|-|
-  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 13.167 | 0.252 | × 52 |
-  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 26.784 | 0.271 | × 98 |
-  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 75.500 | 0.918 | × 82 |
-  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 88.118 | 0.901 | × 98 |
-  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 201.011 | 3.329 | × 60 |
-  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 311.416 | 2.692 | × 116 |
-  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,466.533 | 25.14 | × 98 |
+| Document                                                                                                                                                 | Javascript parser (ms) | Rust parser as a WebAssembly binary (ms) | speedup |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------------- | ------- |
+| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html)                                   | 13.167                 | 0.252                                    | × 52    |
+| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html)         | 26.784                 | 0.271                                    | × 98    |
+| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 75.500                 | 0.918                                    | × 82    |
+| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html)                 | 88.118                 | 0.901                                    | × 98    |
+| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html)   | 201.011                | 3.329                                    | × 60    |
+| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html)                 | 311.416                | 2.692                                    | × 116   |
+| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html)                     | 2,466.533              | 25.14                                    | × 98    |
 
   <figcaption>
 
@@ -860,11 +850,11 @@ cases are very interesting, like `moby-dick-parsed.html` where it takes
 So not only it is safer, but it is faster than Javascript in this case.
 And it is only 300 lines of code.
 
-Note that WebAssembly does not support SIMD yet: It is still [a
-proposal](https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md).
-Rust is gently supporting it ([example with PR
-\#549](https://github.com/rust-lang-nursery/stdsimd/pull/549)). It will
-dramatically improve the performances!
+Note that WebAssembly does not support SIMD yet: It is still
+[a proposal](https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md).
+Rust is gently supporting it
+([example with PR \#549](https://github.com/rust-lang-nursery/stdsimd/pull/549)).
+It will dramatically improve the performances!
 
 We will see in the next episodes of this series that Rust can reach a
 lot of galaxies, and the more it travels, the more it gets interesting.

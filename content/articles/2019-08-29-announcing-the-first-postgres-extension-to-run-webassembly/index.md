@@ -32,9 +32,8 @@ languages:
 - In Ruby, using
   [`ruby-ext-wasm`](https://github.com/wasmerio/ruby-ext-wasm) — [wasmer
   gem on RubyGems](https://rubygems.org/gems/wasmer)
-- In Go, using [`go-ext-wasm`](https://github.com/wasmerio/go-ext-wasm)
-  — see [the
-  announcement](https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050).
+- In Go, using [`go-ext-wasm`](https://github.com/wasmerio/go-ext-wasm) — see
+  [the announcement](https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050).
 
 The community has also embedded Wasmer in awesome projects:
 

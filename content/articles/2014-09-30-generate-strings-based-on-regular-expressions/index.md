@@ -39,7 +39,7 @@ most of the time, a simple semantics. For instance `ab(c|d)` means: a
 word (a data) starting by `ab` and followed by `c` or `d`. We also have
 quantification operators (also known as repetition operators), such as
 `?`, `*` and `+`. We also have `{_x_,_y_}` to define a repetition
-between `_x_` and `_y_`. Thus, `? ` is equivalent to `{0,1}`, `*` to
+between `_x_` and `_y_`. Thus, `?` is equivalent to `{0,1}`, `*` to
 `{0,}` and `+` to `{1,}`. When `_y_` is missing, it means +∞, so
 unbounded (or more exactly, bounded by the limits of the machine). So,
 for instance `ab(c|d){2,4}e?` means: a word starting by `ab`, followed
@@ -83,9 +83,8 @@ compilers”.
 Fortunately, the [`Hoa\Regex` library](https://github.com/hoaproject/Regex)
 provides the grammar of the PCRE language in the
 [`hoa://Library/Regex/Grammar.pp`](https://github.com/hoaproject/Regex/blob/master/Source/Grammar.pp)
-file. Consequently, we are able to analyze regular expressions written
-in the PCRE language! Let's try in a shell at first with the
-`hoa compiler:pp` tool:
+file. Consequently, we are able to analyze regular expressions written in the
+PCRE language! Let's try in a shell at first with the `hoa compiler:pp` tool:
 
 ```console
 $ echo 'ab(c|d){2,4}e?' | hoa compiler:pp hoa://Library/Regex/Grammar.pp 0 --visitor dump
@@ -110,20 +109,19 @@ choice betwen) two tokens: `c` and `d`, between 2 to 4 times. The second
 quantification is the `e` token that can appear zero or one time. Pretty
 simple.
 
-The final output of the `Hoa\Compiler\Llk\Parser` class is an [Abstract
-Syntax Tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
-The documentation of `Hoa\Compiler` explains all that stuff, you should read
-it. The LL(k) compiler is cut out into very distinct layers in order to improve
-hackability. Again, the documentation teach us we have [four levels in the
-compilation
-process](http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process):
+The final output of the `Hoa\Compiler\Llk\Parser` class is an
+[Abstract Syntax Tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+The documentation of `Hoa\Compiler` explains all that stuff, you should read it.
+The LL(k) compiler is cut out into very distinct layers in order to improve
+hackability. Again, the documentation teach us we have
+[four levels in the compilation process](http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process):
 lexical analyzer, syntactic analyzer, trace and AST. The lexical analyzer (also
 known as lexer) transforms the textual data being analyzed into a sequence of
 tokens (formally known as lexemes). It checks whether the data is composed of
 the good pieces. Then, the syntactic analyzer (also known as parser) checks that
 the order of tokens in this sequence is correct (formally we say that it derives
-the sequence, see the [Matching words
-section](http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words)
+the sequence, see the
+[Matching words section](http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words)
 to learn more).
 
 Still in the shell, we can get the result of the lexical analyzer by

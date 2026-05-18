@@ -73,11 +73,11 @@ return [
 ];
 ```
 
-To choose what to import, let's use [the `list`
-intrinsic](https://github.com/php/php-langspec/blob/master/spec/10-expressions.md#list-intrinsic).
-It has several forms: With or without key matching, long (`list(…)`) and
-short syntax (`[…]`). Because we are modern, we will use the short
-syntax with key matching to selectively import functions:
+To choose what to import, let's use
+[the `list` intrinsic](https://github.com/php/php-langspec/blob/master/spec/10-expressions.md#list-intrinsic).
+It has several forms: With or without key matching, long (`list(…)`) and short
+syntax (`[…]`). Because we are modern, we will use the short syntax with key
+matching to selectively import functions:
 
 ```php
 <?php

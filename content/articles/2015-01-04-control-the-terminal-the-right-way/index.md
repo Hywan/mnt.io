@@ -279,12 +279,11 @@ around it.
 
 Hopefully, these control functions have been standardized in the
 [ECMA-48](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf)
-document: Control Functions for Coded Character Set. However, not all
-terminals implement all this standard, and for historical reasons, some
-terminals use slightly different control functions. Moreover, some
-information do not belong to this standard (because this is out of its
-scope), like: How many colours does the terminal support? or does the
-terminal support the meta key?
+document: Control Functions for Coded Character Set. However, not all terminals
+implement all this standard, and for historical reasons, some terminals use
+slightly different control functions. Moreover, some information do not belong
+to this standard (because this is out of its scope), like: How many colours does
+the terminal support? or does the terminal support the meta key?
 
 Consequently, each terminal has a list of **capabilities**. This list is
 splitted in **3 categories**:
@@ -501,8 +500,8 @@ The result is presented in the following figure.
 The resulting API is portable, clean, simple to read and very easy to
 maintain! This is the right way to do.
 
-To get more information, please [read the
-documentation](http://hoa-project.net/Literature/Hack/Console.html#Cursor "Documentation of Hoa\Console\Cursor").
+To get more information, please
+[read the documentation](http://hoa-project.net/Literature/Hack/Console.html#Cursor "Documentation of Hoa\Console\Cursor").
 
 ### Colours and decorations
 
@@ -579,16 +578,16 @@ For fun, you can change the colours in the palette with the
 `Hoa\Console\Cursor::changeColor` static method. You can also change the
 style of the cursor, like `▋`, `_` or `|`.
 
-To get more information, please [read the
-documentation](http://hoa-project.net/Fr/Literature/Hack/Console.html#Content "Documentation of Hoa\Console\Cursor").
+To get more information, please
+[read the documentation](http://hoa-project.net/Fr/Literature/Hack/Console.html#Content "Documentation of Hoa\Console\Cursor").
 
 ## The power in your hand: Readline
 
-A more complete usage of `Hoa\Console\Cursor` and even
-`Hoa\Console\Window` is the [`Hoa\Console\Readline`
-class](http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php)
-that is a powerful readline. More than autocompleters, history, key
-bindings etc., it has an advanced use of cursors. See this in action:
+A more complete usage of `Hoa\Console\Cursor` and even `Hoa\Console\Window` is
+the
+[`Hoa\Console\Readline` class](http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php)
+that is a powerful readline. More than autocompleters, history, key bindings
+etc., it has an advanced use of cursors. See this in action:
 
 <figure>
 
@@ -607,8 +606,8 @@ We use `Hoa\Console\Cursor` to move the cursor or change the colours and
 `Hoa\Console\Window` to get the dimensions of the window, scroll some
 text in it etc. I encourage you to read the implementation.
 
-To get more information, please [read the
-documentation](http://hoa-project.net/Literature/Hack/Console.html#Readline "Documentation of Hoa\Console\Readline").
+To get more information, please
+[read the documentation](http://hoa-project.net/Literature/Hack/Console.html#Readline "Documentation of Hoa\Console\Readline").
 
 ## The power in your hand: Sound 🎵
 
@@ -660,8 +659,8 @@ other windows just before raising it.
 <iframe src="https://player.vimeo.com/video/115901611?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="aspect-ratio: 16/9; width: 100%;" title="Hoa\Console\Window in action">
 </iframe>
 
-To get more information, please [read the
-documentation](http://hoa-project.net/Literature/Hack/Console.html#Window "Documentation of Hoa\Console\Window").
+To get more information, please
+[read the documentation](http://hoa-project.net/Literature/Hack/Console.html#Window "Documentation of Hoa\Console\Window").
 
 ## Conclusion
 

@@ -10,13 +10,13 @@ pinned = true
 
 I'm here to narrate you a story about performance. Recently, I was in the same
 room as some Memory Pressure and some Lock Contention. It took me a while to
-recognize them. Legend says it only happens in obscure, low-level systems,
-but I'm here to refute the legend. While exploring, I had the pleasure of fixing a
+recognize them. Legend says it only happens in obscure, low-level systems, but
+I'm here to refute the legend. While exploring, I had the pleasure of fixing a
 funny bug in a higher-order stream: lucky us, to top it all off, we even have a
-sweet treat! This story is also a pretext to introduce you to Data-oriented Design,
-and to show how it improved execution time by 98.7% and throughput
-by 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
-and <em lang="fr">bon appétit !</em>
+sweet treat! This story is also a pretext to introduce you to Data-oriented
+Design, and to show how it improved execution time by 98.7% and throughput by
+7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
+and <em lang="fr">bon appétit!</em>
 
 ## On a Beautiful Morning…
 
@@ -30,9 +30,9 @@ Ah yeah, for some years now, I've been employed by [Element] to work on the
 fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
 of many crates. Some are very low in the stack and are not aimed at being used
 directly by developers, like `matrix_sdk_crypto`. Some others are higher in the
-stack — the highest is for User Interfaces (UI) with `matrix_sdk_ui`. While it is
-a bit opinionated, it is designed to provide the high-quality features everybody
-expects in a modern Matrix client.
+stack — the highest is for User Interfaces (UI) with `matrix_sdk_ui`. While it
+is a bit opinionated, it is designed to provide the high-quality features
+everybody expects in a modern Matrix client.
 
 One of these features is the Room List. The Room List is a place where users
 spend a lot of their time in a messaging application (along with the Timeline,
@@ -103,7 +103,8 @@ re-positioned. Then, we expect the Room List's stream to yield:
 
 1. `VectorDiff::Set { index: 3, value: new_room }` because of the new “preview”,
 2. `VectorDiff::Remove { index: 3 }` to remove the room… immediately followed by
-3. `VectorDiff::PushFront { value: new_room }` to insert the room at the top of the Room List.
+3. `VectorDiff::PushFront { value: new_room }` to insert the room at the top of
+   the Room List.
 
 This reactive programming mechanism has proven to be extremely efficient.
 
@@ -154,7 +155,8 @@ It would be a real pleasure if you let me assist you in this task.
 
 {% end %}
 
-Indeed, we have changed one sorter recently. Let's take a look at how this Room List stream is computed, shall we?
+Indeed, we have changed one sorter recently. Let's take a look at how this Room
+List stream is computed, shall we?
 
 ```rust
 let stream = stream! {
@@ -471,14 +473,14 @@ on your hardware, but the important part is **the scale**: keep that in mind.
 
 <figure>
 
-| Operation | Time | “Human scale” |
-|-|-:|-:|
-| Fetch from L1 cache | 1ns | 1mn |
-| Branch misprediction | 3ns | 3mn |
-| Fetch from L2 cache | 4ns | 4mn |
-| Mutex lock/unlock | 17ns | 17mn |
-| Fetch from the main memory | 100ns | 1h40mn |
-| SSD random read | 16'000ns | 11.11 days |
+| Operation                  |     Time | “Human scale” |
+| -------------------------- | -------: | ------------: |
+| Fetch from L1 cache        |      1ns |           1mn |
+| Branch misprediction       |      3ns |           3mn |
+| Fetch from L2 cache        |      4ns |           4mn |
+| Mutex lock/unlock          |     17ns |          17mn |
+| Fetch from the main memory |    100ns |        1h40mn |
+| SSD random read            | 16'000ns |    11.11 days |
 
 <figcaption>
 
@@ -688,8 +690,8 @@ the `latest_event` method was called basically, which means…
 
 {% end %}
 
-… yes… and please, stop interrupting me, I was trying to build up the suspense for
-a climax.
+… yes… and please, stop interrupting me, I was trying to build up the suspense
+for a climax.
 
 Anyway. Avoiding a lock isn't an easy task. However, this lock around `info`
 is particularly annoying because it's called by almost all sorters! They need
@@ -702,9 +704,9 @@ Let's change our strategy. We need to take a step back:
 2. Running the sorters won't change this data.
 3. When the data does change the sorters will be re-run.
 
-Maybe we could fetch, ahead of time, all the necessary data for all sorters in
-a single type: it will be refreshed when the data changes, which is right before the
-sorters run again.
+Maybe we could fetch, ahead of time, all the necessary data for all sorters in a
+single type: it will be refreshed when the data changes, which is right before
+the sorters run again.
 
 {% procureur() %}
 
@@ -842,7 +844,8 @@ We don't see the 5 minutes lag mentioned by the reporters, but remember it's
 random. Nonetheless, **the performance impact is huge**:
 
 - From 18.8Kelem/s to 1.4Melem/s,
-- From 53ms to 676µs, or —to compare with the same unit— 0.676ms, so **78× faster**!
+- From 53ms to 676µs, or —to compare with the same unit— 0.676ms, so
+  **78× faster**!
 - The throughput has improved by 7718.5%, and the time by 98.7%.
 
 Can we claim victory now?
@@ -1039,13 +1042,12 @@ reviews and the feedback!
     is equivalent to `Change.insert(offset: 0)`. On [Jetpack Compose], there is
     [`MutableList`] object. For example: `VectorDiff::Clear` is equivalent to
     `MutableList.clear()`!
-[^switch]: I would _love_ to talk about how this `Stream` produces
-    a `Stream`, how the outer stream and the inner stream are switched (with
-    `.switch()`!), how we've implemented that from scratch,
-    but <del>it's probably for another article!. Meanwhile, you
-    can take a look at [`async_rx::Switch`]</del> Wait no more, the article is
-    here: [_Switching higher-order stream to first-order
-    stream_](@/articles/2026-04-13-switching-higher-order-streams-to-first-order-streams/index.md)!
+[^switch]: I would _love_ to talk about how this `Stream` produces a `Stream`,
+    how the outer stream and the inner stream are switched (with
+    `.switch()`!), how we've implemented that from scratch, but <del>it's
+    probably for another article!. Meanwhile, you can take a look at
+    [`async_rx::Switch`]</del> Wait no more, the article is here:
+    [_Switching higher-order stream to first-order stream_](@/articles/2026-04-13-switching-higher-order-streams-to-first-order-streams/index.md)!
 [^stream_assert]: Do you know [`stream_assert`]? It's another crate we've
     written to easily apply assertions on `Stream`s. Pretty convenient.
 [^biscuit]: Yes, [biscuit].
@@ -1056,5 +1058,5 @@ reviews and the feedback!
     the story, I wasn't aware we had a lock contention yet.
 [^talks]: If you are curious and enjoy watching talks, I'm maintaining
     [a playlist of interesting talks I've watched][best-of-talks]. Also
-    you can read this old article [Once conference per day, for one year
-    (2017)](@/articles/2018-01-25-one-conference-per-day-for-one-year-2017/index.md).
+    you can read this old article
+    [Once conference per day, for one year (2017)](@/articles/2018-01-25-one-conference-per-day-for-one-year-2017/index.md).

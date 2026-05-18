@@ -11,11 +11,11 @@ implemented with [Jekxyl], a static site generator written with
 [the XYL language][XYL], a language I've developed inside [Hoa]. I've migrated
 my blog to [WordPress.com] when
 [I was working there](@/articles/2017-04-18-bye-bye-liip-hello-automattic/index.md).
-The [Gutenberg editor][Gutenberg] is really great, but there is no great
-support for `<code>`. Plus, the theme I was using was pretty heavy. The
-homepage was 1.15MiB! A simple article was 1.9MiB. Clearly not really efficient.
-I wanted something more customisable, something light, something I can hack, and
-more importantly, I wanted to start series.
+The [Gutenberg editor][Gutenberg] is really great, but there is no great support
+for `<code>`. Plus, the theme I was using was pretty heavy. The homepage was
+1.15MiB! A simple article was 1.9MiB. Clearly not really efficient. I wanted
+something more customisable, something light, something I can hack, and more
+importantly, I wanted to start series.
 
 ## Enter Zola
 

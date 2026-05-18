@@ -74,8 +74,8 @@ example:
 <!-- wp:ns/block-name {"attributes": "as JSON"} /-->
 ```
 
-The complete grammar can be found in [the parser's
-documentation](https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html).
+The complete grammar can be found in
+[the parser's documentation](https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html).
 
 Finally, the parser is used on the _editor_ side, not on the _rendering_
 side. Once rendered, the blog post is a regular HTML file. Some blocks
@@ -169,8 +169,8 @@ children, and the phrase. Block children are defined as a collection of
 node, this is recursive. `Input<'a>` is defined as `&'a [u8]`, i.e. a
 slice of bytes.
 
-The main parser entry is [the `root`
-function](https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html).
+The main parser entry is
+[the `root` function](https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html).
 It represents the axiom of the grammar, and is defined as:
 
 ```rust

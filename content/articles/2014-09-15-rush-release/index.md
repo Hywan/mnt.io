@@ -112,8 +112,8 @@ So, now, you will be able to change your `composer.json` files from:
 }
 ```
 
-to ([learn more about the tilde
-operator](https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-)):
+to
+([learn more about the tilde operator](https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-)):
 
 ``` json
 {

@@ -35,8 +35,8 @@ And here we (duckduck) go!
 $ ? "foo bar's baz"
 ```
 
-You can [see the
-commit](https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c)
+You can
+[see the commit](https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c)
 that adds this to my “shell home framework”.
 
 Oh, and to open the default browser, I use

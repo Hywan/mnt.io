@@ -6,12 +6,12 @@ description = "In this episode, we explore the ASM.js galaxy, as a fallback to W
 keywords=["rust", "binding", "gutenberg", "webassembly", "javascript", "asmjs"]
 +++
 
-The second galaxy that our Rust parser will explore is the ASM.js
-galaxy. This post will explain what ASM.js is, how to compile the parser
-into ASM.js, and how to use the ASM.js module with Javascript in a
-browser. The goal is to use ASM.js as a fallback to WebAssembly when it
-is not available. I highly recommend to read [the previous
-episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)
+The second galaxy that our Rust parser will explore is the ASM.js galaxy. This
+post will explain what ASM.js is, how to compile the parser into ASM.js, and how
+to use the ASM.js module with Javascript in a browser. The goal is to use ASM.js
+as a fallback to WebAssembly when it is not available. I highly recommend to
+read
+[the previous episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)
 about WebAssembly since they have a lot in common.
 
 ## What is ASM.js, and why?
@@ -129,10 +129,9 @@ which in turn will be compiled into ASM.js.
 
 </figure>
 
-This episode will be very short, and somehow the most easiest one. To
-compile Rust to ASM.js, you need to first compile it to WebAssembly
-([see the previous
-episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)),
+This episode will be very short, and somehow the most easiest one. To compile
+Rust to ASM.js, you need to first compile it to WebAssembly
+([see the previous episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)),
 and then compile the WebAssembly binary into ASM.js.
 
 Actually, ASM.js is mostly required when the browser does not support
@@ -224,23 +223,21 @@ object pointing to 4 private functions:
 3. `dealloc`, to deallocate memory, and
 4. `memory`, the memory buffer.
 
-It sounds familiar if you have read [the previous episode with
-WebAssembly](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md).
-Don't expect `root` to return a full AST: It will return a pointer to
-the memory, and the data need to be encoded and decoded, and to write
-into and to read from the memory the same way. Yes, the same way. *The
-exact same way*. So the code of the boundary layer is strictly the same.
-Do you remember the `Module` object in our WebAssembly Javascript
-boundary? This is exactly what the `GUTENBERG_POST_PARSER_ASM_MODULE`
-function returns. You can replace `Module` by the returned object, *et
-voilà*!
+It sounds familiar if you have read
+[the previous episode with WebAssembly](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md).
+Don't expect `root` to return a full AST: It will return a pointer to the
+memory, and the data need to be encoded and decoded, and to write into and to
+read from the memory the same way. Yes, the same way. _The exact same way_. So
+the code of the boundary layer is strictly the same. Do you remember the
+`Module` object in our WebAssembly Javascript boundary? This is exactly what the
+`GUTENBERG_POST_PARSER_ASM_MODULE` function returns. You can replace `Module` by
+the returned object, _et voilà_!
 
-[The entired code lands
-here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs).
-It completely reuses the Javascript boundary layer for WebAssembly. It
-just sets the `Module` differently, and it does not load the WebAssembly
-binary. Consequently, the ASM.js boundary layer is made of 34 lines of
-code, only 🙃. It compresses to 218 bytes.
+[The entired code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs).
+It completely reuses the Javascript boundary layer for WebAssembly. It just sets
+the `Module` differently, and it does not load the WebAssembly binary.
+Consequently, the ASM.js boundary layer is made of 34 lines of code, only 🙃. It
+compresses to 218 bytes.
 
 ## Conclusion
 
@@ -263,15 +260,15 @@ an ASM.js module:
 
 <figure>
 
-  | Document | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
-  |-|-|-|-|
-  | [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html) | 15.368 | 2.718 | × 6 |
-  | [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html) | 31.022 | 8.004 | × 4 |
-  | [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 106.416 | 19.223 | × 6 |
-  | [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html) | 82.92 | 27.197 | × 3 |
-  | [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html) | 119.880 | 38.321 | × 3 |
-  | [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html) | 349.075 | 23.656 | × 15 |
-  | [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html) | 2,543.75 | 361.423 | × 7 |
+| Document                                                                                                                                                 | Javascript parser (ms) | Rust parser as an ASM.js module (ms) | speedup |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------ | ------- |
+| [`demo-post.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html)                                   | 15.368                 | 2.718                                | × 6     |
+| [`shortcode-shortcomings.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html)         | 31.022                 | 8.004                                | × 4     |
+| [`redesigning-chrome-desktop.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html) | 106.416                | 19.223                               | × 6     |
+| [`web-at-maximum-fps.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html)                 | 82.92                  | 27.197                               | × 3     |
+| [`early-adopting-the-future.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html)   | 119.880                | 38.321                               | × 3     |
+| [`pygmalian-raw-html.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html)                 | 349.075                | 23.656                               | × 15    |
+| [`moby-dick-parsed.html`](https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html)                     | 2,543.75               | 361.423                              | × 7     |
 
   <figcaption>
 

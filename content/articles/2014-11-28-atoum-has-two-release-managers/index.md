@@ -222,8 +222,7 @@ class Foo extends atoum\test {
 
 Here, we have generated a string based on its regular expression. Reminder, you
 might have seen this on this blog:
-[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md)
-.
+[Generate strings based on regular expressions](@/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md).
 
 Fun fact: the `atoum/json-schema-extension` is tested with atoum
 obviously and… `atoum/praspel-extension`!

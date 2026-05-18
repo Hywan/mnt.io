@@ -50,22 +50,20 @@ Labs](https://fluence.network/), [HOT-G](https://hotg.dev/),
 though, however other companies are also using Wasmer in very critical
 environments).
 
-Most of my engineering job happened on the Wasmer runtime itself. At the
-time of writing, I'm the \#2 contributor on the project. I was working
-on [every parts of the
-runtime](https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/lib):
-the API, the C API, the compilers, the ABI (mostly WASI), the engines,
-the middlewares, and the VM itself which is the most low-level
-foundamental layer of the runtime.
+Most of my engineering job happened on the Wasmer runtime itself. At the time of
+writing, I'm the \#2 contributor on the project. I was working on
+[every parts of the runtime](https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/lib):
+the API, the C API, the compilers, the ABI (mostly WASI), the engines, the
+middlewares, and the VM itself which is the most low-level foundamental layer of
+the runtime.
 
-The runtime provides so many features. It is an impressively powerful
-runtime for WebAssembly, and I'm saying that with a neutral and
-respectful mindset. Not everything is perfect obviously but I did my
-best to set up a truly user-friendly learning environment, with an
-important documentation and [a collection of
-examples](https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/examples)
-that illustrate many features. I strongly believe it contributed to
-Wasmer's popularity to great extent.
+The runtime provides so many features. It is an impressively powerful runtime
+for WebAssembly, and I'm saying that with a neutral and respectful mindset. Not
+everything is perfect obviously but I did my best to set up a truly
+user-friendly learning environment, with an important documentation and
+[a collection of examples](https://github.com/wasmerio/wasmer/tree/f9ff574e10d4ee97f836565bdae99035e04ac879/examples)
+that illustrate many features. I strongly believe it contributed to Wasmer's
+popularity to great extent.
 
 I would like to highlight the most notable embedding projects I've
 created:
@@ -152,8 +150,8 @@ sometimes at two hairs of a release) with:
 
 All those things were working.
 
-It's absolutely crazy what WebAssembly can do today, and I still truly
-and deeply believe in this technology. I'm not the only one:
+It's absolutely crazy what WebAssembly can do today, and I still truly and
+deeply believe in this technology. I'm not the only one:
 [YCombinator](https://www.ycombinator.com/companies/wasmer) and
 [SpeedInvest](https://medium.com/speedinvest/the-next-generation-of-cloud-computing-investing-in-wasmer-768c9aac5922)
 are also founders that believe in Wasmer.

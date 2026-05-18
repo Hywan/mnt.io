@@ -7,12 +7,11 @@ keywords=["test", "atoum"]
 +++
 
 [atoum](http://atoum.org/) is a popular PHP test framework.
-[TeamCity](https://www.jetbrains.com/teamcity/) is a Continuous
-Integration and Continuous Delivery software developed by Jetbrains.
-Despites [atoum supports many industry
-standards](http://atoum.org/features.html#reports) to report test
-execution verdicts, TeamCity uses [its own non-standard
-report](https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity),
+[TeamCity](https://www.jetbrains.com/teamcity/) is a Continuous Integration and
+Continuous Delivery software developed by Jetbrains. Despites
+[atoum supports many industry standards](http://atoum.org/features.html#reports)
+to report test execution verdicts, TeamCity uses
+[its own non-standard report](https://confluence.jetbrains.com/display/TCD8/Build+Script+Interaction+with+TeamCity),
 and thus atoum is not compatible with TeamCity… until now.
 
 The `atoum/teamcity-extension` provides TeamCity support inside atoum.
@@ -100,6 +99,6 @@ will have the following result:
 We are using it at [Automattic](https://automattic.com/). Hope it is
 useful for someone else!
 
-If you find any bugs, or would like any other features, please use
-Github at the following repository:
+If you find any bugs, or would like any other features, please use Github at the
+following repository:
 [https://github.com/Hywan/atoum-teamcity-extension/](https://github.com/Hywan/atoum-teamcity-extension/).

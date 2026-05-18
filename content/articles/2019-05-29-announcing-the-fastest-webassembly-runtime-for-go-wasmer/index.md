@@ -65,8 +65,8 @@ pub extern fn sum(x: i32, y: i32) -> i32 {
 }
 ```
 
-After compilation to WebAssembly, we get a file like [this
-one](https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm),
+After compilation to WebAssembly, we get a file like
+[this one](https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm),
 named `simple.wasm`.  
 The following Go program executes the `sum` function by passing `5` and
 `37` as arguments:
@@ -239,8 +239,8 @@ Fortunately for us, we already know the length of the string we want to
 read, so `memory[pointer : pointer+13]` is enough to read the bytes,
 that are then cast to a string. _Et voilà !_
 
-> You can read [the Greet
-> Example](https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go)
+> You can read
+> [the Greet Example](https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go)
 > to see a more advanced usage of the memory API.
 
 ## Benchmarks
@@ -256,18 +256,18 @@ world to execute WebAssembly. The main candidates are:
 - [Wagon](https://github.com/go-interpreter/wagon), from Go Interpreter,
   a WebAssembly interpreter and toolkit.
 
-In [our blog post about the PHP
-extension](https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88),
-we have used [the n-body
-algorithm](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html)
-to benchmark the performance. Life provides more benchmarks: [the
-Fibonacci algorithm](https://en.wikipedia.org/wiki/Fibonacci_number)
-(the recursive version), [the Pollard’s rho
-algorithm](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm), and
-the Snappy Compress operation. The latter works successfully with
-`github.com/wasmerio/go-ext-wasm/wasmer` but not with Life or Wagon. We
-have removed it from the benchmark suites. [Benchmark
-sources](https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks)
+In
+[our blog post about the PHP extension](https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88),
+we have used
+[the n-body algorithm](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html)
+to benchmark the performance. Life provides more benchmarks:
+[the Fibonacci algorithm](https://en.wikipedia.org/wiki/Fibonacci_number) (the
+recursive version),
+[the Pollard’s rho algorithm](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm),
+and the Snappy Compress operation. The latter works successfully with
+`github.com/wasmerio/go-ext-wasm/wasmer` but not with Life or Wagon. We have
+removed it from the benchmark suites.
+[Benchmark sources](https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks)
 are online.
 
 We use Life 20190521143330–57f3819c2df0, and Wagon 0.4.0, i.e. *the
@@ -302,22 +302,21 @@ While both Life and Wagon provide on average the same speed, Wasmer
 It is important to know that Wasmer comes with 3 backends:
 [Singlepass](https://github.com/wasmerio/wasmer/tree/master/lib/singlepass-backend),
 [Cranelift](https://github.com/wasmerio/wasmer/tree/master/lib/clif-backend),
-and
-[LLVM](https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend).
-The default backend that is used by the Go library is Cranelift ([learn
-more about Cranelift](https://github.com/CraneStation/cranelift)). Using
-LLVM will provide performance close to native, but we decided to start
-with Cranelift as it offers the best tradeoff between compilation-time
-and execution-time ([learn more about the different
-backends](https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537),
+and [LLVM](https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend). The
+default backend that is used by the Go library is Cranelift
+([learn more about Cranelift](https://github.com/CraneStation/cranelift)). Using
+LLVM will provide performance close to native, but we decided to start with
+Cranelift as it offers the best tradeoff between compilation-time and
+execution-time
+([learn more about the different backends](https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537),
 when to use them, pros and cons etc.).
 
 ## Conclusion
 
 `[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)`
 is a new Go library to execute WebAssembly binaries. It embeds the
-[Wasmer](https://github.com/wasmerio/wasmer) runtime. The first version
-supports all the required API for the most common usages.
+[Wasmer](https://github.com/wasmerio/wasmer) runtime. The first version supports
+all the required API for the most common usages.
 
 The current benchmarks (a mix from our benchmark suites and from Life
 suites) show that **Wasmer is — on average — 72 times faster than Life

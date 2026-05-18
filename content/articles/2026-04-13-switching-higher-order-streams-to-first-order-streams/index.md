@@ -579,9 +579,9 @@ but not like `flatten`.
   </math>
 </div>
 
-Okay, the signature of the combinator is exactly the same as `flatten`, but
-the behaviour is different! Do you remember that `flatten` uses the outer stream
-to produce an inner stream, which is consumed _entirely_ before polling the outer
+Okay, the signature of the combinator is exactly the same as `flatten`, but the
+behaviour is different! Do you remember that `flatten` uses the outer stream to
+produce an inner stream, which is consumed _entirely_ before polling the outer
 stream again? `switch` is different, <i>open the documentation</i>:
 
 > This combinator flattens a stream of streams, i.e. an outer stream yielding
@@ -809,7 +809,9 @@ Note, it matches the code _and_ the documentation when it says:
 
 {% end %}
 
-Correct! To understand the rest of the documentation and _why_ the `switch` combinator is pretty powerful, we need to imagine a funny example. <i>close eyes, and try to imagine a relevant example…</i>
+Correct! To understand the rest of the documentation and _why_ the `switch`
+combinator is pretty powerful, we need to imagine a funny example. <i>close
+eyes, and try to imagine a relevant example…</i>
 
 {% factotum() %}
 
@@ -821,7 +823,8 @@ May I? We could imagine this flow:
   - inner stream produces: 42, 43, 44, 45, 46…
 
 This example illustrates pretty well the power of `switch`: inner streams are
-computed dynamically depending of the outer stream. It instantiates to a lot of concrete use cases, e.g.:
+computed dynamically depending of the outer stream. It instantiates to a lot of
+concrete use cases, e.g.:
 
 - given a UI component for a list
 - the list can be updated via _diff_ operations, e.g.:

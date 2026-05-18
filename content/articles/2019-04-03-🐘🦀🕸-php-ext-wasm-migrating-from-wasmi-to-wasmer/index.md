@@ -57,29 +57,28 @@ However, I quickly noticed that `wasmi` is… slow. [One of the promise of
 WebAssembly](https://webassembly.org/) is:
 
 > WebAssembly aims to execute at native speed by taking advantage of
-> [common hardware
-> capabilities](https://webassembly.org/docs/portability/#assumptions-for-efficient-execution)
+> [common hardware capabilities](https://webassembly.org/docs/portability/#assumptions-for-efficient-execution)
 > available on a wide range of platforms.
 
 And clearly, my extension wasn’t fulfilling this promise. Let’s see a
 basic comparison with a benchmark.
 
-I chose [the *n-body*
-algorithm](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html)
-from [the Computer Language Benchmarks
-Game](https://benchmarksgame-team.pages.debian.net/benchmarksgame/) from
-Debian, mostly because it’s relatively CPU intensive. Also, the
-algorithm has a simple interface: based on an integer, it returns a
-floating-point number; this API doesn’t involve any advanced instance
-memory API, which is perfect to test a proof-of-concept.
+I chose
+[the *n-body* algorithm](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html)
+from
+[the Computer Language Benchmarks Game](https://benchmarksgame-team.pages.debian.net/benchmarksgame/)
+from Debian, mostly because it’s relatively CPU intensive. Also, the algorithm
+has a simple interface: based on an integer, it returns a floating-point number;
+this API doesn’t involve any advanced instance memory API, which is perfect to
+test a proof-of-concept.
 
-As a baseline, I’ve run the _n-body_ algorithm [written in
-Rust](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html),
-let’s call it `rust-baseline`. The same algorithm has been [written in
-PHP](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-php-3.html),
-let’s call it `php`. Finally, the algorithm has been compiled from Rust
-to WebAssembly, and executed with the `php-ext-wasm` extension, let’s
-call that case `php+wasmi`. All results are for `nbody(5000000)`:
+As a baseline, I’ve run the _n-body_ algorithm
+[written in Rust](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html),
+let’s call it `rust-baseline`. The same algorithm has been
+[written in PHP](https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-php-3.html),
+let’s call it `php`. Finally, the algorithm has been compiled from Rust to
+WebAssembly, and executed with the `php-ext-wasm` extension, let’s call that
+case `php+wasmi`. All results are for `nbody(5000000)`:
 
 - `rust-baseline`: 287ms,
 - `php`: 19,761ms,
@@ -149,13 +148,11 @@ really good. Let’s run the benchmark, with the addition of
 - `php+wasmer(cranelift)`: 2,365ms 🎉.
 
 Finally, the PHP extension provides a faster execution than PHP itself!
-`php+wasmer(cranelift)` is **8.6 times faster** than `php` to be exact.
-And it is **28.6 times faster** than `php+wasmi`. Can we reach the
-native speed (represented by `rust-baseline` here)? It’s very likely
-with LLVM. That’s for another article. I’m super happy with Cranelift
-for the moment. (See [our previous blog post to learn how we benchmark
-different backends in Wasmer, and other WebAssembly
-runtimes](https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e)).
+`php+wasmer(cranelift)` is **8.6 times faster** than `php` to be exact. And it
+is **28.6 times faster** than `php+wasmi`. Can we reach the native speed
+(represented by `rust-baseline` here)? It’s very likely with LLVM. That’s for
+another article. I’m super happy with Cranelift for the moment. (See
+[our previous blog post to learn how we benchmark different backends in Wasmer, and other WebAssembly runtimes](https://medium.com/wasmer/benchmarking-webassembly-runtimes-18497ce0d76e)).
 
 ## More Optimizations
 

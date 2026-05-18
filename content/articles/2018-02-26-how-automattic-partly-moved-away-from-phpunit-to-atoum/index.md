@@ -182,13 +182,13 @@ experiment.
 
 ### Integration to the Continuous Integration server
 
-Our CI does not natively support standard test execution report formats.
-Thus we had to create the
+Our CI does not natively support standard test execution report formats. Thus we
+had to create the
 [`atoum/teamcity-extension`](https://github.com/Hywan/atoum-teamcity-extension/).
-[Learn more](@/articles/2017-11-06-atoum-supports-teamcity/index.md) by
-reading a blog post I wrote recently. The TeamCity support is native
-inside PHPUnit (see the [`--log-teamcity`
-option](http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity)).
+[Learn more](@/articles/2017-11-06-atoum-supports-teamcity/index.md) by reading
+a blog post I wrote recently. The TeamCity support is native inside PHPUnit (see
+the
+[`--log-teamcity` option](http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity)).
 
 ### Bootstrap test environments
 
