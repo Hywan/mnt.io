@@ -106,10 +106,11 @@ style = "aligned"
 
 # `heading-capitalization`, https://github.com/rvben/rumdl/blob/main/docs/md063.md.
 [MD063]
-enabled = true
+enabled = false
 style = "title-case"
 min-level = 1
 max-level = 3
+ignore-words = ["mnt.io", "atoum", "fruxx"]
 
 # `list-item-spacing`, https://github.com/rvben/rumdl/blob/main/docs/md076.md.
 [MD076]
