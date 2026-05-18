@@ -9,14 +9,14 @@ keywords=["job"]
 Since April 2017, I have left [Liip](https://www.liip.ch/) to join
 [Automattic](https://automattic.com/).
 
-## Bye bye Liip
+## Bye Bye Liip
 
 After almost 20 months at Liip, I am leaving. Liip was a great
 experience. It was my first industrial non-remote job. It was also my
 first job in the country I am currently living in. And I have discovered
 a new way of working.
 
-### First industrial non-remote job
+### First Industrial Non-Remote Job
 
 Before working for Liip, I was working for [fruux](https://fruux.com/).
 My situation was the following: A french citizen, living as a foreigner
@@ -56,7 +56,7 @@ self-organisation, more shared responsabilities, no more “boss” etc.
 This is not a tool for all companies, but I am sure that if you are
 reading my blog, then your company should give it a try.
 
-### Open source projects
+### Open Source Projects
 
 Liip has been very generous with me regarding my open source
 engagements. I was involved in [Hoa](https://hoa-project.net/),
@@ -114,7 +114,7 @@ considering the niche it targets.
 A new SaaS platform is being build around this software. I enjoyed
 working on it, and it was really tangible.
 
-### Main customer, huge project
+### Main Customer, Huge Project
 
 Liip is a Web agency, so you have dozens of customers at the same time.
 However, I was in a special team for an important customer. The site is
@@ -139,7 +139,7 @@ understandable by everyone, how to not break a 10+ years old progam with
 no test etc. And it requires skills. I learned it the hard way, but I
 learned it.
 
-### Why leaving?
+### Why Leaving?
 
 Because even if I learned during my time at Liip, the Web agency model
 was definitively not for me. I am very thankful to every Liiper, I had a

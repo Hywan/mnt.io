@@ -91,7 +91,7 @@ It confirms my first intuition though: In our case, `wasmi` is really
 great to mock something up, but it’s not fast enough for our
 expectations.
 
-## Faster, faster, faster…
+## Faster, Faster, Faster…
 
 I wanted to use [Cranelift](https://github.com/CraneStation/cranelift)
 since the beginning. It’s a code generator, _à la_

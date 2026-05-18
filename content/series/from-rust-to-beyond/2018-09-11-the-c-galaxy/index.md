@@ -11,7 +11,7 @@ what C is (shortly), how to compile any Rust program in C in theory, and
 how to do that practically with our Rust parser from the Rust side and
 the C side. We will also see how to test such a binding.
 
-## What is C, and why?
+## What Is C, and Why?
 
 [C](https://en.wikipedia.org/wiki/C_(programming_language)) is probably
 the most used and known programming language in the world. Quoting
@@ -62,7 +62,7 @@ In order to use Rust from C, one may need 2 elements:
 1. A static library (`.a` file),
 2. A header file (`.h` file).
 
-### The theory
+### The Theory
 
 To compile a Rust project into a static library, the `crate-type`
 property must contain the `staticlib` value. Let's edit the `Cargo.toml`
@@ -474,7 +474,7 @@ do beforehand.
 And that's all for the Rust part! The next section will present the C
 code that calls Rust, and how to compile everything all together.
 
-## C 🚀 executable
+## C 🚀 Executable
 
 <figure role="presentation">
 
@@ -592,7 +592,7 @@ $ clang \
 And that's all! We end up with a `gutenberg-post-parser` executable that
 runs C and Rust.
 
-### More details
+### More Details
 
 [In the original source code](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c),
 a recursive function that prints the entire AST on `stdout` can be found, namely

@@ -27,7 +27,7 @@ consider this is fast.
 Nothing particular to say. It's a boring tool, which is great compliment. It
 just works! In a couple of hours, I was able to get everything up and running.
 
-## Site's features
+## Site's Features
 
 The site contains articles and series. A series is composed of several episodes.
 That's it. The URL patterns are the followings:
@@ -171,7 +171,7 @@ link to a [Matrix] public room: <https://matrix.to/#/#mnt_io:matrix.org>, where
 anybody can come to talk about an article, a series, ask questions, or simply
 chill. You're very welcome there!
 
-## Good ol' Web
+## Good Ol' Web
 
 The site has a short CSS stylesheet written by hand with no framework (oh yeah).
 It weights 11KiB (uncompressed), heavy, I know.
@@ -233,7 +233,7 @@ Some people believe I am irritating, but I consider myself the defenser of
 discipline.
 {% end %}
 
-## Optimised for smallness, speed, semantics and fun!
+## Optimised for Smallness, Speed, Semantics and Fun!
 
 At this step, it should be clear the site has been optimised for smallness,
 speed and semantics. Even the fonts aren't custom: I use [Modern Font Stacks]

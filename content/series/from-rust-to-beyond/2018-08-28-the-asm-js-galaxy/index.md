@@ -14,7 +14,7 @@ read
 [the previous episode](@/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md)
 about WebAssembly since they have a lot in common.
 
-## What is ASM.js, and why?
+## What Is ASM.js, and Why?
 
 The main programming language on the Web is Javascript. Applications
 that want to exist on the Web had to compile to Javascript, like for

@@ -8,7 +8,7 @@ My self-assigned challenge for 2017 was to watch at least one conference
 per day, for one year. That's the first time I try this challenge. Let's
 dive in for a recap.
 
-## 267 conferences
+## 267 Conferences
 
 In some way, I failed the challenge because I've been able to watch only
 267 conferences. With an average of 34 minutes per conference, I've
@@ -25,7 +25,7 @@ own self-sufficient ecological house, the vegetable garden requires many
 hours, I watch other videos, and because I'm lazy sometimes. Most of the
 time, I was able to watch 2 or 3 conferences in a row.
 
-## Where to find the resources?
+## Where to Find the Resources?
 
 All these conferences are freely available online, on YouTube, or on
 Vimeo, for most of them. The channel I mostly watch are the following:
@@ -45,7 +45,7 @@ It's very Computer Science centric as you might have noticed, and it
 targets Rust, C++, Elm, LLVM, or Web technologies (JS, CSS…), but not
 only, you can find Haskell or Clojure sometimes.
 
-## My best-of list
+## My Best-of List
 
 In March 2017, more and more people were questionning me, and asked for sharing.
 I then decided to start a
@@ -63,7 +63,7 @@ then.
   </figcaption>
 </figure>
 
-## Thoughts and conclusion
+## Thoughts and Conclusion
 
 The challenge was sometimes easy and relaxing, or it was very hard to understand
 everything especially at 2am after a long day (looking at you CppCon). But it

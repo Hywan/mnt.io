@@ -61,7 +61,7 @@ behind versioning. So, how to mix both: rolling release and versioning?
 Before answering this question, let's progress a little step forward and
 learn more about an alternative versioning approach.
 
-### Scheduled-based release
+### Scheduled-Based Release
 
 Scheduled-based, also known as date-based, release allows to define
 releases at regular periods of time. This approach is widely adopted for

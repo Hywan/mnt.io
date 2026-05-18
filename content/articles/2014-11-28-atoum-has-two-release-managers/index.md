@@ -6,7 +6,7 @@ description = "atoum gains 2 release managers for a better project management!"
 keywords=["test", "atoum"]
 +++
 
-## What is atoum?
+## What Is Atoum?
 
 Short introduction: atoum is a simple, modern and intuitive unit testing
 framework for PHP. Originally created by [Frédéric
@@ -43,7 +43,7 @@ most profitable private national French TV channel, also use atoum.
 Another example, [Mozilla](http://mozilla.org/) is using atoum to test
 some of their applications.
 
-## Where is the cap'tain?
+## Where Is the Cap'tain?
 
 Since the beginning, Frédéric has been a great leader for the project.
 He has inspired many people, users and contributors. In real life, on
@@ -53,7 +53,7 @@ daily work. I know what I am talking about with
 [Hoa](http://hoa-project.net/). Hopefully for Frédéric, some
 contributors were here to help.
 
-## Where to go cap'tain?
+## Where to Go Cap'tain?
 
 However, having contributors do not create a community. A community is a
 group of people that share something together. A project needs a
@@ -71,7 +71,7 @@ In these conditions, this is not easy to work. Especially when users ask
 for new features. The needs to have a roadmap and people taking
 decisions were very strong.
 
-## When the community acts
+## When the Community Acts
 
 After a couple of months under the sea, we have decided that we need to
 create a structure around the project. An organization. Frédéric is not
@@ -98,7 +98,7 @@ The goal is also to organize the community if it is possible. New great
 features are coming and they will allow more people to contribute and
 build their “own atoum”. See below.
 
-## Features to port!
+## Features to Port!
 
 Everything is not defined at 100% but here is an overview of what is
 coming.

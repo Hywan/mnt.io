@@ -18,7 +18,7 @@ keywords=["fruux", "caldav", "carddav", "webdav"]
 
 </figure>
 
-## What is it?
+## What Is It?
 
 `sabre/katana` is a contact, calendar, task list and file server. What
 does it mean? Assuming nowadays you have multiple devices (PC, phones,
@@ -97,7 +97,7 @@ Did you find your device in this list? Probably yes 😉.
 your data. Of course, it is **free** and **open source**. [Go check the
 source](https://github.com/fruux/sabre-katana/)!
 
-## List of features
+## List of Features
 
 Here is a non-exhaustive list of features supported by `sabre/katana`.
 Depending whether you are a user or a developer, the features that might
@@ -249,7 +249,7 @@ Calendars can be encoded into several formats. The most usal format is
 ICS. `sabre/katana` allows you to download the whole calendar of a user
 as a single ICS file. You can also create, update and delete calendars.
 
-### Task lists
+### Task Lists
 
 A task list is exactly like a calendar (from a programmatically point of
 view). Instead of containg event objects, it contains todo objects.
@@ -323,7 +323,7 @@ share PDF or Microsoft Word documents etc. Maybe in the future
 `sabre/katana` might white-list more formats. If a format is not
 white-listed, the file will be forced to download.
 
-## How is `sabre/katana` built?
+## How Is `sabre/katana` Built?
 
 `sabre/katana` is based on two big and solid projects:
 

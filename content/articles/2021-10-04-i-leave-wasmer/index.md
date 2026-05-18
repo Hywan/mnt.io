@@ -23,7 +23,7 @@ contact me at [ivan@mnt.io](mailto:ivan@mnt.io),
 [@mnt_io](https://twitter.com/mnt_io),
 [ivan-enderlin](https://www.linkedin.com/in/ivan-enderlin/) (LinkedIn).
 
-## From nothing to pure awesomeness
+## From Nothing to Pure Awesomeness
 
 I've joined the Wasmer company at its early beginning, in March 2019.
 The company was 3 months old. My initial role was to write and to
@@ -158,7 +158,7 @@ are also founders that believe in Wasmer.
 
 So. What a dream, huh?
 
-## The toxic working environment
+## The Toxic Working Environment
 
 WebAssembly is _nothing_ without its community. I won't name people to
 avoid missing important persons, but all the contributors are doing
@@ -259,7 +259,7 @@ asking me to work more, saying I've never been involved in the company
 etc. That was the final straw to me. That's _the_ wrong way to treat an
 employee, a collaborator, a contributor, the co-founder.
 
-## What's next?
+## What's Next?
 
 I need to recover. As you can imagine, working 2.5 years at this pace
 leaves sequelae. Hopefully a couple of months should suffice.

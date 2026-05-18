@@ -89,7 +89,7 @@ working at Element and users!
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf)"
 )}}
 
-### Unable to decrypt this mesage
+### Unable to Decrypt This Mesage
 
 <cite>Unable to decrypt this message</cite> by Kegan Dougal. This talk explains
 why one can see an _Unable To Decrypt_ error while trying to view a message in
@@ -122,7 +122,7 @@ developer experience easier and more robust.
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf)"
 )}}
 
-## About transport
+## About Transport
 
 I currently live in Switzerland. The conference was in Germany. Europe has a
 fantastic rail network, and more importantly, a unique **night train** network!

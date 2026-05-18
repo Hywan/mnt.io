@@ -59,7 +59,7 @@ maybe we can start with examples.
 
 Alrighty. Fair. Before digging into the really fun bits, we need some basis.
 
-## Baby steps with reactive programming
+## Baby Steps with Reactive Programming
 
 Everything we are going to share with you has been implemented in [a library
 called `eyeball`][`eyeball`]. To give you a good idea of what reactive
@@ -473,7 +473,7 @@ head and tail chunking[^UCR2014], and allocates in the stack or on the heap
 depending on the size of the collection, similarly to [the `smallvec`
 crate][`smallvec`]. End of digression)
 
-## Observable (immutable) collection
+## Observable (Immutable) Collection
 
 The `imbl` crate then. It provides [a `Vector` type][`imbl::Vector`]. `eyeball`
 provides a crate for working with immutable data structures (how surprising
@@ -980,7 +980,7 @@ For a reason we ignore so far, when the buffer is full, we receive a
 [`Vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
 {% end %}
 
-## Observable differences
+## Observable Differences
 
 The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
@@ -1080,7 +1080,7 @@ lag, and this design avoids having missing values. If a subscriber receives
 too much `VectorDiff::Reset`s, the user may consider increasing the capacity of
 the `ObservableVector`.
 
-## Filtering and sorting with higher-order `Stream`s
+## Filtering and Sorting with Higher-Order `Stream`s
 
 We are reaching the end of this episode. And you know what? We have set all the
 parts to talk about higher-order `Stream`, <i>chante victory and dance at the

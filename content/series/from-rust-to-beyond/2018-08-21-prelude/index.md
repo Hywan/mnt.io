@@ -26,7 +26,7 @@ many platforms and environments.
 This series of posts is about those bindings, and explains how to send
 Rust beyond earth, into many different galaxies.
 
-## The Gutenberg post format
+## The Gutenberg Post Format
 
 Let's introduce quickly what Gutenberg is, and why a new post format. If
 you want an in-depth presentation, I highly recommend to read [The
@@ -129,7 +129,7 @@ One of the goal of the experimentation is to maintain a single
 implementation (maybe the future reference implementation) with multiple
 bindings.
 
-## The parser
+## The Parser
 
 The parser is written in Rust. It relies on the fabulous [nom
 library](https://github.com/Geal/nom/).

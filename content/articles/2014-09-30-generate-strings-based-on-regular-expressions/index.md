@@ -13,7 +13,7 @@ accurate test data generation. In order to be complete and self-contained, I
 have addressed all kinds of data types, including strings. This article aims at
 showing how to generate accurate and relevant strings under several constraints.
 
-## What is a regular expression?
+## What Is a Regular Expression?
 
 We are talking about formal language theory here. In the known world,
 there are four kinds of languages. More formally, in 1956, the [Chomsky
@@ -59,7 +59,7 @@ into a [Finite State Machine (FSM)](https://en.wikipedia.org/wiki/). I am not
 going to draw and explain them, but it is interesting to know that behind a
 regular expression there is a basic automaton. No magic.
 
-### Why focussing regular expressions?
+### Why Focussing Regular Expressions?
 
 This article focuses on regular languages instead of other kind of
 languages because we use them very often (even daily). I am going to
@@ -68,7 +68,7 @@ padawan. The needs and constraints with other kind of languages are not
 the same and more complex algorithms must be involved. So we are going
 easy for the first step.
 
-## Understanding PCRE: lex and parse them
+## Understanding PCRE: Lex and Parse Them
 
 The [`Hoa\Compiler` library](https://github.com/hoaproject/Compiler) provides
 both LL(1) LL(k) compiler-compilers. The
@@ -310,7 +310,7 @@ _Et voilà !_
 
 Now, put all that stuff together!
 
-## Isotropic generation
+## Isotropic Generation
 
 We can use `Hoa\Regex` and `Hoa\Compiler` to get the AST of any regular
 expressions written in the PCRE format. We can use `Hoa\Visitor` to
@@ -348,7 +348,7 @@ We can use the [`Hoa\Math` library](https://github.com/hoaproject/Math) that
 provides the `Hoa\Math\Sampler\Random` class to sample uniform random integers
 and floats. Ready?
 
-### Structure of the visitor
+### Structure of the Visitor
 
 The structure of the visitor is the following:
 
@@ -560,7 +560,7 @@ your machine configuration, the PHP VM, if other programs run etc. But I have
 generated 1 million strings in less than 25 seconds on my machine (an old
 MacBook Pro), which is pretty reasonable.
 
-## Conclusion and surprise
+## Conclusion and Surprise
 
 So, yes, now we know how to generate strings based on regular
 expressions! Supporting all the PCRE format is difficult. That's why the
@@ -587,7 +587,7 @@ specification language I have designed during my PhD thesis. More
 specifically, this algorithm is used inside realistic domains. I am not
 going to explain it today but it allows me to introduce the “surprise”.
 
-### Generate strings based on regular expressions in atoum
+### Generate Strings Based on Regular Expressions in atoum
 
 [atoum](http://atoum.org/) is an awesome unit test framework. You can
 use the [`Atoum\PraspelExtension`

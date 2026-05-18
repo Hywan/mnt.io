@@ -9,7 +9,7 @@ keywords=["php"]
 Warning: This post is totally useless. It is the result of a fun private
 company thread.
 
-## Export functions in Javascript
+## Export Functions in Javascript
 
 In Javascript, a file can export functions like this:
 
@@ -29,7 +29,7 @@ console.log(times2(21)); // 42
 
 Is it possible with PHP?
 
-## Export functions in PHP
+## Export Functions in PHP
 
 Every entity is public in PHP: Constant, function, class, interface, or
 trait. They can live in a namespace. So exporting functions in PHP is

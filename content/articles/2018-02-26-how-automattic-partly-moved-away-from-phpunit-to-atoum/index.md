@@ -28,7 +28,7 @@ for many projects outside Automattic. I would like to apologize in
 advance if some parts sound too abstract, I hope you understand I can't
 reveal any details about the payment system for obvious reasons.
 
-## Where we were, and where to go
+## Where We Were, and Where to Go
 
 For historical reasons, WordPress, VaultPress, Jetpack & siblings use
 [PHPUnit](https://phpunit.de/) for server-side manual tests. There are
@@ -71,7 +71,7 @@ atoum. A survey and a meeting were scheduled 2 months later to decide
 whether we should continue or not. Spoiler: We will partly continue with
 it.
 
-## Our needs and requirements
+## Our Needs and Requirements
 
 Our code is difficult to test. In other words, the testability is low
 for some parts of the code. atoum has features to help increase the
@@ -112,7 +112,7 @@ Fortunately, our usage of PHPUnit is pretty raw: No extensions except
 home-made ones, few hacks… Everything went well. We also have been able
 to contribute easily to the extension.
 
-### Mock engines (plural)
+### Mock Engines (Plural)
 
 atoum comes with [3 mock
 engines](http://docs.atoum.org/en/latest/mocking_systems.html):
@@ -143,7 +143,7 @@ In one line of code, it was possible to mock the
 [`get_userdata`](https://codex.wordpress.org/Function_Reference/get_userdata)
 function.
 
-### Runner engines
+### Runner Engines
 
 Being able to isolate test execution is a necessity to avoid flakey
 tests, and to increase the trust we put in the test verdicts. atoum
@@ -165,7 +165,7 @@ ensuring a strict isolation.
 Fun fact: By using atoum and the `atoum/phpunit-extension`, we are able
 to run PHPUnit tests concurrently with a strict isolation!
 
-### Code coverage reports
+### Code Coverage Reports
 
 At the time of writing, PHPUnit is not able to generate code coverage
 reports containing the Branch- or Path Coverage Criteria data. atoum
@@ -175,12 +175,12 @@ supports them natively with the
 demonstration](http://atoum.org/reports-extension/)). And we need those
 data.
 
-## The difficulties
+## The Difficulties
 
 On paper, most of the pain points sound addressable. It was time to
 experiment.
 
-### Integration to the Continuous Integration server
+### Integration to the Continuous Integration Server
 
 Our CI does not natively support standard test execution report formats. Thus we
 had to create the
@@ -190,7 +190,7 @@ a blog post I wrote recently. The TeamCity support is native inside PHPUnit (see
 the
 [`--log-teamcity` option](http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity)).
 
-### Bootstrap test environments
+### Bootstrap Test Environments
 
 Our bootstrap files are… challenging. It's expected though. Setting up a
 functional test environment for a software like WordPress.com is not a
@@ -207,7 +207,7 @@ bootstrap so that some parts can be shared between the test runners
 (because we didn't switch the whole company to atoum yet, it was an
 experiment).
 
-### Documentation and help
+### Documentation and Help
 
 Here is an interesting paradox. The majority of the team recognized that
 atoum's documentation is better than PHPUnit's, even if some parts must
@@ -232,7 +232,7 @@ World!\_s as you might think, so it increases the effort.
 To be honest, this was not the biggest difficulty, but still, it is
 important to notice.
 
-### Concurrent integration test executions
+### Concurrent Integration Test Executions
 
 Due to some MySQL limitations combined with the complexity of our code,
 we are not able to run integration (and system) tests concurrently yet.
@@ -251,7 +251,7 @@ verdict. So that's partly a difficulty. It's a mix of a positive feature
 and a needle in the foot, and a needle we can live with. atoum is not
 responsible of this latency: The state of our code is.
 
-## The results
+## The Results
 
 First, let's start by the positive impacts:
 

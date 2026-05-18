@@ -15,7 +15,7 @@ about how such errors can be present and how they can be easily revealed. If
 reading my dry humor about RFC errata is boring, the next sections are more
 interesting. The whole idea is: Why RFCs do not provide executable test suites?
 
-## What is xCal and xCard?
+## What Is xCal and xCard?
 
 The Web is a read-only media. It is based on the HTTP protocol. However,
 there is the [WebDAV](https://en.wikipedia.org/wiki/WebDAV) protocol,
@@ -164,7 +164,7 @@ echo Sabre\VObject\Writer::writeXml($document);
 Magic when you know the complexity of these formats (in both term of
 parsing and validation)!
 
-## List of errata
+## List of Errata
 
 Now, let's talk about all the errata I submited recently:
 
@@ -223,7 +223,7 @@ will explain why in the next section.
 
 4261 is crazy. It deserves a whole sub-section.
 
-### Welcome in the crazy world of date and time formats
+### Welcome in the Crazy World of Date and Time Formats
 
 There are two major popular date and time format:
 [RFC2822](http://tools.ietf.org/html/rfc2822) and ISO.8601. Examples:
@@ -285,7 +285,7 @@ standardized. Why should we drag this crazy format along?
 Oh, and I assume every format depending on ISO.8601.2004 has this bug.
 But I am not sure because ISO standards are not free.
 
-## How can RFCs have such errors?
+## How Can RFCs Have Such Errors?
 
 So far, RFCs are textual standards. Great. But they are just text.
 Written by humans, and thus they are subject to errors or failures. It
@@ -298,7 +298,7 @@ few people read the RFC and tried to write an implementation. This is my
 guess. However, it does not avoid the fact an executable test suite
 should (must?) be provided.
 
-## How did I find them?
+## How Did I Find Them?
 
 This is how I found these errors. I wrote
 [a test suite for xCal and xCard in `sabre/vobject`](https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php).

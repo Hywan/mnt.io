@@ -17,7 +17,7 @@ document reste à la portée de tous, sans aucune connaissance en réseau,
 chiffrement, sécurité etc. Ceux qui ont ces connaissances savent déjà
 que Matrix est _le_ réseau vers lequel aller ;-).
 
-## Les bases
+## Les Bases
 
 Quand on parle de messageries, il y a 2 choses primordiales plus 1 bonus :
 
@@ -29,7 +29,7 @@ Quand on parle de messageries, il y a 2 choses primordiales plus 1 bonus :
 Nous pouvons aussi parler du modèle économique du réseau rapidement,
 voir le tableau comparatif.
 
-### Le chiffrement
+### Le Chiffrement
 
 Pour respecter la vie privée et éviter l'espionnage et le vol des
 données, il faut que le chiffrement se fasse de bout en bout (*end to
@@ -42,7 +42,7 @@ normalement à une clé de déchiffrement par exemple). Les clés servent
 aussi à identifier la personne avec qui vous parlez, ça permet d'éviter
 le vol d'identité.
 
-### La topologie
+### La Topologie
 
 La plupart des réseaux sont centralisés : ça veut dire qu'on a un gros
 silot, un énorme ordinateur/serveur, et que tout le monde est dessus. Ça
@@ -80,7 +80,7 @@ serveurs que nous le souhaitons. Souvent, ce sont des réseaux open
 source, donc nous pouvons lire le code des programmes, vérifier qu'ils
 font bien ce qu'ils proclament faire.
 
-## Tableau comparatif
+## Tableau Comparatif
 
 Comparons les services populaires avec ces critères de bases.
 
@@ -192,7 +192,7 @@ l'appétit pour les données de ses utilisateurs, et là c'est dangereux
 
 Les gagnants ici sont Signal et Matrix.
 
-## Conclusion : Matrix gagnant
+## Conclusion : Matrix Gagnant
 
 Dans le cas des réseaux centralisés, Signal est une meilleure
 alternative à WhatsApp et Telegram de part son mode de financement (donc
@@ -221,7 +221,7 @@ tout nous jonglons déjà avec plusieurs réseaux (mail, SMS, WhatsApp,
 Matrix, Twitter, [Mastodon](https://mastodon.social/about) etc.), ça
 n'est pas un problème !
 
-## Premier pas avec Matrix
+## Premier Pas Avec Matrix
 
 C'est parti, petit tuto Matrix. Le réseau est exceptionnel, mais le
 client officiel ([Element](https://element.io/)) est encore un peu «
@@ -263,7 +263,7 @@ Chat](https://matrix.org/docs/projects/client/ditto-chat). Tous ces
 clients sont encore en beta, mais ça montre un futur très excitant pour
 Matrix avec des clients de plus en plus aboutis !
 
-### Matrix, Element, Vector, hein ?
+### Matrix, Element, Vector, Hein ?
 
 - Element c'est le nom de l'entreprise qui travaille/développe le réseau, les
   serveurs et le client ;

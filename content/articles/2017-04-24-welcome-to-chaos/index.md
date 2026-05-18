@@ -13,7 +13,7 @@ incarn a Happiness Engineer. This is part of the Happiness Rotation
 duty. This article explains why I loved it, and why I reckon you should
 do it too.
 
-## Happiness Engineer, really?
+## Happiness Engineer, Really?
 
 Does it sound mad as a Cheshire cat? Pretentious maybe? Actually, it's
 not at all.
@@ -28,7 +28,7 @@ My role was to make our users happy. To achieve that, I had to:
 - Listen to and understand their issues,
 - Find a way to fix the issues.
 
-### Meet the users
+### Meet the Users
 
 I need motivations in my job. Learning who our users are, and what they
 want to achieve, is a great motivation. After these three weeks, I know
@@ -40,7 +40,7 @@ world-wide, they speak almost all the languages on Earth, they are
 present on all continents. Their needs vary a lot, they use our
 software in ways I was not able to foresee.
 
-### Listen to, understand, and fix their issues
+### Listen To, Understand, and Fix Their Issues
 
 When you are chatting with a “support guy”, you cannot imagine this is a
 real engineer. This is not a random person filling a pre-defined vague
@@ -79,7 +79,7 @@ both in term of tooling or financial.
 This is the first time I see a company that is that much generous with
 its customers.
 
-### Thanks buddy
+### Thanks Buddy
 
 Of course, when embracing the chaos, you are not alone. Everyone is here
 to help you, and to answer your questions. After all, this is part of

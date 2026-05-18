@@ -6,7 +6,7 @@ description = "Eh, new job!"
 keywords=["job", "caldav", "carddav", "webdav"]
 +++
 
-## Leaving the research world
+## Leaving the Research World
 
 I have really enjoyed my time at INRIA and Femto-ST, 2 research
 institutes in France. But after 8 years at the university and a hard PhD

@@ -39,7 +39,7 @@ terminal information (stored in database) and
 [`Hoa\Console`](http://github.com/hoaproject/Console),
 a PHP library that provides advanced terminal controls.
 
-## The basis of a terminal
+## The Basis of a Terminal
 
 A terminal, or a console, is an interface that allows to interact with
 the computer. This interface is textual. Like a graphical interface,
@@ -93,7 +93,7 @@ $ echo -n 'foobar' | wc -c
 
 This is more correct!
 
-## Detecting type of pipes
+## Detecting Type of Pipes
 
 Inputs and outputs are called **pipes**. Yes, trivial, this is nothing
 more than basic pipes!
@@ -267,7 +267,7 @@ HELLO WORLD!
 
 Useful and very simple, isn't it?
 
-## Terminal capabilities
+## Terminal Capabilities
 
 We can control the terminal with the inputs, like the keyboard, but we
 can also control the outputs. How? With the text itself. Actually, an
@@ -310,7 +310,7 @@ xcurses](http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html).
 I encourage you to follow these links and see how rich the terminal
 capabilities are!
 
-## Terminal information
+## Terminal Information
 
 Terminal capabilities are stored as **information** in **databases**.
 Where are these databases located? In files with a binary format.
@@ -372,7 +372,7 @@ var_dump($tput->count('max_colors'));
  */
 ```
 
-## The power in your hand: Control the cursor
+## The Power in Your Hand: Control the Cursor
 
 Let's summarize. We are able to parse and know all the terminal
 capabilities of a specific terminal (including the one of the current
@@ -385,7 +385,7 @@ going to (partly) see how the [`Hoa\Console\Cursor`
 class](https://github.com/hoaproject/Console/blob/master/Source/Cursor.php)
 works.
 
-### I like to move it!
+### I Like to Move It!
 
 The `moveTo` static method allows to move the cursor to an absolute
 position. For example:
@@ -503,7 +503,7 @@ maintain! This is the right way to do.
 To get more information, please
 [read the documentation](http://hoa-project.net/Literature/Hack/Console.html#Cursor "Documentation of Hoa\Console\Cursor").
 
-### Colours and decorations
+### Colours and Decorations
 
 Now: Colours. This is mainly the reason why I decided to write this
 article. We see the same and the same libraries, again and again, doing
@@ -581,7 +581,7 @@ style of the cursor, like `▋`, `_` or `|`.
 To get more information, please
 [read the documentation](http://hoa-project.net/Fr/Literature/Hack/Console.html#Content "Documentation of Hoa\Console\Cursor").
 
-## The power in your hand: Readline
+## The Power in Your Hand: Readline
 
 A more complete usage of `Hoa\Console\Cursor` and even `Hoa\Console\Window` is
 the
@@ -609,7 +609,7 @@ text in it etc. I encourage you to read the implementation.
 To get more information, please
 [read the documentation](http://hoa-project.net/Literature/Hack/Console.html#Readline "Documentation of Hoa\Console\Readline").
 
-## The power in your hand: Sound 🎵
+## The Power in Your Hand: Sound 🎵
 
 Yes, even sound is defined by terminal capabilities. The famous bip is
 given by the `bell` string capability. You would like to make a bip?

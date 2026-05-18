@@ -268,7 +268,7 @@ $ rg '_method_ finished in.*> load_all_chunks_metadata' all.log | rg '\d+(\.\d+)
 
 107 seconds. Be 1 minute and 47 seconds. Hello sweety.
 
-## The slow query
+## The Slow Query
 
 `load_all_chunks_metadata` is a method that runs this SQL query:
 
@@ -305,7 +305,7 @@ This query does the following:
 
 How lovingly inefficient.
 
-## <math><mn>12.6</mn><mo>×</mo></math> faster
+## <math><mn>12.6</mn><mo>×</mo></math> Faster
 
 <q>Let's use an [`INDEX`][`CREATE INDEX`]</q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).
@@ -592,7 +592,7 @@ patches containing the benchmark and the fix][pr-5411].
 
 But that's not all…
 
-## <math><mn>211</mn><mo>×</mo></math> faster
+## <math><mn>211</mn><mo>×</mo></math> Faster
 
 It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that

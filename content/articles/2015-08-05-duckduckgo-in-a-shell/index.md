@@ -4,7 +4,7 @@ date = "2015-08-05"
 description = "Tiny bash hack."
 +++
 
-## The tip
+## The Tip
 
 When I go outside my terminal, I am kind of lost. I control everything
 from my terminal and I hate clicking. That's why I found a small tip

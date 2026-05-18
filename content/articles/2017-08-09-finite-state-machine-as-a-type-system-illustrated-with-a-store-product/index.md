@@ -80,7 +80,7 @@ ahead of code execution**.
 
 No more talking. Here is the code.
 
-### The mighty product
+### The Mighty Product
 
 ```php
 <?php
@@ -94,7 +94,7 @@ interface Product {}
 A product is a class implementing the `Product` interface. It allows to
 type a generic product, with no regards about its state.
 
-### Active and inactive
+### Active and Inactive
 
 ```php
 <?php
@@ -130,7 +130,7 @@ express the following constraint: “A valid product cannot be invalid,
 and vice-versa”, i.e. both interfaces cannot be implemented by the same
 value.
 
-### Purchase, renew, and cancel
+### Purchase, Renew, and Cancel
 
 ```php
 <?php
@@ -192,7 +192,7 @@ Finally, a once-off purchasable product has one action: `purchase` that
 produces a `Cancellable` product, and it transitions from the state `A`
 to `C`.
 
-### Take a breath
+### Take a Breath
 
 <figure role="presentation">
 
@@ -301,7 +301,7 @@ Note that:
   - It generates an instance of an anonymous class implementing the `Inactive`
     interface, and the real cancel action is done in the constructor.
 
-### Assert possible and impossible actions
+### Assert Possible and Impossible Actions
 
 Let's try some valid and invalid actions. Those followings are
 **possible actions**:
@@ -365,7 +365,7 @@ impossible actions or impossible states**. No warnings or notices: Fatal
 errors. Most of them are correctly inferred by IDE, so… follow the red
 crosses in your IDE.
 
-## Restoring a product
+## Restoring a Product
 
 One major thing is missing: The state of a product is stored in the
 database. When loading the product, we must be able to get an instance
@@ -488,7 +488,7 @@ trait InactiveProduct {
 }
 ```
 
-### Assert possible and impossible actions
+### Assert Possible and Impossible Actions
 
 The **possible actions** are:
 
@@ -541,7 +541,7 @@ The product repository is an example of how to restore a product at a
 particular state, with the help of the defined interfaces, and new small
 and simple traits.
 
-## One more thing
+## One More Thing
 
 It is possible to integrate product categories in this type system (like
 bundles). It is more complex, but possible.

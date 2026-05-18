@@ -82,7 +82,7 @@ JAR are hosted on the Bintray/JCenter repository under the
 project. They are also attached to our [Github releases as
 assets](https://github.com/wasmerio/java-ext-wasm/releases).
 
-## Calling a WebAssembly function from Java
+## Calling a WebAssembly Function from Java
 
 As usual, let’s start with a simple Rust program that we will compile to
 WebAssembly, and then execute from Java.
@@ -178,7 +178,7 @@ class SimpleExample {
 But a WebAssembly module not only exports functions, it also exports
 memory.
 
-## Reading the memory
+## Reading the Memory
 
 A WebAssembly instance has one or more linear memories, a contiguous and
 byte-addressable range of memory spanning from offset 0 and extending up
@@ -256,7 +256,7 @@ the garbage collector.
 > [the Greet Example](https://github.com/wasmerio/java-ext-wasm/blob/master/examples/GreetExample.java)
 > to see a more in-depth usage of the `Memory` API.
 
-## More documentation
+## More Documentation
 
 The project comes with a `Makefile`. The `make javadoc` command will
 generate a traditional local Javadoc for you, in the

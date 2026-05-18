@@ -11,7 +11,7 @@ The first galaxy that our Rust parser will explore is the WebAssembly
 compile the parser into WebAssembly, and how to use the WebAssembly
 binary with Javascript in a browser and with NodeJS.
 
-## What is WebAssembly, and why?
+## What Is WebAssembly, and Why?
 
 If you already know WebAssembly, you can skip this section.
 
@@ -113,7 +113,7 @@ pub fn root(
 
 Knowing that, let's go!
 
-### General design
+### General Design
 
 Here is our general design or workflow:
 
@@ -146,7 +146,7 @@ Now, we will focus on the Rust code. It consists of only 4 functions:
 [The entire code lands here](https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs).
 It is approximately 150 lines of code. We explain it.
 
-### Memory allocation
+### Memory Allocation
 
 Let's start by the memory allocator. I choose to use [`wee_alloc` for
 the memory allocator](https://github.com/rustwasm/wee_alloc). It is
@@ -261,7 +261,7 @@ is marked as unsafe, so we need to delimit it in an `unsafe` block so that the
 The variable `_` contains our data to deallocate, and it goes out of
 scope immediately, so Rust drops it.
 
-### From input to a flat AST
+### From Input to a Flat AST
 
 Now the core of the binding! The `root` function reads the blog post to
 parse based on a pointer and a length, then it parses it. If the result
@@ -422,7 +422,7 @@ fn u32_to_u8s(x: u32) -> (u8, u8, u8, u8) {
 Here we are. `alloc`, `dealloc`, `root`, and `into_bytes`. Four
 functions, and everything is done.
 
-### Producing and optimising the WebAssembly binary
+### Producing and Optimising the WebAssembly Binary
 
 To get a WebAssembly binary, the project has to be compiled to the
 `wasm32-unknown-unknown` target. For now (and it will change in a near
@@ -519,7 +519,7 @@ It is approximately 150 lines of code too. I won't explain the whole code since
 some parts of it is the “friendly API” that is exposed to the user. So I will
 rather explain the major pieces.
 
-### Loading/streaming and instanciating
+### Loading/Streaming and Instanciating
 
 [The `WebAssembly` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
 exposes multiple ways to load a WebAssembly binary. The best you can use is
@@ -550,7 +550,7 @@ const wasm =
 The WebAssembly binary has been instanciated! Now we can move to the
 next step.
 
-### Last polish before running the parser
+### Last Polish Before Running the Parser
 
 Remember that the WebAssembly binary exports 3 functions: `alloc`,
 `dealloc`, and `root`. They can be found on the `exports` property,
@@ -571,7 +571,7 @@ along with the memory. Let's write that:
 
 Great, everything is ready to write the `runParser` function!
 
-### The parser runner
+### The Parser Runner
 
 As a reminder, this function has to: Write the `input` (the blog post to
 parse) in the WebAssembly module memory (`Module.memory`), to call the
@@ -609,7 +609,7 @@ In details:
 Great! So we have 2 functions to write right now: `writeBuffer`​ and
 `readNodes`.
 
-### Writing the data in memory
+### Writing the Data in Memory
 
 Let's go with the first one, `writeBuffer`:
 
@@ -641,7 +641,7 @@ Note that, unlike C strings, adding a `NUL` byte at the end is not
 mandatory. This is just the raw data (on the Rust side, we read it with
 `slice::from_raw_parts`, slice is a very simple structure).
 
-### Reading the output of the parser
+### Reading the Output of the Parser
 
 So at this step, the input has been written in memory, and the `root`
 function has been called so it means the parser has run. It has returned
