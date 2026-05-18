@@ -11,9 +11,6 @@ disable = [
   "MD041",
 ]
 
-# [MD002]
-# level = 2
-
 # `heading-style`, https://github.com/rvben/rumdl/blob/main/docs/md003.md.
 [MD003]
 style = "atx"
