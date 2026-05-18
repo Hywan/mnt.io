@@ -7,7 +7,7 @@ keywords=["rust", "async", "future", "stream"]
 +++
 
 Imagine a collection of values `T`. This collection can be updated by inserting
-new values, removing existing ones, or the collection can truncated, cleared…
+new values, removing existing ones, or the collection can be truncated, cleared…
 This collection acts as [the standard `Vec`][`Vec`]. However, there is a
 subtlety: This collection is _observable_. It is possible for someone to
 _subscribe_ to this collection and to receive its updates.
@@ -21,11 +21,11 @@ I’ve recently played a lot with this pattern as part of my work inside the
 [Matrix Rust SDK], a set of Rust libraries that aim at developing robust
 [Matrix] clients or bridges. It is notoriously used by the next generation
 Matrix client developed by [Element], namely [Element X]. The Matrix Rust SDK is
-cross-platform. Element X has two implementations: on iOS, iPadOS and macOS with
-Swift, and on Android with Kotlin. Both languages are using our Rust bindings
-to [Swift] and [Kotlin]. This is the story for another series (how we have
-automated this, how we support asynchronous flows from Rust to foreign languages
-etc.), but for the moment, let’s keep focus on reactive programming.
+cross-platform. Element X has two implementations: on iOS, iPadOS, and macOS
+with Swift, and on Android with Kotlin. Both languages are using our Rust
+bindings to [Swift] and [Kotlin]. This is the story for another series (how we
+have automated this, how we support asynchronous flows from Rust to foreign
+languages etc.), but for the moment, let’s keep focus on reactive programming.
 
 Taking the Element X use case, the room list –which is the central piece of the
 app– is fully dynamic:
@@ -153,7 +153,7 @@ error[E0728]: `await` is only allowed inside `async` functions and blocks
 
 Indeed. Almighty `rustc` is correct. The `main` function is not `async`. We need
 an asynchronous runtime. Let's use [the `smol` project][`smol`], I enjoy it a
-lot: it's a small, fast and well-written async runtime:
+lot: it's a small, fast, and well-written async runtime:
 
 ```console
 $ cargo add smol
@@ -397,7 +397,7 @@ you?
 > guards are alive.
 
 Blocking the `Observable` might be tolerable in some cases, but it cannot be
-generalised to all use cases. A user is more likely to prefer `next` instead of
+generalised to all use cases. A user is likelier to prefer `next` instead of
 `next_ref` by default.
 
 Back to our `Observable<Vec<BigType>>` then. Imagine the collection contains a
@@ -527,7 +527,7 @@ whilst [`Stream::poll_next`][`futures::stream::Stream::poll_next`] returns
 `Poll<Option<Self::Item>>`? It's really similar to [`Iterator::next`] which
 returns `Option<Self::Item>`.
 
-Let's take a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2
+Let's have a look at [`Poll<T>`][`Poll`] don't you mind? It's an enum with 2
 variants:
 
 - `Ready(value)` means a `value` is immediately ready,
@@ -783,7 +783,7 @@ macro_rules! assert_next_eq {
 ```
 
 This macro does exactly what our `assert_eq!` was doing, except now it's shorter
-to use, and thus more pleasant. Don't believe me? See by yourself:
+to use, and thus pleasanter. Don't believe me? See by yourself:
 
 ```rust
 // in `src/main.rs`

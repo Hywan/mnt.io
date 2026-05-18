@@ -155,7 +155,7 @@ It would be a real pleasure if you let me assist you in this task.
 
 {% end %}
 
-Indeed, we have changed one sorter recently. Let's take a look at how this Room
+Indeed, we have changed one sorter recently. Let's have a look at how this Room
 List stream is computed, shall we?
 
 ```rust
@@ -467,7 +467,7 @@ multiple indirections, but still, it sounds pretty fast, right?
 
 {% end %}
 
-Hmm, <i>refrain from opening the Pandora's box</i>, let's try to stay high-level
+Hmm, <i>refrain from opening Pandora's box</i>, let's try to stay high-level
 here, shall we? Be careful: the numbers I am going to present can vary depending
 on your hardware, but the important part is **the scale**: keep that in mind.
 
@@ -485,7 +485,7 @@ on your hardware, but the important part is **the scale**: keep that in mind.
 <figcaption>
 
 Latency numbers for the year 2020 for various operations (source:
-[<cite>Latency Numbers Every Programmer Shoud Know</cite> from Colin Scott (UC
+[<cite>Latency Numbers Every Programmer Should Know</cite> from Colin Scott (UC
 Berkeley)][latency-numbers]).
 
 The time in the second column is given in nanoseconds, i.e.
@@ -702,7 +702,7 @@ Let's change our strategy. We need to take a step back:
 
 1. The sorters need this data.
 2. Running the sorters won't change this data.
-3. When the data does change the sorters will be re-run.
+3. When the data does change the sorters will be rerun.
 
 Maybe we could fetch, ahead of time, all the necessary data for all sorters in a
 single type: it will be refreshed when the data changes, which is right before
@@ -726,7 +726,8 @@ contention and the memory pressure entirely!
 <details>
 <summary>
 
-I highly recommend watching the following talks[^talks] if you want to learn more about Data-oriented Design (DoD)
+I highly recommend watching the following talks[^talks] if you want to learn
+more about Data-oriented Design (DoD)
 
 </summary>
 
