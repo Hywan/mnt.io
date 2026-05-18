@@ -54,28 +54,28 @@ My talk can be viewed here:
 
 {{ youtube(
   id = "kI2lSCVEunw",
-  title = "Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin",
+  title = "Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin",
   caption = "[Download the slides as PDF (21MiB)](./slides.pdf)"
 ) }}
 
-## Other talks
+## Other Talks
 
 [All the talks are available online][watch], including talks from the public
 sector, like NATO, Sweden, French or German administrations… I encourage you to
 check the list! Nonetheless, I take the opportunity of this article to highlight
 some announcement talks, or technical (Matrix internals) talks, I've enjoyed.
 
-### Matrix 2.0 and the launch of Element X!
+### Matrix 2.0 and the Launch of Element X!
 
 Two presentations for the price of one: <cite>Matrix 2.0 Is Here!</cite> by
 Matthew Hogdson. 10 years after the original launch of Matrix, and 5 years after
 Matrix 1.0, what a best anniversary to announce Matrix 2.0.
 
 {{ youtube(
-  id = "ZiRYdqkzjDU"
-  title = "Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin"
+  id = "ZiRYdqkzjDU",
+  title = "Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin",
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf)"
-)}}
+) }}
 
 The second video is <cite>Element X Launch!</cite> by Amandine Le Pape, Ștefan
 Ceriu, and Amsha Kalra. They present Element X, how it's been designed,
@@ -84,12 +84,12 @@ of Element X with Element Call and so on! It was a great moment for everyone
 working at Element and users!
 
 {{ youtube(
-  id = "gHyHO3xPfQU"
-  title = "Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin"
+  id = "gHyHO3xPfQU",
+  title = "Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin",
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf)"
-)}}
+ ) }}
 
-### Unable to Decrypt This Mesage
+### Unable to Decrypt This Message
 
 <cite>Unable to decrypt this message</cite> by Kegan Dougal. This talk explains
 why one can see an _Unable To Decrypt_ error while trying to view a message in
@@ -104,23 +104,23 @@ decentralised, federated network, with encryption keys being renewed frequently,
 and how problems have been solved.
 
 {{ youtube(
-  id = "FHzh2Y7BABQ"
-  title = "Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin"
+  id = "FHzh2Y7BABQ",
+  title = "Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin",
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf)"
-)}}
+) }}
 
 ### News from the Matrix Rust SDK
 
 <cite>Strengthening the Base: Laying the Groundwork for a more robust Rust
 SDK</cite> by Benjamin Bouvier, a good friend! This talk explains the recent
 updates of the Matrix Rust SDK: how we have designed new API to make the
-developer experience easier and more robust.
+developer experience easier and robuster.
 
 {{ youtube(
-  id = "KOaoZKc1tgo"
-  title = "Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin"
+  id = "KOaoZKc1tgo",
+  title = "Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin",
   caption = "[View and download the slides](https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf)"
-)}}
+) }}
 
 ## About Transport
 
