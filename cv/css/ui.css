@@ -1,0 +1,334 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* { margin: 0 }
+
+:root {
+  color-scheme: dark light;
+
+  --color-white: light-dark(#000, #fff);
+  --color-dark: light-dark(
+    oklch(96%    .017 285.2),
+    oklch(26.42% .017 285.2)
+  );
+  --color-dark-lighter: light-dark(
+    oklch(from var(--color-dark) calc(l - .04) c h),
+    oklch(from var(--color-dark) calc(l + .1) c h)
+  );
+  --color-dark-blue: light-dark(
+    oklch(72.77% 0.024 264.05),
+    oklch(27.23% 0.024 264.05)
+  );
+  --color-light: light-dark(
+    oklch(15% .004 360),
+    oklch(85% .004 360)
+  );
+  --color-lighter: light-dark(
+    oklch(from var(--color-light) calc(l - .05) c h),
+    oklch(from var(--color-light) calc(l + .05) c h)
+  );
+  --color-light-darker: light-dark(
+    oklch(from var(--color-light) calc(l + 0.41) c h),
+    oklch(from var(--color-light) calc(l - 0.21) c h)
+  );
+  --color-accent: light-dark(
+    oklch(69.50% .140 76.18),
+    oklch(84.83% .114 76.18)
+  );
+  --color-accent-darker: oklch(from var(--color-accent) calc(l - .04) c h);
+  --color-accent2: oklch(59.1% .236 10.25);
+
+  --space-very-very-small: .2rem;
+  --space-very-small: .25rem;
+  --space-small: .5rem;
+  --space: 1rem;
+  --space-large: 1.5rem;
+  --space-very-large: 3rem;
+
+  --border-width: 2px;
+  --border-width-larger: 3px;
+  --border-color: var(--color-dark-lighter);
+  --border-color-lighter: var(--color-light-darker);
+
+  --text-size: 1.05rem;
+  --text-line-height: 1.5;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+  }
+}
+
+body {
+  --_background-color: var(--color-dark);
+
+  /* Thanks https://modernfontstacks.com/! */
+  font-size: var(--text-size);
+  font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+  font-weight: normal;
+  font-variant: slashed-zero;
+  line-height: var(--text-line-height);
+
+  color: var(--color-light);
+  accent-color: var(--color-accent);
+  background: var(--_background-color);
+
+  scroll-behavior: smooth;
+}
+
+header {
+  margin-block-end: var(--space-large);
+
+  h1 {
+    font-size: 2.2rem;
+    line-height: 1;
+    text-align: center;
+    text-justify: balanced;
+    width: 80%;
+    margin-inline: auto;
+  }
+
+  p.subtitle {
+    text-align: center;
+    text-justify: balanced;
+  }
+
+  address {
+    margin-block-start: var(--space-very-large);
+    font-style: normal;
+    font-size: .9em;
+    text-align: center;
+
+    li {
+      display: inline-block;
+      padding-inline: 0;
+
+      &:has(+ li) {
+        padding-inline-end: var(--space);
+      }
+    }
+  }
+}
+
+footer {
+  margin-block-start: var(--space-large);
+}
+
+p, h1, h2 {
+  overflow-wrap: break-word;
+}
+
+h1, h2 {
+  line-height: 1.25em;
+  margin-block: var(--space-very-large) var(--space);
+
+  .timeline &:first-child {
+    margin-block-start: 0;
+  }
+}
+
+h1 {
+  font-size: 1.8em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+p {
+  --paragraph-margin: var(--space);
+
+  hyphens: auto;
+  margin-block: var(--paragraph-margin);
+
+  &:first-child {
+    margin-block-start: 0;
+  }
+
+  &:last-child {
+    margin-block-end: 0;
+  }
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+
+  &.marker {
+    list-style: "-";
+    padding-inline-start: var(--space);
+
+    li {
+      padding-inline-start: var(--space);
+    }
+  }
+
+  li {
+    padding-inline-start: var(--space-large);
+
+    ul.root & {
+        padding-inline-start: 0;
+    }
+  }
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+
+  &:hover, &:focus {
+    text-decoration-color: var(--color-accent-darker);
+    text-decoration-line: underline;
+    text-decoration-thickness: 3px;
+  }
+}
+
+q {
+  font-style: italic;
+}
+
+.content-grid {
+  --padding-inline: 1rem;
+  --content-max-width: 70ch;
+  --breakout-max-width: 85ch;
+
+  --breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
+
+  display: grid;
+  grid-template-columns:
+    [full-width-start]
+      minmax(var(--padding-inline), 1fr)
+      [breakout-start]
+        minmax(0, var(--breakout-size))
+        [content-start]
+          min(
+            100% - (var(--padding-inline) * 2),
+            var(--content-max-width)
+          )
+        [content-end]
+        minmax(0, var(--breakout-size))
+      [breakout-end]
+      minmax(var(--padding-inline), 1fr)
+    [full-width-end];
+
+  > * {
+    grid-column: content;
+  }
+
+  > .breakout {
+    grid-column: breakout;
+  }
+
+  > .full-width {
+    grid-column: full-width;
+  }
+}
+
+.timeline {
+  --_gutter-start: 7ch;
+  --_gutter-end: 2rem;
+  --_line-size: .2rem;
+  --_color: var(--color-light);
+
+  position: relative;
+
+  margin-inline-start: var(--_gutter-start);
+  padding-inline-start: var(--_gutter-end);
+  padding-block: var(--space);
+  border: var(--_color) solid;
+  border-width: 0 0 0 var(--_line-size);
+
+  time.anchored {
+    position: absolute;
+    left: 0;
+    transform: translateX(calc(var(--_gutter-start) * -1));
+    padding-block-start: .3em;
+    padding-inline-end: var(--space);
+    width: var(--_gutter-start);
+    text-align: end;
+    line-height: 1;
+
+    font-size: var(--text-size);
+    font-weight: normal;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -.9rem;
+      left: calc(var(--_gutter-start) - var(--_line-size));
+      width: calc(var(--_gutter-end) / 1.5);
+      height: 1.9rem;
+      border: var(--_color) solid;
+      border-width: 0 0 var(--_line-size) var(--_line-size);
+      border-radius: 0 0 0 1rem;
+    }
+  }
+}
+
+.skillline {
+  --_skill-width: 75px;
+  --_gutter: calc(var(--_skill-width) + var(--space));
+
+  position: relative;
+  padding-inline-start: var(--_gutter);
+
+  [role="progressbar"] {
+    position: absolute;
+    left: 0;
+    width: var(--_skill-width);
+    height: 1.4em;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: .3;
+      background: url('../image/mushroom.png') 0 50% repeat-x;
+    }
+
+    > span {
+      display: block;
+      height: 100%;
+      background: url('../image/mushroom.png') 0 50% repeat-x;
+    }
+  }
+}
+
+.github-card {
+  position: relative;
+  display: inline-block;
+  margin-block-start: var(--space);
+  padding: var(--space-large) var(--space) var(--space) var(--space);
+
+  color-scheme: only dark;
+  color: var(--color-dark);
+  text-align: center;
+  border-radius: var(--space-small);
+  background:
+    url('../image/github-icon.svg') top .3rem right .3rem / .8rem no-repeat,
+    linear-gradient(var(--color-accent));
+
+  :has(+ &) {
+      margin-inline-end: var(--space);
+  }
+
+  a, a:hover, a:focus {
+    color: currentColor;
+    text-decoration-color: currentColor;
+    text-decoration-line: underline;
+    text-decoration-thickness: 3px;
+  }
+
+  code {
+    padding-inline: 0;
+    background-color: transparent;
+  }
+
+  ul li {
+    display: inline-block;
+    padding: 0;
+  }
+}
