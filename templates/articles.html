@@ -13,18 +13,24 @@
     <p>Articles treat various subjects in a single page, contrary to
     <a href="{{ get_url(path = "@/series/_index.md") }}">series</a>.</p>
 
-    {% for year, pages in section.pages | group_by(attribute = "year") %}
-    <h1 class="separator"><span>{{ year}}</span></h1>
-
-    <div role="list">
-    {% for page in pages -%}
-      {%- if not page.draft -%}
-        <div role="listitem" class="poster" property="itemListElement" typeof="Article">
-          {{ <article.poster page={page} /> }}
-        </div>
-      {%- endif -%}
+    {% set pages_grouped_by_year = section.pages | group_by(attribute="year") %}
+    {% set_global years = [] %}
+    {% for year, _ignored in pages_grouped_by_year %}
+      {% set_global years = [...years, year] %}
     {% endfor %}
-    </div>
+    {% for year in years | sort | reverse %}
+      {% set pages = pages_grouped_by_year[year] %}
+      <h1 class="separator"><span>{{ year}}</span></h1>
+
+      <div role="list">
+      {% for page in pages -%}
+        {%- if not page.draft -%}
+          <div role="listitem" class="poster" property="itemListElement" typeof="Article">
+            {{ <article.poster page={page} /> }}
+          </div>
+        {%- endif -%}
+      {% endfor %}
+      </div>
     {% endfor %}
   </section>
 {% endblock body %}
