@@ -1,5 +1,3 @@
-{% import "macros/article.html" as article %}
-
 {% extends "base.html" %}
 
 {% block title -%}
@@ -22,7 +20,7 @@
     {% for page in section.pages | reverse  %}
       <div role="listitem" class="poster" property="hasPart" typeof="Article">
         <a href="{{ page.permalink | safe }}" class="h3" property="url">Episode {{ loop.index }} – <span property="name" style="view-transition-name: series-episode-title-{{ page.slug }}">{{ page.title | markdown(inline=true) | safe }}</span></a>
-        {{ article::metadata(page = page, full = false) }}
+        {{ <article.metadata page={page} full={false} /> }}
         {% if page.description %}
         <div property="description">
         {{ page.description | markdown(inline = false) | safe }}

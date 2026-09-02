@@ -1,15 +1,15 @@
+{% component comte() %}
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     {{ body | markdown(inline=false) | safe }}
   </div>
 </div>
+{% endcomponent comte %}

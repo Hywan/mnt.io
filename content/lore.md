@@ -8,7 +8,7 @@ The author of this blog is not alone. Companions are part of the adventure.
 
 ## Le Comte
 
-{% comte() %}
+{% <comte> %}
 My name is _Le Comte_. I enjoy being the main character of this story. I am
 mostly here to learn, and to interrogate our dear author.
 
@@ -20,11 +20,11 @@ about them!
 
 I often ask help to my Factotum for the dirty, and sometimes illegal tasks. I
 rarely ask help to Le Procureur, we don't really appreciate his presence.
-{% end %}
+{% </comte> %}
 
 ## Le Factotum
 
-{% factotum() %}
+{% <factotum> %}
 My name is _Le Factotum_. It's a latin word, literally saying “do everything”.
 I'm here to assist Le Comte in its fancies.
 
@@ -35,15 +35,15 @@ achieve its quests to learn everything about computers.
 
 Fundamentally, when Le Comte wants to do something manky, he asks me the best
 way to do that. And I always have a solution.
-{% end %}
+{% </factotum> %}
 
 ## Le Procureur
 
-{% procureur() %}
+{% <procureur> %}
 My name is _Le Procureur_. I am the son of the Law and the Order. I know what
 is legal, and what is illegal. If an information is missing, a detail, an
 exactness, I know where to find the answer.
 
 Some people believe I am irritating, but I consider myself the defenser of
 discipline.
-{% end %}
+{% </procureur> %}

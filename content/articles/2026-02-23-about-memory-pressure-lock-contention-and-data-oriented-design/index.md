@@ -108,7 +108,7 @@ re-positioned. Then, we expect the Room List's stream to yield:
 
 This reactive programming mechanism has proven to be extremely efficient.
 
-{% comte() %}
+{% <comte> %}
 
 I did my calculation: the size of `VectorDiff<Room>` is 72 bytes (mostly because
 `Room` contains [an `Arc`][`Arc`] over the real struct type). This is pretty
@@ -121,7 +121,7 @@ Swift or Kotlin — languages that provide UI components, like [SwiftUI] or
 [SwiftUI]: https://developer.apple.com/swiftui/
 [Jetpack Compose]: https://developer.android.com/compose
 
-{% end %}
+{% </comte> %}
 
 Absolutely! These are two popular UI components where a `VectorDiff` maps
 straightforwardly to their List component update operations. They are actually
@@ -140,7 +140,7 @@ lang="ar">خلو</em>… well, you get the idea.
 
 What are our options?
 
-{% factotum() %}
+{% <factotum> %}
 
 It would be a real pleasure if you let me assist you in this task.
 
@@ -153,7 +153,7 @@ It would be a real pleasure if you let me assist you in this task.
 - The filtering of the streams? Not touched since a long time.
 - The sorting? Ah, maybe, I reckon we have changed something here…
 
-{% end %}
+{% </factotum> %}
 
 Indeed, we have changed one sorter recently. Let's have a look at how this Room
 List stream is computed, shall we?
@@ -299,13 +299,13 @@ handled and trigger a computation. Knowing that, in the manner of [`Future`],
 `Stream` is lazy —i.e. it does something only when polled—, it makes things
 pretty efficient. And…
 
-{% comte() %}
+{% <comte> %}
 
 … as your favourite digression companion, I really, deeply, appreciate these
 details. Nonetheless, I hope you don't mind if… I suggest to you that… you might
 want to, maybe, go back to… <small>the main… subject, don't you think?</small>
 
-{% end %}
+{% </comte> %}
 
 Which topic? Ah! The frozen Room List! Sorters are _not_ the culprit. There.
 Happy? Short enough?
@@ -321,7 +321,7 @@ cherry on the cake: I was unable to reproduce the problem! Even the reporters
 of the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.
 
-{% figure_image(file="./memory-pressure") %}
+{% <figure.image file="./memory-pressure"> %}
 
 Memory analysis of Element X in Android Studio (Element X is based on the Matrix
 Rust SDK). It presents a callback tree, with the number of allocations and
@@ -334,7 +334,7 @@ it's probably around 500-600.
 
 [Jorge]: https://github.com/jmartinesp
 
-{% end %}
+{% </figure.image> %}
 
 The Room List wasn't frozen. It was taking **a lot** of time to yield values.
 Sometimes, up to 5 minutes on a phone. Alright, we have two problems to solve
@@ -377,7 +377,7 @@ Put it differently, all functions with two parameters of type `&Room`, and with
 a return type `Ordering` is considered a sorter. There. It's crystal clear now,
 except… what's a lexicographic sorter?
 
-{% procureur() %}
+{% <procureur> %}
 
 Should I really quote the documentation of `new_sorter_lexicographic`? My work
 here is turning into a tragedy.
@@ -392,7 +392,7 @@ products].
 
 [cartesian products]: https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products
 
-{% end %}
+{% </procureur> %}
 
 In short, we are executing 3 sorters: by _latest event_, by _recency_
 and by _name_.
@@ -411,7 +411,7 @@ into the code</i>, ah, [here, look at the comment][sort-by-binary-search]:
 [`Vector::binary_search_by`] doesn't mention any form of randomness in its
 documentation. Another <em lang="fr">cul-de-sac</em>.
 
-{% comte() %}
+{% <comte> %}
 
 Remember that the Room List appears frozen but it is actually blank. The problem
 is not when the stream receives an update, but when the stream is “created”,
@@ -422,7 +422,7 @@ Moreover, the comment says <q>it is possible because the `Vector` is sorted</q>,
 which indicates that “the vector” (I guess it's a buffer somewhere) _has been
 sorted_ one way or another. What do you think?
 
-{% end %}
+{% </comte> %}
 
 Ah! Brilliant. That's correct! Looking at [the constructor of
 `SortBy`][`SortImpl::new`] (or its implementation), we notice it's using
@@ -457,7 +457,7 @@ Memory is allocated on the heap, i.e. _the RAM_, also called _the main memory_
 all, but it lives far from the CPU. It _takes time_ to allocate something on the
 heap and…
 
-{% comte() %}
+{% <comte> %}
 
 Hold on a second. I heard it is around 100-150 nanoseconds to fetch a data from
 the heap. In what world is this “costly”? How is this “far” from the CPU?
@@ -465,7 +465,7 @@ the heap. In what world is this “costly”? How is this “far” from the CPU
 I understand we are talking about _random_ accesses (the _R_ in RAM), and
 multiple indirections, but still, it sounds pretty fast, right?
 
-{% end %}
+{% </comte> %}
 
 Hmm, <i>refrain from opening Pandora's box</i>, let's try to stay high-level
 here, shall we? Be careful: the numbers I am going to present can vary depending
@@ -565,7 +565,7 @@ this use case.
 
 What are our solutions then?
 
-{% factotum() %}
+{% <factotum> %}
 
 May I suggest an approach? What about finding where we are allocating and
 deallocating memory? Then we might be able to reduce either the number of
@@ -577,7 +577,7 @@ the hope of making the memory allocator happier. Possible solutions:
 - Maybe we don't need the full value: we could return just a pointer to a
   fragment of it?
 
-{% end %}
+{% </factotum> %}
 
 Excellent ideas. Let's track which sorter creates the problem. We start with
 the sorter that was recently modified: `latest_event`. In short, this sorter
@@ -640,7 +640,7 @@ Just like that, **the throughput has been improved by 18%** according to the
 `room_list` benchmark. You can see [the patch in “action”][patch-0]. Can we
 declare victory over memory pressure?
 
-{% comte() %}
+{% <comte> %}
 
 I beg your pardon, but I don't believe it's a victory. We have reduced the size
 of allocations, but not the number of allocations itself.
@@ -659,7 +659,7 @@ remaining 4 minutes 6 seconds then? This is still unacceptable, right?
 [`MilliSecondsSinceUnixEpoch`]: https://docs.rs/ruma/0.14.1/ruma/struct.MilliSecondsSinceUnixEpoch.html
 [`UInt`]: https://docs.rs/js_int/0.2.2/js_int/struct.UInt.html
 
-{% end %}
+{% </comte> %}
 
 Definitely yes! Everything above 200ms (from our napkin maths) is unacceptable
 here. Memory pressure was an important problem, and it's now solved, but it
@@ -680,7 +680,7 @@ self.info.read().latest_event.…
 Do you remember we had 322'042 allocations? It represents the number of times
 the `latest_event` method was called basically, which means…
 
-{% comte() %}
+{% <comte> %}
 
 … the lock is acquired 322'042 times!
 
@@ -688,7 +688,7 @@ the `latest_event` method was called basically, which means…
 
 … no?
 
-{% end %}
+{% </comte> %}
 
 … yes… and please, stop interrupting me, I was trying to build up the suspense
 for a climax.
@@ -708,7 +708,7 @@ Maybe we could fetch, ahead of time, all the necessary data for all sorters in a
 single type: it will be refreshed when the data changes, which is right before
 the sorters run again.
 
-{% procureur() %}
+{% <procureur> %}
 
 The idea here is to organise the data around a specific layout. The focus on the
 data layout aims at being CPU cache friendly as much as possible. This kind of
@@ -716,7 +716,7 @@ approach is called [_Data-oriented Design_][dod].
 
 [dod]: https://en.wikipedia.org/wiki/Data-oriented_design
 
-{% end %}
+{% </procureur> %}
 
 That's correct. If the type is small enough, it can fit more easily in the
 CPU caches, like L1 or L2. Do you remember how fast they are? 1ns and 4ns,
@@ -731,17 +731,17 @@ more about Data-oriented Design (DoD)
 
 </summary>
 
-{{ youtube(
-  id = "rX0ItVEVjHc",
-  title = "Data-Oriented Design and C++, by Mike Acton, at the CppCon 2014",
-  caption = "The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. [View the slides](https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B)."
-) }}
+{{ <youtube
+  id="rX0ItVEVjHc"
+  title="Data-Oriented Design and C++, by Mike Acton, at the CppCon 2014"
+  caption="The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. [View the slides](https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B)."
+/> }}
 
-{{ youtube(
-  id = "WDIkqP4JbkE",
-  title = "Cpu Caches and Why You Care, by Scott Meyers, at the code::dive conference 2014",
-  caption = "This talk explores CPU caches and their impact on program performance."
-) }}
+{{ <youtube
+  id="WDIkqP4JbkE"
+  title="Cpu Caches and Why You Care, by Scott Meyers, at the code::dive conference 2014"
+  caption="This talk explores CPU caches and their impact on program performance."
+/> }}
 
 </details>
 
@@ -779,7 +779,7 @@ impl RoomListItem {
 
 At this point, the size of `RoomListItem` is 64 bytes, acceptably small!
 
-{% factotum() %}
+{% <factotum> %}
 
 The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
 run [`sysctl`] or [`getconf`] in a shell to see how much your hardware supports
@@ -797,7 +797,7 @@ cache miss, plus look up in L2, etc.
 [`sysctl`]: https://man.freebsd.org/cgi/man.cgi?query=sysctl
 [`getconf`]: https://linux.die.net/man/1/getconf
 
-{% end %}
+{% </factotum> %}
 
 [A bit of plumbing later][roomlistitem], this new `RoomListItem` type is
 used everywhere by the Room List, by all its filters and all its sorters. For
@@ -851,7 +851,7 @@ random. Nonetheless, **the performance impact is huge**:
 
 Can we claim victory now?
 
-{% comte() %}
+{% <comte> %}
 
 Apparently yes! The reporters were unable to reproduce the problem anymore. It
 seems it's solved! Looking at profilers, we see millions fewer allocations in
@@ -871,7 +871,7 @@ an L1/L2 cache access (1-4ns) and a main memory access (100ns) is on average
 here. It also suggests we are hitting L1 more frequently than L2, which is a
 good sign!
 
-{% end %}
+{% </comte> %}
 
 The benchmark Iteration Times and Regression graphs are interesting to look at.
 
@@ -903,7 +903,7 @@ are linear.
 
 The second graph is the kind of graph I like. Predictable.
 
-{% procureur() %}
+{% <procureur> %}
 
 In this concrete case, it's difficult to improve the performance further because
 `RoomListItem` is used by sorters, and by filters, and in other places of the
@@ -945,7 +945,7 @@ boosting the performance even more!
 Just so you know my role here is not restricted to recite documentation or to
 summarise Wikipedia entries.
 
-{% end %}
+{% </procureur> %}
 
 Of course you're valuable! Now, the surprise.
 

@@ -1,7 +1,7 @@
+{% component factotum() %}
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -12,3 +12,4 @@
     {{ body | markdown(inline=false) | safe }}
   </div>
 </div>
+{% endcomponent factotum %}

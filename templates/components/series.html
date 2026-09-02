@@ -1,6 +1,4 @@
-{% import "macros/article.html" as article %}
-
-{% macro poster(section) %}
+{% component series.poster(section) %}
   <a href="{{ section.permalink | safe }}" class="h2" property="url"><span property="name" style="view-transition-name: series-title-{{ section.title | slugify }}">{{ section.title | markdown(inline = true) | safe }}</span></a>
   <span class="label">
   {%- if section.extra.complete -%}
@@ -21,10 +19,10 @@
     {%- endfor -%}
     <span title="Reading time" property="timeRequired" content="PT{{ total_reading_time }}M">
       {%- set number_of_episodes = section.pages | length -%}
-      {{- total_reading_time ~ " minutes read over <strong>" ~ number_of_episodes ~ " episodes</strong>" -}}
+      {{- total_reading_time ~ " minutes read over " ~ number_of_episodes ~ " episodes"-}}
     </span>
   </div>
   <div property="description">
     {{ section.content | safe }}
   </div>
-{% endmacro %}
+{% endcomponent series.poster %}

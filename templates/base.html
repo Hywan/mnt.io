@@ -36,24 +36,24 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  {%- if page.description %}
+  {%- if page?.description %}
   <meta name="description" content="{{ page.description }}">
-  {%- elif section.description %}
+  {%- elif section?.description %}
   <meta name="description" content="{{ section.description }}">
   {%- else %}
   <meta name="description" content="mnt.io">
   {%- endif %}
-  {%- if page.taxonomies.keywords %}
+  {%- if page?.taxonomies?.keywords %}
   <meta name="keywords" content="{{ page.taxonomies.keywords | join(sep=", ") }}">
   {%- endif %}
   <meta property="og:title" content="{%- block long_title -%}mnt.io{%- endblock long_title -%}">
   <meta property="og:site_name" content="mnt.io">
   <meta property="og:locale" content="en_GB">
-  {% set first_component = page.components | default(value = []) | first -%}
+  {% set first_component = page?.components | default(value = []) | first -%}
   <meta property="og:type" content="{% if first_component == "series" or first_component == "articles" -%}article{% else %}website{% endif %}">
-  {%- if page.permalink %}
+  {%- if page?.permalink %}
   <meta property="og:url" content="{{ page.permalink | safe }}">
-  {%- elif section.permalink %}
+  {%- elif section?.permalink %}
   <meta property="og:url" content="{{ section.permalink | safe }}">
   {%- else %}
   <meta property="og:url" content="https://mnt.io">

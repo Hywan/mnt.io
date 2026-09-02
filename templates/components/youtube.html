@@ -1,3 +1,4 @@
+{% component youtube(id: string, title: string, caption: string) %}
 <figure>
   <iframe
     class="youtube-player"
@@ -10,8 +11,9 @@
     loading="lazy"></iframe>
 
   <figcaption>
-    <p>Video: {{title}}</p>
+  <p>Video: {{title}}</p>
 
-    {{ caption | markdown(inline=false) | safe }}
+  {{ caption | markdown(inline=false) | safe }}
   </figcaption>
 </figure>
+{% endcomponent youtube %}

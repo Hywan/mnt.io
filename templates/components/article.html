@@ -1,14 +1,14 @@
-{% macro poster(page) %}
+{% component article.poster(page) %}
   <a href="{{ page.permalink | safe }}" class="h2" property="url"><span property="name" style="view-transition-name: article-title-{{ page.slug }}">{{ page.title | markdown(inline = true) | safe }}</span></a>
-  {{ self::metadata(page = page, full = false) }}
+  {{ <article.metadata page={page} full={false} /> }}
   {% if page.description %}
   <div property="description">
     {{ page.description | markdown(inline = false) | safe }}
   </div>
   {% endif %}
-{% endmacro %}
+{% endcomponent article.poster %}
 
-{% macro metadata(page, full) %}
+{% component article.metadata(page, full) %}
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="{{ page.date }}" property="datePublished">
       {{- page.date | date(format = "%B %d, %Y") -}}
@@ -33,9 +33,9 @@
       {% endif %}
     {% endif %}
   </div>
-{% endmacro %}
+{% endcomponent article.metadata %}
 
-{% macro table_of_content(page) %}
+{% component article.table_of_content(page) %}
   {#
   {% if page.toc %}
   <nav data-pagefind-ignore="all">
@@ -51,4 +51,4 @@
   </nav>
   {% endif %}
   #}
-{% endmacro %}
+{% endcomponent article.table_of_content %}

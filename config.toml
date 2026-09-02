@@ -20,9 +20,10 @@ insert_anchor_links = "right"
 
 [markdown.highlighting]
 error_on_missing_language = true
+# theme = "ayu-mirage"
 # Use an empty theme, because giving one is required. However, a custom CSS
 # stylesheet is used to highlight the code. Only parsing and adding CSS classes
 # are required, not adding colours to it: it's the role of CSS.
-theme = "noop"
-extra_themes = ['code-theme.json']
+theme = "ayu-mirage-custom"
+extra_themes = ["code-theme.json"]
 style = "class"

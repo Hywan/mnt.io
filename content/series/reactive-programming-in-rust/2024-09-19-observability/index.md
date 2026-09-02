@@ -49,13 +49,15 @@ I believe this reactive programming approach is pretty interesting to explore.
 And this is precisely the goal of this series. We are going to play with
 `Stream` a lot, with higher-order `Stream` a lot more, and w…
 
-{% comte() %}
+{% <comte> %}
+
 Hold on a second! I believe this first step is a bit steep for someone who's not
 familiar with asynchronous code in Rust, don't you think?
 
 Before digging in the implementation details you are obviously eager to share,
 maybe we can start with examples.
-{% end %}
+
+{% </comte> %}
 
 Alrighty. Fair. Before digging into the really fun bits, we need some basis.
 
@@ -116,12 +118,14 @@ $ cargo run --quiet
 
 Tadaa. Fantastic, isn't it?
 
-{% comte() %}
+{% <comte> %}
+
 I… I am… speechless? Is it _really_ reactive programming? Where is the
 reactivity here? It seems like you've only shared a value between an _owner_ and
 a _watcher_. You're calling them _observable_ and _subscriber_, alright, but how
 is this thing reactive? I only see synchronous code for the moment.
-{% end %}
+
+{% </comte> %}
 
 Hold on. You told me to start slow. You're right though: the `Observable` owns
 the value. The `Subscriber` is able to read the value from the `Observable`.
@@ -275,7 +279,8 @@ $ cargo run --quiet
 
 Here we go, perfect! See, ah ha! It's async and nice now.
 
-{% comte() %}
+{% <comte> %}
+
 I believe I start to appreciate it. However, I foresee you might hide something
 behind these `Time::after`. Am I right?
 
@@ -284,7 +289,8 @@ the need to send [a `SIGINT` signal][signal] to the program to interrupt it,
 right?
 
 [signal]: https://man.freebsd.org/cgi/man.cgi?query=signal
-{% end %}
+
+{% </comte> %}
 
 You're slick. Indeed, I wanted to focus on the `observable` and the
 `subscriber`. Because there is a subtlety here. If the `Timer::after` are
@@ -349,11 +355,13 @@ waiting for new updates.
 However, at the beginning of this episode, we were talking about a collection.
 Let's focus on [`Vec`].
 
-{% comte() %}
+{% <comte> %}
+
 Why do we focus on `Vec` _only_? Why not `HashMap`, `HashSet`, `BTreeSet`,
 `BTreeMap`, `BinaryHeap`, `LinkedList` or even `VecDeque`? It seems a bit
 non-inclusive if you ask me. Are you aware there isn't only `Vec` in life?
-{% end %}
+
+{% </comte> %}
 
 Well, the reason is simple: `Vec` is supported by `eyeball`. It's a matter of
 time and work to support other collections, it's definitely not impossible but
@@ -369,7 +377,8 @@ which is a primitive type, so it's all fine (it boils down to a [`memcpy`]).
 But imagine an `Observable<Vec<BigType>>` where `BigType` is 512 bytes: the
 memory impact is going to be quickly noticeable. So th…
 
-{% comte() %}
+{% <comte> %}
+
 … Excuse my interruption! You know how I love reading books. I like
 defining myself as a bibliophile. Anyway. During my perusal of the `eyeball`
 documentation, I have found
@@ -384,7 +393,8 @@ and later:
 > does not implement `Clone`.
 
 [`eyeball::Subscriber::next_ref`]: https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next_ref-1
-{% end %}
+
+{% </comte> %}
 
 Can you stop cutting me off please? It's really unpleasant. And do not forget we
 are not alone… <i>doing sideways head movement</i>
@@ -448,14 +458,15 @@ value too, in an efficient way, without conflicting with the value from the
 observable. Both values will continue to live on their side, but cloning the
 value is cheap.
 
-{% comte() %}
+{% <comte> %}
 Dare I ask how immutable data structures are implemented? It sounds like complex
 beasts.
 
 I mean… a naive implementation sounds _relatively doable_ but I am guessing
 there is a lot of subtleties, possible conflicts, and many memory guarantees
 that I am not anticipating yet, right?
-{% end %}
+
+{% </comte> %}
 
 Oh… <q lang="la">beati pauperes in spiritu</q>[^beati_pauperes_in_spiritu]… it
 is actually really complex. It may be a topic for another series or articles.
@@ -498,13 +509,15 @@ Let's explore `VectorSubscriber` a bit more, would you? <i>Scroll the
 document</i>, contrary to [`Subscriber::next`][`eyeball::Subscriber::next`],
 there is no `next` method. How are we supposed to wait on an update?
 
-{% comte() %}
+{% <comte> %}
+
 Confer to the assiduous reader! If you read _carefully_ the documentation of the
 `Subscriber::next` method, you will see:
 
 > This method is a convenience so you don't have to import a `Stream` extension
 > trait such as `futures::StreamExt` or `tokio_stream::StreamExt`.
-{% end %}
+
+{% </comte> %}
 
 … fair enough. So `Subscriber::next` mimics `StreamExt::next`. Okay. Let's look
 at [`Stream`][`futures::stream::Stream`] first, it's from [the `futures`
@@ -679,7 +692,8 @@ $ cargo run --quiet
 
 Do you see something new?
 
-{% comte() %}
+{% <comte> %}
+
 Hmm, indeed. With `Observable`, some values may “miss” because `Observable`
 and `Subscriber` have no buffer. The subscribers only return the current value
 when asked for. However, with `ObservableVector`, things are different: no
@@ -690,7 +704,8 @@ we see `PushBack`. It comes from, <i>check the documentation</i>,
 [`VectorDiff::PushBack`]!
 
 [`VectorDiff::PushBack`]: https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html
-{% end %}
+
+{% </comte> %}
 
 Good eyes, well done.
 
@@ -841,7 +856,8 @@ $ cargo run --quiet
 
 Look Ma', no error!
 
-{% comte() %}
+{% <comte> %}
+
 We have learned that a `VectorSubscriber` is aware of the new updates that are
 made once it exists. A `VectorSubscriber` is not aware of updates that happened
 before its creation.
@@ -855,7 +871,8 @@ It suggests that the buffer lives inside `VectorSubscriber`, and not inside
 `ObservableVector`. Or maybe the buffer is shared between the observable and the
 subscribers, with the buffer having some specific semantics, like a _channel_.
 We would need to look at the implementation to be sure.
-{% end %}
+
+{% </comte> %}
 
 Agree. This is left as an exercise for the reader, <i>wink to you</i>.
 
@@ -967,7 +984,8 @@ $ cargo run --quiet
 )
 ```
 
-{% comte() %}
+{% <comte> %}
+
 We have learned that `ObservableVector::with_capacity` controls the size of
 the buffer.
 
@@ -978,7 +996,8 @@ For a reason we ignore so far, when the buffer is full, we receive a
 `VectorDiff::Reset`. We need to learn more about this type.
 
 [`Vec::with_capacity`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity
-{% end %}
+
+{% </comte> %}
 
 ## Observable Differences
 
@@ -994,7 +1013,8 @@ subscriber receives `Vector`s, how is the user able to see what has changed? The
 user (!) would be responsible to _calculate_ the differences between 2 `Vector`s
 every time! Not only this is costly, but it is utterly error-prone.
 
-{% comte() %}
+{% <comte> %}
+
 Are you suggesting that `VectorSubscriber` (or `VectorSubscriberStream`)
 calculates the differences between the `Vector`s itself so that the user doesn't
 have to?
@@ -1008,7 +1028,8 @@ matters a lot for some use cases. For example, let's consider two consecutive
 
 Has `'b'` been removed and pushed back, or `'c'` been popped back and inserted?
 How can you decide between the twos?
-{% end %}
+
+{% </comte> %}
 
 We can't —it would be implementation specifics anyway— and we don't want to.
 The user is manipulating the `ObservableVector` in a special way, and we should
@@ -1058,13 +1079,15 @@ Each method adding or removing values on the `ObservableVector` emits its own
 See, for each `VectorDiff` variant, there is an `ObservableVector` method
 triggering it.
 
-{% comte() %}
+{% <comte> %}
+
 And what about `VectorDiff::Reset`?
 
 We were receiving it when the buffer was full apparently. You are not mentioning
 it, and if I take a close look at `ObservableVector`'s documentation, I don't
 see any `reset` method. Is it only an internal thing?
-{% end %}
+
+{% </comte> %}
 
 You are correct. When the buffer is full, the subscriber will provide a
 `VectorDiff::Reset { values }` where `values` is the full list of values. The

@@ -1,6 +1,3 @@
-{% import "macros/article.html" as article %}
-{% import "macros/series.html" as series %}
-
 {% extends "base.html" %}
 
 {% block title -%}
@@ -23,10 +20,12 @@
 
     <div role="list" class="posters">
       {% set section = get_section(path = "articles/_index.md") -%}
-      {% for page in section.pages | filter(attribute = "extra.pinned", value = true) | filter(attribute="draft", value = false) -%}
+      {% for page in section.pages -%}
+      {%- if page.extra.pinned and not page.draft -%}
       <div role="listitem" class="poster" property="itemListElement" typeof="Article">
-        {{- article::poster(page = page) -}}
+        {{ <article.poster page={page} /> }}
       </div>
+      {%- endif -%}
       {% endfor %}
     </div>
   </section>
@@ -41,9 +40,9 @@
     <div role="list">
 
       {% set section = get_section(path = "series/_index.md") -%}
-      {% for section_path in section.subsections | reverse | slice(end = 5) -%}
+      {% for section_path in section.subsections[:5] | reverse -%}
       <div role="listitem" class="poster" property="itemListElement" typeof="CreativeWorkSeries">
-        {{- series::poster(section = get_section(path = section_path)) -}}
+        {{ <series.poster section={get_section(path = section_path)} /> }}
       </div>
       {% endfor %}
     </div>

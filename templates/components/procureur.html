@@ -1,7 +1,7 @@
+{% component procureur() %}
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -12,3 +12,4 @@
     {{ body | markdown(inline=false) | safe }}
   </div>
 </div>
+{% endcomponent procureur %}

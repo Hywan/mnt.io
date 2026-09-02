@@ -1,5 +1,3 @@
-{% import "macros/article.html" as article %}
-
 {% extends "base.html" %}
 
 {% block title -%}
@@ -22,7 +20,7 @@
         <p>From the series <a href="{{ series.path | safe }}" property="url"><span property="name">{{ series.title }}</span></a>.</p>
       </nav>
 
-      {{ article::metadata(page = page, full = true) }}
+      {{ <article.metadata page={page} full={true} /> }}
     </header>
 
     {{ page.content | safe }}

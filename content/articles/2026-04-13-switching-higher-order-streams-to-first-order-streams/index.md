@@ -58,7 +58,7 @@ article and won't be discussed. `Poll::Ready(Some(T))` means the value is ready
 and returned. Finally, `Poll::Ready(None)` means the `Stream` has been _closed_
 and must not be polled again!
 
-{% comte() %}
+{% <comte> %}
 
 Concise and straightforward. I like the similarities: `next` vs. `poll_next`,
 `Option<T>` vs. `Poll<Option<T>>`. Did I tell you how much I appreciate
@@ -82,7 +82,7 @@ to chain them.
 And similarly to `Iterator`, a `Stream` can have many _combinators_: a way to
 transform a `Stream` into another `Stream`! Once again: consistency…
 
-{% end %}
+{% </comte> %}
 
 Exactly! That's really exciting because it brings really nice features.
 
@@ -229,7 +229,7 @@ trait Stream {
 
 Do not be intimidated by the syntax. Try to read it one piece at a time.
 
-{% comte() %}
+{% <comte> %}
 
 Hmm, let's dissect the `where` clause:
 
@@ -247,7 +247,7 @@ And the return type:
 
 The Mathematical notation was easier on this one.
 
-{% end %}
+{% </comte> %}
 
 It's probably easier but it doesn't explain what `flatten` does exactly. Let's
 see a bit of Rust code to understand how it would work:
@@ -507,7 +507,7 @@ speaking of result: it displays…
 
 `Flatten` is a classical example of a higher-order stream!
 
-{% procureur() %}
+{% <procureur> %}
 
 The terms _first-order_ and _higher-order_ can be intimating at first, but they
 are rather simple to understand.
@@ -531,14 +531,14 @@ if it produces non-stream items, and a stream is a higher-order stream if:
 In the case of `flatten`, it transforms a stream of streams of `T` into a stream
 of `T`. We go from a higher-order stream to a first-order stream.
 
-{% end %}
+{% </procureur> %}
 
 ## <q lang="la">Ad astra</q> — Switching Between Streams Dynamically
 
 Good news: this is the end of the introduction. Another good news: now we can
 talk about the `switch` combinator!
 
-{% comte() %}
+{% <comte> %}
 
 All this was just an introduction? Really? I can't imagine how traumatized your
 kids are when they ask a simple <q>why</q>…
@@ -546,7 +546,7 @@ kids are when they ask a simple <q>why</q>…
 That said, while we are on the subject of showing off with Latin quotes… one
 comes to my mind timely: <q lang="la">fabricando fit faber</q>!
 
-{% end %}
+{% </comte> %}
 
 Exactly. We needed to explain all that to understand what the `switch`
 combinator does. It _switches_ a higher-order stream to a first-order stream,
@@ -797,7 +797,7 @@ assert_eq!(
 );
 ```
 
-{% comte() %}
+{% <comte> %}
 
 Huh. The first and second inner streams are ignored. Like if the outer stream
 was polled repeatedly until being pending.
@@ -807,13 +807,13 @@ Note, it matches the code _and_ the documentation when it says:
 > This combinator always keeps the most recently yielded inner stream, and
 > yields items from it
 
-{% end %}
+{% </comte> %}
 
 Correct! To understand the rest of the documentation and _why_ the `switch`
 combinator is pretty powerful, we need to imagine a funny example. <i>close
 eyes, and try to imagine a relevant example…</i>
 
-{% factotum() %}
+{% <factotum> %}
 
 May I? We could imagine this flow:
 
@@ -838,7 +838,7 @@ concrete use cases, e.g.:
 
 This is similar to the first example with 7 and 42.
 
-{% end %}
+{% </factotum> %}
 
 Excellent idea! Let's write it.
 
@@ -876,7 +876,7 @@ So far, `stream` is a first-order stream. Let's compute inner streams! Hum,
 wait a second, how do we create a `Stream` quickly without having to implement
 `Stream` on a new structure?
 
-{% factotum() %}
+{% <factotum> %}
 
 <q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear his
 throat</i>. Hum hum. Once again, the `futures` crate has got you covered! There
@@ -885,7 +885,7 @@ creates a `Stream` that runs the given function when polled.
 
 [`futures::stream::poll_fn`]: https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html
 
-{% end %}
+{% </factotum> %}
 
 I swear, I have nothing to do with these people. Nonetheless, it's a good
 recommendation. Let's start easy:

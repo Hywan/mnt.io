@@ -34,7 +34,7 @@ enum ChunkContent<Item, Gap> {
 Put it differently: each node can contain a _gap_, or a set of _items_ (be
 Matrix events).
 
-{% comte() %}
+{% <comte> %}
 
 May I recapitulate?
 
@@ -42,7 +42,7 @@ Each Matrix _room_ contains a `LinkedChunk`, which is a set of _chunks_. Each
 _chunk_ is either a _gap_ or a set of _events_. It seems to map fairly easily to
 SQL tables, isn't it?
 
-{% end %}
+{% </comte> %}
 
 You're right: it's pretty straightforward! Let's see the first table:
 `linked_chunks` which contains all the chunks. (Note that the schemas are
@@ -224,7 +224,7 @@ was slow… assuming we have added `timer!`s at the right places! It's not magic
 it doesn't find performance issues for you. You have to probe the correct places
 in your code, and refine if necessary.
 
-{% comte() %}
+{% <comte> %}
 
 I don't know if you heard about _sampling profilers_, but those are programs
 far superior at analysing performance problems, compared to your… rustic
@@ -237,7 +237,7 @@ on the [Firefox profiler] for its UI. It works on macOS, Linux and Windows.
 [samply]: https://github.com/mstange/samply
 [Firefox profiler]: https://github.com/firefox-devtools/profiler
 
-{% end %}
+{% </comte> %}
 
 I do also use `samply` pretty often! But you need an access to the processes
 to use such tools. Here, the Matrix Rust SDK is used and embedded inside Matrix
@@ -313,7 +313,7 @@ you're saying that, please, for the sake of the narrative!).
 A database index provides rapid lookups after all. It has become a reflex
 amongst the developer community.
 
-{% procureur() %}
+{% <procureur> %}
 
 Indexes are designed to quickly locate data without scanning the full table. An
 index contains a copy of the data, organised in a way enabling very efficient
@@ -337,7 +337,7 @@ See [Database index] to learn more.
 
 [Database index]: https://en.wikipedia.org/wiki/Database_index
 
-{% end %}
+{% </procureur> %}
 
 That's correct. But we didn't want to use an index here. The reason is twofold:
 
@@ -357,7 +357,7 @@ Do you remember that the `linked_chunks` table has a `type` column? It contains
 events—, and `G` when of kind `ChunkContent::Gap` —it represents a gap—. Maybe…
 <i> stare into the void</i>
 
-{% factotum() %}
+{% <factotum> %}
 
 May I interrupt?
 
@@ -373,7 +373,7 @@ optimisations for us.
 
 [`CASE`]: https://sqlite.org/lang_expr.html#the_case_expression
 
-{% end %}
+{% </factotum> %}
 
 Oh, that would be brilliant! If `type` is `E`, we count the number of events,
 otherwise we conclude it's _de facto_ zero, isn't it? Let's try. The SQL query
