@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&#x27;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&#x27;s amazing how faster it is!">
+  <meta name="description" content="This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&#39;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&#39;s amazing how faster it is!">
   <meta name="keywords" content="rust, binding, gutenberg, c, ffi, php">
   <meta property="og:title" content="The PHP galaxy — from the series From Rust to beyond">
   <meta property="og:site_name" content="mnt.io">
@@ -172,14 +172,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-10-29" property="datePublished">October 29, 2018</time>
-    <span title="Reading time" property="timeRequired" content="PT12M">12 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT10M">10 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, binding, gutenberg, c, ffi, php">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a>, <a href="/keywords/gutenberg" title="All articles matching the `gutenberg` keyword">gutenberg</a>, <a href="/keywords/c" title="All articles matching the `c` keyword">c</a>, <a href="/keywords/ffi" title="All articles matching the `ffi` keyword">ffi</a>, <a href="/keywords/php" title="All articles matching the `php` keyword">php</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series&#x2F;from-rust-to-beyond&#x2F;2018-10-29-the-php-galaxy&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series/from-rust-to-beyond/2018-10-29-the-php-galaxy/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&#x27;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&#x27;s amazing how faster it is!" />
+      <meta property="description" content="This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&#39;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&#39;s amazing how faster it is!" />
       
     
   </div>
@@ -225,11 +225,11 @@ episode</a>!</p>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/./rust-to-php.png" alt="Rust to PHP" loading="lazy" decoding="async" /></p>
 </figure>
-<p>To port our Rust parser into PHP, we first need to port it to C. It&#39;s
+<p>To port our Rust parser into PHP, we first need to port it to C. It's
 been done in the previous episode. Two files result from this port to
 C: <code>libgutenberg_post_parser.a</code> and <code>gutenberg_post_parser.h</code>,
 respectively a static library, and the header file.</p>
-<h3 id="">Bootstrap with a Skeleton<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="bootstrap-with-a-skeleton">Bootstrap with a Skeleton<a role="presentation" class="anchor" href="#bootstrap-with-a-skeleton" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>PHP comes with <a rel="noopener external" target="_blank" href="http://php.net/manual/en/internals2.buildsys.skeleton.php">a script to create an extension
 skeleton</a>/template,
@@ -238,14 +238,14 @@ called
 This script is accessible from the source of the Zend Engine virtual
 machine (which we will refer to as <code>php-src</code>). One can invoke the script
 like this:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cd php-src/ext/</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> ./ext_skel.php \</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cd php-src/ext/</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> ./ext_skel.php \</span></span>
 <span class="giallo-l"><span>      --ext gutenberg_post_parser \</span></span>
 <span class="giallo-l"><span>      --author &#39;Ivan Enderlin&#39; \</span></span>
 <span class="giallo-l"><span>      --dir /path/to/extension \</span></span>
 <span class="giallo-l"><span>      --onlyunix</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cd /path/to/extension</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> ls gutenberg_post_parser</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> cd /path/to/extension</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> ls gutenberg_post_parser</span></span>
 <span class="giallo-l"><span>tests/</span></span>
 <span class="giallo-l"><span>.gitignore</span></span>
 <span class="giallo-l"><span>CREDITS</span></span>
@@ -266,27 +266,27 @@ we will use <code>phpize</code> instead. <code>phpize</code> is an executable th
 <code>php</code>, <code>php-cgi</code>, <code>phpdbg</code>, <code>php-config</code> etc. It allows to compile
 extensions against an already compiled <code>php</code> binary, which is perfect in
 our case! We will use it like this :</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cd /path/to/extension/gutenberg_post_parser</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cd /path/to/extension/gutenberg_post_parser</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Get the bin directory </span><span class="z-keyword">for</span><span> PHP utilities.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-variable"> PHP_PREFIX_BIN</span><span class="z-keyword z-operator">=</span><span>$(</span><span class="z-entity z-name">php-config</span><span class="z-constant z-other"> --prefix</span><span>)</span><span class="z-string">/bin</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Get the bin directory </span><span class="z-18">for</span><span> PHP utilities.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> PHP_PREFIX_BIN</span><span class="z-16">=</span><span>$(</span><span class="z-4">php-config</span><span class="z-8"> --prefix</span><span>)</span><span class="z-11">/bin</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Clean (</span><span class="z-entity z-name">except</span><span class="z-string"> if it is the first run</span><span>).</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-variable"> $PHP_PREFIX_BIN</span><span>/phpize --clean</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Clean (</span><span class="z-4">except</span><span class="z-11"> if it is the first run</span><span>).</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> $PHP_PREFIX_BIN/phpize --clean</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # “phpize” the extension.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-variable"> $PHP_PREFIX_BIN</span><span>/phpize</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # “phpize” the extension.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> $PHP_PREFIX_BIN/phpize</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Configure the extension </span><span class="z-keyword">for</span><span> a particular PHP version.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> ./configure</span><span class="z-variable"> --with-php-config</span><span class="z-keyword z-operator">=</span><span class="z-variable">$PHP_PREFIX_BIN</span><span class="z-string">/php-config</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Configure the extension </span><span class="z-18">for</span><span> a particular PHP version.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> ./configure --with-php-config</span><span class="z-16">=</span><span>$PHP_PREFIX_BIN</span><span class="z-11">/php-config</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Compile.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> make install</span></span></code></pre>
+<span class="giallo-l"><span class="z-10">$</span><span> # Compile.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> make install</span></span></code></pre>
 <p>In this post, we will not show all the edits we have done, but we will rather
 focus on the extension binding.
 <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser">All the sources can be found here</a>.
 Shortly, here is the <code>config.m4</code> file:</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>PHP_ARG_ENABLE(gutenberg_post_parser, whether to enable gutenberg_post_parser support,</span></span>
+<pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>PHP_ARG_ENABLE(gutenberg_post_parser, whether to enable gutenberg_post_parser support,</span></span>
 <span class="giallo-l"><span>[  --with-gutenberg_post_parser          Include gutenberg_post_parser support], no)</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>if  test &quot;$PHP_GUTENBERG_POST_PARSER&quot; != &quot;no&quot;; then</span></span>
@@ -306,7 +306,7 @@ extension itself.</li>
 <p>We must add the <code>libgutenberg_post_parser.a</code> and
 <code>gutenberg_post_parser.h</code> files in the same directory (a symlink is
 perfect), to get a structure such as:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> ls gutenberg_post_parser</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> ls gutenberg_post_parser</span></span>
 <span class="giallo-l"><span>tests/                       # from ext_skel</span></span>
 <span class="giallo-l"><span>.gitignore                   # from ext_skel</span></span>
 <span class="giallo-l"><span>CREDITS                      # from ext_skel</span></span>
@@ -318,219 +318,219 @@ perfect), to get a structure such as:</p>
 <p>The core of the extension is the <code>gutenberg_post_parser.c</code> file. This
 file is responsible to create the module, and to bind our Rust code to
 PHP.</p>
-<h3 id="-1">The Module, Aka the Extension<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-module-aka-the-extension">The Module, Aka the Extension<a role="presentation" class="anchor" href="#the-module-aka-the-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As said, we will work in the <code>gutenberg_post_parser.c</code> file. First,
-let&#39;s include everything we need:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &quot;php.h&quot;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &quot;ext/standard/info.h&quot;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &quot;php_gutenberg_post_parser.h&quot;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &quot;gutenberg_post_parser.h&quot;</span></span></code></pre>
+let's include everything we need:</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &quot;php.h&quot;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &quot;ext/standard/info.h&quot;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &quot;php_gutenberg_post_parser.h&quot;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &quot;gutenberg_post_parser.h&quot;</span></span></code></pre>
 <p>The last line includes the <code>gutenberg_post_parser.h</code> file generated by
-Rust (more precisely, by <code>cbindgen</code>, if you don&#39;t remember, <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/">take a look
+Rust (more precisely, by <code>cbindgen</code>, if you don't remember, <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/">take a look
 at the previous
 episode</a>).</p>
 <p>Then, we have to decide what API we want to expose into PHP? As a
 reminder, the Rust parser produces an AST defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-entity z-name"> Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;),</span></span>
-<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-4">    Block</span><span> {</span></span>
+<span class="giallo-l"><span>        name</span><span class="z-16">:</span><span> (</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;,</span><span class="z-4"> Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;),</span></span>
+<span class="giallo-l"><span>        attributes</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Phrase</span><span>(</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span></span>
+<span class="giallo-l"><span class="z-19">    Phrase</span><span>(</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The C variant of the AST is very similar (with more structures, but the
 idea is almost identical). So in PHP, the following structure has been
 selected:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> Gutenberg_Parser_Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-keyword"> string</span><span class="z-variable"> $namespace</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-keyword"> string</span><span class="z-variable"> $name</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-keyword"> string</span><span class="z-variable"> $attributes</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-keyword"> array</span><span class="z-variable"> $children</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> Gutenberg_Parser_Block</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public string</span><span> $namespace</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    public string</span><span> $name</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    public string</span><span> $attributes</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    public array</span><span> $children</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> Gutenberg_Parser_Phrase</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-keyword"> string</span><span class="z-variable"> $content</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> Gutenberg_Parser_Phrase</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public string</span><span> $content</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> gutenberg_post_parse</span><span>(</span><span class="z-keyword">string</span><span class="z-variable"> $gutenberg_post</span><span>)</span><span class="z-keyword z-operator">:</span><span class="z-keyword"> array</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">function</span><span class="z-19"> gutenberg_post_parse</span><span>(</span><span class="z-18">string</span><span> $gutenberg_post)</span><span class="z-16">:</span><span class="z-18"> array</span><span class="z-10">;</span></span></code></pre>
 <p>The <code>gutenberg_post_parse</code> function will output an array of objects of
 kind <code>Gutenberg_Parser_Block</code> or <code>Gutenberg_Parser_Phrase</code>, i.e. our
 AST.</p>
-<p>So, let&#39;s declare those classes!</p>
-<h3 id="-2">Declare the Classes<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>So, let's declare those classes!</p>
+<h3 id="declare-the-classes">Declare the Classes<a role="presentation" class="anchor" href="#declare-the-classes" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><em>Note: The next 4 code blocks are not the core of the post, it is just
 code that needs to be written, you can skip it if you are not about to
 write a PHP extension.</em></p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span>zend_class_entry </span><span class="z-keyword z-operator">*</span><span>gutenberg_parser_block_class_entry</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>zend_class_entry </span><span class="z-keyword z-operator">*</span><span>gutenberg_parser_phrase_class_entry</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>zend_object_handlers gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span>zend_class_entry </span><span class="z-16">*</span><span>gutenberg_parser_block_class_entry</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>zend_class_entry </span><span class="z-16">*</span><span>gutenberg_parser_phrase_class_entry</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>zend_object_handlers gutenberg_parser_node_class_entry_handlers</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span> _gutenberg_parser_node </span><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span>    zend_object zobj</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> gutenberg_parser_node</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> _gutenberg_parser_node {</span></span>
+<span class="giallo-l"><span>    zend_object zobj</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} gutenberg_parser_node</span><span class="z-10">;</span></span></code></pre>
 <p>A class entry represents a specific class type. A handler is associated
 to a class entry. The logic is somewhat complicated. If you need more
 details, I recommend to read the <a rel="noopener external" target="_blank" href="http://www.phpinternalsbook.com/">PHP Internals
 Book</a>.</p>
-<p>Then, let&#39;s create a function to instanciate those objects:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">static</span><span> zend_object </span><span class="z-keyword z-operator">*</span><span class="z-entity z-name z-function">create_parser_node_object</span><span class="z-punctuation z-section">(</span><span>zend_class_entry </span><span class="z-keyword z-operator">*</span><span class="z-variable z-parameter">class_entry</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span>    gutenberg_parser_node </span><span class="z-keyword z-operator">*</span><span>gutenberg_parser_node_object</span><span class="z-punctuation z-terminator">;</span></span>
+<p>Then, let's create a function to instanciate those objects:</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">static</span><span> zend_object </span><span class="z-16">*</span><span class="z-19">create_parser_node_object</span><span>(zend_class_entry </span><span class="z-16">*</span><span class="z-13">class_entry</span><span>)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node </span><span class="z-16">*</span><span>gutenberg_parser_node_object</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>    gutenberg_parser_node_object </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> ecalloc</span><span class="z-punctuation z-section">(</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">*</span><span>gutenberg_parser_node_object</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> +</span><span class="z-entity z-name z-function"> zend_object_properties_size</span><span class="z-punctuation z-section">(</span><span>class_entry</span><span class="z-punctuation z-section">))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node_object </span><span class="z-16">=</span><span class="z-19"> ecalloc</span><span>(</span><span class="z-13">1</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(</span><span class="z-16">*</span><span>gutenberg_parser_node_object)</span><span class="z-16"> +</span><span class="z-19"> zend_object_properties_size</span><span>(class_entry))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_object_std_init</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">gutenberg_parser_node_object</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">zobj</span><span class="z-punctuation z-separator">,</span><span> class_entry</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    object_properties_init</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">gutenberg_parser_node_object</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">zobj</span><span class="z-punctuation z-separator">,</span><span> class_entry</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-19">    zend_object_std_init</span><span>(</span><span class="z-16">&amp;</span><span>gutenberg_parser_node_object</span><span class="z-10">-&gt;</span><span>zobj</span><span class="z-10">,</span><span> class_entry)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">    object_properties_init</span><span>(</span><span class="z-16">&amp;</span><span>gutenberg_parser_node_object</span><span class="z-10">-&gt;</span><span>zobj</span><span class="z-10">,</span><span> class_entry)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_node_object</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">zobj</span><span class="z-punctuation z-separator">.</span><span class="z-variable">handlers</span><span class="z-keyword z-operator"> = &amp;</span><span>gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node_object</span><span class="z-10">-&gt;</span><span>zobj</span><span class="z-10">.</span><span>handlers</span><span class="z-16"> = &amp;</span><span>gutenberg_parser_node_class_entry_handlers</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable">gutenberg_parser_node_object</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">zobj</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
-<p>Then, let&#39;s create a function to free those objects. It works in two
+<span class="giallo-l"><span class="z-18">    return</span><span class="z-16"> &amp;</span><span>gutenberg_parser_node_object</span><span class="z-10">-&gt;</span><span>zobj</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Then, let's create a function to free those objects. It works in two
 steps: Destruct the object by calling its destructor (in the user-land),
 then free it for real (in the VM-land):</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">static</span><span class="z-storage z-type"> void</span><span class="z-entity z-name z-function"> destroy_parser_node_object</span><span class="z-punctuation z-section">(</span><span>zend_object </span><span class="z-keyword z-operator">*</span><span class="z-variable z-parameter">gutenberg_parser_node_object</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_objects_destroy_object</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_node_object</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">static</span><span class="z-4"> void</span><span class="z-19"> destroy_parser_node_object</span><span>(zend_object </span><span class="z-16">*</span><span class="z-13">gutenberg_parser_node_object</span><span>)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-19">    zend_objects_destroy_object</span><span>(gutenberg_parser_node_object)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">static</span><span class="z-storage z-type"> void</span><span class="z-entity z-name z-function"> free_parser_node_object</span><span class="z-punctuation z-section">(</span><span>zend_object </span><span class="z-keyword z-operator">*</span><span class="z-variable z-parameter">gutenberg_parser_node_object</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_object_std_dtor</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_node_object</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
-<p>Then, let&#39;s initialize the “module”, i.e. the extension. During the
+<span class="giallo-l"><span class="z-18">static</span><span class="z-4"> void</span><span class="z-19"> free_parser_node_object</span><span>(zend_object </span><span class="z-16">*</span><span class="z-13">gutenberg_parser_node_object</span><span>)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-19">    zend_object_std_dtor</span><span>(gutenberg_parser_node_object)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Then, let's initialize the “module”, i.e. the extension. During the
 initialisation, we will create the classes in the user-land, declare
 their attributes etc.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-entity z-name z-function">PHP_MINIT_FUNCTION</span><span class="z-punctuation z-section">(</span><span>gutenberg_post_parser</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span>    zend_class_entry class_entry</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-19">PHP_MINIT_FUNCTION</span><span>(gutenberg_post_parser)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span>    zend_class_entry class_entry</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare Gutenberg_Parser_Block.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    INIT_CLASS_ENTRY</span><span class="z-punctuation z-section">(</span><span>class_entry</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;Gutenberg_Parser_Block&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-language"> NULL</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    gutenberg_parser_block_class_entry </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> zend_register_internal_class</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>class_entry TSRMLS_CC</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare Gutenberg_Parser_Block.</span></span>
+<span class="giallo-l"><span class="z-19">    INIT_CLASS_ENTRY</span><span>(class_entry</span><span class="z-10">,</span><span class="z-11"> &quot;Gutenberg_Parser_Block&quot;</span><span class="z-10">,</span><span class="z-13"> NULL</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_block_class_entry </span><span class="z-16">=</span><span class="z-19"> zend_register_internal_class</span><span>(</span><span class="z-16">&amp;</span><span>class_entry TSRMLS_CC)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the create handler.</span></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">create_object</span><span class="z-keyword z-operator"> =</span><span> create_parser_node_object</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the create handler.</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_block_class_entry</span><span class="z-10">-&gt;</span><span>create_object</span><span class="z-16"> =</span><span> create_parser_node_object</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // The class is final.</span></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">ce_flags</span><span class="z-keyword z-operator"> |=</span><span> ZEND_ACC_FINAL</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // The class is final.</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_block_class_entry</span><span class="z-10">-&gt;</span><span>ce_flags</span><span class="z-16"> |=</span><span> ZEND_ACC_FINAL</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the `namespace` public attribute,</span></span>
-<span class="giallo-l"><span class="z-comment">    // with an empty string for the default value.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_declare_property_string</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;namespace&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span class="z-string">&quot;namespace&quot;</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> -</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;&quot;</span><span class="z-punctuation z-separator">,</span><span> ZEND_ACC_PUBLIC</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the `namespace` public attribute,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // with an empty string for the default value.</span></span>
+<span class="giallo-l"><span class="z-19">    zend_declare_property_string</span><span>(gutenberg_parser_block_class_entry</span><span class="z-10">,</span><span class="z-11"> &quot;namespace&quot;</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(</span><span class="z-11">&quot;namespace&quot;</span><span>)</span><span class="z-16"> -</span><span class="z-13"> 1</span><span class="z-10">,</span><span class="z-11"> &quot;&quot;</span><span class="z-10">,</span><span> ZEND_ACC_PUBLIC)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the `name` public attribute,</span></span>
-<span class="giallo-l"><span class="z-comment">    // with an empty string for the default value.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_declare_property_string</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;name&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span class="z-string">&quot;name&quot;</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> -</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;&quot;</span><span class="z-punctuation z-separator">,</span><span> ZEND_ACC_PUBLIC</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the `name` public attribute,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // with an empty string for the default value.</span></span>
+<span class="giallo-l"><span class="z-19">    zend_declare_property_string</span><span>(gutenberg_parser_block_class_entry</span><span class="z-10">,</span><span class="z-11"> &quot;name&quot;</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(</span><span class="z-11">&quot;name&quot;</span><span>)</span><span class="z-16"> -</span><span class="z-13"> 1</span><span class="z-10">,</span><span class="z-11"> &quot;&quot;</span><span class="z-10">,</span><span> ZEND_ACC_PUBLIC)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the `attributes` public attribute,</span></span>
-<span class="giallo-l"><span class="z-comment">    // with `NULL` for the default value.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_declare_property_null</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;attributes&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span class="z-string">&quot;attributes&quot;</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> -</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-separator">,</span><span> ZEND_ACC_PUBLIC</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the `attributes` public attribute,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // with `NULL` for the default value.</span></span>
+<span class="giallo-l"><span class="z-19">    zend_declare_property_null</span><span>(gutenberg_parser_block_class_entry</span><span class="z-10">,</span><span class="z-11"> &quot;attributes&quot;</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(</span><span class="z-11">&quot;attributes&quot;</span><span>)</span><span class="z-16"> -</span><span class="z-13"> 1</span><span class="z-10">,</span><span> ZEND_ACC_PUBLIC)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the `children` public attribute,</span></span>
-<span class="giallo-l"><span class="z-comment">    // with `NULL` for the default value.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zend_declare_property_null</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_block_class_entry</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;children&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span class="z-string">&quot;children&quot;</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> -</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-separator">,</span><span> ZEND_ACC_PUBLIC</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the `children` public attribute,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // with `NULL` for the default value.</span></span>
+<span class="giallo-l"><span class="z-19">    zend_declare_property_null</span><span>(gutenberg_parser_block_class_entry</span><span class="z-10">,</span><span class="z-11"> &quot;children&quot;</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(</span><span class="z-11">&quot;children&quot;</span><span>)</span><span class="z-16"> -</span><span class="z-13"> 1</span><span class="z-10">,</span><span> ZEND_ACC_PUBLIC)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare the Gutenberg_Parser_Block.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare the Gutenberg_Parser_Block.</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>    … skip …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Declare Gutenberg parser node object handlers.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Declare Gutenberg parser node object handlers.</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    memcpy</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-separator">,</span><span class="z-entity z-name z-function"> zend_get_std_object_handlers</span><span class="z-punctuation z-section">()</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> sizeof</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-section">))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-19">    memcpy</span><span>(</span><span class="z-16">&amp;</span><span>gutenberg_parser_node_class_entry_handlers</span><span class="z-10">,</span><span class="z-19"> zend_get_std_object_handlers</span><span>()</span><span class="z-10">,</span><span class="z-16"> sizeof</span><span>(gutenberg_parser_node_class_entry_handlers))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-separator">.</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> XtOffsetOf</span><span class="z-punctuation z-section">(</span><span>gutenberg_parser_node</span><span class="z-punctuation z-separator">,</span><span> zobj</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-separator">.</span><span class="z-variable">dtor_obj</span><span class="z-keyword z-operator"> =</span><span> destroy_parser_node_object</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">    gutenberg_parser_node_class_entry_handlers</span><span class="z-punctuation z-separator">.</span><span class="z-variable">free_obj</span><span class="z-keyword z-operator"> =</span><span> free_parser_node_object</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node_class_entry_handlers</span><span class="z-10">.</span><span>offset</span><span class="z-16"> =</span><span class="z-19"> XtOffsetOf</span><span>(gutenberg_parser_node</span><span class="z-10">,</span><span> zobj)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node_class_entry_handlers</span><span class="z-10">.</span><span>dtor_obj</span><span class="z-16"> =</span><span> destroy_parser_node_object</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    gutenberg_parser_node_class_entry_handlers</span><span class="z-10">.</span><span>free_obj</span><span class="z-16"> =</span><span> free_parser_node_object</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span> SUCCESS</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    return</span><span> SUCCESS</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>If you are still reading, first: Thank you, and second: Congrats!</p>
 <p>Then, there is a <code>PHP_RINIT_FUNCTION</code> and a <code>PHP_MINFO_FUNCTION</code>
 functions that are already generated by the <code>ext_skel.php</code> script. Same
 for the module entry definition and other module configuration details.</p>
-<h3 id="gutenberg-post-parse">The <code>gutenberg_post_parse</code> Function<a role="presentation" class="anchor" href="#gutenberg-post-parse" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-gutenberg-post-parse-function">The <code>gutenberg_post_parse</code> Function<a role="presentation" class="anchor" href="#the-gutenberg-post-parse-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We will now focus on the <code>gutenberg_post_parse</code> PHP function. This function
 takes a string as a single argument and returns either <code>false</code> if the parsing
 failed, or an array of objects of kind <code>Gutenberg_Parser_Block</code> or
-<code>Gutenberg_Parser_Phrase</code> otherwise. Let&#39;s write it! Notice that it is declared
+<code>Gutenberg_Parser_Phrase</code> otherwise. Let's write it! Notice that it is declared
 with
 <a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/main/php.h#L400">the <code>PHP_FUNCTION</code> macro</a>.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-entity z-name z-function">PHP_FUNCTION</span><span class="z-punctuation z-section">(</span><span>gutenberg_post_parse</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    char</span><span class="z-keyword z-operator"> *</span><span>input</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    size_t</span><span> input_len</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-19">PHP_FUNCTION</span><span>(gutenberg_post_parse)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-4">    char</span><span class="z-16"> *</span><span>input</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    size_t</span><span> input_len</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Read the input as a string.</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-punctuation z-section"> (</span><span class="z-entity z-name z-function">zend_parse_parameters</span><span class="z-punctuation z-section">(</span><span class="z-entity z-name z-function">ZEND_NUM_ARGS</span><span class="z-punctuation z-section">()</span><span> TSRMLS_CC</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;s&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span>input</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span>input_len</span><span class="z-punctuation z-section">)</span><span class="z-keyword z-operator"> ==</span><span> FAILURE</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">    // Read the input as a string.</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (</span><span class="z-19">zend_parse_parameters</span><span>(</span><span class="z-19">ZEND_NUM_ARGS</span><span>() TSRMLS_CC</span><span class="z-10">,</span><span class="z-11"> &quot;s&quot;</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span>input</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span>input_len)</span><span class="z-16"> ==</span><span> FAILURE) {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span></code></pre>
 <p>At this step, the argument has been declared and typed as a string
 (<code>"s"</code>). The string value is in <code>input</code> and the string length is in
 <code>input_len</code>.</p>
 <p>The next step is to parse the <code>input</code>. (The length of the string is not
-needed). This is where we are going to call our Rust code! Let&#39;s do
+needed). This is where we are going to call our Rust code! Let's do
 that:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">    // Parse the input.</span></span>
-<span class="giallo-l"><span>    Result parser_result </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> parse</span><span class="z-punctuation z-section">(</span><span>input</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">    // Parse the input.</span></span>
+<span class="giallo-l"><span>    Result parser_result </span><span class="z-16">=</span><span class="z-19"> parse</span><span>(input)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // If parsing failed, then return false.</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-punctuation z-section"> (</span><span>parser_result.tag </span><span class="z-keyword z-operator">==</span><span> Err</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span>        RETURN_FALSE</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // If parsing failed, then return false.</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (parser_result.tag </span><span class="z-16">==</span><span> Err) {</span></span>
+<span class="giallo-l"><span>        RETURN_FALSE</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Else map the Rust AST into a PHP array.</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span> Vector_Node nodes </span><span class="z-keyword z-operator">=</span><span> parse_result.ok._0</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
-<p>The <code>Result</code> type and the <code>parse</code> function come from Rust. If you don&#39;t
+<span class="giallo-l"><span class="z-7 z-i">    // Else map the Rust AST into a PHP array.</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> Vector_Node nodes </span><span class="z-16">=</span><span> parse_result.ok._0</span><span class="z-10">;</span></span></code></pre>
+<p>The <code>Result</code> type and the <code>parse</code> function come from Rust. If you don't
 remember those types, please <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/">read the previous episode about the C
 galaxy</a>.</p>
 <p>Zend Engine has a macro called <code>RETURN_FALSE</code> to return… <code>false</code>! Handy
-isn&#39;t it?</p>
+isn't it?</p>
 <p>Finally, if everything went well, we get back a collection of node as a
 <code>Vector_Node</code> type.</p>
 <p>The next step is to map those Rust/C types into PHP types, i.e. an array
-of the Gutenberg classes. Let&#39;s go:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">    // Note: return_value is a “magic” variable that holds the value to be returned.</span></span>
-<span class="giallo-l"><span class="z-comment">    //</span></span>
-<span class="giallo-l"><span class="z-comment">    // Allocate an array.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    array_init_size</span><span class="z-punctuation z-section">(</span><span>return_value</span><span class="z-punctuation z-separator">,</span><span> nodes.length</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+of the Gutenberg classes. Let's go:</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">    // Note: return_value is a “magic” variable that holds the value to be returned.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    //</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Allocate an array.</span></span>
+<span class="giallo-l"><span class="z-19">    array_init_size</span><span>(return_value</span><span class="z-10">,</span><span> nodes.length)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Map the Rust AST.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    into_php_objects</span><span class="z-punctuation z-section">(</span><span>return_value</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable z-parameter">nodes</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Map the Rust AST.</span></span>
+<span class="giallo-l"><span class="z-19">    into_php_objects</span><span>(return_value</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">nodes</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Done 😁! Oh wait… the <code>into_php_objects</code> function need to be written!</p>
-<h3 id="into-php-objects">The <code>into_php_objects</code> Function<a role="presentation" class="anchor" href="#into-php-objects" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-into-php-objects-function">The <code>into_php_objects</code> Function<a role="presentation" class="anchor" href="#the-into-php-objects-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>This function is not terribly complex: It&#39;s just full of Zend Engine
+<p>This function is not terribly complex: It's just full of Zend Engine
 specific API as expected. We are going to explain how to map a <code>Block</code>
 into a <code>Gutenberg_Parser_Block</code> object, and to let the <code>Phrase</code> mapping
 to <code>Gutenberg_Parser_Phrase</code> for the assiduous readers. And there we go:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage z-type">void</span><span class="z-entity z-name z-function"> into_php_objects</span><span class="z-punctuation z-section">(</span><span>zval </span><span class="z-keyword z-operator">*</span><span class="z-variable z-parameter">php_array</span><span class="z-punctuation z-separator">,</span><span class="z-storage"> const</span><span> Vector_Node </span><span class="z-keyword z-operator">*</span><span class="z-variable z-parameter">nodes</span><span class="z-punctuation z-section">)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-storage z-type"> uintptr_t</span><span> number_of_nodes </span><span class="z-keyword z-operator">=</span><span class="z-variable"> nodes</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">length</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-4">void</span><span class="z-19"> into_php_objects</span><span>(zval </span><span class="z-16">*</span><span class="z-13">php_array</span><span class="z-10">,</span><span class="z-18"> const</span><span> Vector_Node </span><span class="z-16">*</span><span class="z-13">nodes</span><span>)</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span class="z-4"> uintptr_t</span><span> number_of_nodes </span><span class="z-16">=</span><span> nodes</span><span class="z-10">-&gt;</span><span>length</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-punctuation z-section"> (</span><span>number_of_nodes </span><span class="z-keyword z-operator">==</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (number_of_nodes </span><span class="z-16">==</span><span class="z-13"> 0</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Iterate over all nodes.</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span class="z-punctuation z-section"> (</span><span class="z-storage z-type">uintptr_t</span><span> nth </span><span class="z-keyword z-operator">=</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span> nth </span><span class="z-keyword z-operator">&lt;</span><span> number_of_nodes</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span>nth</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span> Node node </span><span class="z-keyword z-operator">=</span><span class="z-variable"> nodes</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">buffer</span><span>[nth]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Iterate over all nodes.</span></span>
+<span class="giallo-l"><span class="z-18">    for</span><span> (</span><span class="z-4">uintptr_t</span><span> nth </span><span class="z-16">=</span><span class="z-13"> 0</span><span class="z-10">;</span><span> nth </span><span class="z-16">&lt;</span><span> number_of_nodes</span><span class="z-10">;</span><span class="z-16"> ++</span><span>nth) {</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> Node node </span><span class="z-16">=</span><span> nodes</span><span class="z-10">-&gt;</span><span>buffer[nth]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-punctuation z-section"> (</span><span class="z-variable">node</span><span class="z-punctuation z-separator">.</span><span class="z-variable">tag</span><span class="z-keyword z-operator"> ==</span><span> Block</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-comment">            // Map Block into Gutenberg_Parser_Block.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">        }</span><span class="z-keyword"> else if</span><span class="z-punctuation z-section"> (</span><span class="z-variable">node</span><span class="z-punctuation z-separator">.</span><span class="z-variable">tag</span><span class="z-keyword z-operator"> ==</span><span> Phrase</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-comment">            // Map Phrase into Gutenberg_Parser_Phrase.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">        }</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
-<p>Now let&#39;s map a block. The process is the following:</p>
+<span class="giallo-l"><span class="z-18">        if</span><span> (node</span><span class="z-10">.</span><span>tag</span><span class="z-16"> ==</span><span> Block) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Map Block into Gutenberg_Parser_Block.</span></span>
+<span class="giallo-l"><span>        }</span><span class="z-18"> else if</span><span> (node</span><span class="z-10">.</span><span>tag</span><span class="z-16"> ==</span><span> Phrase) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Map Phrase into Gutenberg_Parser_Phrase.</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now let's map a block. The process is the following:</p>
 <ol>
 <li>Allocate PHP strings for the block namespace, and for the block
 name,</li>
@@ -544,14 +544,14 @@ with the child nodes and the new array,</li>
 <li>Set the children to its respective object property,</li>
 <li>Finally, add the block object inside the array to be returned.</li>
 </ol>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">const</span><span> Block_Body block </span><span class="z-keyword z-operator">=</span><span> node.block</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>zval php_block</span><span class="z-punctuation z-separator">,</span><span> php_block_namespace</span><span class="z-punctuation z-separator">,</span><span> php_block_name</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">const</span><span> Block_Body block </span><span class="z-16">=</span><span> node.block</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>zval php_block</span><span class="z-10">,</span><span> php_block_namespace</span><span class="z-10">,</span><span> php_block_name</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// 1. Prepare the PHP strings.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">ZVAL_STRINGL</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block_namespace</span><span class="z-punctuation z-separator">,</span><span> block.namespace.pointer</span><span class="z-punctuation z-separator">,</span><span> block.namespace.length</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">ZVAL_STRINGL</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block_name</span><span class="z-punctuation z-separator">,</span><span> block.name.pointer</span><span class="z-punctuation z-separator">,</span><span> block.name.length</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// 1. Prepare the PHP strings.</span></span>
+<span class="giallo-l"><span class="z-19">ZVAL_STRINGL</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block_namespace</span><span class="z-10">,</span><span> block.namespace.pointer</span><span class="z-10">,</span><span> block.namespace.length)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">ZVAL_STRINGL</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block_name</span><span class="z-10">,</span><span> block.name.pointer</span><span class="z-10">,</span><span> block.name.length)</span><span class="z-10">;</span></span></code></pre>
 <p>Do you remember that namespace, name and other similar data are of type
-<code>Slice_c_char</code>? It&#39;s just a structure with a pointer and a length. The pointer
+<code>Slice_c_char</code>? It's just a structure with a pointer and a length. The pointer
 points to the original input string, so that there is no copy (and this is the
 definition of a slice actually). Well, Zend Engine has
 <a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_API.h#L563-L565">a <code>ZVAL_STRINGL</code> macro</a>
@@ -561,74 +561,74 @@ for us, Zend Engine does
 There is no way to keep the pointer and the length only, but it keeps the number
 of copies small. I think it is to take the full ownership of the data, which is
 required for the garbage collector.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">// 2. Create the Gutenberg_Parser_Block object.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">object_init_ex</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block</span><span class="z-punctuation z-separator">,</span><span> gutenberg_parser_block_class_entry</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">// 2. Create the Gutenberg_Parser_Block object.</span></span>
+<span class="giallo-l"><span class="z-19">object_init_ex</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block</span><span class="z-10">,</span><span> gutenberg_parser_block_class_entry)</span><span class="z-10">;</span></span></code></pre>
 <p>The object has been instanciated with a class represented by the
 <code>gutenberg_parser_block_class_entry</code>.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">// 3. Set the namespace and the name.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">add_property_zval</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;namespace&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable z-parameter">php_block_namespace</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">add_property_zval</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;name&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable z-parameter">php_block_name</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">// 3. Set the namespace and the name.</span></span>
+<span class="giallo-l"><span class="z-19">add_property_zval</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block</span><span class="z-10">,</span><span class="z-11"> &quot;namespace&quot;</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">php_block_namespace</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">add_property_zval</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block</span><span class="z-10">,</span><span class="z-11"> &quot;name&quot;</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">php_block_name</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">zval_ptr_dtor</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block_namespace</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">zval_ptr_dtor</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-parameter">php_block_name</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">zval_ptr_dtor</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block_namespace</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">zval_ptr_dtor</span><span>(</span><span class="z-16">&amp;</span><span class="z-13">php_block_name</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>The <code>zval_ptr_dtor</code> adds 1 to the reference counter. This is required
 for the garbage collector.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">// 4. Deal with block attributes if some.</span></span>
-<span class="giallo-l"><span class="z-keyword">if</span><span class="z-punctuation z-section"> (</span><span>block.attributes.tag </span><span class="z-keyword z-operator">==</span><span> Some</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span>    Slice_c_char attributes </span><span class="z-keyword z-operator">=</span><span class="z-variable"> block</span><span class="z-punctuation z-separator">.</span><span class="z-variable">attributes</span><span class="z-punctuation z-separator">.</span><span class="z-variable">some</span><span>.</span><span class="z-variable">_0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    zval php_block_attributes</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">// 4. Deal with block attributes if some.</span></span>
+<span class="giallo-l"><span class="z-18">if</span><span> (block.attributes.tag </span><span class="z-16">==</span><span> Some) {</span></span>
+<span class="giallo-l"><span>    Slice_c_char attributes </span><span class="z-16">=</span><span> block</span><span class="z-10">.</span><span>attributes</span><span class="z-10">.</span><span>some._0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    zval php_block_attributes</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    ZVAL_STRINGL</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_block_attributes</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> attributes</span><span class="z-punctuation z-separator">.</span><span class="z-variable">pointer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> attributes</span><span class="z-punctuation z-separator">.</span><span class="z-variable">length</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-19">    ZVAL_STRINGL</span><span>(</span><span class="z-16">&amp;</span><span>php_block_attributes</span><span class="z-10">,</span><span> attributes</span><span class="z-10">.</span><span>pointer</span><span class="z-10">,</span><span> attributes</span><span class="z-10">.</span><span>length)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // 5. Set the attributes.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    add_property_zval</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_block</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;attributes&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span>php_block_attributes</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // 5. Set the attributes.</span></span>
+<span class="giallo-l"><span class="z-19">    add_property_zval</span><span>(</span><span class="z-16">&amp;</span><span>php_block</span><span class="z-10">,</span><span class="z-11"> &quot;attributes&quot;</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span>php_block_attributes)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    zval_ptr_dtor</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_block_attributes</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">    zval_ptr_dtor</span><span>(</span><span class="z-16">&amp;</span><span>php_block_attributes)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>It is similar to what has been done for <code>namespace</code> and <code>name</code>. Now
-let&#39;s continue with children.</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">// 6. Handle children.</span></span>
-<span class="giallo-l"><span class="z-storage">const</span><span> Vector_Node </span><span class="z-keyword z-operator">*</span><span>children </span><span class="z-keyword z-operator">=</span><span class="z-punctuation z-section"> (</span><span class="z-storage">const</span><span> Vector_Node</span><span class="z-keyword z-operator">*</span><span class="z-punctuation z-section">) (</span><span>block.children</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+let's continue with children.</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">// 6. Handle children.</span></span>
+<span class="giallo-l"><span class="z-18">const</span><span> Vector_Node </span><span class="z-16">*</span><span>children </span><span class="z-16">=</span><span> (</span><span class="z-18">const</span><span> Vector_Node</span><span class="z-16">*</span><span>) (block.children)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">if</span><span class="z-punctuation z-section"> (</span><span>children</span><span class="z-keyword z-operator">-&gt;</span><span>length </span><span class="z-keyword z-operator">&gt;</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span>    zval php_children_array</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">if</span><span> (children</span><span class="z-16">-&gt;</span><span>length </span><span class="z-16">&gt;</span><span class="z-13"> 0</span><span>) {</span></span>
+<span class="giallo-l"><span>    zval php_children_array</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    array_init_size</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_children_array</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> children</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">length</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-19">    array_init_size</span><span>(</span><span class="z-16">&amp;</span><span>php_children_array</span><span class="z-10">,</span><span> children</span><span class="z-10">-&gt;</span><span>length)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Recursion.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    into_php_objects</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_children_array</span><span class="z-punctuation z-separator">,</span><span> children</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Recursion.</span></span>
+<span class="giallo-l"><span class="z-19">    into_php_objects</span><span>(</span><span class="z-16">&amp;</span><span>php_children_array</span><span class="z-10">,</span><span> children)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // 7. Set the children.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    add_property_zval</span><span class="z-punctuation z-section">(</span><span class="z-keyword z-operator">&amp;</span><span>php_block</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;children&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span>php_children_array</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // 7. Set the children.</span></span>
+<span class="giallo-l"><span class="z-19">    add_property_zval</span><span>(</span><span class="z-16">&amp;</span><span>php_block</span><span class="z-10">,</span><span class="z-11"> &quot;children&quot;</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span>php_children_array)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Z_DELREF</span><span class="z-punctuation z-section">(</span><span>php_children_array</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span>
+<span class="giallo-l"><span class="z-19">    Z_DELREF</span><span>(php_children_array)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">free</span><span class="z-punctuation z-section">((</span><span class="z-storage z-type">void</span><span class="z-keyword z-operator">*</span><span class="z-punctuation z-section">)</span><span class="z-variable z-parameter"> children</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">free</span><span>((</span><span class="z-4">void</span><span class="z-16">*</span><span>)</span><span class="z-13"> children</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>Finally, add the block instance into the array to be returned:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">    // 8. Insert the object in the collection.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    add_next_index_zval</span><span class="z-punctuation z-section">(</span><span>php_array</span><span class="z-punctuation z-separator">,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable z-parameter">php_block</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">    // 8. Insert the object in the collection.</span></span>
+<span class="giallo-l"><span class="z-19">    add_next_index_zval</span><span>(php_array</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">php_block</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/php/extension/gutenberg_post_parser/gutenberg_post_parser.c">The entire code lands here</a>.</p>
-<h2 id="-3">PHP Extension 🚀 PHP Userland<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="php-extension-rocket-php-userland">PHP Extension 🚀 PHP Userland<a role="presentation" class="anchor" href="#php-extension-rocket-php-userland" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>Now the extension is written, we have to compile it. That&#39;s the
+<p>Now the extension is written, we have to compile it. That's the
 repetitive set of commands we have shown above with <code>phpize</code>. Once the
 extension is compiled, the generated <code>gutenberg_post_parser.so</code> file
 must be located in the extension directory. This directory can be found
 with the following command:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php-config --extension-dir</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php-config --extension-dir</span></span></code></pre>
 <p>For instance, in my computer, the extension directory is
 <code>/usr/local/Cellar/php/7.2.11/pecl/20170718</code>.</p>
 <p>Then, to enable the extension for a given execution, you must write:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php -d</span><span class="z-variable"> extension</span><span class="z-keyword z-operator">=</span><span class="z-string">gutenberg_post_parser</span><span class="z-entity z-name"> -m</span><span class="z-keyword z-operator"> |</span><span> \</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php -d extension</span><span class="z-16">=</span><span class="z-11">gutenberg_post_parser</span><span class="z-4"> -m</span><span class="z-16"> |</span><span> \</span></span>
 <span class="giallo-l"><span>      grep gutenberg_post_parser</span></span></code></pre>
 <p>Or, to enable the extension for all executions, locate the <code>php.ini</code>
 file with <code>php --ini</code> and edit it to add:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span>extension=gutenberg_post_parser</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span>extension=gutenberg_post_parser</span></span></code></pre>
 <p>Done!</p>
-<p>Now, let&#39;s use some reflection to check the extension is correctly
+<p>Now, let's use some reflection to check the extension is correctly
 loaded and handled by PHP:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php --re gutenberg_post_parser</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php --re gutenberg_post_parser</span></span>
 <span class="giallo-l"><span>Extension [ &lt;persistent&gt; extension #64 gutenberg_post_parser version 0.1.0 ] {</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>  - Functions {</span></span>
@@ -684,56 +684,56 @@ loaded and handled by PHP:</p>
 <span class="giallo-l"><span>  }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Everything looks good: There is one function and two classes that are
-defined as expected. Now, let&#39;s write some PHP code for the first time
+defined as expected. Now, let's write some PHP code for the first time
 in this blog post!</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    gutenberg_post_parse</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">        &#39;&lt;!-- wp:foo /--&gt;bar&lt;!-- wp:baz --&gt;qux&lt;!-- /wp:baz --&gt;&#39;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>(</span></span>
+<span class="giallo-l"><span class="z-19">    gutenberg_post_parse</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">        &#39;&lt;!-- wp:foo /--&gt;bar&lt;!-- wp:baz --&gt;qux&lt;!-- /wp:baz --&gt;&#39;</span></span>
 <span class="giallo-l"><span>    )</span></span>
-<span class="giallo-l"><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * Will output:</span></span>
-<span class="giallo-l"><span class="z-comment"> *     array(3) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *       [0]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *       object(Gutenberg_Parser_Block)#1 (4) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;namespace&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         string(4) &quot;core&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;name&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         string(3) &quot;foo&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;attributes&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         NULL</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;children&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         NULL</span></span>
-<span class="giallo-l"><span class="z-comment"> *       }</span></span>
-<span class="giallo-l"><span class="z-comment"> *       [1]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *       object(Gutenberg_Parser_Phrase)#2 (1) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;content&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         string(3) &quot;bar&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *       }</span></span>
-<span class="giallo-l"><span class="z-comment"> *       [2]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *       object(Gutenberg_Parser_Block)#3 (4) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;namespace&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         string(4) &quot;core&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;name&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         string(3) &quot;baz&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;attributes&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         NULL</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [&quot;children&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *         array(1) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *           [0]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *           object(Gutenberg_Parser_Phrase)#4 (1) {</span></span>
-<span class="giallo-l"><span class="z-comment"> *             [&quot;content&quot;]=&gt;</span></span>
-<span class="giallo-l"><span class="z-comment"> *             string(3) &quot;qux&quot;</span></span>
-<span class="giallo-l"><span class="z-comment"> *           }</span></span>
-<span class="giallo-l"><span class="z-comment"> *         }</span></span>
-<span class="giallo-l"><span class="z-comment"> *       }</span></span>
-<span class="giallo-l"><span class="z-comment"> *     }</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Will output:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     array(3) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       [0]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       object(Gutenberg_Parser_Block)#1 (4) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;namespace&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         string(4) &quot;core&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;name&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         string(3) &quot;foo&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;attributes&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         NULL</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;children&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         NULL</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       [1]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       object(Gutenberg_Parser_Phrase)#2 (1) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;content&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         string(3) &quot;bar&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       [2]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       object(Gutenberg_Parser_Block)#3 (4) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;namespace&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         string(4) &quot;core&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;name&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         string(3) &quot;baz&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;attributes&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         NULL</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [&quot;children&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         array(1) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *           [0]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *           object(Gutenberg_Parser_Phrase)#4 (1) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *             [&quot;content&quot;]=&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *             string(3) &quot;qux&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *           }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *       }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     }</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre>
 <p>It works very well!</p>
-<h2 id="-4">Conclusion<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The journey is:</p>
 <ul>
@@ -767,7 +767,7 @@ the number of binding we are going through: Rust to C to PHP: Does it
 still hold? From the Rust perspective, yes, but everything that happens
 inside C or PHP must be considered unsafe. A special care must be put in
 the C binding to handle all situations.</p>
-<p>Is it still fast? Well, let&#39;s benchmark. I would like to remind that the first
+<p>Is it still fast? Well, let's benchmark. I would like to remind that the first
 goal of this experiment was to tackle the bad performance of the original PEG.js
 parser. On the JavaScript ground, WASM and ASM.js have shown to be very much
 faster (see
@@ -775,7 +775,7 @@ faster (see
 and
 <a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/">the ASM.js galaxy</a>).
 For PHP, <a rel="noopener external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code> is used</a>: It reads the
-grammar written for PEG.js and compiles it to PHP. Let&#39;s see how they compare:</p>
+grammar written for PEG.js and compiles it to PHP. Let's see how they compare:</p>
 <figure>
 <table><thead><tr><th>Document</th><th>PEG PHP parser (ms)</th><th>Rust parser as a PHP extension (ms)</th><th>speedup</th></tr></thead><tbody>
 <tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>30.409</td><td>0.0012</td><td>× 25341</td></tr>
@@ -805,7 +805,7 @@ Iterators</a>.</p>
 <p>Thanks for reading!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;the-c-galaxy&#x2F;" class="button text-align-start" style="view-transition-name: series-episode-title-the-c-galaxy">❮&nbsp;The C galaxy</a></nav>
+    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-c-galaxy">❮&nbsp;The C galaxy</a></nav>
   </article>
 
 </main>

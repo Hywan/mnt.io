@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -168,12 +168,12 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2014-09-30" property="datePublished">September 30, 2014</time>
-    <span title="Reading time" property="timeRequired" content="PT11M">11 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT9M">9 minutes read</span>
     
     <span title="Keywords" property="keywords" content="data, generation, string, regular expression, algorithm">
       Keywords:&nbsp;<a href="/keywords/data" title="All articles matching the `data` keyword">data</a>, <a href="/keywords/generation" title="All articles matching the `generation` keyword">generation</a>, <a href="/keywords/string" title="All articles matching the `string` keyword">string</a>, <a href="/keywords/regular-expression" title="All articles matching the `regular expression` keyword">regular expression</a>, <a href="/keywords/algorithm" title="All articles matching the `algorithm` keyword">algorithm</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2014-09-30-generate-strings-based-on-regular-expressions&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2014-09-30-generate-strings-based-on-regular-expressions/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="During my PhD thesis, I have partly worked on the problem of the automatic accurate test data generation. In order to be complete and self-contained, I have addressed all kinds of data types, including strings. This article aims at showing how to generate accurate and relevant strings under several constraints." />
       
@@ -252,19 +252,19 @@ provides the grammar of the PCRE language in the
 <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex/blob/master/Source/Grammar.pp"><code>hoa://Library/Regex/Grammar.pp</code></a>
 file. Consequently, we are able to analyze regular expressions written in the
 PCRE language! Let's try in a shell at first with the <code>hoa compiler:pp</code> tool:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> hoa</span><span class="z-string"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-constant z-numeric"> 0</span><span class="z-constant z-other"> --visitor</span><span class="z-string"> dump</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span>  #expression</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;</span><span class="z-comment">  #concatenation</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">literal,</span><span class="z-string"> a</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">literal,</span><span class="z-string"> b</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;</span><span class="z-comment">  #quantification</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;</span><span class="z-comment">  #alternation</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">literal,</span><span class="z-string"> c</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">literal,</span><span class="z-string"> d</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">n_to_m,</span><span class="z-string"> {2,4}</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;</span><span class="z-comment">  #quantification</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">literal,</span><span class="z-string"> e</span><span>)</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">&gt;</span><span class="z-keyword z-operator">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-entity z-name">zero_or_one,</span><span class="z-string"> ?</span><span>)</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-16"> |</span><span class="z-4"> hoa</span><span class="z-11"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-13"> 0</span><span class="z-8"> --visitor</span><span class="z-11"> dump</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span>  #expression</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;</span><span class="z-7 z-i">  #concatenation</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;</span><span>  token(</span><span class="z-4">literal,</span><span class="z-11"> a</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;</span><span>  token(</span><span class="z-4">literal,</span><span class="z-11"> b</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;</span><span class="z-7 z-i">  #quantification</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;</span><span class="z-7 z-i">  #alternation</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-4">literal,</span><span class="z-11"> c</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-4">literal,</span><span class="z-11"> d</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-4">n_to_m,</span><span class="z-11"> {2,4}</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;</span><span class="z-7 z-i">  #quantification</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-4">literal,</span><span class="z-11"> e</span><span>)</span></span>
+<span class="giallo-l"><span class="z-10">&gt;</span><span class="z-16">  &gt;  &gt;  &gt;</span><span>  token(</span><span class="z-4">zero_or_one,</span><span class="z-11"> ?</span><span>)</span></span></code></pre>
 <p>We read that the whole expression is composed of a single concatenation
 of two tokens: <code>a</code> and <code>b</code>, followed by a quantification, followed by
 another quantification. The first quantification is an alternation of (a
@@ -287,7 +287,7 @@ the sequence, see the
 to learn more).</p>
 <p>Still in the shell, we can get the result of the lexical analyzer by
 using the <code>--token-sequence</code> option; thus:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> hoa</span><span class="z-string"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-constant z-numeric"> 0</span><span class="z-constant z-other"> --token-sequence</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-16"> |</span><span class="z-4"> hoa</span><span class="z-11"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-13"> 0</span><span class="z-8"> --token-sequence</span></span>
 <span class="giallo-l"><span>  #  …  token name   token value  offset</span></span>
 <span class="giallo-l"><span>-----------------------------------------</span></span>
 <span class="giallo-l"><span>  0  …  literal      a                 0</span></span>
@@ -313,30 +313,30 @@ The result of this analysis is a tree. You know what is fun with trees?
 <p>Unsurprisingly, each node of the AST can be visited thanks to the <a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Visitor"><code>Hoa\Visitor</code>
 library</a>. Here is an example with the
 “dump” visitor:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Compiler</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">File</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">Compiler</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">File</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// 1. Load grammar.</span></span>
-<span class="giallo-l"><span class="z-variable">$compiler</span><span class="z-keyword z-operator"> =</span><span> Compiler</span><span class="z-punctuation z-separator">\</span><span>Llk</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Llk</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">load</span><span>(</span></span>
-<span class="giallo-l"><span class="z-keyword">    new</span><span> File</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Read</span><span>(</span><span class="z-string">&#39;hoa://Library/Regex/Grammar.pp&#39;</span><span>)</span></span>
-<span class="giallo-l"><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// 1. Load grammar.</span></span>
+<span class="giallo-l"><span>$compiler</span><span class="z-16"> =</span><span> Compiler</span><span class="z-10">\</span><span>Llk</span><span class="z-10">\</span><span class="z-1">Llk</span><span class="z-16">::</span><span class="z-19">load</span><span>(</span></span>
+<span class="giallo-l"><span class="z-18">    new</span><span> File</span><span class="z-10">\</span><span class="z-1">Read</span><span>(</span><span class="z-11">&#39;hoa://Library/Regex/Grammar.pp&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// 2. Parse a data.</span></span>
-<span class="giallo-l"><span class="z-variable">$ast</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $compiler</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">parse</span><span>(</span><span class="z-string">&#39;ab(c|d){2,4}e?&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// 2. Parse a data.</span></span>
+<span class="giallo-l"><span>$ast</span><span class="z-16"> =</span><span> $compiler</span><span class="z-16">-&gt;</span><span class="z-19">parse</span><span>(</span><span class="z-11">&#39;ab(c|d){2,4}e?&#39;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// 3. Dump the AST.</span></span>
-<span class="giallo-l"><span class="z-variable">$dump</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> Compiler</span><span class="z-punctuation z-separator">\</span><span>Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Dump</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $dump</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// 3. Dump the AST.</span></span>
+<span class="giallo-l"><span>$dump</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Compiler</span><span class="z-10">\</span><span>Visitor</span><span class="z-10">\</span><span class="z-1">Dump</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span> $dump</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p>This program will print the same AST dump we have previously seen in the
 shell.</p>
 <p>How to write our own visitor? A visitor is a class with a single <code>visit</code>
 method. Let's try a visitor that pretty print a regular expression, i.e.
 transform:</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>ab(c|d){2,4}e?</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>ab(c|d){2,4}e?</span></span></code></pre>
 <p>into:</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>a</span></span>
+<pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>a</span></span>
 <span class="giallo-l"><span>b</span></span>
 <span class="giallo-l"><span>(</span></span>
 <span class="giallo-l"><span>    c</span></span>
@@ -351,94 +351,94 @@ pretty printer is often a good way for being familiarized with the
 structure of an AST.</p>
 <p>Here is the class. It catches only useful constructions for the given
 example:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Visitor</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">Visitor</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> PrettyPrinter</span><span class="z-storage"> implements</span><span> Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-entity z-other z-inherited-class">Visit</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> visit</span><span>(</span></span>
-<span class="giallo-l"><span>        Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Element</span><span class="z-variable"> $element</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-storage">        &amp;</span><span class="z-variable">$handle</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-variable">        $eldnah</span><span class="z-keyword z-operator">  =</span><span class="z-constant z-language"> null</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> PrettyPrinter</span><span class="z-18"> implements</span><span> Visitor</span><span class="z-10">\</span><span class="z-1">Visit</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> visit</span><span>(</span></span>
+<span class="giallo-l"><span>        Visitor</span><span class="z-10">\</span><span class="z-1">Element</span><span> $element</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-18">        &amp;</span><span>$handle</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>        $eldnah</span><span class="z-16">  =</span><span class="z-13"> null</span></span>
 <span class="giallo-l"><span>    ) {</span></span>
-<span class="giallo-l"><span class="z-storage">        static</span><span class="z-variable"> $_indent</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        static</span><span> $_indent</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        $out</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">        $nodeId</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getId</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        $out</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>        $nodeId</span><span class="z-16"> =</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getId</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        switch</span><span>(</span><span class="z-variable">$nodeId</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">            // Reset indentation and…</span></span>
-<span class="giallo-l"><span class="z-keyword">            case</span><span class="z-string"> &#39;#expression&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">                $_indent</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        switch</span><span>($nodeId) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Reset indentation and…</span></span>
+<span class="giallo-l"><span class="z-18">            case</span><span class="z-11"> &#39;#expression&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>                $_indent</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // … visit all the children.</span></span>
-<span class="giallo-l"><span class="z-keyword">            case</span><span class="z-string"> &#39;#quantification&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                foreach</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChildren</span><span>()</span><span class="z-keyword z-operator"> as</span><span class="z-variable"> $child</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">                    $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $child</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">              break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // … visit all the children.</span></span>
+<span class="giallo-l"><span class="z-18">            case</span><span class="z-11"> &#39;#quantification&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                foreach</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChildren</span><span>()</span><span class="z-16"> as</span><span> $child)</span></span>
+<span class="giallo-l"><span>                    $out</span><span class="z-16"> .=</span><span> $child</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">              break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // One new line between each children of the concatenation.</span></span>
-<span class="giallo-l"><span class="z-keyword">            case</span><span class="z-string"> &#39;#concatenation&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                foreach</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChildren</span><span>()</span><span class="z-keyword z-operator"> as</span><span class="z-variable"> $child</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">                    $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $child</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">              break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // One new line between each children of the concatenation.</span></span>
+<span class="giallo-l"><span class="z-18">            case</span><span class="z-11"> &#39;#concatenation&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                foreach</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChildren</span><span>()</span><span class="z-16"> as</span><span> $child)</span></span>
+<span class="giallo-l"><span>                    $out</span><span class="z-16"> .=</span><span> $child</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-16"> .</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">              break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // Add parenthesis and increase indentation.</span></span>
-<span class="giallo-l"><span class="z-keyword">            case</span><span class="z-string"> &#39;#alternation&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">                $oout</span><span class="z-keyword z-operator"> =</span><span class="z-punctuation z-section"> []</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Add parenthesis and increase indentation.</span></span>
+<span class="giallo-l"><span class="z-18">            case</span><span class="z-11"> &#39;#alternation&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>                $oout</span><span class="z-16"> =</span><span> []</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">                $pIndent</span><span class="z-keyword z-operator"> =</span><span class="z-support z-function"> str_repeat</span><span>(</span><span class="z-string">&#39;    &#39;</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $_indent</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                ++</span><span class="z-variable">$_indent</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">                $cIndent</span><span class="z-keyword z-operator"> =</span><span class="z-support z-function"> str_repeat</span><span>(</span><span class="z-string">&#39;    &#39;</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $_indent</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>                $pIndent</span><span class="z-16"> =</span><span class="z-15"> str_repeat</span><span>(</span><span class="z-11">&#39;    &#39;</span><span class="z-10">,</span><span> $_indent)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-16">                ++</span><span>$_indent</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>                $cIndent</span><span class="z-16"> =</span><span class="z-15"> str_repeat</span><span>(</span><span class="z-11">&#39;    &#39;</span><span class="z-10">,</span><span> $_indent)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">                foreach</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChildren</span><span>()</span><span class="z-keyword z-operator"> as</span><span class="z-variable"> $child</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">                    $oout</span><span class="z-punctuation z-section">[]</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $cIndent</span><span class="z-keyword z-operator"> .</span><span class="z-variable"> $child</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">                foreach</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChildren</span><span>()</span><span class="z-16"> as</span><span> $child)</span></span>
+<span class="giallo-l"><span>                    $oout[]</span><span class="z-16"> =</span><span> $cIndent</span><span class="z-16"> .</span><span> $child</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                --</span><span class="z-variable">$_indent</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">                $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $pIndent</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &#39;(&#39;</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-keyword z-operator"> .</span></span>
-<span class="giallo-l"><span class="z-support z-function">                        implode</span><span>(</span><span class="z-string">&quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-keyword z-operator"> .</span><span class="z-variable"> $cIndent</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &#39;|&#39;</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $oout</span><span>)</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-keyword z-operator"> .</span></span>
-<span class="giallo-l"><span class="z-variable">                        $pIndent</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &#39;)&#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">              break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-16">                --</span><span>$_indent</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>                $out</span><span class="z-16"> .=</span><span> $pIndent</span><span class="z-16"> .</span><span class="z-11"> &#39;(&#39;</span><span class="z-16"> .</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-16"> .</span></span>
+<span class="giallo-l"><span class="z-15">                        implode</span><span>(</span><span class="z-11">&quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-16"> .</span><span> $cIndent</span><span class="z-16"> .</span><span class="z-11"> &#39;|&#39;</span><span class="z-16"> .</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span><span> $oout)</span><span class="z-16"> .</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-16"> .</span></span>
+<span class="giallo-l"><span>                        $pIndent</span><span class="z-16"> .</span><span class="z-11"> &#39;)&#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">              break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // Print token value verbatim.</span></span>
-<span class="giallo-l"><span class="z-keyword">            case</span><span class="z-string"> &#39;token&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">                $tokenId</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueToken</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">                $tokenValue</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueValue</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Print token value verbatim.</span></span>
+<span class="giallo-l"><span class="z-18">            case</span><span class="z-11"> &#39;token&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>                $tokenId</span><span class="z-16"> =</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getValueToken</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>                $tokenValue</span><span class="z-16"> =</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getValueValue</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">                switch</span><span>(</span><span class="z-variable">$tokenId</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">                switch</span><span>($tokenId) {</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">                    case</span><span class="z-string"> &#39;literal&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                    case</span><span class="z-string"> &#39;n_to_m&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                    case</span><span class="z-string"> &#39;zero_or_one&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">                        $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $tokenValue</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">                       break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">                    case</span><span class="z-11"> &#39;literal&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                    case</span><span class="z-11"> &#39;n_to_m&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                    case</span><span class="z-11"> &#39;zero_or_one&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>                        $out</span><span class="z-16"> .=</span><span> $tokenValue</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">                       break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">                    default</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                        throw new</span><span class="z-support z-class"> RuntimeException</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">                            &#39;Token ID &#39;</span><span class="z-keyword z-operator"> .</span><span class="z-variable"> $tokenId</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &#39; is not well-handled.&#39;</span></span>
-<span class="giallo-l"><span>                        )</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">                    default</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                        throw new</span><span class="z-1"> RuntimeException</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">                            &#39;Token ID &#39;</span><span class="z-16"> .</span><span> $tokenId</span><span class="z-16"> .</span><span class="z-11"> &#39; is not well-handled.&#39;</span></span>
+<span class="giallo-l"><span>                        )</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>                }</span></span>
-<span class="giallo-l"><span class="z-keyword">              break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">              break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">            default</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">                throw new</span><span class="z-support z-class"> RuntimeException</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">                    &#39;Node ID &#39;</span><span class="z-keyword z-operator"> .</span><span class="z-variable"> $nodeId</span><span class="z-keyword z-operator"> .</span><span class="z-string"> &#39; is not well-handled.&#39;</span></span>
-<span class="giallo-l"><span>                )</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">            default</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">                throw new</span><span class="z-1"> RuntimeException</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">                    &#39;Node ID &#39;</span><span class="z-16"> .</span><span> $nodeId</span><span class="z-16"> .</span><span class="z-11"> &#39; is not well-handled.&#39;</span></span>
+<span class="giallo-l"><span>                )</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable"> $out</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span> $out</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And finally, we apply the pretty printer on the AST like previously
 seen:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$compiler</span><span class="z-keyword z-operator"> =</span><span> Compiler</span><span class="z-punctuation z-separator">\</span><span>Llk</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Llk</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">load</span><span>(</span></span>
-<span class="giallo-l"><span class="z-keyword">    new</span><span> File</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Read</span><span>(</span><span class="z-string">&#39;hoa://Library/Regex/Grammar.pp&#39;</span><span>)</span></span>
-<span class="giallo-l"><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$ast</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $compiler</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">parse</span><span>(</span><span class="z-string">&#39;ab(c|d){2,4}e?&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$prettyprint</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-support z-class"> PrettyPrinter</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $prettyprint</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>$compiler</span><span class="z-16"> =</span><span> Compiler</span><span class="z-10">\</span><span>Llk</span><span class="z-10">\</span><span class="z-1">Llk</span><span class="z-16">::</span><span class="z-19">load</span><span>(</span></span>
+<span class="giallo-l"><span class="z-18">    new</span><span> File</span><span class="z-10">\</span><span class="z-1">Read</span><span>(</span><span class="z-11">&#39;hoa://Library/Regex/Grammar.pp&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$ast</span><span class="z-16"> =</span><span> $compiler</span><span class="z-16">-&gt;</span><span class="z-19">parse</span><span>(</span><span class="z-11">&#39;ab(c|d){2,4}e?&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$prettyprint</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-1"> PrettyPrinter</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span> $prettyprint</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p><em>Et voilà !</em></p>
 <p>Now, put all that stuff together!</p>
 <h2 id="isotropic-generation">Isotropic Generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -477,75 +477,75 @@ and floats. Ready?</p>
 <h3 id="structure-of-the-visitor">Structure of the Visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The structure of the visitor is the following:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Visitor</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Math</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">Visitor</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">Math</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> IsotropicSampler</span><span class="z-storage"> implements</span><span> Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-entity z-other z-inherited-class">Visit</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    protected</span><span class="z-variable"> $_sampler</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> IsotropicSampler</span><span class="z-18"> implements</span><span> Visitor</span><span class="z-10">\</span><span class="z-1">Visit</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    protected</span><span> $_sampler</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(Math</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Sampler</span><span class="z-variable"> $sampler</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">_sampler</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $sampler</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-15"> __construct</span><span>(Math</span><span class="z-10">\</span><span class="z-1">Sampler</span><span> $sampler) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        $this</span><span class="z-16">-&gt;</span><span>_sampler</span><span class="z-16"> =</span><span> $sampler</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> visit</span><span>(</span></span>
-<span class="giallo-l"><span>        Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Element</span><span class="z-variable"> $element</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-storage">        &amp;</span><span class="z-variable">$handle</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-variable">        $eldnah</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> visit</span><span>(</span></span>
+<span class="giallo-l"><span>        Visitor</span><span class="z-10">\</span><span class="z-1">Element</span><span> $element</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-18">        &amp;</span><span>$handle</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>        $eldnah</span><span class="z-16"> =</span><span class="z-13"> null</span></span>
 <span class="giallo-l"><span>    ) {</span></span>
-<span class="giallo-l"><span class="z-keyword">        switch</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getId</span><span>()) {</span></span>
-<span class="giallo-l"><span class="z-comment">            // …</span></span>
+<span class="giallo-l"><span class="z-18">        switch</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getId</span><span>()) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // …</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>We set a sampler and we start visiting and filtering nodes by their node
 ID. The following code will generate a string based on the regular
 expression contained in the <code>$expression</code> variable:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$expression</span><span class="z-keyword z-operator">  =</span><span class="z-string"> &#39;…&#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$ast</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $compiler</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">parse</span><span>(</span><span class="z-variable">$expression</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$generator</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-support z-class"> IsotropicSampler</span><span>(</span><span class="z-keyword">new</span><span> Math</span><span class="z-punctuation z-separator">\</span><span>Sampler</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Random</span><span>())</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $generator</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>$expression</span><span class="z-16">  =</span><span class="z-11"> &#39;…&#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$ast</span><span class="z-16"> =</span><span> $compiler</span><span class="z-16">-&gt;</span><span class="z-19">parse</span><span>($expression)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$generator</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-1"> IsotropicSampler</span><span>(</span><span class="z-18">new</span><span> Math</span><span class="z-10">\</span><span>Sampler</span><span class="z-10">\</span><span class="z-1">Random</span><span>())</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span> $generator</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p>We are going to change the value of <code>$expression</code> step by step until
 having <code>ab(c|d){2,4}e?</code>.</p>
 <h3 id="case-of-expression">Case of <code>#expression</code><a role="presentation" class="anchor" href="#case-of-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A node of type <code>#expression</code> has only one child. Thus, we simply return
 the computation of this node:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;#expression&#39;</span><span class="z-keyword z-operator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code><a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;#expression&#39;</span><span class="z-16">:</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>(</span><span class="z-13">0</span><span>)</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code><a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We consider only one type of token for now: <code>literal</code>. A literal can
 contain an escaped character, can be a single character or can be <code>.</code>
 (which means everything). We consider only a single character for this
 example (spoil: the whole visitor already exists). Thus:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;token&#39;</span><span class="z-keyword z-operator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueValue</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;token&#39;</span><span class="z-16">:</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getValueValue</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>Here, with <code>$expression = 'a';</code> we get the string <code>a</code>.</p>
 <h3 id="case-of-concatenation">Case of <code>#concatenation</code><a role="presentation" class="anchor" href="#case-of-concatenation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A concatenation is just the computation of all children joined in a
 single piece of string. Thus:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;#concatenation&#39;</span><span class="z-keyword z-operator">:</span></span>
-<span class="giallo-l"><span class="z-variable">    $out</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;#concatenation&#39;</span><span class="z-16">:</span></span>
+<span class="giallo-l"><span>    $out</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    foreach</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChildren</span><span>()</span><span class="z-keyword z-operator"> as</span><span class="z-variable"> $child</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">        $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $child</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    foreach</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChildren</span><span>()</span><span class="z-16"> as</span><span> $child)</span></span>
+<span class="giallo-l"><span>        $out</span><span class="z-16"> .=</span><span> $child</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $out</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    return</span><span> $out</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>At this step, with <code>$expression = 'ab';</code> we get the string <code>ab</code>. Totally
 crazy.</p>
 <h3 id="case-of-alternation">Case of <code>#alternation</code><a role="presentation" class="anchor" href="#case-of-alternation" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -555,17 +555,17 @@ is to select a child based on the probability given above. The number of
 children for the current node can be known thanks to the
 <code>getChildrenNumber</code> method. We are also going to use the sampler of
 integers. Thus:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;#alternation&#39;</span><span class="z-keyword z-operator">:</span></span>
-<span class="giallo-l"><span class="z-variable">    $childIndex</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">_sampler</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getInteger</span><span>(</span></span>
-<span class="giallo-l"><span class="z-constant z-numeric">        0</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-variable">        $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChildrenNumber</span><span>()</span><span class="z-keyword z-operator"> -</span><span class="z-constant z-numeric"> 1</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;#alternation&#39;</span><span class="z-16">:</span></span>
+<span class="giallo-l"><span>    $childIndex</span><span class="z-16"> =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>_sampler</span><span class="z-16">-&gt;</span><span class="z-19">getInteger</span><span>(</span></span>
+<span class="giallo-l"><span class="z-13">        0</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>        $element</span><span class="z-16">-&gt;</span><span class="z-19">getChildrenNumber</span><span>()</span><span class="z-16"> -</span><span class="z-13"> 1</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-variable">$childIndex</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                   -&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    return</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>($childIndex)</span></span>
+<span class="giallo-l"><span class="z-16">                   -&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>Now, with <code>$expression = 'ab(c|d)';</code> we get the strings <code>abc</code> or <code>abd</code>
 at random. Try several times to see by yourself.</p>
 <h3 id="case-of-quantification">Case of <code>#quantification</code><a role="presentation" class="anchor" href="#case-of-quantification" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -575,73 +575,73 @@ is strictly equivalent to <code>ee|eee|eeee</code>. We have only two
 quantifications in our example: <code>?</code> and <code>{_x_,_y_}</code>. We are going to
 find the value for <code>_x_</code> and <code>_y_</code> and then choose at random between
 these bounds. Let's go:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">case</span><span class="z-string"> &#39;#quantification&#39;</span><span class="z-keyword z-operator">:</span></span>
-<span class="giallo-l"><span class="z-variable">    $out</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">    $x</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">    $y</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;#quantification&#39;</span><span class="z-16">:</span></span>
+<span class="giallo-l"><span>    $out</span><span class="z-16"> =</span><span class="z-13"> null</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    $x</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    $y</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Filter the type of quantification.</span></span>
-<span class="giallo-l"><span class="z-keyword">    switch</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueToken</span><span>()) {</span></span>
-<span class="giallo-l"><span class="z-comment">        // ?</span></span>
-<span class="giallo-l"><span class="z-keyword">        case</span><span class="z-string"> &#39;zero_or_one&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">            $y</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">          break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Filter the type of quantification.</span></span>
+<span class="giallo-l"><span class="z-18">    switch</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-16">-&gt;</span><span class="z-19">getValueToken</span><span>()) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // ?</span></span>
+<span class="giallo-l"><span class="z-18">        case</span><span class="z-11"> &#39;zero_or_one&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>            $y</span><span class="z-16"> =</span><span class="z-13"> 1</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">          break</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // {x,y}</span></span>
-<span class="giallo-l"><span class="z-keyword">        case</span><span class="z-string"> &#39;n_to_m&#39;</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-variable">            $xy</span><span class="z-keyword z-operator"> =</span><span class="z-support z-function"> explode</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">                &#39;,&#39;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-support z-function">                trim</span><span>(</span><span class="z-variable">$element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getValueValue</span><span>()</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39;{}&#39;</span><span>)</span></span>
-<span class="giallo-l"><span>            )</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">            $x</span><span class="z-keyword z-operator">  =</span><span> (</span><span class="z-storage">int</span><span>)</span><span class="z-support z-function"> trim</span><span>(</span><span class="z-variable">$xy</span><span class="z-punctuation z-section">[</span><span class="z-constant z-numeric">0</span><span class="z-punctuation z-section">]</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">            $y</span><span class="z-keyword z-operator">  =</span><span> (</span><span class="z-storage">int</span><span>)</span><span class="z-support z-function"> trim</span><span>(</span><span class="z-variable">$xy</span><span class="z-punctuation z-section">[</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-section">]</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">          break</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // {x,y}</span></span>
+<span class="giallo-l"><span class="z-18">        case</span><span class="z-11"> &#39;n_to_m&#39;</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span>            $xy</span><span class="z-16"> =</span><span class="z-15"> explode</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">                &#39;,&#39;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-15">                trim</span><span>($element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-16">-&gt;</span><span class="z-19">getValueValue</span><span>()</span><span class="z-10">,</span><span class="z-11"> &#39;{}&#39;</span><span>)</span></span>
+<span class="giallo-l"><span>            )</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>            $x</span><span class="z-16">  =</span><span> (</span><span class="z-18">int</span><span>)</span><span class="z-15"> trim</span><span>($xy[</span><span class="z-13">0</span><span>])</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>            $y</span><span class="z-16">  =</span><span> (</span><span class="z-18">int</span><span>)</span><span class="z-15"> trim</span><span>($xy[</span><span class="z-13">1</span><span>])</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">          break</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Choose the number of repetitions.</span></span>
-<span class="giallo-l"><span class="z-variable">    $max</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">_sampler</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getInteger</span><span>(</span><span class="z-variable">$x</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $y</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Choose the number of repetitions.</span></span>
+<span class="giallo-l"><span>    $max</span><span class="z-16"> =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>_sampler</span><span class="z-16">-&gt;</span><span class="z-19">getInteger</span><span>($x</span><span class="z-10">,</span><span> $y)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Concatenate.</span></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span>(</span><span class="z-variable">$i</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span class="z-variable"> $i</span><span class="z-keyword z-operator"> &lt;</span><span class="z-variable"> $max</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span class="z-variable">$i</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable">        $out</span><span class="z-keyword z-operator"> .=</span><span class="z-variable"> $element</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getChild</span><span>(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">accept</span><span>(</span><span class="z-variable z-language">$this</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $handle</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $eldnah</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Concatenate.</span></span>
+<span class="giallo-l"><span class="z-18">    for</span><span>($i</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span><span> $i</span><span class="z-16"> &lt;</span><span> $max</span><span class="z-10">;</span><span class="z-16"> ++</span><span>$i) {</span></span>
+<span class="giallo-l"><span>        $out</span><span class="z-16"> .=</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>(</span><span class="z-13">0</span><span>)</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> $out</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">  break</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    return</span><span> $out</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>Finally, with <code>$expression = 'ab(c|d){2,4}e?';</code> we can have the
 following strings: <code>abdcce</code>, <code>abdc</code>, <code>abddcd</code>, <code>abcde</code> etc. Nice isn't
 it? Want more?</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">for</span><span>(</span><span class="z-variable">$i</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span class="z-variable"> $i</span><span class="z-keyword z-operator"> &lt;</span><span class="z-constant z-numeric"> 42</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span class="z-variable">$i</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-support z-function">    echo</span><span class="z-variable"> $generator</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">for</span><span>($i</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span><span> $i</span><span class="z-16"> &lt;</span><span class="z-13"> 42</span><span class="z-10">;</span><span class="z-16"> ++</span><span>$i) {</span></span>
+<span class="giallo-l"><span class="z-15">    echo</span><span> $generator</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * Could output:</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdcc</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcdde</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcdcd</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcde</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcc</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abddcde</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abddcce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcde</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcc</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdcce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcde</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdd</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcdce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abccd</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abdcdd</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcdcce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abcce</span></span>
-<span class="giallo-l"><span class="z-comment"> *     abddc</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Could output:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdcc</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcdde</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcdcd</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcde</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcc</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abddcde</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abddcce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcde</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcc</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdcce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcde</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdd</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcdce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abccd</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abdcdd</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcdcce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abcce</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     abddc</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This is difficult to give numbers because it depends of a lot of parameters:
 your machine configuration, the PHP VM, if other programs run etc. But I have
@@ -657,13 +657,13 @@ This latter supports classes, negative classes, ranges, all
 quantifications, all kinds of literals (characters, escaped characters,
 types of characters —<code>\w</code>, <code>\d</code>, <code>\h</code>…—) etc. Consequently, all you have
 to do is:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Regex</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span> Hoa</span><span class="z-10">\</span><span class="z-1">Regex</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// …</span></span>
-<span class="giallo-l"><span class="z-variable">$generator</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> Regex</span><span class="z-punctuation z-separator">\</span><span>Visitor</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Isotropic</span><span>(</span><span class="z-keyword">new</span><span> Math</span><span class="z-punctuation z-separator">\</span><span>Sampler</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Random</span><span>())</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $generator</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">visit</span><span>(</span><span class="z-variable">$ast</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// …</span></span>
+<span class="giallo-l"><span>$generator</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Regex</span><span class="z-10">\</span><span>Visitor</span><span class="z-10">\</span><span class="z-1">Isotropic</span><span>(</span><span class="z-18">new</span><span> Math</span><span class="z-10">\</span><span>Sampler</span><span class="z-10">\</span><span class="z-1">Random</span><span>())</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span> $generator</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p>This algorithm is used in
 <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Praspel">Praspel</a>, a
 specification language I have designed during my PhD thesis. More
@@ -681,27 +681,27 @@ This extension provides several features including <code>sample</code>,
 <code>sampleMany</code> and <code>predicate</code> to respectively generate one datum,
 generate many data and validate a datum based on a realistic domain. To
 declare a regular expression, we must write:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$regex</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">realdom</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">regex</span><span>(</span><span class="z-string z-regexp">&#39;/ab(c|d){2,4}e?/&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>$regex</span><span class="z-16"> =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>realdom</span><span class="z-16">-&gt;</span><span class="z-19">regex</span><span>(</span><span class="z-8">&#39;/ab(c|d){2,4}e?/&#39;</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>And to generate a datum, all we have to do is:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$datum</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">sample</span><span>(</span><span class="z-variable">$regex</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>$datum</span><span class="z-16"> =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span class="z-19">sample</span><span>($regex)</span><span class="z-10">;</span></span></code></pre>
 <p>For instance, imagine you are writing a test called <code>test_mail</code> and you
 need an email address:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> test_mail</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">    $this</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        -&gt;</span><span class="z-entity z-name z-function">given</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">            $regex</span><span class="z-keyword z-operator">   =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">realdom</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">regex</span><span>(</span><span class="z-string z-regexp">&#39;/[\w\-_]</span><span class="z-keyword z-operator">+</span><span class="z-string z-regexp z-constant z-character">(\.[\w\-\_]</span><span class="z-keyword z-operator">+</span><span class="z-string z-regexp">)</span><span class="z-keyword z-operator">*</span><span class="z-string z-regexp z-constant z-character">@\w\.(net|org)/&#39;</span><span>)</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-variable">            $address</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">sample</span><span>(</span><span class="z-variable">$regex</span><span>)</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-variable">            $mailer</span><span class="z-keyword z-operator">  =</span><span class="z-keyword"> new</span><span class="z-punctuation z-separator"> \</span><span>Mock</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Mailer</span><span>(</span><span class="z-constant z-other">…</span><span>)</span><span class="z-punctuation z-separator">,</span></span>
+<span class="giallo-l"><span class="z-18">public function</span><span class="z-19"> test_mail</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    $this</span></span>
+<span class="giallo-l"><span class="z-16">        -&gt;</span><span class="z-19">given</span><span>(</span></span>
+<span class="giallo-l"><span>            $regex</span><span class="z-16">   =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>realdom</span><span class="z-16">-&gt;</span><span class="z-19">regex</span><span>(</span><span class="z-8">&#39;/[\w\-_]</span><span class="z-16">+</span><span class="z-8">(\.[\w\-\_]</span><span class="z-16">+</span><span class="z-8">)</span><span class="z-16">*</span><span class="z-8">@\w\.(net|org)/&#39;</span><span>)</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>            $address</span><span class="z-16"> =</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span class="z-19">sample</span><span>($regex)</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>            $mailer</span><span class="z-16">  =</span><span class="z-18"> new</span><span class="z-10"> \</span><span>Mock</span><span class="z-10">\</span><span class="z-1">Mailer</span><span>(</span><span class="z-8">…</span><span>)</span><span class="z-10">,</span></span>
 <span class="giallo-l"><span>        )</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        -&gt;</span><span class="z-entity z-name z-function">when</span><span>(</span><span class="z-variable">$mailer</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">sendTo</span><span>(</span><span class="z-variable">$address</span><span>))</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        -&gt;</span><span class="z-variable">then</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            -&gt;</span><span class="z-variable">…</span></span>
+<span class="giallo-l"><span class="z-16">        -&gt;</span><span class="z-19">when</span><span>($mailer</span><span class="z-16">-&gt;</span><span class="z-19">sendTo</span><span>($address))</span></span>
+<span class="giallo-l"><span class="z-16">        -&gt;</span><span>then</span></span>
+<span class="giallo-l"><span class="z-16">            -&gt;</span><span>…</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Easy to read, fast to execute and help to focus on the logic of the test
 instead of test data (also known as fixtures). Note that most of the
@@ -713,7 +713,7 @@ Verification and Validation: <a rel="noopener external" target="_blank" href="ht
 Domains in PHP</a>.</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;rush-release&#x2F;" class="button text-align-start">❮&nbsp;Rüsh Release</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;hello-fruux&#x2F;" class="button text-align-end">Hello fruux!&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/rush-release/" class="button text-align-start">❮&nbsp;Rüsh Release</a><a href="https://mnt.io/articles/hello-fruux/" class="button text-align-end">Hello fruux!&nbsp;❯</a></nav>
   </article>
 
 </main>

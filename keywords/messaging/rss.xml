@@ -6,16 +6,14 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/messaging/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Fri, 12 Sep 2025 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
+    <lastBuildDate>Fri, 12 Sep 2025 00:00:00 +0000</lastBuildDate><item>
+      <title>From 19k to 4.2M events/sec: story of a SQLite query optimisation</title>
       <pubDate>Fri, 12 Sep 2025 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/</link>
       <guid>https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/</guid>
       <description xml:base="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/">After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Sliding Sync at the Matrix Conference</title>
       <pubDate>Wed, 30 Oct 2024 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

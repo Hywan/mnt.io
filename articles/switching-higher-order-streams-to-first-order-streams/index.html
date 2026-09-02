@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="I discuss streams. It&#x27;s a pretext to learn about higher-order streams, like `flatten` and to introduce a new stream: `switch`! It&#x27;s very useful, and will have no secret for you.">
+  <meta name="description" content="I discuss streams. It&#39;s a pretext to learn about higher-order streams, like `flatten` and to introduce a new stream: `switch`! It&#39;s very useful, and will have no secret for you.">
   <meta name="keywords" content="rust, asynchronous, stream">
   <meta property="og:title" content="Switching higher-order streams to first-order streams">
   <meta property="og:site_name" content="mnt.io">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2026-04-13" property="datePublished">April 13, 2026</time>
-    <span title="Reading time" property="timeRequired" content="PT19M">19 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT16M">16 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, asynchronous, stream">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/asynchronous" title="All articles matching the `asynchronous` keyword">asynchronous</a>, <a href="/keywords/stream" title="All articles matching the `stream` keyword">stream</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2026-04-13-switching-higher-order-streams-to-first-order-streams&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2026-04-13-switching-higher-order-streams-to-first-order-streams/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="I discuss streams. It&#x27;s a pretext to learn about higher-order streams, like `flatten` and to introduce a new stream: `switch`! It&#x27;s very useful, and will have no secret for you." />
+      <meta property="description" content="I discuss streams. It&#39;s a pretext to learn about higher-order streams, like `flatten` and to introduce a new stream: `switch`! It&#39;s very useful, and will have no secret for you." />
       
     
   </div>
@@ -188,35 +188,35 @@
 <li>A stream produces values asynchronously,</li>
 </ul>
 <p>In terms of Rust, an <code>Iterator</code> is defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> Iterator</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> Iterator</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> next</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> self</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;;</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> next</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> self</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">enum</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-comment">    /// There is no value.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    None</span><span>,</span></span>
-<span class="giallo-l"><span class="z-comment">    /// There is a value!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Some</span><span>(</span><span class="z-entity z-name">T</span><span>),</span></span>
+<span class="giallo-l"><span class="z-18">enum</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// There is no value.</span></span>
+<span class="giallo-l"><span class="z-4">    None</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// There is a value!</span></span>
+<span class="giallo-l"><span class="z-4">    Some</span><span>(</span><span class="z-4">T</span><span>),</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And a <code>Stream</code> is defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> Stream</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> Stream</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> poll_next</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        self</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Pin</span><span>&lt;</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> Self</span><span>&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        context</span><span class="z-keyword z-operator">: &amp;</span><span class="z-storage">mut</span><span class="z-entity z-name"> Context</span><span>&lt;&#39;</span><span class="z-entity z-name">_</span><span>&gt;,</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Poll</span><span>&lt;</span><span class="z-entity z-name">Option</span><span>&lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;&gt;;</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> poll_next</span><span>(</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        self</span><span class="z-16">:</span><span class="z-4"> Pin</span><span>&lt;</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> Self</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>        context</span><span class="z-16">: &amp;</span><span class="z-18">mut</span><span class="z-4"> Context</span><span>&lt;&#39;</span><span class="z-4">_</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16"> -&gt;</span><span class="z-4"> Poll</span><span>&lt;</span><span class="z-4">Option</span><span>&lt;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;&gt;;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">enum</span><span class="z-entity z-name"> Poll</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-comment">    /// The value is not ready yet.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Pending</span><span>,</span></span>
-<span class="giallo-l"><span class="z-comment">    /// The value is immediately ready!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Ready</span><span>(</span><span class="z-entity z-name">T</span><span>),</span></span>
+<span class="giallo-l"><span class="z-18">enum</span><span class="z-4"> Poll</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The value is not ready yet.</span></span>
+<span class="giallo-l"><span class="z-4">    Pending</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The value is immediately ready!</span></span>
+<span class="giallo-l"><span class="z-19">    Ready</span><span>(</span><span class="z-4">T</span><span>),</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>(Let's ignore <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/pin/struct.Pin.html"><code>Pin</code></a> and <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/struct.Context.html"><code>Context</code></a> in this article<sup class="footnote-reference" id="fr-pin-1"><a href="#fn-pin">1</a></sup>).</p>
+<p>(Let's ignore <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/pin/struct.Pin.html"><code>Pin</code></a> and <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/struct.Context.html"><code>Context</code></a> in this article<sup class="footnote-reference" id="fr-pin-1"><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/#fn-pin">[1]</a></sup>).</p>
 <p><code>Poll::Pending</code> means that no value is ready yet: the <code>Stream</code> must be polled
 later. When is the best time to poll the <code>Stream</code> again is not the topic of this
 article and won't be discussed. <code>Poll::Ready(Some(T))</code> means the value is ready
@@ -225,13 +225,11 @@ and must not be polled again!</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Concise and straightforward. I like the similarities: <code>next</code> vs. <code>poll_next</code>,
@@ -240,16 +238,15 @@ consistency?</p>
 <p>Additionally, one of the strengths of <code>Iterator</code> is the <em>combinators</em>: a way
 to transform an <code>Iterator</code> into another <code>Iterator</code>. These combinators can be
 chained, like that:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable">iterator</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">skip_while</span><span>(…)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">filter</span><span>(…)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">enumerate</span><span>(…)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">map</span><span>(…)</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>iterator</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">skip_while</span><span>(…)</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">filter</span><span>(…)</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">enumerate</span><span>(…)</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">map</span><span>(…)</span></span></code></pre>
 <p>They are nothing more than methods returning a new <code>Iterator</code>, that's the secret
 to chain them.</p>
 <p>And similarly to <code>Iterator</code>, a <code>Stream</code> can have many <em>combinators</em>: a way to
 transform a <code>Stream</code> into another <code>Stream</code>! Once again: consistency…</p>
-
   </div>
 </div>
 <p>Exactly! That's really exciting because it brings really nice features.</p>
@@ -276,16 +273,16 @@ transform a <code>Stream</code> into another <code>Stream</code>! Once again: co
   </math>
 </div>
 <p>In Rust, it would look like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> Stream</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> Stream</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> map</span><span>&lt;</span><span class="z-entity z-name">U</span><span>,</span><span class="z-entity z-name"> F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> U</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">    where</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        F</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> FnMut</span><span>(</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> U</span><span>,</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> map</span><span>&lt;</span><span class="z-4">U</span><span>,</span><span class="z-4"> F</span><span>&gt;(</span><span class="z-1 z-i">self</span><span>, f</span><span class="z-16">:</span><span class="z-4"> F</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Stream</span><span>&lt;</span><span class="z-4">Item</span><span class="z-16"> =</span><span class="z-4"> U</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-18">    where</span></span>
+<span class="giallo-l"><span class="z-4">        F</span><span class="z-16">:</span><span class="z-19"> FnMut</span><span>(</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> U</span><span>,</span></span>
 <span class="giallo-l"><span>    {</span></span>
-<span class="giallo-l"><span class="z-comment">        // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // …</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The method <code>map</code> takes a function <code>F</code> that maps the items of the <code>Stream</code> (of
@@ -313,16 +310,16 @@ type <code>Stream::Item</code>) to a new type <code>U</code>, resulting in anoth
   </math>
 </div>
 <p>In Rust, it would look like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> Stream</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> Stream</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> filter</span><span>&lt;</span><span class="z-entity z-name">F</span><span>&gt;(</span><span class="z-variable z-language">self</span><span>,</span><span class="z-variable"> f</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> F</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">    where</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        F</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> FnMut</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> filter</span><span>&lt;</span><span class="z-4">F</span><span>&gt;(</span><span class="z-1 z-i">self</span><span>, f</span><span class="z-16">:</span><span class="z-4"> F</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Stream</span><span>&lt;</span><span class="z-4">Item</span><span class="z-16"> =</span><span class="z-1 z-i"> Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-18">    where</span></span>
+<span class="giallo-l"><span class="z-4">        F</span><span class="z-16">:</span><span class="z-19"> FnMut</span><span>(</span><span class="z-16">&amp;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> bool</span><span>,</span></span>
 <span class="giallo-l"><span>    {</span></span>
-<span class="giallo-l"><span class="z-comment">        // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // …</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The method <code>filter</code> takes a function <code>F</code> that tells if the items of the <code>Stream</code>
@@ -360,31 +357,29 @@ inner streams. Things start to be fun, let's dig a bit.</p>
   </math>
 </div>
 <p>In Rust, it would look like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> Stream</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> Stream</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> flatten</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        self</span><span>,</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Stream</span><span>&lt;</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator"> =</span><span> &lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword"> as</span><span class="z-entity z-name"> Stream</span><span>&gt;</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">    where</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> flatten</span><span>(</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        self</span><span>,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Stream</span><span>&lt;</span><span class="z-4">Item</span><span class="z-16"> =</span><span> &lt;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-18"> as</span><span class="z-4"> Stream</span><span>&gt;</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-18">    where</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        Self</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-16">:</span><span class="z-4"> Stream</span><span>,</span></span>
 <span class="giallo-l"><span>    {</span></span>
-<span class="giallo-l"><span class="z-comment">        // …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // …</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Do not be intimidated by the syntax. Try to read it one piece at a time.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Hmm, let's dissect the <code>where</code> clause:</p>
@@ -402,74 +397,73 @@ differently: the stream produces streams.</li>
 produced streams.</li>
 </ul>
 <p>The Mathematical notation was easier on this one.</p>
-
   </div>
 </div>
 <p>It's probably easier but it doesn't explain what <code>flatten</code> does exactly. Let's
 see a bit of Rust code to understand how it would work:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">/// Type to flatten a stream.</span></span>
-<span class="giallo-l"><span class="z-comment">// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Flatten</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Inner</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-comment">    /// The outer stream that produces the inner streams.</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">/// Type to flatten a stream.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.</span></span>
+<span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Flatten</span><span>&lt;</span><span class="z-4">Outer</span><span>,</span><span class="z-4"> Inner</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The outer stream that produces the inner streams.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">    outer_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Outer</span><span>,</span></span>
+<span class="giallo-l"><span>    outer_stream</span><span class="z-16">:</span><span class="z-4"> Outer</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// The most recently produced inner stream.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The most recently produced inner stream.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">    inner_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Inner</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    inner_stream</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Inner</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Good, good. Baby steps. Now, let's implement <code>Stream</code> on <code>Flatten</code> shouldn't we?</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span><span class="z-entity z-name"> Stream</span><span class="z-keyword"> for</span><span class="z-entity z-name"> Flatten</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-comment">//                                    ^^^^^^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//                                    |</span></span>
-<span class="giallo-l"><span class="z-comment">//                                    our inner stream type!</span></span>
-<span class="giallo-l"><span class="z-keyword">where</span></span>
-<span class="giallo-l"><span class="z-comment">    // My name is stream, `Outer` stream 🕵️.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-comment">    // `Outer` is a stream that produces streams!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">impl</span><span>&lt;</span><span class="z-4">Outer</span><span>&gt;</span><span class="z-4"> Stream</span><span class="z-18"> for</span><span class="z-4"> Flatten</span><span>&lt;</span><span class="z-4">Outer</span><span>,</span><span class="z-4"> Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                    ^^^^^^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                    |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                    our inner stream type!</span></span>
+<span class="giallo-l"><span class="z-18">where</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // My name is stream, `Outer` stream 🕵️.</span></span>
+<span class="giallo-l"><span class="z-4">    Outer</span><span class="z-16">:</span><span class="z-4"> Stream</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // `Outer` is a stream that produces streams!</span></span>
+<span class="giallo-l"><span class="z-4">    Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-16">:</span><span class="z-4"> Stream</span><span>,</span></span>
 <span class="giallo-l"><span>{</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span class="z-keyword z-operator"> =</span><span> &lt;</span><span class="z-entity z-name">Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword"> as</span><span class="z-entity z-name"> Stream</span><span>&gt;</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span class="z-16"> =</span><span> &lt;</span><span class="z-4">Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-18"> as</span><span class="z-4"> Stream</span><span>&gt;</span><span class="z-16">::</span><span class="z-4">Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> poll_next</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        self</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Pin</span><span>&lt;</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> Self</span><span>&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        context</span><span class="z-keyword z-operator">: &amp;</span><span class="z-storage">mut</span><span class="z-entity z-name"> Context</span><span>&lt;&#39;</span><span class="z-entity z-name">_</span><span>&gt;</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Poll</span><span>&lt;</span><span class="z-entity z-name">Option</span><span>&lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> poll_next</span><span>(</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        self</span><span class="z-16">:</span><span class="z-4"> Pin</span><span>&lt;</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> Self</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>        context</span><span class="z-16">: &amp;</span><span class="z-18">mut</span><span class="z-4"> Context</span><span>&lt;&#39;</span><span class="z-4">_</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16"> -&gt;</span><span class="z-4"> Poll</span><span>&lt;</span><span class="z-4">Option</span><span>&lt;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Ignore this. We said we keep `Pin` and projection aside.</span></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> this</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">pin_projection</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Ignore this. We said we keep `Pin` and projection aside.</span></span>
+<span class="giallo-l"><span class="z-18">        let mut</span><span> this</span><span class="z-16"> =</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span class="z-19">pin_projection</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        loop</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_pin_mut</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-comment">                // There is an inner stream: let&#39;s poll it!</span></span>
-<span class="giallo-l"><span class="z-keyword">                match</span><span class="z-variable"> inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">context</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">                    // The inner stream produced an `item`!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>))</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> return</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>)),</span></span>
+<span class="giallo-l"><span class="z-18">        loop</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            if let</span><span class="z-4"> Some</span><span>(inner_stream)</span><span class="z-16"> =</span><span> this</span><span class="z-16">.</span><span>inner_stream</span><span class="z-16">.</span><span class="z-19">as_mut</span><span>()</span><span class="z-16">.</span><span class="z-19">as_pin_mut</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // There is an inner stream: let&#39;s poll it!</span></span>
+<span class="giallo-l"><span class="z-18">                match</span><span> inner_stream</span><span class="z-16">.</span><span class="z-19">poll_next</span><span>(context) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // The inner stream produced an `item`!</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(item))</span><span class="z-16"> =&gt;</span><span class="z-18"> return</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(item)),</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                    // The inner stream is closed: let&#39;s forget it.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                        this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-entity z-name">None</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">                        // Let the loop run again.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // The inner stream is closed: let&#39;s forget it.</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>)</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span>                        this</span><span class="z-16">.</span><span>inner_stream</span><span class="z-16">.</span><span class="z-19">set</span><span>(</span><span class="z-4">None</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                        // Let the loop run again.</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                    // The inner stream is pending: nothing to do.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> return</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // The inner stream is pending: nothing to do.</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span class="z-16"> =&gt;</span><span class="z-18"> return</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span>,</span></span>
 <span class="giallo-l"><span>                }</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">                // No inner stream? No problem: let&#39;s poll the outer stream!</span></span>
-<span class="giallo-l"><span class="z-keyword">                match</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>outer_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">context</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">                    // New inner stream!</span></span>
-<span class="giallo-l"><span class="z-comment">                    // “Welcooomme iinneer streeaaam” says the crowd.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">inner_stream</span><span>))</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                        this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">inner_stream</span><span>));</span></span>
-<span class="giallo-l"><span class="z-comment">                        // Let the loop run again.</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // No inner stream? No problem: let&#39;s poll the outer stream!</span></span>
+<span class="giallo-l"><span class="z-18">                match</span><span> this</span><span class="z-16">.</span><span>outer_stream</span><span class="z-16">.</span><span class="z-19">as_mut</span><span>()</span><span class="z-16">.</span><span class="z-19">poll_next</span><span>(context) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // New inner stream!</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // “Welcooomme iinneer streeaaam” says the crowd.</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(inner_stream))</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span>                        this</span><span class="z-16">.</span><span>inner_stream</span><span class="z-16">.</span><span class="z-19">set</span><span>(</span><span class="z-4">Some</span><span>(inner_stream));</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                        // Let the loop run again.</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                    // The outer stream is closed: let&#39;s close everything.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> return</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // The outer stream is closed: let&#39;s close everything.</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>)</span><span class="z-16"> =&gt;</span><span class="z-18"> return</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>),</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                    // The outer stream is pending: nothing to do.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> return</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // The outer stream is pending: nothing to do.</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span class="z-16"> =&gt;</span><span class="z-18"> return</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span>,</span></span>
 <span class="giallo-l"><span>                }</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        }</span></span>
@@ -580,26 +574,26 @@ producing the inner stream <em>C</em>, which itself produces 6 and 7.</p>
 </figure>
 <p>Action time via a basic example, this time with the help of <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/">the <code>futures</code>
 crate</a>.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// `StreamExt` is the trait that “extends” the `Stream` trait.</span></span>
-<span class="giallo-l"><span class="z-comment">// It contains all the combinators.</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> futures</span><span class="z-keyword z-operator">::</span><span>{executor,</span><span class="z-entity z-name"> stream</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-variable z-language">self</span><span>,</span><span class="z-entity z-name"> StreamExt</span><span>}};</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// `StreamExt` is the trait that “extends” the `Stream` trait.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// It contains all the combinators.</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> futures</span><span class="z-16">::</span><span>{executor,</span><span class="z-4"> stream</span><span class="z-16">::</span><span>{</span><span class="z-1 z-i">self</span><span>,</span><span class="z-4"> StreamExt</span><span>}};</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    executor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">block_on</span><span>(</span><span class="z-keyword">async</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span></span>
-<span class="giallo-l"><span class="z-comment">            // First inner streams.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">1</span><span>,</span><span class="z-constant z-numeric"> 2</span><span>,</span><span class="z-constant z-numeric"> 3</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-comment">            // Second inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">4</span><span>,</span><span class="z-constant z-numeric"> 5</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-comment">            // Third inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">6</span><span>,</span><span class="z-constant z-numeric"> 7</span><span>,</span><span class="z-constant z-numeric"> 8</span><span>,</span><span class="z-constant z-numeric"> 9</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-4">    executor</span><span class="z-16">::</span><span class="z-19">block_on</span><span>(</span><span class="z-18">async</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> stream</span><span class="z-16"> =</span><span class="z-4"> stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // First inner streams.</span></span>
+<span class="giallo-l"><span class="z-4">            stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">1</span><span>,</span><span class="z-13"> 2</span><span>,</span><span class="z-13"> 3</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Second inner stream.</span></span>
+<span class="giallo-l"><span class="z-4">            stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">4</span><span>,</span><span class="z-13"> 5</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // Third inner stream.</span></span>
+<span class="giallo-l"><span class="z-4">            stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">6</span><span>,</span><span class="z-13"> 7</span><span>,</span><span class="z-13"> 8</span><span>,</span><span class="z-13"> 9</span><span>]),</span></span>
 <span class="giallo-l"><span>        ])</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        .</span><span class="z-entity z-name z-function">flatten</span><span>();</span></span>
-<span class="giallo-l"><span class="z-comment">//       ^^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//       |</span></span>
-<span class="giallo-l"><span class="z-comment">//       the important piece</span></span>
+<span class="giallo-l"><span class="z-16">        .</span><span class="z-19">flatten</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//       ^^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//       |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//       the important piece</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>);</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(</span><span class="z-16">&amp;</span><span>stream</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>);</span></span>
 <span class="giallo-l"><span>    });</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>There is a lot going on here.</p>
@@ -623,7 +617,7 @@ returning the flattened <code>stream</code>.</li>
 <code>Vec</code>. Since <code>collect</code> does <em>not</em> return a <code>Stream</code> but a <code>Future</code>: it produces
 a single value, not many. That's why we can simply <code>await</code> for the result. And
 speaking of result: it displays…</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>[src/main.rs:17:9] &amp;stream.collect::&lt;Vec&lt;_&gt;&gt;().await = [</span></span>
+<pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>[src/main.rs:17:9] &amp;stream.collect::&lt;Vec&lt;_&gt;&gt;().await = [</span></span>
 <span class="giallo-l"><span>    1,</span></span>
 <span class="giallo-l"><span>    2,</span></span>
 <span class="giallo-l"><span>    3,</span></span>
@@ -639,7 +633,6 @@ speaking of result: it displays…</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -665,7 +658,6 @@ if it produces non-stream items, and a stream is a higher-order stream if:</p>
 </ul>
 <p>In the case of <code>flatten</code>, it transforms a stream of streams of <code>T</code> into a stream
 of <code>T</code>. We go from a higher-order stream to a first-order stream.</p>
-
   </div>
 </div>
 <h2 id="ad-astra-switching-between-streams-dynamically"><q lang="la">Ad astra</q> — Switching Between Streams Dynamically<a role="presentation" class="anchor" href="#ad-astra-switching-between-streams-dynamically" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -675,20 +667,17 @@ talk about the <code>switch</code> combinator!</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>All this was just an introduction? Really? I can't imagine how traumatized your
 kids are when they ask a simple <q>why</q>…</p>
 <p>That said, while we are on the subject of showing off with Latin quotes… one
 comes to my mind timely: <q lang="la">fabricando fit faber</q>!</p>
-
   </div>
 </div>
 <p>Exactly. We needed to explain all that to understand what the <code>switch</code>
@@ -821,113 +810,111 @@ with a new inner stream <em>C</em>, which replaces <em>B</em>. It produces 6 and
 </figcaption>
 </figure>
 <p>Let's see how we can implement that in Rust:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">/// Type to switch a stream.</span></span>
-<span class="giallo-l"><span class="z-comment">// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Inner</span><span>&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">/// Type to switch a stream.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Ignore the `#[pin]`. We said we keep `Pin` and projection aside.</span></span>
+<span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Switch</span><span>&lt;</span><span class="z-4">Outer</span><span>,</span><span class="z-4"> Inner</span><span>&gt;</span></span>
 <span class="giallo-l"><span>{</span></span>
-<span class="giallo-l"><span class="z-comment">    /// The outer stream that produces the inner streams.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The outer stream that produces the inner streams.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">    outer_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Outer</span><span>,</span></span>
+<span class="giallo-l"><span>    outer_stream</span><span class="z-16">:</span><span class="z-4"> Outer</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// Whether the outer stream is closed.</span></span>
-<span class="giallo-l"><span class="z-variable">    outer_stream_is_closed</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Whether the outer stream is closed.</span></span>
+<span class="giallo-l"><span>    outer_stream_is_closed</span><span class="z-16">:</span><span class="z-4"> bool</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// The state of the inner stream.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// The state of the inner stream.</span></span>
 <span class="giallo-l"><span>    #[pin]</span></span>
-<span class="giallo-l"><span class="z-variable">    inner_stream</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Inner</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    inner_stream</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Inner</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And now, the moment we are all waiting for, the implementation of <code>Stream</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>&gt;</span><span class="z-entity z-name"> Stream</span><span class="z-keyword"> for</span><span class="z-entity z-name"> Switch</span><span>&lt;</span><span class="z-entity z-name">Outer</span><span>,</span><span class="z-entity z-name"> Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;</span></span>
-<span class="giallo-l"><span class="z-comment">//                                   ^^^^^^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//                                   |</span></span>
-<span class="giallo-l"><span class="z-comment">//                                   our inner stream type!</span></span>
-<span class="giallo-l"><span class="z-keyword">where</span></span>
-<span class="giallo-l"><span class="z-comment">    // My name is stream, `Outer` stream 🕵️.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-comment">    // `Outer` is a stream that produces streams!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Stream</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">impl</span><span>&lt;</span><span class="z-4">Outer</span><span>&gt;</span><span class="z-4"> Stream</span><span class="z-18"> for</span><span class="z-4"> Switch</span><span>&lt;</span><span class="z-4">Outer</span><span>,</span><span class="z-4"> Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                   ^^^^^^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                   |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                   our inner stream type!</span></span>
+<span class="giallo-l"><span class="z-18">where</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // My name is stream, `Outer` stream 🕵️.</span></span>
+<span class="giallo-l"><span class="z-4">    Outer</span><span class="z-16">:</span><span class="z-4"> Stream</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // `Outer` is a stream that produces streams!</span></span>
+<span class="giallo-l"><span class="z-4">    Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-16">:</span><span class="z-4"> Stream</span><span>,</span></span>
 <span class="giallo-l"><span>{</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span class="z-keyword z-operator"> =</span><span> &lt;</span><span class="z-entity z-name">Outer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span class="z-keyword"> as</span><span class="z-entity z-name"> Stream</span><span>&gt;</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span class="z-16"> =</span><span> &lt;</span><span class="z-4">Outer</span><span class="z-16">::</span><span class="z-4">Item</span><span class="z-18"> as</span><span class="z-4"> Stream</span><span>&gt;</span><span class="z-16">::</span><span class="z-4">Item</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> poll_next</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        self</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Pin</span><span>&lt;</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> Self</span><span>&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        context</span><span class="z-keyword z-operator">: &amp;</span><span class="z-storage">mut</span><span class="z-entity z-name"> Context</span><span>&lt;&#39;</span><span class="z-entity z-name">_</span><span>&gt;</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Poll</span><span>&lt;</span><span class="z-entity z-name">Option</span><span>&lt;</span><span class="z-variable z-language">Self</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Item</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> poll_next</span><span>(</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        self</span><span class="z-16">:</span><span class="z-4"> Pin</span><span>&lt;</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> Self</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>        context</span><span class="z-16">: &amp;</span><span class="z-18">mut</span><span class="z-4"> Context</span><span>&lt;&#39;</span><span class="z-4">_</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16"> -&gt;</span><span class="z-4"> Poll</span><span>&lt;</span><span class="z-4">Option</span><span>&lt;</span><span class="z-1 z-i">Self</span><span class="z-16">::</span><span class="z-4">Item</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Ignore this. We said we keep `Pin` and projection aside.</span></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> this</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">pin_projection</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Ignore this. We said we keep `Pin` and projection aside.</span></span>
+<span class="giallo-l"><span class="z-18">        let mut</span><span> this</span><span class="z-16"> =</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span class="z-19">pin_projection</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Poll the latest inner stream eagerly.</span></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword z-operator"> !*</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed {</span></span>
-<span class="giallo-l"><span class="z-keyword">            while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-variable">ready</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>outer_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">cx</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-keyword">                match</span><span class="z-variable"> ready</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">                    // There is a new `inner_stream`!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                        this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">inner_stream</span><span>));</span></span>
-<span class="giallo-l"><span class="z-comment">                        // Let the loop run again.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Poll the latest inner stream eagerly.</span></span>
+<span class="giallo-l"><span class="z-18">        if</span><span class="z-16"> !*</span><span>this</span><span class="z-16">.</span><span>outer_stream_is_closed {</span></span>
+<span class="giallo-l"><span class="z-18">            while let</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(ready)</span><span class="z-16"> =</span><span> this</span><span class="z-16">.</span><span>outer_stream</span><span class="z-16">.</span><span class="z-19">as_mut</span><span>()</span><span class="z-16">.</span><span class="z-19">poll_next</span><span>(cx) {</span></span>
+<span class="giallo-l"><span class="z-18">                match</span><span> ready {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                    // There is a new `inner_stream`!</span></span>
+<span class="giallo-l"><span class="z-4">                    Some</span><span>(inner_stream)</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span>                        this</span><span class="z-16">.</span><span>inner_stream</span><span class="z-16">.</span><span class="z-19">set</span><span>(</span><span class="z-4">Some</span><span>(inner_stream));</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                        // Let the loop run again.</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">                    None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                        *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed </span><span class="z-keyword z-operator">=</span><span class="z-constant z-language"> true</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">                        break</span><span>;</span></span>
+<span class="giallo-l"><span class="z-4">                    None</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-16">                        *</span><span>this</span><span class="z-16">.</span><span>outer_stream_is_closed </span><span class="z-16">=</span><span class="z-13"> true</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">                        break</span><span>;</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"><span>                }</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        match</span><span class="z-variable"> this</span><span class="z-keyword z-operator">.</span><span>inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_pin_mut</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-comment">            // No inner stream has been produced yet.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            None</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">                // The stream&#39; state is the outer stream&#39; state.</span></span>
-<span class="giallo-l"><span class="z-keyword">                if</span><span class="z-keyword z-operator"> *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span></span>
-<span class="giallo-l"><span>                }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span></span>
+<span class="giallo-l"><span class="z-18">        match</span><span> this</span><span class="z-16">.</span><span>inner_stream</span><span class="z-16">.</span><span class="z-19">as_mut</span><span>()</span><span class="z-16">.</span><span class="z-19">as_pin_mut</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // No inner stream has been produced yet.</span></span>
+<span class="giallo-l"><span class="z-4">            None</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // The stream&#39; state is the outer stream&#39; state.</span></span>
+<span class="giallo-l"><span class="z-18">                if</span><span class="z-16"> *</span><span>this</span><span class="z-16">.</span><span>outer_stream_is_closed {</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>)</span></span>
+<span class="giallo-l"><span>                }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">                    Poll</span><span class="z-16">::</span><span class="z-4">Pending</span></span>
 <span class="giallo-l"><span>                }</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // An inner stream exists: poll it!</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            Some</span><span>(</span><span class="z-variable">inner_stream</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> match</span><span class="z-variable"> inner_stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">poll_next</span><span>(</span><span class="z-variable">cx</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">                // Inner stream produced an item.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>))</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">item</span><span>)),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // An inner stream exists: poll it!</span></span>
+<span class="giallo-l"><span class="z-4">            Some</span><span>(inner_stream)</span><span class="z-16"> =&gt;</span><span class="z-18"> match</span><span> inner_stream</span><span class="z-16">.</span><span class="z-19">poll_next</span><span>(cx) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Inner stream produced an item.</span></span>
+<span class="giallo-l"><span class="z-4">                Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(item))</span><span class="z-16"> =&gt;</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(item)),</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                // Both inner and outer streams are closed.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword"> if</span><span class="z-keyword z-operator"> *</span><span class="z-variable">this</span><span class="z-keyword z-operator">.</span><span>outer_stream_is_closed </span><span class="z-keyword z-operator">=&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Both inner and outer streams are closed.</span></span>
+<span class="giallo-l"><span class="z-4">                Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>)</span><span class="z-18"> if</span><span class="z-16"> *</span><span>this</span><span class="z-16">.</span><span>outer_stream_is_closed </span><span class="z-16">=&gt;</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>),</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">                // Only inner stream is closed or is pending.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">None</span><span>)</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name"> Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Pending</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Only inner stream is closed or is pending.</span></span>
+<span class="giallo-l"><span class="z-4">                Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">None</span><span>)</span><span class="z-16"> |</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span class="z-16"> =&gt;</span><span class="z-4"> Poll</span><span class="z-16">::</span><span class="z-4">Pending</span><span>,</span></span>
 <span class="giallo-l"><span>            },</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Not rocket science, but as much fun! Now… action time!</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>([</span></span>
-<span class="giallo-l"><span class="z-comment">        // First inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">1</span><span>,</span><span class="z-constant z-numeric"> 2</span><span>,</span><span class="z-constant z-numeric"> 3</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-comment">        // Second inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">4</span><span>,</span><span class="z-constant z-numeric"> 5</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-comment">        /// Third inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-constant z-numeric">6</span><span>,</span><span class="z-constant z-numeric"> 7</span><span>,</span><span class="z-constant z-numeric"> 8</span><span>,</span><span class="z-constant z-numeric"> 9</span><span>]),</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let</span><span> stream</span><span class="z-16"> =</span></span>
+<span class="giallo-l"><span class="z-4">    stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>([</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // First inner stream.</span></span>
+<span class="giallo-l"><span class="z-4">        stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">1</span><span>,</span><span class="z-13"> 2</span><span>,</span><span class="z-13"> 3</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Second inner stream.</span></span>
+<span class="giallo-l"><span class="z-4">        stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">4</span><span>,</span><span class="z-13"> 5</span><span>]),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        /// Third inner stream.</span></span>
+<span class="giallo-l"><span class="z-4">        stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-13">6</span><span>,</span><span class="z-13"> 7</span><span>,</span><span class="z-13"> 8</span><span>,</span><span class="z-13"> 9</span><span>]),</span></span>
 <span class="giallo-l"><span>    ])</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">switch</span><span>();</span></span>
-<span class="giallo-l"><span class="z-comment">//   ^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//   |</span></span>
-<span class="giallo-l"><span class="z-comment">//   oh dear!</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">switch</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   ^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   oh dear!</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">6</span><span>,</span><span class="z-constant z-numeric"> 7</span><span>,</span><span class="z-constant z-numeric"> 8</span><span>,</span><span class="z-constant z-numeric"> 9</span><span>],</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">6</span><span>,</span><span class="z-13"> 7</span><span>,</span><span class="z-13"> 8</span><span>,</span><span class="z-13"> 9</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre><div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Huh. The first and second inner streams are ignored. Like if the outer stream
@@ -937,7 +924,6 @@ was polled repeatedly until being pending.</p>
 <p>This combinator always keeps the most recently yielded inner stream, and
 yields items from it</p>
 </blockquote>
-
   </div>
 </div>
 <p>Correct! To understand the rest of the documentation and <em>why</em> the <code>switch</code>
@@ -946,7 +932,6 @@ eyes, and try to imagine a relevant example…</i></p>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -985,7 +970,6 @@ concrete use cases, e.g.:</p>
 the list must be reset (with <code>Reset</code>), and then new updates can be produced…</li>
 </ul>
 <p>This is similar to the first example with 7 and 42.</p>
-
   </div>
 </div>
 <p>Excellent idea! Let's write it.</p>
@@ -997,21 +981,21 @@ values across asynchronous tasks. Basically, we have one or many <em>senders</em
 <em>producers</em>) and a <em>receiver</em> (the <em>consumer</em>). <i>scroll the documentation</i>.
 <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/channel/mpsc/struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E">The <code>Receiver</code> type implements <code>Stream</code></a>! Okay,
 it's official, the <em>receiver</em> part is our outer stream here:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> futures</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">channel</span><span class="z-keyword z-operator">::</span><span>mpsc;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> futures</span><span class="z-16">::</span><span class="z-4">channel</span><span class="z-16">::</span><span>mpsc;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// The queue is “infinite”, we said it is “unbounded”.</span></span>
-<span class="giallo-l"><span class="z-storage">let</span><span> (</span><span class="z-variable">sender</span><span>,</span><span class="z-variable"> receiver</span><span>)</span><span class="z-keyword z-operator">  =</span><span class="z-entity z-name"> mpsc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">unbounded</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">usize</span><span>&gt;();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// The queue is “infinite”, we said it is “unbounded”.</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> (sender, receiver)</span><span class="z-16">  =</span><span class="z-4"> mpsc</span><span class="z-16">::</span><span class="z-19">unbounded</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">usize</span><span>&gt;();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> receiver</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> stream</span><span class="z-16"> =</span><span> receiver;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// `stream` is pending until the outer stream `receiver`</span></span>
-<span class="giallo-l"><span class="z-comment">// produces something.</span></span>
-<span class="giallo-l"><span class="z-variable">sender</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unbounded_send</span><span>(</span><span class="z-constant z-numeric">7</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
-<span class="giallo-l"><span class="z-variable">sender</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unbounded_send</span><span>(</span><span class="z-constant z-numeric">42</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// `stream` is pending until the outer stream `receiver`</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// produces something.</span></span>
+<span class="giallo-l"><span>sender</span><span class="z-16">.</span><span class="z-19">unbounded_send</span><span>(</span><span class="z-13">7</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span>sender</span><span class="z-16">.</span><span class="z-19">unbounded_send</span><span>(</span><span class="z-13">42</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">7</span><span>,</span><span class="z-constant z-numeric"> 42</span><span>],</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">7</span><span>,</span><span class="z-13"> 42</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>That's a good start, isn't it?</p>
 <p>So far, <code>stream</code> is a first-order stream. Let's compute inner streams! Hum,
@@ -1020,7 +1004,6 @@ wait a second, how do we create a <code>Stream</code> quickly without having to 
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -1032,72 +1015,71 @@ wait a second, how do we create a <code>Stream</code> quickly without having to 
 throat</i>. Hum hum. Once again, the <code>futures</code> crate has got you covered! There
 is this excellent <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html"><code>stream::poll_fn</code></a> function: it
 creates a <code>Stream</code> that runs the given function when polled.</p>
-
   </div>
 </div>
 <p>I swear, I have nothing to do with these people. Nonetheless, it's a good
 recommendation. Let's start easy:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">task</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Poll</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> std</span><span class="z-16">::</span><span class="z-4">task</span><span class="z-16">::</span><span class="z-4">Poll</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> next_value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 7</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> next_value</span><span class="z-16">:</span><span class="z-4"> usize</span><span class="z-16"> =</span><span class="z-13"> 7</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">poll_fn</span><span>(</span><span class="z-keyword">move</span><span class="z-keyword z-operator"> |</span><span class="z-variable">_</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> current_value</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> next_value</span><span>;</span></span>
-<span class="giallo-l"><span class="z-variable">    next_value</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> next_value</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">saturating_add</span><span>(</span><span class="z-constant z-numeric">1</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> stream</span><span class="z-16"> =</span><span class="z-4"> stream</span><span class="z-16">::</span><span class="z-19">poll_fn</span><span>(</span><span class="z-18">move</span><span class="z-16"> |</span><span>_</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> current_value</span><span class="z-16"> =</span><span> next_value;</span></span>
+<span class="giallo-l"><span>    next_value</span><span class="z-16"> =</span><span> next_value</span><span class="z-16">.</span><span class="z-19">saturating_add</span><span>(</span><span class="z-13">1</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">    Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">current_value</span><span>))</span></span>
+<span class="giallo-l"><span class="z-4">    Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(current_value))</span></span>
 <span class="giallo-l"><span>});</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">take</span><span>(</span><span class="z-constant z-numeric">6</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">7</span><span>,</span><span class="z-constant z-numeric"> 8</span><span>,</span><span class="z-constant z-numeric"> 9</span><span>,</span><span class="z-constant z-numeric"> 10</span><span>,</span><span class="z-constant z-numeric"> 11</span><span>,</span><span class="z-constant z-numeric"> 12</span><span>],</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">take</span><span>(</span><span class="z-13">6</span><span>)</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">7</span><span>,</span><span class="z-13"> 8</span><span>,</span><span class="z-13"> 9</span><span>,</span><span class="z-13"> 10</span><span>,</span><span class="z-13"> 11</span><span>,</span><span class="z-13"> 12</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>The created stream never closes itself, that's why we need to use the <code>take</code>
 combinator to… well… <em>take</em>… only 6 values here. But it works! Damn, it works!
 Every time the stream is polled, it produces the next integer. Let's combine
 these two streams and —come on!— let's use the <code>switch</code> combinator or what?!</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let</span><span> (</span><span class="z-variable">sender</span><span>,</span><span class="z-variable"> receiver</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> mpsc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">unbounded</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">usize</span><span>&gt;();</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let</span><span> (sender, receiver)</span><span class="z-16"> =</span><span class="z-4"> mpsc</span><span class="z-16">::</span><span class="z-19">unbounded</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">usize</span><span>&gt;();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> pin!</span><span>(</span><span class="z-variable">receiver</span></span>
-<span class="giallo-l"><span class="z-comment">    // For every new received value from `sender`…</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">map</span><span>(</span><span class="z-keyword z-operator">|</span><span class="z-variable">init_value</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // … let&#39;s create a new inner stream:</span></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> next_value</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> init_value</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> stream</span><span class="z-16"> =</span><span class="z-19"> pin!</span><span>(receiver</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // For every new received value from `sender`…</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">map</span><span>(</span><span class="z-16">|</span><span>init_value</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // … let&#39;s create a new inner stream:</span></span>
+<span class="giallo-l"><span class="z-18">        let mut</span><span> next_value</span><span class="z-16"> =</span><span> init_value;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">poll_fn</span><span>(</span><span class="z-keyword">move</span><span class="z-keyword z-operator"> |</span><span class="z-variable">_</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> current_value</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> next_value</span><span>;</span></span>
-<span class="giallo-l"><span class="z-variable">            next_value</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> new_value</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">saturating_add</span><span>(</span><span class="z-constant z-numeric">1</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">        stream</span><span class="z-16">::</span><span class="z-19">poll_fn</span><span>(</span><span class="z-18">move</span><span class="z-16"> |</span><span>_</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> current_value</span><span class="z-16"> =</span><span> next_value;</span></span>
+<span class="giallo-l"><span>            next_value</span><span class="z-16"> =</span><span> new_value</span><span class="z-16">.</span><span class="z-19">saturating_add</span><span>(</span><span class="z-13">1</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">            Poll</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Ready</span><span>(</span><span class="z-entity z-name">Some</span><span>(</span><span class="z-variable">current_value</span><span>))</span></span>
+<span class="giallo-l"><span class="z-4">            Poll</span><span class="z-16">::</span><span class="z-19">Ready</span><span>(</span><span class="z-4">Some</span><span>(current_value))</span></span>
 <span class="giallo-l"><span>        })</span></span>
 <span class="giallo-l"><span>    })</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">switch</span><span>());</span></span>
-<span class="giallo-l"><span class="z-comment">//   ^^^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//   |</span></span>
-<span class="giallo-l"><span class="z-comment">//   finally!</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">switch</span><span>());</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   ^^^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//   finally!</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">sender</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unbounded_send</span><span>(</span><span class="z-constant z-numeric">7</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span>sender</span><span class="z-16">.</span><span class="z-19">unbounded_send</span><span>(</span><span class="z-13">7</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// `stream` has switched to the inner stream.</span></span>
-<span class="giallo-l"><span class="z-comment">// Let&#39;s take 5 items.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">by_ref</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">take</span><span>(</span><span class="z-constant z-numeric">5</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">7</span><span>,</span><span class="z-constant z-numeric"> 8</span><span>,</span><span class="z-constant z-numeric"> 9</span><span>,</span><span class="z-constant z-numeric"> 10</span><span>,</span><span class="z-constant z-numeric"> 11</span><span>],</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// `stream` has switched to the inner stream.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Let&#39;s take 5 items.</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">by_ref</span><span>()</span><span class="z-16">.</span><span class="z-19">take</span><span>(</span><span class="z-13">5</span><span>)</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">7</span><span>,</span><span class="z-13"> 8</span><span>,</span><span class="z-13"> 9</span><span>,</span><span class="z-13"> 10</span><span>,</span><span class="z-13"> 11</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">// Let&#39;s take 5 more items.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">by_ref</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">take</span><span>(</span><span class="z-constant z-numeric">5</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">12</span><span>,</span><span class="z-constant z-numeric"> 13</span><span>,</span><span class="z-constant z-numeric"> 14</span><span>,</span><span class="z-constant z-numeric"> 15</span><span>,</span><span class="z-constant z-numeric"> 16</span><span>],</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Let&#39;s take 5 more items.</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">by_ref</span><span>()</span><span class="z-16">.</span><span class="z-19">take</span><span>(</span><span class="z-13">5</span><span>)</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">12</span><span>,</span><span class="z-13"> 13</span><span>,</span><span class="z-13"> 14</span><span>,</span><span class="z-13"> 15</span><span>,</span><span class="z-13"> 16</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// All good.</span></span>
-<span class="giallo-l"><span class="z-comment">// Let&#39;s trigger a new inner stream.</span></span>
-<span class="giallo-l"><span class="z-variable">sender</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unbounded_send</span><span>(</span><span class="z-constant z-numeric">42</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// All good.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Let&#39;s trigger a new inner stream.</span></span>
+<span class="giallo-l"><span>sender</span><span class="z-16">.</span><span class="z-19">unbounded_send</span><span>(</span><span class="z-13">42</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// `stream` has been “reset” and produces a new inner stream.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">take</span><span>(</span><span class="z-constant z-numeric">5</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    vec!</span><span>[</span><span class="z-constant z-numeric">42</span><span>,</span><span class="z-constant z-numeric"> 43</span><span>,</span><span class="z-constant z-numeric"> 44</span><span>,</span><span class="z-constant z-numeric"> 45</span><span>,</span><span class="z-constant z-numeric"> 46</span><span>],</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// `stream` has been “reset” and produces a new inner stream.</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream</span><span class="z-16">.</span><span class="z-19">take</span><span>(</span><span class="z-13">5</span><span>)</span><span class="z-16">.</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;&gt;()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span></span>
+<span class="giallo-l"><span class="z-19">    vec!</span><span>[</span><span class="z-13">42</span><span>,</span><span class="z-13"> 43</span><span>,</span><span class="z-13"> 44</span><span>,</span><span class="z-13"> 45</span><span>,</span><span class="z-13"> 46</span><span>],</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>Tadaa! It's the same <code>stream</code>. We keep polling it. But the inner stream is reset
 <em>dynamically</em>. How cool is that?</p>
@@ -1118,13 +1100,13 @@ how <code>switch</code> differs from <code>flatten</code>, and how useful it can
 <ol class="footnotes-list">
 <li id="fn-pin">
 <p>I recommend to read <a rel="noopener external" target="_blank" href="https://without.boats/blog/pin/"><em>Pin</em></a>, it's an excellent article that goes in
-depth about pinning. <a href="#fr-pin-1">↩</a></p>
+depth about pinning. <a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/#fr-pin-1">↩</a></p>
 </li>
 </ol>
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;about-memory-pressure-lock-contention-and-data-oriented-design&#x2F;" class="button text-align-start">❮&nbsp;About memory pressure, lock contention, and Data-oriented Design</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-start">❮&nbsp;About memory pressure, lock contention, and Data-oriented Design</a></nav>
   </article>
 
 </main>

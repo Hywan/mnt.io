@@ -6,48 +6,42 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/job/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 04 Oct 2021 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>I&#x27;ve loved Wasmer, I still love Wasmer</title>
+    <lastBuildDate>Mon, 04 Oct 2021 00:00:00 +0000</lastBuildDate><item>
+      <title>I&#39;ve loved Wasmer, I still love Wasmer</title>
       <pubDate>Mon, 04 Oct 2021 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/i-leave-wasmer/</link>
       <guid>https://mnt.io/articles/i-leave-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/i-leave-wasmer/">I&apos;m proud of what I&apos;ve done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Bye bye Automattic, hello Wasmer</title>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</link>
       <guid>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/">Eh, new job!</description>
-    </item>
-    <item>
+    </item><item>
       <title>Automattic, Grand Meetup 2017</title>
       <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/automattic-grand-meetup-2017/</link>
       <guid>https://mnt.io/articles/automattic-grand-meetup-2017/</guid>
       <description xml:base="https://mnt.io/articles/automattic-grand-meetup-2017/">A picture of the Grand Meetup 2017.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Welcome to Chaos</title>
       <pubDate>Mon, 24 Apr 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/welcome-to-chaos/</link>
       <guid>https://mnt.io/articles/welcome-to-chaos/</guid>
       <description xml:base="https://mnt.io/articles/welcome-to-chaos/">Recently, &lt;a href=&quot;https://mnt.io/articles/bye-bye-liip-hello-automattic/&quot;&gt;I joined Automattic&lt;/a&gt;. This is a world-wide distributed company. The first three weeks you incarn a Happiness Engineer. This is part of the Happiness Rotation duty. This article explains why I loved it, and why I reckon you should do it too.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Bye bye Liip, hello Automattic</title>
       <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/bye-bye-liip-hello-automattic/</link>
       <guid>https://mnt.io/articles/bye-bye-liip-hello-automattic/</guid>
       <description xml:base="https://mnt.io/articles/bye-bye-liip-hello-automattic/">Eh, new job!</description>
-    </item>
-    <item>
+    </item><item>
       <title>Hello fruux!</title>
       <pubDate>Mon, 24 Nov 2014 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

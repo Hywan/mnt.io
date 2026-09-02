@@ -6,8 +6,7 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/rfc/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Fri, 27 Feb 2015 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Fri, 27 Feb 2015 00:00:00 +0000</lastBuildDate><item>
       <title>RFCs should provide executable test suites</title>
       <pubDate>Fri, 27 Feb 2015 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

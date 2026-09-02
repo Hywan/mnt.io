@@ -4,8 +4,7 @@
   <link rel="self" type="application/atom+xml" href="https://mnt.io/keywords/binding/atom.xml"/>
   <link rel="alternate" type="text/html" href="https://mnt.io"/>
   <updated>2020-05-13T00:00:00+00:00</updated>
-  <id>https://mnt.io/keywords/binding/atom.xml</id>
-  <entry xml:lang="en">
+  <id>https://mnt.io/keywords/binding/atom.xml</id><entry xml:lang="en">
     <title>Announcing the first Java library to run WebAssembly: Wasmer JNI</title>
     <published>2020-05-13T00:00:00+00:00</published>
     <updated>2020-05-13T00:00:00+00:00</updated>
@@ -13,8 +12,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/"/>
     <id>https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/</id>
     <summary type="html">This article presents the &lt;code&gt;wasmer-java&lt;/code&gt; project: the first Java library to run WebAssembly.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Announcing the first Postgres extension to run WebAssembly</title>
     <published>2019-08-29T00:00:00+00:00</published>
     <updated>2019-08-29T00:00:00+00:00</updated>
@@ -22,8 +20,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/"/>
     <id>https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/</id>
     <summary type="html">This article presents &lt;code&gt;wasmer-postgres&lt;/code&gt;: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Announcing the fastest WebAssembly runtime for Go: wasmer</title>
     <published>2019-05-29T00:00:00+00:00</published>
     <updated>2019-05-29T00:00:00+00:00</updated>
@@ -31,8 +28,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/"/>
     <id>https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/</id>
     <summary type="html">This article presents &lt;code&gt;wasmer-go&lt;/code&gt;: the fastest WebAssembly runtime for Go.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</title>
     <published>2019-04-03T00:00:00+00:00</published>
     <updated>2019-04-03T00:00:00+00:00</updated>
@@ -40,8 +36,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/"/>
     <id>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</id>
     <summary type="html">This article explains how and why I&apos;ve migrated &lt;code&gt;php-ext-wasm&lt;/code&gt; from wasmi to Wasmer.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The PHP galaxy</title>
     <published>2018-10-29T00:00:00+00:00</published>
     <updated>2018-10-29T00:00:00+00:00</updated>
@@ -49,8 +44,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</id>
     <summary type="html">This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&apos;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&apos;s amazing how faster it is!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The C galaxy</title>
     <published>2018-09-11T00:00:00+00:00</published>
     <updated>2018-09-11T00:00:00+00:00</updated>
@@ -58,8 +52,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/</id>
     <summary type="html">C is the &lt;em&gt;lingua franca&lt;/em&gt; of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The ASM.js galaxy</title>
     <published>2018-08-28T00:00:00+00:00</published>
     <updated>2018-08-28T00:00:00+00:00</updated>
@@ -67,8 +60,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</id>
     <summary type="html">In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn&apos;t support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The WebAssembly galaxy</title>
     <published>2018-08-22T00:00:00+00:00</published>
     <updated>2018-08-22T00:00:00+00:00</updated>
@@ -76,8 +68,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/</id>
     <summary type="html">In this episode, we explore the WebAssembly galaxy. We first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Prelude</title>
     <published>2018-08-21T00:00:00+00:00</published>
     <updated>2018-08-21T00:00:00+00:00</updated>

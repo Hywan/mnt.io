@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -169,7 +169,7 @@
     <time title="Published date" datetime="2015-08-05" property="datePublished">August 05, 2015</time>
     <span title="Reading time" property="timeRequired" content="PT1M">1 minutes read</span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2015-08-05-duckduckgo-in-a-shell&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2015-08-05-duckduckgo-in-a-shell/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="Tiny bash hack." />
       
@@ -186,26 +186,26 @@ today to open a search on DuckDuckGo directly from the terminal. It
 redirects me to my default browser in the background, which is the
 expected behavior.</p>
 <p>First, I create a function called <code>duckduckgo</code>:</p>
-<pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> duckduckgo</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-variable">    query</span><span class="z-keyword z-operator">=</span><span class="z-string">`</span><span class="z-entity z-name">php</span><span class="z-constant z-other"> -r</span><span class="z-string"> &#39;echo urlencode($argv[1]);&#39; &quot;</span><span class="z-variable z-parameter">$1</span><span class="z-string">&quot;`</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    open</span><span class="z-string"> &#39;https://duckduckgo.com/?q=&#39;</span><span class="z-variable">$query</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> duckduckgo</span><span> {</span></span>
+<span class="giallo-l"><span>    query</span><span class="z-16">=</span><span class="z-11">`</span><span class="z-4">php</span><span class="z-8"> -r</span><span class="z-11"> &#39;echo urlencode($argv[1]);&#39; &quot;</span><span class="z-13">$1</span><span class="z-11">&quot;`</span></span>
+<span class="giallo-l"><span class="z-4">    open</span><span class="z-11"> &#39;https://duckduckgo.com/?q=&#39;</span><span>$query</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>Note how I (avoid to) deal with quotes in <code>$1</code>.</p>
 <p>Then, I just have to create an alias called <code>?</code>:</p>
-<pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-support z-function">alias</span><span class="z-string"> &#39;?&#39;=&#39;duckduckgo&#39;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-15">alias</span><span class="z-11"> &#39;?&#39;=&#39;duckduckgo&#39;</span></span></code></pre>
 <p>And here we (duckduck) go!</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-keyword z-operator"> ?</span><span class="z-string"> &quot;foo bar&#39;s baz&quot;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span class="z-16"> ?</span><span class="z-11"> &quot;foo bar&#39;s baz&quot;</span></span></code></pre>
 <p>You can
 <a rel="noopener external" target="_blank" href="https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c">see the commit</a>
 that adds this to my “shell home framework”.</p>
 <p>Oh, and to open the default browser, I use
 <a rel="noopener external" target="_blank" href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/open.1.html"><code>open (1)</code></a>,
 like this:</p>
-<pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-storage">alias</span><span class="z-variable"> open</span><span class="z-keyword z-operator">=</span><span class="z-string">&#39;open -g&#39;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-18">alias</span><span> open</span><span class="z-16">=</span><span class="z-11">&#39;open -g&#39;</span></span></code></pre>
 <p>Hope it helps!</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;sabre-katana-a-contact-calendar-task-list-and-file-server&#x2F;" class="button text-align-start">❮&nbsp;sabre&#x2F;katana</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-liip-hello-automattic&#x2F;" class="button text-align-end">Bye bye Liip, hello Automattic&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" class="button text-align-start">❮&nbsp;sabre/katana</a><a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/" class="button text-align-end">Bye bye Liip, hello Automattic&nbsp;❯</a></nav>
   </article>
 
 </main>

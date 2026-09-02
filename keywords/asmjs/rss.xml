@@ -6,16 +6,14 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/asmjs/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Tue, 28 Aug 2018 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Tue, 28 Aug 2018 00:00:00 +0000</lastBuildDate><item>
       <title>The ASM.js galaxy</title>
       <pubDate>Tue, 28 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/">In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn&apos;t support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The WebAssembly galaxy</title>
       <pubDate>Wed, 22 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

@@ -6,17 +6,15 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/performance/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate><item>
       <title>About memory pressure, lock contention, and Data-oriented Design</title>
       <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</link>
       <guid>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</guid>
       <description xml:base="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/">I illustrate how &lt;em&gt;Data-oriented Design&lt;/em&gt; helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem/s to 1.4M elem/s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck.</description>
-    </item>
-    <item>
-      <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
+    </item><item>
+      <title>From 19k to 4.2M events/sec: story of a SQLite query optimisation</title>
       <pubDate>Fri, 12 Sep 2025 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/</link>

@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -168,12 +168,12 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2020-05-13" property="datePublished">May 13, 2020</time>
-    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, webassembly, java, runtime, binding">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/webassembly" title="All articles matching the `webassembly` keyword">webassembly</a>, <a href="/keywords/java" title="All articles matching the `java` keyword">java</a>, <a href="/keywords/runtime" title="All articles matching the `runtime` keyword">runtime</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2020-05-13-announcing-the-first-java-library-to-run-webassembly-wasmer-jni&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2020-05-13-announcing-the-first-java-library-to-run-webassembly-wasmer-jni/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="This article presents the `wasmer-java` project: the first Java library to run WebAssembly." />
       
@@ -241,7 +241,7 @@ However, it is possible to
 <code>wasmer-jni-$(architecture)-$(os)-$(version).jar</code>. Thus, to include
 Wasmer JNI as a dependency of your project (assuming you use
 <a rel="noopener external" target="_blank" href="http://gradle.org/">Gradle</a>), write for instance:</p>
-<pre class="giallo z-code"><code data-lang="plain"><span class="giallo-l"><span>dependencies {</span></span>
+<pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>dependencies {</span></span>
 <span class="giallo-l"><span>    implementation &quot;org.wasmer:wasmer-jni-amd64-linux:0.2.0&quot;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>JAR are hosted on the Bintray/JCenter repository under the
@@ -252,37 +252,37 @@ assets</a>.</p>
 </h2>
 <p>As usual, let’s start with a simple Rust program that we will compile to
 WebAssembly, and then execute from Java.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>,</span><span class="z-variable"> y</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> i32</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    x</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> y</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern fn</span><span class="z-19"> sum</span><span>(x</span><span class="z-16">:</span><span class="z-4"> i32</span><span>, y</span><span class="z-16">:</span><span class="z-4"> i32</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> i32</span><span> {</span></span>
+<span class="giallo-l"><span>    x</span><span class="z-16"> +</span><span> y</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>After compilation to WebAssembly, we get a file like <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/java-ext-wasm/raw/master/examples/simple.wasm">this
 one</a>,
 named <code>simple.wasm</code>.</p>
 <p>The following Java program executes the <code>sum</code> exported function by
 passing <code>5</code> and <code>37</code> as arguments:</p>
-<pre class="giallo z-code"><code data-lang="java"><span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> org</span><span class="z-punctuation z-separator">.</span><span class="z-storage">wasmer</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Instance</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="java"><span class="giallo-l"><span class="z-18">import org</span><span class="z-10">.</span><span class="z-18">wasmer</span><span class="z-10">.</span><span class="z-18">Instance</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">io</span><span class="z-punctuation z-separator">.</span><span class="z-storage">IOException</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Files</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Paths</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">io</span><span class="z-10">.</span><span class="z-18">IOException</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Files</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Paths</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> SimpleExample</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public static</span><span class="z-storage z-type z-primitive"> void</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-storage z-type">String</span><span>[]</span><span class="z-variable z-parameter"> args</span><span>)</span><span class="z-storage"> throws</span><span class="z-storage z-type"> IOException</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Read the WebAssembly bytes.</span></span>
-<span class="giallo-l"><span class="z-storage z-type z-primitive">        byte</span><span>[]</span><span class="z-variable"> bytes</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> Files</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">readAllBytes</span><span>(</span><span class="z-variable">Paths</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-string">&quot;simple.wasm&quot;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> SimpleExample</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public static</span><span class="z-1"> void</span><span class="z-19"> main</span><span>(</span><span class="z-4">String</span><span>[]</span><span class="z-13"> args</span><span>)</span><span class="z-18"> throws</span><span class="z-4"> IOException</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Read the WebAssembly bytes.</span></span>
+<span class="giallo-l"><span class="z-1">        byte</span><span>[] bytes</span><span class="z-16"> =</span><span> Files</span><span class="z-10">.</span><span class="z-19">readAllBytes</span><span>(Paths</span><span class="z-10">.</span><span class="z-19">get</span><span>(</span><span class="z-11">&quot;simple.wasm&quot;</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Instantiate the WebAssembly module.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Instance</span><span class="z-variable"> instance</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-entity z-name z-function"> Instance</span><span>(bytes)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Instantiate the WebAssembly module.</span></span>
+<span class="giallo-l"><span class="z-4">        Instance</span><span> instance</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-19"> Instance</span><span>(bytes)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Get the `sum` exported function, call it by passing 5 and 37, and get the result.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Integer</span><span class="z-variable"> result</span><span class="z-keyword z-operator"> =</span><span> (Integer)</span><span class="z-variable"> instance</span><span class="z-punctuation z-separator">.</span><span class="z-variable">exports</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">getFunction</span><span>(</span><span class="z-string">&quot;sum&quot;</span><span>)</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">apply</span><span>(</span><span class="z-constant z-numeric">5</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 37</span><span>)[</span><span class="z-constant z-numeric">0</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Get the `sum` exported function, call it by passing 5 and 37, and get the result.</span></span>
+<span class="giallo-l"><span class="z-4">        Integer</span><span> result</span><span class="z-16"> =</span><span> (Integer) instance</span><span class="z-10">.</span><span>exports</span><span class="z-10">.</span><span class="z-19">getFunction</span><span>(</span><span class="z-11">&quot;sum&quot;</span><span>)</span><span class="z-10">.</span><span class="z-19">apply</span><span>(</span><span class="z-13">5</span><span class="z-10">,</span><span class="z-13"> 37</span><span>)[</span><span class="z-13">0</span><span>]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        assert</span><span> result </span><span class="z-keyword z-operator">==</span><span class="z-constant z-numeric"> 42</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        assert</span><span> result </span><span class="z-16">==</span><span class="z-13"> 42</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        instance</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">close</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span>        instance</span><span class="z-10">.</span><span class="z-19">close</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>Great! We have successfully executed a Rust program, compiled to
 WebAssembly, in Java. As you can see, it is pretty straightforward. The
 API is very similar to the standard JavaScript API, or the other API we
@@ -301,32 +301,32 @@ Java Language Specification (i.e. it is a
 <code>[FunctionalInterface](https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html)</code>).
 Thus, it is possible to write the following code where <code>sum</code> is an actual
 function (of kind <code>org.wasmer.exports.Function</code>):</p>
-<pre class="giallo z-code"><code data-lang="java"><span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> org</span><span class="z-punctuation z-separator">.</span><span class="z-storage">wasmer</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Instance</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> org</span><span class="z-punctuation z-separator">.</span><span class="z-storage">wasmer</span><span class="z-punctuation z-separator">.</span><span class="z-storage">exports</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Function</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="java"><span class="giallo-l"><span class="z-18">import org</span><span class="z-10">.</span><span class="z-18">wasmer</span><span class="z-10">.</span><span class="z-18">Instance</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import org</span><span class="z-10">.</span><span class="z-18">wasmer</span><span class="z-10">.</span><span class="z-18">exports</span><span class="z-10">.</span><span class="z-18">Function</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">io</span><span class="z-punctuation z-separator">.</span><span class="z-storage">IOException</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Files</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Paths</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">io</span><span class="z-10">.</span><span class="z-18">IOException</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Files</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Paths</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> SimpleExample</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public static</span><span class="z-storage z-type z-primitive"> void</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-storage z-type">String</span><span>[]</span><span class="z-variable z-parameter"> args</span><span>)</span><span class="z-storage"> throws</span><span class="z-storage z-type"> IOException</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Read the WebAssembly bytes.</span></span>
-<span class="giallo-l"><span class="z-storage z-type z-primitive">        byte</span><span>[]</span><span class="z-variable"> bytes</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> Files</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">readAllBytes</span><span>(</span><span class="z-variable">Paths</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-string">&quot;simple.wasm&quot;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> SimpleExample</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public static</span><span class="z-1"> void</span><span class="z-19"> main</span><span>(</span><span class="z-4">String</span><span>[]</span><span class="z-13"> args</span><span>)</span><span class="z-18"> throws</span><span class="z-4"> IOException</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Read the WebAssembly bytes.</span></span>
+<span class="giallo-l"><span class="z-1">        byte</span><span>[] bytes</span><span class="z-16"> =</span><span> Files</span><span class="z-10">.</span><span class="z-19">readAllBytes</span><span>(Paths</span><span class="z-10">.</span><span class="z-19">get</span><span>(</span><span class="z-11">&quot;simple.wasm&quot;</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Instantiate the WebAssembly module.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Instance</span><span class="z-variable"> instance</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-entity z-name z-function"> Instance</span><span>(bytes)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Instantiate the WebAssembly module.</span></span>
+<span class="giallo-l"><span class="z-4">        Instance</span><span> instance</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-19"> Instance</span><span>(bytes)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Declare the `sum` function, as a regular Java function.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Function</span><span class="z-variable"> sum</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> instance</span><span class="z-punctuation z-separator">.</span><span class="z-variable">exports</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">getFunction</span><span>(</span><span class="z-string">&quot;sum&quot;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Declare the `sum` function, as a regular Java function.</span></span>
+<span class="giallo-l"><span class="z-4">        Function</span><span> sum</span><span class="z-16"> =</span><span> instance</span><span class="z-10">.</span><span>exports</span><span class="z-10">.</span><span class="z-19">getFunction</span><span>(</span><span class="z-11">&quot;sum&quot;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Call `sum`.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Integer</span><span class="z-variable"> result</span><span class="z-keyword z-operator"> =</span><span> (Integer)</span><span class="z-variable"> sum</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">apply</span><span>(</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 2</span><span>)[</span><span class="z-constant z-numeric">0</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Call `sum`.</span></span>
+<span class="giallo-l"><span class="z-4">        Integer</span><span> result</span><span class="z-16"> =</span><span> (Integer) sum</span><span class="z-10">.</span><span class="z-19">apply</span><span>(</span><span class="z-13">1</span><span class="z-10">,</span><span class="z-13"> 2</span><span>)[</span><span class="z-13">0</span><span>]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        assert</span><span> result </span><span class="z-keyword z-operator">==</span><span class="z-constant z-numeric"> 3</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        assert</span><span> result </span><span class="z-16">==</span><span class="z-13"> 3</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        instance</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">close</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span>        instance</span><span class="z-10">.</span><span class="z-19">close</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>But a WebAssembly module not only exports functions, it also exports
 memory.</p>
 <h2 id="reading-the-memory">Reading the Memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -335,56 +335,56 @@ memory.</p>
 byte-addressable range of memory spanning from offset 0 and extending up
 to a varying memory size, represented by the <code>org.wasmer.Memory</code> class.
 Let’s see how to use it. Consider the following Rust program:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> return_hello</span><span>()</span><span class="z-keyword z-operator"> -&gt; *</span><span class="z-storage">const</span><span class="z-entity z-name"> u8</span><span> {</span></span>
-<span class="giallo-l"><span class="z-string">    b&quot;Hello, World!</span><span class="z-constant z-character">\0</span><span class="z-string">&quot;</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern fn</span><span class="z-19"> return_hello</span><span>()</span><span class="z-16"> -&gt; *</span><span class="z-18">const</span><span class="z-4"> u8</span><span> {</span></span>
+<span class="giallo-l"><span class="z-11">    b&quot;Hello, World!</span><span class="z-8">\0</span><span class="z-11">&quot;</span><span class="z-16">.</span><span class="z-19">as_ptr</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The <code>return_hello</code> function returns a pointer to the statically
 allocated string. The string exists in the linear memory of the
 WebAssembly module. It is then possible to read it in Java:</p>
-<pre class="giallo z-code"><code data-lang="java"><span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> org</span><span class="z-punctuation z-separator">.</span><span class="z-storage">wasmer</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Instance</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> org</span><span class="z-punctuation z-separator">.</span><span class="z-storage">wasmer</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Memory</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="java"><span class="giallo-l"><span class="z-18">import org</span><span class="z-10">.</span><span class="z-18">wasmer</span><span class="z-10">.</span><span class="z-18">Instance</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import org</span><span class="z-10">.</span><span class="z-18">wasmer</span><span class="z-10">.</span><span class="z-18">Memory</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">io</span><span class="z-punctuation z-separator">.</span><span class="z-storage">IOException</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">ByteBuffer</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Files</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-storage"> java</span><span class="z-punctuation z-separator">.</span><span class="z-storage">nio</span><span class="z-punctuation z-separator">.</span><span class="z-storage">file</span><span class="z-punctuation z-separator">.</span><span class="z-storage">Paths</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">io</span><span class="z-10">.</span><span class="z-18">IOException</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">ByteBuffer</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Files</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">import java</span><span class="z-10">.</span><span class="z-18">nio</span><span class="z-10">.</span><span class="z-18">file</span><span class="z-10">.</span><span class="z-18">Paths</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> MemoryExample</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public static</span><span class="z-storage z-type z-primitive"> void</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-storage z-type">String</span><span>[]</span><span class="z-variable z-parameter"> args</span><span>)</span><span class="z-storage"> throws</span><span class="z-storage z-type"> IOException</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Read the WebAssembly bytes.</span></span>
-<span class="giallo-l"><span class="z-storage z-type z-primitive">        byte</span><span>[]</span><span class="z-variable"> bytes</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> Files</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">readAllBytes</span><span>(</span><span class="z-variable">Paths</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-string">&quot;memory.wasm&quot;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> MemoryExample</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public static</span><span class="z-1"> void</span><span class="z-19"> main</span><span>(</span><span class="z-4">String</span><span>[]</span><span class="z-13"> args</span><span>)</span><span class="z-18"> throws</span><span class="z-4"> IOException</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Read the WebAssembly bytes.</span></span>
+<span class="giallo-l"><span class="z-1">        byte</span><span>[] bytes</span><span class="z-16"> =</span><span> Files</span><span class="z-10">.</span><span class="z-19">readAllBytes</span><span>(Paths</span><span class="z-10">.</span><span class="z-19">get</span><span>(</span><span class="z-11">&quot;memory.wasm&quot;</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Instantiate the WebAssembly module.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Instance</span><span class="z-variable"> instance</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-entity z-name z-function"> Instance</span><span>(bytes)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Instantiate the WebAssembly module.</span></span>
+<span class="giallo-l"><span class="z-4">        Instance</span><span> instance</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-19"> Instance</span><span>(bytes)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Get a pointer to the statically allocated string returned by `return_hello`.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Integer</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator"> =</span><span> (Integer)</span><span class="z-variable"> instance</span><span class="z-punctuation z-separator">.</span><span class="z-variable">exports</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">getFunction</span><span>(</span><span class="z-string">&quot;return_hello&quot;</span><span>)</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">apply</span><span>()[</span><span class="z-constant z-numeric">0</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Get a pointer to the statically allocated string returned by `return_hello`.</span></span>
+<span class="giallo-l"><span class="z-4">        Integer</span><span> pointer</span><span class="z-16"> =</span><span> (Integer) instance</span><span class="z-10">.</span><span>exports</span><span class="z-10">.</span><span class="z-19">getFunction</span><span>(</span><span class="z-11">&quot;return_hello&quot;</span><span>)</span><span class="z-10">.</span><span class="z-19">apply</span><span>()[</span><span class="z-13">0</span><span>]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Get the exported memory named `memory`.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        Memory</span><span class="z-variable"> memory</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> instance</span><span class="z-punctuation z-separator">.</span><span class="z-variable">exports</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">getMemory</span><span>(</span><span class="z-string">&quot;memory&quot;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Get the exported memory named `memory`.</span></span>
+<span class="giallo-l"><span class="z-4">        Memory</span><span> memory</span><span class="z-16"> =</span><span> instance</span><span class="z-10">.</span><span>exports</span><span class="z-10">.</span><span class="z-19">getMemory</span><span>(</span><span class="z-11">&quot;memory&quot;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Get a direct byte buffer view of the WebAssembly memory.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        ByteBuffer</span><span class="z-variable"> memoryBuffer</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> memory</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">buffer</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Get a direct byte buffer view of the WebAssembly memory.</span></span>
+<span class="giallo-l"><span class="z-4">        ByteBuffer</span><span> memoryBuffer</span><span class="z-16"> =</span><span> memory</span><span class="z-10">.</span><span class="z-19">buffer</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Prepare the byte array that will hold the data.</span></span>
-<span class="giallo-l"><span class="z-storage z-type z-primitive">        byte</span><span>[]</span><span class="z-variable"> data</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-storage z-type z-primitive"> byte</span><span>[</span><span class="z-constant z-numeric">13</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Prepare the byte array that will hold the data.</span></span>
+<span class="giallo-l"><span class="z-1">        byte</span><span>[] data</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-1"> byte</span><span>[</span><span class="z-13">13</span><span>]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Let&#39;s position the cursor, and…</span></span>
-<span class="giallo-l"><span class="z-variable">        memoryBuffer</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">position</span><span>(pointer)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Let&#39;s position the cursor, and…</span></span>
+<span class="giallo-l"><span>        memoryBuffer</span><span class="z-10">.</span><span class="z-19">position</span><span>(pointer)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // … read!</span></span>
-<span class="giallo-l"><span class="z-variable">        memoryBuffer</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">get</span><span>(data)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // … read!</span></span>
+<span class="giallo-l"><span>        memoryBuffer</span><span class="z-10">.</span><span class="z-19">get</span><span>(data)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Let&#39;s encode back to a Java string.</span></span>
-<span class="giallo-l"><span class="z-storage z-type">        String</span><span class="z-variable"> result</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-entity z-name z-function"> String</span><span>(data)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Let&#39;s encode back to a Java string.</span></span>
+<span class="giallo-l"><span class="z-4">        String</span><span> result</span><span class="z-16"> =</span><span class="z-18"> new</span><span class="z-19"> String</span><span>(data)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Hello!</span></span>
-<span class="giallo-l"><span class="z-keyword">        assert</span><span class="z-variable"> result</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">equals</span><span>(</span><span class="z-string">&quot;Hello, World!&quot;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Hello!</span></span>
+<span class="giallo-l"><span class="z-18">        assert</span><span> result</span><span class="z-10">.</span><span class="z-19">equals</span><span>(</span><span class="z-11">&quot;Hello, World!&quot;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        instance</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">close</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span>        instance</span><span class="z-10">.</span><span class="z-19">close</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>As we can see, the <code>Memory</code> API provides a <code>buffer</code> method. It returns a
 <a rel="noopener external" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/nio/ByteBuffer.html"><em>direct</em> byte
 buffer</a>
@@ -449,7 +449,7 @@ reach us on Twitter at <a rel="noopener external" target="_blank" href="https://
 <p>We look forward to see what you build with this!</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;announcing-the-first-postgres-extension-to-run-webassembly&#x2F;" class="button text-align-start">❮&nbsp;Announcing the first Postgres extension to run WebAssembly</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;bye-bye-whatsapp-hello&#x2F;" class="button text-align-end">Bye bye WhatsApp, hello ?&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="button text-align-start">❮&nbsp;Announcing the first Postgres extension to run WebAssembly</a><a href="https://mnt.io/articles/bye-bye-whatsapp-hello/" class="button text-align-end">Bye bye WhatsApp, hello ?&nbsp;❯</a></nav>
   </article>
 
 </main>

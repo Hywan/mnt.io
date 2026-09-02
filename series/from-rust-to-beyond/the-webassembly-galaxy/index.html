@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -172,12 +172,12 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-08-22" property="datePublished">August 22, 2018</time>
-    <span title="Reading time" property="timeRequired" content="PT18M">18 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT15M">15 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, binding, gutenberg, webassembly, javascript, asmjs">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a>, <a href="/keywords/gutenberg" title="All articles matching the `gutenberg` keyword">gutenberg</a>, <a href="/keywords/webassembly" title="All articles matching the `webassembly` keyword">webassembly</a>, <a href="/keywords/javascript" title="All articles matching the `javascript` keyword">javascript</a>, <a href="/keywords/asmjs" title="All articles matching the `asmjs` keyword">asmjs</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series&#x2F;from-rust-to-beyond&#x2F;2018-08-22-the-webassembly-galaxy&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series/from-rust-to-beyond/2018-08-22-the-webassembly-galaxy/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="In this episode, we explore the WebAssembly galaxy. We first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!" />
       
@@ -246,7 +246,7 @@ people leading the effort of pushing Rust into WebAssembly with a set of
 tools and integrations. <a rel="noopener external" target="_blank" href="https://rustwasm.github.io/book/">There is a
 book</a> explaining how to write a
 WebAssembly program with Rust.</p>
-<p>With the Gutenberg Rust parser, I didn&#39;t use tools like
+<p>With the Gutenberg Rust parser, I didn't use tools like
 <a rel="noopener external" target="_blank" href="https://github.com/rustwasm/wasm-bindgen/"><code>wasm-bindgen</code></a> (which is a
 pure gem) when I started the project few months ago because I hit some
 limitations. Note that some of them have been addressed since then!
@@ -258,20 +258,20 @@ interactions and let you focus on your code logic instead.</p>
 <p>I would like to remind the reader that the Gutenberg Rust parser exposes
 one AST, and one <code>root</code> function (the axiom of the grammar),
 respectively defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-entity z-name"> Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;),</span></span>
-<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-4">    Block</span><span> {</span></span>
+<span class="giallo-l"><span>        name</span><span class="z-16">:</span><span> (</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;,</span><span class="z-4"> Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;),</span></span>
+<span class="giallo-l"><span>        attributes</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Phrase</span><span>(</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span></span>
+<span class="giallo-l"><span class="z-19">    Phrase</span><span>(</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>and</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> root</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>
-<span class="giallo-l"><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;(</span><span class="z-entity z-name">Input</span><span>,</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-variable">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&gt;),</span><span class="z-variable"> nom</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&gt;&gt;;</span></span></code></pre>
-<p>Knowing that, let&#39;s go!</p>
-<h3 id="">General Design<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> root</span><span>(</span></span>
+<span class="giallo-l"><span>    input</span><span class="z-16">:</span><span class="z-4"> Input</span></span>
+<span class="giallo-l"><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Result</span><span>&lt;(</span><span class="z-4">Input</span><span>,</span><span class="z-4"> Vec</span><span>&lt;ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>&gt;), nom</span><span class="z-16">::</span><span class="z-4">Err</span><span>&lt;</span><span class="z-4">Input</span><span>&gt;&gt;;</span></span></code></pre>
+<p>Knowing that, let's go!</p>
+<h3 id="general-design">General Design<a role="presentation" class="anchor" href="#general-design" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Here is our general design or workflow:</p>
 <ol>
@@ -301,9 +301,9 @@ memory, and responsible of exposing a friendly API.</p>
 </ul>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/src/lib.rs">The entire code lands here</a>.
 It is approximately 150 lines of code. We explain it.</p>
-<h3 id="-1">Memory Allocation<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="memory-allocation">Memory Allocation<a role="presentation" class="anchor" href="#memory-allocation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>Let&#39;s start by the memory allocator. I choose to use <a rel="noopener external" target="_blank" href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> for
+<p>Let's start by the memory allocator. I choose to use <a rel="noopener external" target="_blank" href="https://github.com/rustwasm/wee_alloc"><code>wee_alloc</code> for
 the memory allocator</a>. It is
 specifically designed for WebAssembly by being very small (less than a
 kilobyte) and efficient.</p>
@@ -311,7 +311,7 @@ kilobyte) and efficient.</p>
 “prelude” for our code (enabling some compiler features, like <code>alloc</code>,
 declaring external crates, some aliases, and declaring required function
 like <code>panic</code>, <code>oom</code> etc.). This can be considered as a boilerplate:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#![no_std]</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#![no_std]</span></span>
 <span class="giallo-l"><span>#![feature(</span></span>
 <span class="giallo-l"><span>    alloc,</span></span>
 <span class="giallo-l"><span>    alloc_error_handler,</span></span>
@@ -319,36 +319,36 @@ like <code>panic</code>, <code>oom</code> etc.). This can be considered as a boi
 <span class="giallo-l"><span>    lang_items</span></span>
 <span class="giallo-l"><span>)]</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">extern</span><span class="z-keyword"> crate</span><span> gutenberg_post_parser;</span></span>
-<span class="giallo-l"><span class="z-storage">extern</span><span class="z-keyword"> crate</span><span> wee_alloc;</span></span>
-<span class="giallo-l"><span>#[macro_use]</span><span class="z-storage"> extern</span><span class="z-keyword"> crate</span><span> alloc;</span></span>
+<span class="giallo-l"><span class="z-18">extern crate</span><span> gutenberg_post_parser;</span></span>
+<span class="giallo-l"><span class="z-18">extern crate</span><span> wee_alloc;</span></span>
+<span class="giallo-l"><span>#[macro_use]</span><span class="z-18"> extern crate</span><span> alloc;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> alloc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">vec</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Vec</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> core</span><span class="z-keyword z-operator">::</span><span>{mem, slice};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> gutenberg_post_parser</span><span class="z-16">::</span><span class="z-4">ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> alloc</span><span class="z-16">::</span><span class="z-4">vec</span><span class="z-16">::</span><span class="z-4">Vec</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> core</span><span class="z-16">::</span><span>{mem, slice};</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>#[global_allocator]</span></span>
-<span class="giallo-l"><span class="z-storage">static</span><span class="z-constant z-other"> ALLOC</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> wee_alloc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">WeeAlloc</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> wee_alloc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">WeeAlloc</span><span class="z-keyword z-operator">::</span><span class="z-constant z-other">INIT</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">static</span><span class="z-8"> ALLOC</span><span class="z-16">:</span><span class="z-4"> wee_alloc</span><span class="z-16">::</span><span class="z-4">WeeAlloc</span><span class="z-16"> =</span><span class="z-4"> wee_alloc</span><span class="z-16">::</span><span class="z-4">WeeAlloc</span><span class="z-16">::</span><span class="z-8">INIT</span><span>;</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>#[panic_handler]</span></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> panic</span><span>(</span><span class="z-variable">_info</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">core</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">panic</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PanicInfo</span><span>)</span><span class="z-keyword z-operator"> -&gt; !</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    unsafe</span><span> {</span><span class="z-entity z-name"> core</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">intrinsics</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">abort</span><span>(); }</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> panic</span><span>(_info</span><span class="z-16">: &amp;</span><span class="z-4">core</span><span class="z-16">::</span><span class="z-4">panic</span><span class="z-16">::</span><span class="z-4">PanicInfo</span><span>)</span><span class="z-16"> -&gt; !</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    unsafe</span><span> {</span><span class="z-4"> core</span><span class="z-16">::</span><span class="z-4">intrinsics</span><span class="z-16">::</span><span class="z-19">abort</span><span>(); }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>#[alloc_error_handler]</span></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> oom</span><span>(</span><span class="z-variable">_</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> core</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">alloc</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Layout</span><span>)</span><span class="z-keyword z-operator"> -&gt; !</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    unsafe</span><span> {</span><span class="z-entity z-name"> core</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">intrinsics</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">abort</span><span>(); }</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> oom</span><span>(_</span><span class="z-16">:</span><span class="z-4"> core</span><span class="z-16">::</span><span class="z-4">alloc</span><span class="z-16">::</span><span class="z-4">Layout</span><span>)</span><span class="z-16"> -&gt; !</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    unsafe</span><span> {</span><span class="z-4"> core</span><span class="z-16">::</span><span class="z-4">intrinsics</span><span class="z-16">::</span><span class="z-19">abort</span><span>(); }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// This is the definition of `std::ffi::c_void`, but Wasm runs without std in our case.</span></span>
-<span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">u8</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// This is the definition of `std::ffi::c_void`, but Wasm runs without std in our case.</span></span>
+<span class="giallo-l"><span>#[repr(</span><span class="z-4">u8</span><span>)]</span></span>
 <span class="giallo-l"><span>#[allow(non_camel_case_types)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-variable"> c_void</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">pub enum</span><span> c_void {</span></span>
 <span class="giallo-l"><span>    #[doc(hidden)]</span></span>
-<span class="giallo-l"><span class="z-variable">    __variant1</span><span>,</span></span>
+<span class="giallo-l"><span>    __variant1,</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>    #[doc(hidden)]</span></span>
-<span class="giallo-l"><span class="z-variable">    __variant2</span></span>
+<span class="giallo-l"><span>    __variant2</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The Rust memory is the WebAssembly memory. Rust will allocate and
 deallocate memory on its own, but Javascript for instance needs to
@@ -358,13 +358,13 @@ memory and one function to deallocate memory.</p>
 <p>Once again, this is almost a boilerplate. The <code>alloc</code> function creates
 an empty vector of a specific capacity (because it is a linear segment
 of memory), and returns a pointer to this empty vector:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> alloc</span><span>(</span><span class="z-variable">capacity</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>)</span><span class="z-keyword z-operator"> -&gt; *</span><span class="z-storage">mut</span><span class="z-variable"> c_void</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> buffer</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Vec</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">with_capacity</span><span>(</span><span class="z-variable">capacity</span><span>);</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut_ptr</span><span>();</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    mem</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">forget</span><span>(</span><span class="z-variable">buffer</span><span>);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-18"> fn</span><span class="z-19"> alloc</span><span>(capacity</span><span class="z-16">:</span><span class="z-4"> usize</span><span>)</span><span class="z-16"> -&gt; *</span><span class="z-18">mut</span><span> c_void {</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> buffer</span><span class="z-16"> =</span><span class="z-4"> Vec</span><span class="z-16">::</span><span class="z-19">with_capacity</span><span>(capacity);</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> pointer</span><span class="z-16"> =</span><span> buffer</span><span class="z-16">.</span><span class="z-19">as_mut_ptr</span><span>();</span></span>
+<span class="giallo-l"><span class="z-4">    mem</span><span class="z-16">::</span><span class="z-19">forget</span><span>(buffer);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    pointer</span><span class="z-keyword"> as</span><span class="z-keyword z-operator"> *</span><span class="z-storage">mut</span><span class="z-variable"> c_void</span></span>
+<span class="giallo-l"><span>    pointer</span><span class="z-18"> as</span><span class="z-16"> *</span><span class="z-18">mut</span><span> c_void</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Note the <code>#[no_mangle]</code> attribute that instructs the Rust compiler to
 not mangle the function name, i.e. to not rename it. And <code>extern "C"</code> to
@@ -385,12 +385,12 @@ examples</a>).
 In this case, we want to allocate and keep the allocation after the
 function execution, hence <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/mem/fn.forget.html">the <code>mem::forget</code>
 call</a>.</p>
-<p>Let&#39;s jump on the <code>dealloc</code> function. The goal is to recreate a vector
+<p>Let's jump on the <code>dealloc</code> function. The goal is to recreate a vector
 based on a pointer and a capacity, and to let Rust drops it:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> dealloc</span><span>(</span><span class="z-variable">pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">mut</span><span class="z-variable"> c_void</span><span>,</span><span class="z-variable"> capacity</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-keyword">    unsafe</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Vec</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_raw_parts</span><span>(</span><span class="z-variable">pointer</span><span>,</span><span class="z-constant z-numeric"> 0</span><span>,</span><span class="z-variable"> capacity</span><span>);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-18"> fn</span><span class="z-19"> dealloc</span><span>(pointer</span><span class="z-16">: *</span><span class="z-18">mut</span><span> c_void, capacity</span><span class="z-16">:</span><span class="z-4"> usize</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    unsafe</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> _</span><span class="z-16"> =</span><span class="z-4"> Vec</span><span class="z-16">::</span><span class="z-19">from_raw_parts</span><span>(pointer,</span><span class="z-13"> 0</span><span>, capacity);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p><a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">The <code>Vec::from_raw_parts</code> function</a>
@@ -398,7 +398,7 @@ is marked as unsafe, so we need to delimit it in an <code>unsafe</code> block so
 <code>dealloc</code> function is considered as safe.</p>
 <p>The variable <code>_</code> contains our data to deallocate, and it goes out of
 scope immediately, so Rust drops it.</p>
-<h3 id="-2">From Input to a Flat AST<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="from-input-to-a-flat-ast">From Input to a Flat AST<a role="presentation" class="anchor" href="#from-input-to-a-flat-ast" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now the core of the binding! The <code>root</code> function reads the blog post to
 parse based on a pointer and a length, then it parses it. If the result
@@ -414,19 +414,19 @@ representation of the AST of the blog post.</p>
 </figure>
 <p>The logic flow of the parser: The input on the left is parsed into an
 AST, which is serialized into a flat sequence of bytes on the right.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> root</span><span>(</span><span class="z-variable">pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">mut</span><span class="z-entity z-name"> u8</span><span>,</span><span class="z-variable"> length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>)</span><span class="z-keyword z-operator"> -&gt; *</span><span class="z-storage">mut</span><span class="z-entity z-name"> u8</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> unsafe</span><span> {</span><span class="z-entity z-name"> slice</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_raw_parts</span><span>(</span><span class="z-variable">pointer</span><span>,</span><span class="z-variable"> length</span><span>) };</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> output</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> vec!</span><span>[];</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-18"> fn</span><span class="z-19"> root</span><span>(pointer</span><span class="z-16">: *</span><span class="z-18">mut</span><span class="z-4"> u8</span><span>, length</span><span class="z-16">:</span><span class="z-4"> usize</span><span>)</span><span class="z-16"> -&gt; *</span><span class="z-18">mut</span><span class="z-4"> u8</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> input</span><span class="z-16"> =</span><span class="z-18"> unsafe</span><span> {</span><span class="z-4"> slice</span><span class="z-16">::</span><span class="z-19">from_raw_parts</span><span>(pointer, length) };</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> output</span><span class="z-16"> =</span><span class="z-19"> vec!</span><span>[];</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-storage"> let</span><span class="z-entity z-name"> Ok</span><span>((</span><span class="z-variable">_remaining</span><span>,</span><span class="z-variable"> nodes</span><span>))</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Compile the AST (nodes) into a sequence of bytes.</span></span>
+<span class="giallo-l"><span class="z-18">    if let</span><span class="z-4"> Ok</span><span>((_remaining, nodes))</span><span class="z-16"> =</span><span class="z-4"> gutenberg_post_parser</span><span class="z-16">::</span><span class="z-19">root</span><span>(input) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Compile the AST (nodes) into a sequence of bytes.</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_mut_ptr</span><span>();</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    mem</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">forget</span><span>(</span><span class="z-variable">output</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> pointer</span><span class="z-16"> =</span><span> output</span><span class="z-16">.</span><span class="z-19">as_mut_ptr</span><span>();</span></span>
+<span class="giallo-l"><span class="z-4">    mem</span><span class="z-16">::</span><span class="z-19">forget</span><span>(output);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    pointer</span></span>
+<span class="giallo-l"><span>    pointer</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The variable <code>input</code> contains the blog post. It is fetched from memory
 with a pointer and a length. The variable <code>output</code> is the sequence of
@@ -436,7 +436,7 @@ sequence of bytes (omitted for now). Then the pointer to the sequence of
 bytes is grabbed, the Rust compiler is instructed to not drop it, and
 finally the pointer is returned. The logic is again pretty
 straightforward.</p>
-<p>Now, let&#39;s focus on the AST to the sequence of bytes (<code>u8</code>) compilation.
+<p>Now, let's focus on the AST to the sequence of bytes (<code>u8</code>) compilation.
 All data the AST hold are already bytes, which makes the process easier.
 The goal is only to flatten the AST:</p>
 <ul>
@@ -462,91 +462,91 @@ The goal is only to flatten the AST:</p>
 </li>
 </ul>
 <p>Here is the missing part of the <code>root</code> function:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">if</span><span class="z-storage"> let</span><span class="z-entity z-name"> Ok</span><span>((</span><span class="z-variable">_remaining</span><span>,</span><span class="z-variable"> nodes</span><span>))</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> nodes_length</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u32_to_u8s</span><span>(</span><span class="z-variable">nodes</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>()</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u32</span><span>);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">if let</span><span class="z-4"> Ok</span><span>((_remaining, nodes))</span><span class="z-16"> =</span><span class="z-4"> gutenberg_post_parser</span><span class="z-16">::</span><span class="z-19">root</span><span>(input) {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> nodes_length</span><span class="z-16"> =</span><span class="z-19"> u32_to_u8s</span><span>(nodes</span><span class="z-16">.</span><span class="z-19">len</span><span>()</span><span class="z-18"> as</span><span class="z-4"> u32</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">nodes_length</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">nodes_length</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">1</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">nodes_length</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">2</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">nodes_length</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">3</span><span>);</span></span>
+<span class="giallo-l"><span>    output</span><span class="z-16">.</span><span class="z-19">push</span><span>(nodes_length</span><span class="z-16">.</span><span class="z-13">0</span><span>);</span></span>
+<span class="giallo-l"><span>    output</span><span class="z-16">.</span><span class="z-19">push</span><span>(nodes_length</span><span class="z-16">.</span><span class="z-13">1</span><span>);</span></span>
+<span class="giallo-l"><span>    output</span><span class="z-16">.</span><span class="z-19">push</span><span>(nodes_length</span><span class="z-16">.</span><span class="z-13">2</span><span>);</span></span>
+<span class="giallo-l"><span>    output</span><span class="z-16">.</span><span class="z-19">push</span><span>(nodes_length</span><span class="z-16">.</span><span class="z-13">3</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span class="z-variable"> node</span><span class="z-keyword"> in</span><span class="z-variable"> nodes</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        into_bytes</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">node</span><span>,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-storage">mut</span><span class="z-variable"> output</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    for</span><span> node</span><span class="z-18"> in</span><span> nodes {</span></span>
+<span class="giallo-l"><span class="z-19">        into_bytes</span><span>(</span><span class="z-16">&amp;</span><span>node,</span><span class="z-16"> &amp;</span><span class="z-18">mut</span><span> output);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And here is the <code>into_bytes</code> function:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> into_bytes</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;(</span><span class="z-variable">node</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-variable"> output</span><span class="z-keyword z-operator">: &amp;</span><span class="z-storage">mut</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">u8</span><span>&gt;) {</span></span>
-<span class="giallo-l"><span class="z-keyword">    match</span><span class="z-keyword z-operator"> *</span><span class="z-variable">node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span><span class="z-variable"> name</span><span>,</span><span class="z-variable"> attributes</span><span>,</span><span class="z-keyword"> ref</span><span class="z-variable"> children</span><span> }</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> node_type</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 1</span><span class="z-entity z-name">u8</span><span>;</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> name_length</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">len</span><span>()</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">len</span><span>()</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 1</span><span>;</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> attributes_length</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> match</span><span class="z-variable"> attributes</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Some</span><span>(</span><span class="z-variable">attributes</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-variable"> attributes</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>(),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                None</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-constant z-numeric"> 4</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> into_bytes</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;(node</span><span class="z-16">: &amp;</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;, output</span><span class="z-16">: &amp;</span><span class="z-18">mut</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">u8</span><span>&gt;) {</span></span>
+<span class="giallo-l"><span class="z-18">    match</span><span class="z-16"> *</span><span>node {</span></span>
+<span class="giallo-l"><span class="z-4">        Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> { name, attributes,</span><span class="z-18"> ref</span><span> children }</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> node_type</span><span class="z-16"> =</span><span class="z-13"> 1</span><span class="z-4">u8</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> name_length</span><span class="z-16"> =</span><span> name</span><span class="z-16">.</span><span class="z-13">0</span><span class="z-10">.</span><span class="z-19">len</span><span>()</span><span class="z-16"> +</span><span> name</span><span class="z-16">.</span><span class="z-13">1</span><span class="z-10">.</span><span class="z-19">len</span><span>()</span><span class="z-16"> +</span><span class="z-13"> 1</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> attributes_length</span><span class="z-16"> =</span><span class="z-18"> match</span><span> attributes {</span></span>
+<span class="giallo-l"><span class="z-4">                Some</span><span>(attributes)</span><span class="z-16"> =&gt;</span><span> attributes</span><span class="z-16">.</span><span class="z-19">len</span><span>(),</span></span>
+<span class="giallo-l"><span class="z-4">                None</span><span class="z-16"> =&gt;</span><span class="z-13"> 4</span></span>
 <span class="giallo-l"><span>            };</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> attributes_length_as_u8s</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u32_to_u8s</span><span>(</span><span class="z-variable">attributes_length</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u32</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> attributes_length_as_u8s</span><span class="z-16"> =</span><span class="z-19"> u32_to_u8s</span><span>(attributes_length</span><span class="z-18"> as</span><span class="z-4"> u32</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> number_of_children</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> children</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>();</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">node_type</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">name_length</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">attributes_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">attributes_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">1</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">attributes_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">2</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">attributes_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">3</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">number_of_children</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> number_of_children</span><span class="z-16"> =</span><span> children</span><span class="z-16">.</span><span class="z-19">len</span><span>();</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(node_type);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(name_length</span><span class="z-18"> as</span><span class="z-4"> u8</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(attributes_length_as_u8s</span><span class="z-16">.</span><span class="z-13">0</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(attributes_length_as_u8s</span><span class="z-16">.</span><span class="z-13">1</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(attributes_length_as_u8s</span><span class="z-16">.</span><span class="z-13">2</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(attributes_length_as_u8s</span><span class="z-16">.</span><span class="z-13">3</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(number_of_children</span><span class="z-18"> as</span><span class="z-4"> u8</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">extend</span><span>(</span><span class="z-variable">name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-string">b&#39;/&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">extend</span><span>(</span><span class="z-variable">name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">1</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">extend</span><span>(name</span><span class="z-16">.</span><span class="z-13">0</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(</span><span class="z-11">b&#39;/&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">extend</span><span>(name</span><span class="z-16">.</span><span class="z-13">1</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">            if</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">attributes</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> attributes</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">extend</span><span>(</span><span class="z-variable">attributes</span><span>);</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">extend</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-string">b&quot;null&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>]);</span></span>
+<span class="giallo-l"><span class="z-18">            if let</span><span class="z-4"> Some</span><span>(attributes)</span><span class="z-16"> =</span><span> attributes {</span></span>
+<span class="giallo-l"><span>                output</span><span class="z-16">.</span><span class="z-19">extend</span><span>(attributes);</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span>                output</span><span class="z-16">.</span><span class="z-19">extend</span><span>(</span><span class="z-16">&amp;</span><span class="z-11">b&quot;null&quot;</span><span>[</span><span class="z-16">..</span><span>]);</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">            for</span><span class="z-variable"> child</span><span class="z-keyword"> in</span><span class="z-variable"> children</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">                into_bytes</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">child</span><span>,</span><span class="z-variable"> output</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">            for</span><span> child</span><span class="z-18"> in</span><span> children {</span></span>
+<span class="giallo-l"><span class="z-19">                into_bytes</span><span>(</span><span class="z-16">&amp;</span><span>child, output);</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        },</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Phrase</span><span>(</span><span class="z-variable">phrase</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> node_type</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 2</span><span class="z-entity z-name">u8</span><span>;</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> phrase_length</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> phrase</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>();</span></span>
+<span class="giallo-l"><span class="z-4">        Node</span><span class="z-16">::</span><span class="z-19">Phrase</span><span>(phrase)</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> node_type</span><span class="z-16"> =</span><span class="z-13"> 2</span><span class="z-4">u8</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> phrase_length</span><span class="z-16"> =</span><span> phrase</span><span class="z-16">.</span><span class="z-19">len</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">node_type</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(node_type);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> phrase_length_as_u8s</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u32_to_u8s</span><span>(</span><span class="z-variable">phrase_length</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u32</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> phrase_length_as_u8s</span><span class="z-16"> =</span><span class="z-19"> u32_to_u8s</span><span>(phrase_length</span><span class="z-18"> as</span><span class="z-4"> u32</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">phrase_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">phrase_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">1</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">phrase_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">2</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-variable">phrase_length_as_u8s</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">3</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">            output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">extend</span><span>(</span><span class="z-variable">phrase</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(phrase_length_as_u8s</span><span class="z-16">.</span><span class="z-13">0</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(phrase_length_as_u8s</span><span class="z-16">.</span><span class="z-13">1</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(phrase_length_as_u8s</span><span class="z-16">.</span><span class="z-13">2</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">push</span><span>(phrase_length_as_u8s</span><span class="z-16">.</span><span class="z-13">3</span><span>);</span></span>
+<span class="giallo-l"><span>            output</span><span class="z-16">.</span><span class="z-19">extend</span><span>(phrase);</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>What I find interesting with this code is it reads just like the bullet
 list above the code.</p>
 <p>For the most curious, here is the <code>u32_to_u8s</code> function:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> u32_to_u8s</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> u32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span> (</span><span class="z-entity z-name">u8</span><span>,</span><span class="z-entity z-name"> u8</span><span>,</span><span class="z-entity z-name"> u8</span><span>,</span><span class="z-entity z-name"> u8</span><span>) {</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> u32_to_u8s</span><span>(x</span><span class="z-16">:</span><span class="z-4"> u32</span><span>)</span><span class="z-16"> -&gt;</span><span> (</span><span class="z-4">u8</span><span>,</span><span class="z-4"> u8</span><span>,</span><span class="z-4"> u8</span><span>,</span><span class="z-4"> u8</span><span>) {</span></span>
 <span class="giallo-l"><span>    (</span></span>
-<span class="giallo-l"><span>        ((</span><span class="z-variable">x</span><span class="z-keyword z-operator"> &gt;&gt;</span><span class="z-constant z-numeric"> 24</span><span>)</span><span class="z-keyword z-operator"> &amp;</span><span class="z-constant z-numeric"> 0xff</span><span>)</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span><span>,</span></span>
-<span class="giallo-l"><span>        ((</span><span class="z-variable">x</span><span class="z-keyword z-operator"> &gt;&gt;</span><span class="z-constant z-numeric"> 16</span><span>)</span><span class="z-keyword z-operator"> &amp;</span><span class="z-constant z-numeric"> 0xff</span><span>)</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span><span>,</span></span>
-<span class="giallo-l"><span>        ((</span><span class="z-variable">x</span><span class="z-keyword z-operator"> &gt;&gt;</span><span class="z-constant z-numeric"> 8</span><span>)</span><span class="z-keyword z-operator">  &amp;</span><span class="z-constant z-numeric"> 0xff</span><span>)</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span><span>,</span></span>
-<span class="giallo-l"><span>        (</span><span class="z-variable"> x</span><span class="z-keyword z-operator">        &amp;</span><span class="z-constant z-numeric"> 0xff</span><span>)</span><span class="z-keyword"> as</span><span class="z-entity z-name"> u8</span></span>
+<span class="giallo-l"><span>        ((x</span><span class="z-16"> &gt;&gt;</span><span class="z-13"> 24</span><span>)</span><span class="z-16"> &amp;</span><span class="z-13"> 0xff</span><span>)</span><span class="z-18"> as</span><span class="z-4"> u8</span><span>,</span></span>
+<span class="giallo-l"><span>        ((x</span><span class="z-16"> &gt;&gt;</span><span class="z-13"> 16</span><span>)</span><span class="z-16"> &amp;</span><span class="z-13"> 0xff</span><span>)</span><span class="z-18"> as</span><span class="z-4"> u8</span><span>,</span></span>
+<span class="giallo-l"><span>        ((x</span><span class="z-16"> &gt;&gt;</span><span class="z-13"> 8</span><span>)</span><span class="z-16">  &amp;</span><span class="z-13"> 0xff</span><span>)</span><span class="z-18"> as</span><span class="z-4"> u8</span><span>,</span></span>
+<span class="giallo-l"><span>        ( x</span><span class="z-16">        &amp;</span><span class="z-13"> 0xff</span><span>)</span><span class="z-18"> as</span><span class="z-4"> u8</span></span>
 <span class="giallo-l"><span>    )</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Here we are. <code>alloc</code>, <code>dealloc</code>, <code>root</code>, and <code>into_bytes</code>. Four
 functions, and everything is done.</p>
-<h3 id="-3">Producing and Optimising the WebAssembly Binary<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="producing-and-optimising-the-webassembly-binary">Producing and Optimising the WebAssembly Binary<a role="presentation" class="anchor" href="#producing-and-optimising-the-webassembly-binary" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To get a WebAssembly binary, the project has to be compiled to the
 <code>wasm32-unknown-unknown</code> target. For now (and it will change in a near
 future), the nightly toolchain is needed to compile the project, so make
 sure you have the latest nightly version of <code>rustc</code> &amp; co. installed with
-<code>rustup update nightly</code>. Let&#39;s run <code>cargo</code>:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-variable"> RUSTFLAGS</span><span class="z-keyword z-operator">=</span><span class="z-string">&#39;-g&#39;</span><span class="z-entity z-name"> cargo</span><span class="z-string"> +nightly build</span><span class="z-constant z-other"> --target</span><span class="z-string"> wasm32-unknown-unknown</span><span class="z-constant z-other"> --release</span></span></code></pre>
+<code>rustup update nightly</code>. Let's run <code>cargo</code>:</p>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> RUSTFLAGS</span><span class="z-16">=</span><span class="z-11">&#39;-g&#39;</span><span class="z-4"> cargo</span><span class="z-11"> +nightly build</span><span class="z-8"> --target</span><span class="z-11"> wasm32-unknown-unknown</span><span class="z-8"> --release</span></span></code></pre>
 <p>The WebAssembly binary weights 22kb. Our goal is to reduce the file
 size. For that, the following tools will be required:</p>
 <ul>
@@ -562,23 +562,23 @@ binary,</li>
 <a rel="noopener external" target="_blank" href="https://github.com/google/brotli"><code>brotli</code></a> to compress the binary.</li>
 </ul>
 <p>Basically, what we do is the following:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Garbage-collect unused data.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> wasm-gc gutenberg_post_parser.wasm</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> # Garbage-collect unused data.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> wasm-gc gutenberg_post_parser.wasm</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Mark fmt and panicking as unreachable.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> wasm-snip --snip-rust-fmt-code --snip-rust-panicking-code gutenberg_post_parser.wasm -o gutenberg_post_parser_snipped.wasm</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> mv gutenberg_post_parser_snipped.wasm gutenberg_post_parser.wasm</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Mark fmt and panicking as unreachable.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> wasm-snip --snip-rust-fmt-code --snip-rust-panicking-code gutenberg_post_parser.wasm -o gutenberg_post_parser_snipped.wasm</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> mv gutenberg_post_parser_snipped.wasm gutenberg_post_parser.wasm</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Garbage-collect unreachable data.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> wasm-gc gutenberg_post_parser.wasm</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Garbage-collect unreachable data.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> wasm-gc gutenberg_post_parser.wasm</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Optimise </span><span class="z-keyword">for</span><span> small size.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> wasm-opt -Oz -o gutenberg_post_parser_opt.wasm gutenberg_post_parser.wasm</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> mv gutenberg_post_parser_opt.wasm gutenberg_post_parser.wasm</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> # Optimise </span><span class="z-18">for</span><span> small size.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> wasm-opt -Oz -o gutenberg_post_parser_opt.wasm gutenberg_post_parser.wasm</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> mv gutenberg_post_parser_opt.wasm gutenberg_post_parser.wasm</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> # Compress.</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> gzip --best --stdout gutenberg_post_parser.wasm </span><span class="z-keyword z-operator">&gt;</span><span> gutenberg_post_parser.wasm.gz</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> brotli --best --stdout</span><span class="z-variable"> --lgwin</span><span class="z-keyword z-operator">=</span><span class="z-string">24</span><span class="z-entity z-name"> gutenberg_post_parser.wasm</span><span class="z-keyword z-operator"> &gt;</span><span class="z-string"> gutenberg_post_parser.wasm.br</span><span> </span></span></code></pre>
+<span class="giallo-l"><span class="z-10">$</span><span> # Compress.</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> gzip --best --stdout gutenberg_post_parser.wasm </span><span class="z-16">&gt;</span><span> gutenberg_post_parser.wasm.gz</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> brotli --best --stdout --lgwin</span><span class="z-16">=</span><span class="z-11">24</span><span class="z-4"> gutenberg_post_parser.wasm</span><span class="z-16"> &gt;</span><span class="z-11"> gutenberg_post_parser.wasm.br</span><span> </span></span></code></pre>
 <p>We end up with the following file sizes:</p>
 <ul>
 <li><code>.wasm</code>: 16kb,</li>
@@ -597,7 +597,7 @@ weights 6.2kb:</p>
   </figcaption>
 </figure>
 <p>The WebAssembly binary is ready to run!</p>
-<h2 id="-4">WebAssembly 🚀 Javascript<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="webassembly-rocket-javascript">WebAssembly 🚀 Javascript<a role="presentation" class="anchor" href="#webassembly-rocket-javascript" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/./wasm-to-js.png" alt="Wasm to JS" loading="lazy" decoding="async" /></p>
@@ -612,10 +612,10 @@ need to do is the following:</p>
 and decode it to build a “Javascript AST” (with our own objects).</li>
 </ol>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/gutenberg_post_parser.mjs">The entire code lands here</a>.
-It is approximately 150 lines of code too. I won&#39;t explain the whole code since
+It is approximately 150 lines of code too. I won't explain the whole code since
 some parts of it is the “friendly API” that is exposed to the user. So I will
 rather explain the major pieces.</p>
-<h3 id="-5">Loading/Streaming and Instanciating<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="loading-streaming-and-instanciating">Loading/Streaming and Instanciating<a role="presentation" class="anchor" href="#loading-streaming-and-instanciating" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly">The <code>WebAssembly</code> API</a>
 exposes multiple ways to load a WebAssembly binary. The best you can use is
@@ -630,46 +630,46 @@ Google Chrome has a strong limit of 4kb for the binary size which will make you
 give up quickly.</p>
 <p>To be able to stream the WebAssembly binary, the server must send the
 <code>application/wasm</code> MIME type (with the <code>Content-Type</code> header).</p>
-<p>Let&#39;s instanciate our WebAssembly:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage">const</span><span class="z-variable"> url</span><span class="z-keyword z-operator"> =</span><span class="z-string"> &#39;/gutenberg_post_parser.wasm&#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">const</span><span class="z-variable"> wasm</span><span class="z-keyword z-operator"> =</span></span>
-<span class="giallo-l"><span class="z-variable">    WebAssembly</span><span class="z-punctuation z-accessor">.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        instantiateStreaming</span><span>(</span><span class="z-entity z-name z-function">fetch</span><span>(</span><span class="z-variable">url</span><span>)</span><span class="z-punctuation z-separator">,</span><span> {})</span><span class="z-punctuation z-accessor">.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        then</span><span>(</span><span class="z-variable z-parameter">object</span><span class="z-storage z-type z-function"> =&gt;</span><span class="z-variable"> object</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">instance</span><span>)</span><span class="z-punctuation z-accessor">.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        then</span><span>(</span><span class="z-variable z-parameter">instance</span><span class="z-storage z-type z-function"> =&gt;</span><span> {</span><span class="z-comment"> /* step 2 */</span><span> })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<p>Let's instanciate our WebAssembly:</p>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">const</span><span> url</span><span class="z-16"> =</span><span class="z-11"> &#39;/gutenberg_post_parser.wasm&#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">const</span><span> wasm</span><span class="z-16"> =</span></span>
+<span class="giallo-l"><span>    WebAssembly</span><span class="z-16">.</span></span>
+<span class="giallo-l"><span class="z-19">        instantiateStreaming</span><span>(</span><span class="z-19">fetch</span><span>(url)</span><span class="z-10">,</span><span> {})</span><span class="z-16">.</span></span>
+<span class="giallo-l"><span class="z-19">        then</span><span>(</span><span class="z-13">object</span><span class="z-18"> =&gt;</span><span> object</span><span class="z-16">.</span><span>instance)</span><span class="z-16">.</span></span>
+<span class="giallo-l"><span class="z-19">        then</span><span>(</span><span class="z-13">instance</span><span class="z-18"> =&gt;</span><span> {</span><span class="z-7 z-i"> /* step 2 */</span><span> })</span><span class="z-10">;</span></span></code></pre>
 <p>The WebAssembly binary has been instanciated! Now we can move to the
 next step.</p>
-<h3 id="-6">Last Polish Before Running the Parser<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="last-polish-before-running-the-parser">Last Polish Before Running the Parser<a role="presentation" class="anchor" href="#last-polish-before-running-the-parser" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Remember that the WebAssembly binary exports 3 functions: <code>alloc</code>,
 <code>dealloc</code>, and <code>root</code>. They can be found on the <code>exports</code> property,
-along with the memory. Let&#39;s write that:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-entity z-name z-function">        then</span><span>(</span><span class="z-variable z-parameter">instance</span><span class="z-storage z-type z-function"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            const</span><span class="z-variable"> Module</span><span class="z-keyword z-operator"> =</span><span> {</span></span>
-<span class="giallo-l"><span>                alloc</span><span class="z-punctuation z-separator">:</span><span class="z-variable"> instance</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">exports</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">alloc</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>                dealloc</span><span class="z-punctuation z-separator">:</span><span class="z-variable"> instance</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">exports</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">dealloc</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>                root</span><span class="z-punctuation z-separator">:</span><span class="z-variable"> instance</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">exports</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">root</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>                memory</span><span class="z-punctuation z-separator">:</span><span class="z-variable"> instance</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">exports</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">memory</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-punctuation z-terminator">;</span></span>
+along with the memory. Let's write that:</p>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-19">        then</span><span>(</span><span class="z-13">instance</span><span class="z-18"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            const</span><span> Module</span><span class="z-16"> =</span><span> {</span></span>
+<span class="giallo-l"><span>                alloc</span><span class="z-10">:</span><span> instance</span><span class="z-16">.</span><span>exports</span><span class="z-16">.</span><span>alloc</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>                dealloc</span><span class="z-10">:</span><span> instance</span><span class="z-16">.</span><span>exports</span><span class="z-16">.</span><span>dealloc</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>                root</span><span class="z-10">:</span><span> instance</span><span class="z-16">.</span><span>exports</span><span class="z-16">.</span><span>root</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>                memory</span><span class="z-10">:</span><span> instance</span><span class="z-16">.</span><span>exports</span><span class="z-16">.</span><span>memory</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">            runParser</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39;&lt;!-- wp:foo /--&gt;xyz&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>        })</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">            runParser</span><span>(Module</span><span class="z-10">,</span><span class="z-11"> &#39;&lt;!-- wp:foo /--&gt;xyz&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>        })</span><span class="z-10">;</span></span></code></pre>
 <p>Great, everything is ready to write the <code>runParser</code> function!</p>
-<h3 id="-7">The Parser Runner<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-parser-runner">The Parser Runner<a role="presentation" class="anchor" href="#the-parser-runner" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As a reminder, this function has to: Write the <code>input</code> (the blog post to
 parse) in the WebAssembly module memory (<code>Module.memory</code>), to call the
 <code>root</code> function (<code>Module.root</code>), and to read the result from the
-WebAssembly module memory. Let&#39;s do that:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> runParser</span><span>(</span><span class="z-variable z-parameter">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> raw_input</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> = new</span><span class="z-entity z-name z-function"> TextEncoder</span><span>()</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">encode</span><span>(</span><span class="z-variable">raw_input</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> input_pointer</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> writeBuffer</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> input</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> output_pointer</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> Module</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input_pointer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> input</span><span class="z-punctuation z-accessor">.</span><span>length)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> result</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> readNodes</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> output_pointer</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+WebAssembly module memory. Let's do that:</p>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> runParser</span><span>(</span><span class="z-13">Module</span><span class="z-10">,</span><span class="z-13"> raw_input</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> input</span><span class="z-16"> = new</span><span class="z-19"> TextEncoder</span><span>()</span><span class="z-16">.</span><span class="z-19">encode</span><span>(raw_input)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> input_pointer</span><span class="z-16"> =</span><span class="z-19"> writeBuffer</span><span>(Module</span><span class="z-10">,</span><span> input)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> output_pointer</span><span class="z-16"> =</span><span> Module</span><span class="z-16">.</span><span class="z-19">root</span><span>(input_pointer</span><span class="z-10">,</span><span> input</span><span class="z-16">.</span><span>length)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> result</span><span class="z-16"> =</span><span class="z-19"> readNodes</span><span>(Module</span><span class="z-10">,</span><span> output_pointer)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    Module</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">dealloc</span><span>(</span><span class="z-variable">input_pointer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> input</span><span class="z-punctuation z-accessor">.</span><span>length)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    Module</span><span class="z-16">.</span><span class="z-19">dealloc</span><span>(input_pointer</span><span class="z-10">,</span><span> input</span><span class="z-16">.</span><span>length)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> result</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> result</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>In details:</p>
 <ul>
@@ -688,19 +688,19 @@ unknown at this step.</li>
 </ul>
 <p>Great! So we have 2 functions to write right now: <code>writeBuffer</code>​ and
 <code>readNodes</code>.</p>
-<h3 id="-8">Writing the Data in Memory<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="writing-the-data-in-memory">Writing the Data in Memory<a role="presentation" class="anchor" href="#writing-the-data-in-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>Let&#39;s go with the first one, <code>writeBuffer</code>:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> writeBuffer</span><span>(</span><span class="z-variable z-parameter">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> buffer</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> buffer_length</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span class="z-punctuation z-accessor">.</span><span>length</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> Module</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">alloc</span><span>(</span><span class="z-variable">buffer_length</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> memory</span><span class="z-keyword z-operator"> = new</span><span class="z-entity z-name z-function"> Uint8Array</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">memory</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">buffer</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<p>Let's go with the first one, <code>writeBuffer</code>:</p>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> writeBuffer</span><span>(</span><span class="z-13">Module</span><span class="z-10">,</span><span class="z-13"> buffer</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> buffer_length</span><span class="z-16"> =</span><span> buffer</span><span class="z-16">.</span><span>length</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> pointer</span><span class="z-16"> =</span><span> Module</span><span class="z-16">.</span><span class="z-19">alloc</span><span>(buffer_length)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> memory</span><span class="z-16"> = new</span><span class="z-19"> Uint8Array</span><span>(Module</span><span class="z-16">.</span><span>memory</span><span class="z-16">.</span><span>buffer)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> (</span><span class="z-storage">let</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> &lt;</span><span class="z-variable"> buffer_length</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span class="z-variable">i</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable">        memory</span><span>[</span><span class="z-variable">pointer</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> i</span><span>]</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">i</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    for</span><span> (</span><span class="z-18">let</span><span> i</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span><span> i</span><span class="z-16"> &lt;</span><span> buffer_length</span><span class="z-10">;</span><span class="z-16"> ++</span><span>i) {</span></span>
+<span class="giallo-l"><span>        memory[pointer</span><span class="z-16"> +</span><span> i]</span><span class="z-16"> =</span><span> buffer[i]</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> pointer</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> pointer</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>In details:</p>
 <ul>
@@ -709,41 +709,41 @@ unknown at this step.</li>
 <li>Then a <code>uint8</code> view of the buffer is instanciated, which means that
 the buffer will be viewed as a sequence of <code>u8</code>, exactly what Rust
 expects,</li>
-<li>Finally the buffer is copied into the memory with a loop, that&#39;s very
+<li>Finally the buffer is copied into the memory with a loop, that's very
 basic, and return the pointer.</li>
 </ul>
 <p>Note that, unlike C strings, adding a <code>NUL</code> byte at the end is not
 mandatory. This is just the raw data (on the Rust side, we read it with
 <code>slice::from_raw_parts</code>, slice is a very simple structure).</p>
-<h3 id="-9">Reading the Output of the Parser<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="reading-the-output-of-the-parser">Reading the Output of the Parser<a role="presentation" class="anchor" href="#reading-the-output-of-the-parser" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>So at this step, the input has been written in memory, and the <code>root</code>
 function has been called so it means the parser has run. It has returned
 a pointer to the output (the result) and we now have to read it and
 decode it.</p>
 <p>Remind that the first 4 bytes encodes the number of nodes we have to
-read. Let&#39;s go!</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> readNodes</span><span>(</span><span class="z-variable z-parameter">Module</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> start_pointer</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> buffer</span><span class="z-keyword z-operator"> = new</span><span class="z-entity z-name z-function"> Uint8Array</span><span>(</span><span class="z-variable">Module</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">memory</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">buffer</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">slice</span><span>(</span><span class="z-variable">start_pointer</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> number_of_nodes</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u8s_to_u32</span><span>(</span><span class="z-variable">buffer</span><span>[</span><span class="z-constant z-numeric">0</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-constant z-numeric">1</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-constant z-numeric">2</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-constant z-numeric">3</span><span>])</span><span class="z-punctuation z-terminator">;</span></span>
+read. Let's go!</p>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> readNodes</span><span>(</span><span class="z-13">Module</span><span class="z-10">,</span><span class="z-13"> start_pointer</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> buffer</span><span class="z-16"> = new</span><span class="z-19"> Uint8Array</span><span>(Module</span><span class="z-16">.</span><span>memory</span><span class="z-16">.</span><span>buffer</span><span class="z-16">.</span><span class="z-19">slice</span><span>(start_pointer))</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> number_of_nodes</span><span class="z-16"> =</span><span class="z-19"> u8s_to_u32</span><span>(buffer[</span><span class="z-13">0</span><span>]</span><span class="z-10">,</span><span> buffer[</span><span class="z-13">1</span><span>]</span><span class="z-10">,</span><span> buffer[</span><span class="z-13">2</span><span>]</span><span class="z-10">,</span><span> buffer[</span><span class="z-13">3</span><span>])</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span> (</span><span class="z-constant z-numeric">0</span><span class="z-keyword z-operator"> &gt;=</span><span class="z-variable"> number_of_nodes</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-constant z-language"> null</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (</span><span class="z-13">0</span><span class="z-16"> &gt;=</span><span> number_of_nodes) {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-13"> null</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> nodes</span><span class="z-keyword z-operator"> =</span><span> []</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> offset</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 4</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> end_offset</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> nodes</span><span class="z-16"> =</span><span> []</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> offset</span><span class="z-16"> =</span><span class="z-13"> 4</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> end_offset</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    for</span><span> (</span><span class="z-storage">let</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> &lt;</span><span class="z-variable"> number_of_nodes</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span class="z-variable">i</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> last_offset</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> readNode</span><span>(</span><span class="z-variable">buffer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> nodes</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    for</span><span> (</span><span class="z-18">let</span><span> i</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span><span> i</span><span class="z-16"> &lt;</span><span> number_of_nodes</span><span class="z-10">;</span><span class="z-16"> ++</span><span>i) {</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> last_offset</span><span class="z-16"> =</span><span class="z-19"> readNode</span><span>(buffer</span><span class="z-10">,</span><span> offset</span><span class="z-10">,</span><span> nodes)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> end_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> last_offset</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        offset</span><span class="z-16"> =</span><span> end_offset</span><span class="z-16"> =</span><span> last_offset</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    Module</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">dealloc</span><span>(</span><span class="z-variable">start_pointer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> start_pointer</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> end_offset</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    Module</span><span class="z-16">.</span><span class="z-19">dealloc</span><span>(start_pointer</span><span class="z-10">,</span><span> start_pointer</span><span class="z-16"> +</span><span> end_offset)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> nodes</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> nodes</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>In details:</p>
 <ul>
@@ -754,80 +754,80 @@ of the memory starting at <code>start_pointer</code>,</li>
 </ul>
 <p>For the record, here is the <code>u8s_to_u32</code> function, this is the exact
 opposite of <code>u32_to_u8s</code>:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> u8s_to_u32</span><span>(</span><span class="z-variable z-parameter">o</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> p</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> q</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> r</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span> (</span><span class="z-variable">o</span><span class="z-keyword z-operator"> &lt;&lt;</span><span class="z-constant z-numeric"> 24</span><span>)</span><span class="z-keyword z-operator"> |</span><span> (</span><span class="z-variable">p</span><span class="z-keyword z-operator"> &lt;&lt;</span><span class="z-constant z-numeric"> 16</span><span>)</span><span class="z-keyword z-operator"> |</span><span> (</span><span class="z-variable">q</span><span class="z-keyword z-operator"> &lt;&lt;</span><span class="z-constant z-numeric"> 8</span><span>)</span><span class="z-keyword z-operator"> |</span><span class="z-variable"> r</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> u8s_to_u32</span><span>(</span><span class="z-13">o</span><span class="z-10">,</span><span class="z-13"> p</span><span class="z-10">,</span><span class="z-13"> q</span><span class="z-10">,</span><span class="z-13"> r</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> (o</span><span class="z-16"> &lt;&lt;</span><span class="z-13"> 24</span><span>)</span><span class="z-16"> |</span><span> (p</span><span class="z-16"> &lt;&lt;</span><span class="z-13"> 16</span><span>)</span><span class="z-16"> |</span><span> (q</span><span class="z-16"> &lt;&lt;</span><span class="z-13"> 8</span><span>)</span><span class="z-16"> |</span><span> r</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>And I will also share the <code>readNode</code> function, but I won&#39;t explain the
+<p>And I will also share the <code>readNode</code> function, but I won't explain the
 details. This is just the decoding part of the output from the parser.</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> readNode</span><span>(</span><span class="z-variable z-parameter">buffer</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> nodes</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-variable"> node_type</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">function</span><span class="z-19"> readNode</span><span>(</span><span class="z-13">buffer</span><span class="z-10">,</span><span class="z-13"> offset</span><span class="z-10">,</span><span class="z-13"> nodes</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> node_type</span><span class="z-16"> =</span><span> buffer[offset]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Block.</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span> (</span><span class="z-constant z-numeric">1</span><span class="z-keyword z-operator"> ===</span><span class="z-variable"> node_type</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> name_length</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 1</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> attributes_length</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u8s_to_u32</span><span>(</span><span class="z-variable">buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 2</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 3</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 4</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 5</span><span>])</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> number_of_children</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 6</span><span>]</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Block.</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (</span><span class="z-13">1</span><span class="z-16"> ===</span><span> node_type) {</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> name_length</span><span class="z-16"> =</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 1</span><span>]</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> attributes_length</span><span class="z-16"> =</span><span class="z-19"> u8s_to_u32</span><span>(buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 2</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 3</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 4</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 5</span><span>])</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> number_of_children</span><span class="z-16"> =</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 6</span><span>]</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> payload_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 7</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> next_payload_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> payload_offset</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> name_length</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> payload_offset</span><span class="z-16"> =</span><span> offset</span><span class="z-16"> +</span><span class="z-13"> 7</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> next_payload_offset</span><span class="z-16"> =</span><span> payload_offset</span><span class="z-16"> +</span><span> name_length</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> name</span><span class="z-keyword z-operator"> = new</span><span class="z-entity z-name z-function"> TextDecoder</span><span>()</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">decode</span><span>(</span><span class="z-variable">buffer</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">slice</span><span>(</span><span class="z-variable">payload_offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> next_payload_offset</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> name</span><span class="z-16"> = new</span><span class="z-19"> TextDecoder</span><span>()</span><span class="z-16">.</span><span class="z-19">decode</span><span>(buffer</span><span class="z-16">.</span><span class="z-19">slice</span><span>(payload_offset</span><span class="z-10">,</span><span> next_payload_offset))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        payload_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> next_payload_offset</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">        next_payload_offset</span><span class="z-keyword z-operator"> +=</span><span class="z-variable"> attributes_length</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        payload_offset</span><span class="z-16"> =</span><span> next_payload_offset</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>        next_payload_offset</span><span class="z-16"> +=</span><span> attributes_length</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> attributes</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> JSON</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">parse</span><span>(</span><span class="z-keyword z-operator">new</span><span class="z-entity z-name z-function"> TextDecoder</span><span>()</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">decode</span><span>(</span><span class="z-variable">buffer</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">slice</span><span>(</span><span class="z-variable">payload_offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> next_payload_offset</span><span>)))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> attributes</span><span class="z-16"> =</span><span> JSON</span><span class="z-16">.</span><span class="z-19">parse</span><span>(</span><span class="z-16">new</span><span class="z-19"> TextDecoder</span><span>()</span><span class="z-16">.</span><span class="z-19">decode</span><span>(buffer</span><span class="z-16">.</span><span class="z-19">slice</span><span>(payload_offset</span><span class="z-10">,</span><span> next_payload_offset)))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        payload_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> next_payload_offset</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> end_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> payload_offset</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        payload_offset</span><span class="z-16"> =</span><span> next_payload_offset</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> end_offset</span><span class="z-16"> =</span><span> payload_offset</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> children</span><span class="z-keyword z-operator"> =</span><span> []</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> children</span><span class="z-16"> =</span><span> []</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        for</span><span> (</span><span class="z-storage">let</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span class="z-variable"> i</span><span class="z-keyword z-operator"> &lt;</span><span class="z-variable"> number_of_children</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span class="z-variable">i</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">            const</span><span class="z-variable"> last_offset</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> readNode</span><span>(</span><span class="z-variable">buffer</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> payload_offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> children</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        for</span><span> (</span><span class="z-18">let</span><span> i</span><span class="z-16"> =</span><span class="z-13"> 0</span><span class="z-10">;</span><span> i</span><span class="z-16"> &lt;</span><span> number_of_children</span><span class="z-10">;</span><span class="z-16"> ++</span><span>i) {</span></span>
+<span class="giallo-l"><span class="z-18">            const</span><span> last_offset</span><span class="z-16"> =</span><span class="z-19"> readNode</span><span>(buffer</span><span class="z-10">,</span><span> payload_offset</span><span class="z-10">,</span><span> children)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            payload_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> end_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> last_offset</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>            payload_offset</span><span class="z-16"> =</span><span> end_offset</span><span class="z-16"> =</span><span> last_offset</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        nodes</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-keyword z-operator">new</span><span class="z-entity z-name z-function"> Block</span><span>(</span><span class="z-variable">name</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> attributes</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> children</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        nodes</span><span class="z-16">.</span><span class="z-19">push</span><span>(</span><span class="z-16">new</span><span class="z-19"> Block</span><span>(name</span><span class="z-10">,</span><span> attributes</span><span class="z-10">,</span><span> children))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable"> end_offset</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span> end_offset</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span class="z-comment">    // Phrase.</span></span>
-<span class="giallo-l"><span class="z-keyword">    else if</span><span> (</span><span class="z-constant z-numeric">2</span><span class="z-keyword z-operator"> ===</span><span class="z-variable"> node_type</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> phrase_length</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> u8s_to_u32</span><span>(</span><span class="z-variable">buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 1</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 2</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 3</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> buffer</span><span>[</span><span class="z-variable">offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 4</span><span>])</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> phrase_offset</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> offset</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 5</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">        const</span><span class="z-variable"> phrase</span><span class="z-keyword z-operator"> = new</span><span class="z-entity z-name z-function"> TextDecoder</span><span>()</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">decode</span><span>(</span><span class="z-variable">buffer</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">slice</span><span>(</span><span class="z-variable">phrase_offset</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> phrase_offset</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> phrase_length</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Phrase.</span></span>
+<span class="giallo-l"><span class="z-18">    else if</span><span> (</span><span class="z-13">2</span><span class="z-16"> ===</span><span> node_type) {</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> phrase_length</span><span class="z-16"> =</span><span class="z-19"> u8s_to_u32</span><span>(buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 1</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 2</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 3</span><span>]</span><span class="z-10">,</span><span> buffer[offset</span><span class="z-16"> +</span><span class="z-13"> 4</span><span>])</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> phrase_offset</span><span class="z-16"> =</span><span> offset</span><span class="z-16"> +</span><span class="z-13"> 5</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">        const</span><span> phrase</span><span class="z-16"> = new</span><span class="z-19"> TextDecoder</span><span>()</span><span class="z-16">.</span><span class="z-19">decode</span><span>(buffer</span><span class="z-16">.</span><span class="z-19">slice</span><span>(phrase_offset</span><span class="z-10">,</span><span> phrase_offset</span><span class="z-16"> +</span><span> phrase_length))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        nodes</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">push</span><span>(</span><span class="z-keyword z-operator">new</span><span class="z-entity z-name z-function"> Phrase</span><span>(</span><span class="z-variable">phrase</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        nodes</span><span class="z-16">.</span><span class="z-19">push</span><span>(</span><span class="z-16">new</span><span class="z-19"> Phrase</span><span>(phrase))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable"> phrase_offset</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> phrase_length</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        console</span><span class="z-punctuation z-accessor">.</span><span class="z-entity z-name z-function">error</span><span>(</span><span class="z-string">&#39;unknown node type&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> node_type</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span> phrase_offset</span><span class="z-16"> +</span><span> phrase_length</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span>        console</span><span class="z-16">.</span><span class="z-19">error</span><span>(</span><span class="z-11">&#39;unknown node type&#39;</span><span class="z-10">,</span><span> node_type)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Note that this code is pretty simple and easy to optimise by the
 Javascript virtual machine. It is almost important to note that this is
 not the original code. The original version is a little more optimised
 here and there, but they are very close.</p>
-<p>And that&#39;s all! We have successfully read and decoded the output of the
+<p>And that's all! We have successfully read and decoded the output of the
 parser! We just need to write the <code>Block</code> and <code>Phrase</code> classes like
 this:</p>
-<pre class="giallo z-code"><code data-lang="javascript"><span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    constructor</span><span>(</span><span class="z-variable z-parameter">name</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> attributes</span><span class="z-punctuation z-separator">,</span><span class="z-variable z-parameter"> children</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        this</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">name</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> name</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        this</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">attributes</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> attributes</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        this</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">children</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> children</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-18">class</span><span class="z-4"> Block</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    constructor</span><span>(</span><span class="z-13">name</span><span class="z-10">,</span><span class="z-13"> attributes</span><span class="z-10">,</span><span class="z-13"> children</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        this</span><span class="z-16">.</span><span>name</span><span class="z-16"> =</span><span> name</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        this</span><span class="z-16">.</span><span>attributes</span><span class="z-16"> =</span><span> attributes</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        this</span><span class="z-16">.</span><span>children</span><span class="z-16"> =</span><span> children</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> Phrase</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    constructor</span><span>(</span><span class="z-variable z-parameter">phrase</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        this</span><span class="z-punctuation z-accessor">.</span><span class="z-variable">phrase</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> phrase</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> Phrase</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    constructor</span><span>(</span><span class="z-13">phrase</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        this</span><span class="z-16">.</span><span>phrase</span><span class="z-16"> =</span><span> phrase</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The final output will be an array of those objects. Easy!</p>
-<h2 id="-10">WebAssembly 🚀 NodeJS<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="webassembly-rocket-nodejs">WebAssembly 🚀 NodeJS<a role="presentation" class="anchor" href="#webassembly-rocket-nodejs" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/./wasm-to-nodejs.png" alt="Wasm to NodeJS" loading="lazy" decoding="async" /></p>
@@ -852,7 +852,7 @@ recommend you this talk
 <a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=35ZMoH8T-gc&amp;index=4&amp;list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf&amp;t=0s"><em>Please wait… loading: a tale of two loaders</em> by Myles Borins</a>
 at the JSConf EU 2018 to understand all the story about that.</p>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/wasm/bin/index.mjs">The entire code lands here</a>.</p>
-<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen in details how to write a real world parser in Rust, how to
 compile it into a WebAssembly binary, and how to use it with Javascript
@@ -898,7 +898,7 @@ lot of galaxies, and the more it travels, the more it gets interesting.</p>
 <p>Thanks for reading!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;prelude&#x2F;" class="button text-align-start" style="view-transition-name: series-episode-title-prelude">❮&nbsp;Prelude</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;the-asm-js-galaxy&#x2F;" class="button text-align-end" style="view-transition-name: series-episode-title-the-asm-js-galaxy">The ASM.js galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/prelude/" class="button text-align-start" style="view-transition-name: series-episode-title-prelude">❮&nbsp;Prelude</a><a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-asm-js-galaxy">The ASM.js galaxy&nbsp;❯</a></nav>
   </article>
 
 </main>

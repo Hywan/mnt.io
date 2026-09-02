@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa&#x2F;console`… but do not be afraid, it&#x27;s easy and fun!">
+  <meta name="description" content="Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa/console`… but do not be afraid, it&#39;s easy and fun!">
   <meta name="keywords" content="terminal, console">
   <meta property="og:title" content="Control the terminal, the right way">
   <meta property="og:site_name" content="mnt.io">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2015-01-04" property="datePublished">January 04, 2015</time>
-    <span title="Reading time" property="timeRequired" content="PT15M">15 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
     
     <span title="Keywords" property="keywords" content="terminal, console">
       Keywords:&nbsp;<a href="/keywords/terminal" title="All articles matching the `terminal` keyword">terminal</a>, <a href="/keywords/console" title="All articles matching the `console` keyword">console</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2015-01-04-control-the-terminal-the-right-way&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2015-01-04-control-the-terminal-the-right-way/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa&#x2F;console`… but do not be afraid, it&#x27;s easy and fun!" />
+      <meta property="description" content="Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about `stat`, `tput`, `terminfo`, `hoa/console`… but do not be afraid, it&#39;s easy and fun!" />
       
     
   </div>
@@ -231,17 +231,17 @@ to choose where the ouputs must go.</p>
 <p>Let's consider the <code>echo</code> program that prints all its options/arguments
 on its output. Thus, in the following example, <code>foobar</code> is printed on
 the screen:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;foobar&#39;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;foobar&#39;</span></span></code></pre>
 <p>And in the following example, <code>foobar</code> is redirected to a file called
 <code>log</code>:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;foobar&#39;</span><span class="z-keyword z-operator"> &gt;</span><span> log</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;foobar&#39;</span><span class="z-16"> &gt;</span><span> log</span></span></code></pre>
 <p>We are also able to redirect the output to another program, like <code>wc</code>
 that counts stuff:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-string">&#39;foobar&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> wc</span><span class="z-constant z-other"> -c</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;foobar&#39;</span><span class="z-16"> |</span><span class="z-4"> wc</span><span class="z-8"> -c</span></span>
 <span class="giallo-l"><span>7</span></span></code></pre>
 <p>Now we know there are 7 characters in <code>foobar</code>… no! <code>echo</code> automatically
 adds a new-line (<code>\n</code>) after each line; so:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo -n </span><span class="z-string">&#39;foobar&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> wc</span><span class="z-constant z-other"> -c</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo -n </span><span class="z-11">&#39;foobar&#39;</span><span class="z-16"> |</span><span class="z-4"> wc</span><span class="z-8"> -c</span></span>
 <span class="giallo-l"><span>6</span></span></code></pre>
 <p>This is more correct!</p>
 <h2 id="detecting-type-of-pipes">Detecting Type of Pipes<a role="presentation" class="anchor" href="#detecting-type-of-pipes" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -263,28 +263,28 @@ class</a>
 provides the <code>isDirect</code>, <code>isPipe</code> and <code>isRedirection</code> static methods to
 know whether the pipe is respectively direct, a pipe or a redirection
 (damn naming…!). Thus, let <code>Type.php</code> be the following program:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;is direct:      &#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Console</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">isDirect</span><span>(</span><span class="z-support z-constant">STDOUT</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;is direct:      &#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Console</span><span class="z-16">::</span><span class="z-19">isDirect</span><span>(</span><span class="z-16 z-i">STDOUT</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;is pipe:        &#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Console</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">isPipe</span><span>(</span><span class="z-support z-constant">STDOUT</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;is pipe:        &#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Console</span><span class="z-16">::</span><span class="z-19">isPipe</span><span>(</span><span class="z-16 z-i">STDOUT</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;is redirection: &#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Console</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">isRedirection</span><span>(</span><span class="z-support z-constant">STDOUT</span><span>))</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;is redirection: &#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Console</span><span class="z-16">::</span><span class="z-19">isRedirection</span><span>(</span><span class="z-16 z-i">STDOUT</span><span>))</span><span class="z-10">;</span></span></code></pre>
 <p>Now, let's test our program:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php Type.php</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php Type.php</span></span>
 <span class="giallo-l"><span>is direct:      bool(true)</span></span>
 <span class="giallo-l"><span>is pipe:        bool(false)</span></span>
 <span class="giallo-l"><span>is redirection: bool(false)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php Type.php </span><span class="z-keyword z-operator">|</span><span class="z-entity z-name"> xargs</span><span class="z-constant z-other"> -I@</span><span class="z-string"> echo @</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> php Type.php </span><span class="z-16">|</span><span class="z-4"> xargs</span><span class="z-8"> -I@</span><span class="z-11"> echo @</span></span>
 <span class="giallo-l"><span>is direct:      bool(false)</span></span>
 <span class="giallo-l"><span>is pipe:        bool(true)</span></span>
 <span class="giallo-l"><span>is redirection: bool(false)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php Type.php </span><span class="z-keyword z-operator">&gt;</span><span> /tmp/foo</span><span class="z-punctuation z-terminator">;</span><span class="z-entity z-name"> cat</span><span class="z-string"> !!</span><span>$</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> php Type.php </span><span class="z-16">&gt;</span><span> /tmp/foo</span><span class="z-10">;</span><span class="z-4"> cat</span><span class="z-11"> !!</span><span>$</span></span>
 <span class="giallo-l"><span>is direct:      bool(false)</span></span>
 <span class="giallo-l"><span>is pipe:        bool(false)</span></span>
 <span class="giallo-l"><span>is redirection: bool(true)</span></span></code></pre>
@@ -297,49 +297,49 @@ output to a file called <code>/tmp/foo</code>, so <code>STDOUT</code> is a redir
 C, so let's take a look at the <a rel="noopener external" target="_blank" href="http://man.cx/fstat%282%29">documentation of
 <code>fstat(2)</code></a>. <code>stat</code> is a C structure that
 looks like:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage z-type">struct</span><span> stat </span><span class="z-punctuation z-section">{</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    dev_t</span><span>    st_dev</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">              /* device inode resides on             */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    ino_t</span><span>    st_ino</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">              /* inode&#39;s number                      */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    mode_t</span><span>   st_mode</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">             /* inode protection mode               */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    nlink_t</span><span>  st_nlink</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">            /* number of hard links to the file    */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    uid_t</span><span>    st_uid</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">              /* user-id of owner                    */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    gid_t</span><span>    st_gid</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">              /* group-id of owner                   */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    dev_t</span><span>    st_rdev</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">             /* device type, for special file inode */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    struct</span><span> timespec st_atimespec</span><span class="z-punctuation z-terminator">;</span><span class="z-comment"> /* time of last access                 */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    struct</span><span> timespec st_mtimespec</span><span class="z-punctuation z-terminator">;</span><span class="z-comment"> /* time of last data modification      */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    struct</span><span> timespec st_ctimespec</span><span class="z-punctuation z-terminator">;</span><span class="z-comment"> /* time of last file status change     */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    off_t</span><span>    st_size</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">             /* file size, in bytes                 */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    quad_t</span><span>   st_blocks</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">           /* blocks allocated for file           */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    u_long</span><span>   st_blksize</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">          /* optimal file sys I/O ops blocksize  */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    u_long</span><span>   st_flags</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">            /* user defined flags for file         */</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    u_long</span><span>   st_gen</span><span class="z-punctuation z-terminator">;</span><span class="z-comment">              /* file generation number              */</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-4">struct</span><span> stat {</span></span>
+<span class="giallo-l"><span class="z-4">    dev_t</span><span>    st_dev</span><span class="z-10">;</span><span class="z-7 z-i">              /* device inode resides on             */</span></span>
+<span class="giallo-l"><span class="z-4">    ino_t</span><span>    st_ino</span><span class="z-10">;</span><span class="z-7 z-i">              /* inode&#39;s number                      */</span></span>
+<span class="giallo-l"><span class="z-4">    mode_t</span><span>   st_mode</span><span class="z-10">;</span><span class="z-7 z-i">             /* inode protection mode               */</span></span>
+<span class="giallo-l"><span class="z-4">    nlink_t</span><span>  st_nlink</span><span class="z-10">;</span><span class="z-7 z-i">            /* number of hard links to the file    */</span></span>
+<span class="giallo-l"><span class="z-4">    uid_t</span><span>    st_uid</span><span class="z-10">;</span><span class="z-7 z-i">              /* user-id of owner                    */</span></span>
+<span class="giallo-l"><span class="z-4">    gid_t</span><span>    st_gid</span><span class="z-10">;</span><span class="z-7 z-i">              /* group-id of owner                   */</span></span>
+<span class="giallo-l"><span class="z-4">    dev_t</span><span>    st_rdev</span><span class="z-10">;</span><span class="z-7 z-i">             /* device type, for special file inode */</span></span>
+<span class="giallo-l"><span class="z-4">    struct</span><span> timespec st_atimespec</span><span class="z-10">;</span><span class="z-7 z-i"> /* time of last access                 */</span></span>
+<span class="giallo-l"><span class="z-4">    struct</span><span> timespec st_mtimespec</span><span class="z-10">;</span><span class="z-7 z-i"> /* time of last data modification      */</span></span>
+<span class="giallo-l"><span class="z-4">    struct</span><span> timespec st_ctimespec</span><span class="z-10">;</span><span class="z-7 z-i"> /* time of last file status change     */</span></span>
+<span class="giallo-l"><span class="z-4">    off_t</span><span>    st_size</span><span class="z-10">;</span><span class="z-7 z-i">             /* file size, in bytes                 */</span></span>
+<span class="giallo-l"><span class="z-4">    quad_t</span><span>   st_blocks</span><span class="z-10">;</span><span class="z-7 z-i">           /* blocks allocated for file           */</span></span>
+<span class="giallo-l"><span class="z-4">    u_long</span><span>   st_blksize</span><span class="z-10">;</span><span class="z-7 z-i">          /* optimal file sys I/O ops blocksize  */</span></span>
+<span class="giallo-l"><span class="z-4">    u_long</span><span>   st_flags</span><span class="z-10">;</span><span class="z-7 z-i">            /* user defined flags for file         */</span></span>
+<span class="giallo-l"><span class="z-4">    u_long</span><span>   st_gen</span><span class="z-10">;</span><span class="z-7 z-i">              /* file generation number              */</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>The value of <code>mode</code> returned by the PHP <code>fstat</code> function is equal to
 <code>st_mode</code> in this structure. And <code>st_mode</code> has the following bits:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFMT</span><span class="z-keyword">   0</span><span class="z-constant z-numeric">170000</span><span class="z-comment"> /* type of file mask                */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFIFO</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">010000</span><span class="z-comment"> /* named pipe (fifo)                */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFCHR</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">020000</span><span class="z-comment"> /* character special                */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFDIR</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">040000</span><span class="z-comment"> /* directory                        */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFBLK</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">060000</span><span class="z-comment"> /* block special                    */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFREG</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">100000</span><span class="z-comment"> /* regular                          */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFLNK</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">120000</span><span class="z-comment"> /* symbolic link                    */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFSOCK</span><span class="z-keyword"> 0</span><span class="z-constant z-numeric">140000</span><span class="z-comment"> /* socket                           */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IFWHT</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">160000</span><span class="z-comment"> /* whiteout                         */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_ISUID</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">004000</span><span class="z-comment"> /* set user id on execution         */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_ISGID</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">002000</span><span class="z-comment"> /* set group id on execution        */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_ISVTX</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">001000</span><span class="z-comment"> /* save swapped text even after use */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IRWXU</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000700</span><span class="z-comment"> /* RWX mask for owner               */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IRUSR</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000400</span><span class="z-comment"> /* read permission, owner           */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IWUSR</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000200</span><span class="z-comment"> /* write permission, owner          */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IXUSR</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000100</span><span class="z-comment"> /* execute/search permission, owner */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IRWXG</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000070</span><span class="z-comment"> /* RWX mask for group               */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IRGRP</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000040</span><span class="z-comment"> /* read permission, group           */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IWGRP</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000020</span><span class="z-comment"> /* write permission, group          */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IXGRP</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000010</span><span class="z-comment"> /* execute/search permission, group */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IRWXO</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000007</span><span class="z-comment"> /* RWX mask for other               */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IROTH</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000004</span><span class="z-comment"> /* read permission, other           */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IWOTH</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000002</span><span class="z-comment"> /* write permission, other          */</span></span>
-<span class="giallo-l"><span class="z-keyword">#define</span><span class="z-entity z-name z-function"> S_IXOTH</span><span class="z-keyword">  0</span><span class="z-constant z-numeric">000001</span><span class="z-comment"> /* execute/search permission, other */</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFMT</span><span class="z-18">   0</span><span class="z-13">170000</span><span class="z-7 z-i"> /* type of file mask                */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFIFO</span><span class="z-18">  0</span><span class="z-13">010000</span><span class="z-7 z-i"> /* named pipe (fifo)                */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFCHR</span><span class="z-18">  0</span><span class="z-13">020000</span><span class="z-7 z-i"> /* character special                */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFDIR</span><span class="z-18">  0</span><span class="z-13">040000</span><span class="z-7 z-i"> /* directory                        */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFBLK</span><span class="z-18">  0</span><span class="z-13">060000</span><span class="z-7 z-i"> /* block special                    */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFREG</span><span class="z-18">  0</span><span class="z-13">100000</span><span class="z-7 z-i"> /* regular                          */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFLNK</span><span class="z-18">  0</span><span class="z-13">120000</span><span class="z-7 z-i"> /* symbolic link                    */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFSOCK</span><span class="z-18"> 0</span><span class="z-13">140000</span><span class="z-7 z-i"> /* socket                           */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IFWHT</span><span class="z-18">  0</span><span class="z-13">160000</span><span class="z-7 z-i"> /* whiteout                         */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_ISUID</span><span class="z-18">  0</span><span class="z-13">004000</span><span class="z-7 z-i"> /* set user id on execution         */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_ISGID</span><span class="z-18">  0</span><span class="z-13">002000</span><span class="z-7 z-i"> /* set group id on execution        */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_ISVTX</span><span class="z-18">  0</span><span class="z-13">001000</span><span class="z-7 z-i"> /* save swapped text even after use */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IRWXU</span><span class="z-18">  0</span><span class="z-13">000700</span><span class="z-7 z-i"> /* RWX mask for owner               */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IRUSR</span><span class="z-18">  0</span><span class="z-13">000400</span><span class="z-7 z-i"> /* read permission, owner           */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IWUSR</span><span class="z-18">  0</span><span class="z-13">000200</span><span class="z-7 z-i"> /* write permission, owner          */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IXUSR</span><span class="z-18">  0</span><span class="z-13">000100</span><span class="z-7 z-i"> /* execute/search permission, owner */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IRWXG</span><span class="z-18">  0</span><span class="z-13">000070</span><span class="z-7 z-i"> /* RWX mask for group               */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IRGRP</span><span class="z-18">  0</span><span class="z-13">000040</span><span class="z-7 z-i"> /* read permission, group           */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IWGRP</span><span class="z-18">  0</span><span class="z-13">000020</span><span class="z-7 z-i"> /* write permission, group          */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IXGRP</span><span class="z-18">  0</span><span class="z-13">000010</span><span class="z-7 z-i"> /* execute/search permission, group */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IRWXO</span><span class="z-18">  0</span><span class="z-13">000007</span><span class="z-7 z-i"> /* RWX mask for other               */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IROTH</span><span class="z-18">  0</span><span class="z-13">000004</span><span class="z-7 z-i"> /* read permission, other           */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IWOTH</span><span class="z-18">  0</span><span class="z-13">000002</span><span class="z-7 z-i"> /* write permission, other          */</span></span>
+<span class="giallo-l"><span class="z-18">#define</span><span class="z-19"> S_IXOTH</span><span class="z-18">  0</span><span class="z-13">000001</span><span class="z-7 z-i"> /* execute/search permission, other */</span></span></code></pre>
 <p>Awesome, we have everything we need! We mask <code>mode</code> with <code>S_IFMT</code> to get
 the file data. Then we just have to check whether it is a named pipe
 <code>S_IFIFO</code>, a character special <code>S_IFCHR</code> etc. Concretly:</p>
@@ -367,22 +367,22 @@ of a computation with some explanations around, the highest verbosity
 level would output everything (the result and the explanations) while
 the lowest level would output only the result. Let's try with the
 <code>toUpperCase.php</code> program:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$verbose</span><span class="z-keyword z-operator"> =</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Console</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">isDirect</span><span>(</span><span class="z-support z-constant">STDOUT</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$string</span><span class="z-keyword z-operator">  =</span><span class="z-variable"> $argv</span><span class="z-punctuation z-section">[</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$result</span><span class="z-keyword z-operator">  =</span><span> (</span><span class="z-keyword">new</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span>String</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">String</span><span>(</span><span class="z-variable">$string</span><span>))</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">toUpperCase</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>$verbose</span><span class="z-16"> =</span><span> Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Console</span><span class="z-16">::</span><span class="z-19">isDirect</span><span>(</span><span class="z-16 z-i">STDOUT</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$string</span><span class="z-16">  =</span><span> $argv[</span><span class="z-13">1</span><span>]</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$result</span><span class="z-16">  =</span><span> (</span><span class="z-18">new</span><span> Hoa</span><span class="z-10">\</span><span>String</span><span class="z-10">\</span><span class="z-1">String</span><span>($string))</span><span class="z-16">-&gt;</span><span class="z-19">toUpperCase</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">if</span><span>(</span><span class="z-constant z-language">true</span><span class="z-keyword z-operator"> ===</span><span class="z-variable"> $verbose</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-support z-function">    echo</span><span class="z-variable"> $string</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39; becomes &#39;</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $result</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39; in upper case!&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>}</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-support z-function">    echo</span><span class="z-variable"> $result</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">if</span><span>(</span><span class="z-13">true</span><span class="z-16"> ===</span><span> $verbose) {</span></span>
+<span class="giallo-l"><span class="z-15">    echo</span><span> $string</span><span class="z-10">,</span><span class="z-11"> &#39; becomes &#39;</span><span class="z-10">,</span><span> $result</span><span class="z-10">,</span><span class="z-11"> &#39; in upper case!&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-15">    echo</span><span> $result</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Then, let's execute this program:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php toUpperCase.php </span><span class="z-string">&#39;Hello world!&#39;</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php toUpperCase.php </span><span class="z-11">&#39;Hello world!&#39;</span></span>
 <span class="giallo-l"><span>Hello world! becomes HELLO WORLD! in upper case!</span></span></code></pre>
 <p>And now, let's execute this program with a pipe:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> php toUpperCase.php </span><span class="z-string">&#39;Hello world!&#39;</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> xargs</span><span class="z-constant z-other"> -I@</span><span class="z-string"> echo @</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php toUpperCase.php </span><span class="z-11">&#39;Hello world!&#39;</span><span class="z-16"> |</span><span class="z-4"> xargs</span><span class="z-8"> -I@</span><span class="z-11"> echo @</span></span>
 <span class="giallo-l"><span>HELLO WORLD!</span></span></code></pre>
 <p>Useful and very simple, isn't it?</p>
 <h2 id="terminal-capabilities">Terminal Capabilities<a role="presentation" class="anchor" href="#terminal-capabilities" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -445,9 +445,9 @@ where <code>_xx_</code> is the ASCII value in hexadecimal of the first letter of
 the terminal name <code>_name_</code>, or <code>_n_/_name_</code> where <code>_n_</code> is the first
 letter of the terminal name. The terminal name is stored in the <code>TERM</code>
 environment variable. For instance, on my computer:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> echo </span><span class="z-variable">$TERM</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo $TERM</span></span>
 <span class="giallo-l"><span>xterm-256color</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> file /usr/share/terminfo/78/xterm-256color</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> file /usr/share/terminfo/78/xterm-256color</span></span>
 <span class="giallo-l"><span>/usr/share/terminfo/78/xterm-256color: Compiled terminfo entry</span></span></code></pre>
 <p>We can use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Tput.php"><code>Hoa\Console\Tput</code>
 class</a>
@@ -456,25 +456,25 @@ get the path of the terminal information file. The <code>getTerm</code> static
 method allows to get the terminal name. Finally, the whole class allows
 to parse a terminal information database (it will use the file returned
 by <code>getTerminfo</code> by default). For instance:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$tput</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Tput</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(</span><span class="z-variable">$tput</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">count</span><span>(</span><span class="z-string">&#39;max_colors&#39;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>$tput</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Tput</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>($tput</span><span class="z-16">-&gt;</span><span class="z-19">count</span><span>(</span><span class="z-11">&#39;max_colors&#39;</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * Will output:</span></span>
-<span class="giallo-l"><span class="z-comment"> *     int(256)</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Will output:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     int(256)</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre>
 <p>On my computer, with <code>xterm-256color</code>, I have 256 colours, as expected.
 If we parse the information of <code>xterm</code> and not <code>xterm-256color</code>, we will
 have:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-variable">$tput</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Tput</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Tput</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">getTerminfo</span><span>(</span><span class="z-string">&#39;xterm&#39;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(</span><span class="z-variable">$tput</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">count</span><span>(</span><span class="z-string">&#39;max_colors&#39;</span><span>))</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span>$tput</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Tput</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Tput</span><span class="z-16">::</span><span class="z-19">getTerminfo</span><span>(</span><span class="z-11">&#39;xterm&#39;</span><span>))</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>($tput</span><span class="z-16">-&gt;</span><span class="z-19">count</span><span>(</span><span class="z-11">&#39;max_colors&#39;</span><span>))</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * Will output:</span></span>
-<span class="giallo-l"><span class="z-comment"> *     int(8)</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The Power in Your Hand: Control the Cursor<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Will output:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     int(8)</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The Power in Your Hand: Control the Cursor<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Let's summarize. We are able to parse and know all the terminal
 capabilities of a specific terminal (including the one of the current
@@ -489,9 +489,9 @@ works.</p>
 </h3>
 <p>The <code>moveTo</code> static method allows to move the cursor to an absolute
 position. For example:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">moveTo</span><span>(</span><span class="z-variable">$x</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $y</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">moveTo</span><span>($x</span><span class="z-10">,</span><span> $y)</span><span class="z-10">;</span></span></code></pre>
 <p>The control function we use is <code>cursor_address</code>. So all we need to do is
 to use the <code>Hoa\Console\Tput</code> class and call the <code>get</code> method on it to
 get the value of this string capability. This is a parameterized one: On
@@ -501,9 +501,9 @@ able to move the cursor on an absolute position on <strong>all terminals</strong
 This is the right way to do.</p>
 <p>We use the same strategy for the <code>move</code> static method that moves the
 cursor relatively to its current position. For example:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">move</span><span>(</span><span class="z-string">&#39;right up&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">move</span><span>(</span><span class="z-11">&#39;right up&#39;</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>We split the steps and for each step we read the appropriated string
 capability using the <code>Hoa\Console\Tput</code> class. For <code>right</code>, we read the
 <code>parm_right_cursor</code> string capability, for <code>up</code>, we read
@@ -517,18 +517,18 @@ way to interact is a little bit different. We must write a control
 function on the output, and then, the terminal replies on the input.
 <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php">See the implementation by
 yourself</a>.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">print_r</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">getPosition</span><span>())</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-15">print_r</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">getPosition</span><span>())</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * Will output:</span></span>
-<span class="giallo-l"><span class="z-comment"> *     Array</span></span>
-<span class="giallo-l"><span class="z-comment"> *     (</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [x] =&gt; 7</span></span>
-<span class="giallo-l"><span class="z-comment"> *         [y] =&gt; 42</span></span>
-<span class="giallo-l"><span class="z-comment"> *     )</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Will output:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     Array</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     (</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [x] =&gt; 7</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *         [y] =&gt; 42</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *     )</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre>
 <p>In the same way, we have the <code>save</code> and <code>restore</code> static methods that
 save the current position of the cursor and restore it. This is very
 useful. We use the <code>save_cursor</code> and <code>restore_cursor</code> string
@@ -538,28 +538,28 @@ part (direction or way), we read from <code>Hoa\Console\Tput</code> the
 appropriated string capabilities: <code>clear_screen</code> to clear all the
 screen, <code>clr_eol</code> to clear everything on the right of the cursor,
 <code>clr_eos</code> to clear everything bellow the cursor etc.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">clear</span><span>(</span><span class="z-string">&#39;left&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">clear</span><span>(</span><span class="z-11">&#39;left&#39;</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>See what we learnt in action:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;Foobar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-string">     &#39;Foobar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-string">     &#39;Foobar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-string">     &#39;Foobar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-string">     &#39;Foobar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;Foobar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-11">     &#39;Foobar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-11">     &#39;Foobar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-11">     &#39;Foobar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span class="z-11">     &#39;Foobar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>           Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">save</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">move</span><span>(</span><span class="z-string">&#39;LEFT&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">move</span><span>(</span><span class="z-string">&#39;↑&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">move</span><span>(</span><span class="z-string">&#39;↑&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">move</span><span>(</span><span class="z-string">&#39;↑&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">clear</span><span>(</span><span class="z-string">&#39;↔&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span class="z-support z-function">  echo</span><span class="z-string"> &#39;Hahaha!&#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">restore</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>           Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">save</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">move</span><span>(</span><span class="z-11">&#39;LEFT&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">move</span><span>(</span><span class="z-11">&#39;↑&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">move</span><span>(</span><span class="z-11">&#39;↑&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">move</span><span>(</span><span class="z-11">&#39;↑&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">clear</span><span>(</span><span class="z-11">&#39;↔&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span class="z-15">  echo</span><span class="z-11"> &#39;Hahaha!&#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">restore</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &#39;Bye!&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">,</span><span class="z-11"> &#39;Bye!&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span></code></pre>
 <p>The result is presented in the following figure.</p>
 <figure>
 <p><img src="https://mnt.io/articles/control-the-terminal-the-right-way/./cursor_move.gif" alt="Moving a cursor in the terminal" loading="lazy" decoding="async" /></p>
@@ -571,7 +571,7 @@ screen, <code>clr_eol</code> to clear everything on the right of the cursor,
 maintain! This is the right way to do.</p>
 <p>To get more information, please
 <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Literature/Hack/Console.html#Cursor">read the documentation</a>.</p>
-<h3 id="">Colours and Decorations<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="colours-and-decorations">Colours and Decorations<a role="presentation" class="anchor" href="#colours-and-decorations" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now: Colours. This is mainly the reason why I decided to write this
 article. We see the same and the same libraries, again and again, doing
@@ -581,7 +581,7 @@ integer, from 0 to potentially +∞ . The size of the palette is described
 by the <code>max_colors</code> number capability. Usually, a palette contains 1, 2,
 8, 256 or 16 million colours.</p>
 <figure>
-<p><img src="https://mnt.io/articles/control-the-terminal-the-right-way/./xterm_256color_chart.svg" alt="<code>xterm-256color</code> palette" loading="lazy" decoding="async" /></p>
+<p><img src="https://mnt.io/articles/control-the-terminal-the-right-way/./xterm_256color_chart.svg" alt="xterm-256color palette" loading="lazy" decoding="async" /></p>
   <figcaption>
 <p>The <code>xterm-256color</code> palette (<a rel="noopener external" target="_blank" title="Source of the `xterm-256color` palette" href="https://commons.wikimedia.org/wiki/File:Xterm_256color_chart.svg">source</a>).</p>
   </figcaption>
@@ -599,13 +599,13 @@ and the background colours.</p>
 <p>One thing to remember is: With this capability, we only define the style
 at a given “pixel” and it will apply on the following text. In this
 case, it is not exactly like HTML where we have a beginning and an end.
-Here we only have a beginning. Let&#39;s try!</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+Here we only have a beginning. Let's try!</p>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">colorize</span><span>(</span><span class="z-string">&#39;underlined foreground(yellow) background(#932e2e)&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;foo&#39;</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Cursor</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">colorize</span><span>(</span><span class="z-string">&#39;!underlined background(normal)&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-string"> &#39;bar&#39;</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">colorize</span><span>(</span><span class="z-11">&#39;underlined foreground(yellow) background(#932e2e)&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;foo&#39;</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Cursor</span><span class="z-16">::</span><span class="z-19">colorize</span><span>(</span><span class="z-11">&#39;!underlined background(normal)&#39;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span class="z-11"> &#39;bar&#39;</span><span class="z-10">,</span><span class="z-11"> &quot;</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span class="z-10">;</span></span></code></pre>
 <p>The API is pretty simple: We start to underline the text, we set the
 foreground to yellow and we set the background to <code>#932e2e</code>  . Then we
 output something. We continue with cancelling the underline decoration
@@ -625,7 +625,7 @@ in my actual palette! This is the right way to do.</p>
 style of the cursor, like <code>▋</code>, <code>_</code> or <code>|</code>.</p>
 <p>To get more information, please
 <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content">read the documentation</a>.</p>
-<h2 id="-1">The Power in Your Hand: Readline<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-power-in-your-hand-readline">The Power in Your Hand: Readline<a role="presentation" class="anchor" href="#the-power-in-your-hand-readline" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A more complete usage of <code>Hoa\Console\Cursor</code> and even <code>Hoa\Console\Window</code> is
 the
@@ -644,39 +644,39 @@ etc., it has an advanced use of cursors. See this in action:</p>
 text in it etc. I encourage you to read the implementation.</p>
 <p>To get more information, please
 <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Readline" href="http://hoa-project.net/Literature/Hack/Console.html#Readline">read the documentation</a>.</p>
-<h2 id="-2">The Power in Your Hand: Sound 🎵<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-power-in-your-hand-sound-musical-note">The Power in Your Hand: Sound 🎵<a role="presentation" class="anchor" href="#the-power-in-your-hand-sound-musical-note" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Yes, even sound is defined by terminal capabilities. The famous bip is
 given by the <code>bell</code> string capability. You would like to make a bip?
 Easy:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$tput</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span> Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Tput</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">echo</span><span class="z-variable"> $tput</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-string">&#39;bell&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
-<p>That&#39;s it!</p>
-<h2 id="-3">Bonus: Window<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>$tput</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Tput</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">echo</span><span> $tput</span><span class="z-16">-&gt;</span><span class="z-19">get</span><span>(</span><span class="z-11">&#39;bell&#39;</span><span>)</span><span class="z-10">;</span></span></code></pre>
+<p>That's it!</p>
+<h2 id="bonus-window">Bonus: Window<a role="presentation" class="anchor" href="#bonus-window" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>As a bonus, a quick demo of <code>Hoa\Console\Window</code> because it&#39;s fun.</p>
+<p>As a bonus, a quick demo of <code>Hoa\Console\Window</code> because it's fun.</p>
 <p>The video shows the execution of the following code:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">setSize</span><span>(</span><span class="z-constant z-numeric">80</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 35</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">var_dump</span><span>(Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">getPosition</span><span>())</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">setSize</span><span>(</span><span class="z-13">80</span><span class="z-10">,</span><span class="z-13"> 35</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">var_dump</span><span>(Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">getPosition</span><span>())</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">foreach</span><span>(</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    [</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">        [</span><span class="z-constant z-numeric">100</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 100</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-separator">,</span><span class="z-punctuation z-section"> [</span><span class="z-constant z-numeric">150</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 150</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-separator">,</span><span class="z-punctuation z-section"> [</span><span class="z-constant z-numeric">200</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 100</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-separator">,</span><span class="z-punctuation z-section"> [</span><span class="z-constant z-numeric">200</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 80</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">        [</span><span class="z-constant z-numeric">200</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric">  60</span><span class="z-punctuation z-section">]</span><span class="z-punctuation z-separator">,</span><span class="z-punctuation z-section"> [</span><span class="z-constant z-numeric">200</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 100</span><span class="z-punctuation z-section">]</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    ]</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    as</span><span class="z-support z-function"> list</span><span>(</span><span class="z-variable">$x</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $y</span><span>)</span></span>
+<span class="giallo-l"><span class="z-18">foreach</span><span>(</span></span>
+<span class="giallo-l"><span>    [</span></span>
+<span class="giallo-l"><span>        [</span><span class="z-13">100</span><span class="z-10">,</span><span class="z-13"> 100</span><span>]</span><span class="z-10">,</span><span> [</span><span class="z-13">150</span><span class="z-10">,</span><span class="z-13"> 150</span><span>]</span><span class="z-10">,</span><span> [</span><span class="z-13">200</span><span class="z-10">,</span><span class="z-13"> 100</span><span>]</span><span class="z-10">,</span><span> [</span><span class="z-13">200</span><span class="z-10">,</span><span class="z-13"> 80</span><span>]</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>        [</span><span class="z-13">200</span><span class="z-10">,</span><span class="z-13">  60</span><span>]</span><span class="z-10">,</span><span> [</span><span class="z-13">200</span><span class="z-10">,</span><span class="z-13"> 100</span><span>]</span></span>
+<span class="giallo-l"><span>    ]</span></span>
+<span class="giallo-l"><span class="z-16">    as</span><span class="z-15"> list</span><span>($x</span><span class="z-10">,</span><span> $y)</span></span>
 <span class="giallo-l"><span>) {</span></span>
-<span class="giallo-l"><span class="z-support z-function">    sleep</span><span>(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">moveTo</span><span>(</span><span class="z-variable">$x</span><span class="z-punctuation z-separator">,</span><span class="z-variable"> $y</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-15">    sleep</span><span>(</span><span class="z-13">1</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">moveTo</span><span>($x</span><span class="z-10">,</span><span> $y)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">minimize</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">restore</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">lower</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">sleep</span><span>(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-punctuation z-terminator">;</span><span>  Hoa</span><span class="z-punctuation z-separator">\</span><span>Console</span><span class="z-punctuation z-separator">\</span><span class="z-support z-class">Window</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">raise</span><span>()</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">2</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">minimize</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">2</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">restore</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">2</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">lower</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">sleep</span><span>(</span><span class="z-13">2</span><span>)</span><span class="z-10">;</span><span>  Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Window</span><span class="z-16">::</span><span class="z-19">raise</span><span>()</span><span class="z-10">;</span></span></code></pre>
 <p>We resize the window, we get its position, we move the window on the
 screen, we minimize and restore it, and finally we put it behind all
 other windows just before raising it.</p>
@@ -684,7 +684,7 @@ other windows just before raising it.</p>
 </iframe>
 <p>To get more information, please
 <a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Window" href="http://hoa-project.net/Literature/Hack/Console.html#Window">read the documentation</a>.</p>
-<h2 id="-4">Conclusion<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>In this article, we saw how to control the terminal by: Firstly,
 detecting the type of pipes, and secondly, reading and using the
@@ -699,7 +699,7 @@ library</a> and to contribute to make
 it even more awesome 😄.</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;atoum-has-two-release-managers&#x2F;" class="button text-align-start">❮&nbsp;atoum has two release managers</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;rfcs-should-provide-executable-test-suites&#x2F;" class="button text-align-end">RFCs should provide executable test suites&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/atoum-has-two-release-managers/" class="button text-align-start">❮&nbsp;atoum has two release managers</a><a href="https://mnt.io/articles/rfcs-should-provide-executable-test-suites/" class="button text-align-end">RFCs should provide executable test suites&nbsp;❯</a></nav>
   </article>
 
 </main>

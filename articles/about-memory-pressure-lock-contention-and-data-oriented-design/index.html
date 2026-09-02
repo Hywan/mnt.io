@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="I illustrate how _Data-oriented Design_ helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem&#x2F;s to 1.4M elem&#x2F;s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck.">
+  <meta name="description" content="I illustrate how _Data-oriented Design_ helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem/s to 1.4M elem/s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck.">
   <meta name="keywords" content="rust, performance, lock, memory, data-oriented design">
   <meta property="og:title" content="About memory pressure, lock contention, and Data-oriented Design">
   <meta property="og:site_name" content="mnt.io">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2026-02-23" property="datePublished">February 23, 2026</time>
-    <span title="Reading time" property="timeRequired" content="PT28M">28 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT24M">24 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, performance, lock, memory, data-oriented design">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/performance" title="All articles matching the `performance` keyword">performance</a>, <a href="/keywords/lock" title="All articles matching the `lock` keyword">lock</a>, <a href="/keywords/memory" title="All articles matching the `memory` keyword">memory</a>, <a href="/keywords/data-oriented-design" title="All articles matching the `data-oriented design` keyword">data-oriented design</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2026-02-23-about-memory-pressure-lock-contention-and-data-oriented-design&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2026-02-23-about-memory-pressure-lock-contention-and-data-oriented-design/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="I illustrate how _Data-oriented Design_ helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem&#x2F;s to 1.4M elem&#x2F;s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck." />
+      <meta property="description" content="I illustrate how _Data-oriented Design_ helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem/s to 1.4M elem/s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck." />
       
     
   </div>
@@ -225,35 +225,35 @@ interested to read more about it. Otherwise, here is what you need to know.</p>
 <p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/enum.VectorDiff.html">The <code>VectorDiff</code> type</a> comes from <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/">the <code>eyeball-im</code>
 crate</a>, initially created for the Matrix Rust SDK as a solid
 foundation for reactive programming. It looks like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> VectorDiff</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Append</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        values</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vector</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt;,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> VectorDiff</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-4">    Append</span><span> {</span></span>
+<span class="giallo-l"><span>        values</span><span class="z-16">:</span><span class="z-4"> Vector</span><span>&lt;</span><span class="z-4">T</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Clear</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    PushFront</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> T</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    Clear</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    PushFront</span><span> {</span></span>
+<span class="giallo-l"><span>        value</span><span class="z-16">:</span><span class="z-4"> T</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    PushBack</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> T</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    PushBack</span><span> {</span></span>
+<span class="giallo-l"><span>        value</span><span class="z-16">:</span><span class="z-4"> T</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    PopFront</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    PopBack</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Insert</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        index</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">        value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> T</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    PopFront</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    PopBack</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    Insert</span><span> {</span></span>
+<span class="giallo-l"><span>        index</span><span class="z-16">:</span><span class="z-4"> usize</span><span>,</span></span>
+<span class="giallo-l"><span>        value</span><span class="z-16">:</span><span class="z-4"> T</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Set</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        index</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">        value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> T</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    Set</span><span> {</span></span>
+<span class="giallo-l"><span>        index</span><span class="z-16">:</span><span class="z-4"> usize</span><span>,</span></span>
+<span class="giallo-l"><span>        value</span><span class="z-16">:</span><span class="z-4"> T</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Remove</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        index</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    Remove</span><span> {</span></span>
+<span class="giallo-l"><span>        index</span><span class="z-16">:</span><span class="z-4"> usize</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Truncate</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">    Truncate</span><span> {</span></span>
+<span class="giallo-l"><span>        length</span><span class="z-16">:</span><span class="z-4"> usize</span><span>,</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Reset</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        values</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vector</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt;,</span></span>
+<span class="giallo-l"><span class="z-4">    Reset</span><span> {</span></span>
+<span class="giallo-l"><span>        values</span><span class="z-16">:</span><span class="z-4"> Vector</span><span>&lt;</span><span class="z-4">T</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>    },</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>It represents a <em>change</em> in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html">an <code>ObservableVector</code></a>.
@@ -276,13 +276,11 @@ the Room List.</li>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>I did my calculation: the size of <code>VectorDiff&lt;Room&gt;</code> is 72 bytes (mostly because
@@ -291,12 +289,11 @@ small for an update. Not only it brings a small memory footprint, but it crosses
 the FFI boundary pretty easily, making it easy to map to other languages like
 Swift or Kotlin — languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
 <a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>.</p>
-
   </div>
 </div>
 <p>Absolutely! These are two popular UI components where a <code>VectorDiff</code> maps
 straightforwardly to their List component update operations. They are actually
-(remarkably) pretty similar to each other<sup class="footnote-reference" id="fr-vectordiff_on_other_uis-1"><a href="#fn-vectordiff_on_other_uis">1</a></sup>.</p>
+(remarkably) pretty similar to each other<sup class="footnote-reference" id="fr-vectordiff_on_other_uis-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-vectordiff_on_other_uis">[1]</a></sup>.</p>
 <p>You're always a good digression companion, thank you. Let's go back on our
 problem:</p>
 <blockquote>
@@ -312,7 +309,6 @@ lang="ar">خلو</em>… well, you get the idea.</p>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -331,42 +327,41 @@ updates? No, everything works like a charm.</li>
 <li>The filtering of the streams? Not touched since a long time.</li>
 <li>The sorting? Ah, maybe, I reckon we have changed something here…</li>
 </ul>
-
   </div>
 </div>
 <p>Indeed, we have changed one sorter recently. Let's have a look at how this Room
 List stream is computed, shall we?</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> stream!</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    loop</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Wait for the filter to be updated.</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> filter</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> filter_cell</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">take</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let</span><span> stream</span><span class="z-16"> =</span><span class="z-19"> stream!</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    loop</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Wait for the filter to be updated.</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> filter</span><span class="z-16"> =</span><span> filter_cell</span><span class="z-16">.</span><span class="z-19">take</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Get the “raw” entries.</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span> (</span><span class="z-variable">initial_values</span><span>,</span><span class="z-variable"> stream</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">entries</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Get the “raw” entries.</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> (initial_values, stream)</span><span class="z-16"> =</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span class="z-19">entries</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Combine normal stream updates with other room updates.</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> merge_streams</span><span>(</span><span class="z-variable">initial_values</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">clone</span><span>(),</span><span class="z-variable"> stream</span><span>,</span><span class="z-variable"> other_updates</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Combine normal stream updates with other room updates.</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> stream</span><span class="z-16"> =</span><span class="z-19"> merge_streams</span><span>(initial_values</span><span class="z-16">.</span><span class="z-19">clone</span><span>(), stream, other_updates);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span> (</span><span class="z-variable">initial_values</span><span>,</span><span class="z-variable"> stream</span><span>)</span><span class="z-keyword z-operator"> =</span><span> (</span><span class="z-variable">initial_values</span><span>,</span><span class="z-variable"> stream</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            .</span><span class="z-entity z-name z-function">filter</span><span>(</span><span class="z-variable">filter</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            .</span><span class="z-entity z-name z-function">sort_by</span><span>(</span><span class="z-entity z-name z-function">new_sorter_lexicographic</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span></span>
-<span class="giallo-l"><span class="z-comment">                // Sort by latest event&#39;s kind.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_latest_event</span><span>()),</span></span>
-<span class="giallo-l"><span class="z-comment">                // Sort rooms by their recency.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_recency</span><span>()),</span></span>
-<span class="giallo-l"><span class="z-comment">                // Finally, sort by name.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_name</span><span>()),</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> (initial_values, stream)</span><span class="z-16"> =</span><span> (initial_values, stream)</span></span>
+<span class="giallo-l"><span class="z-16">            .</span><span class="z-19">filter</span><span>(filter)</span></span>
+<span class="giallo-l"><span class="z-16">            .</span><span class="z-19">sort_by</span><span>(</span><span class="z-19">new_sorter_lexicographic</span><span>(</span><span class="z-19">vec!</span><span>[</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Sort by latest event&#39;s kind.</span></span>
+<span class="giallo-l"><span class="z-4">                Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_latest_event</span><span>()),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Sort rooms by their recency.</span></span>
+<span class="giallo-l"><span class="z-4">                Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_recency</span><span>()),</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Finally, sort by name.</span></span>
+<span class="giallo-l"><span class="z-4">                Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_name</span><span>()),</span></span>
 <span class="giallo-l"><span>            ]))</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            .</span><span class="z-entity z-name z-function">dynamic_head_with_initial_value</span><span>(</span><span class="z-variable">page_size</span><span>,</span><span class="z-variable"> limit_stream</span><span>);</span></span>
+<span class="giallo-l"><span class="z-16">            .</span><span class="z-19">dynamic_head_with_initial_value</span><span>(page_size, limit_stream);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Clearing the stream before chaining with the real stream.</span></span>
-<span class="giallo-l"><span class="z-keyword">        yield</span><span class="z-entity z-name z-function"> once</span><span>(</span><span class="z-entity z-name z-function">ready</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Reset</span><span> {</span><span class="z-variable"> values</span><span class="z-keyword z-operator">:</span><span class="z-variable"> initial_values</span><span> }]))</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            .</span><span class="z-entity z-name z-function">chain</span><span>(</span><span class="z-variable">stream</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Clearing the stream before chaining with the real stream.</span></span>
+<span class="giallo-l"><span class="z-18">        yield</span><span class="z-19"> once</span><span>(</span><span class="z-19">ready</span><span>(</span><span class="z-19">vec!</span><span>[</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">Reset</span><span> { values</span><span class="z-16">:</span><span> initial_values }]))</span></span>
+<span class="giallo-l"><span class="z-16">            .</span><span class="z-19">chain</span><span>(stream);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">switch</span><span>();</span></span></code></pre>
+<span class="giallo-l"><span class="z-16">.</span><span class="z-19">switch</span><span>();</span></span></code></pre>
 <p>There is a lot going on here. Sadly, we are not going to explain everything in
-this beautiful piece of art<sup class="footnote-reference" id="fr-switch-1"><a href="#fn-switch">2</a></sup>.</p>
+this beautiful piece of art<sup class="footnote-reference" id="fr-switch-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-switch">[2]</a></sup>.</p>
 <p>The <code>.filter()</code>, <code>.sort_by()</code> and <code>.dynamic_head_with_initial_value()</code> methods
 are part of <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/">the <code>eyeball-im-util</code> crate</a>. They are used
 to filter, sort etc. a stream: They are essentially mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code>. In
@@ -378,78 +373,78 @@ I guess you, dear reader, will find it acceptable</a>).</p>
 <p>Let's imagine we have a vector of <code>char</code>. We want a <code>Stream</code> of <em>changes</em> about
 this vector (the famous <code>VectorDiff</code>). We also want to <em>simulate</em> a sorted
 vector, by only modifying the <em>changes</em>. The solution looks like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">cmp</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Ordering</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> std</span><span class="z-16">::</span><span class="z-4">cmp</span><span class="z-16">::</span><span class="z-4">Ordering</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">ObservableVector</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span>};</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im_util</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">vector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">VectorObserverExt</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> stream_assert</span><span class="z-keyword z-operator">::</span><span>{assert_next_eq, assert_pending};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball_im</span><span class="z-16">::</span><span>{</span><span class="z-4">ObservableVector</span><span>,</span><span class="z-4"> VectorDiff</span><span>};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball_im_util</span><span class="z-16">::</span><span class="z-4">vector</span><span class="z-16">::</span><span class="z-4">VectorObserverExt</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> stream_assert</span><span class="z-16">::</span><span>{assert_next_eq, assert_pending};</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Our comparison function.</span></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> cmp</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt;(</span><span class="z-variable">left</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">T</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">T</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Ordering</span></span>
-<span class="giallo-l"><span class="z-keyword">where</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    T</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Ord</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Our comparison function.</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> cmp</span><span>&lt;</span><span class="z-4">T</span><span>&gt;(left</span><span class="z-16">: &amp;</span><span class="z-4">T</span><span>, right</span><span class="z-16">: &amp;</span><span class="z-4">T</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Ordering</span></span>
+<span class="giallo-l"><span class="z-18">where</span></span>
+<span class="giallo-l"><span class="z-4">    T</span><span class="z-16">:</span><span class="z-4"> Ord</span><span>,</span></span>
 <span class="giallo-l"><span>{</span></span>
-<span class="giallo-l"><span class="z-variable">    left</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">cmp</span><span>(</span><span class="z-variable">right</span><span>)</span></span>
+<span class="giallo-l"><span>    left</span><span class="z-16">.</span><span class="z-19">cmp</span><span>(right)</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Our vector.</span></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> vector</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">char</span><span>&gt;</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">let</span><span> (</span><span class="z-variable">initial_values</span><span>,</span><span class="z-storage"> mut</span><span class="z-variable"> stream</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> vector</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">subscribe</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">sort_by</span><span>(</span><span class="z-variable">cmp</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">//                                                            ^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//                                                            |</span></span>
-<span class="giallo-l"><span class="z-comment">//                                                            there</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Our vector.</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> vector</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">char</span><span>&gt;</span><span class="z-16">::</span><span class="z-19">new</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> (initial_values,</span><span class="z-18"> mut</span><span> stream)</span><span class="z-16"> =</span><span> vector</span><span class="z-16">.</span><span class="z-19">subscribe</span><span>()</span><span class="z-16">.</span><span class="z-19">sort_by</span><span>(cmp);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                                            ^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                                            |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                                            there</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert!</span><span>(</span><span class="z-variable">initial_values</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_empty</span><span>());</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_pending!</span><span>(</span><span class="z-variable">stream</span><span>);</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">assert!</span><span>(initial_values</span><span class="z-16">.</span><span class="z-19">is_empty</span><span>());</span></span>
+<span class="giallo-l"><span class="z-19">assert_pending!</span><span>(stream);</span></span></code></pre>
 <p>Alrighty. That's a good start. <code>vector</code> is empty, so the initial values from the
-subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="#fn-stream_assert">3</a></sup>. I think
+subscribe are empty, and the <code>stream</code> is also pending<sup class="footnote-reference" id="fr-stream_assert-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-stream_assert">[3]</a></sup>. I think
 it's time to play with this new toy, isn't it?</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// Append unsorted values.</span></span>
-<span class="giallo-l"><span class="z-variable">vector</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">append</span><span>(</span><span class="z-entity z-name z-function">vector!</span><span>[</span><span class="z-string">&#39;d&#39;</span><span>,</span><span class="z-string"> &#39;b&#39;</span><span>,</span><span class="z-string"> &#39;e&#39;</span><span>]);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// Append unsorted values.</span></span>
+<span class="giallo-l"><span>vector</span><span class="z-16">.</span><span class="z-19">append</span><span>(</span><span class="z-19">vector!</span><span>[</span><span class="z-11">&#39;d&#39;</span><span>,</span><span class="z-11"> &#39;b&#39;</span><span>,</span><span class="z-11"> &#39;e&#39;</span><span>]);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// We get a `VectorDiff::Append` with sorted values!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Append</span><span> {</span><span class="z-variable"> values</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> vector!</span><span>[</span><span class="z-string">&#39;b&#39;</span><span>,</span><span class="z-string"> &#39;d&#39;</span><span>,</span><span class="z-string"> &#39;e&#39;</span><span>] }</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// We get a `VectorDiff::Append` with sorted values!</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream,</span></span>
+<span class="giallo-l"><span class="z-4">    VectorDiff</span><span class="z-16">::</span><span class="z-4">Append</span><span> { values</span><span class="z-16">:</span><span class="z-19"> vector!</span><span>[</span><span class="z-11">&#39;b&#39;</span><span>,</span><span class="z-11"> &#39;d&#39;</span><span>,</span><span class="z-11"> &#39;e&#39;</span><span>] }</span></span>
 <span class="giallo-l"><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_pending!</span><span>(</span><span class="z-variable">stream</span><span>);</span></span>
+<span class="giallo-l"><span class="z-19">assert_pending!</span><span>(stream);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Let&#39;s recap what we have. `vector` is our `ObservableVector`,</span></span>
-<span class="giallo-l"><span class="z-comment">// `stream` is the “sorted view”/“sorted stream” of `vector`:</span></span>
-<span class="giallo-l"><span class="z-comment">//</span></span>
-<span class="giallo-l"><span class="z-comment">// | index    | 0 1 2 |</span></span>
-<span class="giallo-l"><span class="z-comment">// | `vector` | d b e |</span></span>
-<span class="giallo-l"><span class="z-comment">// | `stream` | b d e |</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// Let&#39;s recap what we have. `vector` is our `ObservableVector`,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// `stream` is the “sorted view”/“sorted stream” of `vector`:</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | index    | 0 1 2 |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | `vector` | d b e |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | `stream` | b d e |</span></span></code></pre>
 <p>So far, so good. It looks naive and simple: one operation in, one operation out.
 It's funnier when things get more complicated though:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// Append multiple other values.</span></span>
-<span class="giallo-l"><span class="z-variable">vector</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">append</span><span>(</span><span class="z-entity z-name z-function">vector!</span><span>[</span><span class="z-string">&#39;f&#39;</span><span>,</span><span class="z-string"> &#39;g&#39;</span><span>,</span><span class="z-string"> &#39;a&#39;</span><span>,</span><span class="z-string"> &#39;c&#39;</span><span>]);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// Append multiple other values.</span></span>
+<span class="giallo-l"><span>vector</span><span class="z-16">.</span><span class="z-19">append</span><span>(</span><span class="z-19">vector!</span><span>[</span><span class="z-11">&#39;f&#39;</span><span>,</span><span class="z-11"> &#39;g&#39;</span><span>,</span><span class="z-11"> &#39;a&#39;</span><span>,</span><span class="z-11"> &#39;c&#39;</span><span>]);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// We get three `VectorDiff`s this time!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushFront</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;a&#39;</span><span> }</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// We get three `VectorDiff`s this time!</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream,</span></span>
+<span class="giallo-l"><span class="z-4">    VectorDiff</span><span class="z-16">::</span><span class="z-4">PushFront</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;a&#39;</span><span> }</span></span>
 <span class="giallo-l"><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Insert</span><span> {</span><span class="z-variable"> index</span><span class="z-keyword z-operator">:</span><span class="z-constant z-numeric"> 2</span><span>,</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;c&#39;</span><span> }</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream,</span></span>
+<span class="giallo-l"><span class="z-4">    VectorDiff</span><span class="z-16">::</span><span class="z-4">Insert</span><span> { index</span><span class="z-16">:</span><span class="z-13"> 2</span><span>, value</span><span class="z-16">:</span><span class="z-11"> &#39;c&#39;</span><span> }</span></span>
 <span class="giallo-l"><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    stream</span><span>,</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Append</span><span> {</span><span class="z-variable"> values</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> vector!</span><span>[</span><span class="z-string">&#39;f&#39;</span><span>,</span><span class="z-string"> &#39;g&#39;</span><span>] }</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(</span></span>
+<span class="giallo-l"><span>    stream,</span></span>
+<span class="giallo-l"><span class="z-4">    VectorDiff</span><span class="z-16">::</span><span class="z-4">Append</span><span> { values</span><span class="z-16">:</span><span class="z-19"> vector!</span><span>[</span><span class="z-11">&#39;f&#39;</span><span>,</span><span class="z-11"> &#39;g&#39;</span><span>] }</span></span>
 <span class="giallo-l"><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_pending!</span><span>(</span><span class="z-variable">stream</span><span>);</span></span>
+<span class="giallo-l"><span class="z-19">assert_pending!</span><span>(stream);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Let&#39;s recap what we have:</span></span>
-<span class="giallo-l"><span class="z-comment">//</span></span>
-<span class="giallo-l"><span class="z-comment">// | index    | 0 1 2 3 4 5 6 |</span></span>
-<span class="giallo-l"><span class="z-comment">// | `vector` | d b e f g a c |</span></span>
-<span class="giallo-l"><span class="z-comment">// | `stream` | a b c d e f g |</span></span>
-<span class="giallo-l"><span class="z-comment">//              ^   ^     ^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//              |   |     |</span></span>
-<span class="giallo-l"><span class="z-comment">//              |   |     with `VectorDiff::Append { .. }`</span></span>
-<span class="giallo-l"><span class="z-comment">//              |   with `VectorDiff::Insert { index: 2, .. }`</span></span>
-<span class="giallo-l"><span class="z-comment">//              with `VectorDiff::PushFront { .. }`</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// Let&#39;s recap what we have:</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | index    | 0 1 2 3 4 5 6 |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | `vector` | d b e f g a c |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// | `stream` | a b c d e f g |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//              ^   ^     ^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//              |   |     |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//              |   |     with `VectorDiff::Append { .. }`</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//              |   with `VectorDiff::Insert { index: 2, .. }`</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//              with `VectorDiff::PushFront { .. }`</span></span></code></pre>
 <p>Notice how <code>vector</code> is <em>never</em> sorted. That's the power of these higher-order
 streams of <code>VectorDiff</code>s: light and —more importantly— <strong>combinable</strong>! I repeat
 myself: we are always mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another
@@ -461,19 +456,16 @@ pretty efficient. And…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>… as your favourite digression companion, I really, deeply, appreciate these
 details. Nonetheless, I hope you don't mind if… I suggest to you that… you might
 want to, maybe, go back to… <small>the main… subject, don't you think?</small></p>
-
   </div>
 </div>
 <p>Which topic? Ah! The frozen Room List! Sorters are <em>not</em> the culprit. There.
@@ -489,22 +481,21 @@ of the problem were unable to reproduce it consistently. Hmm, a random problem?
 Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.</p>
 <figure>
   <picture>
-    <source srcset=".&#x2F;memory-pressure.avif" type="image/avif" />
-    <source srcset=".&#x2F;memory-pressure.webp" type="image/webp" />
-    <img src=".&#x2F;memory-pressure.png" loading="lazy" decoding="async" />
+    <source srcset="./memory-pressure.avif" type="image/avif" />
+    <source srcset="./memory-pressure.webp" type="image/webp" />
+    <img src="./memory-pressure.png" loading="lazy" decoding="async" />
   </picture>
   <figcaption>
-    <p>Memory analysis of Element X in Android Studio (Element X is based on the Matrix
+  <p>Memory analysis of Element X in Android Studio (Element X is based on the Matrix
 Rust SDK). It presents a callback tree, with the number of allocations and
 deallocations for each node in this tree. Thanks <a rel="noopener external" target="_blank" href="https://github.com/jmartinesp">Jorge</a>!</p>
 <p>And, holy cow, we see <strong>a lot</strong> of memory allocations, exactly 322'042 to be
 precise, counting for 743MiB, for the <code>eyeball_im_util::vector::sort::SortBy</code>
 type! I don't remember exactly how many rooms are part of the Room List, but
 it's probably around 500-600.</p>
-
-    <p><small>Download fullsize image as: <a href=".&#x2F;memory-pressure.avif" title="Download the AVIF image">AVIF</a>,
-      <a href=".&#x2F;memory-pressure.webp" title="Download the WebP image">WebP</a>,
-      <a href=".&#x2F;memory-pressure.png" title="Download the PNG image">PNG</a>.</small></p>
+  <p><small>Download fullsize image as: <a href="./memory-pressure.avif" title="Download the AVIF image">AVIF</a>,
+    <a href="./memory-pressure.webp" title="Download the WebP image">WebP</a>,
+    <a href="./memory-pressure.png" title="Download the PNG image">PNG</a>.</small></p>
   </figcaption>
 </figure>
 <p>The Room List wasn't frozen. It was taking <strong>a lot</strong> of time to yield values.
@@ -518,30 +509,29 @@ here:</p>
 first problem in this section, shall we?</p>
 <p>Let's start at the beginning. <code>eyeball_im_util::vector::sort::SortBy</code> is used
 like so:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable">stream</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">sort_by</span><span>(</span><span class="z-entity z-name z-function">new_sorter_lexicographic</span><span>(</span><span class="z-entity z-name z-function">vec!</span><span>[</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_latest_event</span><span>()),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_recency</span><span>()),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-entity z-name z-function">new_sorter_name</span><span>()),</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>stream</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">sort_by</span><span>(</span><span class="z-19">new_sorter_lexicographic</span><span>(</span><span class="z-19">vec!</span><span>[</span></span>
+<span class="giallo-l"><span class="z-4">        Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_latest_event</span><span>()),</span></span>
+<span class="giallo-l"><span class="z-4">        Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_recency</span><span>()),</span></span>
+<span class="giallo-l"><span class="z-4">        Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_name</span><span>()),</span></span>
 <span class="giallo-l"><span>    ]))</span></span></code></pre>
 <p><code>sort_by</code> receives a sorter: <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html"><code>new_sorter_lexicographic</code></a>. It's from
 <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/"><code>matrix_sdk_ui::room_list::sorters</code></a>, and it's a constructor for a…
 lexicographic sorter. All sorters must implement <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/trait.Sorter.html">the <code>Sorter</code> trait</a>.
 Once again, it's a trait from <code>matrix_sdk_ui</code>, nothing fancy, it's simply this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// Trait “alias”.</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> trait</span><span class="z-entity z-name"> Sorter</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> Fn</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-entity z-name">Room</span><span>,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-entity z-name">Room</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Ordering</span><span> {}</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// Trait “alias”.</span></span>
+<span class="giallo-l"><span class="z-18">pub trait</span><span class="z-4"> Sorter</span><span class="z-16">:</span><span class="z-19"> Fn</span><span>(</span><span class="z-16">&amp;</span><span class="z-4">Room</span><span>,</span><span class="z-16"> &amp;</span><span class="z-4">Room</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Ordering</span><span> {}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// All functions `F` are auto-implementing `Sorter`.</span></span>
-<span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">F</span><span>&gt;</span><span class="z-entity z-name"> Sorter</span><span class="z-keyword"> for</span><span class="z-entity z-name"> F</span></span>
-<span class="giallo-l"><span class="z-keyword">where</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    F</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> Fn</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-entity z-name">Room</span><span>,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-entity z-name">Room</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Ordering</span><span> {}</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">// All functions `F` are auto-implementing `Sorter`.</span></span>
+<span class="giallo-l"><span class="z-18">impl</span><span>&lt;</span><span class="z-4">F</span><span>&gt;</span><span class="z-4"> Sorter</span><span class="z-18"> for</span><span class="z-4"> F</span></span>
+<span class="giallo-l"><span class="z-18">where</span></span>
+<span class="giallo-l"><span class="z-4">    F</span><span class="z-16">:</span><span class="z-19"> Fn</span><span>(</span><span class="z-16">&amp;</span><span class="z-4">Room</span><span>,</span><span class="z-16"> &amp;</span><span class="z-4">Room</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Ordering</span><span> {}</span></span></code></pre>
 <p>Put it differently, all functions with two parameters of type <code>&amp;Room</code>, and with
 a return type <code>Ordering</code> is considered a sorter. There. It's crystal clear now,
 except… what's a lexicographic sorter?</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -557,7 +547,6 @@ here is turning into a tragedy.</p>
 returns <code>Ordering::Greater</code> or <code>Ordering::Less</code>.</p>
 <p>This is an implementation of a lexicographic order as defined for <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products">cartesian
 products</a>.</p>
-
   </div>
 </div>
 <p>In short, we are executing 3 sorters: by <em>latest event</em>, by <em>recency</em>
@@ -578,13 +567,11 @@ documentation. Another <em lang="fr">cul-de-sac</em>.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Remember that the Room List appears frozen but it is actually blank. The problem
@@ -594,7 +581,6 @@ updates.</p>
 <p>Moreover, the comment says <q>it is possible because the <code>Vector</code> is sorted</q>,
 which indicates that “the vector” (I guess it's a buffer somewhere) <em>has been
 sorted</em> one way or another. What do you think?</p>
-
   </div>
 </div>
 <p>Ah! Brilliant. That's correct! Looking at <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L261">the constructor of
@@ -603,7 +589,7 @@ sorted</em> one way or another. What do you think?</p>
 <a rel="noopener external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/vector/mod.rs#L1575-L1583">quicksort</a>! Following the path, we see
 <a rel="noopener external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/sort.rs#L177-L185">it actually creates a pseudo random number generator (PRNG) to do the
 quicksort</a>.</p>
-<p>Phew. Finally. Time for a cup of tea and a biscuit<sup class="footnote-reference" id="fr-biscuit-1"><a href="#fn-biscuit">4</a></sup>.</p>
+<p>Phew. Finally. Time for a cup of tea and a biscuit<sup class="footnote-reference" id="fr-biscuit-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-biscuit">[4]</a></sup>.</p>
 <p>My guess here is the following. Depending on the (pseudo randomly) generated
 pivot index, the number of comparisons may vary each time this runs. We can
 enter a pathological case where more comparisons means more memory pressure,
@@ -628,20 +614,17 @@ heap and…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Hold on a second. I heard it is around 100-150 nanoseconds to fetch a data from
 the heap. In what world is this “costly”? How is this “far” from the CPU?</p>
 <p>I understand we are talking about <em>random</em> accesses (the <em>R</em> in RAM), and
 multiple indirections, but still, it sounds pretty fast, right?</p>
-
   </div>
 </div>
 <p>Hmm, <i>refrain from opening Pandora's box</i>, let's try to stay high-level
@@ -709,9 +692,9 @@ L1/L2 caches or the RAM.</p>
 <p>Sadly, in our case, it appears we are allocating 322'042 times to sort the
 initial rooms of the Room List, for a total of 743'151'616 bits allocated,
 with 287 bytes per allocation. Of course, if we are doing quick napkin
-maths<sup class="footnote-reference" id="fr-napkin-math-1"><a href="#fn-napkin-math">5</a></sup>, it should take around 200ms. We are far from The Frozen
+maths<sup class="footnote-reference" id="fr-napkin-math-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-napkin-math">[5]</a></sup>, it should take around 200ms. We are far from The Frozen
 Room List<sup><abbr title="Trademark">TM</abbr></sup>, but there is more going
-on.<sup class="footnote-reference" id="fr-suspens-1"><a href="#fn-suspens">6</a></sup></p>
+on.<sup class="footnote-reference" id="fr-suspens-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-suspens">[6]</a></sup></p>
 <p>Do you remember the memory allocator? Its role is to also avoid <em>fragmentation</em>
 as much as possible. The number of memory “blocks” isn't infinite: when memory
 blocks are freed, and new ones are allocated later, maybe the previous blocks
@@ -726,7 +709,6 @@ this use case.</p>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -744,7 +726,6 @@ pointer to it if possible,</li>
 <li>Maybe we don't need the full value: we could return just a pointer to a
 fragment of it?</li>
 </ul>
-
   </div>
 </div>
 <p>Excellent ideas. Let's track which sorter creates the problem. We start with
@@ -753,16 +734,16 @@ compares the <code>LatestEventValue</code> of two rooms: the idea is that rooms 
 <code>LatestEventValue</code> representing a <em>local event</em>, i.e. an event that is not sent
 yet, or is sending, must be at the top of the Room List. Alright, <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-ui/src/room_list_service/sorters/latest_event.rs#L64C1-L69C2">let's look at
 its core part</a>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> new_sorter</span><span>()</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Sorter</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> latest_events</span><span class="z-keyword z-operator"> =</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        |</span><span class="z-variable">left</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Room</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Room</span><span class="z-keyword z-operator">|</span><span> (</span><span class="z-variable">left</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">latest_event</span><span>(),</span><span class="z-variable"> right</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">latest_event</span><span>());</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> new_sorter</span><span>()</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Sorter</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> latest_events</span><span class="z-16"> =</span></span>
+<span class="giallo-l"><span class="z-16">        |</span><span>left</span><span class="z-16">: &amp;</span><span class="z-4">Room</span><span>, right</span><span class="z-16">: &amp;</span><span class="z-4">Room</span><span class="z-16">|</span><span> (left</span><span class="z-16">.</span><span class="z-19">latest_event</span><span>(), right</span><span class="z-16">.</span><span class="z-19">latest_event</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    move</span><span class="z-keyword z-operator"> |</span><span class="z-variable">left</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">| -&gt;</span><span class="z-entity z-name"> Ordering</span><span> {</span><span class="z-entity z-name z-function"> cmp</span><span>(</span><span class="z-variable">latest_events</span><span>,</span><span class="z-variable"> left</span><span>,</span><span class="z-variable"> right</span><span>) }</span></span>
+<span class="giallo-l"><span class="z-18">    move</span><span class="z-16"> |</span><span>left, right</span><span class="z-16">| -&gt;</span><span class="z-4"> Ordering</span><span> {</span><span class="z-19"> cmp</span><span>(latest_events, left, right) }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Alright. For each sorting iteration, the <code>Room::latest_event</code> method is called
 twice. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-base/src/room/latest_event.rs#L38">This method is as follows</a>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> latest_event</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-language">self</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> LatestEventValue</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">    self</span><span class="z-keyword z-operator">.</span><span>info</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">read</span><span>()</span><span class="z-keyword z-operator">.</span><span>latest_event</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">clone</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> latest_event</span><span>(</span><span class="z-16">&amp;</span><span class="z-1 z-i">self</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> LatestEventValue</span><span> {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span class="z-19">clone</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Oh, there it is. We are acquiring a read lock over the <code>info</code> value, then we
 are reading the <code>latest_event</code> field, and we are cloning the value. Cloning
@@ -783,12 +764,12 @@ becoming really annoying.</p>
 </ul>
 <p>So instead of copying the whole value in memory twice per sorter iteration, for
 two sorters, let's try to write more specific methods:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> latest_event_is_local</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-language">self</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> bool</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">    self</span><span class="z-keyword z-operator">.</span><span>info</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">read</span><span>()</span><span class="z-keyword z-operator">.</span><span>latest_event</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_local</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> latest_event_is_local</span><span>(</span><span class="z-16">&amp;</span><span class="z-1 z-i">self</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> bool</span><span> {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span class="z-19">is_local</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> latest_event_timestamp</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable z-language">self</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">MilliSecondsSinceUnixEpoch</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">    self</span><span class="z-keyword z-operator">.</span><span>info</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">read</span><span>()</span><span class="z-keyword z-operator">.</span><span>latest_event</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">timestamp</span><span>()</span></span>
+<span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> latest_event_timestamp</span><span>(</span><span class="z-16">&amp;</span><span class="z-1 z-i">self</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">MilliSecondsSinceUnixEpoch</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span class="z-19">timestamp</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Just like that, <strong>the throughput has been improved by 18%</strong> according to the
 <code>room_list</code> benchmark. You can see <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/62eb1996d917fb1928bdb9bba40d78a6eefe0bbd">the patch in “action”</a>. Can we
@@ -796,13 +777,11 @@ declare victory over memory pressure?</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>I beg your pardon, but I don't believe it's a victory. We have reduced the size
@@ -816,7 +795,6 @@ also fit in the stack.</p>
 it explains the 18% throughput improvement. However, issue reporters were
 mentioning a lag of 5 minutes or so, do you remember? How do you explain the
 remaining 4 minutes 6 seconds then? This is still unacceptable, right?</p>
-
   </div>
 </div>
 <p>Definitely yes! Everything above 200ms (from our napkin maths) is unacceptable
@@ -826,28 +804,25 @@ wasn't the only problem.</p>
 </h2>
 <p>The assiduous reader may have noticed that we are still dealing with a lock
 here.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>info</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">read</span><span>()</span><span class="z-keyword z-operator">.</span><span>latest_event</span><span class="z-keyword z-operator">.</span><span>…</span></span>
-<span class="giallo-l"><span class="z-comment">//        ^^^^^^</span></span>
-<span class="giallo-l"><span class="z-comment">//        |</span></span>
-<span class="giallo-l"><span class="z-comment">//        this read lock acquisition</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-1 z-i">self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span>…</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//        ^^^^^^</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//        |</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//        this read lock acquisition</span></span></code></pre>
 <p>Do you remember we had 322'042 allocations? It represents the number of times
 the <code>latest_event</code> method was called basically, which means…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>… the lock is acquired 322'042 times!</p>
 <p>…</p>
 <p>… no?</p>
-
   </div>
 </div>
 <p>… yes… and please, stop interrupting me, I was trying to build up the suspense
@@ -868,7 +843,6 @@ the sorters run again.</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -879,7 +853,6 @@ the sorters run again.</p>
     <p>The idea here is to organise the data around a specific layout. The focus on the
 data layout aims at being CPU cache friendly as much as possible. This kind of
 approach is called <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Data-oriented_design"><em>Data-oriented Design</em></a>.</p>
-
   </div>
 </div>
 <p>That's correct. If the type is small enough, it can fit more easily in the
@@ -888,7 +861,7 @@ much faster than the 100ns for the main memory. Moreover, it removes the lock
 contention and the memory pressure entirely!</p>
 <details>
 <summary>
-<p>I highly recommend watching the following talks<sup class="footnote-reference" id="fr-talks-1"><a href="#fn-talks">7</a></sup> if you want to learn
+<p>I highly recommend watching the following talks<sup class="footnote-reference" id="fr-talks-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-talks">[7]</a></sup> if you want to learn
 more about Data-oriented Design (DoD)</p>
 </summary>
 <figure>
@@ -901,12 +874,9 @@ more about Data-oriented Design (DoD)</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Data-Oriented Design and C++, by Mike Acton, at the CppCon 2014</p>
-
-    <p>The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. <a rel="noopener external" target="_blank" href="https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B">View the slides</a>.</p>
-
+  <p>Video: Data-Oriented Design and C++, by Mike Acton, at the CppCon 2014</p>
+  <p>The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. <a rel="noopener external" target="_blank" href="https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B">View the slides</a>.</p>
   </figcaption>
 </figure>
 <figure>
@@ -919,48 +889,44 @@ more about Data-oriented Design (DoD)</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Cpu Caches and Why You Care, by Scott Meyers, at the code::dive conference 2014</p>
-
-    <p>This talk explores CPU caches and their impact on program performance.</p>
-
+  <p>Video: Cpu Caches and Why You Care, by Scott Meyers, at the code::dive conference 2014</p>
+  <p>This talk explores CPU caches and their impact on program performance.</p>
   </figcaption>
 </figure>
 </details>
 <p>So. Let's be serious: I suggest trying to do some Data-oriented Design here.
 We start by putting all our data in a single type:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> RoomListItem</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">    /// Cache of `Room::latest_event_timestamp`.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_latest_event_timestamp</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">MilliSecondsSinceUnixEpoch</span><span>&gt;,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> RoomListItem</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Cache of `Room::latest_event_timestamp`.</span></span>
+<span class="giallo-l"><span>    cached_latest_event_timestamp</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">MilliSecondsSinceUnixEpoch</span><span>&gt;,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// Cache of `Room::latest_event_is_local`.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_latest_event_is_local</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Cache of `Room::latest_event_is_local`.</span></span>
+<span class="giallo-l"><span>    cached_latest_event_is_local</span><span class="z-16">:</span><span class="z-4"> bool</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// Cache of `Room::recency_stamp`.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_recency_stamp</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">RoomRecencyStamp</span><span>&gt;,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Cache of `Room::recency_stamp`.</span></span>
+<span class="giallo-l"><span>    cached_recency_stamp</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">RoomRecencyStamp</span><span>&gt;,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// Cache of `Room::cached_display_name`, already as a string.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_display_name</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">String</span><span>&gt;,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Cache of `Room::cached_display_name`, already as a string.</span></span>
+<span class="giallo-l"><span>    cached_display_name</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">String</span><span>&gt;,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /// Cache of `Room::is_space`.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_is_space</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /// Cache of `Room::is_space`.</span></span>
+<span class="giallo-l"><span>    cached_is_space</span><span class="z-16">:</span><span class="z-4"> bool</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Cache of `Room::state`.</span></span>
-<span class="giallo-l"><span class="z-variable">    cached_state</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> RoomState</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Cache of `Room::state`.</span></span>
+<span class="giallo-l"><span>    cached_state</span><span class="z-16">:</span><span class="z-4"> RoomState</span><span>,</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">impl</span><span class="z-entity z-name"> RoomListItem</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> refresh_cached_data</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> self</span><span>,</span><span class="z-variable"> room</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Room</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        self</span><span class="z-keyword z-operator">.</span><span>cached_latest_event_timestamp </span><span class="z-keyword z-operator">=</span><span class="z-variable"> room</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">new_latest_event_timestamp</span><span>();</span></span>
-<span class="giallo-l"><span class="z-comment">        // etc.</span></span>
+<span class="giallo-l"><span class="z-18">impl</span><span class="z-4"> RoomListItem</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> refresh_cached_data</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> self</span><span>, room</span><span class="z-16">: &amp;</span><span class="z-4">Room</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        self</span><span class="z-16">.</span><span>cached_latest_event_timestamp </span><span class="z-16">=</span><span> room</span><span class="z-16">.</span><span class="z-19">new_latest_event_timestamp</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // etc.</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>At this point, the size of <code>RoomListItem</code> is 64 bytes, acceptably small!</p>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -978,36 +944,35 @@ Compacting the type to avoid inner padding would be ideal. If there is a <em>cac
 miss</em> in L1, the CPU will look at the next cache, so L2, and so on, until
 reaching the main memory. So the cost of a cache miss is: look up in L1, plus
 cache miss, plus look up in L2, etc.</p>
-
   </div>
 </div>
 <p><a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4">A bit of plumbing later</a>, this new <code>RoomListItem</code> type is
 used everywhere by the Room List, by all its filters and all its sorters. For
 example, the <code>latest_event</code> sorter now looks like:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> new_sorter</span><span>()</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-keyword"> impl</span><span class="z-entity z-name"> Sorter</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> latest_events</span><span class="z-keyword z-operator"> = |</span><span class="z-variable">left</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">RoomListItem</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">RoomListItem</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span>        (</span><span class="z-variable">left</span><span class="z-keyword z-operator">.</span><span>cached_latest_event_is_local,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">.</span><span>cached_latest_event_is_local)</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> new_sorter</span><span>()</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Sorter</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> latest_events</span><span class="z-16"> = |</span><span>left</span><span class="z-16">: &amp;</span><span class="z-4">RoomListItem</span><span>, right</span><span class="z-16">: &amp;</span><span class="z-4">RoomListItem</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span>        (left</span><span class="z-16">.</span><span>cached_latest_event_is_local, right</span><span class="z-16">.</span><span>cached_latest_event_is_local)</span></span>
 <span class="giallo-l"><span>    };</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    move</span><span class="z-keyword z-operator"> |</span><span class="z-variable">left</span><span>,</span><span class="z-variable"> right</span><span class="z-keyword z-operator">| -&gt;</span><span class="z-entity z-name"> Ordering</span><span> {</span><span class="z-entity z-name z-function"> cmp</span><span>(</span><span class="z-variable">latest_events</span><span>,</span><span class="z-variable"> left</span><span>,</span><span class="z-variable"> right</span><span>) }</span></span>
+<span class="giallo-l"><span class="z-18">    move</span><span class="z-16"> |</span><span>left, right</span><span class="z-16">| -&gt;</span><span class="z-4"> Ordering</span><span> {</span><span class="z-19"> cmp</span><span>(latest_events, left, right) }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The lock acquisitions happen only in <code>refresh_cached_data</code>, when a new update
 happens, not during the filtering or sorting anymore. Let's see what the
 benchmark has to say now.</p>
 <p>Before:</p>
-<pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-entity z-name">$</span><span class="z-string"> cargo bench</span><span class="z-constant z-other"> --bench</span><span class="z-string"> room_list</span></span>
-<span class="giallo-l"><span class="z-entity z-name">RoomList/Create/1000</span><span class="z-string"> rooms ×</span><span class="z-constant z-numeric"> 1000</span><span class="z-string"> events</span></span>
-<span class="giallo-l"><span>    time:   [</span><span class="z-constant z-numeric">53.027</span><span> ms </span><span class="z-constant z-numeric">53.149</span><span> ms </span><span class="z-constant z-numeric">53.273</span><span> ms]</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    thrpt:</span><span>  [18.771</span><span class="z-string"> Kelem/s</span><span class="z-constant z-numeric"> 18.815</span><span class="z-string"> Kelem/s</span><span class="z-constant z-numeric"> 18.858</span><span class="z-string"> Kelem/s]</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-4">$</span><span class="z-11"> cargo bench</span><span class="z-8"> --bench</span><span class="z-11"> room_list</span></span>
+<span class="giallo-l"><span class="z-4">RoomList/Create/1000</span><span class="z-11"> rooms ×</span><span class="z-13"> 1000</span><span class="z-11"> events</span></span>
+<span class="giallo-l"><span>    time:   [</span><span class="z-13">53.027</span><span> ms </span><span class="z-13">53.149</span><span> ms </span><span class="z-13">53.273</span><span> ms]</span></span>
+<span class="giallo-l"><span class="z-4">    thrpt:</span><span>  [18.771</span><span class="z-11"> Kelem/s</span><span class="z-13"> 18.815</span><span class="z-11"> Kelem/s</span><span class="z-13"> 18.858</span><span class="z-11"> Kelem/s]</span></span></code></pre>
 <p>After:</p>
-<pre class="giallo z-code"><code data-lang="shellscript"><span class="giallo-l"><span class="z-entity z-name">$</span><span class="z-string"> cargo bench</span><span class="z-constant z-other"> --bench</span><span class="z-string"> room_list</span></span>
-<span class="giallo-l"><span class="z-entity z-name">RoomList/Create/1000</span><span class="z-string"> rooms ×</span><span class="z-constant z-numeric"> 1000</span><span class="z-string"> events</span></span>
-<span class="giallo-l"><span>           time:   [</span><span class="z-constant z-numeric">676.29</span><span> µs </span><span class="z-constant z-numeric">676.84</span><span> µs </span><span class="z-constant z-numeric">677.50</span><span> µs]</span></span>
-<span class="giallo-l"><span class="z-entity z-name">           thrpt:</span><span>  [1.4760</span><span class="z-string"> Melem/s</span><span class="z-constant z-numeric"> 1.4775</span><span class="z-string"> Melem/s</span><span class="z-constant z-numeric"> 1.4787</span><span class="z-string"> Melem/s]</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    change:</span></span>
-<span class="giallo-l"><span>           time:   [-98.725% -98.721% -98.716%] (</span><span class="z-entity z-name">p</span><span class="z-string"> =</span><span class="z-constant z-numeric"> 0.00</span><span class="z-keyword z-operator"> &lt;</span><span class="z-constant z-numeric"> 0.05</span><span>)</span></span>
-<span class="giallo-l"><span class="z-entity z-name">           thrpt:</span><span>  [+7686.9%</span><span class="z-string"> +7718.5% +7745.6%]</span></span>
-<span class="giallo-l"><span class="z-entity z-name">           Performance</span><span class="z-string"> has improved.</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-4">$</span><span class="z-11"> cargo bench</span><span class="z-8"> --bench</span><span class="z-11"> room_list</span></span>
+<span class="giallo-l"><span class="z-4">RoomList/Create/1000</span><span class="z-11"> rooms ×</span><span class="z-13"> 1000</span><span class="z-11"> events</span></span>
+<span class="giallo-l"><span>           time:   [</span><span class="z-13">676.29</span><span> µs </span><span class="z-13">676.84</span><span> µs </span><span class="z-13">677.50</span><span> µs]</span></span>
+<span class="giallo-l"><span class="z-4">           thrpt:</span><span>  [1.4760</span><span class="z-11"> Melem/s</span><span class="z-13"> 1.4775</span><span class="z-11"> Melem/s</span><span class="z-13"> 1.4787</span><span class="z-11"> Melem/s]</span></span>
+<span class="giallo-l"><span class="z-4">    change:</span></span>
+<span class="giallo-l"><span>           time:   [-98.725% -98.721% -98.716%] (</span><span class="z-4">p</span><span class="z-11"> =</span><span class="z-13"> 0.00</span><span class="z-16"> &lt;</span><span class="z-13"> 0.05</span><span>)</span></span>
+<span class="giallo-l"><span class="z-4">           thrpt:</span><span>  [+7686.9%</span><span class="z-11"> +7718.5% +7745.6%]</span></span>
+<span class="giallo-l"><span class="z-4">           Performance</span><span class="z-11"> has improved.</span></span></code></pre>
 <p>Boom!</p>
 <p>We don't see the 5 minutes lag mentioned by the reporters, but remember it's
 random. Nonetheless, <strong>the performance impact is huge</strong>:</p>
@@ -1021,13 +986,11 @@ random. Nonetheless, <strong>the performance impact is huge</strong>:</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Apparently yes! The reporters were unable to reproduce the problem anymore. It
@@ -1045,7 +1008,6 @@ an L1/L2 cache access (1-4ns) and a main memory access (100ns) is on average
 40 times faster, which looks suspiciously similar to the 78 times factor we see
 here. It also suggests we are hitting L1 more frequently than L2, which is a
 good sign!</p>
-
   </div>
 </div>
 <p>The benchmark Iteration Times and Regression graphs are interesting to look at.</p>
@@ -1053,7 +1015,7 @@ good sign!</p>
 <p><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/./1-iteration-times.svg"><img src="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/./1-iteration-times.svg" alt="Iteration times" loading="lazy" decoding="async" /></a></p>
 <figcaption>
 <p>The initial Iteration Times, before our patches. Notice how the points do not
-follow any “trend”. It&#39;s a clear sign the program is acting erratically.</p>
+follow any “trend”. It's a clear sign the program is acting erratically.</p>
 </figcaption>
 </figure>
 <figure>
@@ -1067,7 +1029,6 @@ are linear.</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -1081,21 +1042,21 @@ code. The current usage of <code>RoomListItem</code> falls into the definition o
 Structures</em> in the Data-oriented Design terminology. After all, we clearly have
 a <code>Vec&lt;RoomListItem&gt;</code> at the root of everything. It is efficient but <em>Structure
 of Arrays</em> might be even more efficient. Instead of having:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">struct</span><span class="z-entity z-name"> RoomListItem</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    a</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    b</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> u64</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    c</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> bool</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">struct</span><span class="z-4"> RoomListItem</span><span> {</span></span>
+<span class="giallo-l"><span>    a</span><span class="z-16">:</span><span class="z-4"> bool</span><span>,</span></span>
+<span class="giallo-l"><span>    b</span><span class="z-16">:</span><span class="z-4"> u64</span><span>,</span></span>
+<span class="giallo-l"><span>    c</span><span class="z-16">:</span><span class="z-4"> bool</span><span>,</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> rooms</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">RoomListItem</span><span>&gt;;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">let</span><span> rooms</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">RoomListItem</span><span>&gt;;</span></span></code></pre>
 <p>we would have:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">struct</span><span class="z-entity z-name"> RoomListItems</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    a</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">bool</span><span>&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">    b</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">u64</span><span>&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">    c</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">bool</span><span>&gt;,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">struct</span><span class="z-4"> RoomListItems</span><span> {</span></span>
+<span class="giallo-l"><span>    a</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">bool</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    b</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">u64</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    c</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">bool</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> rooms</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> RoomListItems</span><span>;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">let</span><span> rooms</span><span class="z-16">:</span><span class="z-4"> RoomListItems</span><span>;</span></span></code></pre>
 <p>This is not applicable in our situation because sorters are iterating over
 different fields. However, if you're sure only one field in a single loop is
 used, this <em>Structure of Arrays</em> is cache friendlier as it loads less data into
@@ -1105,14 +1066,13 @@ CPU will be better at predicting what data will be loaded in the cache line,
 boosting the performance even more!</p>
 <p>Just so you know my role here is not restricted to recite documentation or to
 summarise Wikipedia entries.</p>
-
   </div>
 </div>
-<p>Of course you&#39;re valuable! Now, the surprise.</p>
-<h2 id="">The Dessert<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>Of course you're valuable! Now, the surprise.</p>
+<h2 id="the-dessert">The Dessert<a role="presentation" class="anchor" href="#the-dessert" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>Of course, let&#39;s not forget about our dessert! I won&#39;t dig too much: the
-patch contains all the necessary gory details. In short, it&#39;s about how
+<p>Of course, let's not forget about our dessert! I won't dig too much: the
+patch contains all the necessary gory details. In short, it's about how
 <code>VectorDiff::Set</code> can create a nasty bug in <code>SortBy</code>. Basically, when a value
 in the vector is updated, a <code>VectorDiff::Set</code> is emitted. <code>SortBy</code> is then
 responsible for computing a new <code>VectorDiff</code>:</p>
@@ -1121,28 +1081,28 @@ responsible for computing a new <code>VectorDiff</code>:</p>
 <li>it was calculating the new position,</li>
 <li>depending on that, it was emitting the appropriate <code>VectorDiff</code>s.</li>
 </ul>
-<p>However, the old “value” wasn&#39;t removed from the buffer <em>immediately</em> and
+<p>However, the old “value” wasn't removed from the buffer <em>immediately</em> and
 not <em>every time</em>. In theory, it should not cause any problem —it was an
 optimisation after all— except if… the items manipulated by the stream are
-“shallow clones”. Shallow cloning a value won&#39;t copy the value entirely: we get
+“shallow clones”. Shallow cloning a value won't copy the value entirely: we get
 a new value, but its state is synced with the original value. This happens with
 types such as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[derive(</span><span class="z-entity z-name">Clone</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-storage">struct</span><span class="z-entity z-name"> S</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    inner</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Arc</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[derive(</span><span class="z-4">Clone</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">struct</span><span class="z-4"> S</span><span> {</span></span>
+<span class="giallo-l"><span>    inner</span><span class="z-16">:</span><span class="z-4"> Arc</span><span>&lt;</span><span class="z-4">T</span><span>&gt;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Here, cloning a value of type <code>S</code> and changing its <code>inner</code> field will also
 update the original value.</p>
 <p>Just like that, it was possible to systematically create… <strong>an infinite loop</strong>.
-Funky isn&#39;t it?</p>
+Funky isn't it?</p>
 <p>You can view the patch <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/80">Fix an infinite loop when <code>SortBy&lt;Stream&lt;Item = T&gt;&gt;</code> handles a <code>VectorDiff::Set</code> where <code>T</code> is a shallow clone
 type</a> to learn more.</p>
 <p>I think this is a concrete example of when jumping on an optimisation can lead
-to a bug. I&#39;m not saying we should not prematurely optimise our programs: I&#39;m
-a partisan of the “we should” camp. I&#39;m saying that bugs can be pretty subtle
-sometimes, and this bug would have been avoided if we hadn&#39;t taken a shortcut in
-this algorithm. It&#39;s important to be correct first, then measure, then improve.</p>
-<p>I hope you&#39;ve learned a couple of things, and you&#39;ve enjoyed your reading.</p>
+to a bug. I'm not saying we should not prematurely optimise our programs: I'm
+a partisan of the “we should” camp. I'm saying that bugs can be pretty subtle
+sometimes, and this bug would have been avoided if we hadn't taken a shortcut in
+this algorithm. It's important to be correct first, then measure, then improve.</p>
+<p>I hope you've learned a couple of things, and you've enjoyed your reading.</p>
 <p>I would like to thank <a rel="noopener external" target="_blank" href="https://artificialworlds.net/blog/">Andy Balaam</a> and <a rel="noopener external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> for the
 reviews and the feedback!</p>
 <section class="footnotes">
@@ -1152,43 +1112,43 @@ reviews and the feedback!</p>
 <a rel="noopener external" target="_blank" href="https://developer.apple.com/documentation/swift/collectiondifference/change"><code>CollectionDifference.Change</code></a> enum. For example: <code>VectorDiff::PushFront</code>
 is equivalent to <code>Change.insert(offset: 0)</code>. On <a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>, there is
 <a rel="noopener external" target="_blank" href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-list/"><code>MutableList</code></a> object. For example: <code>VectorDiff::Clear</code> is equivalent to
-<code>MutableList.clear()</code>! <a href="#fr-vectordiff_on_other_uis-1">↩</a></p>
+<code>MutableList.clear()</code>! <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-vectordiff_on_other_uis-1">↩</a></p>
 </li>
 <li id="fn-switch">
 <p>I would <em>love</em> to talk about how this <code>Stream</code> produces a <code>Stream</code>,
 how the outer stream and the inner stream are switched (with
-<code>.switch()</code>!), how we&#39;ve implemented that from scratch, but <del>it&#39;s
+<code>.switch()</code>!), how we've implemented that from scratch, but <del>it's
 probably for another article!. Meanwhile, you can take a look at
 <a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></del> Wait no more, the article is here:
-<a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order stream</em></a>! <a href="#fr-switch-1">↩</a></p>
+<a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order stream</em></a>! <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-switch-1">↩</a></p>
 </li>
 <li id="fn-stream_assert">
-<p>Do you know <a rel="noopener external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It&#39;s another crate we&#39;ve
-written to easily apply assertions on <code>Stream</code>s. Pretty convenient. <a href="#fr-stream_assert-1">↩</a></p>
+<p>Do you know <a rel="noopener external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It's another crate we've
+written to easily apply assertions on <code>Stream</code>s. Pretty convenient. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-stream_assert-1">↩</a></p>
 </li>
 <li id="fn-biscuit">
-<p>Yes, <a rel="noopener external" target="_blank" href="https://www.biscuitsec.org/">biscuit</a>. <a href="#fr-biscuit-1">↩</a></p>
+<p>Yes, <a rel="noopener external" target="_blank" href="https://www.biscuitsec.org/">biscuit</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-biscuit-1">↩</a></p>
 </li>
 <li id="fn-napkin-math">
 <p>I highly recommend to read the <a rel="noopener external" target="_blank" href="https://github.com/sirupsen/napkin-math/">Napkin Math</a> project, with
-the great talk at <a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=IxkSlnrRFqc">SRECON&#39;19, <cite>Advanced Napkin Math: Estimating System
-Performance from First Principles</cite> by Simon Eskildsen</a>. <a href="#fr-napkin-math-1">↩</a></p>
+the great talk at <a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=IxkSlnrRFqc">SRECON'19, <cite>Advanced Napkin Math: Estimating System
+Performance from First Principles</cite> by Simon Eskildsen</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-napkin-math-1">↩</a></p>
 </li>
 <li id="fn-suspens">
 <p>Do you remember the lock contention? Wait for it. At this step of
-the story, I wasn&#39;t aware we had a lock contention yet. <a href="#fr-suspens-1">↩</a></p>
+the story, I wasn't aware we had a lock contention yet. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-suspens-1">↩</a></p>
 </li>
 <li id="fn-talks">
-<p>If you are curious and enjoy watching talks, I&#39;m maintaining
-<a rel="noopener external" target="_blank" href="https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf">a playlist of interesting talks I&#39;ve watched</a>. Also
+<p>If you are curious and enjoy watching talks, I'm maintaining
+<a rel="noopener external" target="_blank" href="https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf">a playlist of interesting talks I've watched</a>. Also
 you can read this old article
-<a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/">Once conference per day, for one year (2017)</a>. <a href="#fr-talks-1">↩</a></p>
+<a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/">Once conference per day, for one year (2017)</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-talks-1">↩</a></p>
 </li>
 </ol>
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;" class="button text-align-start">❮&nbsp;From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;switching-higher-order-streams-to-first-order-streams&#x2F;" class="button text-align-end">Switching higher-order streams to first-order streams&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="button text-align-start">❮&nbsp;From 19k to 4.2M events/sec: story of a SQLite query optimisation</a><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/" class="button text-align-end">Switching higher-order streams to first-order streams&nbsp;❯</a></nav>
   </article>
 
 </main>

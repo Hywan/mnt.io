@@ -6,64 +6,56 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/webassembly/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 04 Oct 2021 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>I&#x27;ve loved Wasmer, I still love Wasmer</title>
+    <lastBuildDate>Mon, 04 Oct 2021 00:00:00 +0000</lastBuildDate><item>
+      <title>I&#39;ve loved Wasmer, I still love Wasmer</title>
       <pubDate>Mon, 04 Oct 2021 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/i-leave-wasmer/</link>
       <guid>https://mnt.io/articles/i-leave-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/i-leave-wasmer/">I&apos;m proud of what I&apos;ve done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Announcing the first Java library to run WebAssembly: Wasmer JNI</title>
       <pubDate>Wed, 13 May 2020 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/</link>
       <guid>https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/</guid>
       <description xml:base="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/">This article presents the &lt;code&gt;wasmer-java&lt;/code&gt; project: the first Java library to run WebAssembly.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Announcing the first Postgres extension to run WebAssembly</title>
       <pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/</link>
       <guid>https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/</guid>
       <description xml:base="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/">This article presents &lt;code&gt;wasmer-postgres&lt;/code&gt;: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!</description>
-    </item>
-    <item>
+    </item><item>
       <title>Announcing the fastest WebAssembly runtime for Go: wasmer</title>
       <pubDate>Wed, 29 May 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/</link>
       <guid>https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/">This article presents &lt;code&gt;wasmer-go&lt;/code&gt;: the fastest WebAssembly runtime for Go.</description>
-    </item>
-    <item>
+    </item><item>
       <title>🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</title>
       <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</link>
       <guid>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/">This article explains how and why I&apos;ve migrated &lt;code&gt;php-ext-wasm&lt;/code&gt; from wasmi to Wasmer.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Bye bye Automattic, hello Wasmer</title>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</link>
       <guid>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/">Eh, new job!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The ASM.js galaxy</title>
       <pubDate>Tue, 28 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/">In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn&apos;t support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The WebAssembly galaxy</title>
       <pubDate>Wed, 22 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

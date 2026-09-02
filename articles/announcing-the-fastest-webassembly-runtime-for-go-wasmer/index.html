@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -168,12 +168,12 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2019-05-29" property="datePublished">May 29, 2019</time>
-    <span title="Reading time" property="timeRequired" content="PT7M">7 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, webassembly, go, runtime, binding">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/webassembly" title="All articles matching the `webassembly` keyword">webassembly</a>, <a href="/keywords/go" title="All articles matching the `go` keyword">go</a>, <a href="/keywords/runtime" title="All articles matching the `runtime` keyword">runtime</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2019-05-29-announcing-the-fastest-webassembly-runtime-for-go-wasmer&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2019-05-29-announcing-the-fastest-webassembly-runtime-for-go-wasmer/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="This article presents `wasmer-go`: the fastest WebAssembly runtime for Go." />
       
@@ -216,45 +216,45 @@ fast</a>.</p>
 </h2>
 <p>First, let’s install <code>wasmer</code> in your go environment (<em>with cgo
 support</em>).</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span class="z-storage"> export</span><span class="z-variable"> CGO_ENABLED</span><span class="z-keyword z-operator">=</span><span class="z-constant z-numeric">1</span><span class="z-punctuation z-terminator">;</span><span class="z-storage"> export</span><span class="z-variable"> CC</span><span class="z-keyword z-operator">=</span><span class="z-variable">gcc</span><span class="z-punctuation z-terminator">;</span><span class="z-entity z-name"> go</span><span class="z-string"> install github.com/wasmerio/go-ext-wasm/wasmer</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span class="z-18"> export</span><span> CGO_ENABLED</span><span class="z-16">=</span><span class="z-13">1</span><span class="z-10">;</span><span class="z-18"> export</span><span> CC</span><span class="z-16">=</span><span>gcc</span><span class="z-10">;</span><span class="z-4"> go</span><span class="z-11"> install github.com/wasmerio/go-ext-wasm/wasmer</span></span></code></pre>
 <p>Let’s jump immediately into some
 examples.<code>github.com/wasmerio/go-ext-wasm/wasmer</code> is a regular Go
 library. The installation is automated with
 <code>import "github.com/wasmerio/go-ext-wasm/wasmer"</code>.</p>
 <p>Let’s get our hands dirty. We will write a program that compiles to
 WebAssembly easily, using Rust for instance:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>,</span><span class="z-variable"> y</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> i32</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    x</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> y</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern fn</span><span class="z-19"> sum</span><span>(x</span><span class="z-16">:</span><span class="z-4"> i32</span><span>, y</span><span class="z-16">:</span><span class="z-4"> i32</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> i32</span><span> {</span></span>
+<span class="giallo-l"><span>    x</span><span class="z-16"> +</span><span> y</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>After compilation to WebAssembly, we get a file like
 <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this one</a>,
 named <code>simple.wasm</code>.<br />
 The following Go program executes the <code>sum</code> function by passing <code>5</code> and
 <code>37</code> as arguments:</p>
-<pre class="giallo z-code"><code data-lang="go"><span class="giallo-l"><span class="z-keyword">package</span><span class="z-entity z-name"> main</span></span>
+<pre class="giallo z-code" ><code data-lang="go"><span class="giallo-l"><span class="z-18">package</span><span class="z-4"> main</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span> (</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;</span><span class="z-entity z-name z-import">fmt</span><span class="z-string">&quot;</span></span>
-<span class="giallo-l"><span class="z-variable">    wasm</span><span class="z-string"> &quot;</span><span class="z-entity z-name z-import">github.com/wasmerio/go-ext-wasm/wasmer</span><span class="z-string">&quot;</span></span>
+<span class="giallo-l"><span class="z-18">import</span><span> (</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;fmt&quot;</span></span>
+<span class="giallo-l"><span>    wasm</span><span class="z-11"> &quot;github.com/wasmerio/go-ext-wasm/wasmer&quot;</span></span>
 <span class="giallo-l"><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">func</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-comment">    // Reads the WebAssembly module as bytes.</span></span>
-<span class="giallo-l"><span class="z-variable">    bytes</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">ReadBytes</span><span>(</span><span class="z-string">&quot;simple.wasm&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-18">func</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Reads the WebAssembly module as bytes.</span></span>
+<span class="giallo-l"><span>    bytes, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">ReadBytes</span><span>(</span><span class="z-11">&quot;simple.wasm&quot;</span><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Instantiates the WebAssembly module.</span></span>
-<span class="giallo-l"><span class="z-variable">    instance</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">NewInstance</span><span>(</span><span class="z-variable">bytes</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">    defer</span><span class="z-variable"> instance</span><span>.</span><span class="z-entity z-name z-function">Close</span><span>()</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Instantiates the WebAssembly module.</span></span>
+<span class="giallo-l"><span>    instance, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">NewInstance</span><span>(bytes)</span></span>
+<span class="giallo-l"><span class="z-18">    defer</span><span> instance.</span><span class="z-19">Close</span><span>()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Gets the `sum` exported function from the WebAssembly instance.</span></span>
-<span class="giallo-l"><span class="z-variable">    sum</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> instance</span><span>.</span><span class="z-variable">Exports</span><span>[</span><span class="z-string">&quot;sum&quot;</span><span>]</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Gets the `sum` exported function from the WebAssembly instance.</span></span>
+<span class="giallo-l"><span>    sum</span><span class="z-16"> :=</span><span> instance.Exports[</span><span class="z-11">&quot;sum&quot;</span><span>]</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Calls that exported function with Go standard values. The WebAssembly</span></span>
-<span class="giallo-l"><span class="z-comment">    // types are inferred and values are casted automatically.</span></span>
-<span class="giallo-l"><span class="z-variable">    result</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-constant z-numeric">5</span><span>,</span><span class="z-constant z-numeric"> 37</span><span>)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Calls that exported function with Go standard values. The WebAssembly</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // types are inferred and values are casted automatically.</span></span>
+<span class="giallo-l"><span>    result, _</span><span class="z-16"> :=</span><span class="z-19"> sum</span><span>(</span><span class="z-13">5</span><span>,</span><span class="z-13"> 37</span><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    fmt</span><span>.</span><span class="z-entity z-name z-function">Println</span><span>(</span><span class="z-variable">result</span><span>)</span><span class="z-comment"> // 42!</span></span>
+<span class="giallo-l"><span>    fmt.</span><span class="z-19">Println</span><span>(result)</span><span class="z-7 z-i"> // 42!</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Great! We have successfully executed a WebAssembly file inside Go.</p>
 <blockquote>
@@ -270,13 +270,13 @@ called from the outside world. This is the entry point to execute
 WebAssembly.</p>
 <p>Nonetheless, a WebAssembly module can also have <em>imported</em> functions.
 Let’s consider the following Rust program:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">extern</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>,</span><span class="z-variable"> y</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> i32</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">extern</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> sum</span><span>(x</span><span class="z-16">:</span><span class="z-4"> i32</span><span>, y</span><span class="z-16">:</span><span class="z-4"> i32</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> i32</span><span>;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> add1</span><span>(</span><span class="z-variable">x</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>,</span><span class="z-variable"> y</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> i32</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> i32</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    unsafe</span><span> {</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable">x</span><span>,</span><span class="z-variable"> y</span><span>) }</span><span class="z-keyword z-operator"> +</span><span class="z-constant z-numeric"> 1</span></span>
+<span class="giallo-l"><span class="z-18">pub extern fn</span><span class="z-19"> add1</span><span>(x</span><span class="z-16">:</span><span class="z-4"> i32</span><span>, y</span><span class="z-16">:</span><span class="z-4"> i32</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> i32</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    unsafe</span><span> {</span><span class="z-19"> sum</span><span>(x, y) }</span><span class="z-16"> +</span><span class="z-13"> 1</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The exported function <code>add1</code> calls the <code>sum</code> function. Its
 implementation is absent, only its signature is defined. This is an
@@ -296,77 +296,77 @@ pointer, and <code>C.sum</code> is the cgo function pointer,</li>
 the WebAssembly module with imports. That’s it.</li>
 </ol>
 <p>Let’s see the complete program:</p>
-<pre class="giallo z-code"><code data-lang="go"><span class="giallo-l"><span class="z-keyword">package</span><span class="z-entity z-name"> main</span></span>
+<pre class="giallo z-code" ><code data-lang="go"><span class="giallo-l"><span class="z-18">package</span><span class="z-4"> main</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// // 1️⃣ Declare the `sum` function signature (see cgo).</span></span>
-<span class="giallo-l"><span class="z-comment">//</span></span>
-<span class="giallo-l"><span class="z-comment">// #include &lt;stdlib.h&gt;</span></span>
-<span class="giallo-l"><span class="z-comment">//</span></span>
-<span class="giallo-l"><span class="z-comment">// extern int32_t sum(void *context, int32_t x, int32_t y);</span></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span class="z-string"> &quot;</span><span class="z-entity z-name z-import">C</span><span class="z-string">&quot;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// // 1️⃣ Declare the `sum` function signature (see cgo).</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// #include &lt;stdlib.h&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// extern int32_t sum(void *context, int32_t x, int32_t y);</span></span>
+<span class="giallo-l"><span class="z-18">import</span><span class="z-11"> &quot;C&quot;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">import</span><span> (</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;</span><span class="z-entity z-name z-import">fmt</span><span class="z-string">&quot;</span></span>
-<span class="giallo-l"><span class="z-variable">    wasm</span><span class="z-string"> &quot;</span><span class="z-entity z-name z-import">github.com/wasmerio/go-ext-wasm/wasmer</span><span class="z-string">&quot;</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;</span><span class="z-entity z-name z-import">unsafe</span><span class="z-string">&quot;</span></span>
+<span class="giallo-l"><span class="z-18">import</span><span> (</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;fmt&quot;</span></span>
+<span class="giallo-l"><span>    wasm</span><span class="z-11"> &quot;github.com/wasmerio/go-ext-wasm/wasmer&quot;</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;unsafe&quot;</span></span>
 <span class="giallo-l"><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// 2️⃣ Write the implementation of the `sum` function, and export it (for cgo).</span></span>
-<span class="giallo-l"><span class="z-comment">//export sum</span></span>
-<span class="giallo-l"><span class="z-keyword">func</span><span class="z-entity z-name z-function"> sum</span><span>(</span><span class="z-variable z-parameter">context</span><span class="z-entity z-name"> unsafe</span><span>.</span><span class="z-entity z-name">Pointer</span><span>,</span><span class="z-variable z-parameter"> x</span><span class="z-storage z-type"> int32</span><span>,</span><span class="z-variable z-parameter"> y</span><span class="z-storage z-type"> int32</span><span>)</span><span class="z-storage z-type"> int32</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-variable"> x</span><span class="z-keyword z-operator"> +</span><span class="z-variable"> y</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// 2️⃣ Write the implementation of the `sum` function, and export it (for cgo).</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//export sum</span></span>
+<span class="giallo-l"><span class="z-18">func</span><span class="z-19"> sum</span><span>(</span><span class="z-13">context</span><span class="z-4"> unsafe</span><span>.</span><span class="z-4">Pointer</span><span>,</span><span class="z-13"> x</span><span class="z-1"> int32</span><span>,</span><span class="z-13"> y</span><span class="z-1"> int32</span><span>)</span><span class="z-1"> int32</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    return</span><span> x</span><span class="z-16"> +</span><span> y</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">func</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-comment">    // Reads the WebAssembly module as bytes.</span></span>
-<span class="giallo-l"><span class="z-variable">    bytes</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">ReadBytes</span><span>(</span><span class="z-string">&quot;import.wasm&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-18">func</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Reads the WebAssembly module as bytes.</span></span>
+<span class="giallo-l"><span>    bytes, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">ReadBytes</span><span>(</span><span class="z-11">&quot;import.wasm&quot;</span><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // 3️⃣ Declares the imported functions for WebAssembly.</span></span>
-<span class="giallo-l"><span class="z-variable">    imports</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">NewImports</span><span>().</span><span class="z-entity z-name z-function">Append</span><span>(</span><span class="z-string">&quot;sum&quot;</span><span>,</span><span class="z-variable"> sum</span><span>,</span><span class="z-variable"> C</span><span>.</span><span class="z-variable">sum</span><span>)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // 3️⃣ Declares the imported functions for WebAssembly.</span></span>
+<span class="giallo-l"><span>    imports, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">NewImports</span><span>().</span><span class="z-19">Append</span><span>(</span><span class="z-11">&quot;sum&quot;</span><span>, sum, C.sum)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // 4️⃣ Instantiates the WebAssembly module with imports.</span></span>
-<span class="giallo-l"><span class="z-variable">    instance</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">NewInstanceWithImports</span><span>(</span><span class="z-variable">bytes</span><span>,</span><span class="z-variable"> imports</span><span>)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // 4️⃣ Instantiates the WebAssembly module with imports.</span></span>
+<span class="giallo-l"><span>    instance, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">NewInstanceWithImports</span><span>(bytes, imports)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Close the WebAssembly instance later.</span></span>
-<span class="giallo-l"><span class="z-keyword">    defer</span><span class="z-variable"> instance</span><span>.</span><span class="z-entity z-name z-function">Close</span><span>()</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Close the WebAssembly instance later.</span></span>
+<span class="giallo-l"><span class="z-18">    defer</span><span> instance.</span><span class="z-19">Close</span><span>()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Gets the `add1` exported function from the WebAssembly instance.</span></span>
-<span class="giallo-l"><span class="z-variable">    add1</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> instance</span><span>.</span><span class="z-variable">Exports</span><span>[</span><span class="z-string">&quot;add1&quot;</span><span>]</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Gets the `add1` exported function from the WebAssembly instance.</span></span>
+<span class="giallo-l"><span>    add1</span><span class="z-16"> :=</span><span> instance.Exports[</span><span class="z-11">&quot;add1&quot;</span><span>]</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Calls that exported function.</span></span>
-<span class="giallo-l"><span class="z-variable">    result</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-entity z-name z-function"> add1</span><span>(</span><span class="z-constant z-numeric">1</span><span>,</span><span class="z-constant z-numeric"> 2</span><span>)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Calls that exported function.</span></span>
+<span class="giallo-l"><span>    result, _</span><span class="z-16"> :=</span><span class="z-19"> add1</span><span>(</span><span class="z-13">1</span><span>,</span><span class="z-13"> 2</span><span>)</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">    fmt</span><span>.</span><span class="z-entity z-name z-function">Println</span><span>(</span><span class="z-variable">result</span><span>)</span></span>
-<span class="giallo-l"><span class="z-comment">    //   add1(1, 2)</span></span>
-<span class="giallo-l"><span class="z-comment">    // = sum(1 + 2) + 1</span></span>
-<span class="giallo-l"><span class="z-comment">    // = 1 + 2 + 1</span></span>
-<span class="giallo-l"><span class="z-comment">    // = 4</span></span>
-<span class="giallo-l"><span class="z-comment">    // QED</span></span>
+<span class="giallo-l"><span>    fmt.</span><span class="z-19">Println</span><span>(result)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    //   add1(1, 2)</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // = sum(1 + 2) + 1</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // = 1 + 2 + 1</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // = 4</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // QED</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre><h2 id="reading-the-memory">Reading the Memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly instance has a linear memory. Let’s see how to read it.
 Consider the following Rust program:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> return_hello</span><span>()</span><span class="z-keyword z-operator"> -&gt; *</span><span class="z-storage">const</span><span class="z-entity z-name"> u8</span><span> {</span></span>
-<span class="giallo-l"><span class="z-string">    b&quot;Hello, World!</span><span class="z-constant z-character">\0</span><span class="z-string">&quot;</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern fn</span><span class="z-19"> return_hello</span><span>()</span><span class="z-16"> -&gt; *</span><span class="z-18">const</span><span class="z-4"> u8</span><span> {</span></span>
+<span class="giallo-l"><span class="z-11">    b&quot;Hello, World!</span><span class="z-8">\0</span><span class="z-11">&quot;</span><span class="z-16">.</span><span class="z-19">as_ptr</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The <code>return_hello</code> function returns a pointer to a string. The string
 terminates by a null byte, <em>à la</em> C. Let’s jump on the Go side:</p>
-<pre class="giallo z-code"><code data-lang="go"><span class="giallo-l"><span class="z-variable">bytes</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">ReadBytes</span><span>(</span><span class="z-string">&quot;memory.wasm&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">instance</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> wasm</span><span>.</span><span class="z-entity z-name z-function">NewInstance</span><span>(</span><span class="z-variable">bytes</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">defer</span><span class="z-variable"> instance</span><span>.</span><span class="z-entity z-name z-function">Close</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="go"><span class="giallo-l"><span>bytes, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">ReadBytes</span><span>(</span><span class="z-11">&quot;memory.wasm&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>instance, _</span><span class="z-16"> :=</span><span> wasm.</span><span class="z-19">NewInstance</span><span>(bytes)</span></span>
+<span class="giallo-l"><span class="z-18">defer</span><span> instance.</span><span class="z-19">Close</span><span>()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Calls the `return_hello` exported function.</span></span>
-<span class="giallo-l"><span class="z-comment">// This function returns a pointer to a string.</span></span>
-<span class="giallo-l"><span class="z-variable">result</span><span>,</span><span class="z-variable"> _</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> instance</span><span>.</span><span class="z-entity z-name z-function">Exports</span><span>[</span><span class="z-string">&quot;return_hello&quot;</span><span>]()</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Calls the `return_hello` exported function.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// This function returns a pointer to a string.</span></span>
+<span class="giallo-l"><span>result, _</span><span class="z-16"> :=</span><span> instance.</span><span class="z-19">Exports</span><span>[</span><span class="z-11">&quot;return_hello&quot;</span><span>]()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Gets the pointer value as an integer.</span></span>
-<span class="giallo-l"><span class="z-variable">pointer</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> result</span><span>.</span><span class="z-entity z-name z-function">ToI32</span><span>()</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Gets the pointer value as an integer.</span></span>
+<span class="giallo-l"><span>pointer</span><span class="z-16"> :=</span><span> result.</span><span class="z-19">ToI32</span><span>()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Reads the memory.</span></span>
-<span class="giallo-l"><span class="z-variable">memory</span><span class="z-keyword z-operator"> :=</span><span class="z-variable"> instance</span><span>.</span><span class="z-variable">Memory</span><span>.</span><span class="z-entity z-name z-function">Data</span><span>()</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Reads the memory.</span></span>
+<span class="giallo-l"><span>memory</span><span class="z-16"> :=</span><span> instance.Memory.</span><span class="z-19">Data</span><span>()</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">fmt</span><span>.</span><span class="z-entity z-name z-function">Println</span><span>(</span><span class="z-storage z-type">string</span><span>(</span><span class="z-variable">memory</span><span>[</span><span class="z-variable">pointer</span><span> :</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator">+</span><span class="z-constant z-numeric">13</span><span>]))</span><span class="z-comment"> // Hello, World!</span></span></code></pre>
+<span class="giallo-l"><span>fmt.</span><span class="z-19">Println</span><span>(</span><span class="z-1">string</span><span>(memory[pointer : pointer</span><span class="z-16">+</span><span class="z-13">13</span><span>]))</span><span class="z-7 z-i"> // Hello, World!</span></span></code></pre>
 <p>The <code>return_hello</code> function returns a pointer as an <code>i32</code> value. We get
 its value by calling <code>ToI32</code>. Then, we fetch the memory data with
 <code>instance.Memory.Data()</code>.</p>
@@ -435,7 +435,7 @@ Cranelift as it offers the best tradeoff between compilation-time and
 execution-time
 (<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different backends</a>,
 when to use them, pros and cons etc.).</p>
-<h2 id="">Conclusion<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)</code>
 is a new Go library to execute WebAssembly binaries. It embeds the
@@ -455,7 +455,7 @@ Mastodon.</p>
 <p>Thank you for your time, we can’t wait to see what you build with us!</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer&#x2F;" class="button text-align-start">❮&nbsp;🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;announcing-the-first-postgres-extension-to-run-webassembly&#x2F;" class="button text-align-end">Announcing the first Postgres extension to run WebAssembly&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/" class="button text-align-start">❮&nbsp;🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</a><a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="button text-align-end">Announcing the first Postgres extension to run WebAssembly&nbsp;❯</a></nav>
   </article>
 
 </main>

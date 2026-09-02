@@ -5,7 +5,7 @@
   <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
   <meta name="viewport" content="width=device-width, minimum-scale=1">
 
-  <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
+  <title>From 19k to 4.2M events/sec: story of a SQLite query optimisation</title>
 
   <link
     rel="icon"
@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,9 +36,9 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events&#x2F;sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events&#x2F;sec, and the speed to 2ms.">
+  <meta name="description" content="After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms.">
   <meta name="keywords" content="matrix, messaging, performance, database, sqlite, rust">
-  <meta property="og:title" content="From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation">
+  <meta property="og:title" content="From 19k to 4.2M events/sec: story of a SQLite query optimisation">
   <meta property="og:site_name" content="mnt.io">
   <meta property="og:locale" content="en_GB">
   <meta property="og:type" content="article">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2025-09-12" property="datePublished">September 12, 2025</time>
-    <span title="Reading time" property="timeRequired" content="PT16M">16 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
     
     <span title="Keywords" property="keywords" content="matrix, messaging, performance, database, sqlite, rust">
       Keywords:&nbsp;<a href="/keywords/matrix" title="All articles matching the `matrix` keyword">matrix</a>, <a href="/keywords/messaging" title="All articles matching the `messaging` keyword">messaging</a>, <a href="/keywords/performance" title="All articles matching the `performance` keyword">performance</a>, <a href="/keywords/database" title="All articles matching the `database` keyword">database</a>, <a href="/keywords/sqlite" title="All articles matching the `sqlite` keyword">sqlite</a>, <a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2025-09-12-from-19k-to-4.2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2025-09-12-from-19k-to-4.2m-events-per-sec-story-of-a-sqlite-query-optimisation/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events&#x2F;sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events&#x2F;sec, and the speed to 2ms." />
+      <meta property="description" content="After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms." />
       
     
   </div>
@@ -196,80 +196,77 @@ a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki
 to make all operations fast and efficient in the context of the Matrix protocol.
 What we need to know is that in a <code>LinkedChunk&lt;_, Item, Gap&gt;</code>, each node
 contains a <code>ChunkContent&lt;Item, Gap&gt;</code> defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">enum</span><span class="z-entity z-name"> ChunkContent</span><span>&lt;</span><span class="z-entity z-name">Item</span><span>,</span><span class="z-entity z-name"> Gap</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Gap</span><span>(</span><span class="z-entity z-name">Gap</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Items</span><span>(</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-entity z-name">Item</span><span>&gt;),</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">enum</span><span class="z-4"> ChunkContent</span><span>&lt;</span><span class="z-4">Item</span><span>,</span><span class="z-4"> Gap</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-19">    Gap</span><span>(</span><span class="z-4">Gap</span><span>),</span></span>
+<span class="giallo-l"><span class="z-19">    Items</span><span>(</span><span class="z-4">Vec</span><span>&lt;</span><span class="z-4">Item</span><span>&gt;),</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Put it differently: each node can contain a <em>gap</em>, or a set of <em>items</em> (be
 Matrix events).</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>May I recapitulate?</p>
 <p>Each Matrix <em>room</em> contains a <code>LinkedChunk</code>, which is a set of <em>chunks</em>. Each
 <em>chunk</em> is either a <em>gap</em> or a set of <em>events</em>. It seems to map fairly easily to
 SQL tables, isn't it?</p>
-
   </div>
 </div>
 <p>You're right: it's pretty straightforward! Let's see the first table:
 <code>linked_chunks</code> which contains all the chunks. (Note that the schemas are
 simplified for the sake of clarity).</p>
-<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">linked_chunks</span><span>&quot; (</span></span>
-<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this chunk belong to?</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-18">CREATE TABLE</span><span> &quot;</span><span class="z-19">linked_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Which linked chunk does this chunk belong to?</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Identifier of the chunk, unique per linked chunk.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Identifier of the chunk, unique per linked chunk.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;id&quot;</span><span class="z-18"> INTEGER NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Identifier of the previous chunk.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;previous&quot;</span><span class="z-storage"> INTEGER</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Identifier of the previous chunk.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;previous&quot;</span><span class="z-18"> INTEGER</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Identifier of the next chunk.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;next&quot;</span><span class="z-storage"> INTEGER</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Identifier of the next chunk.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;next&quot;</span><span class="z-18"> INTEGER</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Our enum for the content of the chunk: `E` for events, `G` for a gap.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;type&quot;</span><span class="z-storage"> TEXT CHECK</span><span>(</span><span class="z-string">&quot;type&quot;</span><span class="z-keyword"> IN</span><span> (</span><span class="z-string">&#39;E&#39;</span><span>, </span><span class="z-string">&#39;G&#39;</span><span>)) </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Our enum for the content of the chunk: `E` for events, `G` for a gap.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;type&quot;</span><span class="z-18"> TEXT CHECK</span><span>(</span><span class="z-11">&quot;type&quot;</span><span class="z-18"> IN</span><span> (</span><span class="z-11">&#39;E&#39;</span><span>, </span><span class="z-11">&#39;G&#39;</span><span>)) </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- … other things …</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>Alrighty. Next contenders: the <code>event_chunks</code> and the <code>gap_chunks</code> tables, which
 store the <code>ChunkContent</code>s of each chunk, respectively for <code>ChunkContent::Items</code>
 and <code>ChunkContent::Gap</code>. In <code>event_chunks</code>, each row corresponds to an event. In
 <code>gap_chunks</code>, each row corresponds to a gap.</p>
-<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">event_chunks</span><span>&quot; (</span></span>
-<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this event belong to?</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-18">CREATE TABLE</span><span> &quot;</span><span class="z-19">event_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Which linked chunk does this event belong to?</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Which chunk does this event refer to?</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;chunk_id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Which chunk does this event refer to?</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;chunk_id&quot;</span><span class="z-18"> INTEGER NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- The event ID.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- The event ID.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Position (index) in the **chunk**.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;position&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Position (index) in the **chunk**.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;position&quot;</span><span class="z-18"> INTEGER NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- … other things …</span></span>
 <span class="giallo-l"><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">gap_chunks</span><span>&quot; (</span></span>
-<span class="giallo-l"><span class="z-comment">    -- Which linked chunk does this event belong to?</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-18">CREATE TABLE</span><span> &quot;</span><span class="z-19">gap_chunks</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Which linked chunk does this event belong to?</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;linked_chunk_id&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- Which chunk does this gap refer to?</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;chunk_id&quot;</span><span class="z-storage"> INTEGER</span><span class="z-keyword"> NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- Which chunk does this gap refer to?</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;chunk_id&quot;</span><span class="z-18"> INTEGER NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- … other things …</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>Last contender, <code>events</code>. The assiduous reader may have noted that
 <code>event_chunks</code> doesn't contain the content of the events: only its ID and its
@@ -291,15 +288,15 @@ database. Maybe we can attach it to a linked chunk later, or we want to keep it
 for saving future network requests. Anyway. You're a great digression companion.
 Let's jump back to our tables.</p>
 <p>The <code>events</code> table contains <em>all</em> the events: in-band <em>and</em> out-of-band.</p>
-<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-comment">-- Events and their content.</span></span>
-<span class="giallo-l"><span class="z-keyword">CREATE TABLE</span><span> &quot;</span><span class="z-entity z-name z-function">events</span><span>&quot; (</span></span>
-<span class="giallo-l"><span class="z-comment">    -- The ID of the event.</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-7 z-i">-- Events and their content.</span></span>
+<span class="giallo-l"><span class="z-18">CREATE TABLE</span><span> &quot;</span><span class="z-19">events</span><span>&quot; (</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- The ID of the event.</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;event_id&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- The JSON encoded content of the event (it&#39;s an encrypted value).</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;content&quot;</span><span> BLOB </span><span class="z-keyword">NOT NULL</span><span>,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- The JSON encoded content of the event (it&#39;s an encrypted value).</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;content&quot;</span><span> BLOB </span><span class="z-18">NOT NULL</span><span>,</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    -- … other things …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    -- … other things …</span></span>
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>At some point, we need to fetch metadata about a <code>LinkedChunk</code>. A certain
 algorithm needs these metadata to work efficiently. We don't need to load all
@@ -313,7 +310,7 @@ events, however we need:</p>
 suddenly…</p>
 <h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="#fn-power-user">1</a></sup> was <a rel="noopener external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
+<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fn-power-user">[1]</a></sup> was <a rel="noopener external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
 a delicate situation. How to know the reason of the slowness? Is it the device?
 The network? The asynchronous runtime? A lock contention? The file system? …
 The database?</p>
@@ -327,50 +324,50 @@ code; called <a rel="noopener external" target="_blank" href="https://docs.rs/ma
 memory. And when the <code>TracingTimer</code> is dropped, it emits a log containing the
 elapsed time since its creation. It looks like this (it uses
 <a rel="noopener external" target="_blank" href="https://docs.rs/tracing/">the <code>tracing</code> library</a>):</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> TracingTimer</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    id</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> String</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    callsite</span><span class="z-keyword z-operator">: &amp;</span><span>&#39;</span><span class="z-entity z-name">static DefaultCallsite</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    start</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Instant</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    level</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Level</span><span>,</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> TracingTimer</span><span> {</span></span>
+<span class="giallo-l"><span>    id</span><span class="z-16">:</span><span class="z-4"> String</span><span>,</span></span>
+<span class="giallo-l"><span>    callsite</span><span class="z-16">: &amp;</span><span>&#39;</span><span class="z-4">static DefaultCallsite</span><span>,</span></span>
+<span class="giallo-l"><span>    start</span><span class="z-16">:</span><span class="z-4"> Instant</span><span>,</span></span>
+<span class="giallo-l"><span>    level</span><span class="z-16">:</span><span class="z-4"> tracing</span><span class="z-16">::</span><span class="z-4">Level</span><span>,</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">impl</span><span class="z-entity z-name"> Drop</span><span class="z-keyword"> for</span><span class="z-entity z-name"> TracingTimer</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    fn</span><span class="z-entity z-name z-function"> drop</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> self</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> enabled</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">level_enabled!</span><span>(</span><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>level)</span><span class="z-keyword z-operator"> &amp;&amp;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> interest</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">interest</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">impl</span><span class="z-4"> Drop</span><span class="z-18"> for</span><span class="z-4"> TracingTimer</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    fn</span><span class="z-19"> drop</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> self</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> enabled</span><span class="z-16"> =</span><span class="z-4"> tracing</span><span class="z-16">::</span><span class="z-19">level_enabled!</span><span>(</span><span class="z-1 z-i">self</span><span class="z-16">.</span><span>level)</span><span class="z-16"> &amp;&amp;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> interest</span><span class="z-16"> =</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span>callsite</span><span class="z-16">.</span><span class="z-19">interest</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            !</span><span class="z-variable">interest</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_never</span><span>()</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                &amp;&amp;</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">__macro_support</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">__is_enabled</span><span>(</span><span class="z-variable z-language">self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">metadata</span><span>(),</span><span class="z-variable"> interest</span><span>)</span></span>
+<span class="giallo-l"><span class="z-16">            !</span><span>interest</span><span class="z-16">.</span><span class="z-19">is_never</span><span>()</span></span>
+<span class="giallo-l"><span class="z-16">                &amp;&amp;</span><span class="z-4"> tracing</span><span class="z-16">::</span><span class="z-4">__macro_support</span><span class="z-16">::</span><span class="z-19">__is_enabled</span><span>(</span><span class="z-1 z-i">self</span><span class="z-16">.</span><span>callsite</span><span class="z-16">.</span><span class="z-19">metadata</span><span>(), interest)</span></span>
 <span class="giallo-l"><span>        };</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        if</span><span class="z-keyword z-operator"> !</span><span class="z-variable">enabled</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">            return</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">        if</span><span class="z-16"> !</span><span>enabled {</span></span>
+<span class="giallo-l"><span class="z-18">            return</span><span>;</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> message</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> format!</span><span>(</span><span class="z-string">&quot;_{}_ finished in {:?}&quot;</span><span>,</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>id,</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>start</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">elapsed</span><span>());</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> message</span><span class="z-16"> =</span><span class="z-19"> format!</span><span>(</span><span class="z-11">&quot;_{}_ finished in {:?}&quot;</span><span>,</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span>id,</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span>start</span><span class="z-16">.</span><span class="z-19">elapsed</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator"> =</span><span class="z-variable z-language"> self</span><span class="z-keyword z-operator">.</span><span>callsite</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">metadata</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> fields</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">fields</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> message_field</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> fields</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">field</span><span>(</span><span class="z-string">&quot;message&quot;</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> values</span><span class="z-keyword z-operator"> =</span><span> [(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">message_field</span><span>,</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">message</span><span class="z-keyword"> as</span><span class="z-keyword z-operator"> &amp;</span><span class="z-keyword">dyn</span><span class="z-entity z-name"> tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Value</span><span>))];</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> metadata</span><span class="z-16"> =</span><span class="z-1 z-i"> self</span><span class="z-16">.</span><span>callsite</span><span class="z-16">.</span><span class="z-19">metadata</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> fields</span><span class="z-16"> =</span><span> metadata</span><span class="z-16">.</span><span class="z-19">fields</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> message_field</span><span class="z-16"> =</span><span> fields</span><span class="z-16">.</span><span class="z-19">field</span><span>(</span><span class="z-11">&quot;message&quot;</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> values</span><span class="z-16"> =</span><span> [(</span><span class="z-16">&amp;</span><span>message_field,</span><span class="z-4"> Some</span><span>(</span><span class="z-16">&amp;</span><span>message</span><span class="z-18"> as</span><span class="z-16"> &amp;</span><span class="z-18">dyn</span><span class="z-4"> tracing</span><span class="z-16">::</span><span class="z-4">Value</span><span>))];</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // This function is hidden from docs, but we have to use it</span></span>
-<span class="giallo-l"><span class="z-comment">        // because there is no other way of obtaining a `ValueSet`.</span></span>
-<span class="giallo-l"><span class="z-comment">        // It&#39;s not entirely clear why it is private. See this issue:</span></span>
-<span class="giallo-l"><span class="z-comment">        // https://github.com/tokio-rs/tracing/issues/2363</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> values</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> fields</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">value_set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">values</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // This function is hidden from docs, but we have to use it</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // because there is no other way of obtaining a `ValueSet`.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // It&#39;s not entirely clear why it is private. See this issue:</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // https://github.com/tokio-rs/tracing/issues/2363</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> values</span><span class="z-16"> =</span><span> fields</span><span class="z-16">.</span><span class="z-19">value_set</span><span>(</span><span class="z-16">&amp;</span><span>values);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        tracing</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Event</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">dispatch</span><span>(</span><span class="z-variable">metadata</span><span>,</span><span class="z-keyword z-operator"> &amp;</span><span class="z-variable">values</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">        tracing</span><span class="z-16">::</span><span class="z-4">Event</span><span class="z-16">::</span><span class="z-19">dispatch</span><span>(metadata,</span><span class="z-16"> &amp;</span><span>values);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And with that, let's use its companion macro <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/macro.timer.html"><code>timer!</code></a> (I won't copy-paste it
 here, it's pretty straightforward):</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>{</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> _timer</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> timer!</span><span>(</span><span class="z-string">&quot;built something important&quot;</span><span>);</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> _timer</span><span class="z-16"> =</span><span class="z-19"> timer!</span><span>(</span><span class="z-11">&quot;built something important&quot;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // … build something important …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // … build something important …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // `_timer` is dropped here, and will emit a log.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // `_timer` is dropped here, and will emit a log.</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>With this technique, we were able to inspect the logs and saw immediately what
 was slow… assuming we have added <code>timer!</code>s at the right places! It's not magic,
@@ -379,13 +376,11 @@ in your code, and refine if necessary.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>I don't know if you heard about <em>sampling profilers</em>, but those are programs
@@ -394,7 +389,6 @@ far superior at analysing performance problems, compared to your… rustic
 trees etc.</p>
 <p>I'm personally a regular user of <a rel="noopener external" target="_blank" href="https://github.com/mstange/samply">samply</a>, a command line CPU profiler relying
 on the <a rel="noopener external" target="_blank" href="https://github.com/firefox-devtools/profiler">Firefox profiler</a> for its UI. It works on macOS, Linux and Windows.</p>
-
   </div>
 </div>
 <p>I do also use <code>samply</code> pretty often! But you need an access to the processes
@@ -406,7 +400,7 @@ And I honestly don't know if such a thing exists.</p>
 <p>So. Yes. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5407">We found the culprit</a>. With <a rel="noopener external" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, we were able to scan
 megabytes of logs and find the culprit pretty quickly. I was looking for lags of
 the order of a second. I wasn't disappointed:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> rg </span><span class="z-string">&#39;_method_ finished in.*&gt; load_all_chunks_metadata&#39;</span><span> all.log </span><span class="z-keyword z-operator">|</span><span class="z-entity z-name"> rg</span><span class="z-string"> &#39;\d+(\.\d+)?s&#39;</span><span class="z-constant z-other"> --only-matching</span><span class="z-keyword z-operator"> |</span><span class="z-entity z-name"> sort</span><span class="z-constant z-other"> --numeric-sort --reverse</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> rg </span><span class="z-11">&#39;_method_ finished in.*&gt; load_all_chunks_metadata&#39;</span><span> all.log </span><span class="z-16">|</span><span class="z-4"> rg</span><span class="z-11"> &#39;\d+(\.\d+)?s&#39;</span><span class="z-8"> --only-matching</span><span class="z-16"> |</span><span class="z-4"> sort</span><span class="z-8"> --numeric-sort --reverse</span></span>
 <span class="giallo-l"><span>107.121747125s</span></span>
 <span class="giallo-l"><span>79.909931458s</span></span>
 <span class="giallo-l"><span>10.348993583s</span></span>
@@ -423,16 +417,16 @@ the order of a second. I wasn't disappointed:</p>
 <h2 id="the-slow-query">The Slow Query<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>load_all_chunks_metadata</code> is a method that runs this SQL query:</p>
-<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">SELECT</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">id</span><span>,</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">previous</span><span>,</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">next</span><span>,</span></span>
-<span class="giallo-l"><span class="z-support z-function">    COUNT</span><span>(</span><span class="z-constant z-other">ec</span><span>.</span><span class="z-constant z-other">event_id</span><span>) </span><span class="z-keyword">as</span><span> number_of_events</span></span>
-<span class="giallo-l"><span class="z-keyword">FROM</span><span> linked_chunks </span><span class="z-keyword">as</span><span> lc</span></span>
-<span class="giallo-l"><span class="z-keyword">LEFT JOIN</span><span> event_chunks </span><span class="z-keyword">as</span><span> ec</span></span>
-<span class="giallo-l"><span class="z-keyword">ON</span><span class="z-constant z-other"> ec</span><span>.</span><span class="z-constant z-other">chunk_id</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span>
-<span class="giallo-l"><span class="z-keyword">WHERE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">linked_chunk_id</span><span class="z-keyword z-operator"> =</span><span> ?</span></span>
-<span class="giallo-l"><span class="z-keyword">GROUP BY</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-18">SELECT</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">id</span><span>,</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">previous</span><span>,</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">next</span><span>,</span></span>
+<span class="giallo-l"><span class="z-15">    COUNT</span><span>(</span><span class="z-8">ec</span><span>.</span><span class="z-8">event_id</span><span>) </span><span class="z-18">as</span><span> number_of_events</span></span>
+<span class="giallo-l"><span class="z-18">FROM</span><span> linked_chunks </span><span class="z-18">as</span><span> lc</span></span>
+<span class="giallo-l"><span class="z-18">LEFT JOIN</span><span> event_chunks </span><span class="z-18">as</span><span> ec</span></span>
+<span class="giallo-l"><span class="z-18">ON</span><span class="z-8"> ec</span><span>.</span><span class="z-8">chunk_id</span><span class="z-16"> =</span><span class="z-8"> lc</span><span>.</span><span class="z-8">id</span></span>
+<span class="giallo-l"><span class="z-18">WHERE</span><span class="z-8"> lc</span><span>.</span><span class="z-8">linked_chunk_id</span><span class="z-16"> =</span><span> ?</span></span>
+<span class="giallo-l"><span class="z-18">GROUP BY</span><span class="z-8"> lc</span><span>.</span><span class="z-8">id</span></span></code></pre>
 <p>For each chunk of the linked chunk, it counts the number of events associated to
 this chunk. That's it.</p>
 <p>Do you remember that a chunk can be of two kinds: <code>ChunkContent::Items</code> if it
@@ -459,7 +453,6 @@ amongst the developer community.</p>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
     <span lang="fr">Le Procureur</span>
-
     <picture role="presentation">
       <source srcset="/image/procureur.avif" type="image/avif" />
       <source srcset="/image/procureur.webp" type="image/webp" />
@@ -486,7 +479,6 @@ to a logarithmic lookup,
 <mo>)</mo>
 </math>.
 See <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Database_index">Database index</a> to learn more.</p>
-
   </div>
 </div>
 <p>That's correct. But we didn't want to use an index here. The reason is twofold:</p>
@@ -509,7 +501,6 @@ events—, and <code>G</code> when of kind <code>ChunkContent::Gap</code> —it 
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
     <span lang="fr">Le Factotum</span>
-
     <picture role="presentation">
       <source srcset="/image/factotum.avif" type="image/avif" />
       <source srcset="/image/factotum.webp" type="image/webp" />
@@ -525,28 +516,27 @@ our case, it's simple enough and it can be powerful. It's a maddeningly
 pragmatic <code>match</code> statement.</p>
 <p>Moreover, the <code>type</code> column is already typed as an enum with the <code>CHECK("type" IN ('E', 'G'))</code> constraint. Maybe the SQL engine can run some even smarter
 optimisations for us.</p>
-
   </div>
 </div>
 <p>Oh, that would be brilliant! If <code>type</code> is <code>E</code>, we count the number of events,
 otherwise we conclude it's <em>de facto</em> zero, isn't it? Let's try. The SQL query
 then becomes:</p>
-<pre class="giallo z-code"><code data-lang="sql"><span class="giallo-l"><span class="z-keyword">SELECT</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">id</span><span>,</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">previous</span><span>,</span></span>
-<span class="giallo-l"><span class="z-constant z-other">    lc</span><span>.</span><span class="z-constant z-other">next</span><span>,</span></span>
-<span class="giallo-l"><span class="z-keyword">    CASE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">type</span></span>
-<span class="giallo-l"><span class="z-keyword">    WHEN</span><span class="z-string"> &#39;E&#39;</span><span class="z-keyword"> THEN</span><span> (</span></span>
-<span class="giallo-l"><span class="z-keyword">        SELECT</span><span class="z-support z-function"> COUNT</span><span>(</span><span class="z-constant z-other">ec</span><span>.</span><span class="z-constant z-other">event_id</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword">        FROM</span><span> event_chunks </span><span class="z-keyword">as</span><span> ec</span></span>
-<span class="giallo-l"><span class="z-keyword">        WHERE</span><span class="z-constant z-other"> ec</span><span>.</span><span class="z-constant z-other">chunk_id</span><span class="z-keyword z-operator"> =</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">id</span></span>
+<pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-18">SELECT</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">id</span><span>,</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">previous</span><span>,</span></span>
+<span class="giallo-l"><span class="z-8">    lc</span><span>.</span><span class="z-8">next</span><span>,</span></span>
+<span class="giallo-l"><span class="z-18">    CASE</span><span class="z-8"> lc</span><span>.</span><span class="z-8">type</span></span>
+<span class="giallo-l"><span class="z-18">    WHEN</span><span class="z-11"> &#39;E&#39;</span><span class="z-18"> THEN</span><span> (</span></span>
+<span class="giallo-l"><span class="z-18">        SELECT</span><span class="z-15"> COUNT</span><span>(</span><span class="z-8">ec</span><span>.</span><span class="z-8">event_id</span><span>)</span></span>
+<span class="giallo-l"><span class="z-18">        FROM</span><span> event_chunks </span><span class="z-18">as</span><span> ec</span></span>
+<span class="giallo-l"><span class="z-18">        WHERE</span><span class="z-8"> ec</span><span>.</span><span class="z-8">chunk_id</span><span class="z-16"> =</span><span class="z-8"> lc</span><span>.</span><span class="z-8">id</span></span>
 <span class="giallo-l"><span>    )</span></span>
-<span class="giallo-l"><span class="z-keyword">    ELSE</span></span>
-<span class="giallo-l"><span class="z-constant z-numeric">        0</span></span>
-<span class="giallo-l"><span class="z-keyword">    END</span></span>
-<span class="giallo-l"><span class="z-keyword">    as</span><span> number_of_events</span></span>
-<span class="giallo-l"><span class="z-keyword">FROM</span><span> linked_chunks </span><span class="z-keyword">as</span><span> lc</span></span>
-<span class="giallo-l"><span class="z-keyword">WHERE</span><span class="z-constant z-other"> lc</span><span>.</span><span class="z-constant z-other">linked_chunk_id</span><span class="z-keyword z-operator"> =</span><span> ?</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    ELSE</span></span>
+<span class="giallo-l"><span class="z-13">        0</span></span>
+<span class="giallo-l"><span class="z-18">    END</span></span>
+<span class="giallo-l"><span class="z-18">    as</span><span> number_of_events</span></span>
+<span class="giallo-l"><span class="z-18">FROM</span><span> linked_chunks </span><span class="z-18">as</span><span> lc</span></span>
+<span class="giallo-l"><span class="z-18">WHERE</span><span class="z-8"> lc</span><span>.</span><span class="z-8">linked_chunk_id</span><span class="z-16"> =</span><span> ?</span></span></code></pre>
 <p>Since we have spotted the problem, we have written a benchmark to measure the
 solutions. The benchmark simulates 10'000 events, with 1 gap every 80 events.
 A set of data we consider <em>realistic</em> somehow for a normal user (not for a
@@ -613,13 +603,13 @@ the <code>LEFT JOIN</code> approach</p>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Probability Distribution Function for the <code>LEFT JOIN</code> approach.</p>
+<p>Benchmark's Probability Distribution Function for the <code>LEFT JOIN</code> approach.</p>
   </figcaption>
   </figure>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./1-iteration-times.svg" alt="Iteration times" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Iteration Times for the <code>LEFT JOIN</code> approach.</p>
+<p>Benchmark's Iteration Times for the <code>LEFT JOIN</code> approach.</p>
   </figcaption>
   </figure>
 </details>
@@ -673,7 +663,7 @@ the <code>LEFT JOIN</code> approach</p>
     </tbody>
   </table>
   <figcaption>
-<p>Benchmark&#39;s results for the new query with the <code>CASE</code> expression.</p>
+<p>Benchmark's results for the new query with the <code>CASE</code> expression.</p>
   </figcaption>
 </figure>
 <details>
@@ -684,27 +674,27 @@ for the <code>CASE</code> approach</p>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Probability Distribution Function for the <code>CASE</code> approach.</p>
+<p>Benchmark's Probability Distribution Function for the <code>CASE</code> approach.</p>
   </figcaption>
   </figure>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./2-linear-regression.svg" alt="Linear regression" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Linear Regression for the <code>CASE</code> approach.</p>
+<p>Benchmark's Linear Regression for the <code>CASE</code> approach.</p>
   </figcaption>
   </figure>
 </details>
 <p>The throughput and the time are <math><mn>12.6</mn><mo>×</mo></math> better. No
 <code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
 patches containing the benchmark and the fix</a>.</p>
-<p>But that&#39;s not all…</p>
-<h2 id=""><math><mn>211</mn><mo>×</mo></math> Faster<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p>But that's not all…</p>
+<h2 id="211x-faster"><math><mn>211</mn><mo>×</mo></math> Faster<a role="presentation" class="anchor" href="#211x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>It&#39;s clearly better, but we couldn&#39;t stop ourselves. Having spotted the problem,
+<p>It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that
 we are running one query per chunk of kind <code>ChunkContent::Items</code>. If the linked
 chunk contains 100 chunks, it will run 101 queries.</p>
-<p>Then suddenly, <i>hit forehead with the hand&#39;s palm</i>, an idea pops! What if
+<p>Then suddenly, <i>hit forehead with the hand's palm</i>, an idea pops! What if
 we could only use 2 queries for all scenarios!</p>
 <ol>
 <li>The first query would count all events for each chunk in <code>events_chunk</code> in
@@ -714,61 +704,61 @@ one pass, and would store that in a <code>HashMap</code>,</li>
 in the <code>HashMap</code>.</li>
 </ol>
 <p>The first query translates like so in Rust:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// The first query.</span></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> number_of_events_by_chunk_ids</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> transaction</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">prepare</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">        r#&quot;</span></span>
-<span class="giallo-l"><span class="z-string">        SELECT</span></span>
-<span class="giallo-l"><span class="z-string">            ec.chunk_id,</span></span>
-<span class="giallo-l"><span class="z-string">            COUNT(ec.event_id)</span></span>
-<span class="giallo-l"><span class="z-string">        FROM event_chunks as ec</span></span>
-<span class="giallo-l"><span class="z-string">        WHERE ec.linked_chunk_id = ?</span></span>
-<span class="giallo-l"><span class="z-string">        GROUP BY ec.chunk_id</span></span>
-<span class="giallo-l"><span class="z-string">        &quot;#</span><span>,</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator">?</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">query_map</span><span>((</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">hashed_linked_chunk_id</span><span>,),</span><span class="z-keyword z-operator"> |</span><span class="z-variable">row</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>((</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> u64</span><span>&gt;(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> usize</span><span>&gt;(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">?</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// The first query.</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> number_of_events_by_chunk_ids</span><span class="z-16"> =</span><span> transaction</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">prepare</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">        r#&quot;</span></span>
+<span class="giallo-l"><span class="z-11">        SELECT</span></span>
+<span class="giallo-l"><span class="z-11">            ec.chunk_id,</span></span>
+<span class="giallo-l"><span class="z-11">            COUNT(ec.event_id)</span></span>
+<span class="giallo-l"><span class="z-11">        FROM event_chunks as ec</span></span>
+<span class="giallo-l"><span class="z-11">        WHERE ec.linked_chunk_id = ?</span></span>
+<span class="giallo-l"><span class="z-11">        GROUP BY ec.chunk_id</span></span>
+<span class="giallo-l"><span class="z-11">        &quot;#</span><span>,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16">?</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">query_map</span><span>((</span><span class="z-16">&amp;</span><span>hashed_linked_chunk_id,),</span><span class="z-16"> |</span><span>row</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">        Ok</span><span>((</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> u64</span><span>&gt;(</span><span class="z-13">0</span><span>)</span><span class="z-16">?</span><span>,</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> usize</span><span>&gt;(</span><span class="z-13">1</span><span>)</span><span class="z-16">?</span></span>
 <span class="giallo-l"><span>        ))</span></span>
-<span class="giallo-l"><span>    })</span><span class="z-keyword z-operator">?</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Result</span><span>&lt;</span><span class="z-entity z-name">HashMap</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-variable"> _</span><span>&gt;,</span><span class="z-variable"> _</span><span>&gt;&gt;()</span><span class="z-keyword z-operator">?</span><span>;</span></span></code></pre>
-<p>And the second query translates like so<sup class="footnote-reference" id="fr-simplified-code-1"><a href="#fn-simplified-code">2</a></sup>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-variable">transaction</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">prepare</span><span>(</span></span>
-<span class="giallo-l"><span class="z-string">        r#&quot;</span></span>
-<span class="giallo-l"><span class="z-string">        SELECT</span></span>
-<span class="giallo-l"><span class="z-string">            lc.id,</span></span>
-<span class="giallo-l"><span class="z-string">            lc.previous,</span></span>
-<span class="giallo-l"><span class="z-string">            lc.next,</span></span>
-<span class="giallo-l"><span class="z-string">            lc.type</span></span>
-<span class="giallo-l"><span class="z-string">        FROM linked_chunks as lc</span></span>
-<span class="giallo-l"><span class="z-string">        WHERE lc.linked_chunk_id = ?</span></span>
-<span class="giallo-l"><span class="z-string">        &quot;#</span><span>,</span></span>
-<span class="giallo-l"><span>    )</span><span class="z-keyword z-operator">?</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">query_map</span><span>((</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">hashed_linked_chunk_id</span><span>,),</span><span class="z-keyword z-operator"> |</span><span class="z-variable">row</span><span class="z-keyword z-operator">|</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>((</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> u64</span><span>&gt;(</span><span class="z-constant z-numeric">0</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">u64</span><span>&gt;&gt;(</span><span class="z-constant z-numeric">1</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">u64</span><span>&gt;&gt;(</span><span class="z-constant z-numeric">2</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            row</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-variable">_</span><span>,</span><span class="z-entity z-name"> String</span><span>&gt;(</span><span class="z-constant z-numeric">3</span><span>)</span><span class="z-keyword z-operator">?</span><span>,</span></span>
+<span class="giallo-l"><span>    })</span><span class="z-16">?</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Result</span><span>&lt;</span><span class="z-4">HashMap</span><span>&lt;_, _&gt;, _&gt;&gt;()</span><span class="z-16">?</span><span>;</span></span></code></pre>
+<p>And the second query translates like so<sup class="footnote-reference" id="fr-simplified-code-1"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fn-simplified-code">[2]</a></sup>:</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>transaction</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">prepare</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">        r#&quot;</span></span>
+<span class="giallo-l"><span class="z-11">        SELECT</span></span>
+<span class="giallo-l"><span class="z-11">            lc.id,</span></span>
+<span class="giallo-l"><span class="z-11">            lc.previous,</span></span>
+<span class="giallo-l"><span class="z-11">            lc.next,</span></span>
+<span class="giallo-l"><span class="z-11">            lc.type</span></span>
+<span class="giallo-l"><span class="z-11">        FROM linked_chunks as lc</span></span>
+<span class="giallo-l"><span class="z-11">        WHERE lc.linked_chunk_id = ?</span></span>
+<span class="giallo-l"><span class="z-11">        &quot;#</span><span>,</span></span>
+<span class="giallo-l"><span>    )</span><span class="z-16">?</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">query_map</span><span>((</span><span class="z-16">&amp;</span><span>hashed_linked_chunk_id,),</span><span class="z-16"> |</span><span>row</span><span class="z-16">|</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">        Ok</span><span>((</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> u64</span><span>&gt;(</span><span class="z-13">0</span><span>)</span><span class="z-16">?</span><span>,</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">u64</span><span>&gt;&gt;(</span><span class="z-13">1</span><span>)</span><span class="z-16">?</span><span>,</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">u64</span><span>&gt;&gt;(</span><span class="z-13">2</span><span>)</span><span class="z-16">?</span><span>,</span></span>
+<span class="giallo-l"><span>            row</span><span class="z-16">.</span><span class="z-19">get</span><span class="z-16">::</span><span>&lt;_,</span><span class="z-4"> String</span><span>&gt;(</span><span class="z-13">3</span><span>)</span><span class="z-16">?</span><span>,</span></span>
 <span class="giallo-l"><span>        ))</span></span>
-<span class="giallo-l"><span>    })</span><span class="z-keyword z-operator">?</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">map</span><span>(</span><span class="z-keyword z-operator">|</span><span class="z-variable">metadata</span><span class="z-keyword z-operator">| -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;</span><span class="z-variable">_</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span> (</span><span class="z-variable">identifier</span><span>,</span><span class="z-variable"> previous</span><span>,</span><span class="z-variable"> next</span><span>,</span><span class="z-variable"> chunk_type</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> metadata</span><span class="z-keyword z-operator">?</span><span>;</span></span>
+<span class="giallo-l"><span>    })</span><span class="z-16">?</span></span>
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">map</span><span>(</span><span class="z-16">|</span><span>metadata</span><span class="z-16">| -&gt;</span><span class="z-4"> Result</span><span>&lt;_&gt; {</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> (identifier, previous, next, chunk_type)</span><span class="z-16"> =</span><span> metadata</span><span class="z-16">?</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Let&#39;s use the `HashMap` from the first query here!</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> number_of_events</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> number_of_events_by_chunk_ids</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">id</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">copied</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap_or</span><span>(</span><span class="z-constant z-numeric">0</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Let&#39;s use the `HashMap` from the first query here!</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> number_of_events</span><span class="z-16"> =</span><span> number_of_events_by_chunk_ids</span><span class="z-16">.</span><span class="z-19">get</span><span>(</span><span class="z-16">&amp;</span><span>id)</span><span class="z-16">.</span><span class="z-19">copied</span><span>()</span><span class="z-16">.</span><span class="z-19">unwrap_or</span><span>(</span><span class="z-13">0</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        Ok</span><span>(</span><span class="z-entity z-name">ChunkMetadata</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">            identifier</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            previous</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            next</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            number_of_events</span><span>,</span></span>
+<span class="giallo-l"><span class="z-4">        Ok</span><span>(</span><span class="z-4">ChunkMetadata</span><span> {</span></span>
+<span class="giallo-l"><span>            identifier,</span></span>
+<span class="giallo-l"><span>            previous,</span></span>
+<span class="giallo-l"><span>            next,</span></span>
+<span class="giallo-l"><span>            number_of_events,</span></span>
 <span class="giallo-l"><span>        })</span></span>
 <span class="giallo-l"><span>    })</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">    .</span><span class="z-entity z-name z-function">collect</span><span class="z-keyword z-operator">::</span><span>&lt;</span><span class="z-entity z-name">Result</span><span>&lt;</span><span class="z-entity z-name">Vec</span><span>&lt;</span><span class="z-variable">_</span><span>&gt;,</span><span class="z-variable"> _</span><span>&gt;&gt;()</span></span></code></pre>
-<p>Only two queries. All tests are passing. Now let&#39;s see what the benchmark has to
+<span class="giallo-l"><span class="z-16">    .</span><span class="z-19">collect</span><span class="z-16">::</span><span>&lt;</span><span class="z-4">Result</span><span>&lt;</span><span class="z-4">Vec</span><span>&lt;_&gt;, _&gt;&gt;()</span></span></code></pre>
+<p>Only two queries. All tests are passing. Now let's see what the benchmark has to
 say!</p>
 <figure>
   <table>
@@ -820,7 +810,7 @@ say!</p>
     </tbody>
   </table>
   <figcaption>
-<p>Benchmark&#39;s results for the two queries approach.</p>
+<p>Benchmark's results for the two queries approach.</p>
   </figcaption>
 </figure>
 <details>
@@ -831,26 +821,26 @@ for the two queries approach</p>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-pdf.svg" alt="Probability distribution function" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Probability Distribution Function for the two queries approach.</p>
+<p>Benchmark's Probability Distribution Function for the two queries approach.</p>
   </figcaption>
   </figure>
   <figure>
 <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg"><img src="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/./3-linear-regression.svg" alt="Linear regression" loading="lazy" decoding="async" /></a></p>
   <figcaption>
-<p>Benchmark&#39;s Linear Regression for the two queries approach.</p>
+<p>Benchmark's Linear Regression for the two queries approach.</p>
   </figcaption>
   </figure>
 </details>
 <p><strong>It is <math><mn>16.7</mn><mo>×</mo></math> faster compared to the previous
 solution, so <math><mn>211</mn><mo>×</mo></math> faster than the first query!
-We went from 502ms to 2ms. That&#39;s mental! From a throughput of 19.9 Kelem/s
+We went from 502ms to 2ms. That's mental! From a throughput of 19.9 Kelem/s
 to 4.2 Melem/s!</strong> <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5425">You can see the patches containing the improvement</a>.</p>
 <p>The throughput is measured by <em>element</em>, where an <em>element</em> here represents
 a Matrix event. Consequently, 4 Melem/s means 4 millions events per second,
 which means that <code>load_all_chunks_metadata</code> can do its computation at a rate of
 4 millions events per second.</p>
 <p>I think we can stop here. Performance are finally acceptable.</p>
-<h2 id="-1">Lessons<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="lessons">Lessons<a role="presentation" class="anchor" href="#lessons" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <ul>
 <li><a rel="noopener external" target="_blank" href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>
@@ -861,8 +851,8 @@ which means that <code>load_all_chunks_metadata</code> can do its computation at
 <li>Take a step back and count.</li>
 <li>SQLite is fast.</li>
 </ul>
-<p>Notice how the SQL tables layout didn&#39;t change. Notice how the <code>LinkedChunk</code>
-implementation didn&#39;t change. Only the SQL queries have changed, and it has
+<p>Notice how the SQL tables layout didn't change. Notice how the <code>LinkedChunk</code>
+implementation didn't change. Only the SQL queries have changed, and it has
 dramatically improved the situation.</p>
 <p>This is joint effort between <a rel="noopener external" target="_blank" href="https://bouvier.cc/">Benjamin Bouvier</a>, <a rel="noopener external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> and
 I.</p>
@@ -871,19 +861,19 @@ I.</p>
 <li id="fn-power-user">
 <p>We consider a <em>power-user</em> a user with more than 2000 rooms. I
 hear your laugth! But guess what? We have users with more than 4000 rooms.
-And I&#39;m excluding bots here. The Matrix Rust SDK can be used to develop
+And I'm excluding bots here. The Matrix Rust SDK can be used to develop
 bots, which can sit in thousands and thousands rooms easily. That said: we
-have to be performant. <a href="#fr-power-user-1">↩</a></p>
+have to be performant. <a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fr-power-user-1">↩</a></p>
 </li>
 <li id="fn-simplified-code">
 <p>The code has been simplified a little bit. In reality, basic
-Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk&#39;s types. <a href="#fr-simplified-code-1">↩</a></p>
+Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped to linked chunk's types. <a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fr-simplified-code-1">↩</a></p>
 </li>
 </ol>
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;sliding-sync-at-the-matrix-conference&#x2F;" class="button text-align-start">❮&nbsp;Sliding Sync at the Matrix Conference</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;about-memory-pressure-lock-contention-and-data-oriented-design&#x2F;" class="button text-align-end">About memory pressure, lock contention, and Data-oriented Design&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="button text-align-start">❮&nbsp;Sliding Sync at the Matrix Conference</a><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-end">About memory pressure, lock contention, and Data-oriented Design&nbsp;❯</a></nav>
   </article>
 
 </main>

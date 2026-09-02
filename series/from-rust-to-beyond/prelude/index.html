@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="Let&#x27;s start by explaining what Gutenberg is, how our own Rust works, and what we need to do.">
+  <meta name="description" content="Let&#39;s start by explaining what Gutenberg is, how our own Rust works, and what we need to do.">
   <meta name="keywords" content="rust, binding, gutenberg">
   <meta property="og:title" content="Prelude — from the series From Rust to beyond">
   <meta property="og:site_name" content="mnt.io">
@@ -172,14 +172,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-08-21" property="datePublished">August 21, 2018</time>
-    <span title="Reading time" property="timeRequired" content="PT5M">5 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT4M">4 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, binding, gutenberg">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a>, <a href="/keywords/gutenberg" title="All articles matching the `gutenberg` keyword">gutenberg</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series&#x2F;from-rust-to-beyond&#x2F;2018-08-21-prelude&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series/from-rust-to-beyond/2018-08-21-prelude/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="Let&#x27;s start by explaining what Gutenberg is, how our own Rust works, and what we need to do." />
+      <meta property="description" content="Let&#39;s start by explaining what Gutenberg is, how our own Rust works, and what we need to do." />
       
     
   </div>
@@ -193,14 +193,14 @@ many platforms and environments.</p>
 <figure>
 <p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./gutenberg.png" alt="Gutenberg&#39;s logo" loading="lazy" decoding="async" /></p>
   <figcaption>
-<p>Gutenberg&#39;s logo.</p>
+<p>Gutenberg's logo.</p>
   </figcaption>
 </figure>
 <p>This series of posts is about those bindings, and explains how to send
 Rust beyond earth, into many different galaxies.</p>
-<h2 id="">The Gutenberg Post Format<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-gutenberg-post-format">The Gutenberg Post Format<a role="presentation" class="anchor" href="#the-gutenberg-post-format" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>Let&#39;s introduce quickly what Gutenberg is, and why a new post format. If
+<p>Let's introduce quickly what Gutenberg is, and why a new post format. If
 you want an in-depth presentation, I highly recommend to read <a rel="noopener external" target="_blank" href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
 Language of
 Gutenberg</a>.
@@ -218,12 +218,12 @@ discovery. — Matt Mullenweg</p>
 <p>The format of a blog post was HTML. And it continues to be. However,
 another semantics layer is added through annotations. Annotations are
 written in comments and borrow the XML syntax, e.g.:</p>
-<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-comment">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} --&gt;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-definition z-tag">  &lt;</span><span class="z-entity z-name z-tag">p</span><span class="z-punctuation z-definition z-tag">&gt;</span><span>phrase</span><span class="z-punctuation z-definition z-tag">&lt;/</span><span class="z-entity z-name z-tag">p</span><span class="z-punctuation z-definition z-tag">&gt;</span></span>
-<span class="giallo-l"><span class="z-comment">&lt;!-- /wp:ns/block-name --&gt;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="xml"><span class="giallo-l"><span class="z-7 z-i">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} --&gt;</span></span>
+<span class="giallo-l"><span class="z-2">  &lt;</span><span class="z-1">p</span><span class="z-2">&gt;</span><span>phrase</span><span class="z-2">&lt;/</span><span class="z-1">p</span><span class="z-2">&gt;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">&lt;!-- /wp:ns/block-name --&gt;</span></span></code></pre>
 <p>The Gutenberg format provides 2 constructions: Block, and Phrase. The
 example above contains both: There is a block wrapping a phrase. A
-phrase is basically anything that is not a block. Let&#39;s describe the
+phrase is basically anything that is not a block. Let's describe the
 example:</p>
 <ul>
 <li>It starts with an annotation (<code>&lt;!-- … --&gt;</code>),</li>
@@ -237,9 +237,9 @@ sets to <code>block-name</code>), separated by a slash,</li>
 blocks or phrases. In the example above, there is one child that is the phrase
 <code>&lt;p&gt;phrase&lt;/p&gt;</code>. And the following example below shows a block with no child:</li>
 </ul>
-<pre class="giallo z-code"><code data-lang="xml"><span class="giallo-l"><span class="z-comment">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /--&gt;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="xml"><span class="giallo-l"><span class="z-7 z-i">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /--&gt;</span></span></code></pre>
 <p>The complete grammar can be found in
-<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser&#39;s documentation</a>.</p>
+<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser's documentation</a>.</p>
 <p>Finally, the parser is used on the <em>editor</em> side, not on the <em>rendering</em>
 side. Once rendered, the blog post is a regular HTML file. Some blocks
 are dynamics though, but this is another topic.</p>
@@ -252,20 +252,20 @@ Work</a>).</p>
 </figure>
 <p>The grammar is relatively small. The challenges are however to be as
 much performant and memory efficient as possible on many platforms. Some
-posts can reach megabytes, and we don&#39;t want the parser to be the
+posts can reach megabytes, and we don't want the parser to be the
 bottleneck. Even if it is used when creating the post state (cf. the
 schema above), we have measured several seconds to load some posts. Time
 during which the user is blocked, and waits, or see an error. In other
-scenarii, we have hit memory limit of the language&#39;s virtual machines.</p>
+scenarii, we have hit memory limit of the language's virtual machines.</p>
 <p>Hence this experimental project! The current parsers are written in
 JavaScript (with <a rel="noopener external" target="_blank" href="https://pegjs.org/">PEG.js</a>) and in PHP (with
 <a rel="noopener external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code></a>). This Rust project
 proposes a parser written in Rust, that can run in the JavaScript and in
-the PHP virtual machines, and on many other platforms. Let&#39;s try to be
+the PHP virtual machines, and on many other platforms. Let's try to be
 very performant and memory efficient!</p>
-<h2 id="-1">Why Rust?<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="why-rust">Why Rust?<a role="presentation" class="anchor" href="#why-rust" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>That&#39;s an excellent question! Thanks for asking. I can summarize my
+<p>That's an excellent question! Thanks for asking. I can summarize my
 choice with a bullet list:</p>
 <ul>
 <li>It is fast, and we need speed,</li>
@@ -282,7 +282,7 @@ targets</a>,</li>
 <p>One of the goal of the experimentation is to maintain a single
 implementation (maybe the future reference implementation) with multiple
 bindings.</p>
-<h2 id="-2">The Parser<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-parser">The Parser<a role="presentation" class="anchor" href="#the-parser" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The parser is written in Rust. It relies on the fabulous <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/">nom
 library</a>.</p>
@@ -297,50 +297,50 @@ repository</a>. It is very
 small and fun to read.</p>
 <p>The parser produces an Abstract Syntax Tree (AST) of the grammar, where
 nodes of the tree are defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-entity z-name"> Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;),</span></span>
-<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-4">    Block</span><span> {</span></span>
+<span class="giallo-l"><span>        name</span><span class="z-16">:</span><span> (</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;,</span><span class="z-4"> Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;),</span></span>
+<span class="giallo-l"><span>        attributes</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Phrase</span><span>(</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span></span>
+<span class="giallo-l"><span class="z-19">    Phrase</span><span>(</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>That&#39;s all! We find again the block name, the attributes and the
+<p>That's all! We find again the block name, the attributes and the
 children, and the phrase. Block children are defined as a collection of
 node, this is recursive. <code>Input&lt;'a&gt;</code> is defined as <code>&amp;'a [u8]</code>, i.e. a
 slice of bytes.</p>
 <p>The main parser entry is
 <a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code> function</a>.
 It represents the axiom of the grammar, and is defined as:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> root</span><span>(</span></span>
-<span class="giallo-l"><span class="z-variable">    input</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Input</span></span>
-<span class="giallo-l"><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span>&lt;(</span><span class="z-entity z-name">Input</span><span>,</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-variable">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&gt;),</span><span class="z-variable"> nom</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&gt;&gt;;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> root</span><span>(</span></span>
+<span class="giallo-l"><span>    input</span><span class="z-16">:</span><span class="z-4"> Input</span></span>
+<span class="giallo-l"><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Result</span><span>&lt;(</span><span class="z-4">Input</span><span>,</span><span class="z-4"> Vec</span><span>&lt;ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>&gt;), nom</span><span class="z-16">::</span><span class="z-4">Err</span><span>&lt;</span><span class="z-4">Input</span><span>&gt;&gt;;</span></span></code></pre>
 <p>So the parser returns a collection of nodes in the best case. Here is an
 simple example:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span>{root,</span><span class="z-entity z-name"> ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>};</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> gutenberg_post_parser</span><span class="z-16">::</span><span>{root,</span><span class="z-4"> ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>};</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> = &amp;</span><span class="z-string">b&quot;&lt;!-- wp:foo {</span><span class="z-constant z-character">\&quot;</span><span class="z-string">bar</span><span class="z-constant z-character">\&quot;</span><span class="z-string">: true} /--&gt;&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>];</span></span>
-<span class="giallo-l"><span class="z-storage">let</span><span class="z-variable"> output</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Ok</span><span>(</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> input</span><span class="z-16"> = &amp;</span><span class="z-11">b&quot;&lt;!-- wp:foo {</span><span class="z-8">\&quot;</span><span class="z-11">bar</span><span class="z-8">\&quot;</span><span class="z-11">: true} /--&gt;&quot;</span><span>[</span><span class="z-16">..</span><span>];</span></span>
+<span class="giallo-l"><span class="z-18">let</span><span> output</span><span class="z-16"> =</span><span class="z-4"> Ok</span><span>(</span></span>
 <span class="giallo-l"><span>    (</span></span>
-<span class="giallo-l"><span class="z-comment">        // The remaining data.</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        &amp;</span><span class="z-string">b&quot;&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>],</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // The remaining data.</span></span>
+<span class="giallo-l"><span class="z-16">        &amp;</span><span class="z-11">b&quot;&quot;</span><span>[</span><span class="z-16">..</span><span>],</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // The Abstract Syntax Tree.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        vec!</span><span>[</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-keyword z-operator">&amp;</span><span class="z-string">b&quot;core&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>],</span><span class="z-keyword z-operator"> &amp;</span><span class="z-string">b&quot;foo&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-variable">                attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-string">b&quot;{</span><span class="z-constant z-character">\&quot;</span><span class="z-string">bar</span><span class="z-constant z-character">\&quot;</span><span class="z-string">: true}&quot;</span><span>[</span><span class="z-keyword z-operator">..</span><span>]),</span></span>
-<span class="giallo-l"><span class="z-variable">                children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name z-function"> vec!</span><span>[]</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // The Abstract Syntax Tree.</span></span>
+<span class="giallo-l"><span class="z-19">        vec!</span><span>[</span></span>
+<span class="giallo-l"><span class="z-4">            Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> {</span></span>
+<span class="giallo-l"><span>                name</span><span class="z-16">:</span><span> (</span><span class="z-16">&amp;</span><span class="z-11">b&quot;core&quot;</span><span>[</span><span class="z-16">..</span><span>],</span><span class="z-16"> &amp;</span><span class="z-11">b&quot;foo&quot;</span><span>[</span><span class="z-16">..</span><span>]),</span></span>
+<span class="giallo-l"><span>                attributes</span><span class="z-16">:</span><span class="z-4"> Some</span><span>(</span><span class="z-16">&amp;</span><span class="z-11">b&quot;{</span><span class="z-8">\&quot;</span><span class="z-11">bar</span><span class="z-8">\&quot;</span><span class="z-11">: true}&quot;</span><span>[</span><span class="z-16">..</span><span>]),</span></span>
+<span class="giallo-l"><span>                children</span><span class="z-16">:</span><span class="z-19"> vec!</span><span>[]</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        ]</span></span>
 <span class="giallo-l"><span>    )</span></span>
 <span class="giallo-l"><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input</span><span>),</span><span class="z-variable"> output</span><span>);</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(</span><span class="z-19">root</span><span>(input), output);</span></span></code></pre>
 <p>The <code>root</code> function and the AST will be the items we are going to use
 and manipulate in the bindings. The internal items of the parser will
 stay private.</p>
-<h2 id="-3">Bindings<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="bindings">Bindings<a role="presentation" class="anchor" href="#bindings" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./rust-to.png" alt="Rust to" loading="lazy" decoding="async" /></p>
@@ -350,7 +350,7 @@ in different platforms or environments. Ready?</p>
 <p>3… 2… 1… lift-off!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;the-webassembly-galaxy&#x2F;" class="button text-align-end" style="view-transition-name: series-episode-title-the-webassembly-galaxy">The WebAssembly galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-webassembly-galaxy">The WebAssembly galaxy&nbsp;❯</a></nav>
   </article>
 
 </main>

@@ -6,16 +6,14 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/string/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Tue, 23 May 2017 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Tue, 23 May 2017 00:00:00 +0000</lastBuildDate><item>
       <title>Faster find algorithms in nom</title>
       <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/faster-find-algorithms-in-nom/</link>
       <guid>https://mnt.io/articles/faster-find-algorithms-in-nom/</guid>
       <description xml:base="https://mnt.io/articles/faster-find-algorithms-in-nom/">This article explains quickly how I&apos;ve improved &lt;code&gt;nom&lt;/code&gt;&apos;s performance by 78% when parsing in some cases.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Generate strings based on regular expressions</title>
       <pubDate>Tue, 30 Sep 2014 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

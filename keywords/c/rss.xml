@@ -6,16 +6,14 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/c/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0000</lastBuildDate><item>
       <title>The PHP galaxy</title>
       <pubDate>Mon, 29 Oct 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/">This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&apos;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&apos;s amazing how faster it is!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The C galaxy</title>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

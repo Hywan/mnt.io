@@ -4,8 +4,7 @@
   <link rel="self" type="application/atom+xml" href="https://mnt.io/keywords/go/atom.xml"/>
   <link rel="alternate" type="text/html" href="https://mnt.io"/>
   <updated>2019-05-29T00:00:00+00:00</updated>
-  <id>https://mnt.io/keywords/go/atom.xml</id>
-  <entry xml:lang="en">
+  <id>https://mnt.io/keywords/go/atom.xml</id><entry xml:lang="en">
     <title>Announcing the fastest WebAssembly runtime for Go: wasmer</title>
     <published>2019-05-29T00:00:00+00:00</published>
     <updated>2019-05-29T00:00:00+00:00</updated>

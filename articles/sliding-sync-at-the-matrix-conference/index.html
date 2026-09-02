@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#x27;s been many many months that I&#x27;m working on this project, and I&#x27;m joyful it&#x27;s now available to everyone for a better Matrix user experience!">
+  <meta name="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#39;s been many many months that I&#39;m working on this project, and I&#39;m joyful it&#39;s now available to everyone for a better Matrix user experience!">
   <meta name="keywords" content="matrix, messaging, sync, rust">
   <meta property="og:title" content="Sliding Sync at the Matrix Conference">
   <meta property="og:site_name" content="mnt.io">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2024-10-30" property="datePublished">October 30, 2024</time>
-    <span title="Reading time" property="timeRequired" content="PT6M">6 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT5M">5 minutes read</span>
     
     <span title="Keywords" property="keywords" content="matrix, messaging, sync, rust">
       Keywords:&nbsp;<a href="/keywords/matrix" title="All articles matching the `matrix` keyword">matrix</a>, <a href="/keywords/messaging" title="All articles matching the `messaging` keyword">messaging</a>, <a href="/keywords/sync" title="All articles matching the `sync` keyword">sync</a>, <a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2024-10-30-sliding-sync-at-the-matrix-conference&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2024-10-30-sliding-sync-at-the-matrix-conference/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#x27;s been many many months that I&#x27;m working on this project, and I&#x27;m joyful it&#x27;s now available to everyone for a better Matrix user experience!" />
+      <meta property="description" content="I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&#39;s been many many months that I&#39;m working on this project, and I&#39;m joyful it&#39;s now available to everyone for a better Matrix user experience!" />
       
     
   </div>
@@ -205,7 +205,7 @@ stands for Matrix Spec Changes, like RFC for example—, so the <a rel="noopener
 our experimental foundation to play with a new sync mechanism. After many sweat
 and tears, we ultimately found a working pattern and design that fulfill a
 large majority of our usecases. Along the way, the implementation inside the
-Sliding Sync Proxy —a proxy that sits on the top of a homeserver<sup class="footnote-reference" id="fr-1-1"><a href="#fn-1">1</a></sup> to provide
+Sliding Sync Proxy —a proxy that sits on the top of a homeserver<sup class="footnote-reference" id="fr-1-1"><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/#fn-1">[1]</a></sup> to provide
 this new sync mechanism— was starting to feel really buggy and was really slow.
 It was time to clean up everything, including the MSC.</p>
 <p>Enter <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-spec-proposals/blob/erikj/sss/proposals/4186-simplified-sliding-sync.md">MSC4186</a>, which is basically Simplified Sliding Sync. We have mostly
@@ -228,12 +228,9 @@ or 10'000 rooms.</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin</p>
-
-    <p><a href="./slides.pdf">Download the slides as PDF (21MiB)</a></p>
-
+  <p>Video: Simplified Sliding Sync, by Ivan Enderlin, at the Matrix Conference 2024, Berlin</p>
+  <p><a href="./slides.pdf">Download the slides as PDF (21MiB)</a></p>
   </figcaption>
 </figure>
 <h2 id="other-talks">Other Talks<a role="presentation" class="anchor" href="#other-talks" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -257,12 +254,9 @@ Matrix 1.0, what a best anniversary to announce Matrix 2.0.</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin</p>
-
-    <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf">View and download the slides</a></p>
-
+  <p>Video: Matrix 2.0 Is Here!, by Matthew Hogdson, at the Matrix Conference 2024, Berlin</p>
+  <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2010_15%20Matthew%20-%20Matrix%202.0%20is%20Here_%20The%20Matrix%20Conference%20Keynote.pdf">View and download the slides</a></p>
   </figcaption>
 </figure>
 <p>The second video is <cite>Element X Launch!</cite> by Amandine Le Pape, Ștefan
@@ -280,12 +274,9 @@ working at Element and users!</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin</p>
-
-    <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf">View and download the slides</a></p>
-
+  <p>Video: Element X Launch!, by Amandine Le Pape, Ștefan Ceriu, and Amsha Kalra, at the Matrix Conference 2024, Berlin</p>
+  <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2017_45%20Amandine%20Le%20Pape,%20Amsha%20Kalra,%20Stefan%20Ceriu%20-%20Element%20X%20Launch%20Complete%20Presentation.pdf">View and download the slides</a></p>
   </figcaption>
 </figure>
 <h3 id="unable-to-decrypt-this-message">Unable to Decrypt This Message<a role="presentation" class="anchor" href="#unable-to-decrypt-this-message" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -311,12 +302,9 @@ and how problems have been solved.</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin</p>
-
-    <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf">View and download the slides</a></p>
-
+  <p>Video: Unable to decrypt this message, by Kegan Dougal, at the Matrix Conference 2024, Berlin</p>
+  <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB4%202024-09-21%2014_30%20Kegan%20Dougal%20-%20Unable%20to%20decrypt%20this%20message.pdf">View and download the slides</a></p>
   </figcaption>
 </figure>
 <h3 id="news-from-the-matrix-rust-sdk">News from the Matrix Rust SDK<a role="presentation" class="anchor" href="#news-from-the-matrix-rust-sdk" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -335,12 +323,9 @@ developer experience easier and robuster.</p>
     referrerpolicy="strict-origin-when-cross-origin"
     allowfullscreen
     loading="lazy"></iframe>
-
   <figcaption>
-    <p>Video: Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin</p>
-
-    <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf">View and download the slides</a></p>
-
+  <p>Video: Strengthening the Base: Laying the Groundwork for a more robust Rust SDK, by Benjamin Bouvier, at the Matrix Conference 2024, Berlin</p>
+  <p><a rel="noopener external" target="_blank" href="https://2024.matrix.org/documents/talk_slides/LAB3%202024-09-20%2011_15%20Benjamin%20Bouvier%20-%20Rust%20SDK%20Foundation.pdf">View and download the slides</a></p>
   </figcaption>
 </figure>
 <h2 id="about-transport">About Transport<a role="presentation" class="anchor" href="#about-transport" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -361,13 +346,13 @@ home.</p>
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-1">
-<p>A <em>homeserver</em> in the Matrix terminology is simply a Matrix server. <a href="#fr-1-1">↩</a></p>
+<p>A <em>homeserver</em> in the Matrix terminology is simply a Matrix server. <a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/#fr-1-1">↩</a></p>
 </li>
 </ol>
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;building-a-new-site&#x2F;" class="button text-align-start">❮&nbsp;Building a new site!</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation&#x2F;" class="button text-align-end">From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/building-a-new-site/" class="button text-align-start">❮&nbsp;Building a new site!</a><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="button text-align-end">From 19k to 4.2M events/sec: story of a SQLite query optimisation&nbsp;❯</a></nav>
   </article>
 
 </main>

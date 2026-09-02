@@ -6,8 +6,7 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/memory/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate><item>
       <title>About memory pressure, lock contention, and Data-oriented Design</title>
       <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

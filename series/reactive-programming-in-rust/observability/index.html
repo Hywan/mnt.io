@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="The basis of reactive programming is observability. Let&#x27;s play with it.">
+  <meta name="description" content="The basis of reactive programming is observability. Let&#39;s play with it.">
   <meta name="keywords" content="rust, async, future, stream">
   <meta property="og:title" content="Observability — from the series Reactive programming in Rust">
   <meta property="og:site_name" content="mnt.io">
@@ -172,14 +172,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2024-09-19" property="datePublished">September 19, 2024</time>
-    <span title="Reading time" property="timeRequired" content="PT24M">24 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT20M">20 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, async, future, stream">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/async" title="All articles matching the `async` keyword">async</a>, <a href="/keywords/future" title="All articles matching the `future` keyword">future</a>, <a href="/keywords/stream" title="All articles matching the `stream` keyword">stream</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series&#x2F;reactive-programming-in-rust&#x2F;2024-09-19-observability&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series/reactive-programming-in-rust/2024-09-19-observability/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="The basis of reactive programming is observability. Let&#x27;s play with it." />
+      <meta property="description" content="The basis of reactive programming is observability. Let&#39;s play with it." />
       
     
   </div>
@@ -226,20 +226,17 @@ And this is precisely the goal of this series. We are going to play with
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Hold on a second! I believe this first step is a bit steep for someone who's not
 familiar with asynchronous code in Rust, don't you think?</p>
 <p>Before digging in the implementation details you are obviously eager to share,
 maybe we can start with examples.</p>
-
   </div>
 </div>
 <p>Alrighty. Fair. Before digging into the really fun bits, we need some basis.</p>
@@ -248,10 +245,10 @@ maybe we can start with examples.</p>
 <p>Everything we are going to share with you has been implemented in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball">a library
 called <code>eyeball</code></a>. To give you a good idea of what reactive
 programming in Rust can look like, let's create a Rust program:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo new --bin playground</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo new --bin playground</span></span>
 <span class="giallo-l"><span>    Creating binary (application) `playground` package</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cd playground</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo add eyeball</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> cd playground</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> cargo add eyeball</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
 <span class="giallo-l"><span>      Adding eyeball v0.8.8 to dependencies</span></span>
 <span class="giallo-l"><span>             Features:</span></span>
@@ -259,29 +256,29 @@ programming in Rust can look like, let's create a Rust program:</p>
 <span class="giallo-l"><span>             - async-lock</span></span>
 <span class="giallo-l"><span>             - tracing</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
-<span class="giallo-l"><span>     Locking 3 packages to latest compatible versions</span></span></code></pre><pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<span class="giallo-l"><span>     Locking 3 packages to latest compatible versions</span></span></code></pre><pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Observable</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball</span><span class="z-16">::</span><span class="z-4">Observable</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-constant z-numeric">7</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-13">7</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">subscribe</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> subscriber</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">subscribe</span><span>(</span><span class="z-16">&amp;</span><span>observable);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-entity z-name">Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>());</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(</span><span class="z-4">Observable</span><span class="z-16">::</span><span class="z-19">get</span><span>(</span><span class="z-16">&amp;</span><span>observable));</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">get</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 13</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 13</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-entity z-name">Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>());</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(</span><span class="z-4">Observable</span><span class="z-16">::</span><span class="z-19">get</span><span>(</span><span class="z-16">&amp;</span><span>observable));</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">get</span><span>());</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>What do we see here? First off, <code>observable</code> is an observable value. Proof is:
 It is possible to subscribe to it, see <code>subscriber</code>. Both <code>observable</code> and
 <code>subscriber</code> are seeing the same initial value: 7. When <code>observable</code> receives a
 new value, 13, both <code>observable</code> and <code>subscriber</code> are seeing the updated value.
 Let's take it for a spin:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:8:5] Observable::get(&amp;observable) = 7</span></span>
 <span class="giallo-l"><span>[src/main.rs:9:5] subscriber.get() = 7</span></span>
 <span class="giallo-l"><span>[src/main.rs:13:5] Observable::get(&amp;observable) = 13</span></span>
@@ -290,34 +287,31 @@ Let's take it for a spin:</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>I… I am… speechless? Is it <em>really</em> reactive programming? Where is the
 reactivity here? It seems like you've only shared a value between an <em>owner</em> and
 a <em>watcher</em>. You're calling them <em>observable</em> and <em>subscriber</em>, alright, but how
 is this thing reactive? I only see synchronous code for the moment.</p>
-
   </div>
 </div>
 <p>Hold on. You told me to start slow. You're right though: the <code>Observable</code> owns
 the value. The <code>Subscriber</code> is able to read the value from the <code>Observable</code>.
 However, <code>Subscriber::next</code> returns a <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>! Let's add this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// …</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>);</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>error[E0728]: `await` is only allowed inside `async` functions and blocks</span></span>
 <span class="giallo-l"><span>  --&gt; src/main.rs:16:28</span></span>
 <span class="giallo-l"><span>   |</span></span>
@@ -329,34 +323,34 @@ However, <code>Subscriber::next</code> returns a <a rel="noopener external" targ
 <p>Indeed. Almighty <code>rustc</code> is correct. The <code>main</code> function is not <code>async</code>. We need
 an asynchronous runtime. Let's use <a rel="noopener external" target="_blank" href="https://docs.rs/smol">the <code>smol</code> project</a>, I enjoy it a
 lot: it's a small, fast, and well-written async runtime:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo add smol</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo add smol</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
 <span class="giallo-l"><span>      Adding smol v2.0.2 to dependencies</span></span>
 <span class="giallo-l"><span>      [ … snip … ]</span></span></code></pre>
 <p>Now let's modify our <code>main</code> function a little bit:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Observable</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball</span><span class="z-16">::</span><span class="z-4">Observable</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    smol</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">block_on</span><span>(</span><span class="z-keyword">async</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-constant z-numeric">7</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-4">    smol</span><span class="z-16">::</span><span class="z-19">block_on</span><span>(</span><span class="z-18">async</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-13">7</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">subscribe</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">        let mut</span><span> subscriber</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">subscribe</span><span>(</span><span class="z-16">&amp;</span><span>observable);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-entity z-name">Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>());</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(</span><span class="z-4">Observable</span><span class="z-16">::</span><span class="z-19">get</span><span>(</span><span class="z-16">&amp;</span><span>observable));</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">get</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 13</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">        Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 13</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-entity z-name">Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">get</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">get</span><span>());</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(</span><span class="z-4">Observable</span><span class="z-16">::</span><span class="z-19">get</span><span>(</span><span class="z-16">&amp;</span><span>observable));</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">get</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>);</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>);</span></span>
 <span class="giallo-l"><span>    })</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Please <code>rustc</code>, be nice…</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span>[src/main.rs:9:9] Observable::get(&amp;observable) = 7</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span>[src/main.rs:9:9] Observable::get(&amp;observable) = 7</span></span>
 <span class="giallo-l"><span>[src/main.rs:10:9] subscriber.get() = 7</span></span>
 <span class="giallo-l"><span>[src/main.rs:14:9] Observable::get(&amp;observable) = 13</span></span>
 <span class="giallo-l"><span>[src/main.rs:15:9] subscriber.get() = 13</span></span>
@@ -369,7 +363,7 @@ crate</a> which sets up a default <a rel="noopener external" target="_blank" hre
 <code>Executor</code></a> for us. It's useful in our case as we want to play
 with something else (reactive programming), and don't want to focus on the async
 runtime itself:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo add smol-macros macro_rules_attribute</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo add smol-macros macro_rules_attribute</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
 <span class="giallo-l"><span>      Adding smol-macros v0.1.1 to dependencies</span></span>
 <span class="giallo-l"><span>      Adding macro_rules_attribute v0.2.0 to dependencies</span></span>
@@ -384,41 +378,41 @@ runtime itself:</p>
 <span class="giallo-l"><span>      Adding smol-macros v0.1.1</span></span></code></pre>
 <p>We will take the opportunity to improve our program a little bit. Let's spawn a
 <code>Future</code> that will continuously read new updates from the <code>subscriber</code>.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">time</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Duration</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> std</span><span class="z-16">::</span><span class="z-4">time</span><span class="z-16">::</span><span class="z-4">Duration</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Observable</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> macro_rules_attribute</span><span class="z-keyword z-operator">::</span><span>apply;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> smol</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">Executor</span><span>,</span><span class="z-entity z-name"> Timer</span><span>};</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> smol_macros</span><span class="z-keyword z-operator">::</span><span>main;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball</span><span class="z-16">::</span><span class="z-4">Observable</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> macro_rules_attribute</span><span class="z-16">::</span><span>apply;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> smol</span><span class="z-16">::</span><span>{</span><span class="z-4">Executor</span><span>,</span><span class="z-4"> Timer</span><span>};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> smol_macros</span><span class="z-16">::</span><span>main;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>#[apply(main</span><span class="z-keyword z-operator">!</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">async fn</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-variable">executor</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Executor</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-constant z-numeric">7</span><span>);</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">subscribe</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">observable</span><span>);</span></span>
+<span class="giallo-l"><span>#[apply(main</span><span class="z-16">!</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">async fn</span><span class="z-19"> main</span><span>(executor</span><span class="z-16">: &amp;</span><span class="z-4">Executor</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-13">7</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> subscriber</span><span class="z-16"> =</span><span class="z-4"> Observable</span><span class="z-16">::</span><span class="z-19">subscribe</span><span>(</span><span class="z-16">&amp;</span><span>observable);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Task that reads new updates from `observable`.</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> task</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> executor</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">spawn</span><span>(</span><span class="z-keyword">async move</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">new_value</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">            dbg!</span><span>(</span><span class="z-variable">new_value</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Task that reads new updates from `observable`.</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> task</span><span class="z-16"> =</span><span> executor</span><span class="z-16">.</span><span class="z-19">spawn</span><span>(</span><span class="z-18">async move</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        while let</span><span class="z-4"> Some</span><span>(new_value)</span><span class="z-16"> =</span><span> subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span> {</span></span>
+<span class="giallo-l"><span class="z-19">            dbg!</span><span>(new_value);</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    });</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Now, let&#39;s update `observable`.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 13</span><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Timer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">after</span><span>(</span><span class="z-entity z-name">Duration</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_secs</span><span>(</span><span class="z-constant z-numeric">1</span><span>))</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Now, let&#39;s update `observable`.</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 13</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    Timer</span><span class="z-16">::</span><span class="z-19">after</span><span>(</span><span class="z-4">Duration</span><span class="z-16">::</span><span class="z-19">from_secs</span><span>(</span><span class="z-13">1</span><span>))</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 17</span><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Timer</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">after</span><span>(</span><span class="z-entity z-name">Duration</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_secs</span><span>(</span><span class="z-constant z-numeric">1</span><span>))</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 17</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    Timer</span><span class="z-16">::</span><span class="z-19">after</span><span>(</span><span class="z-4">Duration</span><span class="z-16">::</span><span class="z-19">from_secs</span><span>(</span><span class="z-13">1</span><span>))</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 23</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 23</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Wait on the task.</span></span>
-<span class="giallo-l"><span class="z-variable">    task</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Wait on the task.</span></span>
+<span class="giallo-l"><span>    task</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The little <code>Timer::after</code> calls are here to pretend the values are coming from
 random events, for the moment. Let's run it again to see if we get the same
 result:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:16:13] new_value = 13</span></span>
 <span class="giallo-l"><span>[src/main.rs:16:13] new_value = 17</span></span>
 <span class="giallo-l"><span>[src/main.rs:16:13] new_value = 23</span></span>
@@ -427,13 +421,11 @@ result:</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>I believe I start to appreciate it. However, I foresee you might hide something
@@ -441,7 +433,6 @@ behind these <code>Time::after</code>. Am I right?</p>
 <p>And this <code>task.await</code> at the end makes the program to never finish. It explains
 the need to send <a rel="noopener external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=signal">a <code>SIGINT</code> signal</a> to the program to interrupt it,
 right?</p>
-
   </div>
 </div>
 <p>You're slick. Indeed, I wanted to focus on the <code>observable</code> and the
@@ -459,22 +450,22 @@ moment, that's the case.</p>
 <p>And yes, if we want the <code>task</code> to get a chance to consume more updates, we need
 to tell the executor we will wait while the current other tasks are waken up. To
 do that, we can use <a rel="noopener external" target="_blank" href="https://docs.rs/smol/2.0.2/smol/future/fn.yield_now.html">the <code>smol::yield_now</code> function</a>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">    // Now, let&#39;s update `observable`.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 13</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">    // Eh `executor`: `task` can run now, we will wait!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    yield_now</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">    // Now, let&#39;s update `observable`.</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 13</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Eh `executor`: `task` can run now, we will wait!</span></span>
+<span class="giallo-l"><span class="z-19">    yield_now</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // More updates.</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 17</span><span>);</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Observable</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">set</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable"> observable</span><span>,</span><span class="z-constant z-numeric"> 23</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">    // Eh `executor`: _bis repetita placent_!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    yield_now</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // More updates.</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 17</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 23</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Eh `executor`: _bis repetita placent_!</span></span>
+<span class="giallo-l"><span class="z-19">    yield_now</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    drop</span><span>(</span><span class="z-variable">observable</span><span>)</span></span>
-<span class="giallo-l"><span class="z-variable">    task</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-19">    drop</span><span>(observable)</span></span>
+<span class="giallo-l"><span>    task</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Let's see what happens:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:14:13] new_value = 13</span></span>
 <span class="giallo-l"><span>[src/main.rs:14:13] new_value = 23</span></span></code></pre>
 <p>Eh, see, <code>new_value = 17</code> is <strong>not</strong> displayed, because the <code>observable</code> is
@@ -496,19 +487,16 @@ Let's focus on <a rel="noopener external" target="_blank" href="https://doc.rust
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Why do we focus on <code>Vec</code> <em>only</em>? Why not <code>HashMap</code>, <code>HashSet</code>, <code>BTreeSet</code>,
 <code>BTreeMap</code>, <code>BinaryHeap</code>, <code>LinkedList</code> or even <code>VecDeque</code>? It seems a bit
 non-inclusive if you ask me. Are you aware there isn't only <code>Vec</code> in life?</p>
-
   </div>
 </div>
 <p>Well, the reason is simple: <code>Vec</code> is supported by <code>eyeball</code>. It's a matter of
@@ -526,13 +514,11 @@ memory impact is going to be quickly noticeable. So th…</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>… Excuse my interruption! You know how I love reading books. I like
@@ -548,7 +534,6 @@ says:</p>
 <p>You can use this method to get updates of an <code>Observable</code> where the inner type
 does not implement <code>Clone</code>.</p>
 </blockquote>
-
   </div>
 </div>
 <p>Can you stop cutting me off please? It's really unpleasant. And do not forget we
@@ -580,7 +565,7 @@ less than a shared reference, and shared references in Rust disallow mutation by
 default. Using <code>Observable::set</code> will create a new <code>Arc</code>, but we cannot update
 the value <em>inside</em> the <code>Arc</code>, except if we use a lock… Well, we are adding more
 and more complexity.</p>
-<p><q lang="la">Spes salutis</q><sup class="footnote-reference" id="fr-spes_salutis-1"><a href="#fn-spes_salutis">1</a></sup>! Fortunately for us, <em>immutable
+<p><q lang="la">Spes salutis</q><sup class="footnote-reference" id="fr-spes_salutis-1"><a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fn-spes_salutis">[1]</a></sup>! Fortunately for us, <em>immutable
 data structures</em> exist in Rust.</p>
 <blockquote>
 <p>An immutable data structure is a data structure which can be copied and
@@ -610,13 +595,11 @@ value is cheap.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Dare I ask how immutable data structures are implemented? It sounds like complex
@@ -624,21 +607,20 @@ beasts.</p>
 <p>I mean… a naive implementation sounds <em>relatively doable</em> but I am guessing
 there is a lot of subtleties, possible conflicts, and many memory guarantees
 that I am not anticipating yet, right?</p>
-
   </div>
 </div>
-<p>Oh… <q lang="la">beati pauperes in spiritu</q><sup class="footnote-reference" id="fr-beati_pauperes_in_spiritu-1"><a href="#fn-beati_pauperes_in_spiritu">2</a></sup>… it
+<p>Oh… <q lang="la">beati pauperes in spiritu</q><sup class="footnote-reference" id="fr-beati_pauperes_in_spiritu-1"><a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fn-beati_pauperes_in_spiritu">[2]</a></sup>… it
 is actually really complex. It may be a topic for another series or articles.
 For the moment, if you interested, let me redirect you to one research paper
 that proposes an immutable <code>Vec</code>: <cite>RRR Vector: A Practical General
-Immutable Sequence</cite><sup class="footnote-reference" id="fr-SRUB2015-1"><a href="#fn-SRUB2015">3</a></sup>. Be cool though, understanding this part is
+Immutable Sequence</cite><sup class="footnote-reference" id="fr-SRUB2015-1"><a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fn-SRUB2015">[3]</a></sup>. Be cool though, understanding this part is
 not necessary at all for what we are talking now. It's a great tool we are going
 to use, no matter how it works internally.</p>
 <p>Do you know the other good news? We don't have to implement it by ourselves,
 because some nice people already did it! Enter <a rel="noopener external" target="_blank" href="https://docs.rs/imbl">the <code>imbl</code> crate</a>. This
 crate provides <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. It can be used like a regular
 <code>Vec</code>. (Side note: it's even smarter than a <code>Vec</code> because it implements smart
-head and tail chunking<sup class="footnote-reference" id="fr-UCR2014-1"><a href="#fn-UCR2014">4</a></sup>, and allocates in the stack or on the heap
+head and tail chunking<sup class="footnote-reference" id="fr-UCR2014-1"><a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fn-UCR2014">[4]</a></sup>, and allocates in the stack or on the heap
 depending on the size of the collection, similarly to <a rel="noopener external" target="_blank" href="https://docs.rs/smallvec">the <code>smallvec</code>
 crate</a>. End of digression)</p>
 <h2 id="observable-immutable-collection">Observable (Immutable) Collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -667,13 +649,11 @@ there is no <code>next</code> method. How are we supposed to wait on an update?<
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Confer to the assiduous reader! If you read <em>carefully</em> the documentation of the
@@ -682,7 +662,6 @@ there is no <code>next</code> method. How are we supposed to wait on an update?<
 <p>This method is a convenience so you don't have to import a <code>Stream</code> extension
 trait such as <code>futures::StreamExt</code> or <code>tokio_stream::StreamExt</code>.</p>
 </blockquote>
-
   </div>
 </div>
 <p>… fair enough. So <code>Subscriber::next</code> mimics <code>StreamExt::next</code>. Okay. Let's look
@@ -725,35 +704,35 @@ It's a trait extending <code>Stream</code> to add convenient combinator methods.
 other things, we find <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next"><code>StreamExt::next</code></a>!
 Ah ha! It returns a <code>Next</code> type which implements a <code>Future</code>, exactly what
 <code>eyeball</code> does actually. Remember our:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// from `main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// from `main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">new_value</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    dbg!</span><span>(</span><span class="z-variable">new_value</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">while let</span><span class="z-4"> Some</span><span>(new_value)</span><span class="z-16"> =</span><span> subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span> {</span></span>
+<span class="giallo-l"><span class="z-19">    dbg!</span><span>(new_value);</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>It is exactly the same pattern with <code>StreamExt::next</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// from the documentation of `StreamExt::Next`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// from the documentation of `StreamExt::Next`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> futures</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">stream</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-variable z-language">self</span><span>,</span><span class="z-entity z-name"> StreamExt</span><span>};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> futures</span><span class="z-16">::</span><span class="z-4">stream</span><span class="z-16">::</span><span>{</span><span class="z-1 z-i">self</span><span>,</span><span class="z-4"> StreamExt</span><span>};</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> stream</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">iter</span><span>(</span><span class="z-constant z-numeric">1</span><span class="z-keyword z-operator">..=</span><span class="z-constant z-numeric">3</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> stream</span><span class="z-16"> =</span><span class="z-4"> stream</span><span class="z-16">::</span><span class="z-19">iter</span><span>(</span><span class="z-13">1</span><span class="z-16">..=</span><span class="z-13">3</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-variable">stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-constant z-numeric">1</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-variable">stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-constant z-numeric">2</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-variable">stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-constant z-numeric">3</span><span>));</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_eq!</span><span>(</span><span class="z-variable">stream</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>,</span><span class="z-entity z-name"> None</span><span>);</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(stream</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span><span class="z-4"> Some</span><span>(</span><span class="z-13">1</span><span>));</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(stream</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span><span class="z-4"> Some</span><span>(</span><span class="z-13">2</span><span>));</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(stream</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span><span class="z-4"> Some</span><span>(</span><span class="z-13">3</span><span>));</span></span>
+<span class="giallo-l"><span class="z-19">assert_eq!</span><span>(stream</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>,</span><span class="z-4"> None</span><span>);</span></span></code></pre>
 <p>Pieces start to come together, don't they?</p>
 <p>End of the detour. Back to <code>eyeball_im::VectorSubscriber&lt;T&gt;</code> . It is possible to
 transform this type into a <code>Stream</code> with its
 <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html#method.into_stream"><code>into_stream</code></a> method. It returns
 a <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html"><code>VectorSubscriberStream</code></a>. Naming is
 hard, but if I would have to guess, I would say it implements… a… <code>Stream</code>?</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// from `eyeball-im`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// from `eyeball-im`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">impl</span><span>&lt;</span><span class="z-entity z-name">T</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Clone</span><span class="z-keyword z-operator"> +</span><span class="z-entity z-name"> Send</span><span class="z-keyword z-operator"> +</span><span class="z-entity z-name"> Sync</span><span class="z-keyword z-operator"> +</span><span> &#39;</span><span class="z-entity z-name">static</span><span>&gt;</span><span class="z-entity z-name"> Stream</span><span class="z-keyword"> for</span><span class="z-entity z-name"> VectorSubscriberStream</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-storage">    type</span><span class="z-entity z-name"> Item</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> VectorDiff</span><span>&lt;</span><span class="z-entity z-name">T</span><span>&gt;;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">impl</span><span>&lt;</span><span class="z-4">T</span><span class="z-16">:</span><span class="z-4"> Clone</span><span class="z-16"> +</span><span class="z-4"> Send</span><span class="z-16"> +</span><span class="z-4"> Sync</span><span class="z-16"> +</span><span> &#39;</span><span class="z-4">static</span><span>&gt;</span><span class="z-4"> Stream</span><span class="z-18"> for</span><span class="z-4"> VectorSubscriberStream</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span class="z-16"> =</span><span class="z-4"> VectorDiff</span><span>&lt;</span><span class="z-4">T</span><span>&gt;;</span></span></code></pre>
 <p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html#impl-Stream-for-VectorSubscriberStream%3CT%3E">Yes, it does</a>!</p>
 <p>Dust blown away, the puzzle starts to appear clearly. Let's back on coding!</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo add eyeball-im futures</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo add eyeball-im futures</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
 <span class="giallo-l"><span>      Adding eyeball-im v0.5.0 to dependencies</span></span>
 <span class="giallo-l"><span>             Features:</span></span>
@@ -773,46 +752,46 @@ hard, but if I would have to guess, I would say it implements… a… <code>Stre
 <span class="giallo-l"><span>             - thread-pool</span></span>
 <span class="giallo-l"><span>             - unstable</span></span>
 <span class="giallo-l"><span>             - write-all-vectored</span></span>
-<span class="giallo-l"><span>      [ … snip … ]</span></span></code></pre><pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<span class="giallo-l"><span>      [ … snip … ]</span></span></code></pre><pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">ObservableVector</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> futures</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">stream</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">StreamExt</span><span>;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> macro_rules_attribute</span><span class="z-keyword z-operator">::</span><span>apply;</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> smol</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">future</span><span class="z-keyword z-operator">::</span><span>yield_now,</span><span class="z-entity z-name"> Executor</span><span>};</span></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> smol_macros</span><span class="z-keyword z-operator">::</span><span>main;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball_im</span><span class="z-16">::</span><span class="z-4">ObservableVector</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> futures</span><span class="z-16">::</span><span class="z-4">stream</span><span class="z-16">::</span><span class="z-4">StreamExt</span><span>;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> macro_rules_attribute</span><span class="z-16">::</span><span>apply;</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> smol</span><span class="z-16">::</span><span>{</span><span class="z-4">future</span><span class="z-16">::</span><span>yield_now,</span><span class="z-4"> Executor</span><span>};</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> smol_macros</span><span class="z-16">::</span><span>main;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>#[apply(main</span><span class="z-keyword z-operator">!</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">async fn</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-variable">executor</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Executor</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>();</span></span>
-<span class="giallo-l"><span class="z-comment">    // Subscribe to `observable` and get a `Stream`.</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">subscribe</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">into_stream</span><span>();</span></span>
+<span class="giallo-l"><span>#[apply(main</span><span class="z-16">!</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">async fn</span><span class="z-19"> main</span><span>(executor</span><span class="z-16">: &amp;</span><span class="z-4">Executor</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">new</span><span>();</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Subscribe to `observable` and get a `Stream`.</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> subscriber</span><span class="z-16"> =</span><span> observable</span><span class="z-16">.</span><span class="z-19">subscribe</span><span>()</span><span class="z-16">.</span><span class="z-19">into_stream</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Push one value.</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;a&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Push one value.</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;a&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Task that reads new updates from `observable`.</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> task</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> executor</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">spawn</span><span>(</span><span class="z-keyword">async move</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        while</span><span class="z-storage"> let</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-variable">new_value</span><span>)</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">            dbg!</span><span>(</span><span class="z-variable">new_value</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Task that reads new updates from `observable`.</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> task</span><span class="z-16"> =</span><span> executor</span><span class="z-16">.</span><span class="z-19">spawn</span><span>(</span><span class="z-18">async move</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        while let</span><span class="z-4"> Some</span><span>(new_value)</span><span class="z-16"> =</span><span> subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span> {</span></span>
+<span class="giallo-l"><span class="z-19">            dbg!</span><span>(new_value);</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    });</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Now, let&#39;s update `observable`.</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;b&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">    // Eh `executor`: `task` can run now!</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    yield_now</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Now, let&#39;s update `observable`.</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;b&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Eh `executor`: `task` can run now!</span></span>
+<span class="giallo-l"><span class="z-19">    yield_now</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // More updates.</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;c&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;d&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">    // Eh `executor`, same.</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    yield_now</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // More updates.</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;c&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;d&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Eh `executor`, same.</span></span>
+<span class="giallo-l"><span class="z-19">    yield_now</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    drop</span><span>(</span><span class="z-variable">observable</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    task</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>;</span></span>
+<span class="giallo-l"><span class="z-19">    drop</span><span>(observable);</span></span>
+<span class="giallo-l"><span>    task</span><span class="z-16">.</span><span class="z-18">await</span><span>;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Time to show off:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:18:13] new_value = PushBack {</span></span>
 <span class="giallo-l"><span>    value: &#39;a&#39;,</span></span>
 <span class="giallo-l"><span>}</span></span>
@@ -829,13 +808,11 @@ hard, but if I would have to guess, I would say it implements… a… <code>Stre
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Hmm, indeed. With <code>Observable</code>, some values may “miss” because <code>Observable</code>
@@ -845,7 +822,6 @@ missing values. There are all here. As if there… was a buffer!</p>
 <p>And the values returned by the subscriber are not the raw <code>T</code>:
 we see <code>PushBack</code>. It comes from, <i>check the documentation</i>,
 <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>VectorDiff::PushBack</code></a>!</p>
-
   </div>
 </div>
 <p>Good eyes, well done.</p>
@@ -856,43 +832,43 @@ explanations.</p>
 <p>Second, yes, <code>VectorSubscriber</code> returns <strong>all values</strong>! There is actually a
 buffer. It's a bit annoying to continue with a <code>task</code> as we did so far, let's
 use <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/macro.assert_eq.html"><code>assert_eq!</code></a> instead.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">use</span><span class="z-entity z-name"> eyeball_im</span><span class="z-keyword z-operator">::</span><span>{</span><span class="z-entity z-name">ObservableVector</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span>};</span></span>
-<span class="giallo-l"><span class="z-comment">//                                 ^^^^^^^^^^ new!</span></span>
-<span class="giallo-l"><span class="z-comment">// …</span></span>
+<span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball_im</span><span class="z-16">::</span><span>{</span><span class="z-4">ObservableVector</span><span>,</span><span class="z-4"> VectorDiff</span><span>};</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                 ^^^^^^^^^^ new!</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>#[apply(main</span><span class="z-keyword z-operator">!</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">async fn</span><span class="z-entity z-name z-function"> main</span><span>(</span><span class="z-variable">_executor</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">Executor</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">    let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">subscribe</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">into_stream</span><span>();</span></span>
+<span class="giallo-l"><span>#[apply(main</span><span class="z-16">!</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">async fn</span><span class="z-19"> main</span><span>(_executor</span><span class="z-16">: &amp;</span><span class="z-4">Executor</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">new</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">    let mut</span><span> subscriber</span><span class="z-16"> =</span><span> observable</span><span class="z-16">.</span><span class="z-19">subscribe</span><span>()</span><span class="z-16">.</span><span class="z-19">into_stream</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Push one value.</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;a&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Push one value.</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;a&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Some</span><span>(</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;a&#39;</span><span> }),</span></span>
+<span class="giallo-l"><span class="z-19">    assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">        Some</span><span>(</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;a&#39;</span><span> }),</span></span>
 <span class="giallo-l"><span>    );</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Push another value.</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;b&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;c&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">    observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;d&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Push another value.</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;b&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;c&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>    observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;d&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Some</span><span>(</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;b&#39;</span><span> }),</span></span>
+<span class="giallo-l"><span class="z-19">    assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">        Some</span><span>(</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;b&#39;</span><span> }),</span></span>
 <span class="giallo-l"><span>    );</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Some</span><span>(</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;c&#39;</span><span> }),</span></span>
+<span class="giallo-l"><span class="z-19">    assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">        Some</span><span>(</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;c&#39;</span><span> }),</span></span>
 <span class="giallo-l"><span>    );</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    assert_eq!</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        dbg!</span><span>(</span><span class="z-variable">subscriber</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Some</span><span>(</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;d&#39;</span><span> }),</span></span>
+<span class="giallo-l"><span class="z-19">    assert_eq!</span><span>(</span></span>
+<span class="giallo-l"><span class="z-19">        dbg!</span><span>(subscriber</span><span class="z-16">.</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">        Some</span><span>(</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;d&#39;</span><span> }),</span></span>
 <span class="giallo-l"><span>    );</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:16:9] subscriber.next().await = Some(</span></span>
 <span class="giallo-l"><span>    PushBack {</span></span>
 <span class="giallo-l"><span>        value: &#39;a&#39;,</span></span>
@@ -916,32 +892,32 @@ use <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/s
 <p>Beautiful! However… the code is a bit verbose, isn't it? <i>Desperately waiting
 for an affirmative answer</i>, okay, okay, something you may not know about me:
 I love macros. There. I said it. Let's quickly craft one:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
-<span class="giallo-l"><span class="z-comment">// before the `main` function</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// before the `main` function</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">macro_rules! assert_next_eq</span><span> {</span></span>
-<span class="giallo-l"><span>    (</span><span class="z-keyword z-operator"> $</span><span class="z-variable">stream</span><span class="z-keyword z-operator">:</span><span class="z-variable">ident</span><span>,</span><span class="z-keyword z-operator"> $</span><span class="z-variable">expr</span><span class="z-keyword z-operator">:</span><span class="z-variable">expr</span><span class="z-keyword z-operator"> $</span><span>(,)</span><span class="z-keyword z-operator">?</span><span> )</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        assert_eq!</span><span>(</span><span class="z-entity z-name z-function">dbg!</span><span>(</span><span class="z-keyword z-operator"> $</span><span class="z-variable">stream</span><span class="z-keyword z-operator"> .</span><span class="z-entity z-name z-function">next</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-keyword">await</span><span>),</span><span class="z-entity z-name"> Some</span><span>(</span><span class="z-keyword z-operator"> $</span><span class="z-variable">expr</span><span> ));</span></span>
+<span class="giallo-l"><span class="z-19">macro_rules! assert_next_eq</span><span> {</span></span>
+<span class="giallo-l"><span>    (</span><span class="z-16"> $</span><span>stream</span><span class="z-16">:</span><span>ident,</span><span class="z-16"> $</span><span>expr</span><span class="z-16">:</span><span>expr</span><span class="z-16"> $</span><span>(,)</span><span class="z-16">?</span><span> )</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-19">        assert_eq!</span><span>(</span><span class="z-19">dbg!</span><span>(</span><span class="z-16"> $</span><span>stream</span><span class="z-16"> .</span><span class="z-19">next</span><span>()</span><span class="z-16">.</span><span class="z-18">await</span><span>),</span><span class="z-4"> Some</span><span>(</span><span class="z-16"> $</span><span>expr ));</span></span>
 <span class="giallo-l"><span>    };</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>This macro does exactly what our <code>assert_eq!</code> was doing, except now it's shorter
 to use, and thus pleasanter. Don't believe me? See by yourself:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
-<span class="giallo-l"><span class="z-comment">// at the end of the `main` function</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// at the end of the `main` function</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Push one value.</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;a&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Push one value.</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;a&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;a&#39;</span><span> });</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;a&#39;</span><span> });</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Push another value.</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;b&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;c&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;d&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Push another value.</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;b&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;c&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;d&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;b&#39;</span><span> });</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;c&#39;</span><span> });</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;d&#39;</span><span> });</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;b&#39;</span><span> });</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;c&#39;</span><span> });</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;d&#39;</span><span> });</span></span></code></pre>
 <p>There we go.</p>
 <p>Having a scientific and rigorous approach is important in our domain. We said
 <code>ObservableVector</code> seems to contain a buffer, and <code>VectorSubscriber</code> seems to
@@ -951,19 +927,19 @@ pop values from this buffer. Let's play with that. I see two things to test:</p>
 subscriber receive the update before it was created?</li>
 <li>How many values the buffer can hold?</li>
 </ol>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>();</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">new</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Push a value before the subscriber exists.</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;a&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Push a value before the subscriber exists.</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;a&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">subscribe</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">into_stream</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> subscriber</span><span class="z-16"> =</span><span> observable</span><span class="z-16">.</span><span class="z-19">subscribe</span><span>()</span><span class="z-16">.</span><span class="z-19">into_stream</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Push another value.</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;b&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Push another value.</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;b&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;b&#39;</span><span> });</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;b&#39;</span><span> });</span></span></code></pre>
 <p>If the <code>subscriber</code> receives <code>a</code>, it must fail, otherwise no error:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:25:5] subscriber.next().await = Some(</span></span>
 <span class="giallo-l"><span>    PushBack {</span></span>
 <span class="giallo-l"><span>        value: &#39;b&#39;,</span></span>
@@ -973,13 +949,11 @@ subscriber receive the update before it was created?</li>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>We have learned that a <code>VectorSubscriber</code> is aware of the new updates that are
@@ -993,54 +967,53 @@ sense.</p>
 <code>ObservableVector</code>. Or maybe the buffer is shared between the observable and the
 subscribers, with the buffer having some specific semantics, like a <em>channel</em>.
 We would need to look at the implementation to be sure.</p>
-
   </div>
 </div>
 <p>Agree. This is left as an exercise for the reader, <i>wink to you</i>.</p>
 <p>We have an answer to question 1. What about question 2? The size of the buffer.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>();</span></span>
-<span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> subscriber</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">subscribe</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">into_stream</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">new</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">let mut</span><span> subscriber</span><span class="z-16"> =</span><span> observable</span><span class="z-16">.</span><span class="z-19">subscribe</span><span>()</span><span class="z-16">.</span><span class="z-19">into_stream</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// Push ALL THE VALUES!</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;a&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;b&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;c&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;d&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;e&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;f&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;g&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;h&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;i&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;j&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;k&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;l&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;m&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;n&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;o&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;p&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// Push ALL THE VALUES!</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;a&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;b&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;c&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;d&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;e&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;f&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;g&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;h&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;i&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;j&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;k&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;l&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;m&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;n&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;o&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;p&#39;</span><span>);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;a&#39;</span><span> });</span></span>
-<span class="giallo-l"><span class="z-comment">// no need to assert the others</span></span></code></pre><pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;a&#39;</span><span> });</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// no need to assert the others</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:36:5] subscriber.next().await = Some(</span></span>
 <span class="giallo-l"><span>    PushBack {</span></span>
 <span class="giallo-l"><span>        value: &#39;a&#39;,</span></span>
 <span class="giallo-l"><span>    },</span></span>
 <span class="giallo-l"><span>)</span></span></code></pre>
 <p>Hmm, the buffer doesn't seem to be full with 16 values. Let's add a couple more:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-comment">// in `src/main.rs`</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">// [ … snip … ]</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;n&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;o&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;p&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;q&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">//                    ^ new!</span></span>
-<span class="giallo-l"><span class="z-variable">observable</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-string">&#39;r&#39;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">//                    ^ new!</span></span>
+<span class="giallo-l"><span class="z-7 z-i">// [ … snip … ]</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;n&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;o&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;p&#39;</span><span>);</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;q&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                    ^ new!</span></span>
+<span class="giallo-l"><span>observable</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(</span><span class="z-11">&#39;r&#39;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                    ^ new!</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">assert_next_eq!</span><span>(</span><span class="z-variable">subscriber</span><span>,</span><span class="z-entity z-name"> VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-string"> &#39;a&#39;</span><span> });</span></span></code></pre><pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<span class="giallo-l"><span class="z-19">assert_next_eq!</span><span>(subscriber,</span><span class="z-4"> VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value</span><span class="z-16">:</span><span class="z-11"> &#39;a&#39;</span><span> });</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:38:5] subscriber.next().await = Some(</span></span>
 <span class="giallo-l"><span>    Reset {</span></span>
 <span class="giallo-l"><span>        values: [</span></span>
@@ -1074,8 +1047,8 @@ We would need to look at the implementation to be sure.</p>
 receive a <code>VectorDiff::PopBack</code> but a <code>VectorDiff::Reset</code>. Let's play with
 <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html#method.with_capacity"><code>ObservableVector::with_capacity</code></a>
 a moment, maybe it's related to the buffer capacity? Let's change a single line:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">let mut</span><span class="z-variable"> observable</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> ObservableVector</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">with_capacity</span><span>(</span><span class="z-constant z-numeric">32</span><span>);</span></span>
-<span class="giallo-l"><span class="z-comment">//                                     ^^^^^^^^^^^^^^^^^ new!</span></span></code></pre><pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cargo run --quiet</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">with_capacity</span><span>(</span><span class="z-13">32</span><span>);</span></span>
+<span class="giallo-l"><span class="z-7 z-i">//                                     ^^^^^^^^^^^^^^^^^ new!</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
 <span class="giallo-l"><span>[src/main.rs:38:5] subscriber.next().await = Some(</span></span>
 <span class="giallo-l"><span>    PushBack {</span></span>
 <span class="giallo-l"><span>        value: &#39;a&#39;,</span></span>
@@ -1083,13 +1056,11 @@ a moment, maybe it's related to the buffer capacity? Let's change a single line:
 <span class="giallo-l"><span>)</span></span></code></pre><div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>We have learned that <code>ObservableVector::with_capacity</code> controls the size of
@@ -1098,7 +1069,6 @@ the buffer.</p>
 <em>à la</em> <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity"><code>Vec::with_capacity</code></a>, but it must not be confused.</p>
 <p>For a reason we ignore so far, when the buffer is full, we receive a
 <code>VectorDiff::Reset</code>. We need to learn more about this type.</p>
-
   </div>
 </div>
 <h2 id="observable-differences">Observable Differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
@@ -1116,13 +1086,11 @@ every time! Not only this is costly, but it is utterly error-prone.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>Are you suggesting that <code>VectorSubscriber</code> (or <code>VectorSubscriberStream</code>)
@@ -1137,7 +1105,6 @@ matters a lot for some use cases. For example, let's consider two consecutive
 </ol>
 <p>Has <code>'b'</code> been removed and pushed back, or <code>'c'</code> been popped back and inserted?
 How can you decide between the twos?</p>
-
   </div>
 </div>
 <p>We can't —it would be implementation specifics anyway— and we don't want to.
@@ -1146,13 +1113,13 @@ ideally not change that.</p>
 <p>These <code>VectorDiff</code> actually comes from <code>ObservableVector</code> itself! Let's look at
 the implementation of
 <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/4254403e385715380753bb0def20fb0398e91ebd/eyeball-im/src/vector.rs#L107-L114"><code>ObservableVector::push_back</code></a>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub fn</span><span class="z-entity z-name z-function"> push_back</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-storage">mut</span><span class="z-variable z-language"> self</span><span>,</span><span class="z-variable"> value</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> T</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">    // [ … snip … ]</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> push_back</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> self</span><span>, value</span><span class="z-16">:</span><span class="z-4"> T</span><span>) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // [ … snip … ]</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable z-language">    self</span><span class="z-keyword z-operator">.</span><span>values</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">push_back</span><span>(</span><span class="z-variable">value</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">clone</span><span>());</span></span>
-<span class="giallo-l"><span class="z-comment">    //   ^^^^^^ this is a `Vector`!</span></span>
-<span class="giallo-l"><span class="z-variable z-language">    self</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">broadcast_diff</span><span>(</span><span class="z-entity z-name">VectorDiff</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">PushBack</span><span> {</span><span class="z-variable"> value</span><span> });</span></span>
-<span class="giallo-l"><span class="z-comment">    //                  ^^^^^^^^^^ here you are…</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>values</span><span class="z-16">.</span><span class="z-19">push_back</span><span>(value</span><span class="z-16">.</span><span class="z-19">clone</span><span>());</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    //   ^^^^^^ this is a `Vector`!</span></span>
+<span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span class="z-19">broadcast_diff</span><span>(</span><span class="z-4">VectorDiff</span><span class="z-16">::</span><span class="z-4">PushBack</span><span> { value });</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    //                  ^^^^^^^^^^ here you are…</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Each method adding or removing values on the <code>ObservableVector</code> emits its own
 <code>VectorDiff</code> variant. No calculation, it's purely a mapping:</p>
@@ -1178,20 +1145,17 @@ triggering it.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
-
     <picture role="presentation">
       <source srcset="/image/comte.avif" type="image/avif" />
       <source srcset="/image/comte.webp" type="image/webp" />
       <img src="/image/comte.png" loading="lazy" decoding="async" />
     </picture>
-
   </div>
   <div class="conversation--message">
     <p>And what about <code>VectorDiff::Reset</code>?</p>
 <p>We were receiving it when the buffer was full apparently. You are not mentioning
 it, and if I take a close look at <code>ObservableVector</code>'s documentation, I don't
 see any <code>reset</code> method. Is it only an internal thing?</p>
-
   </div>
 </div>
 <p>You are correct. When the buffer is full, the subscriber will provide a
@@ -1244,11 +1208,11 @@ to learn so much about <code>Stream</code> and <code>Future</code>, it's going t
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-spes_salutis">
-<p>Latine expression meaning <em>salvation hope</em>. <a href="#fr-spes_salutis-1">↩</a></p>
+<p>Latine expression meaning <em>salvation hope</em>. <a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fr-spes_salutis-1">↩</a></p>
 </li>
 <li id="fn-beati_pauperes_in_spiritu">
 <p>Latine expression meaning
-<em>bless are the poor in spirit</em>. <a href="#fr-beati_pauperes_in_spiritu-1">↩</a></p>
+<em>bless are the poor in spirit</em>. <a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fr-beati_pauperes_in_spiritu-1">↩</a></p>
 </li>
 <li id="fn-SRUB2015">
 <p><cite><a href="https://infoscience.epfl.ch/server/api/core/bitstreams/7c8b929f-1f68-4948-8ea8-e364e4899b2a/content">Relaxed-Radix-Balanced
@@ -1256,14 +1220,14 @@ to learn so much about <code>Stream</code> and <code>Future</code>, it's going t
 Sequence</a></cite> by Sticki N., Rompf T., Ureche V. and Bagwell
 P. (2015, August), in <i>Proceedings of the 20th ACM SIGPLAN
 International Conference on Functional Programming (pp.
-342-354).</i> <a href="#fr-SRUB2015-1">↩</a></p>
+342-354).</i> <a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fr-SRUB2015-1">↩</a></p>
 </li>
 <li id="fn-UCR2014">
 <p><cite><a href="http://deepsea.inria.fr/pasl/chunkedseq.pdf">Theory
 and Practise of Chunked Sequences</a></cite> by Acar U. A., Charguéraud
 A., and Rainey M. (2014), in <i>Algorithms-ESA 2014: 22th Annual European
 Symposium, Wroclaw, Poland, September 8-10, 2014. Proceedings 21 (pp.
-25-36).</i>, Springer Berlin Heidelberg. <a href="#fr-UCR2014-1">↩</a></p>
+25-36).</i>, Springer Berlin Heidelberg. <a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fr-UCR2014-1">↩</a></p>
 </li>
 </ol>
 </section>

@@ -4,8 +4,7 @@
   <link rel="self" type="application/atom+xml" href="https://mnt.io/atom.xml"/>
   <link rel="alternate" type="text/html" href="https://mnt.io"/>
   <updated>2026-04-13T00:00:00+00:00</updated>
-  <id>https://mnt.io/atom.xml</id>
-  <entry xml:lang="en">
+  <id>https://mnt.io/atom.xml</id><entry xml:lang="en">
     <title>Switching higher-order streams to first-order streams</title>
     <published>2026-04-13T00:00:00+00:00</published>
     <updated>2026-04-13T00:00:00+00:00</updated>
@@ -13,8 +12,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"/>
     <id>https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/</id>
     <summary type="html">I discuss streams. It&apos;s a pretext to learn about higher-order streams, like &lt;code&gt;flatten&lt;/code&gt; and to introduce a new stream: &lt;code&gt;switch&lt;/code&gt;! It&apos;s very useful, and will have no secret for you.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>About memory pressure, lock contention, and Data-oriented Design</title>
     <published>2026-02-23T00:00:00+00:00</published>
     <updated>2026-02-23T00:00:00+00:00</updated>
@@ -22,17 +20,15 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/"/>
     <id>https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/</id>
     <summary type="html">I illustrate how &lt;em&gt;Data-oriented Design&lt;/em&gt; helped to remove annoying memory pressure and lock contention in multiple sorters used in the Matrix Rust SDK. It has improved the execution by 98.7% (53ms to 676µs) and the throughput by 7718.5% (from 18K elem/s to 1.4M elem/s)! I will talk about how the different memories work, how we want to make the CPU caches happy, and how we can workaround locks when they are a performance bottleneck.</summary>
-  </entry>
-  <entry xml:lang="en">
-    <title>From 19k to 4.2M events&#x2F;sec: story of a SQLite query optimisation</title>
+  </entry><entry xml:lang="en">
+    <title>From 19k to 4.2M events/sec: story of a SQLite query optimisation</title>
     <published>2025-09-12T00:00:00+00:00</published>
     <updated>2025-09-12T00:00:00+00:00</updated>
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/"/>
     <id>https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/</id>
     <summary type="html">After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Sliding Sync at the Matrix Conference</title>
     <published>2024-10-30T00:00:00+00:00</published>
     <updated>2024-10-30T00:00:00+00:00</updated>
@@ -40,8 +36,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/"/>
     <id>https://mnt.io/articles/sliding-sync-at-the-matrix-conference/</id>
     <summary type="html">I have presented Sliding Sync, a novel, fast and efficient synchronisation mechanism for the Matrix protocol, at the first Matrix Conference in Berlin. It&apos;s been many many months that I&apos;m working on this project, and I&apos;m joyful it&apos;s now available to everyone for a better Matrix user experience!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Building a new site!</title>
     <published>2024-10-08T00:00:00+00:00</published>
     <updated>2024-10-08T00:00:00+00:00</updated>
@@ -49,8 +44,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/building-a-new-site/"/>
     <id>https://mnt.io/articles/building-a-new-site/</id>
     <summary type="html">It&apos;s time to rewrite my site from scratch. I&apos;m nostalgic of the good old Web. This site is hand-written, and promotes smallness, speed, simplicity and fun. Let&apos;s discover the new lore (!), and let&apos;s talk about series a little bit.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Observability</title>
     <published>2024-09-19T00:00:00+00:00</published>
     <updated>2024-09-19T00:00:00+00:00</updated>
@@ -58,17 +52,15 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/reactive-programming-in-rust/observability/"/>
     <id>https://mnt.io/series/reactive-programming-in-rust/observability/</id>
     <summary type="html">The basis of reactive programming is observability. Let&apos;s play with it.</summary>
-  </entry>
-  <entry xml:lang="en">
-    <title>I&#x27;ve loved Wasmer, I still love Wasmer</title>
+  </entry><entry xml:lang="en">
+    <title>I&#39;ve loved Wasmer, I still love Wasmer</title>
     <published>2021-10-04T00:00:00+00:00</published>
     <updated>2021-10-04T00:00:00+00:00</updated>
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/i-leave-wasmer/"/>
     <id>https://mnt.io/articles/i-leave-wasmer/</id>
     <summary type="html">I&apos;m proud of what I&apos;ve done at Wasmer, but the toxic working environment forces me to leave. Here is the story of a really successful and beautiful project with a chaotic management.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Bye bye WhatsApp, hello ?</title>
     <published>2021-01-19T00:00:00+00:00</published>
     <updated>2021-01-19T00:00:00+00:00</updated>
@@ -76,8 +68,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/bye-bye-whatsapp-hello/"/>
     <id>https://mnt.io/articles/bye-bye-whatsapp-hello/</id>
     <summary type="html">A rare article written in French discussing WhatsApp and its alternatives.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Announcing the first Java library to run WebAssembly: Wasmer JNI</title>
     <published>2020-05-13T00:00:00+00:00</published>
     <updated>2020-05-13T00:00:00+00:00</updated>
@@ -85,8 +76,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/"/>
     <id>https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/</id>
     <summary type="html">This article presents the &lt;code&gt;wasmer-java&lt;/code&gt; project: the first Java library to run WebAssembly.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Announcing the first Postgres extension to run WebAssembly</title>
     <published>2019-08-29T00:00:00+00:00</published>
     <updated>2019-08-29T00:00:00+00:00</updated>
@@ -94,8 +84,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/"/>
     <id>https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/</id>
     <summary type="html">This article presents &lt;code&gt;wasmer-postgres&lt;/code&gt;: the first Postgres extension to run WebAssembly. The article explores some possibilities. This is super experimental!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Announcing the fastest WebAssembly runtime for Go: wasmer</title>
     <published>2019-05-29T00:00:00+00:00</published>
     <updated>2019-05-29T00:00:00+00:00</updated>
@@ -103,8 +92,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/"/>
     <id>https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/</id>
     <summary type="html">This article presents &lt;code&gt;wasmer-go&lt;/code&gt;: the fastest WebAssembly runtime for Go.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</title>
     <published>2019-04-03T00:00:00+00:00</published>
     <updated>2019-04-03T00:00:00+00:00</updated>
@@ -112,8 +100,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/"/>
     <id>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</id>
     <summary type="html">This article explains how and why I&apos;ve migrated &lt;code&gt;php-ext-wasm&lt;/code&gt; from wasmi to Wasmer.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Bye bye Automattic, hello Wasmer</title>
     <published>2019-03-04T00:00:00+00:00</published>
     <updated>2019-03-04T00:00:00+00:00</updated>
@@ -121,8 +108,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/"/>
     <id>https://mnt.io/articles/bye-bye-automattic-hello-wasmer/</id>
     <summary type="html">Eh, new job!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The PHP galaxy</title>
     <published>2018-10-29T00:00:00+00:00</published>
     <updated>2018-10-29T00:00:00+00:00</updated>
@@ -130,8 +116,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</id>
     <summary type="html">This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&apos;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&apos;s amazing how faster it is!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The C galaxy</title>
     <published>2018-09-11T00:00:00+00:00</published>
     <updated>2018-09-11T00:00:00+00:00</updated>
@@ -139,8 +124,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/</id>
     <summary type="html">C is the &lt;em&gt;lingua franca&lt;/em&gt; of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The ASM.js galaxy</title>
     <published>2018-08-28T00:00:00+00:00</published>
     <updated>2018-08-28T00:00:00+00:00</updated>
@@ -148,8 +132,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</id>
     <summary type="html">In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn&apos;t support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>The WebAssembly galaxy</title>
     <published>2018-08-22T00:00:00+00:00</published>
     <updated>2018-08-22T00:00:00+00:00</updated>
@@ -157,8 +140,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/</id>
     <summary type="html">In this episode, we explore the WebAssembly galaxy. We first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Prelude</title>
     <published>2018-08-21T00:00:00+00:00</published>
     <updated>2018-08-21T00:00:00+00:00</updated>
@@ -166,8 +148,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/series/from-rust-to-beyond/prelude/"/>
     <id>https://mnt.io/series/from-rust-to-beyond/prelude/</id>
     <summary type="html">Let&apos;s start by explaining what Gutenberg is, how our own Rust works, and what we need to do.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>How Automattic (WordPress.com &amp; co.) partly moved away from PHPUnit to atoum?</title>
     <published>2018-02-26T00:00:00+00:00</published>
     <updated>2018-02-26T00:00:00+00:00</updated>
@@ -175,8 +156,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/"/>
     <id>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</id>
     <summary type="html">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>One conference per day, for one year (2017)</title>
     <published>2018-01-25T00:00:00+00:00</published>
     <updated>2018-01-25T00:00:00+00:00</updated>
@@ -184,8 +164,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/"/>
     <id>https://mnt.io/articles/one-conference-per-day-for-one-year-2017/</id>
     <summary type="html">In 2017, I&apos;ve watched one conference per day. Here is the conclusion of this challenge.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Random thoughts about `::class` in PHP</title>
     <published>2018-01-24T00:00:00+00:00</published>
     <updated>2018-01-24T00:00:00+00:00</updated>
@@ -193,8 +172,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/random-thoughts-about-class-in-php/"/>
     <id>https://mnt.io/articles/random-thoughts-about-class-in-php/</id>
     <summary type="html">I am bored of PHP. Let&apos;s have fun with &lt;code&gt;::class&lt;/code&gt;!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Automattic, Grand Meetup 2017</title>
     <published>2017-11-26T00:00:00+00:00</published>
     <updated>2017-11-26T00:00:00+00:00</updated>
@@ -202,8 +180,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/automattic-grand-meetup-2017/"/>
     <id>https://mnt.io/articles/automattic-grand-meetup-2017/</id>
     <summary type="html">A picture of the Grand Meetup 2017.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>atoum supports TeamCity</title>
     <published>2017-11-06T00:00:00+00:00</published>
     <updated>2017-11-06T00:00:00+00:00</updated>
@@ -211,8 +188,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/atoum-supports-teamcity/"/>
     <id>https://mnt.io/articles/atoum-supports-teamcity/</id>
     <summary type="html">&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt; gains a new extension: &lt;code&gt;atoum/teamcity-extension&lt;/code&gt; to get full integration with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt;!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Export functions in PHP à la Javascript</title>
     <published>2017-10-30T00:00:00+00:00</published>
     <updated>2017-10-30T00:00:00+00:00</updated>
@@ -220,8 +196,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/export-functions-in-php-a-la-javascript/"/>
     <id>https://mnt.io/articles/export-functions-in-php-a-la-javascript/</id>
     <summary type="html">I am bored of PHP. Can it be as &lt;del&gt;horrible&lt;/del&gt; funky as JavaScript?</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Finite-State Machine as a Type System illustrated with a store product</title>
     <published>2017-08-09T00:00:00+00:00</published>
     <updated>2017-08-09T00:00:00+00:00</updated>
@@ -229,8 +204,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/"/>
     <id>https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/</id>
     <summary type="html">In this article, I would like to talk about how to implement a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https://en.wikipedia.org/wiki/Finite-state_machine&quot;&gt;Finite-State Machine&lt;/a&gt; (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply &lt;strong&gt;avoid impossible states and transitions&lt;/strong&gt;.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Tagua VM, a safe PHP virtual machine</title>
     <published>2017-06-19T00:00:00+00:00</published>
     <updated>2017-06-19T00:00:00+00:00</updated>
@@ -238,8 +212,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/"/>
     <id>https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/</id>
     <summary type="html">Watch my last talk at the PHPTour conference about Tagua VM, an experimental PHP runtime written in Rust and LLVM.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Faster find algorithms in nom</title>
     <published>2017-05-23T00:00:00+00:00</published>
     <updated>2017-05-23T00:00:00+00:00</updated>
@@ -247,8 +220,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/faster-find-algorithms-in-nom/"/>
     <id>https://mnt.io/articles/faster-find-algorithms-in-nom/</id>
     <summary type="html">This article explains quickly how I&apos;ve improved &lt;code&gt;nom&lt;/code&gt;&apos;s performance by 78% when parsing in some cases.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Welcome to Chaos</title>
     <published>2017-04-24T00:00:00+00:00</published>
     <updated>2017-04-24T00:00:00+00:00</updated>
@@ -256,8 +228,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/welcome-to-chaos/"/>
     <id>https://mnt.io/articles/welcome-to-chaos/</id>
     <summary type="html">Recently, &lt;a href=&quot;https://mnt.io/articles/bye-bye-liip-hello-automattic/&quot;&gt;I joined Automattic&lt;/a&gt;. This is a world-wide distributed company. The first three weeks you incarn a Happiness Engineer. This is part of the Happiness Rotation duty. This article explains why I loved it, and why I reckon you should do it too.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Bye bye Liip, hello Automattic</title>
     <published>2017-04-18T00:00:00+00:00</published>
     <updated>2017-04-18T00:00:00+00:00</updated>
@@ -265,8 +236,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/bye-bye-liip-hello-automattic/"/>
     <id>https://mnt.io/articles/bye-bye-liip-hello-automattic/</id>
     <summary type="html">Eh, new job!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>DuckDuckGo in a Shell</title>
     <published>2015-08-05T00:00:00+00:00</published>
     <updated>2015-08-05T00:00:00+00:00</updated>
@@ -274,17 +244,15 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/duckduckgo-in-a-shell/"/>
     <id>https://mnt.io/articles/duckduckgo-in-a-shell/</id>
     <summary type="html">Tiny bash hack.</summary>
-  </entry>
-  <entry xml:lang="en">
-    <title>sabre&#x2F;katana</title>
+  </entry><entry xml:lang="en">
+    <title>sabre/katana</title>
     <published>2015-07-13T00:00:00+00:00</published>
     <updated>2015-07-13T00:00:00+00:00</updated>
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/"/>
     <id>https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/</id>
     <summary type="html">&lt;code&gt;sabre/katana&lt;/code&gt; is a contact, calendar, task list and file server. What does it mean? Assuming nowadays you have multiple devices (PC, phones, tablets, TVs…). If you would like to get your address books, calendars, task lists and files synced between all these devices from everywhere, you need a server. All your devices are then considered as clients.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>RFCs should provide executable test suites</title>
     <published>2015-02-27T00:00:00+00:00</published>
     <updated>2015-02-27T00:00:00+00:00</updated>
@@ -292,8 +260,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/rfcs-should-provide-executable-test-suites/"/>
     <id>https://mnt.io/articles/rfcs-should-provide-executable-test-suites/</id>
     <summary type="html">I&apos;ve implemented xCal and xCard formats inside the &lt;code&gt;sabre/dav&lt;/code&gt; libraries. While testing the different RFCs against my implementation, several errata have been found. This article, first, quickly list them and, second, ask questions about how such errors can be present and how they can be easily revealed. If reading my dry humor about RFC errata is boring, the next sections are more interesting. The whole idea is: Why RFCs do not provide executable test suites?</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Control the terminal, the right way</title>
     <published>2015-01-04T00:00:00+00:00</published>
     <updated>2015-01-04T00:00:00+00:00</updated>
@@ -301,8 +268,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/control-the-terminal-the-right-way/"/>
     <id>https://mnt.io/articles/control-the-terminal-the-right-way/</id>
     <summary type="html">Nowadays, there are plenty of terminal emulators in the wild. Each one has a specific way to handle controls. How many colours does it support? How to control the style of a character? How to control more than style, like the cursor or the window? In this article, we are going to explain and show in action the right ways to control your terminal with a portable and an easy to maintain API. We are going to talk about &lt;code&gt;stat&lt;/code&gt;, &lt;code&gt;tput&lt;/code&gt;, &lt;code&gt;terminfo&lt;/code&gt;, &lt;code&gt;hoa/console&lt;/code&gt;… but do not be afraid, it&apos;s easy and fun!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>atoum has two release managers</title>
     <published>2014-11-28T00:00:00+00:00</published>
     <updated>2014-11-28T00:00:00+00:00</updated>
@@ -310,8 +276,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/atoum-has-two-release-managers/"/>
     <id>https://mnt.io/articles/atoum-has-two-release-managers/</id>
     <summary type="html">atoum gains 2 release managers for a better project management!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Hello fruux!</title>
     <published>2014-11-24T00:00:00+00:00</published>
     <updated>2014-11-24T00:00:00+00:00</updated>
@@ -319,8 +284,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/hello-fruux/"/>
     <id>https://mnt.io/articles/hello-fruux/</id>
     <summary type="html">Eh, new job!</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Generate strings based on regular expressions</title>
     <published>2014-09-30T00:00:00+00:00</published>
     <updated>2014-09-30T00:00:00+00:00</updated>
@@ -328,8 +292,7 @@
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/"/>
     <id>https://mnt.io/articles/generate-strings-based-on-regular-expressions/</id>
     <summary type="html">During my PhD thesis, I have partly worked on the problem of the automatic accurate test data generation. In order to be complete and self-contained, I have addressed all kinds of data types, including strings. This article aims at showing how to generate accurate and relevant strings under several constraints.</summary>
-  </entry>
-  <entry xml:lang="en">
+  </entry><entry xml:lang="en">
     <title>Rüsh Release</title>
     <published>2014-09-15T00:00:00+00:00</published>
     <updated>2014-09-15T00:00:00+00:00</updated>

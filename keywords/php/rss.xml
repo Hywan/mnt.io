@@ -6,48 +6,42 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/php/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Wed, 03 Apr 2019 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Wed, 03 Apr 2019 00:00:00 +0000</lastBuildDate><item>
       <title>🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</title>
       <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</link>
       <guid>https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/</guid>
       <description xml:base="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/">This article explains how and why I&apos;ve migrated &lt;code&gt;php-ext-wasm&lt;/code&gt; from wasmi to Wasmer.</description>
-    </item>
-    <item>
+    </item><item>
       <title>The PHP galaxy</title>
       <pubDate>Mon, 29 Oct 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/">This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&apos;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&apos;s amazing how faster it is!</description>
-    </item>
-    <item>
+    </item><item>
       <title>How Automattic (WordPress.com &amp; co.) partly moved away from PHPUnit to atoum?</title>
       <pubDate>Mon, 26 Feb 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</link>
       <guid>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</guid>
       <description xml:base="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Random thoughts about `::class` in PHP</title>
       <pubDate>Wed, 24 Jan 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/random-thoughts-about-class-in-php/</link>
       <guid>https://mnt.io/articles/random-thoughts-about-class-in-php/</guid>
       <description xml:base="https://mnt.io/articles/random-thoughts-about-class-in-php/">I am bored of PHP. Let&apos;s have fun with &lt;code&gt;::class&lt;/code&gt;!</description>
-    </item>
-    <item>
+    </item><item>
       <title>Export functions in PHP à la Javascript</title>
       <pubDate>Mon, 30 Oct 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/export-functions-in-php-a-la-javascript/</link>
       <guid>https://mnt.io/articles/export-functions-in-php-a-la-javascript/</guid>
       <description xml:base="https://mnt.io/articles/export-functions-in-php-a-la-javascript/">I am bored of PHP. Can it be as &lt;del&gt;horrible&lt;/del&gt; funky as JavaScript?</description>
-    </item>
-    <item>
+    </item><item>
       <title>Tagua VM, a safe PHP virtual machine</title>
       <pubDate>Mon, 19 Jun 2017 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

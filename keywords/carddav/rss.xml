@@ -6,16 +6,14 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/carddav/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>sabre&#x2F;katana</title>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate><item>
+      <title>sabre/katana</title>
       <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/</link>
       <guid>https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/</guid>
       <description xml:base="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/">&lt;code&gt;sabre/katana&lt;/code&gt; is a contact, calendar, task list and file server. What does it mean? Assuming nowadays you have multiple devices (PC, phones, tablets, TVs…). If you would like to get your address books, calendars, task lists and files synced between all these devices from everywhere, you need a server. All your devices are then considered as clients.</description>
-    </item>
-    <item>
+    </item><item>
       <title>Hello fruux!</title>
       <pubDate>Mon, 24 Nov 2014 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

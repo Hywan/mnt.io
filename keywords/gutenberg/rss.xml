@@ -6,40 +6,35 @@
     <description></description>
     <language>en</language>
     <atom:link href="https://mnt.io/keywords/gutenberg/rss.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0000</lastBuildDate>
-    <item>
+    <lastBuildDate>Mon, 29 Oct 2018 00:00:00 +0000</lastBuildDate><item>
       <title>The PHP galaxy</title>
       <pubDate>Mon, 29 Oct 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/">This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it&apos;s done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it&apos;s amazing how faster it is!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The C galaxy</title>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/">C is the &lt;em&gt;lingua franca&lt;/em&gt; of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies.</description>
-    </item>
-    <item>
+    </item><item>
       <title>The ASM.js galaxy</title>
       <pubDate>Tue, 28 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/">In this episode, we explore the ASM.js galaxy, as a fallback to WebAssembly when the JavaScript host doesn&apos;t support it. We end by a benchmark comparing the Rust to WebAssembly to ASM.js to JavaScript design versus the PEG.js solution: is it faster? Is it still worth it after the conversions to ASM.js? Oh bloody… still yeah!</description>
-    </item>
-    <item>
+    </item><item>
       <title>The WebAssembly galaxy</title>
       <pubDate>Wed, 22 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/</link>
       <guid>https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/</guid>
       <description xml:base="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">In this episode, we explore the WebAssembly galaxy. We first off present WebAssembly. Then we see how to write a Rust program tailored for WebAssembly. We continue by explaining how to run this WebAssembly module on a JavaScript host. It brings some complications, like how to flatten an Abstract Syntax Tree to get fast memory accesses between Rust and JavaScript. We continue by reducing the size of the WebAssembly module to make it as small as possible, smaller than a tiny image. Finally, we compare performance of this Rust to WebAssembly to JavaScript design versus the original PEG.js solution: is it faster? Oh yeah… it is!</description>
-    </item>
-    <item>
+    </item><item>
       <title>Prelude</title>
       <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
       <author>ivan@mnt.io (Ivan Enderlin)</author>

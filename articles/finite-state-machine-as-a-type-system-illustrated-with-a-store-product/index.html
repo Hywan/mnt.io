@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -36,7 +36,7 @@
     title="All articles">
 
   <meta name="author" content="Ivan Enderlin">
-  <meta name="description" content="In this article, I would like to talk about how to implement a [Finite-State Machine](https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Finite-state_machine) (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply **avoid impossible states and transitions**.">
+  <meta name="description" content="In this article, I would like to talk about how to implement a [Finite-State Machine](https://en.wikipedia.org/wiki/Finite-state_machine) (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply **avoid impossible states and transitions**.">
   <meta name="keywords" content="type">
   <meta property="og:title" content="Finite-State Machine as a Type System illustrated with a store product">
   <meta property="og:site_name" content="mnt.io">
@@ -168,14 +168,14 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2017-08-09" property="datePublished">August 09, 2017</time>
-    <span title="Reading time" property="timeRequired" content="PT9M">9 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT8M">8 minutes read</span>
     
     <span title="Keywords" property="keywords" content="type">
       Keywords:&nbsp;<a href="/keywords/type" title="All articles matching the `type` keyword">type</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles&#x2F;2017-08-09-finite-state-machine-as-a-type-system-illustrated-with-a-store-product&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/articles/2017-08-09-finite-state-machine-as-a-type-system-illustrated-with-a-store-product/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
-      <meta property="description" content="In this article, I would like to talk about how to implement a [Finite-State Machine](https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Finite-state_machine) (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply **avoid impossible states and transitions**." />
+      <meta property="description" content="In this article, I would like to talk about how to implement a [Finite-State Machine](https://en.wikipedia.org/wiki/Finite-state_machine) (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply **avoid impossible states and transitions**." />
       
     
   </div>
@@ -221,7 +221,7 @@ the <code>cancel</code> action is called, it transitions to the <code>D</code> s
 </figure>
 <p>Our goal is to respect this FSM. Invalid actions must be impossible to
 do.</p>
-<h2 id="">Finite-State Machine as a Type System<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="finite-state-machine-as-a-type-system">Finite-State Machine as a Type System<a role="presentation" class="anchor" href="#finite-state-machine-as-a-type-system" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Having a FSM is a good thing to define the states and the transitions
 between them: It is formal and clear. However, it is tested at runtime,
@@ -241,32 +241,32 @@ it. We replace an interface on this product, and boom, the IDE tells us
 that the code is broken in <em>x</em> places. It <strong>detects impossible scenarios
 ahead of code execution</strong>.</p>
 <p>No more talking. Here is the code.</p>
-<h3 id="-1">The Mighty Product<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-mighty-product">The Mighty Product<a role="presentation" class="anchor" href="#the-mighty-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Product</span><span> {}</span></span></code></pre>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Product</span><span> {}</span></span></code></pre>
 <p>A product is a class implementing the <code>Product</code> interface. It allows to
 type a generic product, with no regards about its state.</p>
-<h3 id="-2">Active and Inactive<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="active-and-inactive">Active and Inactive<a role="presentation" class="anchor" href="#active-and-inactive" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that is active.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Active</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Product</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-storage"> self</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that is active.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Active</span><span class="z-18"> extends</span><span class="z-1"> Product</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-18"> self</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that has been cancelled, or not in stock.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Inactive</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Product</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-storage"> self</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that has been cancelled, or not in stock.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Inactive</span><span class="z-18"> extends</span><span class="z-1"> Product</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-18"> self</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The <code>Active</code> and <code>Inactive</code> interfaces are useful to create constraints
 such as:</p>
@@ -282,53 +282,53 @@ our FSM.</p>
 express the following constraint: “A valid product cannot be invalid,
 and vice-versa”, i.e. both interfaces cannot be implemented by the same
 value.</p>
-<h3 id="-3">Purchase, Renew, and Cancel<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="purchase-renew-and-cancel">Purchase, Renew, and Cancel<a role="presentation" class="anchor" href="#purchase-renew-and-cancel" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that can be purchased.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Purchasable</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> purchase</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Renewable</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that can be purchased.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Purchasable</span><span class="z-18"> extends</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> purchase</span><span>()</span><span class="z-16">:</span><span class="z-1"> Renewable</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Only an active product can be purchased. The action is <code>purchase</code> and it
 generates a product that is renewable. <code>purchase</code> transitions from the
 state <code>A</code> to <code>B</code> (regarding the graph above).</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that can be cancelled.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Cancellable</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> cancel</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that can be cancelled.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Cancellable</span><span class="z-18"> extends</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> cancel</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Only an active product can be cancelled. The action is <code>cancel</code> and it
 generates an inactive product, so it transitions from the state <code>B</code> to
 <code>D</code>.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that can be renewed.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> Renewable</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Cancellable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> renew</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-storage"> self</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that can be renewed.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Renewable</span><span class="z-18"> extends</span><span class="z-1"> Cancellable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> renew</span><span>()</span><span class="z-16">:</span><span class="z-18"> self</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>A renewable product is also cancellable. The action is <code>renew</code> and this
 is a reflexive transition from the state <code>B</code> to <code>B</code>.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * A product that can be once-off purchased, i.e. it can be purchased but not</span></span>
-<span class="giallo-l"><span class="z-comment"> * renewed.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">interface</span><span class="z-entity z-name"> PurchasableOnce</span><span class="z-storage"> extends</span><span class="z-entity z-other z-inherited-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> purchase</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Cancellable</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * A product that can be once-off purchased, i.e. it can be purchased but not</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * renewed.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> PurchasableOnce</span><span class="z-18"> extends</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> purchase</span><span>()</span><span class="z-16">:</span><span class="z-1"> Cancellable</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Finally, a once-off purchasable product has one action: <code>purchase</code> that
 produces a <code>Cancellable</code> product, and it transitions from the state <code>A</code>
 to <code>C</code>.</p>
-<h3 id="-4">Take a Breath<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="take-a-breath">Take a Breath<a role="presentation" class="anchor" href="#take-a-breath" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <figure role="presentation">
 <p><img src="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/./schema2.png" alt="Second schema" loading="lazy" decoding="async" /></p>
@@ -338,66 +338,66 @@ to <code>C</code>.</p>
 provides a constraint but also <strong>defines type capabilities</strong>: <strong>What
 operations can be performed on a value implementing a particular
 interface</strong>.</p>
-<h3 id="-5">SecretProduct<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="secretproduct">SecretProduct<a role="presentation" class="anchor" href="#secretproduct" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>Let&#39;s consider the <code>SecretProduct</code> as a new super secret product that
+<p>Let's consider the <code>SecretProduct</code> as a new super secret product that
 will revolutionise our store:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">/**</span></span>
-<span class="giallo-l"><span class="z-comment"> * The `SecretProduct` class is:</span></span>
-<span class="giallo-l"><span class="z-comment"> *</span></span>
-<span class="giallo-l"><span class="z-comment"> *   * A product,</span></span>
-<span class="giallo-l"><span class="z-comment"> *   * Active,</span></span>
-<span class="giallo-l"><span class="z-comment"> *   * Purchasable.</span></span>
-<span class="giallo-l"><span class="z-comment"> *</span></span>
-<span class="giallo-l"><span class="z-comment"> * Note that in this implementation, the `SecretProduct` instance is mutable: Every</span></span>
-<span class="giallo-l"><span class="z-comment"> * action happens on the same `SecretProduct` instance. It makes sense because</span></span>
-<span class="giallo-l"><span class="z-comment"> * having 2 instances of the same product with different states might be error-prone</span></span>
-<span class="giallo-l"><span class="z-comment"> * in most scenarios.</span></span>
-<span class="giallo-l"><span class="z-comment"> */</span></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> SecretProduct</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Active</span><span class="z-punctuation z-separator">,</span><span class="z-entity z-other z-inherited-class"> Purchasable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-language"> $this</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">/**</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * The `SecretProduct` class is:</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *   * A product,</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *   * Active,</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *   * Purchasable.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> *</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * Note that in this implementation, the `SecretProduct` instance is mutable: Every</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * action happens on the same `SecretProduct` instance. It makes sense because</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * having 2 instances of the same product with different states might be error-prone</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> * in most scenarios.</span></span>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> SecretProduct</span><span class="z-18"> implements</span><span class="z-1"> Active</span><span class="z-10">,</span><span class="z-1"> Purchasable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-1 z-i"> $this</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    /**</span></span>
-<span class="giallo-l"><span class="z-comment">     * Purchase the product will return an active product that is renewable,</span></span>
-<span class="giallo-l"><span class="z-comment">     * and also cancellable.</span></span>
-<span class="giallo-l"><span class="z-comment">     */</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> purchase</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Renewable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable z-language">$this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getProduct</span><span>())</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Renewable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            protected</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    /**</span></span>
+<span class="giallo-l"><span class="z-7 z-i">     * Purchase the product will return an active product that is renewable,</span></span>
+<span class="giallo-l"><span class="z-7 z-i">     * and also cancellable.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">     */</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> purchase</span><span>()</span><span class="z-16">:</span><span class="z-1"> Renewable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        return new class</span><span> (</span><span class="z-1 z-i">$this</span><span class="z-16">-&gt;</span><span class="z-19">getProduct</span><span>())</span><span class="z-18"> implements</span><span class="z-1"> Renewable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            protected</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(</span><span class="z-support z-class">SecretProduct</span><span class="z-variable"> $product</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">                $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-comment">                // Do the purchase.</span></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-15"> __construct</span><span>(</span><span class="z-1">SecretProduct</span><span> $product) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">                $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-16"> =</span><span> $product</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Do the purchase.</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> renew</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Renewable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">                // Do the renew.</span></span>
-<span class="giallo-l"><span class="z-keyword">                return</span><span class="z-variable z-language"> $this</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-19"> renew</span><span>()</span><span class="z-16">:</span><span class="z-1"> Renewable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Do the renew.</span></span>
+<span class="giallo-l"><span class="z-18">                return</span><span class="z-1 z-i"> $this</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> cancel</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable z-language">$this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getProduct</span><span>())</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">                    protected</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-19"> cancel</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                return new class</span><span> (</span><span class="z-1 z-i">$this</span><span class="z-16">-&gt;</span><span class="z-19">getProduct</span><span>())</span><span class="z-18"> implements</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                    protected</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">                    public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(</span><span class="z-support z-class">SecretProduct</span><span class="z-variable"> $product</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">                        $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-comment">                        // Do the cancel.</span></span>
+<span class="giallo-l"><span class="z-18">                    public function</span><span class="z-15"> __construct</span><span>(</span><span class="z-1">SecretProduct</span><span> $product) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">                        $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-16"> =</span><span> $product</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                        // Do the cancel.</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">                    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                        return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">                    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                        return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>                    }</span></span>
-<span class="giallo-l"><span>                }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>                }</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>            }</span></span>
-<span class="giallo-l"><span>        }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        }</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The <code>SecretProduct</code> is a product that is active and purchasable. PHP
@@ -429,27 +429,27 @@ interface, and the real cancel action is done in the constructor.</li>
 </ul>
 </li>
 </ul>
-<h3 id="-6">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="assert-possible-and-impossible-actions">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>Let&#39;s try some valid and invalid actions. Those followings are
+<p>Let's try some valid and invalid actions. Those followings are
 <strong>possible actions</strong>:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>((</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">                             instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>((</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-keyword z-operator">                    instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>((</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator">                   instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>((</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator"> instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-15">assert</span><span>((</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">                             instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">assert</span><span>((</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-16">                    instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">assert</span><span>((</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16">                   instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">assert</span><span>((</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16"> instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>It is possible to purchase a product, then renew it zero or many times,
 and finally to cancel it. It matches the FSM!</p>
 <p>Those followings are <strong>impossible actions</strong>:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>(</span><span class="z-keyword">new</span><span class="z-support z-class"> SecretProduct</span><span>())</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>(</span><span class="z-18">new</span><span class="z-1"> SecretProduct</span><span>())</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-10">;</span></span></code></pre>
 <p>It is impossible:</p>
 <ul>
 <li>To renew or to cancel a product that has not been purchased,</li>
@@ -458,23 +458,23 @@ and finally to cancel it. It matches the FSM!</p>
 <li>To cancel a product more than once.</li>
 </ul>
 <p>Those followings are <strong>impossible implementations</strong>:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> SecretProduct</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Active</span><span class="z-punctuation z-separator">,</span><span class="z-entity z-other z-inherited-class"> Purchasable</span><span class="z-punctuation z-separator">,</span><span class="z-entity z-other z-inherited-class"> PurchasableOnce</span><span> {}</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> SecretProduct</span><span class="z-18"> implements</span><span class="z-1"> Active</span><span class="z-10">,</span><span class="z-1"> Purchasable</span><span class="z-10">,</span><span class="z-1"> PurchasableOnce</span><span> {}</span></span></code></pre>
 <p>A product cannot be purchasable and once-off purchasable at the same
 time, because <code>Purchasable::purchase</code> is not compatible with
 <code>PurchasableOnce::purchase</code>.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">class</span><span class="z-entity z-name"> SecretProduct</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Inactive</span><span class="z-punctuation z-separator">,</span><span class="z-entity z-other z-inherited-class"> Cancellable</span><span> {}</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">class</span><span class="z-4"> SecretProduct</span><span class="z-18"> implements</span><span class="z-1"> Inactive</span><span class="z-10">,</span><span class="z-1"> Cancellable</span><span> {}</span></span></code></pre>
 <p>An inactive product cannot be purchased nor renewed nor cancelled
 because <code>Active::getProduct</code> and <code>Inactive::getProduct</code> are not
 compatible.</p>
-<p>Wow, that&#39;s great garantees isn&#39;t it? <strong>PHP will raise fatal errors for
+<p>Wow, that's great garantees isn't it? <strong>PHP will raise fatal errors for
 impossible actions or impossible states</strong>. No warnings or notices: Fatal
 errors. Most of them are correctly inferred by IDE, so… follow the red
 crosses in your IDE.</p>
-<h2 id="-7">Restoring a Product<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="restoring-a-product">Restoring a Product<a role="presentation" class="anchor" href="#restoring-a-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>One major thing is missing: The state of a product is stored in the
 database. When loading the product, we must be able to get an instance
@@ -485,130 +485,130 @@ composition of traits.</p>
 is possible to achieve the same behavior with final named classes. Also
 we are using a repository, which is convenient for this article, but not
 necessarily the best solution.</p>
-<h3 id="-8">Repository<a role="presentation" class="anchor" href="#-8" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="repository">Repository<a role="presentation" class="anchor" href="#repository" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The following <code>ProductRepository\load</code> function is just here to give you
 an idea of how it works.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">namespace</span><span class="z-entity z-name"> ProductRepository</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">namespace</span><span class="z-4"> ProductRepository</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage z-type z-function">function</span><span class="z-entity z-name z-function"> load</span><span>(</span><span class="z-keyword">int</span><span class="z-variable"> $id</span><span class="z-punctuation z-separator">,</span><span class="z-keyword"> string</span><span class="z-variable"> $state</span><span>)</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Product</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">    // Load the product from the database with `$id`.</span></span>
-<span class="giallo-l"><span class="z-comment">    //</span></span>
-<span class="giallo-l"><span class="z-comment">    // The states can be `Renewable`, `Cancellable`, or `Inactive` (check</span></span>
-<span class="giallo-l"><span class="z-comment">    // the FSM to double-check). Products that have not been purchased</span></span>
-<span class="giallo-l"><span class="z-comment">    // are not in the database.</span></span>
+<span class="giallo-l"><span class="z-18">function</span><span class="z-19"> load</span><span>(</span><span class="z-18">int</span><span> $id</span><span class="z-10">,</span><span class="z-18"> string</span><span> $state)</span><span class="z-16">:</span><span class="z-1"> Product</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Load the product from the database with `$id`.</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    //</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // The states can be `Renewable`, `Cancellable`, or `Inactive` (check</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // the FSM to double-check). Products that have not been purchased</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // are not in the database.</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Fake minimal active product.</span></span>
-<span class="giallo-l"><span class="z-variable">    $product</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> new</span><span class="z-storage"> class implements</span><span class="z-entity z-other z-inherited-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">        public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">            return</span><span class="z-variable z-language"> $this</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Fake minimal active product.</span></span>
+<span class="giallo-l"><span>    $product</span><span class="z-16"> =</span><span class="z-18"> new class implements</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            return</span><span class="z-1 z-i"> $this</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>        }</span></span>
-<span class="giallo-l"><span>    }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    switch</span><span> (</span><span class="z-variable">$state</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-comment">        // State B.</span></span>
-<span class="giallo-l"><span class="z-keyword">        case</span><span class="z-support z-class"> Renewable</span><span class="z-keyword z-operator">::</span><span class="z-keyword">class</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">            return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable">$product</span><span>)</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Renewable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> ActiveProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> RenewableProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> CancellableProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    switch</span><span> ($state) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // State B.</span></span>
+<span class="giallo-l"><span class="z-18">        case</span><span class="z-1"> Renewable</span><span class="z-16">::</span><span class="z-18">class</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">            return new class</span><span> ($product)</span><span class="z-18"> implements</span><span class="z-1"> Renewable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> ActiveProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> RenewableProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> CancellableProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // State C.</span></span>
-<span class="giallo-l"><span class="z-keyword">        case</span><span class="z-support z-class"> Cancellable</span><span class="z-keyword z-operator">::</span><span class="z-keyword">class</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">            return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable">$product</span><span>)</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Cancellable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> ActiveProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> CancellableProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // State C.</span></span>
+<span class="giallo-l"><span class="z-18">        case</span><span class="z-1"> Cancellable</span><span class="z-16">::</span><span class="z-18">class</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">            return new class</span><span> ($product)</span><span class="z-18"> implements</span><span class="z-1"> Cancellable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> ActiveProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> CancellableProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // State D.</span></span>
-<span class="giallo-l"><span class="z-keyword">        case</span><span class="z-support z-class"> Inactive</span><span class="z-keyword z-operator">::</span><span class="z-keyword">class</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">            return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable">$product</span><span>)</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                use</span><span class="z-support z-class"> InactiveProduct</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // State D.</span></span>
+<span class="giallo-l"><span class="z-18">        case</span><span class="z-1"> Inactive</span><span class="z-16">::</span><span class="z-18">class</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">            return new class</span><span> ($product)</span><span class="z-18"> implements</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                use</span><span class="z-1"> InactiveProduct</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">        // Invalid state.</span></span>
-<span class="giallo-l"><span class="z-keyword">        default</span><span class="z-punctuation z-terminator">:</span></span>
-<span class="giallo-l"><span class="z-keyword">            throw new</span><span class="z-support z-class"> RuntimeException</span><span>(</span><span class="z-string">&#39;Invalid product state.&#39;</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Invalid state.</span></span>
+<span class="giallo-l"><span class="z-18">        default</span><span class="z-10">:</span></span>
+<span class="giallo-l"><span class="z-18">            throw new</span><span class="z-1"> RuntimeException</span><span>(</span><span class="z-11">&#39;Invalid product state.&#39;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-9">Traits<a role="presentation" class="anchor" href="#-9" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="traits">Traits<a role="presentation" class="anchor" href="#traits" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The code must look familiar because this is just a split from the
 <code>SecretProduct</code> implementation.</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> ActiveProduct</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    protected</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> ActiveProduct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    protected</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(</span><span class="z-support z-class">Product</span><span class="z-variable"> $product</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-15"> __construct</span><span>(</span><span class="z-1">Product</span><span> $product) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-16"> =</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Active</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span>
-<span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> RenewableProduct</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> renew</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Renewable</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">        // Do the renew.</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-language"> $this</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Active</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> CancellableProduct</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> cancel</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return new</span><span class="z-storage"> class</span><span> (</span><span class="z-variable z-language">$this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">getProduct</span><span>())</span><span class="z-storage"> implements</span><span class="z-entity z-other z-inherited-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">            protected</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> RenewableProduct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> renew</span><span>()</span><span class="z-16">:</span><span class="z-1"> Renewable</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">        // Do the renew.</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-1 z-i"> $this</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(</span><span class="z-support z-class">Product</span><span class="z-variable"> $product</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">                $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-comment">                // Do the cancel.</span></span>
+<span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> CancellableProduct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> cancel</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        return new class</span><span> (</span><span class="z-1 z-i">$this</span><span class="z-16">-&gt;</span><span class="z-19">getProduct</span><span>())</span><span class="z-18"> implements</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">            protected</span><span> $product</span><span class="z-10">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-15"> __construct</span><span>(</span><span class="z-1">Product</span><span> $product) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">                $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-16"> =</span><span> $product</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">                // Do the cancel.</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">            public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">                return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">            public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">                return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>            }</span></span>
-<span class="giallo-l"><span>        }</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>        }</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">trait</span><span class="z-entity z-name"> InactiveProduct</span><span> {</span></span>
-<span class="giallo-l"><span class="z-storage">    protected</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">trait</span><span class="z-4"> InactiveProduct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    protected</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-support z-function"> __construct</span><span>(</span><span class="z-support z-class">Product</span><span class="z-variable"> $product</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-variable z-language">        $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-keyword z-operator"> =</span><span class="z-variable"> $product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-15"> __construct</span><span>(</span><span class="z-1">Product</span><span> $product) {</span></span>
+<span class="giallo-l"><span class="z-1 z-i">        $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-16"> =</span><span> $product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    public</span><span class="z-storage z-type z-function"> function</span><span class="z-entity z-name z-function"> getProduct</span><span>()</span><span class="z-keyword z-operator">:</span><span class="z-support z-class"> Inactive</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-variable z-language"> $this</span><span class="z-keyword z-operator">-&gt;</span><span class="z-variable">product</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="-10">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#-10" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="assert-possible-and-impossible-actions-1">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The <strong>possible actions</strong> are:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$product</span><span class="z-keyword z-operator"> =</span><span> ProductRepository</span><span class="z-punctuation z-separator">\</span><span class="z-entity z-name z-function">load</span><span>(</span><span class="z-constant z-numeric">42</span><span class="z-punctuation z-separator">,</span><span class="z-support z-class"> Renewable</span><span class="z-keyword z-operator">::</span><span class="z-keyword">class</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>$product</span><span class="z-16"> =</span><span> ProductRepository</span><span class="z-10">\</span><span class="z-19">load</span><span>(</span><span class="z-13">42</span><span class="z-10">,</span><span class="z-1"> Renewable</span><span class="z-16">::</span><span class="z-18">class</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>(</span><span class="z-variable">$product</span><span class="z-keyword z-operator">           instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>(</span><span class="z-variable">$product</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">renew</span><span>()</span><span class="z-keyword z-operator">  instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-support z-function">assert</span><span>(</span><span class="z-variable">$product</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator"> instanceof</span><span class="z-support z-class"> Product</span><span>)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-15">assert</span><span>($product</span><span class="z-16">           instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">assert</span><span>($product</span><span class="z-16">-&gt;</span><span class="z-19">renew</span><span>()</span><span class="z-16">  instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-15">assert</span><span>($product</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16"> instanceof</span><span class="z-1"> Product</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>Product 42 is assumed to be in the state <code>B</code> (<code>Renewable::class</code>), so we
 can renew and cancel it.</p>
 <p>Those followings are <strong>impossible actions</strong>:</p>
-<pre class="giallo z-code"><code data-lang="php"><span class="giallo-l"><span class="z-keyword z-operator">&lt;?</span><span class="z-constant z-other">php</span></span>
+<pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$product</span><span class="z-keyword z-operator"> =</span><span> ProductRepository</span><span class="z-punctuation z-separator">\</span><span class="z-entity z-name z-function">load</span><span>(</span><span class="z-constant z-numeric">42</span><span class="z-punctuation z-separator">,</span><span class="z-support z-class"> Renewable</span><span class="z-keyword z-operator">::</span><span class="z-keyword">class</span><span>)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span>$product</span><span class="z-16"> =</span><span> ProductRepository</span><span class="z-10">\</span><span class="z-19">load</span><span>(</span><span class="z-13">42</span><span class="z-10">,</span><span class="z-1"> Renewable</span><span class="z-16">::</span><span class="z-18">class</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">$product</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">purchase</span><span>()</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-variable">$product</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-keyword z-operator">-&gt;</span><span class="z-entity z-name z-function">cancel</span><span>()</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span>$product</span><span class="z-16">-&gt;</span><span class="z-19">purchase</span><span>()</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>$product</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-16">-&gt;</span><span class="z-19">cancel</span><span>()</span><span class="z-10">;</span></span></code></pre>
 <p>It is impossible to purchase the product 42 because it is in state <code>B</code>,
 so it has already been purchased. It is impossible to cancel a product
 twice.</p>
 <p><strong>Same garantees apply here</strong>!</p>
-<h2 id="-11">Conclusion<a role="presentation" class="anchor" href="#-11" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to re-implement <code>SecretProduct</code> with the traits we have
 defined for the <code>ProductRepository</code>, or to use named classes. I let this
@@ -623,7 +623,7 @@ or renewing a once-off purchased product. It is also detected by PHP.</p>
 <p>The product repository is an example of how to restore a product at a
 particular state, with the help of the defined interfaces, and new small
 and simple traits.</p>
-<h2 id="-12">One More Thing<a role="presentation" class="anchor" href="#-12" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="one-more-thing">One More Thing<a role="presentation" class="anchor" href="#one-more-thing" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to integrate product categories in this type system (like
 bundles). It is more complex, but possible.</p>
@@ -631,7 +631,7 @@ bundles). It is more complex, but possible.</p>
 <ul>
 <li><a rel="noopener external" target="_blank" href="http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html">What to know before debating type systems</a>
 to have an overview of different systems,</li>
-<li><a rel="noopener external" target="_blank" href="https://sdleffler.github.io/RustTypeSystemTuringComplete/">Rust&#39;s Type System is Turing-Complete</a>
+<li><a rel="noopener external" target="_blank" href="https://sdleffler.github.io/RustTypeSystemTuringComplete/">Rust's Type System is Turing-Complete</a>
 to see how powerful a type system can be,</li>
 <li><a rel="noopener external" target="_blank" href="https://speakerdeck.com/willroth/fear-not-the-machine-of-state">Fear Not the Machine of State!</a>
 to see how to integrate an FSM into an object without using a type system.</li>
@@ -641,7 +641,7 @@ article:</p>
 <blockquote>
 <p>So what is a type? The only true definition is this: a type is a
 <strong>label</strong> used by a type system to <strong>prove</strong> some property of the
-<strong>program&#39;s behavior</strong>. If the type checker can assign types to the
+<strong>program's behavior</strong>. If the type checker can assign types to the
 whole program, then it succeeds in its proof; otherwise it fails and
 points out why it failed.</p>
 </blockquote>
@@ -650,7 +650,7 @@ points out why it failed.</p>
 the reviews!</p>
 
 
-    <nav class="previous-next-articles"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;tagua-vm-a-safe-php-virtual-machine&#x2F;" class="button text-align-start">❮&nbsp;Tagua VM, a safe PHP virtual machine</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;articles&#x2F;export-functions-in-php-a-la-javascript&#x2F;" class="button text-align-end">Export functions in PHP à la Javascript&nbsp;❯</a></nav>
+    <nav class="previous-next-articles"><a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="button text-align-start">❮&nbsp;Tagua VM, a safe PHP virtual machine</a><a href="https://mnt.io/articles/export-functions-in-php-a-la-javascript/" class="button text-align-end">Export functions in PHP à la Javascript&nbsp;❯</a></nav>
   </article>
 
 </main>

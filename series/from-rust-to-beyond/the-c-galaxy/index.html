@@ -17,8 +17,8 @@
     integrity="sha512-wCu6sWyut49WIeYYv/1vejjHgCNcDcFC20FsYO3fl8hVTb5+xST+KHuDUYLJ31Rjany1PI4JjZgEWq6vrVYwzQ==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/syntax-theme.css?h=ef9797b0398b3ffe9058"
-    integrity="sha512-cOXf37Vmjj5B0+n7O8/TxsF3dQVjKNG8pNnmktdz13J5+Juk6zL9t+4uAG/08WJvS9XFH9cOX4Am+H5uUqxGPw==">
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
@@ -172,12 +172,12 @@
       
   <div class="metadata" data-pagefind-ignore="all">
     <time title="Published date" datetime="2018-09-11" property="datePublished">September 11, 2018</time>
-    <span title="Reading time" property="timeRequired" content="PT13M">13 minutes read</span>
+    <span title="Reading time" property="timeRequired" content="PT11M">11 minutes read</span>
     
     <span title="Keywords" property="keywords" content="rust, binding, gutenberg, c, ffi">
       Keywords:&nbsp;<a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a>, <a href="/keywords/binding" title="All articles matching the `binding` keyword">binding</a>, <a href="/keywords/gutenberg" title="All articles matching the `gutenberg` keyword">gutenberg</a>, <a href="/keywords/c" title="All articles matching the `c` keyword">c</a>, <a href="/keywords/ffi" title="All articles matching the `ffi` keyword">ffi</a></span>
     
-      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series&#x2F;from-rust-to-beyond&#x2F;2018-09-11-the-c-galaxy&#x2F;index.md" title="Submit a patch for this page">Edit</a> this page</span>
+      <span><a href="https://github.com/Hywan/mnt.io/edit/main/content/series/from-rust-to-beyond/2018-09-11-the-c-galaxy/index.md" title="Submit a patch for this page">Edit</a> this page</span>
       
       <meta property="description" content="C is the _lingua franca_ of many programming languages. In this episode, we will approach the famous Foreign Function Interface (FFI) by generating a C API in Rust. We will continue by automatically generating C headers so that our interfaces are never outdated. Finally, we will write a small C programs just to test everything works as expected. After all, C is a trampoline to reach other galaxies." />
       
@@ -220,7 +220,7 @@ will be able to talk directly to any program easily.</p>
 <p>Because languages like PHP or Python are written in C, in our particular
 Gutenberg parser usecase, it means that the parser can be embedded and
 used by PHP or Python directly, with almost no overhead. Neat!</p>
-<h2 id="">Rust 🚀 C<a role="presentation" class="anchor" href="#" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rust-rocket-c">Rust 🚀 C<a role="presentation" class="anchor" href="#rust-rocket-c" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./rust-to-c.png" alt="Rust to C" loading="lazy" decoding="async" /></p>
@@ -230,18 +230,18 @@ used by PHP or Python directly, with almost no overhead. Neat!</p>
 <li>A static library (<code>.a</code> file),</li>
 <li>A header file (<code>.h</code> file).</li>
 </ol>
-<h3 id="-1">The Theory<a role="presentation" class="anchor" href="#-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-theory">The Theory<a role="presentation" class="anchor" href="#the-theory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To compile a Rust project into a static library, the <code>crate-type</code>
-property must contain the <code>staticlib</code> value. Let&#39;s edit the <code>Cargo.toml</code>
+property must contain the <code>staticlib</code> value. Let's edit the <code>Cargo.toml</code>
 file such as:</p>
-<pre class="giallo z-code"><code data-lang="toml"><span class="giallo-l"><span>[</span><span class="z-entity z-name">lib</span><span>]</span></span>
-<span class="giallo-l"><span class="z-variable">name</span><span class="z-punctuation z-separator"> =</span><span class="z-string"> &quot;gutenberg_post_parser&quot;</span></span>
-<span class="giallo-l"><span class="z-variable">crate-type</span><span class="z-punctuation z-separator"> =</span><span> [</span><span class="z-string">&quot;staticlib&quot;</span><span>]</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="toml"><span class="giallo-l"><span>[</span><span class="z-4">lib</span><span>]</span></span>
+<span class="giallo-l"><span>name</span><span class="z-10"> =</span><span class="z-11"> &quot;gutenberg_post_parser&quot;</span></span>
+<span class="giallo-l"><span>crate-type</span><span class="z-10"> =</span><span> [</span><span class="z-11">&quot;staticlib&quot;</span><span>]</span></span></code></pre>
 <p>Once <code>cargo build --release</code> is run, a <code>libgutenberg_post_parser.a</code> file
 is created in <code>target/release/</code>. Done. <code>cargo</code> and <code>rustc</code> make this
 step really a doddle.</p>
-<p>Now the header file. It can be written manually, but it&#39;s tedious and it
+<p>Now the header file. It can be written manually, but it's tedious and it
 gets easily outdated. The goal is to <em>automatically</em> generate it. Enter
 <a rel="noopener external" target="_blank" href="https://github.com/eqrion/cbindgen/"><code>cbindgen</code></a>:</p>
 <blockquote>
@@ -251,43 +251,43 @@ currently being developed to support creating bindings for
 designed to support any project.</p>
 </blockquote>
 <p>To install <code>cbindgen</code>, edit your <code>Cargo.toml</code> file, such as:</p>
-<pre class="giallo z-code"><code data-lang="toml"><span class="giallo-l"><span>[</span><span class="z-entity z-name">package</span><span>]</span></span>
-<span class="giallo-l"><span class="z-variable">build</span><span class="z-punctuation z-separator"> =</span><span class="z-string"> &quot;build.rs&quot;</span></span>
+<pre class="giallo z-code" ><code data-lang="toml"><span class="giallo-l"><span>[</span><span class="z-4">package</span><span>]</span></span>
+<span class="giallo-l"><span>build</span><span class="z-10"> =</span><span class="z-11"> &quot;build.rs&quot;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>[</span><span class="z-entity z-name">build-dependencies</span><span>]</span></span>
-<span class="giallo-l"><span class="z-variable">cbindgen</span><span class="z-punctuation z-separator"> =</span><span class="z-string"> &quot;^0.6.0&quot;</span></span></code></pre>
+<span class="giallo-l"><span>[</span><span class="z-4">build-dependencies</span><span>]</span></span>
+<span class="giallo-l"><span>cbindgen</span><span class="z-10"> =</span><span class="z-11"> &quot;^0.6.0&quot;</span></span></code></pre>
 <p>Actually, <code>cbindgen</code> comes in 2 flavors: CLI executable, or a library. I
 prefer to use the library approach, which makes installation easier.</p>
 <p>Note that Cargo has been instructed to use the <code>build.rs</code> file to build
 the project. This file is an appropriate place to generate the C headers
-file with <code>cbindgen</code>. Let&#39;s write it!</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-storage">extern</span><span class="z-keyword"> crate</span><span> cbindgen;</span></span>
+file with <code>cbindgen</code>. Let's write it!</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">extern crate</span><span> cbindgen;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> main</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> crate_dir</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">env</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">var</span><span>(</span><span class="z-string">&quot;CARGO_MANIFEST_DIR&quot;</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> main</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> crate_dir</span><span class="z-16"> =</span><span class="z-4"> std</span><span class="z-16">::</span><span class="z-4">env</span><span class="z-16">::</span><span class="z-19">var</span><span>(</span><span class="z-11">&quot;CARGO_MANIFEST_DIR&quot;</span><span>)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">    cbindgen</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">generate</span><span>(</span><span class="z-variable">crate_dir</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        .</span><span class="z-entity z-name z-function">expect</span><span>(</span><span class="z-string">&quot;Unable to generate C bindings.&quot;</span><span>)</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">        .</span><span class="z-entity z-name z-function">write_to_file</span><span>(</span><span class="z-string">&quot;dist/gutenberg_post_parser.h&quot;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">    cbindgen</span><span class="z-16">::</span><span class="z-19">generate</span><span>(crate_dir)</span></span>
+<span class="giallo-l"><span class="z-16">        .</span><span class="z-19">expect</span><span>(</span><span class="z-11">&quot;Unable to generate C bindings.&quot;</span><span>)</span></span>
+<span class="giallo-l"><span class="z-16">        .</span><span class="z-19">write_to_file</span><span>(</span><span class="z-11">&quot;dist/gutenberg_post_parser.h&quot;</span><span>);</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>With those information, <code>cbindgen</code> will scan the source code of the
 project and will generate C headers automatically in the
 <code>dist/gutenberg_post_parser.h</code> header file. Scanning will be detailed in
-a moment, but before that, let&#39;s quickly see how to control the content
+a moment, but before that, let's quickly see how to control the content
 of the header file. With the code snippet above, <code>cbindgen</code> will look
 for a <code>cbindgen.toml</code> configuration file in the <code>CARGO_MANIFEST_DIR</code>
 directory, i.e. the root of your crate. Mine looks like this:</p>
-<pre class="giallo z-code"><code data-lang="toml"><span class="giallo-l"><span class="z-variable">header</span><span class="z-punctuation z-separator"> =</span><span class="z-string"> &quot;&quot;&quot;</span></span>
-<span class="giallo-l"><span class="z-string">/*</span></span>
+<pre class="giallo z-code" ><code data-lang="toml"><span class="giallo-l"><span>header</span><span class="z-10"> =</span><span class="z-11"> &quot;&quot;&quot;</span></span>
+<span class="giallo-l"><span class="z-11">/*</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-string">Gutengerg Post Parser, the C bindings.</span></span>
+<span class="giallo-l"><span class="z-11">Gutengerg Post Parser, the C bindings.</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-string">Warning, this file is autogenerated by `cbindgen`.</span></span>
-<span class="giallo-l"><span class="z-string">Do not modify this manually.</span></span>
+<span class="giallo-l"><span class="z-11">Warning, this file is autogenerated by `cbindgen`.</span></span>
+<span class="giallo-l"><span class="z-11">Do not modify this manually.</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-string">*/&quot;&quot;&quot;</span></span>
-<span class="giallo-l"><span class="z-variable">tab_width</span><span class="z-punctuation z-separator"> =</span><span class="z-constant z-numeric"> 4</span></span>
-<span class="giallo-l"><span class="z-variable">language</span><span class="z-punctuation z-separator"> =</span><span class="z-string"> &quot;C&quot;</span></span></code></pre>
+<span class="giallo-l"><span class="z-11">*/&quot;&quot;&quot;</span></span>
+<span class="giallo-l"><span>tab_width</span><span class="z-10"> =</span><span class="z-13"> 4</span></span>
+<span class="giallo-l"><span>language</span><span class="z-10"> =</span><span class="z-11"> &quot;C&quot;</span></span></code></pre>
 <p>It describes itself quite easily. <a rel="noopener external" target="_blank" href="https://github.com/eqrion/cbindgen/#configuration">The documentation details the
 configuration</a> very
 well.</p>
@@ -295,78 +295,78 @@ well.</p>
 have the decorator <code>#[repr(C)]</code>, <code>#[repr(_size_)]</code> or
 <code>#[repr(transparent)]</code>, or functions that are marked as <code>extern "C"</code> and
 are public. So when one writes:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Slice</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Slice</span><span> {</span></span>
+<span class="giallo-l"><span>    pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char,</span></span>
+<span class="giallo-l"><span>    length</span><span class="z-16">:</span><span class="z-4"> usize</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Option</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Some</span><span>(</span><span class="z-entity z-name">Slice</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    None</span></span>
+<span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Option</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Some</span><span>(</span><span class="z-4">Slice</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">    None</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-entity z-name z-function"> parse</span><span>(</span><span class="z-variable">pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-variable"> c_void</span><span> { … }</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-19"> parse</span><span>(pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char)</span><span class="z-16"> -&gt;</span><span> c_void { … }</span></span></code></pre>
 <p>Then <code>cbindgen</code> will generate this:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-comment">// … header comment …</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">// … header comment …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-storage z-type"> char</span><span class="z-keyword z-operator"> *</span><span>pointer</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    uintptr_t</span><span> length</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Slice</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span class="z-4"> char</span><span class="z-16"> *</span><span>pointer</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    uintptr_t</span><span> length</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Slice</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> enum</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Some</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>    None</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Option_Tag</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> enum</span><span> {</span></span>
+<span class="giallo-l"><span>    Some</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>    None</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>} Option_Tag</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Slice _0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Some_Body</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Slice _0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Some_Body</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Option_Tag tag</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    union</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>        Some_Body some</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Option</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Option_Tag tag</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    union</span><span> {</span></span>
+<span class="giallo-l"><span>        Some_Body some</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Option</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage z-type">void</span><span class="z-entity z-name z-function"> parse</span><span class="z-punctuation z-section">(</span><span class="z-storage">const</span><span class="z-storage z-type"> char</span><span class="z-keyword z-operator"> *</span><span class="z-variable z-parameter">pointer</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-4">void</span><span class="z-19"> parse</span><span>(</span><span class="z-18">const</span><span class="z-4"> char</span><span class="z-16"> *</span><span class="z-13">pointer</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>It works; Great!</p>
 <p>Note the <code>#[no_mangle]</code> that decorates the Rust <code>parse</code> function. It
 instructs the compiler to not rename the function, so that the function
 has the same name from the perspective of C.</p>
-<p>OK, that&#39;s all for the theory. Let&#39;s practise now, we have a parser to
+<p>OK, that's all for the theory. Let's practise now, we have a parser to
 bind to C!</p>
-<h3 id="-2">Practise<a role="presentation" class="anchor" href="#-2" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="practise">Practise<a role="presentation" class="anchor" href="#practise" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We want to bind a function named <code>parse</code>. The function outputs an AST
 representing the language being analysed. <a href="https://mnt.io/series/from-rust-to-beyond/prelude/">For the
 recall</a>, the
 original AST looks like this:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt; {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span> (</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;,</span><span class="z-entity z-name"> Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;),</span></span>
-<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option</span><span>&lt;</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;,</span></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span>&lt;</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;&gt;</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt; {</span></span>
+<span class="giallo-l"><span class="z-4">    Block</span><span> {</span></span>
+<span class="giallo-l"><span>        name</span><span class="z-16">:</span><span> (</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;,</span><span class="z-4"> Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;),</span></span>
+<span class="giallo-l"><span>        attributes</span><span class="z-16">:</span><span class="z-4"> Option</span><span>&lt;</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">:</span><span class="z-4"> Vec</span><span>&lt;</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;&gt;</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Phase</span><span>(</span><span class="z-entity z-name">Input</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span></span>
+<span class="giallo-l"><span class="z-19">    Phase</span><span>(</span><span class="z-4">Input</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>This AST is defined in the Rust parser. The Rust binding to C will
 transform this AST into another set of structs and enums for C. It is
 mandatory only for types that are directly exposed to C, not internal
-types that Rust uses. Let&#39;s start by defining <code>Node</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        namespace</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Slice_c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">        name</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Slice_c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">        attributes</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Option_c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_void</span></span>
+types that Rust uses. Let's start by defining <code>Node</code>:</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Node</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Block</span><span> {</span></span>
+<span class="giallo-l"><span>        namespace</span><span class="z-16">:</span><span class="z-4"> Slice_c_char</span><span>,</span></span>
+<span class="giallo-l"><span>        name</span><span class="z-16">:</span><span class="z-4"> Slice_c_char</span><span>,</span></span>
+<span class="giallo-l"><span>        attributes</span><span class="z-16">:</span><span class="z-4"> Option_c_char</span><span>,</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_void</span></span>
 <span class="giallo-l"><span>    },</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    Phrase</span><span>(</span><span class="z-entity z-name">Slice_c_char</span><span>)</span></span>
+<span class="giallo-l"><span class="z-19">    Phrase</span><span>(</span><span class="z-4">Slice_c_char</span><span>)</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Some immediate thoughts:</p>
 <ul>
@@ -382,39 +382,39 @@ defined as a <code>void</code> pointer, and will be casted later in C,</li>
 Tuples have no equivalent in C with <code>cbindgen</code>, so two fields are used
 instead.</li>
 </ul>
-<p>Let&#39;s define <code>Slice_c_char</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Slice_c_char</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span></span>
+<p>Let's define <code>Slice_c_char</code>:</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Slice_c_char</span><span> {</span></span>
+<span class="giallo-l"><span>    pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char,</span></span>
+<span class="giallo-l"><span>    length</span><span class="z-16">:</span><span class="z-4"> usize</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>This definition borrows the semantics of <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/primitive.slice.html">Rust&#39;
+<p>This definition borrows the semantics of <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/primitive.slice.html">Rust'
 slices</a>. The major
 benefit is that there is no copy when binding a Rust slice to this
 structure.</p>
-<p>Let&#39;s define <code>Option_c_char</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Option_c_char</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Some</span><span>(</span><span class="z-entity z-name">Slice_c_char</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    None</span></span>
+<p>Let's define <code>Option_c_char</code>:</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Option_c_char</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Some</span><span>(</span><span class="z-4">Slice_c_char</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">    None</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Finally, we need to define <code>Vector_Node</code> and our own <code>Result</code> for C.
 They mimic the Rust semantics closely:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Vector_Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    buffer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-constant z-other"> Node</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Vector_Node</span><span> {</span></span>
+<span class="giallo-l"><span>    buffer</span><span class="z-16">: *</span><span class="z-18">const</span><span class="z-8"> Node</span><span>,</span></span>
+<span class="giallo-l"><span>    length</span><span class="z-16">:</span><span class="z-4"> usize</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span>#[repr(</span><span class="z-entity z-name">C</span><span>)]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> enum</span><span class="z-entity z-name"> Result</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Ok</span><span>(</span><span class="z-entity z-name">Vector_Node</span><span>),</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Err</span></span>
+<span class="giallo-l"><span>#[repr(</span><span class="z-4">C</span><span>)]</span></span>
+<span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> Result</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Ok</span><span>(</span><span class="z-4">Vector_Node</span><span>),</span></span>
+<span class="giallo-l"><span class="z-4">    Err</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>Alright, all types are declared! It&#39;s time to write the <code>parse</code>
+<p>Alright, all types are declared! It's time to write the <code>parse</code>
 function:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
-<span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> parse</span><span>(</span><span class="z-variable">pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span> {</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[no_mangle]</span></span>
+<span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-18"> fn</span><span class="z-19"> parse</span><span>(pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char)</span><span class="z-16"> -&gt;</span><span class="z-4"> Result</span><span> {</span></span>
 <span class="giallo-l"><span>    …</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The function takes a pointer from C. It means that the data to analyse
@@ -434,62 +434,62 @@ and has no length, while in Rust a string has a length and does not
 terminate with a <code>NULL</code> byte,</li>
 <li>Run the parser, then transform the AST into the “C AST”.</li>
 </ul>
-<p>Let&#39;s do that!</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> extern</span><span class="z-string"> &quot;C&quot;</span><span class="z-keyword"> fn</span><span class="z-entity z-name z-function"> parse</span><span>(</span><span class="z-variable">pointer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Result</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-variable"> pointer</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_null</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-entity z-name"> Result</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span><span>;</span></span>
+<p>Let's do that!</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub extern</span><span class="z-11"> &quot;C&quot;</span><span class="z-18"> fn</span><span class="z-19"> parse</span><span>(pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char)</span><span class="z-16"> -&gt;</span><span class="z-4"> Result</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> pointer</span><span class="z-16">.</span><span class="z-19">is_null</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-4"> Result</span><span class="z-16">::</span><span class="z-4">Err</span><span>;</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> unsafe</span><span> {</span><span class="z-entity z-name"> CStr</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_ptr</span><span>(</span><span class="z-variable">pointer</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">to_bytes</span><span>() };</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> input</span><span class="z-16"> =</span><span class="z-18"> unsafe</span><span> {</span><span class="z-4"> CStr</span><span class="z-16">::</span><span class="z-19">from_ptr</span><span>(pointer)</span><span class="z-16">.</span><span class="z-19">to_bytes</span><span>() };</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-storage"> let</span><span class="z-entity z-name"> Ok</span><span>((</span><span class="z-variable">_remaining</span><span>,</span><span class="z-variable"> nodes</span><span>))</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> gutenberg_post_parser</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">root</span><span>(</span><span class="z-variable">input</span><span>) {</span></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> output</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span class="z-keyword z-operator"> =</span></span>
-<span class="giallo-l"><span class="z-variable">            nodes</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                .</span><span class="z-entity z-name z-function">into_iter</span><span>()</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                .</span><span class="z-entity z-name z-function">map</span><span>(</span><span class="z-keyword z-operator">|</span><span class="z-variable">node</span><span class="z-keyword z-operator">|</span><span class="z-entity z-name z-function"> into_c</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">node</span><span>))</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                .</span><span class="z-entity z-name z-function">collect</span><span>();</span></span>
+<span class="giallo-l"><span class="z-18">    if let</span><span class="z-4"> Ok</span><span>((_remaining, nodes))</span><span class="z-16"> =</span><span class="z-4"> gutenberg_post_parser</span><span class="z-16">::</span><span class="z-19">root</span><span>(input) {</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> output</span><span class="z-16">:</span><span class="z-4"> Vec</span><span class="z-16"> =</span></span>
+<span class="giallo-l"><span>            nodes</span></span>
+<span class="giallo-l"><span class="z-16">                .</span><span class="z-19">into_iter</span><span>()</span></span>
+<span class="giallo-l"><span class="z-16">                .</span><span class="z-19">map</span><span>(</span><span class="z-16">|</span><span>node</span><span class="z-16">|</span><span class="z-19"> into_c</span><span>(</span><span class="z-16">&amp;</span><span>node))</span></span>
+<span class="giallo-l"><span class="z-16">                .</span><span class="z-19">collect</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">        let</span><span class="z-variable"> vector_node</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Vector_Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">            buffer</span><span class="z-keyword z-operator">:</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_slice</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>(),</span></span>
-<span class="giallo-l"><span class="z-variable">            length</span><span class="z-keyword z-operator">:</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>()</span></span>
+<span class="giallo-l"><span class="z-18">        let</span><span> vector_node</span><span class="z-16"> =</span><span class="z-4"> Vector_Node</span><span> {</span></span>
+<span class="giallo-l"><span>            buffer</span><span class="z-16">:</span><span> output</span><span class="z-16">.</span><span class="z-19">as_slice</span><span>()</span><span class="z-16">.</span><span class="z-19">as_ptr</span><span>(),</span></span>
+<span class="giallo-l"><span>            length</span><span class="z-16">:</span><span> output</span><span class="z-16">.</span><span class="z-19">len</span><span>()</span></span>
 <span class="giallo-l"><span>        };</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        mem</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">forget</span><span>(</span><span class="z-variable">output</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">        mem</span><span class="z-16">::</span><span class="z-19">forget</span><span>(output);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        Result</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Ok</span><span>(</span><span class="z-variable">vector_node</span><span>);</span></span>
-<span class="giallo-l"><span>    }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Result</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Err</span></span>
+<span class="giallo-l"><span class="z-4">        Result</span><span class="z-16">::</span><span class="z-4">Ok</span><span>(vector_node);</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">        Result</span><span class="z-16">::</span><span class="z-4">Err</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Only pointers are used in <code>Vector_Node</code>: Pointer to the output, and the
 length of the output. The conversion is light.</p>
-<p>Now let&#39;s see the <code>into_c</code> function. Some parts will not be detailed; Not
+<p>Now let's see the <code>into_c</code> function. Some parts will not be detailed; Not
 because they are difficult but because they are repetitive.
 <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs">The entire code lands here</a>.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> into_c</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;(</span><span class="z-variable">node</span><span class="z-keyword z-operator">: &amp;</span><span class="z-entity z-name">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span>&lt;&#39;</span><span class="z-entity z-name">a</span><span>&gt;)</span><span class="z-keyword z-operator"> -&gt;</span><span class="z-entity z-name"> Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword">    match</span><span class="z-keyword z-operator"> *</span><span class="z-variable">node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span><span class="z-variable"> name</span><span>,</span><span class="z-variable"> attributes</span><span>,</span><span class="z-keyword"> ref</span><span class="z-variable"> children</span><span> }</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                namespace</span><span class="z-keyword z-operator">:</span><span> …,</span></span>
-<span class="giallo-l"><span class="z-variable">                name</span><span class="z-keyword z-operator">:</span><span> …,</span></span>
-<span class="giallo-l"><span class="z-variable">                attributes</span><span class="z-keyword z-operator">:</span><span> …,</span></span>
-<span class="giallo-l"><span class="z-variable">                children</span><span class="z-keyword z-operator">:</span><span> …</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> into_c</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;(node</span><span class="z-16">: &amp;</span><span class="z-4">ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span><span class="z-16"> -&gt;</span><span class="z-4"> Node</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    match</span><span class="z-16"> *</span><span>node {</span></span>
+<span class="giallo-l"><span class="z-4">        ast</span><span class="z-16">::</span><span class="z-4">Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> { name, attributes,</span><span class="z-18"> ref</span><span> children }</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">            Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> {</span></span>
+<span class="giallo-l"><span>                namespace</span><span class="z-16">:</span><span> …,</span></span>
+<span class="giallo-l"><span>                name</span><span class="z-16">:</span><span> …,</span></span>
+<span class="giallo-l"><span>                attributes</span><span class="z-16">:</span><span> …,</span></span>
+<span class="giallo-l"><span>                children</span><span class="z-16">:</span><span> …</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"><span>        },</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">        ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Phrase</span><span>(</span><span class="z-variable">input</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Phrase</span><span>(…)</span></span>
+<span class="giallo-l"><span class="z-4">        ast</span><span class="z-16">::</span><span class="z-4">Node</span><span class="z-16">::</span><span class="z-19">Phrase</span><span>(input)</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">            Node</span><span class="z-16">::</span><span class="z-19">Phrase</span><span>(…)</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>I want to show <code>namespace</code> for the warm-up (<code>name</code>, <code>attributes</code> and
 <code>Phrase</code> are very similar), and <code>children</code> because it deals with <code>void</code>.</p>
-<p>Let&#39;s convert <code>ast::Node::Block.name.0</code> into <code>Node::Block.namespace</code>:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-entity z-name">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span><span class="z-variable"> name</span><span>, …, … }</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">        namespace</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Slice_c_char</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">            pointer</span><span class="z-keyword z-operator">:</span><span class="z-variable"> name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>()</span><span class="z-keyword"> as</span><span class="z-keyword z-operator"> *</span><span class="z-storage">const</span><span class="z-variable"> c_char</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">            length</span><span class="z-keyword z-operator">:</span><span class="z-variable"> name</span><span class="z-keyword z-operator">.</span><span class="z-constant z-numeric">0</span><span class="z-punctuation z-separator">.</span><span class="z-entity z-name z-function">len</span><span>()</span></span>
+<p>Let's convert <code>ast::Node::Block.name.0</code> into <code>Node::Block.namespace</code>:</p>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-4">ast</span><span class="z-16">::</span><span class="z-4">Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> { name, …, … }</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> {</span></span>
+<span class="giallo-l"><span>        namespace</span><span class="z-16">:</span><span class="z-4"> Slice_c_char</span><span> {</span></span>
+<span class="giallo-l"><span>            pointer</span><span class="z-16">:</span><span> name</span><span class="z-16">.</span><span class="z-13">0</span><span class="z-10">.</span><span class="z-19">as_ptr</span><span>()</span><span class="z-18"> as</span><span class="z-16"> *</span><span class="z-18">const</span><span> c_char,</span></span>
+<span class="giallo-l"><span>            length</span><span class="z-16">:</span><span> name</span><span class="z-16">.</span><span class="z-13">0</span><span class="z-10">.</span><span class="z-19">len</span><span>()</span></span>
 <span class="giallo-l"><span>        },</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span>        …</span></span></code></pre>
@@ -503,41 +503,41 @@ slices.</p>
 <li>Transform the Rust vector into a valid <code>Vector_Node</code>,</li>
 <li>Transform the <code>Vector_Node</code> into a <code>*const c_void</code> pointer.</li>
 </ol>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-entity z-name">ast</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> { …, …,</span><span class="z-keyword"> ref</span><span class="z-variable"> children</span><span> }</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">    Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Block</span><span> {</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-4">ast</span><span class="z-16">::</span><span class="z-4">Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> { …, …,</span><span class="z-18"> ref</span><span> children }</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">    Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> {</span></span>
 <span class="giallo-l"><span>        …</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        children</span><span class="z-keyword z-operator">:</span><span> {</span></span>
-<span class="giallo-l"><span class="z-comment">            // 1. Collect all children as C AST nodes.</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> output</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> Vec</span><span class="z-keyword z-operator"> =</span></span>
-<span class="giallo-l"><span class="z-variable">                children</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                    .</span><span class="z-entity z-name z-function">into_iter</span><span>()</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                    .</span><span class="z-entity z-name z-function">map</span><span>(</span><span class="z-keyword z-operator">|</span><span class="z-variable">node</span><span class="z-keyword z-operator">|</span><span class="z-entity z-name z-function"> into_c</span><span>(</span><span class="z-keyword z-operator">&amp;</span><span class="z-variable">node</span><span>))</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                    .</span><span class="z-entity z-name z-function">collect</span><span>();</span></span>
+<span class="giallo-l"><span>        children</span><span class="z-16">:</span><span> {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // 1. Collect all children as C AST nodes.</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> output</span><span class="z-16">:</span><span class="z-4"> Vec</span><span class="z-16"> =</span></span>
+<span class="giallo-l"><span>                children</span></span>
+<span class="giallo-l"><span class="z-16">                    .</span><span class="z-19">into_iter</span><span>()</span></span>
+<span class="giallo-l"><span class="z-16">                    .</span><span class="z-19">map</span><span>(</span><span class="z-16">|</span><span>node</span><span class="z-16">|</span><span class="z-19"> into_c</span><span>(</span><span class="z-16">&amp;</span><span>node))</span></span>
+<span class="giallo-l"><span class="z-16">                    .</span><span class="z-19">collect</span><span>();</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // 2. Transform the vector into a Vector_Node.</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> vector_node</span><span class="z-keyword z-operator"> =</span><span class="z-keyword"> if</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">is_empty</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Vector_Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                        buffer</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> ptr</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">null</span><span>(),</span></span>
-<span class="giallo-l"><span class="z-variable">                        length</span><span class="z-keyword z-operator">:</span><span class="z-constant z-numeric"> 0</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // 2. Transform the vector into a Vector_Node.</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> vector_node</span><span class="z-16"> =</span><span class="z-18"> if</span><span> output</span><span class="z-16">.</span><span class="z-19">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-4">                Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span></span>
+<span class="giallo-l"><span class="z-4">                    Vector_Node</span><span> {</span></span>
+<span class="giallo-l"><span>                        buffer</span><span class="z-16">:</span><span class="z-4"> ptr</span><span class="z-16">::</span><span class="z-19">null</span><span>(),</span></span>
+<span class="giallo-l"><span>                        length</span><span class="z-16">:</span><span class="z-13"> 0</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"><span>                )</span></span>
-<span class="giallo-l"><span>            }</span><span class="z-keyword"> else</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Vector_Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">                        buffer</span><span class="z-keyword z-operator">:</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_slice</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>(),</span></span>
-<span class="giallo-l"><span class="z-variable">                        length</span><span class="z-keyword z-operator">:</span><span class="z-variable"> output</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">len</span><span>()</span></span>
+<span class="giallo-l"><span>            }</span><span class="z-18"> else</span><span> {</span></span>
+<span class="giallo-l"><span class="z-4">                Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span></span>
+<span class="giallo-l"><span class="z-4">                    Vector_Node</span><span> {</span></span>
+<span class="giallo-l"><span>                        buffer</span><span class="z-16">:</span><span> output</span><span class="z-16">.</span><span class="z-19">as_slice</span><span>()</span><span class="z-16">.</span><span class="z-19">as_ptr</span><span>(),</span></span>
+<span class="giallo-l"><span>                        length</span><span class="z-16">:</span><span> output</span><span class="z-16">.</span><span class="z-19">len</span><span>()</span></span>
 <span class="giallo-l"><span>                    }</span></span>
 <span class="giallo-l"><span>                )</span></span>
 <span class="giallo-l"><span>            }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">            // 3. Transform Vector_Node into a *const c_void pointer.</span></span>
-<span class="giallo-l"><span class="z-storage">            let</span><span class="z-variable"> vector_node_pointer</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name"> Box</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">into_raw</span><span>(</span><span class="z-variable">vector_node</span><span>)</span><span class="z-keyword"> as</span><span class="z-keyword z-operator"> *</span><span class="z-storage">const</span><span class="z-variable"> c_void</span><span>;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">            // 3. Transform Vector_Node into a *const c_void pointer.</span></span>
+<span class="giallo-l"><span class="z-18">            let</span><span> vector_node_pointer</span><span class="z-16"> =</span><span class="z-4"> Box</span><span class="z-16">::</span><span class="z-19">into_raw</span><span>(vector_node)</span><span class="z-18"> as</span><span class="z-16"> *</span><span class="z-18">const</span><span> c_void;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name">            mem</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">forget</span><span>(</span><span class="z-variable">output</span><span>);</span></span>
+<span class="giallo-l"><span class="z-4">            mem</span><span class="z-16">::</span><span class="z-19">forget</span><span>(output);</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            vector_node_pointer</span></span>
+<span class="giallo-l"><span>            vector_node_pointer</span></span>
 <span class="giallo-l"><span>        }</span></span></code></pre>
 <p>Step 1 is straightforward.</p>
 <p>Step 2 defines what is the behavior when there is no node. In other
@@ -550,7 +550,7 @@ shared with C.</p>
 <p>Step 3 uses <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/boxed/struct.Box.html#method.into_raw">the  <code>Box::into_raw</code>
 function</a>
 to consume the box and to return the wrapped raw pointer of the data it
-owns. Rust will not free anything here, it&#39;s our responsability (or the
+owns. Rust will not free anything here, it's our responsability (or the
 responsability of C to be pedantic). Then the <code>*mut Vector_Node</code>
 returned by <code>Box::into_raw</code> can be freely casted into <code>*const c_void</code>.</p>
 <p>Finally, we instruct the compiler to not drop <code>output</code> when it goes out
@@ -558,53 +558,53 @@ of scope with <code>mem::forget</code> (at this step of the series, you are very
 likely to know what it does).</p>
 <p>Personally, I spent few hours to understand why my pointers got random
 addresses, or were pointing to a <code>NULL</code> data. The resulting code is
-simple and kind of clear to read, but it wasn&#39;t obvious for me what to
+simple and kind of clear to read, but it wasn't obvious for me what to
 do beforehand.</p>
-<p>And that&#39;s all for the Rust part! The next section will present the C
+<p>And that's all for the Rust part! The next section will present the C
 code that calls Rust, and how to compile everything all together.</p>
-<h2 id="-3">C 🚀 Executable<a role="presentation" class="anchor" href="#-3" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="c-rocket-executable">C 🚀 Executable<a role="presentation" class="anchor" href="#c-rocket-executable" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./c-to-executable.png" alt="Rust to C to executable" loading="lazy" decoding="async" /></p>
 </figure>
 <p>Now the Rust part is ready, the C part must be written to call it.</p>
-<h3 id="-4">Minimal Working Example<a role="presentation" class="anchor" href="#-4" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="minimal-working-example">Minimal Working Example<a role="presentation" class="anchor" href="#minimal-working-example" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>Let&#39;s do something very quick to see if it links and compiles:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &lt;stdlib.h&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &lt;stdio.h&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &lt;string.h&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">#include</span><span class="z-string"> &quot;gutenberg_post_parser.h&quot;</span></span>
+<p>Let's do something very quick to see if it links and compiles:</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &lt;stdlib.h&gt;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &lt;stdio.h&gt;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &lt;string.h&gt;</span></span>
+<span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &quot;gutenberg_post_parser.h&quot;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage z-type">int</span><span class="z-entity z-name z-function"> main</span><span class="z-punctuation z-section">(</span><span class="z-storage z-type">int</span><span class="z-variable z-parameter"> argc</span><span class="z-punctuation z-separator">,</span><span class="z-storage z-type"> char</span><span class="z-keyword z-operator"> **</span><span class="z-variable z-parameter">argv</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span>    FILE</span><span class="z-keyword z-operator">*</span><span> file </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> fopen</span><span class="z-punctuation z-section">(</span><span class="z-variable">argv</span><span>[</span><span class="z-constant z-numeric">1</span><span>]</span><span class="z-punctuation z-separator">,</span><span class="z-string"> &quot;rb&quot;</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    fseek</span><span class="z-punctuation z-section">(</span><span>file</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-separator">,</span><span> SEEK_END</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    long</span><span> file_size </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> ftell</span><span class="z-punctuation z-section">(</span><span>file</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    rewind</span><span class="z-punctuation z-section">(</span><span>file</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-4">int</span><span class="z-19"> main</span><span>(</span><span class="z-4">int</span><span class="z-13"> argc</span><span class="z-10">,</span><span class="z-4"> char</span><span class="z-16"> **</span><span class="z-13">argv</span><span>) {</span></span>
+<span class="giallo-l"><span>    FILE</span><span class="z-16">*</span><span> file </span><span class="z-16">=</span><span class="z-19"> fopen</span><span>(argv[</span><span class="z-13">1</span><span>]</span><span class="z-10">,</span><span class="z-11"> &quot;rb&quot;</span><span>)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">    fseek</span><span>(file</span><span class="z-10">,</span><span class="z-13"> 0</span><span class="z-10">,</span><span> SEEK_END)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    long</span><span> file_size </span><span class="z-16">=</span><span class="z-19"> ftell</span><span>(file)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">    rewind</span><span>(file)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage z-type">    char</span><span class="z-keyword z-operator">*</span><span> file_content </span><span class="z-keyword z-operator">=</span><span class="z-punctuation z-section"> (</span><span class="z-storage z-type">char</span><span class="z-keyword z-operator">*</span><span class="z-punctuation z-section">)</span><span class="z-entity z-name z-function"> malloc</span><span class="z-punctuation z-section">(</span><span>file_size </span><span class="z-keyword z-operator">* sizeof</span><span class="z-punctuation z-section">(</span><span class="z-storage z-type">char</span><span class="z-punctuation z-section">))</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    fread</span><span class="z-punctuation z-section">(</span><span>file_content</span><span class="z-punctuation z-separator">,</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-separator">,</span><span> file_size</span><span class="z-punctuation z-separator">,</span><span> file</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-4">    char</span><span class="z-16">*</span><span> file_content </span><span class="z-16">=</span><span> (</span><span class="z-4">char</span><span class="z-16">*</span><span>)</span><span class="z-19"> malloc</span><span>(file_size </span><span class="z-16">* sizeof</span><span>(</span><span class="z-4">char</span><span>))</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">    fread</span><span>(file_content</span><span class="z-10">,</span><span class="z-13"> 1</span><span class="z-10">,</span><span> file_size</span><span class="z-10">,</span><span> file)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-comment">    // Let&#39;s call Rust!</span></span>
-<span class="giallo-l"><span>    Result output </span><span class="z-keyword z-operator">=</span><span class="z-entity z-name z-function"> parse</span><span class="z-punctuation z-section">(</span><span>file_content</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Let&#39;s call Rust!</span></span>
+<span class="giallo-l"><span>    Result output </span><span class="z-16">=</span><span class="z-19"> parse</span><span>(file_content)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    if</span><span class="z-punctuation z-section"> (</span><span class="z-variable">output</span><span class="z-punctuation z-separator">.</span><span class="z-variable">tag</span><span class="z-keyword z-operator"> ==</span><span> Err</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">        printf</span><span class="z-punctuation z-section">(</span><span class="z-string">&quot;Error while parsing.</span><span class="z-constant z-character">\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">    if</span><span> (output</span><span class="z-10">.</span><span>tag</span><span class="z-16"> ==</span><span> Err) {</span></span>
+<span class="giallo-l"><span class="z-19">        printf</span><span>(</span><span class="z-11">&quot;Error while parsing.</span><span class="z-8">\n</span><span class="z-11">&quot;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">        return</span><span class="z-constant z-numeric"> 1</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span></span>
+<span class="giallo-l"><span class="z-18">        return</span><span class="z-13"> 1</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span> Vector_Node nodes </span><span class="z-keyword z-operator">=</span><span class="z-variable"> output</span><span class="z-punctuation z-separator">.</span><span class="z-variable">ok</span><span class="z-punctuation z-separator">.</span><span class="z-variable">_0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-comment">    // Do something with nodes.</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> Vector_Node nodes </span><span class="z-16">=</span><span> output</span><span class="z-10">.</span><span>ok</span><span class="z-10">.</span><span>_0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // Do something with nodes.</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    free</span><span class="z-punctuation z-section">(</span><span>file_content</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">    fclose</span><span class="z-punctuation z-section">(</span><span>file</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-19">    free</span><span>(file_content)</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-19">    fclose</span><span>(file)</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    return</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">    return</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>To keep the code concise, I left all the error handlers out of the example.
 <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">The entire code lands here</a>
-if you&#39;re curious.</p>
+if you're curious.</p>
 <p>What happens in this code? The first thing to notice is
 <code>#include "gutenberg_post_parser.h"</code> which is the header file that is
 automatically generated by <code>cbindgen</code>.</p>
@@ -612,31 +612,31 @@ automatically generated by <code>cbindgen</code>.</p>
 <code>parse</code> function is from Rust, just like the <code>Result</code> and <code>Vector_Node</code>
 types.</p>
 <p>The Rust <code>enum Result { Ok(Vector_Node), Err }</code> is compiled to C as:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> enum</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Ok</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>    Err</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Result_Tag</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> enum</span><span> {</span></span>
+<span class="giallo-l"><span>    Ok</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>    Err</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>} Result_Tag</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Vector_Node _0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Ok_Body</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Vector_Node _0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Ok_Body</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Result_Tag tag</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    union</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>        Ok_Body ok</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Result</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Result_Tag tag</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    union</span><span> {</span></span>
+<span class="giallo-l"><span>        Ok_Body ok</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Result</span><span class="z-10">;</span></span></code></pre>
 <p>No need to say that the Rust version is easier and more compact to read,
-but this isn&#39;t the point. To check if <code>Result</code> contains an <code>Ok</code> value or
+but this isn't the point. To check if <code>Result</code> contains an <code>Ok</code> value or
 an <code>Err</code>or, one has to check the <code>tag</code> field, like we did with
 <code>output.tag == Err</code>. To get the content of the <code>Ok</code>, we did
 <code>output.ok._0</code> (<code>_0</code> is a field from <code>Ok_Body</code>).</p>
-<p>Let&#39;s compile this with <a rel="noopener external" target="_blank" href="http://clang.llvm.org"><code>clang</code></a>! We assume that
+<p>Let's compile this with <a rel="noopener external" target="_blank" href="http://clang.llvm.org"><code>clang</code></a>! We assume that
 this code above is located in the same directory than the
 <code>gutenberg_post_parser.h</code> file, i.e. in a <code>dist/</code> directory. Thus:</p>
-<pre class="giallo z-code"><code data-lang="shellsession"><span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> cd dist</span></span>
-<span class="giallo-l"><span class="z-punctuation z-separator">$</span><span> clang \</span></span>
+<pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cd dist</span></span>
+<span class="giallo-l"><span class="z-10">$</span><span> clang \</span></span>
 <span class="giallo-l"><span>      # Enable all warnings. \</span></span>
 <span class="giallo-l"><span>      -Wall \</span></span>
 <span class="giallo-l"></span>
@@ -657,105 +657,105 @@ this code above is located in the same directory than the
 <span class="giallo-l"><span>      -l pthread \</span></span>
 <span class="giallo-l"><span>      -l c \</span></span>
 <span class="giallo-l"><span>      -l m</span></span></code></pre>
-<p>And that&#39;s all! We end up with a <code>gutenberg-post-parser</code> executable that
+<p>And that's all! We end up with a <code>gutenberg-post-parser</code> executable that
 runs C and Rust.</p>
-<h3 id="-5">More Details<a role="presentation" class="anchor" href="#-5" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="more-details">More Details<a role="presentation" class="anchor" href="#more-details" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source code</a>,
 a recursive function that prints the entire AST on <code>stdout</code> can be found, namely
-<code>print</code> (original, isn&#39;t it?). Here is some side-by-side comparisons between
+<code>print</code> (original, isn't it?). Here is some side-by-side comparisons between
 Rust syntax and C syntax.</p>
 <p>The <code>Vector_Node</code> struct in Rust:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-keyword">pub</span><span class="z-storage"> struct</span><span class="z-entity z-name"> Vector_Node</span><span> {</span></span>
-<span class="giallo-l"><span class="z-variable">    buffer</span><span class="z-keyword z-operator">: *</span><span class="z-storage">const</span><span class="z-constant z-other"> Node</span><span>,</span></span>
-<span class="giallo-l"><span class="z-variable">    length</span><span class="z-keyword z-operator">:</span><span class="z-entity z-name"> usize</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> Vector_Node</span><span> {</span></span>
+<span class="giallo-l"><span>    buffer</span><span class="z-16">: *</span><span class="z-18">const</span><span class="z-8"> Node</span><span>,</span></span>
+<span class="giallo-l"><span>    length</span><span class="z-16">:</span><span class="z-4"> usize</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>The <code>Vector_Node</code> struct in C:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span> Node </span><span class="z-keyword z-operator">*</span><span>buffer</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    uintptr_t</span><span> length</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Vector_Node</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> Node </span><span class="z-16">*</span><span>buffer</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    uintptr_t</span><span> length</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Vector_Node</span><span class="z-10">;</span></span></code></pre>
 <p>So to respectivelly read the number of nodes (length of the vector) and
 the nodes in C, one has to write:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">const</span><span class="z-storage z-type"> uintptr_t</span><span> number_of_nodes </span><span class="z-keyword z-operator">=</span><span> nodes</span><span class="z-keyword z-operator">-&gt;</span><span>length</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">const</span><span class="z-4"> uintptr_t</span><span> number_of_nodes </span><span class="z-16">=</span><span> nodes</span><span class="z-16">-&gt;</span><span>length</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">for</span><span class="z-punctuation z-section"> (</span><span class="z-storage z-type">uintptr_t</span><span> nth </span><span class="z-keyword z-operator">=</span><span class="z-constant z-numeric"> 0</span><span class="z-punctuation z-terminator">;</span><span> nth </span><span class="z-keyword z-operator">&lt;</span><span> number_of_nodes</span><span class="z-punctuation z-terminator">;</span><span class="z-keyword z-operator"> ++</span><span>nth</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span> Node node </span><span class="z-keyword z-operator">=</span><span class="z-variable"> nodes</span><span class="z-punctuation z-separator">-&gt;</span><span class="z-variable">buffer</span><span>[nth]</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">for</span><span> (</span><span class="z-4">uintptr_t</span><span> nth </span><span class="z-16">=</span><span class="z-13"> 0</span><span class="z-10">;</span><span> nth </span><span class="z-16">&lt;</span><span> number_of_nodes</span><span class="z-10">;</span><span class="z-16"> ++</span><span>nth) {</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span> Node node </span><span class="z-16">=</span><span> nodes</span><span class="z-10">-&gt;</span><span>buffer[nth]</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
 <p>This is almost idiomatic C code!</p>
 <p>A <code>Node</code> is defined in C as:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> enum</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Block</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span>    Phrase</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Node_Tag</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> enum</span><span> {</span></span>
+<span class="giallo-l"><span>    Block</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>    Phrase</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>} Node_Tag</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Slice_c_char namespace</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    Slice_c_char name</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>    Option_c_char attributes</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">    const</span><span class="z-storage z-type"> void</span><span class="z-keyword z-operator">*</span><span> children</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Block_Body</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Slice_c_char namespace</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    Slice_c_char name</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    Option_c_char attributes</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">    const</span><span class="z-4"> void</span><span class="z-16">*</span><span> children</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Block_Body</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Slice_c_char _0</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Phrase_Body</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Slice_c_char _0</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Phrase_Body</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">typedef</span><span class="z-storage z-type"> struct</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>    Node_Tag tag</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage z-type">    union</span><span class="z-punctuation z-section"> {</span></span>
-<span class="giallo-l"><span>        Block_Body block</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span>        Phrase_Body phrase</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    }</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span> Node</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-18">typedef</span><span class="z-4"> struct</span><span> {</span></span>
+<span class="giallo-l"><span>    Node_Tag tag</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-4">    union</span><span> {</span></span>
+<span class="giallo-l"><span>        Block_Body block</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>        Phrase_Body phrase</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>    }</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span>} Node</span><span class="z-10">;</span></span></code></pre>
 <p>So once a node is fetched, one can write the following code to detect
 its kind:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-keyword">if</span><span class="z-punctuation z-section"> (</span><span>node.tag </span><span class="z-keyword z-operator">==</span><span> Block</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span><span class="z-keyword"> else if</span><span class="z-punctuation z-section"> (</span><span>node.tag </span><span class="z-keyword z-operator">==</span><span> Phrase</span><span class="z-punctuation z-section">) {</span></span>
-<span class="giallo-l"><span class="z-comment">    // …</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">}</span></span></code></pre>
-<p>Let&#39;s focus on <code>Block</code> for a second, and let&#39;s print the namespace and
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">if</span><span> (node.tag </span><span class="z-16">==</span><span> Block) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
+<span class="giallo-l"><span>}</span><span class="z-18"> else if</span><span> (node.tag </span><span class="z-16">==</span><span> Phrase) {</span></span>
+<span class="giallo-l"><span class="z-7 z-i">    // …</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Let's focus on <code>Block</code> for a second, and let's print the namespace and
 the name of the block separated by a slash (<code>/</code>):</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">const</span><span> Block_Body block </span><span class="z-keyword z-operator">=</span><span> node.block</span><span class="z-punctuation z-terminator">;</span></span>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">const</span><span> Block_Body block </span><span class="z-16">=</span><span> node.block</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-storage">const</span><span> Slice_c_char namespace </span><span class="z-keyword z-operator">=</span><span> block.namespace</span><span class="z-punctuation z-terminator">;</span></span>
-<span class="giallo-l"><span class="z-storage">const</span><span> Slice_c_char name </span><span class="z-keyword z-operator">=</span><span> block.name</span><span class="z-punctuation z-terminator">;</span></span>
+<span class="giallo-l"><span class="z-18">const</span><span> Slice_c_char namespace </span><span class="z-16">=</span><span> block.namespace</span><span class="z-10">;</span></span>
+<span class="giallo-l"><span class="z-18">const</span><span> Slice_c_char name </span><span class="z-16">=</span><span> block.name</span><span class="z-10">;</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">printf</span><span class="z-punctuation z-section">(</span></span>
-<span class="giallo-l"><span class="z-string">    &quot;</span><span class="z-constant z-other">%.*s</span><span class="z-string">/</span><span class="z-constant z-other z-constant z-character">%.s\n</span><span class="z-string">&quot;</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    (</span><span class="z-storage z-type">int</span><span class="z-punctuation z-section">)</span><span> namespace.length</span><span class="z-punctuation z-separator">,</span><span> namespace.pointer</span><span class="z-punctuation z-separator">,</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">    (</span><span class="z-storage z-type">int</span><span class="z-punctuation z-section">)</span><span> name.length</span><span class="z-punctuation z-separator">,</span><span> name.pointer</span></span>
-<span class="giallo-l"><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
+<span class="giallo-l"><span class="z-19">printf</span><span>(</span></span>
+<span class="giallo-l"><span class="z-11">    &quot;</span><span class="z-8">%.*s</span><span class="z-11">/</span><span class="z-8">%.s\n</span><span class="z-11">&quot;</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>    (</span><span class="z-4">int</span><span>) namespace.length</span><span class="z-10">,</span><span> namespace.pointer</span><span class="z-10">,</span></span>
+<span class="giallo-l"><span>    (</span><span class="z-4">int</span><span>) name.length</span><span class="z-10">,</span><span> name.pointer</span></span>
+<span class="giallo-l"><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>The special <code>%.*s</code> form in <code>printf</code> allows to print a string based on
 its length and its pointer.</p>
 <p>I think it is interesting to see the cast from void to <code>Vector_Node</code> for
-<code>children</code>. It&#39;s a single line:</p>
-<pre class="giallo z-code"><code data-lang="c"><span class="giallo-l"><span class="z-storage">const</span><span> Vector_Node</span><span class="z-keyword z-operator">*</span><span> children </span><span class="z-keyword z-operator">=</span><span class="z-punctuation z-section"> (</span><span class="z-storage">const</span><span> Vector_Node</span><span class="z-keyword z-operator">*</span><span class="z-punctuation z-section">) (</span><span>block.children</span><span class="z-punctuation z-section">)</span><span class="z-punctuation z-terminator">;</span></span></code></pre>
-<p>I think that&#39;s all for the details!</p>
-<h3 id="-6">Testing<a role="presentation" class="anchor" href="#-6" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<code>children</code>. It's a single line:</p>
+<pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">const</span><span> Vector_Node</span><span class="z-16">*</span><span> children </span><span class="z-16">=</span><span> (</span><span class="z-18">const</span><span> Vector_Node</span><span class="z-16">*</span><span>) (block.children)</span><span class="z-10">;</span></span></code></pre>
+<p>I think that's all for the details!</p>
+<h3 id="testing">Testing<a role="presentation" class="anchor" href="#testing" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>I reckon it is also interesting to see how to unit test C bindings
 directly with Rust. To emulate a C binding, first, the inputs must be in
 “C form”, so strings must be C strings. I prefer to write a macro for
 that:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-entity z-name z-function">macro_rules! str_to_c_char</span><span> {</span></span>
-<span class="giallo-l"><span>    (</span><span class="z-keyword z-operator">$</span><span class="z-variable">input</span><span class="z-keyword z-operator">:</span><span class="z-variable">expr</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> (</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-19">macro_rules! str_to_c_char</span><span> {</span></span>
+<span class="giallo-l"><span>    (</span><span class="z-16">$</span><span>input</span><span class="z-16">:</span><span>expr)</span><span class="z-16"> =&gt;</span><span> (</span></span>
 <span class="giallo-l"><span>        {</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            ::</span><span class="z-entity z-name">std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">ffi</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">CString</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">new</span><span>(</span><span class="z-keyword z-operator">$</span><span class="z-variable">input</span><span>)</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>()</span></span>
+<span class="giallo-l"><span class="z-16">            ::</span><span class="z-4">std</span><span class="z-16">::</span><span class="z-4">ffi</span><span class="z-16">::</span><span class="z-4">CString</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-16">$</span><span>input)</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>()</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    )</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>And second, the opposite: The <code>parse</code> function returns data for C, so
 they need to be “converted back” to Rust. Again, I prefer to write a
 macro for that:</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span class="z-entity z-name z-function">macro_rules! slice_c_char_to_str</span><span> {</span></span>
-<span class="giallo-l"><span>    (</span><span class="z-keyword z-operator">$</span><span class="z-variable">input</span><span class="z-keyword z-operator">:</span><span class="z-variable">ident</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> (</span></span>
-<span class="giallo-l"><span class="z-keyword">        unsafe</span><span> {</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">            ::</span><span class="z-entity z-name">std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">ffi</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">CStr</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_bytes_with_nul_unchecked</span><span>(</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                ::</span><span class="z-entity z-name">std</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">slice</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">from_raw_parts</span><span>(</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                    $</span><span class="z-variable">input</span><span class="z-keyword z-operator">.</span><span>pointer </span><span class="z-keyword">as</span><span class="z-keyword z-operator"> *</span><span class="z-storage">const</span><span class="z-entity z-name"> u8</span><span>,</span></span>
-<span class="giallo-l"><span class="z-keyword z-operator">                    $</span><span class="z-variable">input</span><span class="z-keyword z-operator">.</span><span>length </span><span class="z-keyword z-operator">+</span><span class="z-constant z-numeric"> 1</span></span>
-<span class="giallo-l"><span>                )</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">to_str</span><span>()</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">unwrap</span><span>()</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-19">macro_rules! slice_c_char_to_str</span><span> {</span></span>
+<span class="giallo-l"><span>    (</span><span class="z-16">$</span><span>input</span><span class="z-16">:</span><span>ident)</span><span class="z-16"> =&gt;</span><span> (</span></span>
+<span class="giallo-l"><span class="z-18">        unsafe</span><span> {</span></span>
+<span class="giallo-l"><span class="z-16">            ::</span><span class="z-4">std</span><span class="z-16">::</span><span class="z-4">ffi</span><span class="z-16">::</span><span class="z-4">CStr</span><span class="z-16">::</span><span class="z-19">from_bytes_with_nul_unchecked</span><span>(</span></span>
+<span class="giallo-l"><span class="z-16">                ::</span><span class="z-4">std</span><span class="z-16">::</span><span class="z-4">slice</span><span class="z-16">::</span><span class="z-19">from_raw_parts</span><span>(</span></span>
+<span class="giallo-l"><span class="z-16">                    $</span><span>input</span><span class="z-16">.</span><span>pointer </span><span class="z-18">as</span><span class="z-16"> *</span><span class="z-18">const</span><span class="z-4"> u8</span><span>,</span></span>
+<span class="giallo-l"><span class="z-16">                    $</span><span>input</span><span class="z-16">.</span><span>length </span><span class="z-16">+</span><span class="z-13"> 1</span></span>
+<span class="giallo-l"><span>                )</span><span class="z-16">.</span><span class="z-19">to_str</span><span>()</span><span class="z-16">.</span><span class="z-19">unwrap</span><span>()</span></span>
 <span class="giallo-l"><span>            )</span></span>
 <span class="giallo-l"><span>        }</span></span>
 <span class="giallo-l"><span>    )</span></span>
@@ -763,26 +763,26 @@ macro for that:</p>
 <p>All right! The final step is to write a unit test. As an example, a
 <code>Phrase</code> will be tested; The idea remains the same for <code>Block</code> but the
 code is more concise for the former.</p>
-<pre class="giallo z-code"><code data-lang="rust"><span class="giallo-l"><span>#[test]</span></span>
-<span class="giallo-l"><span class="z-keyword">fn</span><span class="z-entity z-name z-function"> test_root_with_a_phrase</span><span>() {</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> input</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> str_to_c_char!</span><span>(</span><span class="z-string">&quot;foo&quot;</span><span>);</span></span>
-<span class="giallo-l"><span class="z-storage">    let</span><span class="z-variable"> output</span><span class="z-keyword z-operator"> =</span><span class="z-entity z-name z-function"> parse</span><span>(</span><span class="z-variable">input</span><span class="z-keyword z-operator">.</span><span class="z-entity z-name z-function">as_ptr</span><span>());</span></span>
+<pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>#[test]</span></span>
+<span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> test_root_with_a_phrase</span><span>() {</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> input</span><span class="z-16"> =</span><span class="z-19"> str_to_c_char!</span><span>(</span><span class="z-11">&quot;foo&quot;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    let</span><span> output</span><span class="z-16"> =</span><span class="z-19"> parse</span><span>(input</span><span class="z-16">.</span><span class="z-19">as_ptr</span><span>());</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-keyword">    match</span><span class="z-variable"> output</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">        Result</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name">Ok</span><span>(</span><span class="z-variable">result</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-keyword"> match</span><span class="z-variable"> result</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">            Vector_Node</span><span> {</span><span class="z-variable"> buffer</span><span>,</span><span class="z-variable"> length</span><span> }</span><span class="z-keyword"> if</span><span class="z-variable"> length</span><span class="z-keyword z-operator"> ==</span><span class="z-constant z-numeric"> 1</span><span class="z-keyword z-operator"> =&gt;</span></span>
-<span class="giallo-l"><span class="z-keyword">                match unsafe</span><span> {</span><span class="z-keyword z-operator"> &amp;*</span><span class="z-variable">buffer</span><span> } {</span></span>
-<span class="giallo-l"><span class="z-entity z-name">                    Node</span><span class="z-keyword z-operator">::</span><span class="z-entity z-name z-function">Phrase</span><span>(</span><span class="z-variable">phrase</span><span>)</span><span class="z-keyword z-operator"> =&gt;</span><span> {</span></span>
-<span class="giallo-l"><span class="z-entity z-name z-function">                        assert_eq!</span><span>(</span><span class="z-entity z-name z-function">slice_c_char_to_str!</span><span>(</span><span class="z-variable">phrase</span><span>),</span><span class="z-string"> &quot;foo&quot;</span><span>);</span></span>
+<span class="giallo-l"><span class="z-18">    match</span><span> output {</span></span>
+<span class="giallo-l"><span class="z-4">        Result</span><span class="z-16">::</span><span class="z-4">Ok</span><span>(result)</span><span class="z-16"> =&gt;</span><span class="z-18"> match</span><span> result {</span></span>
+<span class="giallo-l"><span class="z-4">            Vector_Node</span><span> { buffer, length }</span><span class="z-18"> if</span><span> length</span><span class="z-16"> ==</span><span class="z-13"> 1</span><span class="z-16"> =&gt;</span></span>
+<span class="giallo-l"><span class="z-18">                match unsafe</span><span> {</span><span class="z-16"> &amp;*</span><span>buffer } {</span></span>
+<span class="giallo-l"><span class="z-4">                    Node</span><span class="z-16">::</span><span class="z-19">Phrase</span><span>(phrase)</span><span class="z-16"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-19">                        assert_eq!</span><span>(</span><span class="z-19">slice_c_char_to_str!</span><span>(phrase),</span><span class="z-11"> &quot;foo&quot;</span><span>);</span></span>
 <span class="giallo-l"><span>                    },</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">                    _</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name z-function"> assert!</span><span>(</span><span class="z-constant z-language">false</span><span>)</span></span>
+<span class="giallo-l"><span>                    _</span><span class="z-16"> =&gt;</span><span class="z-19"> assert!</span><span>(</span><span class="z-13">false</span><span>)</span></span>
 <span class="giallo-l"><span>                },</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">            _</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name z-function"> assert!</span><span>(</span><span class="z-constant z-language">false</span><span>)</span></span>
+<span class="giallo-l"><span>            _</span><span class="z-16"> =&gt;</span><span class="z-19"> assert!</span><span>(</span><span class="z-13">false</span><span>)</span></span>
 <span class="giallo-l"><span>        },</span></span>
 <span class="giallo-l"></span>
-<span class="giallo-l"><span class="z-variable">        _</span><span class="z-keyword z-operator"> =&gt;</span><span class="z-entity z-name z-function"> assert!</span><span>(</span><span class="z-constant z-language">false</span><span>)</span></span>
+<span class="giallo-l"><span>        _</span><span class="z-16"> =&gt;</span><span class="z-19"> assert!</span><span>(</span><span class="z-13">false</span><span>)</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>What happens here? The <code>input</code> and <code>output</code> have been prepared. The
@@ -798,7 +798,7 @@ first element of the vector. If we want to access the next elements, we would
 need to use
 <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code> function</a>
 to get a proper Rust API to manipulate this vector.</p>
-<h2 id="-7">Conclusion<a role="presentation" class="anchor" href="#-7" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that Rust can be embedded in C very easily. In this
 example, Rust has been compiled to a static library, and a header file;
@@ -823,14 +823,14 @@ itself, and run with <code>cargo test</code>.</p>
 header file generation, it reduces the update and the maintenance of the
 code to a <code>build.rs</code> script.</p>
 <p>In terms of performance, C should have similar results than Rust, i.e.
-extremely fast. I didn&#39;t run a benchmark to verify this statement, it&#39;s
+extremely fast. I didn't run a benchmark to verify this statement, it's
 purely theoretical. It can be a subject for a next post!</p>
 <p>Now that we have successfully embedded Rust in C, a whole new world
 opens up to us! The next episode will push Rust in the PHP world as a
-native extension (written in C). Let&#39;s go!</p>
+native extension (written in C). Let's go!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;the-asm-js-galaxy&#x2F;" class="button text-align-start" style="view-transition-name: series-episode-title-the-asm-js-galaxy">❮&nbsp;The ASM.js galaxy</a><a href="https:&#x2F;&#x2F;mnt.io&#x2F;series&#x2F;from-rust-to-beyond&#x2F;the-php-galaxy&#x2F;" class="button text-align-end" style="view-transition-name: series-episode-title-the-php-galaxy">The PHP galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-asm-js-galaxy">❮&nbsp;The ASM.js galaxy</a><a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-php-galaxy">The PHP galaxy&nbsp;❯</a></nav>
   </article>
 
 </main>
