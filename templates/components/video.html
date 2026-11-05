@@ -1,7 +1,7 @@
 {% component youtube(id: string, title: string, caption: string) %}
 <figure>
   <iframe
-    class="youtube-player"
+    class="video-player"
     src="https://www.youtube-nocookie.com/embed/{{id}}"
     title="{{title}}"
     frameborder="0"
@@ -17,3 +17,21 @@
   </figcaption>
 </figure>
 {% endcomponent youtube %}
+
+{% component ccc(id: string, title: string, caption: string) %}
+<figure>
+  <iframe
+    src="https://media.ccc.de/v/{{id}}/oembed"
+    class="video-player"
+    title="{{title}}"
+    frameborder="0"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+    loading="lazy"></iframe>
+  <figcaption>
+  <p>Video: {{title}}</p>
+
+  {{ caption | markdown(inline=false) | safe }}
+  </figcaption>
+</figure>
+{% endcomponent ccc %}
