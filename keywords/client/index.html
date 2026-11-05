@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com https://media.ccc.de; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, minimum-scale=1">
+
+  <title>The Client Keyword</title>
+
+  <link
+    rel="icon"
+    href="https://mnt.io/icon.svg"
+    integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
+  <link
+    rel="stylesheet"
+    href="https://mnt.io/style/min/main.css?h=3836309f6cfc3c03ca7c"
+    integrity="sha512-PoUcLyFFCo9iu5HPF64BfQwi2dnEKi9vRQefYfSs7P/7x0kmx6l9evHIABg3WPu+8Idgh9nTimwdT9xl82YN6g==">
+  <link
+    rel="stylesheet"
+    href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
+    integrity="sha512-MM8ehJf3jLFMAHreklG+ob3VA0pFhj3ul0fz9ty47Qp+8alKIIM0A/47xPLw/XRNyHmYXG2Jgv0IjScvLGsbKA==">
+  <link
+    rel="stylesheet"
+    href="https://mnt.io/style/min/search.css"
+    fetchpriority="low"
+    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    href="https://mnt.io/rss.xml"
+    title="All articles">
+  <link
+    rel="alternate"
+    type="application/atom+xml"
+    href="https://mnt.io/atom.xml"
+    title="All articles">
+
+  <meta name="author" content="Ivan Enderlin">
+  <meta name="description" content="mnt.io">
+  <meta property="og:title" content="The Client Keyword">
+  <meta property="og:site_name" content="mnt.io">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mnt.io">
+  <meta property="og:image" content="https://mnt.io/image/site-poster.jpg">
+  <meta name="fediverse:creator" content="@hywan@floss.social">
+</head>
+<body class="content-grid">
+
+<nav id="menu" class="full-width content-grid">
+  <menu>
+    <li><a href="/" accesskey="h">Home</a></li>
+    <li><a href="https://mnt.io/articles/" accesskey="a">Articles</a></li>
+    <li><a href="https://mnt.io/series/" accesskey="s">Series</a></li>
+    <li><a href="https://matrix.to/#/&#x23;mnt_io:matrix.org" title="Public Matrix room to discuss about this blog's content" target="_blank" accesskey="d">Discuss</a></li>
+    <li>
+      <button type="button" id="search-opener" title="Search" accesskey="k">
+        <svg viewBox="0 0 105 105" class="icon" height="1em">
+          <description>Search</description>
+          <circle r="36" cx="42" cy="42" fill="none" stroke="currentColor" stroke-width="8" />
+          <line x1="68" y1="68" x2="96" y2="96" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+        </svg>
+      </button>
+    </li>
+    <li>
+      <button type="button" id="theme-switcher" title="Change theme" accesskey="t">
+        <svg viewBox="0 0 105 105" class="icon" height="1em" aria-hidden="false">
+          <description>Light theme</description>
+          <path d="m26.3 26.3-4.4-4.4M16.4 50h-6.2m16 23.7L22 78.1m28 5.5v6.2m23.7-16 4.4 4.3M83.6 50h6.2m-16-23.7 4.3-4.4M50 16.4v-6.2M69.5 50c1 18.2-25.4 26.8-35.3 11.5-10.9-13.4 3.4-35 19.9-30.6A20 20 0 0 1 69.5 50Z" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+        </svg>
+        <svg viewBox="0 0 105 105" class="icon" height="1em" aria-hidden="true">
+          <description>Dark theme</description>
+          <path d="M50.8 5.8a44 44 0 0 0-40 30 42 42 0 0 0 1.5 32.4C19.5 86 39.7 96 58.3 94c10.3-1 20-6 26.7-14 2.9-2.5 4.6-6 6.8-9a36 36 0 0 1-38.5-9.6 39 39 0 0 1-11.2-37.5 41 41 0 0 1 8.7-18Z" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </li>
+  </menu>
+</nav>
+
+<script>
+  // Handle the theme setup as soon as possible, even before
+  // `DOMContentLoaded` and `readyState === 'interactive'`.
+  // The idea is to not get a visible flash or a repaint.
+  //
+  // At this point, `#theme-toggler` and `document` both exist.
+  function theme() {
+    const html = document.documentElement;
+    const switcher = document.getElementById('theme-switcher');
+
+    function select(new_theme, with_view_transition) {
+      const update = () => {
+        html.dataset.theme = new_theme;
+        localStorage.setItem('theme', new_theme);
+
+        const icon = (i, b) => { switcher.children[i].setAttribute('aria-hidden', b) };
+        const light = 0;
+        const dark = 1;
+
+        if (new_theme === 'dark') {
+          icon(light, false);
+          icon(dark, true);
+        } else {
+          icon(light, true);
+          icon(dark, false);
+        }
+      };
+
+      if (with_view_transition && document.startViewTransition !== undefined) {
+        const coordinates = switcher.getBoundingClientRect();
+        html.style.setProperty('--switch-theme-x', `${coordinates.x}px`);
+        html.style.setProperty('--switch-theme-y', `${coordinates.y}px`);
+
+        let view_transition = document.startViewTransition(update);
+        view_transition.ready.then(() => {
+          html.classList.add('switching-theme');
+        });
+        view_transition.finished.then(() => {
+          html.classList.remove('switching-theme');
+        });
+      } else {
+        update();
+      }
+    }
+
+    // Set up initial theme.
+    let current_theme = localStorage.getItem('theme');
+
+    // No theme manually selected? Let's fallback on the platform configuration.
+    if (current_theme === null) {
+      if (window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          current_theme = 'dark';
+        } else {
+          current_theme = 'light';
+        }
+      }
+    }
+
+    select(current_theme, false);
+
+    // Listen to platform's theme.
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        // The platform has changed its theme. If it matches, it has changed
+        // for the dark theme, light otherwise.
+        select(event.matches ? 'dark' : 'light', true);
+      });
+    }
+
+    // Listen to site's theme.
+    switcher.addEventListener('click', (_event) => {
+      select(html.dataset.theme == 'dark' ? 'light': 'dark', true);
+    });
+  }
+
+  theme();
+</script>
+
+<dialog id="search" tabindex="-1" closedby="any"></dialog>
+
+<main vocab="https://schema.org">
+
+  <h1>The Client Keyword</h1>
+
+  <p>Not the keyword you're looking for? <a href="https://mnt.io/keywords">See all keywords</a>.</p>
+
+  <div role="list">
+  <div role="listitem" class="poster">
+      
+  <a href="https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/" class="h2" property="url"><span property="name" style="view-transition-name: article-title-speedrun-a-client-at-the-matrix-conference">Speedrun a client at the Matrix Conference</span></a>
+  
+  <div class="metadata" data-pagefind-ignore="all">
+    <time title="Published date" datetime="2026-11-05" property="datePublished">November 05, 2026</time>
+    <span title="Reading time" property="timeRequired" content="PT4M">4 minutes read</span>
+    
+    <span title="Keywords" property="keywords" content="matrix, messaging, client, rust">
+      Keywords:&nbsp;<a href="/keywords/matrix" title="All articles matching the `matrix` keyword">matrix</a>, <a href="/keywords/messaging" title="All articles matching the `messaging` keyword">messaging</a>, <a href="/keywords/client" title="All articles matching the `client` keyword">client</a>, <a href="/keywords/rust" title="All articles matching the `rust` keyword">rust</a></span>
+    
+  </div>
+
+  
+  <div property="description">
+    <p>I have speedrun a Matrix client at the Matrix Conference in Malmö. It was a fun exercise! Other talks were also amazing.</p>
+
+  </div>
+  
+
+    </div>
+  
+  </div>
+
+</main>
+
+<footer class="full-width content-grid">
+  <div class="footer">
+    <div>
+      <h2>Contact me</h2>
+
+      <ul>
+        <li><a href="https://matrix.to/#/@mnt_io:matrix.org" title="Say hi on Matrix">@mnt_io:matrix.org</a></li>
+        <li><a href="mailto:ivan@mnt.io" title="Good ol' email">ivan@mnt.io</a></li>
+        <li><a href="https://floss.social/@hywan" title="Say hi on Mastodon" rel="me">Mastodon</a></li>
+        <li><a href="https://github.com/Hywan" title="Say hi on Github">Github</a></li>
+        <li><a href="/cv" title="My résumé">Curriculum Vitæ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Recommendations</h2>
+
+      <ul>
+        <li><a href="https://faultlore.com/blah/">faultlore</a></li>
+        <li><a href="https://fasterthanli.me/">fasterthanli.me</a></li>
+        <li><a href="https://blog.m-ou.se/">m-ou.se</a></li>
+        <li><a href="https://nadrieril.github.io/">nadrieril</a></li>
+        <li><a href="https://orlp.net/blog/">orlp</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/">smallcultfollowing</a></li>
+        <li><a href="https://without.boats/blog/">without.boats</a></li>
+        <li><a href="https://blog.yoshuawuyts.com/">yoshuawuyts</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>More</h2>
+
+      <ul>
+        <li><a href="https://mnt.io/lore/">Lore</a></li>
+        <li><a href="https://mnt.io/rss.xml">RSS</a></li>
+        <li><a href="https://mnt.io/atom.xml">Atom</a></li>
+        <li><a href="https://github.com/Hywan/mnt.io" title="Source code of this site">Source code</a></li>
+        <li><a href="https://dblp.org/pid/70/10366" title="Computer Science Bibliography">DBLP</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "search/pagefind-ui": "https://mnt.io/search/pagefind-ui.js"
+  },
+  "integrity": {
+    "https://mnt.io/search/pagefind-ui.js": "sha512-YIJz/WsqBFQ8rEDKt+yCt7pgosNQelBij3zCsUPux1KO2O0Np0qJ9q1DXmnxkc6NCozy/HkUKe6xuptM5sE95A=="
+  }
+}
+</script>
+<script type="module">
+  window.addEventListener('DOMContentLoaded', (_event) => {
+    function search() {
+      let search_opener = document.getElementById('search-opener');
+      let search_modal = document.getElementById('search');
+
+      let search_initialized = false;
+
+      search_opener.addEventListener('click', async (_event) => {
+        const _pagefind = await import('search/pagefind-ui');
+
+        if (!search_initialized) {
+          new PagefindUI({
+            element: "#search",
+            resetStyles: false,
+            showSubResults: true,
+            showImages: false,
+            bundlePath: '/search/',
+          });
+          search_initialized = true;
+        }
+
+        search_modal.showModal();
+      });
+    }
+
+    search();
+  });
+</script>
+</body>
+</html>

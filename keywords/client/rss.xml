@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>mnt.io - client</title>
+    <link>https://mnt.io</link>
+    <description></description>
+    <language>en</language>
+    <atom:link href="https://mnt.io/keywords/client/rss.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Thu, 05 Nov 2026 00:00:00 +0000</lastBuildDate><item>
+      <title>Speedrun a client at the Matrix Conference</title>
+      <pubDate>Thu, 05 Nov 2026 00:00:00 +0000</pubDate>
+      <author>ivan@mnt.io (Ivan Enderlin)</author>
+      <link>https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/</link>
+      <guid>https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/</guid>
+      <description xml:base="https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/">I have speedrun a Matrix client at the Matrix Conference in Malmö. It was a fun exercise! Other talks were also amazing.</description>
+    </item>
+  </channel>
+</rss>
