@@ -88,7 +88,7 @@ must watch. I mean, really.
 Richard van der Hoff has the same superpower than Andy: concisely explain
 non-trivial concepts. If you don't know what X.509 certificates are, or if you
 are curious to see how we can use them in Matrix to automatically ensure you're
-chatting with the right person, not an intruder, without reading out numbers of
+chatting with the right person, not an intruder, without reading out numbers or
 emojis, this talk is for you.
 
 {{ <ccc
