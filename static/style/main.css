@@ -148,18 +148,9 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  /* For a selection, we reverse the color theme: light to dark, or dark to light */
-  color-scheme: light;
-
-  color: var(--color-light);
-  background: var(--color-canvas);
+  color: var(--color-canvas);
+  background: var(--color-light);
 }
-
-@media (prefers-color-scheme: light) {
-  ::selection { color-scheme: dark }
-}
-:root[data-theme = 'dark'] ::selection { color-scheme: light }
-:root[data-theme = 'light'] ::selection { color-scheme: dark }
 
 html {
   scroll-padding-top: var(--space-very-large);
