@@ -630,9 +630,21 @@ footer {
     flex-wrap: wrap;
     column-gap: var(--space-very-large);
     row-gap: var(--space-large);
+    justify-content: center;
 
     > * {
       min-width: fit-content;
+    }
+
+    > .copyright {
+      flex: 1;
+
+      p {
+        font-size: 85%;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
     }
 
     h2 {
