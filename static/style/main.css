@@ -729,6 +729,10 @@ article {
     border: var(--border-width) var(--color-accent) solid;
     background: transparent;
   }
+
+  code {
+    background: transparent;
+  }
 }
 
 .metadata > * {

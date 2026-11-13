@@ -20,10 +20,10 @@
 
     <nav class="previous-next-articles">
       {%- if page.higher and page.higher.draft == false -%}
-        <a href="{{ page.higher.permalink }}" class="button text-align-start">❮&nbsp;{{ page.higher.title }}</a>
+        <a href="{{ page.higher.permalink }}" class="button text-align-start">❮&nbsp;{{ page.higher.title | markdown(inline = true) | safe }}</a>
       {%- endif -%}
       {%- if page.lower and page.lower.draft == false -%}
-        <a href="{{ page.lower.permalink }}" class="button text-align-end">{{ page.lower.title }}&nbsp;❯</a>
+        <a href="{{ page.lower.permalink }}" class="button text-align-end">{{ page.lower.title | markdown(inline = true) | safe }}&nbsp;❯</a>
       {%- endif -%}
     </nav>
   </article>

@@ -27,10 +27,10 @@
 
     <nav class="previous-next-episodes">
       {%- if page.higher -%}
-        <a href="{{ page.higher.permalink }}" class="button text-align-start" style="view-transition-name: series-episode-title-{{ page.higher.slug }}">❮&nbsp;{{ page.higher.title }}</a>
+        <a href="{{ page.higher.permalink }}" class="button text-align-start" style="view-transition-name: series-episode-title-{{ page.higher.slug }}">❮&nbsp;{{ page.higher.title | markdown(inline = true) | safe }}</a>
       {%- endif -%}
       {%- if page.lower -%}
-        <a href="{{ page.lower.permalink }}" class="button text-align-end" style="view-transition-name: series-episode-title-{{ page.lower.slug }}">{{ page.lower.title }}&nbsp;❯</a>
+        <a href="{{ page.lower.permalink }}" class="button text-align-end" style="view-transition-name: series-episode-title-{{ page.lower.slug }}">{{ page.lower.title | markdown(inline = true) | safe }}&nbsp;❯</a>
       {%- else -%}
         {%- if not series.extra.complete -%}
         <div class="button button--disabled text-align-end">(coming soon)&nbsp;❯</div>
