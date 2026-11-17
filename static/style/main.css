@@ -49,8 +49,16 @@ p, h1, h2, h3, h4, h5, h6 {
     oklch(from var(--color-dark) calc(l + .1) c h)
   );
   --color-dark-blue: light-dark(
-    oklch(72.77% 0.024 264.05),
-    oklch(27.23% 0.024 264.05)
+    oklch(72.77% .024 264.05),
+    oklch(27.23% .024 264.05)
+  );
+  --color-dark-red: light-dark(
+    oklch(80% .124 17),
+    oklch(49% .155 17)
+  );
+  --color-dark-green: light-dark(
+    oklch(82% .125 145),
+    oklch(46% .143 145)
   );
   --color-light: light-dark(
     oklch(15% .004 360),
@@ -361,7 +369,7 @@ figure {
     margin-block-end: 0;
   }
 
-  &:has(img, picture, [role='img'], .video-player, .video-player) {
+  &:has(img, picture, [role='img'], .video-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
     color-scheme: only dark;
@@ -377,6 +385,11 @@ figure {
   .video-player {
     aspect-ratio: 16 / 9;
     width: 100%;
+  }
+
+  > *,
+  > .overflow-inline > * {
+    margin-inline: auto;
   }
 
   figcaption {
@@ -395,17 +408,66 @@ figure {
     }
   }
 
-  :not(figcaption) {
-    margin-inline: auto;
-    max-height: 50vh;
-  }
-
-  & > p {
+  > p {
     margin: 0;
   }
+}
 
-  &:has(> table) {
-    overflow: scroll hidden;
+@property --scroll-mask-inline-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --scroll-mask-inline-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes scrollmask {
+  0% {
+    --scroll-mask-inline-start: 0;
+  }
+
+  10%, 100% {
+    --scroll-mask-inline-start: 5cqi;
+  }
+
+  0%, 90% {
+    --scroll-mask-inline-end: 5cqi;
+  }
+
+  100% {
+    --scroll-mask-inline-end: 0;
+  }
+}
+
+.overflow-inline {
+  width: 100%;
+  overflow: auto hidden;
+
+  mask: linear-gradient(
+    to right,
+    transparent,
+    white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
+    transparent
+  );
+  animation: scrollmask;
+  scroll-timeline: --scroll-mask x;
+
+  /* Gutter for the scrollbar */
+  padding-block-end: .8rem;
+}
+
+/**
+ * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+ * ideally it should be next to `animation`, but we put it here to avoid invalid
+ * inlining.
+ */
+@supports (animation-timeline: --foo) {
+  .overflow-inline {
+    animation-timeline: --scroll-mask;
   }
 }
 
@@ -432,11 +494,27 @@ svg.schema {
 
 table {
   font-variant: tabular-nums;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   th, td {
     padding: var(--space-very-small) var(--space-small);
     border: var(--border-width) var(--border-color) solid;
+    border-style: solid solid none none;
+  }
+
+  th:last-child, td:last-child {
+    border-right-style: none;
+  }
+
+  > :first-child {
+    > tr:first-child {
+      th, td {
+        border-top-style: none;
+      }
+    }
   }
 }
 
@@ -482,6 +560,7 @@ details {
       right: var(--_padding);
 
       content: '+';
+      color: var(--color-accent);
       font-weight: bold;
     }
   }
@@ -489,6 +568,30 @@ details {
   &[open] summary::after {
     content: '−' !important;
   }
+}
+
+ins {
+  padding-inline: var(--space-small);
+  border-radius: var(--border-radius);
+  text-decoration: underline 1px wavy;
+  background: var(--color-dark-green);
+}
+
+del {
+  text-decoration: line-through 1px;
+  padding-inline: var(--space-small);
+  border-radius: var(--border-radius);
+  background: var(--color-dark-red);
+}
+
+del:has(+ ins) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+del + ins {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 mark {
@@ -712,8 +815,8 @@ article {
 }
 
 .button {
-  padding: var(--space-small) var(--space);
   color: var(--color-dark);
+  padding: var(--space-small) var(--space);
   border-radius: var(--border-radius);
   background: var(--color-accent);
 
