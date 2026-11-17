@@ -573,7 +573,7 @@ details {
 ins {
   padding-inline: var(--space-small);
   border-radius: var(--border-radius);
-  text-decoration: underline 1px wavy;
+  text-decoration: none;
   background: var(--color-dark-green);
 }
 
@@ -1003,14 +1003,6 @@ article {
 
 .footnote-reference a {
   margin-inline: var(--space-very-very-small);
-
-  &:before {
-    content: '( ';
-  }
-
-  &:after {
-    content: ' )';
-  }
 }
 
 .icon {
