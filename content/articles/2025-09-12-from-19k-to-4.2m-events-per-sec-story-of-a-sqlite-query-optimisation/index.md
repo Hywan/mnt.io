@@ -405,7 +405,7 @@ power-user though, because a power-user has usually more gaps than events). Here
 are the before/after results.
 
 <figure>
-
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -460,6 +460,7 @@ are the before/after results.
   Benchmark's results for the original query with `COUNT` and `LEFT JOIN`.
 
   </figcaption>
+</div>
 </figure>
 
 <details>
@@ -496,7 +497,7 @@ are the before/after results.
 </details>
 
 <figure>
-
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -551,6 +552,7 @@ are the before/after results.
   Benchmark's results for the new query with the `CASE` expression.
 
   </figcaption>
+</div>
 </figure>
 
 <details>
@@ -675,7 +677,7 @@ Only two queries. All tests are passing. Now let's see what the benchmark has to
 say!
 
 <figure>
-
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -730,6 +732,7 @@ say!
   Benchmark's results for the two queries approach.
 
   </figcaption>
+</div>
 </figure>
 
 <details>
