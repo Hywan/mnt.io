@@ -113,7 +113,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --blur: .3rem;
 
   --transition-duration-bounce: 500ms;
-  --transition-timing-bounce: linear(0, 0.085 3.4%, 0.169 7%, 0.531 23.6%, 0.861 37.9%, 0.938 41.5%, 1 44.7%, 0.942 48.4%, 0.92 50.1%, 0.903 51.7%, 0.889 53.4%, 0.88 55%, 0.874 56.6%, 0.872 58.3%, 0.874 59.7%, 0.877 61.1%, 0.884 62.6%, 0.893 64.2%, 0.916 67.1%, 0.975 73.9%, 1 77.4%, 0.985 81%, 0.982 82.7%, 0.981 84.5%, 0.983 87.5%, 0.997 95.2%, 1);
+  --transition-timing-bounce: linear(0, .085 3.4%, .169 7%, .531 23.6%, .861 37.9%, .938 41.5%, 1 44.7%, .942 48.4%, .92 5.1%, .903 51.7%, .889 53.4%, .88 55%, .874 56.6%, .872 58.3%, .874 59.7%, .877 61.1%, .884 62.6%, .893 64.2%, .916 67.1%, .975 73.9%, 1 77.4%, .985 81%, .982 82.7%, .981 84.5%, .983 87.5%, .997 95.2%, 1);
 }
 
 @media (prefers-color-scheme: light) {
@@ -136,7 +136,7 @@ p, h1, h2, h3, h4, h5, h6 {
   &::view-transition-old(root) { animation-delay: 800ms }
   &::view-transition-new(root) {
     animation: switch-theme 800ms;
-    animation-timing-function: cubic-bezier(0.413, 1.249, 0.874, 0.137);
+    animation-timing-function: cubic-bezier(.413, 1.249, .874, .137);
   }
 }
 
@@ -147,6 +147,36 @@ p, h1, h2, h3, h4, h5, h6 {
 
   to {
     clip-path: circle(max(100vw, 100vh) at var(--switch-theme-x, 50%) var(--switch-theme-y, 0%))
+  }
+}
+
+@property --scroll-mask-inline-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --scroll-mask-inline-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes scrollmask {
+  0% {
+    --scroll-mask-inline-start: 0;
+  }
+
+  10%, 100% {
+    --scroll-mask-inline-start: 5cqi;
+  }
+
+  0%, 90% {
+    --scroll-mask-inline-end: 5cqi;
+  }
+
+  100% {
+    --scroll-mask-inline-end: 0;
   }
 }
 
@@ -304,7 +334,7 @@ small {
   }
 }
 
-sup > abbr {
+abbr {
   font-variant-caps: all-small-caps;
 }
 
@@ -318,7 +348,7 @@ code {
 }
 
 pre {
-  --_padding: var(--space);
+  --_gutter-inline: var(--space);
 
   color-scheme: only dark;
   overflow-x: scroll;
@@ -332,7 +362,7 @@ pre {
 
   code {
     display: block;
-    margin: var(--_padding);
+    margin: var(--space) var(--_gutter-inline) var(--space-small) var(--_gutter-inline);
     padding-inline: 0;
     background: transparent;
   }
@@ -352,7 +382,7 @@ pre {
     position: sticky;
     top: 0;
     left: 0;
-    padding: var(--space-small) var(--_padding);
+    padding: var(--space-small) var(--_gutter-inline);
     font-size: .85em;
     background: var(--border-color);
     border-radius: 0 0 var(--border-radius) 0;
@@ -410,36 +440,6 @@ figure {
 
   > p {
     margin: 0;
-  }
-}
-
-@property --scroll-mask-inline-start {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0;
-}
-
-@property --scroll-mask-inline-end {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0;
-}
-
-@keyframes scrollmask {
-  0% {
-    --scroll-mask-inline-start: 0;
-  }
-
-  10%, 100% {
-    --scroll-mask-inline-start: 5cqi;
-  }
-
-  0%, 90% {
-    --scroll-mask-inline-end: 5cqi;
-  }
-
-  100% {
-    --scroll-mask-inline-end: 0;
   }
 }
 
@@ -599,6 +599,32 @@ mark {
   border-radius: 5px;
   background: oklch(90% .177 75);
   padding-inline: var(--space-very-small);
+}
+
+article hr {
+  width: 20%;
+  margin-inline: auto;
+  overflow: visible;
+  text-align: center;
+  height: 2px; /* browser' default */
+  border: none;
+  border-top: 2px var(--border-color-lighter) solid;
+
+  &::after {
+    --_height: 20px;
+
+    content: '';
+    position: relative;
+    display: inline-block;
+    background: var(--border-color-lighter);
+    mask:
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 20"><path d="m25 3.6 6.3 6.4-6.3 6.3-6.4-6.3zm17 .1 6.4 6.3-6.4 6.4-6.4-6.4zM8 3.6l6.4 6.4L8 16.3 1.6 10z"/></svg>')
+      no-repeat;
+    height: var(--_height);
+    width: 50px;
+    top: calc(var(--_height) / -2 - 1px);
+    outline: 1px red solid;
+  }
 }
 
 math {
