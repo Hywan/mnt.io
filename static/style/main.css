@@ -351,20 +351,32 @@ pre {
   --_gutter-inline: var(--space);
 
   color-scheme: only dark;
-  overflow-x: scroll;
+  position: relative;
+  overflow-x: hidden;
   margin-block: var(--space);
   line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
   border-radius: var(--border-radius);
 
+
   --_text: 'Code';
 
   code {
     display: block;
-    margin: var(--space) var(--_gutter-inline) var(--space-small) var(--_gutter-inline);
+    overflow-x: auto;
+    margin: calc(var(--space-very-large) - var(--border-width)) var(--_gutter-inline) var(--space-small) var(--_gutter-inline);
     padding-inline: 0;
     background: transparent;
+
+    mask: linear-gradient(
+      to right,
+      transparent,
+      white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
+      transparent
+    );
+    animation: scrollmask;
+    scroll-timeline: --scroll-mask x;
   }
 
   &:has(> code[data-lang='rust']) { --_text: 'Rust' }
@@ -379,13 +391,24 @@ pre {
 
   &:has(> code[data-lang])::before {
     content: var(--_text) ' session';
-    position: sticky;
+    position: absolute;
     top: 0;
     left: 0;
     padding: var(--space-small) var(--_gutter-inline);
-    font-size: .85em;
+    font-size: .75em;
     background: var(--border-color);
     border-radius: 0 0 var(--border-radius) 0;
+  }
+}
+
+/**
+ * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+ * ideally it should be next to `animation`, but we put it here to avoid invalid
+ * inlining.
+ */
+@supports (animation-timeline: --foo) {
+  pre code {
+    animation-timeline: --scroll-mask;
   }
 }
 
@@ -445,7 +468,7 @@ figure {
 
 .overflow-inline {
   width: 100%;
-  overflow: auto hidden;
+  overflow-x: auto;
 
   mask: linear-gradient(
     to right,
