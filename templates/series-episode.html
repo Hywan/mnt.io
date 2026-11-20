@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title -%}
-  {{ page.title }}
+  {{ page.title | regex_replace(pattern = "[`_\\*]+", rep="") }}
 {%- endblock title %}
 
 {% block long_title -%}
