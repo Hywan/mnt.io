@@ -20,6 +20,7 @@
   }
 
   color: currentColor;
+  font-family: var(--font-chrome);
   padding: 0;
   border: var(--_border-size) var(--color-accent) solid;
   border-radius: var(--space-small);
@@ -77,7 +78,12 @@
           }
 
           .pagefind-ui__result-title {
+            font-family: var(--font-text);
             font-weight: bold;
+          }
+
+          .pagefind-ui__result-excerpt {
+            font-family: var(--font-text);
           }
 
           .pagefind-ui__result-nested {

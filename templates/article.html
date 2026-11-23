@@ -16,6 +16,10 @@
       {{ <article.metadata page={page} full={true} /> }}
     </header>
 
+    {%- if page.extra.table_of_contents -%}
+    {{ <article.table_of_contents page={page} /> }}
+    {%- endif -%}
+
     {{ page.content | safe }}
 
     <nav class="previous-next-articles">

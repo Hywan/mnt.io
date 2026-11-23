@@ -23,6 +23,8 @@
       {{ <article.metadata page={page} full={true} /> }}
     </header>
 
+    {{ <article.table_of_contents page={page} /> }}
+
     {{ page.content | safe }}
 
     <nav class="previous-next-episodes">

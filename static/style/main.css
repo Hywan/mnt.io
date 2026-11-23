@@ -101,8 +101,10 @@ p, h1, h2, h3, h4, h5, h6 {
   /* Thanks https://modernfontstacks.com/! */
   --font-text: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   --font-monospace: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --font-chrome: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
 
   --text-size: 1.05rem;
+  --text-small-size: .9rem;
   --text-line-height: 1.5;
 
   --heading-size-1: 1.8em;
@@ -327,7 +329,7 @@ li {
 }
 
 small {
-  font-size: .8em;
+  font-size: var(--text-small-size);
 
   :is(h1, h2, h3) & {
     font-size: .5em;
@@ -395,7 +397,7 @@ pre {
     top: 0;
     left: 0;
     padding: var(--space-small) var(--_gutter-inline);
-    font-size: .75em;
+    font-size: .7em;
     background: var(--border-color);
     border-radius: 0 0 var(--border-radius) 0;
   }
@@ -561,7 +563,6 @@ details {
   --_padding: var(--space);
 
   position: relative;
-
   padding: var(--_padding);
   border: var(--border-width) var(--border-color) solid;
   border-radius: var(--border-radius);
@@ -569,8 +570,8 @@ details {
   summary {
     cursor: pointer;
     padding-inline-end: var(--space-very-large);
-
     list-style: none;
+
     &::marker,
     &::-webkit-details-marker {
       content: none; /* all browsers */
@@ -585,6 +586,7 @@ details {
       content: '+';
       color: var(--color-accent);
       font-weight: bold;
+      font-family: var(--text-chrome);
     }
   }
 
@@ -646,7 +648,6 @@ article hr {
     height: var(--_height);
     width: 50px;
     top: calc(var(--_height) / -2 - 1px);
-    outline: 1px red solid;
   }
 }
 
@@ -720,6 +721,7 @@ main {
 #menu {
   color-scheme: only dark;
   color: var(--color-white);
+  font-family: var(--font-chrome);
   background: var(--color-accent2);
 
   > menu {
@@ -783,7 +785,7 @@ footer {
       flex: 1;
 
       p {
-        font-size: 85%;
+        font-size: var(--text-small-size);
         margin: 0;
         padding: 0;
         text-align: center;
@@ -805,16 +807,22 @@ footer {
   }
 }
 
+@media screen and (width < 1300px) {
+  .toc {
+    display: none;
+  }
+}
+
+@keyframes toc-progress {
+  to { height: 100% }
+}
+
 article {
   > header {
     margin-block-end: var(--space-very-large);
 
     > h1 {
       display: inline-block;
-    }
-
-    > .metadata {
-      margin-block-start: var(--space);
     }
   }
 
@@ -849,6 +857,56 @@ article {
     }
   }
 
+  &:has(.toc) {
+    position: relative;
+  }
+
+  nav.toc {
+    --_container-width: 250px;
+    --_container-gutter: 4rem;
+    --_progress-width: 3px;
+    --_progress-space: var(--space);
+
+    position: absolute;
+    width: var(--_container-width);
+    right: calc(var(--_container-width) * -1 - var(--_container-gutter));
+    width: var(--_container-width);
+    height: 100%;
+    view-timeline-name: --toc-progress;
+
+    .toc-content {
+      position: sticky;
+      top: var(--_container-gutter);
+      font-family: var(--font-chrome);
+      font-size: var(--text-small-size);
+
+      ol {
+        position: relative;
+        list-style: none;
+        padding-block: 0;
+        padding-inline-start: calc(var(--_progress-space) * 2);
+
+        &::before, &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: calc(var(--_progress-space) - var(--_progress-width) / 2);
+          width: var(--_progress-width);
+          height: 100%;
+          border-radius: var(--border-radius);
+          background: var(--color-dark-lighter);
+        }
+
+        &::after {
+          height: 0%;
+          animation: toc-progress linear forwards;
+          animation-range: contain;
+          background: var(--color-light);
+        }
+      }
+    }
+  }
+
   nav.previous-next-episodes,
   nav.previous-next-articles {
     display: flex;
@@ -863,8 +921,20 @@ article {
   }
 }
 
+/**
+ * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+ * ideally it should be next to `animation`, but we put it here to avoid invalid
+ * inlining.
+ */
+@supports (animation-timeline: --foo) {
+  article nav.toc .toc-content ol:after {
+    animation-timeline: --toc-progress;
+  }
+}
+
 .button {
   color: var(--color-dark);
+  font-family: var(--font-chrome);
   padding: var(--space-small) var(--space);
   border-radius: var(--border-radius);
   background: var(--color-accent);
@@ -890,6 +960,8 @@ article {
 .metadata > * {
   display: inline-block;
   color: var(--color-light-darker);
+  font-family: var(--font-chrome);
+  font-size: var(--text-small-size);
 
   &:not(:last-child) {
     margin-inline-end: var(--space-large);
@@ -982,6 +1054,7 @@ article {
   color: var(--color-white);
   color-scheme: only dark;
   font-size: 0.7rem;
+  font-family: var(--font-chrome);
   font-weight: bold;
   padding: var(--space-very-very-small) var(--space-small);
   vertical-align: text-top;
@@ -1010,7 +1083,7 @@ article {
     flex-direction: column-reverse;
 
     span {
-      font-size: .8em;
+      font-size: var(--text-small-size);
       font-style: italic;
       text-align: center;
     }
