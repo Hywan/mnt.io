@@ -3,7 +3,9 @@ title = "Building a new site!"
 date = "2024-10-08"
 description = "It's time to rewrite my site from scratch. I'm nostalgic of the good old Web. This site is hand-written, and promotes smallness, speed, simplicity and fun. Let's discover the new lore (!), and let's talk about series a little bit."
 [taxonomies]
-keywords=["rust", "site", "rdfa"]
+keywords = ["rust", "site", "rdfa"]
+[extra]
+table_of_contents = true
 +++
 
 The time has come. I needed to rewrite my site from scratch. It was first

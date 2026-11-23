@@ -5,6 +5,7 @@ description = "I illustrate how _Data-oriented Design_ helped to remove annoying
 [taxonomies]
 keywords=["rust", "performance", "lock", "memory", "data-oriented design"]
 [extra]
+table_of_contents = true
 pinned = true
 +++
 

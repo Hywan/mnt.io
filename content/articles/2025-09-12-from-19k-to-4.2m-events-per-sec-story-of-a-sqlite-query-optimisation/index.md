@@ -3,8 +3,9 @@ title = "From 19k to 4.2M events/sec: story of a SQLite query optimisation"
 date = "2025-09-12"
 description = "After a user signaled a performance issue in a Matrix client, we have added new tracing timers in the Matrix Rust SDK to spot the problem. Once found, we have fixed an SQL query improving the throughput from 19k to 251k events/sec, and the speed from 502ms to 39ms. Then after another creative patch, the throughput has been improved to 4.2M events/sec, and the speed to 2ms."
 [taxonomies]
-keywords=["matrix", "messaging", "performance", "database", "sqlite", "rust"]
+keywords = ["matrix", "messaging", "performance", "database", "sqlite", "rust"]
 [extra]
+table_of_contents = true
 pinned = true
 +++
 

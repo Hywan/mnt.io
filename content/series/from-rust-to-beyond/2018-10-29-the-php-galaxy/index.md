@@ -3,7 +3,7 @@ title = "The PHP galaxy"
 date = "2018-10-29"
 description = "This episode is the end of our experimental, and so of our journey. With the C API we have defined, we can now explore the PHP galaxy. First off, we need to discover how to write a PHP extension. Once it's done, we can write improve our skeleton extension to use our Rust parser via C. As usual, we will compare our Rust to C to PHP design versus the current PEG.php solution. Is it faster? Once again, it's amazing how faster it is!"
 [taxonomies]
-keywords=["rust", "binding", "gutenberg", "c", "ffi", "php"]
+keywords = ["rust", "binding", "gutenberg", "c", "ffi", "php"]
 +++
 
 The galaxy we will explore today is the PHP galaxy. This post will

@@ -5,6 +5,7 @@ description = "I discuss streams. It's a pretext to learn about higher-order str
 [taxonomies]
 keywords=["rust", "asynchronous", "stream"]
 [extra]
+table_of_contents = true
 pinned = true
 +++
 
