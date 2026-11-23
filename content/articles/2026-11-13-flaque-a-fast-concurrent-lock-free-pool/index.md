@@ -3,8 +3,9 @@ title = "`flaque`, a fast, concurrent, lock-free, and sometimes wait-free, pool 
 date = "2026-11-13"
 description = "…"
 [taxonomies]
-keywords=["data structure", "rust", "non-blocking"]
+keywords = ["data structure", "rust", "non-blocking"]
 [extra]
+table_of_contents = true
 pinned = true
 +++
 
