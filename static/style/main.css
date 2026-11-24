@@ -164,7 +164,7 @@ p, h1, h2, h3, h4, h5, h6 {
   initial-value: 0;
 }
 
-@keyframes scrollmask {
+@keyframes scroll-mask {
   0% {
     --scroll-mask-inline-start: 0;
   }
@@ -377,8 +377,19 @@ pre {
       white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
       transparent
     );
-    animation: scrollmask;
+    animation: scroll-mask;
     scroll-timeline: --scroll-mask x;
+
+    /**
+     * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+     * ideally it should be next to `animation`, but we put it here to avoid invalid
+     * inlining.
+     */
+    @supports (animation-timeline: --foo) {
+      & {
+        animation-timeline: --scroll-mask;
+      }
+    }
   }
 
   &:has(> code[data-lang='rust']) { --_text: 'Rust' }
@@ -400,17 +411,6 @@ pre {
     font-size: .7em;
     background: var(--border-color);
     border-radius: 0 0 var(--border-radius) 0;
-  }
-}
-
-/**
- * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
- * ideally it should be next to `animation`, but we put it here to avoid invalid
- * inlining.
- */
-@supports (animation-timeline: --foo) {
-  pre code {
-    animation-timeline: --scroll-mask;
   }
 }
 
@@ -478,23 +478,24 @@ figure {
     white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
     transparent
   );
-  animation: scrollmask;
+  animation: scroll-mask;
   scroll-timeline: --scroll-mask x;
 
   /* Gutter for the scrollbar */
   padding-block-end: .8rem;
-}
 
-/**
- * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
- * ideally it should be next to `animation`, but we put it here to avoid invalid
- * inlining.
- */
-@supports (animation-timeline: --foo) {
-  .overflow-inline {
-    animation-timeline: --scroll-mask;
+  /**
+   * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+   * ideally it should be next to `animation`, but we put it here to avoid invalid
+   * inlining.
+   */
+  @supports (animation-timeline: --foo) {
+    & {
+      animation-timeline: --scroll-mask;
+    }
   }
 }
+
 
 svg.schema {
   text {
@@ -897,11 +898,24 @@ article {
           background: var(--color-dark-lighter);
         }
 
-        &::after {
-          height: 0%;
-          animation: toc-progress linear forwards;
-          animation-range: contain;
-          background: var(--color-light);
+        @media not (prefers-reduced-motion: reduce) {
+          &::after {
+            height: 0%;
+            animation: toc-progress linear forwards;
+            animation-range: contain;
+            background: var(--color-light);
+          }
+        }
+
+        /**
+         * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+         * ideally it should be next to `animation`, but we put it here to avoid invalid
+         * inlining.
+         */
+        @supports (animation-timeline: --foo) {
+          &::after {
+            animation-timeline: --toc-progress;
+          }
         }
       }
     }
@@ -918,17 +932,6 @@ article {
       flex: 1;
       min-width: fit-content;
     }
-  }
-}
-
-/**
- * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
- * ideally it should be next to `animation`, but we put it here to avoid invalid
- * inlining.
- */
-@supports (animation-timeline: --foo) {
-  article nav.toc .toc-content ol:after {
-    animation-timeline: --toc-progress;
   }
 }
 
