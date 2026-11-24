@@ -23,12 +23,16 @@
     {{ page.content | safe }}
 
     <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p>
       {%- if page.higher and page.higher.draft == false -%}
         <a href="{{ page.higher.permalink }}" class="button text-align-start">❮&nbsp;{{ page.higher.title | markdown(inline = true) | safe }}</a>
       {%- endif -%}
       {%- if page.lower and page.lower.draft == false -%}
         <a href="{{ page.lower.permalink }}" class="button text-align-end">{{ page.lower.title | markdown(inline = true) | safe }}&nbsp;❯</a>
       {%- endif -%}
+      </p>
     </nav>
   </article>
 {% endblock body %}
