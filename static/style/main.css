@@ -1161,31 +1161,36 @@ article {
 
 .footnotes {
   --_margin: var(--space-very-large);
-  --_title-space: calc(1em * var(--text-line-height) + var(--space));
+  --_title-space: calc(1em * var(--text-line-height) + var(--space-large));
 
-  position: relative;
-  margin-block-start: calc(var(--_margin) + var(--_title-space));
+  margin-block-start: calc(var(--space-very-large));
+  border-block-start: var(--border-width) var(--border-color) solid;
+  padding-block-start: calc(var(--space-very-large) + var(--_title-space));
 
-  &::before {
-    content: 'Notes & References';
-    position: absolute;
-    display: block;
-    top: calc(-1 * var(--_title-space) - var(--space));
-    left: 0;
-    right: 0;
+  .footnotes-list {
+    position: relative;
 
-    font-weight: bold;
-    padding-block-start: var(--space);
-  }
+    &::before {
+      content: 'Notes & References';
+      position: absolute;
+      display: block;
+      top: calc(-1 * var(--_title-space));
+      left: 0;
+      right: 0;
 
-  .footnotes-list > li {
-    &:target {
-      padding: var(--space);
-      outline: var(--border-width) var(--color-accent) dotted;
+      font-family: var(--font-chrome);
+      font-weight: bold;
     }
 
-    a[href^='#'] {
-      font-variant-emoji: text;
+    li {
+      &:target {
+        padding: var(--space);
+        outline: var(--border-width) var(--color-accent) dotted;
+      }
+
+      a[href^='#'] {
+        font-variant-emoji: text;
+      }
     }
   }
 }
