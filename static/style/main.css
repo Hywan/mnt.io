@@ -788,6 +788,7 @@ footer {
     column-gap: var(--space-very-large);
     row-gap: var(--space-large);
     justify-content: center;
+    font-family: var(--font-chrome);
 
     > * {
       min-width: fit-content;
