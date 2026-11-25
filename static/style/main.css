@@ -893,6 +893,10 @@ article {
       font-family: var(--font-chrome);
       font-size: var(--text-small-size);
 
+      h2 {
+        font-size: var(--text-size);
+      }
+
       ol {
         position: relative;
         list-style: none;
