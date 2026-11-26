@@ -233,11 +233,11 @@ h1, h2, h3, h4, h5, h6 {
     --_margin-block-start: 0;
   }
 
-  > .anchor {
+  .anchor {
     display: none;
   }
 
-  &:is(:hover, :focus) > .anchor {
+  &:is(:hover, :focus) .anchor {
     display: inline-block;
     margin-inline-start: var(--space-small);
   }
@@ -820,14 +820,20 @@ footer {
   }
 }
 
-@media screen and (width < 1300px) {
-  .toc {
-    display: none;
-  }
+@property --toc-progress {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
 }
 
 @keyframes toc-progress {
-  to { height: 100% }
+  to { --toc-progress: 1 }
+}
+
+@media screen and (width < 1300px) {
+  .toc, .toc-anchor {
+    display: none;
+  }
 }
 
 article {
@@ -874,7 +880,7 @@ article {
     position: relative;
   }
 
-  nav.toc {
+  .toc {
     --_container-width: 250px;
     --_container-gutter: 4rem;
     --_progress-width: 3px;
@@ -885,56 +891,73 @@ article {
     right: calc(var(--_container-width) * -1 - var(--_container-gutter));
     width: var(--_container-width);
     height: 100%;
-    view-timeline-name: --toc-progress;
 
     .toc-content {
       position: sticky;
       top: var(--_container-gutter);
       font-family: var(--font-chrome);
-      font-size: var(--text-small-size);
 
       h2 {
         font-size: var(--text-size);
       }
 
       ol {
+        --_left: calc(var(--_progress-space) - var(--_progress-width) / 2);
+        --_width: var(--_progress-width);
+
         position: relative;
         list-style: none;
-        padding-block: 0;
         padding-inline-start: calc(var(--_progress-space) * 2);
+        font-size: var(--text-small-size);
 
-        &::before, &::after {
+        &::before {
           content: '';
           position: absolute;
           top: 0;
-          left: calc(var(--_progress-space) - var(--_progress-width) / 2);
-          width: var(--_progress-width);
-          height: 100%;
+          left: var(--_left);
+          width: var(--_width);
+          bottom: 0;
           border-radius: var(--border-radius);
           background: var(--color-dark-lighter);
         }
 
-        @media not (prefers-reduced-motion: reduce) {
-          &::after {
-            height: 0%;
-            animation: toc-progress linear forwards;
-            animation-range: contain;
-            background: var(--color-light);
-          }
-        }
+        li {
+          anchor-scope: --self;
+          animation: toc-progress linear forwards;
+          animation-range: entry-crossing;
+          /* `animation-timeline: --toc-timeline-<id>` is inlined */
 
-        /**
-         * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
-         * ideally it should be next to `animation`, but we put it here to avoid invalid
-         * inlining.
-         */
-        @supports (animation-timeline: --foo) {
-          &::after {
-            animation-timeline: --toc-progress;
+          @media not (prefers-reduced-motion: reduce) {
+            &::before {
+              position: absolute;
+              content: '';
+              left: var(--_left);
+              width: var(--_width);
+
+              --_offset: 5px;
+
+              top: anchor(--self top);
+              bottom: calc(anchor(--self bottom) - var(--_offset));
+              translate: 0 calc(-1 * var(--_offset));
+
+              border-radius: var(--border-radius);
+              background: linear-gradient(
+                var(--color-light) calc(var(--toc-progress) * (100% + 5px)),
+                transparent calc(var(--toc-progress) * (100% + 5px))
+              );
+            }
+
+            &:first-child::before {
+              --_offset: 0px;
+            }
           }
         }
       }
     }
+  }
+
+  .toc-anchor {
+    /* `view-timeline-name: --toc-timeline-<id>` is inlined */
   }
 
   nav.previous-next-episodes,

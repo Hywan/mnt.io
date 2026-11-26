@@ -48,8 +48,9 @@
       </h2>
 
       <ol title="Jump to the following section in this page">
-      {% for h1 in page.toc -%}
-        <li><a href="#{{ h1.permalink | split(pat = "#") | last }}">{{ h1.title }}</a></li>
+      {% for h2 in page.toc -%}
+        {%- set id = h2.permalink | split(pat = "#") | last -%}
+        <li style="anchor-name: --self; animation-timeline: --toc-timeline-{{ id }}"><a href="#{{ id }}">{{ h2.title }}</a></li>
       {% endfor %}
       </ol>
     </div>
