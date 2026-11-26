@@ -114,6 +114,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --paragraph-space: var(--space);
 
+  --icon-size: 1rem;
+
   --blur: .3rem;
 
   --transition-duration-bounce: 500ms;
@@ -167,21 +169,10 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes scroll-mask {
-  0% {
-    --scroll-mask-inline-start: 0;
-  }
-
-  10%, 100% {
-    --scroll-mask-inline-start: 5cqi;
-  }
-
-  0%, 90% {
-    --scroll-mask-inline-end: 5cqi;
-  }
-
-  100% {
-    --scroll-mask-inline-end: 0;
-  }
+  0% { --scroll-mask-inline-start: 0 }
+  10%, 100% { --scroll-mask-inline-start: 5cqi }
+  0%, 90% { --scroll-mask-inline-end: 5cqi }
+  100% { --scroll-mask-inline-end: 0 }
 }
 
 * {
@@ -885,56 +876,63 @@ article {
   .toc {
     --_container-width: 250px;
     --_container-gutter: 4rem;
-    --_progress-width: 3px;
-    --_progress-space: var(--space);
 
     position: absolute;
     width: var(--_container-width);
     right: calc(var(--_container-width) * -1 - var(--_container-gutter));
-    width: var(--_container-width);
     height: 100%;
 
     .toc-content {
+      --_bar-width: 3px;
+      --_bar-space: calc(var(--icon-size) / 2);
+      --_space-between-icon-and-text: var(--space-small);
+
       position: sticky;
       top: var(--_container-gutter);
       font-family: var(--font-chrome);
 
       h2 {
         font-size: var(--text-size);
+
+        .icon {
+          margin-inline-end: var(--_space-between-icon-and-text);
+        }
       }
 
       ol {
-        --_left: calc(var(--_progress-space) - var(--_progress-width) / 2);
-        --_width: var(--_progress-width);
-
         position: relative;
         list-style: none;
-        padding-inline-start: calc(var(--_progress-space) * 2);
         font-size: var(--text-small-size);
+        padding-inline: 0;
 
         &::before {
           content: '';
           position: absolute;
           top: 0;
-          left: var(--_left);
-          width: var(--_width);
+          left: calc(var(--_bar-space) - var(--_bar-width) / 2);
+          width: var(--_bar-width);
           bottom: 0;
           border-radius: var(--border-radius);
           background: var(--color-dark-lighter);
         }
 
         li {
-          anchor-scope: --self;
-          animation: toc-progress linear forwards;
-          animation-range: entry-crossing;
-          /* `animation-timeline: --toc-timeline-<id>` is inlined */
+          margin-inline-start: calc(var(--icon-size) + var(--_space-between-icon-and-text));
+
+          @supports (timeline-scope: all) {
+            anchor-scope: --self;
+            animation: toc-progress linear forwards;
+            animation-range: entry-crossing;
+            /* `animation-timeline: --toc-timeline-<id>` is inlined */
+          }
 
           @media not (prefers-reduced-motion: reduce) {
             &::before {
               position: absolute;
               content: '';
-              left: var(--_left);
-              width: var(--_width);
+              left: calc(var(--_bar-space) - var(--_bar-width) / 2);
+              /* left: var(--_bar-position-left); */
+              width: var(--_bar-width);
 
               --_offset: 5px;
 
@@ -1183,7 +1181,8 @@ article {
 }
 
 .icon {
-  height: 1em;
+  width: var(--icon-size);
+  height: var(--icon-size);
   display: inline-block;
   vertical-align: middle;
 }

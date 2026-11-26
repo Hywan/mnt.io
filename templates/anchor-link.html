@@ -1,3 +1,4 @@
-<span class="toc-anchor" style="view-timeline-name: --toc-timeline-{{ id }}">
-  <a role="presentation" class="anchor" href="#{{ id }}" title="Anchor link to this header" data-pagefind-ignore>#</a>
-</span>
+{% if level == 2 -%}
+<span class="toc-anchor" style="view-timeline-name: --toc-timeline-{{ id }}"></span>
+{%- endif %}
+<a role="presentation" class="anchor" href="#{{ id }}" title="Anchor link to this header" data-pagefind-ignore>#</a>
