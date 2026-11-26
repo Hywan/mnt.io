@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,37 +180,36 @@
     
   </div>
 
-    </header>
-
-    <p>Hello fellow developers and testers,</p>
-<p>Few months ago at <a rel="noopener external" target="_blank" href="https://automattic.com/">Automattic</a>, my team and I
+    </header><p>Hello fellow developers and testers,</p>
+<p>Few months ago at <a rel="noopener noreferrer external" target="_blank" href="https://automattic.com/">Automattic</a>, my team and I
 started a new project: <strong>Having better tests for the payment system</strong>.
 The payment system is used by all the services at Automattic, i.e.
-<a rel="noopener external" target="_blank" href="https://wordpress.com/">WordPress</a>,
-<a rel="noopener external" target="_blank" href="https://vaultpress.com/">VaultPress</a>, <a rel="noopener external" target="_blank" href="https://jetpack.com/">Jetpack</a>,
-<a rel="noopener external" target="_blank" href="http://akismet.com/">Akismet</a>, <a rel="noopener external" target="_blank" href="http://polldaddy.com/">PollDaddy</a> etc.
+<a rel="noopener noreferrer external" target="_blank" href="https://wordpress.com/">WordPress</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://vaultpress.com/">VaultPress</a>, <a rel="noopener noreferrer external" target="_blank" href="https://jetpack.com/">Jetpack</a>,
+<a rel="noopener noreferrer external" target="_blank" href="http://akismet.com/">Akismet</a>, <a rel="noopener noreferrer external" target="_blank" href="http://polldaddy.com/">PollDaddy</a> etc.
 It's a big challenge! Cherry on the cake: Our experiment could define
 the future of the testing practices for the entire company. No pressure.</p>
 <p>This post is a summary about what have been accomplished so far, the
 achievements, the failures, and the future, focused around manual tests.
 As the title of this post suggests, we are going to talk about
-<a rel="noopener external" target="_blank" href="https://phpunit.de/">PHPUnit</a> and <a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a>, which are
+<a rel="noopener noreferrer external" target="_blank" href="https://phpunit.de/">PHPUnit</a> and <a rel="noopener noreferrer external" target="_blank" href="http://atoum.org/">atoum</a>, which are
 two PHP test frameworks. This is not a PHPUnit vs. atoum fight. These
 are observations made for our software, in our context, with our
 requirements, and our expectations. I think the discussion can be useful
 for many projects outside Automattic. I would like to apologize in
 advance if some parts sound too abstract, I hope you understand I can't
 reveal any details about the payment system for obvious reasons.</p>
-<h2 id="where-we-were-and-where-to-go">Where We Were, and Where to Go<a role="presentation" class="anchor" href="#where-we-were-and-where-to-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="where-we-were-and-where-to-go">Where We Were, and Where to Go<span class="toc-anchor" style="view-timeline-name: --toc-timeline-where-we-were-and-where-to-go"></span>
+<a role="presentation" class="anchor" href="#where-we-were-and-where-to-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>For historical reasons, WordPress, VaultPress, Jetpack &amp; siblings use
-<a rel="noopener external" target="_blank" href="https://phpunit.de/">PHPUnit</a> for server-side manual tests. There are
+<a rel="noopener noreferrer external" target="_blank" href="https://phpunit.de/">PHPUnit</a> for server-side manual tests. There are
 unit, integration, and system manual tests. There are also end-to-end
 tests or benchmarks, but we are not interested in them now. When those
 products were built, PHPUnit was the main test framework in town. Since
 then, the test landscape has considerably changed in PHP. New
-competitors, like <a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> or
-<a rel="noopener external" target="_blank" href="http://behat.org/">Behat</a>, have a good position in the game.</p>
+competitors, like <a rel="noopener noreferrer external" target="_blank" href="http://atoum.org/">atoum</a> or
+<a rel="noopener noreferrer external" target="_blank" href="http://behat.org/">Behat</a>, have a good position in the game.</p>
 <p>Those tests exist for many years. Some of them grew organically. PHPUnit
 does not require any form of structure, which is —despite being
 questionable according to me— a reason for its success. It is a
@@ -226,7 +225,7 @@ moving to another test framework. The amount of work it represents is
 colossal. Any new test framework does not worth the price for this huge
 refactoring. But maybe the new test frameworks can help us to better
 test our code?</p>
-<p>I'm a <a rel="noopener external" target="_blank" href="https://github.com/atoum/atoum/graphs/contributors">long term contributor of
+<p>I'm a <a rel="noopener noreferrer external" target="_blank" href="https://github.com/atoum/atoum/graphs/contributors">long term contributor of
 atoum</a> (top 3
 contributors). And at the time of writing, I'm a core member. You have
 to believe me when I say that, at each step of the discussions or the
@@ -239,17 +238,19 @@ solve issues we have.</p>
 atoum. A survey and a meeting were scheduled 2 months later to decide
 whether we should continue or not. Spoiler: We will partly continue with
 it.</p>
-<h2 id="our-needs-and-requirements">Our Needs and Requirements<a role="presentation" class="anchor" href="#our-needs-and-requirements" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="our-needs-and-requirements">Our Needs and Requirements<span class="toc-anchor" style="view-timeline-name: --toc-timeline-our-needs-and-requirements"></span>
+<a role="presentation" class="anchor" href="#our-needs-and-requirements" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Our code is difficult to test. In other words, the testability is low
 for some parts of the code. atoum has features to help increase the
 testability. I will try to summarize those features in the following
 short sections.</p>
-<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code><a role="presentation" class="anchor" href="#atoum-phpunit-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="atoum-phpunit-extension"><code>atoum/phpunit-extension</code>
+<a role="presentation" class="anchor" href="#atoum-phpunit-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As I said, it's not possible to rewrite/migrate all the existing tests.
 This is a colossal effort with a non-neglieable cost. Then, enter
-<a rel="noopener external" target="_blank" href="https://github.com/atoum/phpunit-extension"><code>atoum/phpunit-extension</code></a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/atoum/phpunit-extension"><code>atoum/phpunit-extension</code></a>.</p>
 <p>As far as I know, atoum is the only PHP framework that is able to run
 tests that have been written for another framework. The
 <code>atoum/phpunit-extension</code> does exactly that. It runs tests written with
@@ -279,9 +280,10 @@ can be different, some PHPUnit extensions may not work properly etc.
 Fortunately, our usage of PHPUnit is pretty raw: No extensions except
 home-made ones, few hacks… Everything went well. We also have been able
 to contribute easily to the extension.</p>
-<h3 id="mock-engines-plural">Mock Engines (Plural)<a role="presentation" class="anchor" href="#mock-engines-plural" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="mock-engines-plural">Mock Engines (Plural)
+<a role="presentation" class="anchor" href="#mock-engines-plural" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>atoum comes with <a rel="noopener external" target="_blank" href="http://docs.atoum.org/en/latest/mocking_systems.html">3 mock
+<p>atoum comes with <a rel="noopener noreferrer external" target="_blank" href="http://docs.atoum.org/en/latest/mocking_systems.html">3 mock
 engines</a>:</p>
 <ul>
 <li>Class-like mock engine for classes and interfaces,</li>
@@ -303,9 +305,10 @@ like this:</p>
 <span class="giallo-l"><span>    ]</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>In one line of code, it was possible to mock the
-<a rel="noopener external" target="_blank" href="https://codex.wordpress.org/Function_Reference/get_userdata"><code>get_userdata</code></a>
+<a rel="noopener noreferrer external" target="_blank" href="https://codex.wordpress.org/Function_Reference/get_userdata"><code>get_userdata</code></a>
 function.</p>
-<h3 id="runner-engines">Runner Engines<a role="presentation" class="anchor" href="#runner-engines" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="runner-engines">Runner Engines
+<a role="presentation" class="anchor" href="#runner-engines" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Being able to isolate test execution is a necessity to avoid flakey
 tests, and to increase the trust we put in the test verdicts. atoum
@@ -325,29 +328,33 @@ the execution time to be close to the <em>inline</em> engine, while still
 ensuring a strict isolation.</p>
 <p>Fun fact: By using atoum and the <code>atoum/phpunit-extension</code>, we are able
 to run PHPUnit tests concurrently with a strict isolation!</p>
-<h3 id="code-coverage-reports">Code Coverage Reports<a role="presentation" class="anchor" href="#code-coverage-reports" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="code-coverage-reports">Code Coverage Reports
+<a role="presentation" class="anchor" href="#code-coverage-reports" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>At the time of writing, PHPUnit is not able to generate code coverage
 reports containing the Branch- or Path Coverage Criteria data. atoum
 supports them natively with the
-<a rel="noopener external" target="_blank" href="https://github.com/atoum/reports-extension"><code>atoum/reports-extension</code></a>
-(including nice graphs, see <a rel="noopener external" target="_blank" href="http://atoum.org/reports-extension/">the
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/atoum/reports-extension"><code>atoum/reports-extension</code></a>
+(including nice graphs, see <a rel="noopener noreferrer external" target="_blank" href="http://atoum.org/reports-extension/">the
 demonstration</a>). And we need those
 data.</p>
-<h2 id="the-difficulties">The Difficulties<a role="presentation" class="anchor" href="#the-difficulties" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-difficulties">The Difficulties<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-difficulties"></span>
+<a role="presentation" class="anchor" href="#the-difficulties" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>On paper, most of the pain points sound addressable. It was time to
 experiment.</p>
-<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration Server<a role="presentation" class="anchor" href="#integration-to-the-continuous-integration-server" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="integration-to-the-continuous-integration-server">Integration to the Continuous Integration Server
+<a role="presentation" class="anchor" href="#integration-to-the-continuous-integration-server" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Our CI does not natively support standard test execution report formats. Thus we
 had to create the
-<a rel="noopener external" target="_blank" href="https://github.com/Hywan/atoum-teamcity-extension/"><code>atoum/teamcity-extension</code></a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/atoum-teamcity-extension/"><code>atoum/teamcity-extension</code></a>.
 <a href="https://mnt.io/articles/atoum-supports-teamcity/">Learn more</a> by reading
 a blog post I wrote recently. The TeamCity support is native inside PHPUnit (see
 the
-<a rel="noopener external" target="_blank" href="http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity"><code>--log-teamcity</code> option</a>).</p>
-<h3 id="bootstrap-test-environments">Bootstrap Test Environments<a role="presentation" class="anchor" href="#bootstrap-test-environments" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://phpunit.readthedocs.io/en/latest/textui.html?highlight=--log-teamcity"><code>--log-teamcity</code> option</a>).</p>
+<h3 id="bootstrap-test-environments">Bootstrap Test Environments
+<a role="presentation" class="anchor" href="#bootstrap-test-environments" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Our bootstrap files are… challenging. It's expected though. Setting up a
 functional test environment for a software like WordPress.com is not a
@@ -361,7 +368,8 @@ needs to be invested.</p>
 bootstrap so that some parts can be shared between the test runners
 (because we didn't switch the whole company to atoum yet, it was an
 experiment).</p>
-<h3 id="documentation-and-help">Documentation and Help<a role="presentation" class="anchor" href="#documentation-and-help" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="documentation-and-help">Documentation and Help
+<a role="presentation" class="anchor" href="#documentation-and-help" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Here is an interesting paradox. The majority of the team recognized that
 atoum's documentation is better than PHPUnit's, even if some parts must
@@ -383,13 +391,14 @@ the same period, and the tests we are building are not simple _Hello,
 World!_s as you might think, so it increases the effort.</p>
 <p>To be honest, this was not the biggest difficulty, but still, it is
 important to notice.</p>
-<h3 id="concurrent-integration-test-executions">Concurrent Integration Test Executions<a role="presentation" class="anchor" href="#concurrent-integration-test-executions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="concurrent-integration-test-executions">Concurrent Integration Test Executions
+<a role="presentation" class="anchor" href="#concurrent-integration-test-executions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Due to some MySQL limitations combined with the complexity of our code,
 we are not able to run integration (and system) tests concurrently yet.
 Therefore it takes time to run them, probably too much in our
 development environments. Even if atoum has friendly options to reduce
-the debug loop (e.g. see <a rel="noopener external" target="_blank" href="http://docs.atoum.org/en/latest/mode-loop.html">the <code>--loop</code>
+the debug loop (e.g. see <a rel="noopener noreferrer external" target="_blank" href="http://docs.atoum.org/en/latest/mode-loop.html">the <code>--loop</code>
 option</a>), the execution
 is still slow. The problem can be solved but it requires time, and deep
 modifications of our code.</p>
@@ -400,7 +409,8 @@ isolation, rather than fast test execution but no confidence in the test
 verdict. So that's partly a difficulty. It's a mix of a positive feature
 and a needle in the foot, and a needle we can live with. atoum is not
 responsible of this latency: The state of our code is.</p>
-<h2 id="the-results">The Results<a role="presentation" class="anchor" href="#the-results" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-results">The Results<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-results"></span>
+<a role="presentation" class="anchor" href="#the-results" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>First, let's start by the positive impacts:</p>
 <ul>
@@ -442,20 +452,21 @@ something else exists, and that we can go further.</p>
 <p>I said we stopped using atoum “for manual tests”. Yes. Because we also
 have <em>automatically generated tests</em>. The experiment was not only about
 switching to atoum. Many other aspects of the experiment are still
-running! For instance, <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a> is
+running! For instance, <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a> is
 used for our code documentation. Kitab is able to (i) <em>render</em> the
 documentation, and (ii) <em>test</em> the examples written inside the
 documentation. That way the documentation is ensured to be always
 up-to-date and working. Kitab generates tests for- and executes tests
 with atoum. It was easy to set up: We just had to use the existing test
-bootstraps designed for atoum. We also have another tool to <a rel="noopener external" target="_blank" href="https://github.com/Hywan/atoum-apiblueprint-extension">compile
+bootstraps designed for atoum. We also have another tool to <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/atoum-apiblueprint-extension">compile
 HTTP API Blueprint specifications into executable
 tests</a>. So far,
 everyone is happy with those tools, no need to go back, everything is
 automat(t)ic. Other tools are likely to be introduced in the future to
 automatically generate tests. I want to detail this particular topic in
 another blog post.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Moving to another test framework is a huge decision with many factors.
 The fact atoum has <code>atoum/phpunit-extension</code> is a time saver.
@@ -466,11 +477,15 @@ case. <em>atoum solves issues that are not our priorities</em>. So yes, atoum
 can help us to solve important issues, but since these issues are not
 priorities, then the move to atoum was too early. During the project, we
 gained new automatic test tools, like
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a>. The experiment is not a
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Kitab">Kitab</a>. The experiment is not a
 failure. Will we retry atoum? It's very likely. When? I hope in a year.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/" class="button text-align-start">❮&nbsp;One conference per day, for one year (2017)</a><a href="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/" class="button text-align-end">Bye bye Automattic, hello Wasmer&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/" class="button text-align-start">❮&nbsp;One conference per day, for one year (2017)</a><a href="https://mnt.io/articles/bye-bye-automattic-hello-wasmer/" class="button text-align-end">Bye bye Automattic, hello Wasmer&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -545,7 +560,7 @@ failure. Will we retry atoum? It's very likely. When? I hope in a year.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

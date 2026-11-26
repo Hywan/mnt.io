@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -186,13 +186,38 @@
 
     </header>
 
+    
+  
+
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-what-is-c-and-why"><a href="#what-is-c-and-why">What Is C, and Why?</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-rust-rocket-c"><a href="#rust-rocket-c">Rust 🚀 C</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-c-rocket-executable"><a href="#c-rocket-executable">C 🚀 Executable</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-conclusion"><a href="#conclusion">Conclusion</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+
+
     <p>The galaxy we will explore today is the C galaxy. This post will explain
 what C is (shortly), how to compile any Rust program in C in theory, and
 how to do that practically with our Rust parser from the Rust side and
 the C side. We will also see how to test such a binding.</p>
-<h2 id="what-is-c-and-why">What Is C, and Why?<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-c-and-why">What Is C, and Why?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-what-is-c-and-why"></span>
+<a role="presentation" class="anchor" href="#what-is-c-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p><a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a> is probably
+<p><a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a> is probably
 the most used and known programming language in the world. Quoting
 Wikipedia:</p>
 <blockquote>
@@ -220,7 +245,8 @@ will be able to talk directly to any program easily.</p>
 <p>Because languages like PHP or Python are written in C, in our particular
 Gutenberg parser usecase, it means that the parser can be embedded and
 used by PHP or Python directly, with almost no overhead. Neat!</p>
-<h2 id="rust-rocket-c">Rust 🚀 C<a role="presentation" class="anchor" href="#rust-rocket-c" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rust-rocket-c">Rust 🚀 C<span class="toc-anchor" style="view-timeline-name: --toc-timeline-rust-rocket-c"></span>
+<a role="presentation" class="anchor" href="#rust-rocket-c" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./rust-to-c.png" alt="Rust to C" loading="lazy" decoding="async" /></p>
@@ -230,7 +256,8 @@ used by PHP or Python directly, with almost no overhead. Neat!</p>
 <li>A static library (<code>.a</code> file),</li>
 <li>A header file (<code>.h</code> file).</li>
 </ol>
-<h3 id="the-theory">The Theory<a role="presentation" class="anchor" href="#the-theory" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-theory">The Theory
+<a role="presentation" class="anchor" href="#the-theory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>To compile a Rust project into a static library, the <code>crate-type</code>
 property must contain the <code>staticlib</code> value. Let's edit the <code>Cargo.toml</code>
@@ -243,11 +270,11 @@ is created in <code>target/release/</code>. Done. <code>cargo</code> and <code>r
 step really a doddle.</p>
 <p>Now the header file. It can be written manually, but it's tedious and it
 gets easily outdated. The goal is to <em>automatically</em> generate it. Enter
-<a rel="noopener external" target="_blank" href="https://github.com/eqrion/cbindgen/"><code>cbindgen</code></a>:</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/eqrion/cbindgen/"><code>cbindgen</code></a>:</p>
 <blockquote>
 <p><code>cbindgen</code> can be used to generate C bindings for Rust code. It is
 currently being developed to support creating bindings for
-<a rel="noopener external" target="_blank" href="https://github.com/servo/webrender/">WebRender</a>, but has been
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/servo/webrender/">WebRender</a>, but has been
 designed to support any project.</p>
 </blockquote>
 <p>To install <code>cbindgen</code>, edit your <code>Cargo.toml</code> file, such as:</p>
@@ -288,7 +315,7 @@ directory, i.e. the root of your crate. Mine looks like this:</p>
 <span class="giallo-l"><span class="z-11">*/&quot;&quot;&quot;</span></span>
 <span class="giallo-l"><span>tab_width</span><span class="z-10"> =</span><span class="z-13"> 4</span></span>
 <span class="giallo-l"><span>language</span><span class="z-10"> =</span><span class="z-11"> &quot;C&quot;</span></span></code></pre>
-<p>It describes itself quite easily. <a rel="noopener external" target="_blank" href="https://github.com/eqrion/cbindgen/#configuration">The documentation details the
+<p>It describes itself quite easily. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/eqrion/cbindgen/#configuration">The documentation details the
 configuration</a> very
 well.</p>
 <p><code>cbindgen</code> will scan the code and will stop on <code>struct</code>s or <code>enum</code>s that
@@ -340,7 +367,8 @@ instructs the compiler to not rename the function, so that the function
 has the same name from the perspective of C.</p>
 <p>OK, that's all for the theory. Let's practise now, we have a parser to
 bind to C!</p>
-<h3 id="practise">Practise<a role="presentation" class="anchor" href="#practise" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="practise">Practise
+<a role="presentation" class="anchor" href="#practise" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We want to bind a function named <code>parse</code>. The function outputs an AST
 representing the language being analysed. <a href="https://mnt.io/series/from-rust-to-beyond/prelude/">For the
@@ -374,7 +402,7 @@ types that Rust uses. Let's start by defining <code>Node</code>:</p>
 <li>The enum <code>Option_c_char</code> emulates <code>Option</code> (see below),</li>
 <li>The field <code>children</code> has type <code>*const c_void</code>. It should be
 <code>*const Vector_Node</code> (our definition of <code>Vector</code>), but the definition
-of <code>Node</code> is based on <code>Vector_Node</code> and vice versa. This <a rel="noopener external" target="_blank" href="https://github.com/eqrion/cbindgen/issues/43">cyclical
+of <code>Node</code> is based on <code>Vector_Node</code> and vice versa. This <a rel="noopener noreferrer external" target="_blank" href="https://github.com/eqrion/cbindgen/issues/43">cyclical
 definition case is unsupported by <code>cbindgen</code> so
 far</a>. So… yes, it is
 defined as a <code>void</code> pointer, and will be casted later in C,</li>
@@ -388,7 +416,7 @@ instead.</li>
 <span class="giallo-l"><span>    pointer</span><span class="z-16">: *</span><span class="z-18">const</span><span> c_char,</span></span>
 <span class="giallo-l"><span>    length</span><span class="z-16">:</span><span class="z-4"> usize</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>This definition borrows the semantics of <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/primitive.slice.html">Rust'
+<p>This definition borrows the semantics of <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/primitive.slice.html">Rust'
 slices</a>. The major
 benefit is that there is no copy when binding a Rust slice to this
 structure.</p>
@@ -427,7 +455,7 @@ pointers to this data will be returned to C as slices and vectors.</p>
 <li>First thing to do when we deal with C: Check that the pointer is not
 null,</li>
 <li>Reconstitute an input from the pointer with
-<a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/ffi/struct.CStr.html"><code>CStr</code></a>. This
+<a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ffi/struct.CStr.html"><code>CStr</code></a>. This
 standard API is useful to abstract C strings from the Rust point of
 view. The difference is that a C string terminates by a <code>NULL</code> byte
 and has no length, while in Rust a string has a length and does not
@@ -465,7 +493,7 @@ terminate with a <code>NULL</code> byte,</li>
 length of the output. The conversion is light.</p>
 <p>Now let's see the <code>into_c</code> function. Some parts will not be detailed; Not
 because they are difficult but because they are repetitive.
-<a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs">The entire code lands here</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/src/lib.rs">The entire code lands here</a>.</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">fn</span><span class="z-19"> into_c</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;(node</span><span class="z-16">: &amp;</span><span class="z-4">ast</span><span class="z-16">::</span><span class="z-4">Node</span><span>&lt;&#39;</span><span class="z-4">a</span><span>&gt;)</span><span class="z-16"> -&gt;</span><span class="z-4"> Node</span><span> {</span></span>
 <span class="giallo-l"><span class="z-18">    match</span><span class="z-16"> *</span><span>node {</span></span>
 <span class="giallo-l"><span class="z-4">        ast</span><span class="z-16">::</span><span class="z-4">Node</span><span class="z-16">::</span><span class="z-4">Block</span><span> { name, attributes,</span><span class="z-18"> ref</span><span> children }</span><span class="z-16"> =&gt;</span><span> {</span></span>
@@ -547,7 +575,7 @@ this behavior I got various segmentation fault in my code, even if I
 checked the <code>length</code> before the <code>buffer</code>. Note that <code>Vector_Node</code> is
 allocated on the heap with <code>Box::new</code> so that the pointer can be easily
 shared with C.</p>
-<p>Step 3 uses <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/boxed/struct.Box.html#method.into_raw">the  <code>Box::into_raw</code>
+<p>Step 3 uses <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/boxed/struct.Box.html#method.into_raw">the  <code>Box::into_raw</code>
 function</a>
 to consume the box and to return the wrapped raw pointer of the data it
 owns. Rust will not free anything here, it's our responsability (or the
@@ -562,13 +590,15 @@ simple and kind of clear to read, but it wasn't obvious for me what to
 do beforehand.</p>
 <p>And that's all for the Rust part! The next section will present the C
 code that calls Rust, and how to compile everything all together.</p>
-<h2 id="c-rocket-executable">C 🚀 Executable<a role="presentation" class="anchor" href="#c-rocket-executable" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="c-rocket-executable">C 🚀 Executable<span class="toc-anchor" style="view-timeline-name: --toc-timeline-c-rocket-executable"></span>
+<a role="presentation" class="anchor" href="#c-rocket-executable" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/./c-to-executable.png" alt="Rust to C to executable" loading="lazy" decoding="async" /></p>
 </figure>
 <p>Now the Rust part is ready, the C part must be written to call it.</p>
-<h3 id="minimal-working-example">Minimal Working Example<a role="presentation" class="anchor" href="#minimal-working-example" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="minimal-working-example">Minimal Working Example
+<a role="presentation" class="anchor" href="#minimal-working-example" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let's do something very quick to see if it links and compiles:</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">#include</span><span class="z-11"> &lt;stdlib.h&gt;</span></span>
@@ -603,7 +633,7 @@ code that calls Rust, and how to compile everything all together.</p>
 <span class="giallo-l"><span class="z-18">    return</span><span class="z-13"> 0</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>To keep the code concise, I left all the error handlers out of the example.
-<a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">The entire code lands here</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">The entire code lands here</a>
 if you're curious.</p>
 <p>What happens in this code? The first thing to notice is
 <code>#include "gutenberg_post_parser.h"</code> which is the header file that is
@@ -632,7 +662,7 @@ but this isn't the point. To check if <code>Result</code> contains an <code>Ok</
 an <code>Err</code>or, one has to check the <code>tag</code> field, like we did with
 <code>output.tag == Err</code>. To get the content of the <code>Ok</code>, we did
 <code>output.ok._0</code> (<code>_0</code> is a field from <code>Ok_Body</code>).</p>
-<p>Let's compile this with <a rel="noopener external" target="_blank" href="http://clang.llvm.org"><code>clang</code></a>! We assume that
+<p>Let's compile this with <a rel="noopener noreferrer external" target="_blank" href="http://clang.llvm.org"><code>clang</code></a>! We assume that
 this code above is located in the same directory than the
 <code>gutenberg_post_parser.h</code> file, i.e. in a <code>dist/</code> directory. Thus:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cd dist</span></span>
@@ -659,9 +689,10 @@ this code above is located in the same directory than the
 <span class="giallo-l"><span>      -l m</span></span></code></pre>
 <p>And that's all! We end up with a <code>gutenberg-post-parser</code> executable that
 runs C and Rust.</p>
-<h3 id="more-details">More Details<a role="presentation" class="anchor" href="#more-details" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="more-details">More Details
+<a role="presentation" class="anchor" href="#more-details" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source code</a>,
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/c/bin/gutenberg_post_parser.c">In the original source code</a>,
 a recursive function that prints the entire AST on <code>stdout</code> can be found, namely
 <code>print</code> (original, isn't it?). Here is some side-by-side comparisons between
 Rust syntax and C syntax.</p>
@@ -732,7 +763,8 @@ its length and its pointer.</p>
 <code>children</code>. It's a single line:</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">const</span><span> Vector_Node</span><span class="z-16">*</span><span> children </span><span class="z-16">=</span><span> (</span><span class="z-18">const</span><span> Vector_Node</span><span class="z-16">*</span><span>) (block.children)</span><span class="z-10">;</span></span></code></pre>
 <p>I think that's all for the details!</p>
-<h3 id="testing">Testing<a role="presentation" class="anchor" href="#testing" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="testing">Testing
+<a role="presentation" class="anchor" href="#testing" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>I reckon it is also interesting to see how to unit test C bindings
 directly with Rust. To emulate a C binding, first, the inputs must be in
@@ -796,9 +828,10 @@ phrase is transformed into a Rust string and compared with a regular
 <p>Note that —in this case— <code>buffer</code> is of type <code>*const Node</code>, so it represents the
 first element of the vector. If we want to access the next elements, we would
 need to use
-<a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code> function</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.from_raw_parts">the <code>Vec::from_raw_parts</code> function</a>
 to get a proper Rust API to manipulate this vector.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that Rust can be embedded in C very easily. In this
 example, Rust has been compiled to a static library, and a header file;
@@ -830,7 +863,11 @@ opens up to us! The next episode will push Rust in the PHP world as a
 native extension (written in C). Let's go!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-asm-js-galaxy">❮&nbsp;The ASM.js galaxy</a><a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-php-galaxy">The PHP galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes">
+      <h2>Read other episodes</h2>
+
+      <p><a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-asm-js-galaxy">❮&nbsp;The ASM.js galaxy</a><a href="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-php-galaxy">The PHP galaxy&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -905,7 +942,7 @@ native extension (written in C). Let's go!</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

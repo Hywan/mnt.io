@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -156,12 +156,13 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
   <p>The author of this blog is not alone. Companions are part of the adventure.</p>
-<h2 id="le-comte">Le Comte<a role="presentation" class="anchor" href="#le-comte" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="le-comte">Le Comte<span class="toc-anchor" style="view-timeline-name: --toc-timeline-le-comte"></span>
+<a role="presentation" class="anchor" href="#le-comte" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
@@ -184,7 +185,8 @@ about them!</p>
 rarely ask help to Le Procureur, we don't really appreciate his presence.</p>
   </div>
 </div>
-<h2 id="le-factotum">Le Factotum<a role="presentation" class="anchor" href="#le-factotum" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="le-factotum">Le Factotum<span class="toc-anchor" style="view-timeline-name: --toc-timeline-le-factotum"></span>
+<a role="presentation" class="anchor" href="#le-factotum" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
@@ -206,7 +208,8 @@ achieve its quests to learn everything about computers.</p>
 way to do that. And I always have a solution.</p>
   </div>
 </div>
-<h2 id="le-procureur">Le Procureur<a role="presentation" class="anchor" href="#le-procureur" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="le-procureur">Le Procureur<span class="toc-anchor" style="view-timeline-name: --toc-timeline-le-procureur"></span>
+<a role="presentation" class="anchor" href="#le-procureur" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
@@ -299,7 +302,7 @@ discipline.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

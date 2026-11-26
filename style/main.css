@@ -49,8 +49,16 @@ p, h1, h2, h3, h4, h5, h6 {
     oklch(from var(--color-dark) calc(l + .1) c h)
   );
   --color-dark-blue: light-dark(
-    oklch(72.77% 0.024 264.05),
-    oklch(27.23% 0.024 264.05)
+    oklch(72.77% .024 264.05),
+    oklch(27.23% .024 264.05)
+  );
+  --color-dark-red: light-dark(
+    oklch(80% .124 17),
+    oklch(49% .155 17)
+  );
+  --color-dark-green: light-dark(
+    oklch(82% .125 145),
+    oklch(46% .143 145)
   );
   --color-light: light-dark(
     oklch(15% .004 360),
@@ -93,8 +101,10 @@ p, h1, h2, h3, h4, h5, h6 {
   /* Thanks https://modernfontstacks.com/! */
   --font-text: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
   --font-monospace: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --font-chrome: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
 
   --text-size: 1.05rem;
+  --text-small-size: .9rem;
   --text-line-height: 1.5;
 
   --heading-size-1: 1.8em;
@@ -102,10 +112,14 @@ p, h1, h2, h3, h4, h5, h6 {
   --heading-size-3: 1.2em;
   --heading-line-height: 1.1em;
 
+  --paragraph-space: var(--space);
+
+  --icon-size: 1rem;
+
   --blur: .3rem;
 
   --transition-duration-bounce: 500ms;
-  --transition-timing-bounce: linear(0, 0.085 3.4%, 0.169 7%, 0.531 23.6%, 0.861 37.9%, 0.938 41.5%, 1 44.7%, 0.942 48.4%, 0.92 50.1%, 0.903 51.7%, 0.889 53.4%, 0.88 55%, 0.874 56.6%, 0.872 58.3%, 0.874 59.7%, 0.877 61.1%, 0.884 62.6%, 0.893 64.2%, 0.916 67.1%, 0.975 73.9%, 1 77.4%, 0.985 81%, 0.982 82.7%, 0.981 84.5%, 0.983 87.5%, 0.997 95.2%, 1);
+  --transition-timing-bounce: linear(0, .085 3.4%, .169 7%, .531 23.6%, .861 37.9%, .938 41.5%, 1 44.7%, .942 48.4%, .92 5.1%, .903 51.7%, .889 53.4%, .88 55%, .874 56.6%, .872 58.3%, .874 59.7%, .877 61.1%, .884 62.6%, .893 64.2%, .916 67.1%, .975 73.9%, 1 77.4%, .985 81%, .982 82.7%, .981 84.5%, .983 87.5%, .997 95.2%, 1);
 }
 
 @media (prefers-color-scheme: light) {
@@ -128,7 +142,7 @@ p, h1, h2, h3, h4, h5, h6 {
   &::view-transition-old(root) { animation-delay: 800ms }
   &::view-transition-new(root) {
     animation: switch-theme 800ms;
-    animation-timing-function: cubic-bezier(0.413, 1.249, 0.874, 0.137);
+    animation-timing-function: cubic-bezier(.413, 1.249, .874, .137);
   }
 }
 
@@ -140,6 +154,25 @@ p, h1, h2, h3, h4, h5, h6 {
   to {
     clip-path: circle(max(100vw, 100vh) at var(--switch-theme-x, 50%) var(--switch-theme-y, 0%))
   }
+}
+
+@property --scroll-mask-inline-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --scroll-mask-inline-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes scroll-mask {
+  0% { --scroll-mask-inline-start: 0 }
+  10%, 100% { --scroll-mask-inline-start: 5cqi }
+  0%, 90% { --scroll-mask-inline-end: 5cqi }
+  100% { --scroll-mask-inline-end: 0 }
 }
 
 * {
@@ -191,11 +224,11 @@ h1, h2, h3, h4, h5, h6 {
     --_margin-block-start: 0;
   }
 
-  > .anchor {
+  .anchor {
     display: none;
   }
 
-  &:is(:hover, :focus) > .anchor {
+  &:is(:hover, :focus) .anchor {
     display: inline-block;
     margin-inline-start: var(--space-small);
   }
@@ -228,7 +261,7 @@ h1, h2, h3, h4, h5, h6 {
       top: calc(50% - var(--_width) / 2);
       left: 0;
       right: 0;
-      border-top: var(--_width) var(--_color) solid;
+      border-block-start: var(--_width) var(--_color) solid;
     }
   }
 }
@@ -249,10 +282,8 @@ h3, .h3 {
 }
 
 p {
-  --paragraph-margin: var(--space);
-
   hyphens: auto;
-  margin-block: var(--paragraph-margin);
+  margin-block: var(--paragraph-space);
 
   &:first-child {
     margin-block-start: 0;
@@ -264,8 +295,12 @@ p {
 }
 
 ul, menu {
-  position: relative;
   list-style: none;
+  padding: 0;
+}
+
+ul {
+  position: relative;
   padding-inline-start: var(--space-large);
 
   > li::before {
@@ -278,25 +313,29 @@ ul, menu {
   }
 }
 
+menu > li {
+  display: inline;
+}
+
 ol {
   padding-inline-start: 2ch; /* 1 number plus a dot, like “7.” */
 }
 
 li {
   p {
-    --paragraph-margin: var(--space-small);
+    --paragraph-space: var(--space-small);
   }
 }
 
 small {
-  font-size: .8em;
+  font-size: var(--text-small-size);
 
   :is(h1, h2, h3) & {
     font-size: .5em;
   }
 }
 
-sup > abbr {
+abbr {
   font-variant-caps: all-small-caps;
 }
 
@@ -310,23 +349,46 @@ code {
 }
 
 pre {
-  --_padding: var(--space);
+  --_gutter-inline: var(--space);
 
   color-scheme: only dark;
-  overflow-x: scroll;
+  position: relative;
+  overflow-x: hidden;
   margin-block: var(--space);
   line-height: 1.3em;
   background: var(--color-dark-blue);
   border: var(--border-width) var(--border-color) solid;
   border-radius: var(--border-radius);
 
+
   --_text: 'Code';
 
   code {
     display: block;
-    margin: var(--_padding);
+    overflow-x: auto;
+    margin: calc(var(--space-very-large) - var(--border-width)) var(--_gutter-inline) var(--space-small) var(--_gutter-inline);
     padding-inline: 0;
     background: transparent;
+
+    mask: linear-gradient(
+      to right,
+      transparent,
+      white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
+      transparent
+    );
+    animation: scroll-mask;
+    scroll-timeline: --scroll-mask x;
+
+    /**
+     * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+     * ideally it should be next to `animation`, but we put it here to avoid invalid
+     * inlining.
+     */
+    @supports (animation-timeline: --foo) {
+      & {
+        animation-timeline: --scroll-mask;
+      }
+    }
   }
 
   &:has(> code[data-lang='rust']) { --_text: 'Rust' }
@@ -341,27 +403,27 @@ pre {
 
   &:has(> code[data-lang])::before {
     content: var(--_text) ' session';
-    position: sticky;
+    position: absolute;
     top: 0;
     left: 0;
-    padding: var(--space-small) var(--_padding);
-    font-size: .85em;
+    padding: var(--space-small) var(--_gutter-inline);
+    font-size: .7em;
     background: var(--border-color);
     border-radius: 0 0 var(--border-radius) 0;
   }
 }
 
 figure {
-  --_block-space: var(--space);
-  --_inline-space: var(--space);
+  --_block-space: var(--paragraph-space);
+  --_inline-space: var(--paragraph-space);
 
-  margin-block: var(--space-large);
+  margin-block: var(--paragraph-space);
 
   &:last-child {
     margin-block-end: 0;
   }
 
-  &:has(img, picture, [role='img'], .video-player, .video-player) {
+  &:has(img, picture, [role='img'], .video-player) {
     --_figcaption-color: var(--color-dark-lighter);
 
     color-scheme: only dark;
@@ -377,6 +439,16 @@ figure {
   .video-player {
     aspect-ratio: 16 / 9;
     width: 100%;
+  }
+
+  /* old code generated by Markdown before introducing `<figure.image />` */
+  > p > img {
+    margin-inline: auto;
+  }
+
+  > *,
+  > .overflow-inline > * {
+    margin-inline: auto;
   }
 
   figcaption {
@@ -395,19 +467,39 @@ figure {
     }
   }
 
-  :not(figcaption) {
-    margin-inline: auto;
-    max-height: 50vh;
-  }
-
-  & > p {
+  > p {
     margin: 0;
   }
+}
 
-  &:has(> table) {
-    overflow: scroll hidden;
+.overflow-inline {
+  width: 100%;
+  overflow-x: auto;
+
+  mask: linear-gradient(
+    to right,
+    transparent,
+    white var(--scroll-mask-inline-start) calc(100% - var(--scroll-mask-inline-end)),
+    transparent
+  );
+  animation: scroll-mask;
+  scroll-timeline: --scroll-mask x;
+
+  /* Gutter for the scrollbar */
+  padding-block-end: .8rem;
+
+  /**
+   * Workaround to https://github.com/parcel-bundler/lightningcss/issues/1369,
+   * ideally it should be next to `animation`, but we put it here to avoid invalid
+   * inlining.
+   */
+  @supports (animation-timeline: --foo) {
+    & {
+      animation-timeline: --scroll-mask;
+    }
   }
 }
+
 
 svg.schema {
   text {
@@ -432,19 +524,35 @@ svg.schema {
 
 table {
   font-variant: tabular-nums;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: var(--border-width) var(--border-color) solid;
+  border-radius: var(--border-radius);
 
   th, td {
     padding: var(--space-very-small) var(--space-small);
     border: var(--border-width) var(--border-color) solid;
+    border-style: solid solid none none;
+  }
+
+  th:last-child, td:last-child {
+    border-inline-end-style: none;
+  }
+
+  > :first-child {
+    > tr:first-child {
+      th, td {
+        border-block-start-style: none;
+      }
+    }
   }
 }
 
 blockquote {
   font-style: italic;
   font-size: 1.05em;
-  padding-left: var(--space);
-  border-left: var(--border-width) var(--border-color) solid;
+  padding-inline-start: var(--space);
+  border-inline-start: var(--border-width) var(--border-color) solid;
 }
 
 q {
@@ -460,7 +568,6 @@ details {
   --_padding: var(--space);
 
   position: relative;
-
   padding: var(--_padding);
   border: var(--border-width) var(--border-color) solid;
   border-radius: var(--border-radius);
@@ -468,8 +575,8 @@ details {
   summary {
     cursor: pointer;
     padding-inline-end: var(--space-very-large);
-
     list-style: none;
+
     &::marker,
     &::-webkit-details-marker {
       content: none; /* all browsers */
@@ -482,7 +589,9 @@ details {
       right: var(--_padding);
 
       content: '+';
+      color: var(--color-accent);
       font-weight: bold;
+      font-family: var(--text-chrome);
     }
   }
 
@@ -491,11 +600,60 @@ details {
   }
 }
 
+ins {
+  padding-inline: var(--space-small);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  background: var(--color-dark-green);
+}
+
+del {
+  text-decoration: line-through 1px;
+  padding-inline: var(--space-small);
+  border-radius: var(--border-radius);
+  background: var(--color-dark-red);
+}
+
+del:has(+ ins) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+del + ins {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 mark {
   border: var(--border-width-larger) oklch(73.3% .194 75) solid;
   border-radius: 5px;
   background: oklch(90% .177 75);
   padding-inline: var(--space-very-small);
+}
+
+article hr {
+  width: 20%;
+  margin-inline: auto;
+  overflow: visible;
+  text-align: center;
+  height: 2px; /* browser' default */
+  border: none;
+  border-block-start: 2px var(--border-color-lighter) solid;
+
+  &::after {
+    --_height: 20px;
+
+    content: '';
+    position: relative;
+    display: inline-block;
+    background: var(--border-color-lighter);
+    mask:
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 20"><path d="m25 3.6 6.3 6.4-6.3 6.3-6.4-6.3zm17 .1 6.4 6.3-6.4 6.4-6.4-6.4zM8 3.6l6.4 6.4L8 16.3 1.6 10z"/></svg>')
+      no-repeat;
+    height: var(--_height);
+    width: 50px;
+    top: calc(var(--_height) / -2 - 1px);
+  }
 }
 
 math {
@@ -568,6 +726,7 @@ main {
 #menu {
   color-scheme: only dark;
   color: var(--color-white);
+  font-family: var(--font-chrome);
   background: var(--color-accent2);
 
   > menu {
@@ -579,8 +738,6 @@ main {
   }
 
   > menu > li {
-    margin: 0;
-    padding: 0;
     text-align: center;
 
     &::before {
@@ -614,7 +771,7 @@ main {
 
 footer {
   padding: var(--space);
-  border-top: var(--border-width) var(--border-color) solid;
+  border-block-start: var(--border-width) var(--border-color) solid;
 
   .footer {
     display: flex;
@@ -622,6 +779,7 @@ footer {
     column-gap: var(--space-very-large);
     row-gap: var(--space-large);
     justify-content: center;
+    font-family: var(--font-chrome);
 
     > * {
       min-width: fit-content;
@@ -631,7 +789,7 @@ footer {
       flex: 1;
 
       p {
-        font-size: 85%;
+        font-size: var(--text-small-size);
         margin: 0;
         padding: 0;
         text-align: center;
@@ -653,16 +811,29 @@ footer {
   }
 }
 
+@property --toc-progress {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes toc-progress {
+  from { --toc-progress: 0 }
+  to { --toc-progress: 1 }
+}
+
+@media screen and (width < 1300px) {
+  .toc, .toc-anchor {
+    display: none;
+  }
+}
+
 article {
   > header {
     margin-block-end: var(--space-very-large);
 
     > h1 {
       display: inline-block;
-    }
-
-    > .metadata {
-      margin-block-start: var(--space);
     }
   }
 
@@ -697,23 +868,127 @@ article {
     }
   }
 
+  &:has(.toc) {
+    position: relative;
+    timeline-scope: all;
+  }
+
+  .toc {
+    --_container-width: 250px;
+    --_container-gutter: 4rem;
+
+    position: absolute;
+    width: var(--_container-width);
+    right: calc(var(--_container-width) * -1 - var(--_container-gutter));
+    height: 100%;
+
+    .toc-content {
+      --_bar-width: 3px;
+      --_bar-space: calc(var(--icon-size) / 2);
+      --_space-between-icon-and-text: var(--space-small);
+
+      position: sticky;
+      top: var(--_container-gutter);
+      font-family: var(--font-chrome);
+
+      h2 {
+        font-size: var(--text-size);
+
+        .icon {
+          margin-inline-end: var(--_space-between-icon-and-text);
+        }
+      }
+
+      ol {
+        position: relative;
+        list-style: none;
+        font-size: var(--text-small-size);
+        padding-inline: 0;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: calc(var(--_bar-space) - var(--_bar-width) / 2);
+          width: var(--_bar-width);
+          bottom: 0;
+          border-radius: var(--border-radius);
+          background: var(--color-dark-lighter);
+        }
+
+        li {
+          margin-inline-start: calc(var(--icon-size) + var(--_space-between-icon-and-text));
+
+          @supports (timeline-scope: all) {
+            anchor-scope: --self;
+            animation: toc-progress linear forwards;
+            animation-range: entry-crossing;
+            /* `animation-timeline: --toc-timeline-<id>` is inlined */
+          }
+
+          @media not (prefers-reduced-motion: reduce) {
+            &::before {
+              position: absolute;
+              content: '';
+              left: calc(var(--_bar-space) - var(--_bar-width) / 2);
+              /* left: var(--_bar-position-left); */
+              width: var(--_bar-width);
+
+              --_offset: 5px;
+
+              top: anchor(--self top);
+              bottom: calc(anchor(--self bottom) - var(--_offset));
+              translate: 0 calc(-1 * var(--_offset));
+
+              border-radius: var(--border-radius);
+              background: linear-gradient(
+                var(--color-light) calc(var(--toc-progress) * (100% + 5px)),
+                transparent calc(var(--toc-progress) * (100% + 5px))
+              );
+            }
+
+            &:first-child::before {
+              --_offset: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .toc-anchor {
+    /* `view-timeline-name: --toc-timeline-<id>` is inlined */
+  }
+
   nav.previous-next-episodes,
   nav.previous-next-articles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space);
     margin-block-start: var(--space-very-large);
+    border-block-start: var(--border-width) var(--border-color) solid;
+    padding-block-start: var(--space-very-large);
 
-    > * {
-      flex: 1;
-      min-width: fit-content;
+    > h2 {
+      font-size: var(--text-size);
+      font-family: var(--font-chrome);
+    }
+
+    > p {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space);
+
+      > * {
+        display: inline-block;
+        flex: 1;
+        min-width: fit-content;
+      }
     }
   }
 }
 
 .button {
-  padding: var(--space-small) var(--space);
   color: var(--color-dark);
+  font-family: var(--font-chrome);
+  padding: var(--space-small) var(--space);
   border-radius: var(--border-radius);
   background: var(--color-accent);
 
@@ -729,11 +1004,17 @@ article {
     border: var(--border-width) var(--color-accent) solid;
     background: transparent;
   }
+
+  code {
+    background: transparent;
+  }
 }
 
 .metadata > * {
   display: inline-block;
   color: var(--color-light-darker);
+  font-family: var(--font-chrome);
+  font-size: var(--text-small-size);
 
   &:not(:last-child) {
     margin-inline-end: var(--space-large);
@@ -826,6 +1107,7 @@ article {
   color: var(--color-white);
   color-scheme: only dark;
   font-size: 0.7rem;
+  font-family: var(--font-chrome);
   font-weight: bold;
   padding: var(--space-very-very-small) var(--space-small);
   vertical-align: text-top;
@@ -834,7 +1116,7 @@ article {
 }
 
 .conversation {
-  --_space: var(--space);
+  --_space: var(--paragraph-space);
 
   display: grid;
   grid-template-columns: minmax(60px, 16%) 1fr;
@@ -854,7 +1136,7 @@ article {
     flex-direction: column-reverse;
 
     span {
-      font-size: .8em;
+      font-size: var(--text-small-size);
       font-style: italic;
       text-align: center;
     }
@@ -896,49 +1178,47 @@ article {
 
 .footnote-reference a {
   margin-inline: var(--space-very-very-small);
-
-  &:before {
-    content: '( ';
-  }
-
-  &:after {
-    content: ' )';
-  }
 }
 
 .icon {
-  height: 1em;
+  width: var(--icon-size);
+  height: var(--icon-size);
   display: inline-block;
   vertical-align: middle;
 }
 
 .footnotes {
   --_margin: var(--space-very-large);
-  --_title-space: calc(1em * var(--text-line-height) + var(--space));
+  --_title-space: calc(1em * var(--text-line-height) + var(--space-large));
 
-  position: relative;
-  margin-block-start: calc(var(--_margin) + var(--_title-space));
+  margin-block-start: calc(var(--space-very-large));
+  border-block-start: var(--border-width) var(--border-color) solid;
+  padding-block-start: calc(var(--space-very-large) + var(--_title-space));
 
-  &::before {
-    content: 'Notes & References';
-    position: absolute;
-    display: block;
-    top: calc(-1 * var(--_title-space) - var(--space));
-    left: 0;
-    right: 0;
+  .footnotes-list {
+    position: relative;
 
-    font-weight: bold;
-    padding-block-start: var(--space);
-  }
+    &::before {
+      content: 'Notes & References';
+      position: absolute;
+      display: block;
+      top: calc(-1 * var(--_title-space));
+      left: 0;
+      right: 0;
 
-  .footnotes-list > li {
-    &:target {
-      padding: var(--space);
-      outline: var(--border-width) var(--color-accent) dotted;
+      font-family: var(--font-chrome);
+      font-weight: bold;
     }
 
-    a[href^='#'] {
-      font-variant-emoji: text;
+    li {
+      &:target {
+        padding: var(--space);
+        outline: var(--border-width) var(--color-accent) dotted;
+      }
+
+      a[href^='#'] {
+        font-variant-emoji: text;
+      }
     }
   }
 }

@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -156,7 +156,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -176,20 +176,19 @@
     
   </div>
 
-    </header>
-
-    <p>Ce billet est en français, essentiellement à destination de mes ami(e)s
+    </header><p>Ce billet est en français, essentiellement à destination de mes ami(e)s
 et familles, il sert à vulgariser très rapidement les enjeux autour de
-<a rel="noopener external" target="_blank" href="https://www.whatsapp.com/">WhatsApp</a>,
-<a rel="noopener external" target="_blank" href="https://www.signal.org/fr/">Signal</a>, <a rel="noopener external" target="_blank" href="https://telegram.org/">Telegram</a>
-et <a rel="noopener external" target="_blank" href="https://element.io/">Matrix</a> (<em>spoiler</em>, c'est le gagnant). Tout le
+<a rel="noopener noreferrer external" target="_blank" href="https://www.whatsapp.com/">WhatsApp</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://www.signal.org/fr/">Signal</a>, <a rel="noopener noreferrer external" target="_blank" href="https://telegram.org/">Telegram</a>
+et <a rel="noopener noreferrer external" target="_blank" href="https://element.io/">Matrix</a> (<em>spoiler</em>, c'est le gagnant). Tout le
 monde me pose la même question, alors voici une réponse rapidement en
 brouillon qui va m'éviter du copier/coller !</p>
 <p>Je ne rentre volontairement <em>pas</em> dans les détails. Il faut que ce
 document reste à la portée de tous, sans aucune connaissance en réseau,
 chiffrement, sécurité etc. Ceux qui ont ces connaissances savent déjà
 que Matrix est <em>le</em> réseau vers lequel aller ;-).</p>
-<h2 id="les-bases">Les Bases<a role="presentation" class="anchor" href="#les-bases" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="les-bases">Les Bases<span class="toc-anchor" style="view-timeline-name: --toc-timeline-les-bases"></span>
+<a role="presentation" class="anchor" href="#les-bases" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Quand on parle de messageries, il y a 2 choses primordiales plus 1 bonus :</p>
 <ul>
@@ -200,7 +199,8 @@ source</em>).</li>
 </ul>
 <p>Nous pouvons aussi parler du modèle économique du réseau rapidement,
 voir le tableau comparatif.</p>
-<h3 id="le-chiffrement">Le Chiffrement<a role="presentation" class="anchor" href="#le-chiffrement" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="le-chiffrement">Le Chiffrement
+<a role="presentation" class="anchor" href="#le-chiffrement" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Pour respecter la vie privée et éviter l'espionnage et le vol des
 données, il faut que le chiffrement se fasse de bout en bout (<em>end to
@@ -212,7 +212,8 @@ les utiliser, à part la personne avec qui vous les partagez (qui elle,
 normalement à une clé de déchiffrement par exemple). Les clés servent
 aussi à identifier la personne avec qui vous parlez, ça permet d'éviter
 le vol d'identité.</p>
-<h3 id="la-topologie">La Topologie<a role="presentation" class="anchor" href="#la-topologie" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="la-topologie">La Topologie
+<a role="presentation" class="anchor" href="#la-topologie" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>La plupart des réseaux sont centralisés : ça veut dire qu'on a un gros
 silot, un énorme ordinateur/serveur, et que tout le monde est dessus. Ça
@@ -249,7 +250,8 @@ d'exceptions mais je vulgarise, hein). Nous pouvons créer autant de
 serveurs que nous le souhaitons. Souvent, ce sont des réseaux open
 source, donc nous pouvons lire le code des programmes, vérifier qu'ils
 font bien ce qu'ils proclament faire.</p>
-<h2 id="tableau-comparatif">Tableau Comparatif<a role="presentation" class="anchor" href="#tableau-comparatif" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="tableau-comparatif">Tableau Comparatif<span class="toc-anchor" style="view-timeline-name: --toc-timeline-tableau-comparatif"></span>
+<a role="presentation" class="anchor" href="#tableau-comparatif" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Comparons les services populaires avec ces critères de bases.</p>
 <figure>
@@ -293,7 +295,7 @@ font bien ce qu'ils proclament faire.</p>
 </figure>
 <p>Signal est open source, mais nous ne pouvons pas vérifier ce qui est
 installé sur les serveurs, parce que le serveur est privé. De plus, le
-serveur open source n'a pas été <a rel="noopener external" target="_blank" href="https://github.com/signalapp/Signal-Server">mis à jour depuis avril
+serveur open source n'a pas été <a rel="noopener noreferrer external" target="_blank" href="https://github.com/signalapp/Signal-Server">mis à jour depuis avril
 2020</a>, en année
 Informatique, c'est très long. Ça cache quelque chose ? Aucune idée, je
 ne peux pas le savoir, car je n'ai pas d'éléments pour prendre une
@@ -344,7 +346,8 @@ l'appétit pour les données de ses utilisateurs, et là c'est dangereux
   </figcaption>
 </figure>
 <p>Les gagnants ici sont Signal et Matrix.</p>
-<h2 id="conclusion-matrix-gagnant">Conclusion : Matrix Gagnant<a role="presentation" class="anchor" href="#conclusion-matrix-gagnant" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion-matrix-gagnant">Conclusion : Matrix Gagnant<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion-matrix-gagnant"></span>
+<a role="presentation" class="anchor" href="#conclusion-matrix-gagnant" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Dans le cas des réseaux centralisés, Signal est une meilleure
 alternative à WhatsApp et Telegram de part son mode de financement (donc
@@ -367,12 +370,13 @@ et ma famille, et leur dire d'utiliser Matrix, mais je n'y publierai
 jamais de données personnelles, photos ou quoi que ce soit, je n'ai
 aucune confiance. Libre à vous aussi d'utiliser plusieurs réseaux, après
 tout nous jonglons déjà avec plusieurs réseaux (mail, SMS, WhatsApp,
-Matrix, Twitter, <a rel="noopener external" target="_blank" href="https://mastodon.social/about">Mastodon</a> etc.), ça
+Matrix, Twitter, <a rel="noopener noreferrer external" target="_blank" href="https://mastodon.social/about">Mastodon</a> etc.), ça
 n'est pas un problème !</p>
-<h2 id="premier-pas-avec-matrix">Premier Pas Avec Matrix<a role="presentation" class="anchor" href="#premier-pas-avec-matrix" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="premier-pas-avec-matrix">Premier Pas Avec Matrix<span class="toc-anchor" style="view-timeline-name: --toc-timeline-premier-pas-avec-matrix"></span>
+<a role="presentation" class="anchor" href="#premier-pas-avec-matrix" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>C'est parti, petit tuto Matrix. Le réseau est exceptionnel, mais le
-client officiel (<a rel="noopener external" target="_blank" href="https://element.io/">Element</a>) est encore un peu «
+client officiel (<a rel="noopener noreferrer external" target="_blank" href="https://element.io/">Element</a>) est encore un peu «
 brut » à utiliser comparé à Signal ou WhatsApp. Notez que ça évolue très
 très vite (je compte 616 contributeurs qui travaillent dessus
 bénévolement, encore une grande force de l'open source !).</p>
@@ -387,11 +391,11 @@ découvertabilité » par le numéro de téléphone. Bien que très pratique,
 c'est dangereux pour la vie privée.</p>
 <p>Donc, go, on installe le client :</p>
 <ul>
-<li>sur <a rel="noopener external" target="_blank" href="https://apps.apple.com/us/app/element-messenger/id1083446067">iOS, macOS
+<li>sur <a rel="noopener noreferrer external" target="_blank" href="https://apps.apple.com/us/app/element-messenger/id1083446067">iOS, macOS
 etc</a>.,</li>
 <li>sur
-<a rel="noopener external" target="_blank" href="https://play.google.com/store/apps/details?id=im.vector.app&amp;hl=en_US&amp;gl=US">Android</a>,</li>
-<li>sur votre <a rel="noopener external" target="_blank" href="https://element.io/get-started">bureau ou votre
+<a rel="noopener noreferrer external" target="_blank" href="https://play.google.com/store/apps/details?id=im.vector.app&amp;hl=en_US&amp;gl=US">Android</a>,</li>
+<li>sur votre <a rel="noopener noreferrer external" target="_blank" href="https://element.io/get-started">bureau ou votre
 navigateur</a>.</li>
 </ul>
 <p>Puis on crée un compte, et ajoutez moi. C'est parti !</p>
@@ -401,12 +405,13 @@ groupes, des communautés) avec des centaines voire des milliers de
 personnes dedans. C'est très flexible.</p>
 <p>Parce que c'est open source, n'importe qui peut écrire son propre client
 (programme qui se connecte au réseau). Il existe des clients
-alternatives, comme <a rel="noopener external" target="_blank" href="https://nio.chat/">Nio</a> ou
-<a rel="noopener external" target="_blank" href="https://fluffychat.im/en/">FluffyChat</a>, ou même <a rel="noopener external" target="_blank" href="https://matrix.org/docs/projects/client/ditto-chat">Ditto
+alternatives, comme <a rel="noopener noreferrer external" target="_blank" href="https://nio.chat/">Nio</a> ou
+<a rel="noopener noreferrer external" target="_blank" href="https://fluffychat.im/en/">FluffyChat</a>, ou même <a rel="noopener noreferrer external" target="_blank" href="https://matrix.org/docs/projects/client/ditto-chat">Ditto
 Chat</a>. Tous ces
 clients sont encore en beta, mais ça montre un futur très excitant pour
 Matrix avec des clients de plus en plus aboutis !</p>
-<h3 id="matrix-element-vector-hein">Matrix, Element, Vector, Hein ?<a role="presentation" class="anchor" href="#matrix-element-vector-hein" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="matrix-element-vector-hein">Matrix, Element, Vector, Hein ?
+<a role="presentation" class="anchor" href="#matrix-element-vector-hein" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <ul>
 <li>Element c'est le nom de l'entreprise qui travaille/développe le réseau, les
@@ -423,7 +428,11 @@ abus de langage.</p>
 <p>Et par pitié, quittez Facebook…</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="button text-align-start">❮&nbsp;Announcing the first Java library to run WebAssembly: Wasmer JNI</a><a href="https://mnt.io/articles/i-leave-wasmer/" class="button text-align-end">I&#39;ve loved Wasmer, I still love Wasmer&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="button text-align-start">❮&nbsp;Announcing the first Java library to run WebAssembly: Wasmer JNI</a><a href="https://mnt.io/articles/i-leave-wasmer/" class="button text-align-end">I've loved Wasmer, I still love Wasmer&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -498,7 +507,7 @@ abus de langage.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

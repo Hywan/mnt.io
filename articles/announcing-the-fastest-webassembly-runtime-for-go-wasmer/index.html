@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,9 +180,7 @@
     
   </div>
 
-    </header>
-
-    <p><em>This is a copy of <a rel="noopener external" target="_blank" href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">an article I wrote for
+    </header><p><em>This is a copy of <a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">an article I wrote for
 Wasmer</a>.</em></p>
 <hr />
 <p>WebAssembly is a portable binary format. That means the same file can
@@ -191,28 +189,29 @@ run anywhere.</p>
 <p>To uphold this bold statement, each language, platform and system must
 be able to run WebAssembly — as fast and safely as possible.</p>
 </blockquote>
-<p><a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> is a WebAssembly runtime
-written in <a rel="noopener external" target="_blank" href="https://www.rust-lang.org/">Rust</a>. It goes without saying
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> is a WebAssembly runtime
+written in <a rel="noopener noreferrer external" target="_blank" href="https://www.rust-lang.org/">Rust</a>. It goes without saying
 that the runtime can be used in any Rust application. We have also
 successfully embedded the runtime in other languages:</p>
 <ul>
-<li>Using <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
+<li>Using <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
 bindings</a></li>
 <li>In PHP, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
 <li>In Python, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
-<a rel="noopener external" target="_blank" href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
+<a rel="noopener noreferrer external" target="_blank" href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
 <li>In Ruby, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a rel="noopener external" target="_blank" href="https://rubygems.org/gems/wasmer">wasmer
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a rel="noopener noreferrer external" target="_blank" href="https://rubygems.org/gems/wasmer">wasmer
 gem on RubyGems</a></li>
-<li><strong>It is now time to hang around <a rel="noopener external" target="_blank" href="https://golang.org/">Go</a>
+<li><strong>It is now time to hang around <a rel="noopener noreferrer external" target="_blank" href="https://golang.org/">Go</a>
 🐹!</strong></li>
 </ul>
 <p>We are super happy to announce <code>github.com/wasmerio/go-ext-wasm/wasmer</code>,
-a <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm">Go library to run WebAssembly binaries,
+a <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm">Go library to run WebAssembly binaries,
 fast</a>.</p>
-<h2 id="calling-a-webassembly-function-from-go">Calling a WebAssembly Function from Go<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="calling-a-webassembly-function-from-go">Calling a WebAssembly Function from Go<span class="toc-anchor" style="view-timeline-name: --toc-timeline-calling-a-webassembly-function-from-go"></span>
+<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-go" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>First, let’s install <code>wasmer</code> in your go environment (<em>with cgo
 support</em>).</p>
@@ -228,7 +227,7 @@ WebAssembly easily, using Rust for instance:</p>
 <span class="giallo-l"><span>    x</span><span class="z-16"> +</span><span> y</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>After compilation to WebAssembly, we get a file like
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this one</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/master/wasmer/test/testdata/examples/simple.wasm">this one</a>,
 named <code>simple.wasm</code>.<br />
 The following Go program executes the <code>sum</code> function by passing <code>5</code> and
 <code>37</code> as arguments:</p>
@@ -263,7 +262,8 @@ automatically cast to WebAssembly values. Types are inferred and
 casting is done automatically. Thus, a WebAssembly function acts as
 any regular Go function.</em></p>
 </blockquote>
-<h2 id="webassembly-calling-go-funtions">WebAssembly Calling Go Funtions<a role="presentation" class="anchor" href="#webassembly-calling-go-funtions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="webassembly-calling-go-funtions">WebAssembly Calling Go Funtions<span class="toc-anchor" style="view-timeline-name: --toc-timeline-webassembly-calling-go-funtions"></span>
+<a role="presentation" class="anchor" href="#webassembly-calling-go-funtions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly module <em>exports</em> some functions, so that they can be
 called from the outside world. This is the entry point to execute
@@ -283,7 +283,7 @@ implementation is absent, only its signature is defined. This is an
 “extern function”, and for WebAssembly, this is an <em>imported</em> function,
 because its implementation must be <em>imported</em>.</p>
 <p>Let’s implement the <code>sum</code> function in Go! To do so, <em>need</em> to use
-<a rel="noopener external" target="_blank" href="https://blog.golang.org/c-go-cgo">cgo</a>:</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://blog.golang.org/c-go-cgo">cgo</a>:</p>
 <ol>
 <li>The <code>sum</code> function signature is defined in C (see the comment above
 <code>import "C"</code>),</li>
@@ -342,7 +342,8 @@ the WebAssembly module with imports. That’s it.</li>
 <span class="giallo-l"><span class="z-7 z-i">    // = 1 + 2 + 1</span></span>
 <span class="giallo-l"><span class="z-7 z-i">    // = 4</span></span>
 <span class="giallo-l"><span class="z-7 z-i">    // QED</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h2 id="reading-the-memory">Reading the Memory<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h2 id="reading-the-memory">Reading the Memory<span class="toc-anchor" style="view-timeline-name: --toc-timeline-reading-the-memory"></span>
+<a role="presentation" class="anchor" href="#reading-the-memory" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A WebAssembly instance has a linear memory. Let’s see how to read it.
 Consider the following Rust program:</p>
@@ -377,33 +378,34 @@ read, so <code>memory[pointer : pointer+13]</code> is enough to read the bytes,
 that are then cast to a string. <em>Et voilà !</em></p>
 <blockquote>
 <p>You can read
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go">the Greet Example</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/blob/6934a0fa06558f77884398a2371de182593e6a6c/wasmer/test/example_greet_test.go">the Greet Example</a>
 to see a more advanced usage of the memory API.</p>
 </blockquote>
-<h2 id="benchmarks">Benchmarks<a role="presentation" class="anchor" href="#benchmarks" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="benchmarks">Benchmarks<span class="toc-anchor" style="view-timeline-name: --toc-timeline-benchmarks"></span>
+<a role="presentation" class="anchor" href="#benchmarks" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So far, <code>github.com/wasmerio/go-ext-wasm/wasmer</code> has a nice API, but
 …<em>is it fast</em>?</p>
 <p>Contrary to PHP or Ruby, there are already existing runtimes in the Go
 world to execute WebAssembly. The main candidates are:</p>
 <ul>
-<li><a rel="noopener external" target="_blank" href="https://github.com/perlin-network/life">Life</a>, from Perlin Network, a
+<li><a rel="noopener noreferrer external" target="_blank" href="https://github.com/perlin-network/life">Life</a>, from Perlin Network, a
 WebAssembly interpreter</li>
-<li><a rel="noopener external" target="_blank" href="https://github.com/go-interpreter/wagon">Wagon</a>, from Go Interpreter,
+<li><a rel="noopener noreferrer external" target="_blank" href="https://github.com/go-interpreter/wagon">Wagon</a>, from Go Interpreter,
 a WebAssembly interpreter and toolkit.</li>
 </ul>
 <p>In
-<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88">our blog post about the PHP extension</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/php-ext-wasm-migrating-from-wasmi-to-wasmer-4d1014f41c88">our blog post about the PHP extension</a>,
 we have used
-<a rel="noopener external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the n-body algorithm</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/nbody.html">the n-body algorithm</a>
 to benchmark the performance. Life provides more benchmarks:
-<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Fibonacci_number">the Fibonacci algorithm</a> (the
+<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Fibonacci_number">the Fibonacci algorithm</a> (the
 recursive version),
-<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">the Pollard’s rho algorithm</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm">the Pollard’s rho algorithm</a>,
 and the Snappy Compress operation. The latter works successfully with
 <code>github.com/wasmerio/go-ext-wasm/wasmer</code> but not with Life or Wagon. We have
 removed it from the benchmark suites.
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks">Benchmark sources</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm/tree/master/benchmarks">Benchmark sources</a>
 are online.</p>
 <p>We use Life 20190521143330–57f3819c2df0, and Wagon 0.4.0, i.e. <em>the
 latest versions to date</em>.</p>
@@ -425,37 +427,42 @@ in ms. Lower is better.</p>
 (<code>github.com/wasmerio/go-ext/wasmer</code>) is on average <strong>72 times faster</strong>
 🎉.</p>
 <p>It is important to know that Wasmer comes with 3 backends:
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/singlepass-backend">Singlepass</a>,
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/clif-backend">Cranelift</a>,
-and <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend">LLVM</a>. The
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/singlepass-backend">Singlepass</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/clif-backend">Cranelift</a>,
+and <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/llvm-backend">LLVM</a>. The
 default backend that is used by the Go library is Cranelift
-(<a rel="noopener external" target="_blank" href="https://github.com/CraneStation/cranelift">learn more about Cranelift</a>). Using
+(<a rel="noopener noreferrer external" target="_blank" href="https://github.com/CraneStation/cranelift">learn more about Cranelift</a>). Using
 LLVM will provide performance close to native, but we decided to start with
 Cranelift as it offers the best tradeoff between compilation-time and
 execution-time
-(<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different backends</a>,
+(<a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the different backends</a>,
 when to use them, pros and cons etc.).</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>[github.com/wasmerio/go-ext-wasm/wasmer](https://github.com/wasmerio/go-ext-wasm)</code>
 is a new Go library to execute WebAssembly binaries. It embeds the
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> runtime. The first version supports
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> runtime. The first version supports
 all the required API for the most common usages.</p>
 <p>The current benchmarks (a mix from our benchmark suites and from Life
 suites) show that <strong>Wasmer is — on average — 72 times faster than Life
 and Wagon</strong>, the two major existing WebAssembly runtimes in the Go
 world.</p>
 <p>If you want to follow the development, take a look at
-<a rel="noopener external" target="_blank" href="https://twitter.com/wasmerio">@wasmerio</a> and
-<a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a> on Twitter, or
-<a rel="noopener external" target="_blank" href="https://webassembly.social/@wasmer">@<a href="mailto:wasmer@webassembly.social">wasmer@webassembly.social</a></a> on
+<a rel="noopener noreferrer external" target="_blank" href="https://twitter.com/wasmerio">@wasmerio</a> and
+<a rel="noopener noreferrer external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a> on Twitter, or
+<a rel="noopener noreferrer external" target="_blank" href="https://webassembly.social/@wasmer">@<a href="mailto:wasmer@webassembly.social">wasmer@webassembly.social</a></a> on
 Mastodon.</p>
 <p>And of course, everything is open source at
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm">wasmerio/go-ext-wasm</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm">wasmerio/go-ext-wasm</a>.</p>
 <p>Thank you for your time, we can’t wait to see what you build with us!</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/" class="button text-align-start">❮&nbsp;🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</a><a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="button text-align-end">Announcing the first Postgres extension to run WebAssembly&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/elephant-crab-spider-web-php-ext-wasm-migrating-from-wasmi-to-wasmer/" class="button text-align-start">❮&nbsp;🐘+🦀+🕸 php-ext-wasm: Migrating from wasmi to Wasmer</a><a href="https://mnt.io/articles/announcing-the-first-postgres-extension-to-run-webassembly/" class="button text-align-end">Announcing the first Postgres extension to run WebAssembly&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -530,7 +537,7 @@ Mastodon.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

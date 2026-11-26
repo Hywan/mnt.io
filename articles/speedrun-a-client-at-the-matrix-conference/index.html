@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,14 +180,12 @@
     
   </div>
 
-    </header>
-
-    <p>Malmö. <time datetime="2026-10-21 15:15">Thursday, October 21, 2026.
+    </header><p>Malmö. <time datetime="2026-10-21 15:15">Thursday, October 21, 2026.
 3:15pm</time>. I was
 <a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/">back</a> on
-stage at the <a rel="noopener external" target="_blank" href="https://2026.matrix.org/">Matrix Conference</a>, live and broadcasted on Internet, to do a
-speedrun of a Matrix client with the <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/">Matrix Rust SDK</a> in 20 minutes.</p>
-<p><a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> is an open network for secure, decentralised communication. It is an
+stage at the <a rel="noopener noreferrer external" target="_blank" href="https://2026.matrix.org/">Matrix Conference</a>, live and broadcasted on Internet, to do a
+speedrun of a Matrix client with the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/">Matrix Rust SDK</a> in 20 minutes.</p>
+<p><a rel="noopener noreferrer external" target="_blank" href="https://matrix.org/">Matrix</a> is an open network for secure, decentralised communication. It is an
 important technology for Internet.</p>
 <p>Matrix is a protocol. Everyone can implement it: either by providing its own
 server and connect it to the federation, or by providing its own client and
@@ -195,8 +193,8 @@ connect it to the federation too. Nobody has a full control over the network,
 and nobody controls the clients nor the servers. And yet, end-to-end encryption
 is working, synchronisation is working, and everybody can talk to everybody,
 communities organise themselves, the network grows and grows.</p>
-<p>I am working at <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> since 4 years now. I am sponsored to work on the
-<a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/">Matrix Rust SDK</a>, a project owned by the Matrix organisation. Everything we do
+<p>I am working at <a rel="noopener noreferrer external" target="_blank" href="https://element.io/">Element</a> since 4 years now. I am sponsored to work on the
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/">Matrix Rust SDK</a>, a project owned by the Matrix organisation. Everything we do
 is available to the entire Matrix community, not only for Element. Well, this is
 the open source world.</p>
 <p>In this context, we thought it would have been nice to demonstrate how to build
@@ -219,15 +217,17 @@ it!</p>
   <p>Video:  Speedrun Client with the Matrix Rust SDK </p>
   <p><a href="./slides.pdf">Download the slides as PDF (827Kib)</a>.
 <br />
-<a rel="noopener external" target="_blank" href="https://youtu.be/UhUYvhKFZLA?si=6K4NF9nu-CxvlkAr">Watch this talk on YouTube</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://youtu.be/UhUYvhKFZLA?si=6K4NF9nu-CxvlkAr">Watch this talk on YouTube</a>.</p>
   </figcaption>
 </figure>
-<h2 id="other-talks">Other Talks<a role="presentation" class="anchor" href="#other-talks" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="other-talks">Other Talks<span class="toc-anchor" style="view-timeline-name: --toc-timeline-other-talks"></span>
+<a role="presentation" class="anchor" href="#other-talks" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p><a rel="noopener external" target="_blank" href="https://2026.matrix.org/watch/">All the talks are available online</a>, including talks from the public
+<p><a rel="noopener noreferrer external" target="_blank" href="https://2026.matrix.org/watch/">All the talks are available online</a>, including talks from the public
 sector, such as Europe, Brazil, Dutch etc. Let's pick some technical talks from
 my good friends.</p>
-<h3 id="what-s-new-in-the-matrix-rust-sdk">What's New in the Matrix Rust SDK<a role="presentation" class="anchor" href="#what-s-new-in-the-matrix-rust-sdk" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="what-s-new-in-the-matrix-rust-sdk">What's New in the Matrix Rust SDK
+<a role="presentation" class="anchor" href="#what-s-new-in-the-matrix-rust-sdk" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The creator and tech lead of the project, Damir Jelić, presents what's new and
 what's changed this year in the Matrix Rust SDK. And yes, we have merged
@@ -244,12 +244,13 @@ small team.</p>
     loading="lazy"></iframe>
   <figcaption>
   <p>Video: What's New in the Matrix Rust SDK</p>
-  <p><a rel="noopener external" target="_blank" href="https://2026.matrix.org/slides/slides_QEQAZY.pdf">View and download the slides</a>.
+  <p><a rel="noopener noreferrer external" target="_blank" href="https://2026.matrix.org/slides/slides_QEQAZY.pdf">View and download the slides</a>.
 <br />
-<a rel="noopener external" target="_blank" href="https://youtu.be/RrSK9drMhk4?si=v4wU7eKHdo_fttDH">Watch this talk on YouTube</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://youtu.be/RrSK9drMhk4?si=v4wU7eKHdo_fttDH">Watch this talk on YouTube</a>.</p>
   </figcaption>
 </figure>
-<h3 id="how-encryption-works-in-matrix">How Encryption Works in Matrix<a role="presentation" class="anchor" href="#how-encryption-works-in-matrix" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="how-encryption-works-in-matrix">How Encryption Works in Matrix
+<a role="presentation" class="anchor" href="#how-encryption-works-in-matrix" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Andy Balaam has this particular, rare talent to make a complex topic simple to
 understand. If you want to learn about how encryption works in Matrix, this is a
@@ -265,12 +266,13 @@ must watch. I mean, really.</p>
     loading="lazy"></iframe>
   <figcaption>
   <p>Video: How Encryption works in Matrix</p>
-  <p><a rel="noopener external" target="_blank" href="https://2026.matrix.org/slides/slides_DDYYQW.pdf">View and download the slides</a>.
+  <p><a rel="noopener noreferrer external" target="_blank" href="https://2026.matrix.org/slides/slides_DDYYQW.pdf">View and download the slides</a>.
 <br />
-<a rel="noopener external" target="_blank" href="https://youtu.be/yXhtMolX_3I?si=lZI8tMzslua0rUUu">Watch this talk on YouTube</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://youtu.be/yXhtMolX_3I?si=lZI8tMzslua0rUUu">Watch this talk on YouTube</a>.</p>
   </figcaption>
 </figure>
-<h3 id="new-phone-who-dis-user-verification-using-x-509-certificates">New Phone Who Dis: User Verification Using X.509 Certificates<a role="presentation" class="anchor" href="#new-phone-who-dis-user-verification-using-x-509-certificates" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="new-phone-who-dis-user-verification-using-x-509-certificates">New Phone Who Dis: User Verification Using X.509 Certificates
+<a role="presentation" class="anchor" href="#new-phone-who-dis-user-verification-using-x-509-certificates" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Richard van der Hoff has the same superpower than Andy: concisely explain
 non-trivial concepts. If you don't know what X.509 certificates are, or if you
@@ -288,17 +290,18 @@ emojis, this talk is for you.</p>
     loading="lazy"></iframe>
   <figcaption>
   <p>Video: New phone who dis: User verification using X.509 certificates</p>
-  <p><a rel="noopener external" target="_blank" href="https://2026.matrix.org/slides/slides_A8MVMH.pdf">View and download the slides</a>.
+  <p><a rel="noopener noreferrer external" target="_blank" href="https://2026.matrix.org/slides/slides_A8MVMH.pdf">View and download the slides</a>.
 <br />
-<a rel="noopener external" target="_blank" href="https://youtu.be/4yAyIDuS4lA?si=jU4qH84WsVGN6ymT">Watch this talk on YouTube</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://youtu.be/4yAyIDuS4lA?si=jU4qH84WsVGN6ymT">Watch this talk on YouTube</a>.</p>
   </figcaption>
 </figure>
-<h2 id="about-transport">About Transport<a role="presentation" class="anchor" href="#about-transport" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="about-transport">About Transport<span class="toc-anchor" style="view-timeline-name: --toc-timeline-about-transport"></span>
+<a role="presentation" class="anchor" href="#about-transport" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>I currently live in Switzerland. The conference was in Sweden. Europe has a
 fantastic rail network, and more importantly, a unique <strong>night train</strong> network!</p>
 <p>The trip by train has generated
-<strong>9.17<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Global_warming_potential">kg CO<sub>2</sub>eq</a>, be 0.45% of the annual carbon budget</strong> (for
+<strong>9.17<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Global_warming_potential">kg CO<sub>2</sub>eq</a>, be 0.45% of the annual carbon budget</strong> (for
 a sustainable world, we should all be at 2000kg CO<sub>2</sub>eq maximum).
 Going there by plane would have generated 848kg CO<sub>2</sub>eq, be 42% of
 the annual carbon budget. It's 92 times more than the train.</p>
@@ -306,7 +309,7 @@ the annual carbon budget. It's 92 times more than the train.</p>
 total, including night train, has costed 406EUR. With a flight, it would have
 been around 520EUR, if I include trains to reach the airport, we are about
 600EUR.</p>
-<p>If you are curious <a rel="noopener external" target="_blank" href="https://back-on-track.eu/night-train-map/">to try night train, you can check this map</a>
+<p>If you are curious <a rel="noopener noreferrer external" target="_blank" href="https://back-on-track.eu/night-train-map/">to try night train, you can check this map</a>
 that lists all possible connections, stops, companies operating the trains
 etc. Taking the night train is a nice way of travelling, and it saves a lot
 of carbon emissions.</p>
@@ -314,7 +317,11 @@ of carbon emissions.</p>
 home from Hamburg.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/" class="button text-align-start">❮&nbsp;Switching higher-order streams to first-order streams</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/" class="button text-align-start">❮&nbsp;Switching higher-order streams to first-order streams</a></p>
+    </nav>
   </article>
 
 </main>
@@ -389,7 +396,7 @@ home from Hamburg.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

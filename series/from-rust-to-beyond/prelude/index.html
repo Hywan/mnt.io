@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -186,8 +186,32 @@
 
     </header>
 
-    <p><a rel="noopener external" target="_blank" href="https://automattic.com/">At my work</a>, I had an opportunity to start an
-experiment: Writing a single parser implementation in Rust for <a rel="noopener external" target="_blank" href="https://github.com/WordPress/gutenberg">the new
+    
+  
+
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-the-gutenberg-post-format"><a href="#the-gutenberg-post-format">The Gutenberg Post Format</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-why-rust"><a href="#why-rust">Why Rust?</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-the-parser"><a href="#the-parser">The Parser</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-bindings"><a href="#bindings">Bindings</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+
+
+    <p><a rel="noopener noreferrer external" target="_blank" href="https://automattic.com/">At my work</a>, I had an opportunity to start an
+experiment: Writing a single parser implementation in Rust for <a rel="noopener noreferrer external" target="_blank" href="https://github.com/WordPress/gutenberg">the new
 Gutenberg post format</a>, bound to
 many platforms and environments.</p>
 <figure>
@@ -198,15 +222,16 @@ many platforms and environments.</p>
 </figure>
 <p>This series of posts is about those bindings, and explains how to send
 Rust beyond earth, into many different galaxies.</p>
-<h2 id="the-gutenberg-post-format">The Gutenberg Post Format<a role="presentation" class="anchor" href="#the-gutenberg-post-format" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-gutenberg-post-format">The Gutenberg Post Format<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-gutenberg-post-format"></span>
+<a role="presentation" class="anchor" href="#the-gutenberg-post-format" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Let's introduce quickly what Gutenberg is, and why a new post format. If
-you want an in-depth presentation, I highly recommend to read <a rel="noopener external" target="_blank" href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
+you want an in-depth presentation, I highly recommend to read <a rel="noopener noreferrer external" target="_blank" href="https://lamda.blog/2018/04/22/the-language-of-gutenberg/">The
 Language of
 Gutenberg</a>.
 Note that this is <em>not</em> required for the reader to understand the
 Gutenberg post format.</p>
-<p><a rel="noopener external" target="_blank" href="https://github.com/WordPress/gutenberg">Gutenberg</a> is the next
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/WordPress/gutenberg">Gutenberg</a> is the next
 WordPress editor. It is a little revolution on its own. The features it
 unlocks are very powerful.</p>
 <blockquote>
@@ -232,21 +257,21 @@ example:</p>
 namespace (here sets to <code>ns</code> , defaults to <code>core</code>) and a block name (here
 sets to <code>block-name</code>), separated by a slash,</li>
 <li>A block has optional attributes encoded as a JSON object (see
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc7159">RFC 7159, Section 4, Objects</a>),</li>
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc7159">RFC 7159, Section 4, Objects</a>),</li>
 <li>Finally, a block has optional children, i.e. a heterogeneous collection of
 blocks or phrases. In the example above, there is one child that is the phrase
 <code>&lt;p&gt;phrase&lt;/p&gt;</code>. And the following example below shows a block with no child:</li>
 </ul>
 <pre class="giallo z-code" ><code data-lang="xml"><span class="giallo-l"><span class="z-7 z-i">&lt;!-- wp:ns/block-name {&quot;attributes&quot;: &quot;as JSON&quot;} /--&gt;</span></span></code></pre>
 <p>The complete grammar can be found in
-<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser's documentation</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/parser/index.html">the parser's documentation</a>.</p>
 <p>Finally, the parser is used on the <em>editor</em> side, not on the <em>rendering</em>
 side. Once rendered, the blog post is a regular HTML file. Some blocks
 are dynamics though, but this is another topic.</p>
 <figure>
 <p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./block-logic-flow.png" alt="Block logic flow" loading="lazy" decoding="async" /></p>
   <figcaption>
-<p>The logic flow of the editor (<a rel="noopener external" target="_blank" href="https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/">How Little Blocks
+<p>The logic flow of the editor (<a rel="noopener noreferrer external" target="_blank" href="https://make.wordpress.org/core/2017/05/05/editor-how-little-blocks-work/">How Little Blocks
 Work</a>).</p>
   </figcaption>
 </figure>
@@ -258,12 +283,13 @@ schema above), we have measured several seconds to load some posts. Time
 during which the user is blocked, and waits, or see an error. In other
 scenarii, we have hit memory limit of the language's virtual machines.</p>
 <p>Hence this experimental project! The current parsers are written in
-JavaScript (with <a rel="noopener external" target="_blank" href="https://pegjs.org/">PEG.js</a>) and in PHP (with
-<a rel="noopener external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code></a>). This Rust project
+JavaScript (with <a rel="noopener noreferrer external" target="_blank" href="https://pegjs.org/">PEG.js</a>) and in PHP (with
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code></a>). This Rust project
 proposes a parser written in Rust, that can run in the JavaScript and in
 the PHP virtual machines, and on many other platforms. Let's try to be
 very performant and memory efficient!</p>
-<h2 id="why-rust">Why Rust?<a role="presentation" class="anchor" href="#why-rust" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="why-rust">Why Rust?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-why-rust"></span>
+<a role="presentation" class="anchor" href="#why-rust" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>That's an excellent question! Thanks for asking. I can summarize my
 choice with a bullet list:</p>
@@ -272,19 +298,20 @@ choice with a bullet list:</p>
 <li>It is memory safe, and also memory efficient,</li>
 <li>No garbage collector, which simplifies memory management across
 environments,</li>
-<li>It can expose a C API (<a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/ffi/index.html">with Foreign Function Interface,
+<li>It can expose a C API (<a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ffi/index.html">with Foreign Function Interface,
 FFI</a>), which eases the
 integration into multiple environments,</li>
-<li>It compiles to <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/nightly/rustc/platform-support.html">many
+<li>It compiles to <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/nightly/rustc/platform-support.html">many
 targets</a>,</li>
 <li>Because I love it.</li>
 </ul>
 <p>One of the goal of the experimentation is to maintain a single
 implementation (maybe the future reference implementation) with multiple
 bindings.</p>
-<h2 id="the-parser">The Parser<a role="presentation" class="anchor" href="#the-parser" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-parser">The Parser<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-parser"></span>
+<a role="presentation" class="anchor" href="#the-parser" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>The parser is written in Rust. It relies on the fabulous <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/">nom
+<p>The parser is written in Rust. It relies on the fabulous <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Geal/nom/">nom
 library</a>.</p>
 <figure>
 <p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./nom.png" alt="nom" loading="lazy" decoding="async" /></p>
@@ -292,7 +319,7 @@ library</a>.</p>
 <p><em>nom will happily take a byte out of your files</em> 🙂</p>
   </figcaption>
 </figure>
-<p>The source code is available in <a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs">the <code>src/</code> directory in the
+<p>The source code is available in <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs">the <code>src/</code> directory in the
 repository</a>. It is very
 small and fun to read.</p>
 <p>The parser produces an Abstract Syntax Tree (AST) of the grammar, where
@@ -310,7 +337,7 @@ children, and the phrase. Block children are defined as a collection of
 node, this is recursive. <code>Input&lt;'a&gt;</code> is defined as <code>&amp;'a [u8]</code>, i.e. a
 slice of bytes.</p>
 <p>The main parser entry is
-<a rel="noopener external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code> function</a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://hywan.github.io/gutenberg-parser-rs/gutenberg_post_parser/fn.root.html">the <code>root</code> function</a>.
 It represents the axiom of the grammar, and is defined as:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> root</span><span>(</span></span>
 <span class="giallo-l"><span>    input</span><span class="z-16">:</span><span class="z-4"> Input</span></span>
@@ -340,7 +367,8 @@ simple example:</p>
 <p>The <code>root</code> function and the AST will be the items we are going to use
 and manipulate in the bindings. The internal items of the parser will
 stay private.</p>
-<h2 id="bindings">Bindings<a role="presentation" class="anchor" href="#bindings" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="bindings">Bindings<span class="toc-anchor" style="view-timeline-name: --toc-timeline-bindings"></span>
+<a role="presentation" class="anchor" href="#bindings" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/prelude/./rust-to.png" alt="Rust to" loading="lazy" decoding="async" /></p>
@@ -350,7 +378,11 @@ in different platforms or environments. Ready?</p>
 <p>3… 2… 1… lift-off!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-webassembly-galaxy">The WebAssembly galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes">
+      <h2>Read other episodes</h2>
+
+      <p><a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-webassembly-galaxy">The WebAssembly galaxy&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -425,7 +457,7 @@ in different platforms or environments. Ready?</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

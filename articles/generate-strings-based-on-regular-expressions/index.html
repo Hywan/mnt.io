@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,16 +180,15 @@
     
   </div>
 
-    </header>
-
-    <p>During my PhD thesis, I have partly worked on the problem of the automatic
+    </header><p>During my PhD thesis, I have partly worked on the problem of the automatic
 accurate test data generation. In order to be complete and self-contained, I
 have addressed all kinds of data types, including strings. This article aims at
 showing how to generate accurate and relevant strings under several constraints.</p>
-<h2 id="what-is-a-regular-expression">What Is a Regular Expression?<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-a-regular-expression">What Is a Regular Expression?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-what-is-a-regular-expression"></span>
+<a role="presentation" class="anchor" href="#what-is-a-regular-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are talking about formal language theory here. In the known world,
-there are four kinds of languages. More formally, in 1956, the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky
+there are four kinds of languages. More formally, in 1956, the <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky
 hierarchy</a> has been
 formulated, classifying grammars (which define languages) in four
 levels:</p>
@@ -202,7 +201,7 @@ automata,</li>
 <li>regular grammars, matching regular languages.</li>
 </ol>
 <p>Each level includes the next level. The last level is the “weaker”,
-which must not sound negative here. <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Regular_expression">Regular
+which must not sound negative here. <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Regular_expression">Regular
 expressions</a> are used
 often because of their simplicity and also because they solve most
 problems we encounter daily.</p>
@@ -219,16 +218,17 @@ for instance <code>ab(c|d){2,4}e?</code> means: a word starting by <code>ab</cod
 and so on) and potentially followed by <code>e</code>.</p>
 <p>The goal here is not to teach you regular expressions but this is kind
 of a tiny reminder. There are plenty of regular languages. You might
-know <a rel="noopener external" target="_blank" href="http://www.unix.com/man-page/Linux/7/regex/">POSIX regular
-expression</a> or <a rel="noopener external" target="_blank" href="http://pcre.org/">Perl
+know <a rel="noopener noreferrer external" target="_blank" href="http://www.unix.com/man-page/Linux/7/regex/">POSIX regular
+expression</a> or <a rel="noopener noreferrer external" target="_blank" href="http://pcre.org/">Perl
 Compatible Regular Expressions (PCRE)</a>. Forget the
 first one, please. The syntax and the semantics are too much limited.
 PCRE is the regular language I recommend all the time.</p>
 <p>Behind every formal language there is a graph. A regular expression is compiled
-into a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/">Finite State Machine (FSM)</a>. I am not
+into a <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/">Finite State Machine (FSM)</a>. I am not
 going to draw and explain them, but it is interesting to know that behind a
 regular expression there is a basic automaton. No magic.</p>
-<h3 id="why-focussing-regular-expressions">Why Focussing Regular Expressions?<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="why-focussing-regular-expressions">Why Focussing Regular Expressions?
+<a role="presentation" class="anchor" href="#why-focussing-regular-expressions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>This article focuses on regular languages instead of other kind of
 languages because we use them very often (even daily). I am going to
@@ -236,20 +236,21 @@ address context-free languages in another article, be patient young
 padawan. The needs and constraints with other kind of languages are not
 the same and more complex algorithms must be involved. So we are going
 easy for the first step.</p>
-<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: Lex and Parse Them<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="understanding-pcre-lex-and-parse-them">Understanding PCRE: Lex and Parse Them<span class="toc-anchor" style="view-timeline-name: --toc-timeline-understanding-pcre-lex-and-parse-them"></span>
+<a role="presentation" class="anchor" href="#understanding-pcre-lex-and-parse-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>The <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Compiler"><code>Hoa\Compiler</code> library</a> provides
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Compiler"><code>Hoa\Compiler</code> library</a> provides
 both LL(1) LL(k) compiler-compilers. The
-<a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html">documentation</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html">documentation</a>
 describes how to use it. We discover that the LL(k)
 compiler comes with a grammar description language called PP. What does
 it mean? It means for instance that the grammar of the PCRE can be
 written with the PP language and that <code>Hoa\Compiler\Llk</code> will transform
 this grammar into a compiler. That's why we call them “compiler of
 compilers”.</p>
-<p>Fortunately, the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex"><code>Hoa\Regex</code> library</a>
+<p>Fortunately, the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Regex"><code>Hoa\Regex</code> library</a>
 provides the grammar of the PCRE language in the
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex/blob/master/Source/Grammar.pp"><code>hoa://Library/Regex/Grammar.pp</code></a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Regex/blob/master/Source/Grammar.pp"><code>hoa://Library/Regex/Grammar.pp</code></a>
 file. Consequently, we are able to analyze regular expressions written in the
 PCRE language! Let's try in a shell at first with the <code>hoa compiler:pp</code> tool:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo </span><span class="z-11">&#39;ab(c|d){2,4}e?&#39;</span><span class="z-16"> |</span><span class="z-4"> hoa</span><span class="z-11"> compiler:pp hoa://Library/Regex/Grammar.pp</span><span class="z-13"> 0</span><span class="z-8"> --visitor</span><span class="z-11"> dump</span></span>
@@ -272,18 +273,18 @@ choice betwen) two tokens: <code>c</code> and <code>d</code>, between 2 to 4 ti
 quantification is the <code>e</code> token that can appear zero or one time. Pretty
 simple.</p>
 <p>The final output of the <code>Hoa\Compiler\Llk\Parser</code> class is an
-<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree (AST)</a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree (AST)</a>.
 The documentation of <code>Hoa\Compiler</code> explains all that stuff, you should read it.
 The LL(k) compiler is cut out into very distinct layers in order to improve
 hackability. Again, the documentation teach us we have
-<a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process">four levels in the compilation process</a>:
+<a rel="noopener noreferrer external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Compilation_process">four levels in the compilation process</a>:
 lexical analyzer, syntactic analyzer, trace and AST. The lexical analyzer (also
 known as lexer) transforms the textual data being analyzed into a sequence of
 tokens (formally known as lexemes). It checks whether the data is composed of
 the good pieces. Then, the syntactic analyzer (also known as parser) checks that
 the order of tokens in this sequence is correct (formally we say that it derives
 the sequence, see the
-<a rel="noopener external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words">Matching words section</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://hoa-project.net/Literature/Hack/Compiler.html#Matching_words">Matching words section</a>
 to learn more).</p>
 <p>Still in the shell, we can get the result of the lexical analyzer by
 using the <code>--token-sequence</code> option; thus:</p>
@@ -307,10 +308,11 @@ process. However this is always interesting to understand these
 different steps and see how it works.</p>
 <p>Now we are able to analyze any regular expressions in the PCRE format!
 The result of this analysis is a tree. You know what is fun with trees?
-<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Visitor_pattern">Visiting them</a>.</p>
-<h2 id="visiting-the-ast">Visiting the AST<a role="presentation" class="anchor" href="#visiting-the-ast" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Visitor_pattern">Visiting them</a>.</p>
+<h2 id="visiting-the-ast">Visiting the AST<span class="toc-anchor" style="view-timeline-name: --toc-timeline-visiting-the-ast"></span>
+<a role="presentation" class="anchor" href="#visiting-the-ast" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>Unsurprisingly, each node of the AST can be visited thanks to the <a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Visitor"><code>Hoa\Visitor</code>
+<p>Unsurprisingly, each node of the AST can be visited thanks to the <a rel="noopener noreferrer external" target="_blank" href="http://github.com/hoaproject/Visitor"><code>Hoa\Visitor</code>
 library</a>. Here is an example with the
 “dump” visitor:</p>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
@@ -441,7 +443,8 @@ seen:</p>
 <span class="giallo-l"><span class="z-15">echo</span><span> $prettyprint</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p><em>Et voilà !</em></p>
 <p>Now, put all that stuff together!</p>
-<h2 id="isotropic-generation">Isotropic Generation<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="isotropic-generation">Isotropic Generation<span class="toc-anchor" style="view-timeline-name: --toc-timeline-isotropic-generation"></span>
+<a role="presentation" class="anchor" href="#isotropic-generation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We can use <code>Hoa\Regex</code> and <code>Hoa\Compiler</code> to get the AST of any regular
 expressions written in the PCRE format. We can use <code>Hoa\Visitor</code> to
@@ -471,10 +474,11 @@ has <em>c</em> immediate children, the probability <em>C</em> to choose one chil
   </semantics>
 </math>
 <p>Yes, simple as that!</p>
-<p>We can use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Math"><code>Hoa\Math</code> library</a> that
+<p>We can use the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Math"><code>Hoa\Math</code> library</a> that
 provides the <code>Hoa\Math\Sampler\Random</code> class to sample uniform random integers
 and floats. Ready?</p>
-<h3 id="structure-of-the-visitor">Structure of the Visitor<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="structure-of-the-visitor">Structure of the Visitor
+<a role="presentation" class="anchor" href="#structure-of-the-visitor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The structure of the visitor is the following:</p>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
@@ -512,7 +516,8 @@ expression contained in the <code>$expression</code> variable:</p>
 <span class="giallo-l"><span class="z-15">echo</span><span> $generator</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p>We are going to change the value of <code>$expression</code> step by step until
 having <code>ab(c|d){2,4}e?</code>.</p>
-<h3 id="case-of-expression">Case of <code>#expression</code><a role="presentation" class="anchor" href="#case-of-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="case-of-expression">Case of <code>#expression</code>
+<a role="presentation" class="anchor" href="#case-of-expression" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A node of type <code>#expression</code> has only one child. Thus, we simply return
 the computation of this node:</p>
@@ -520,7 +525,8 @@ the computation of this node:</p>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-18">case</span><span class="z-11"> &#39;#expression&#39;</span><span class="z-16">:</span></span>
 <span class="giallo-l"><span class="z-18">    return</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getChild</span><span>(</span><span class="z-13">0</span><span>)</span><span class="z-16">-&gt;</span><span class="z-19">accept</span><span>(</span><span class="z-1 z-i">$this</span><span class="z-10">,</span><span> $handle</span><span class="z-10">,</span><span> $eldnah)</span><span class="z-10">;</span></span>
-<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code><a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre><h3 id="case-of-token">Case of <code>token</code>
+<a role="presentation" class="anchor" href="#case-of-token" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We consider only one type of token for now: <code>literal</code>. A literal can
 contain an escaped character, can be a single character or can be <code>.</code>
@@ -532,7 +538,8 @@ example (spoil: the whole visitor already exists). Thus:</p>
 <span class="giallo-l"><span class="z-18">    return</span><span> $element</span><span class="z-16">-&gt;</span><span class="z-19">getValueValue</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>Here, with <code>$expression = 'a';</code> we get the string <code>a</code>.</p>
-<h3 id="case-of-concatenation">Case of <code>#concatenation</code><a role="presentation" class="anchor" href="#case-of-concatenation" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="case-of-concatenation">Case of <code>#concatenation</code>
+<a role="presentation" class="anchor" href="#case-of-concatenation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A concatenation is just the computation of all children joined in a
 single piece of string. Thus:</p>
@@ -548,7 +555,8 @@ single piece of string. Thus:</p>
 <span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>At this step, with <code>$expression = 'ab';</code> we get the string <code>ab</code>. Totally
 crazy.</p>
-<h3 id="case-of-alternation">Case of <code>#alternation</code><a role="presentation" class="anchor" href="#case-of-alternation" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="case-of-alternation">Case of <code>#alternation</code>
+<a role="presentation" class="anchor" href="#case-of-alternation" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>An alternation is a choice between several children. All we have to do
 is to select a child based on the probability given above. The number of
@@ -568,7 +576,8 @@ integers. Thus:</p>
 <span class="giallo-l"><span class="z-18">  break</span><span class="z-10">;</span></span></code></pre>
 <p>Now, with <code>$expression = 'ab(c|d)';</code> we get the strings <code>abc</code> or <code>abd</code>
 at random. Try several times to see by yourself.</p>
-<h3 id="case-of-quantification">Case of <code>#quantification</code><a role="presentation" class="anchor" href="#case-of-quantification" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="case-of-quantification">Case of <code>#quantification</code>
+<a role="presentation" class="anchor" href="#case-of-quantification" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A quantification is an alternation of concatenations. Indeed, <code>e{2,4}</code>
 is strictly equivalent to <code>ee|eee|eeee</code>. We have only two
@@ -641,17 +650,19 @@ it? Want more?</p>
 <span class="giallo-l"><span class="z-7 z-i"> *     abcdcce</span></span>
 <span class="giallo-l"><span class="z-7 z-i"> *     abcce</span></span>
 <span class="giallo-l"><span class="z-7 z-i"> *     abddc</span></span>
-<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="performance">Performance<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="performance">Performance<span class="toc-anchor" style="view-timeline-name: --toc-timeline-performance"></span>
+<a role="presentation" class="anchor" href="#performance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This is difficult to give numbers because it depends of a lot of parameters:
 your machine configuration, the PHP VM, if other programs run etc. But I have
 generated 1 million strings in less than 25 seconds on my machine (an old
 MacBook Pro), which is pretty reasonable.</p>
-<h2 id="conclusion-and-surprise">Conclusion and Surprise<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion-and-surprise">Conclusion and Surprise<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion-and-surprise"></span>
+<a role="presentation" class="anchor" href="#conclusion-and-surprise" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So, yes, now we know how to generate strings based on regular
 expressions! Supporting all the PCRE format is difficult. That's why the
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Regex"><code>Hoa\Regex</code> library</a> provides
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Regex"><code>Hoa\Regex</code> library</a> provides
 the <code>Hoa\Regex\Visitor\Isotropic</code> class that is a more advanced visitor.
 This latter supports classes, negative classes, ranges, all
 quantifications, all kinds of literals (characters, escaped characters,
@@ -665,14 +676,15 @@ to do is:</p>
 <span class="giallo-l"><span>$generator</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Regex</span><span class="z-10">\</span><span>Visitor</span><span class="z-10">\</span><span class="z-1">Isotropic</span><span>(</span><span class="z-18">new</span><span> Math</span><span class="z-10">\</span><span>Sampler</span><span class="z-10">\</span><span class="z-1">Random</span><span>())</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span class="z-15">echo</span><span> $generator</span><span class="z-16">-&gt;</span><span class="z-19">visit</span><span>($ast)</span><span class="z-10">;</span></span></code></pre>
 <p>This algorithm is used in
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Praspel">Praspel</a>, a
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Praspel">Praspel</a>, a
 specification language I have designed during my PhD thesis. More
 specifically, this algorithm is used inside realistic domains. I am not
 going to explain it today but it allows me to introduce the “surprise”.</p>
-<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate Strings Based on Regular Expressions in atoum<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="generate-strings-based-on-regular-expressions-in-atoum">Generate Strings Based on Regular Expressions in atoum
+<a role="presentation" class="anchor" href="#generate-strings-based-on-regular-expressions-in-atoum" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p><a rel="noopener external" target="_blank" href="http://atoum.org/">atoum</a> is an awesome unit test framework. You can
-use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>Atoum\PraspelExtension</code>
+<p><a rel="noopener noreferrer external" target="_blank" href="http://atoum.org/">atoum</a> is an awesome unit test framework. You can
+use the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Contributions-Atoum-PraspelExtension"><code>Atoum\PraspelExtension</code>
 extension</a>
 to use Praspel and therefore realistic domains inside atoum. You can use
 realistic domains to validate <strong>and</strong> to generate data, they are
@@ -709,11 +721,15 @@ time the regular expressions are already in the code (maybe as
 constants). It is therefore easier to write and to maintain the tests.</p>
 <p>I hope you enjoyed this first part of the series :-)! This work has been
 published in the International Conference on Software Testing,
-Verification and Validation: <a rel="noopener external" target="_blank" href="https://hal.science/hal-00931662/file/EDGB12.pdf">Grammar-Based Testing using Realistic
+Verification and Validation: <a rel="noopener noreferrer external" target="_blank" href="https://hal.science/hal-00931662/file/EDGB12.pdf">Grammar-Based Testing using Realistic
 Domains in PHP</a>.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/rush-release/" class="button text-align-start">❮&nbsp;Rüsh Release</a><a href="https://mnt.io/articles/hello-fruux/" class="button text-align-end">Hello fruux!&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/rush-release/" class="button text-align-start">❮&nbsp;Rüsh Release</a><a href="https://mnt.io/articles/hello-fruux/" class="button text-align-end">Hello fruux!&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -788,7 +804,7 @@ Domains in PHP</a>.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,9 +180,7 @@
     
   </div>
 
-    </header>
-
-    <p>Since 2 years, at <a rel="noopener external" target="_blank" href="http://hoa-project.net/">Hoa</a>, we are looking for the
+    </header><p>Since 2 years, at <a rel="noopener noreferrer external" target="_blank" href="http://hoa-project.net/">Hoa</a>, we are looking for the
 perfect release process. Today, we have finalized the last thing related
 to this new process: we have found a name. It is called <strong>Rüsh
 Release</strong>, standing for <em>Rolling Ünd ScHeduled Release</em>.</p>
@@ -190,11 +188,12 @@ Release</strong>, standing for <em>Rolling Ünd ScHeduled Release</em>.</p>
 from the developer point of view. It means that we do not explain all
 the branches and the workflow between all of them. We will settle for
 the user final impact.</p>
-<h2 id="rolling-release">Rolling Release<a role="presentation" class="anchor" href="#rolling-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rolling-release">Rolling Release<span class="toc-anchor" style="view-timeline-name: --toc-timeline-rolling-release"></span>
+<a role="presentation" class="anchor" href="#rolling-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>On one hand, Hoa is not and will never be finished. We will never reach
 the “Holy 1.0 Grail”. So, one might reckon that Hoa is rolling-released?
-Let's dive into this direction. There are plenty <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
+Let's dive into this direction. There are plenty <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Rolling_release">rolling release
 types</a> out there, such
 as:</p>
 <ul>
@@ -218,32 +217,35 @@ development model”, which is the case of Hoa. Consequently and finally,
 the <code>master</code> branch is the final public branch, it means that it
 <strong>always</strong> contains the latest version, and users constantly fetch
 updates from it.</p>
-<h2 id="versioning">Versioning<a role="presentation" class="anchor" href="#versioning" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="versioning">Versioning<span class="toc-anchor" style="view-timeline-name: --toc-timeline-versioning"></span>
+<a role="presentation" class="anchor" href="#versioning" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Sounds good. On the other hand, the majority of programs that are using
 Hoa use tools called dependency managers. The most popular in PHP is
-<a rel="noopener external" target="_blank" href="http://getcomposer.org/">Composer</a>. This is a fantastic tool but with a
+<a rel="noopener noreferrer external" target="_blank" href="http://getcomposer.org/">Composer</a>. This is a fantastic tool but with a
 little spine that hurts us a lot: it does not support rolling release!
 Most of the time, dependency managers work with version numbers, mainly
 of the form <code>_x_._y_._z_</code>, with a specific semantics for <code>_x_</code>, <code>_y_</code>
 and <code>_z_</code>. For instance, some people have agreed about
-<a rel="noopener external" target="_blank" href="http://semver.org/">semver</a>, standing for <em>Semantic Versioning</em>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="http://semver.org/">semver</a>, standing for <em>Semantic Versioning</em>.</p>
 <p>Also, we are not extremist. We understand the challenges and the needs
 behind versioning. So, how to mix both: rolling release and versioning?
 Before answering this question, let's progress a little step forward and
 learn more about an alternative versioning approach.</p>
-<h3 id="scheduled-based-release">Scheduled-Based Release<a role="presentation" class="anchor" href="#scheduled-based-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="scheduled-based-release">Scheduled-Based Release
+<a role="presentation" class="anchor" href="#scheduled-based-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Scheduled-based, also known as date-based, release allows to define
 releases at regular periods of time. This approach is widely adopted for
-projects that progress quickly, such as Firefox or PHP (see the <a rel="noopener external" target="_blank" href="https://wiki.php.net/rfc/releaseprocess">PHP
+projects that progress quickly, such as Firefox or PHP (see the <a rel="noopener noreferrer external" target="_blank" href="https://wiki.php.net/rfc/releaseprocess">PHP
 RFC: Release Process</a> for
 example). For Firefox, every 6 weeks, a new version is released. Note
 that we should say <em>a new update</em> to be honest: the term <em>version</em> has
 an unclear meaning here.</p>
 <p>The scheduled-based release seems a good candidate to be mixed with
 rolling release, isn't it?</p>
-<h2 id="rush-release">Rüsh Release<a role="presentation" class="anchor" href="#rush-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rush-release">Rüsh Release<span class="toc-anchor" style="view-timeline-name: --toc-timeline-rush-release"></span>
+<a role="presentation" class="anchor" href="#rush-release" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Rüsh Release is a mix between part- and true-rolling release and
 scheduled-based release. The <code>master</code> branch is part- and true-rolling
@@ -275,7 +277,7 @@ versioning.</p>
 <span class="giallo-l"><span class="z-1">  &quot;minimum-stability&quot;</span><span class="z-10">:</span><span class="z-11"> &quot;dev&quot;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>to
-(<a rel="noopener external" target="_blank" href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn more about the tilde operator</a>):</p>
+(<a rel="noopener noreferrer external" target="_blank" href="https://getcomposer.org/doc/01-basic-usage.md#next-significant-release-tilde-operator-">learn more about the tilde operator</a>):</p>
 <pre class="giallo z-code" ><code data-lang="json"><span class="giallo-l"><span>{</span></span>
 <span class="giallo-l"><span class="z-1">    &quot;require&quot;</span><span class="z-10">:</span><span> {</span></span>
 <span class="giallo-l"><span class="z-1">        &quot;hoa/websocket&quot;</span><span class="z-10">:</span><span class="z-11"> &quot;~1.0&quot;</span></span>
@@ -284,7 +286,11 @@ versioning.</p>
 <p>\o/</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/" class="button text-align-end">Generate strings based on regular expressions&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/" class="button text-align-end">Generate strings based on regular expressions&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -359,7 +365,7 @@ versioning.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

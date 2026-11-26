@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -181,26 +181,50 @@
   </div>
 
     </header>
+  
 
-    <p>The time has come. I needed to rewrite my site from scratch. It was first
-implemented with <a rel="noopener external" target="_blank" href="https://github.com/jekxyl/jekxyl">Jekxyl</a>, a static site generator written with
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Xyl">the XYL language</a>, a language I've developed inside <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Central">Hoa</a>. I've migrated
-my blog to <a rel="noopener external" target="_blank" href="https://wordpress.com">WordPress.com</a> when
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-enter-zola"><a href="#enter-zola">Enter Zola</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-site-s-features"><a href="#site-s-features">Site&#39;s Features</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-discuss"><a href="#discuss">Discuss</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-good-ol-web"><a href="#good-ol-web">Good Ol&#39; Web</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-personnages"><a href="#personnages">Personnages</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-optimised-for-smallness-speed-semantics-and-fun"><a href="#optimised-for-smallness-speed-semantics-and-fun">Optimised for Smallness, Speed, Semantics and Fun!</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+<p>The time has come. I needed to rewrite my site from scratch. It was first
+implemented with <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jekxyl/jekxyl">Jekxyl</a>, a static site generator written with
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Xyl">the XYL language</a>, a language I've developed inside <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Central">Hoa</a>. I've migrated
+my blog to <a rel="noopener noreferrer external" target="_blank" href="https://wordpress.com">WordPress.com</a> when
 <a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/">I was working there</a>.
-The <a rel="noopener external" target="_blank" href="https://github.com/WordPress/gutenberg">Gutenberg editor</a> is really great, but there is no great support
+The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/WordPress/gutenberg">Gutenberg editor</a> is really great, but there is no great support
 for <code>&lt;code&gt;</code>. Plus, the theme I was using was pretty heavy. The homepage was
 1.15MiB! A simple article was 1.9MiB. Clearly not really efficient. I wanted
 something more customisable, something light, something I can hack, and more
 importantly, I wanted to start series.</p>
-<h2 id="enter-zola">Enter Zola<a role="presentation" class="anchor" href="#enter-zola" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="enter-zola">Enter Zola<span class="toc-anchor" style="view-timeline-name: --toc-timeline-enter-zola"></span>
+<a role="presentation" class="anchor" href="#enter-zola" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p><a rel="noopener external" target="_blank" href="https://www.getzola.org/">Zola</a> is a static site generator written in <a rel="noopener external" target="_blank" href="https://www.rust-lang.org/">Rust</a>. It uses <a rel="noopener external" target="_blank" href="https://commonmark.org/">CommonMark</a> for
+<p><a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a> is a static site generator written in <a rel="noopener noreferrer external" target="_blank" href="https://www.rust-lang.org/">Rust</a>. It uses <a rel="noopener noreferrer external" target="_blank" href="https://commonmark.org/">CommonMark</a> for
 the markup, which is nice and straightforward to use. The template system is
 powerful and simple. Zola can build 34 pages in 392ms at the time of writing, I
 consider this is fast.</p>
 <p>Nothing particular to say. It's a boring tool, which is great compliment. It
 just works! In a couple of hours, I was able to get everything up and running.</p>
-<h2 id="site-s-features">Site's Features<a role="presentation" class="anchor" href="#site-s-features" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="site-s-features">Site's Features<span class="toc-anchor" style="view-timeline-name: --toc-timeline-site-s-features"></span>
+<a role="presentation" class="anchor" href="#site-s-features" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The site contains articles and series. A series is composed of several episodes.
 That's it. The URL patterns are the followings:</p>
@@ -209,7 +233,8 @@ That's it. The URL patterns are the followings:</p>
 <li><code>/series/&lt;series-id&gt;/</code> to view all episodes of a series,</li>
 <li><code>/series/&lt;series-id&gt;/&lt;episode-id&gt;/</code> to view a particular episode of a series.</li>
 </ul>
-<h3 id="homepage">Homepage<a role="presentation" class="anchor" href="#homepage" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="homepage">Homepage
+<a role="presentation" class="anchor" href="#homepage" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The homepage provides:</p>
 <ul>
@@ -227,7 +252,8 @@ the template:</p>
 <p>That's a nice feature to promote some articles.</p>
 <p>In comparison to WordPress.com, the new homepage is 36.8KiB, that's 31 times
 less!</p>
-<h3 id="articles">Articles<a role="presentation" class="anchor" href="#articles" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="articles">Articles
+<a role="presentation" class="anchor" href="#articles" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>An article has some metadata like:</p>
 <ul>
@@ -257,15 +283,16 @@ article. The beauty of this hides in the source code though:</p>
 <span class="giallo-l"><span class="z-7 z-i">    &lt;!-- … --&gt;</span></span></code></pre>
 <p>First off, the site uses HTML semantics as much as possible with <code>article</code>,
 <code>header</code>, <code>time</code>, <code>meta</code> etc. Second, you may also notice the <code>vocab</code>, <code>typeof</code>,
-<code>property</code> and <code>content</code> attributes. This is an extension to HTML for <a rel="noopener external" target="_blank" href="https://www.w3.org/TR/rdfa-primer/">Resource
+<code>property</code> and <code>content</code> attributes. This is an extension to HTML for <a rel="noopener noreferrer external" target="_blank" href="https://www.w3.org/TR/rdfa-primer/">Resource
 Description Framework in Attributes</a> (RDFa for short). This is common to
 add more semantics data to your content. It helps automated tools to analyse the
-content of a Web document, and makes sense of it. <a rel="noopener external" target="_blank" href="https://schema.org/">schema.org</a> is a
+content of a Web document, and makes sense of it. <a rel="noopener noreferrer external" target="_blank" href="https://schema.org/">schema.org</a> is a
 collaborative effort to create schemas for structured data, and that's what I
 use in this site for the moment.</p>
 <p>Last neat thing: did you notice you can edit the page? The code lives on Github,
 and everyone is free to submit a patch!</p>
-<h3 id="series">Series<a role="presentation" class="anchor" href="#series" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="series">Series
+<a role="presentation" class="anchor" href="#series" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>A series is pretty similar to an article, except that it adds another level of
 indirection with episodes.</p>
@@ -309,29 +336,33 @@ of different parts: <code>property="hasPart"</code>. Each part is an article:
 <code>typeof="Article"</code>, which has its own semantics: <code>property="name"</code> etc. The
 markup is extremely simple but it contains all required information. HTML is
 really powerful, I'm not going to lie!</p>
-<h2 id="discuss">Discuss<a role="presentation" class="anchor" href="#discuss" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="discuss">Discuss<span class="toc-anchor" style="view-timeline-name: --toc-timeline-discuss"></span>
+<a role="presentation" class="anchor" href="#discuss" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>One novelty is the <em>Discuss</em> menu item at the top of the site. It contains a
-link to a <a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> public room: <a rel="noopener external" target="_blank" href="https://matrix.to/#/#mnt_io:matrix.org">https://matrix.to/#/#mnt_io:matrix.org</a>, where
+link to a <a rel="noopener noreferrer external" target="_blank" href="https://matrix.org/">Matrix</a> public room: <a rel="noopener noreferrer external" target="_blank" href="https://matrix.to/#/#mnt_io:matrix.org">https://matrix.to/#/#mnt_io:matrix.org</a>, where
 anybody can come to talk about an article, a series, ask questions, or simply
 chill. You're very welcome there!</p>
-<h2 id="good-ol-web">Good Ol' Web<a role="presentation" class="anchor" href="#good-ol-web" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="good-ol-web">Good Ol' Web<span class="toc-anchor" style="view-timeline-name: --toc-timeline-good-ol-web"></span>
+<a role="presentation" class="anchor" href="#good-ol-web" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The site has a short CSS stylesheet written by hand with no framework (oh yeah).
 It weights 11KiB (uncompressed), heavy, I know.</p>
-<p>The site also has <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/RSS">RSS</a> and <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> feeds for syndications. It even has a
+<p>The site also has <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/RSS">RSS</a> and <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> feeds for syndications. It even has a
 blogroll under the <em>Recommandations</em> Section in the footer. Well, you get it,
 I'm nostalgic of the old Web. It's absolutely incredible what it is possible
 to achieve today with HTML and CSS without any frameworks or polyfills. So much
 resources are wasted nowadays…</p>
-<h2 id="personnages"><q>Personnages</q><a role="presentation" class="anchor" href="#personnages" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="personnages"><q>Personnages</q><span class="toc-anchor" style="view-timeline-name: --toc-timeline-personnages"></span>
+<a role="presentation" class="anchor" href="#personnages" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The biggest novelty is <a href="https://mnt.io/lore/">the lore</a> I've developed for this new version
 of the site. Please, welcome 3 characters: <em>Le Compte</em>, <em>Le Factotum</em>, and <em>Le
 Procureur</em>.</p>
 <p>These characters will help to explain not trivial concepts by interacting with
 me. Let me copy the lore here.</p>
-<h3 id="le-comte">Le Comte<a role="presentation" class="anchor" href="#le-comte" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="le-comte">Le Comte
+<a role="presentation" class="anchor" href="#le-comte" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
@@ -354,7 +385,8 @@ about them!</p>
 rarely ask help to Le Procureur, we don't really appreciate his presence.</p>
   </div>
 </div>
-<h3 id="le-factotum">Le Factotum<a role="presentation" class="anchor" href="#le-factotum" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="le-factotum">Le Factotum
+<a role="presentation" class="anchor" href="#le-factotum" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <div class="conversation" data-character="factotum">
   <div class="conversation--character">
@@ -376,7 +408,8 @@ achieve its quests to learn everything about computers.</p>
 way to do that. And I always have a solution.</p>
   </div>
 </div>
-<h3 id="le-procureur">Le Procureur<a role="presentation" class="anchor" href="#le-procureur" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="le-procureur">Le Procureur
+<a role="presentation" class="anchor" href="#le-procureur" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <div class="conversation" data-character="procureur">
   <div class="conversation--character">
@@ -395,14 +428,15 @@ exactness, I know where to find the answer.</p>
 discipline.</p>
   </div>
 </div>
-<h2 id="optimised-for-smallness-speed-semantics-and-fun">Optimised for Smallness, Speed, Semantics and Fun!<a role="presentation" class="anchor" href="#optimised-for-smallness-speed-semantics-and-fun" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="optimised-for-smallness-speed-semantics-and-fun">Optimised for Smallness, Speed, Semantics and Fun!<span class="toc-anchor" style="view-timeline-name: --toc-timeline-optimised-for-smallness-speed-semantics-and-fun"></span>
+<a role="presentation" class="anchor" href="#optimised-for-smallness-speed-semantics-and-fun" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>At this step, it should be clear the site has been optimised for smallness,
-speed and semantics. Even the fonts aren't custom: I use <a rel="noopener external" target="_blank" href="https://modernfontstacks.com/">Modern Font Stacks</a>
+speed and semantics. Even the fonts aren't custom: I use <a rel="noopener noreferrer external" target="_blank" href="https://modernfontstacks.com/">Modern Font Stacks</a>
 to find a font stack that work on most computers. Two devices may not have the
 same look and feel for this site and that's perfectly fine. That's the nature of
 the Web.</p>
-<p>I encourage you <a rel="noopener external" target="_blank" href="https://github.com/Hywan/mnt.io">to read the source code of this site</a>, to fork it, to
+<p>I encourage you <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/mnt.io">to read the source code of this site</a>, to fork it, to
 play with it, to get inspired by it. It's important to own your content, and to
 not give your work to other platforms.</p>
 <p>I really hope you'll enjoy the content I'm preparing. You can start with the
@@ -411,7 +445,11 @@ first episode of the new series:
 See you there!</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/i-leave-wasmer/" class="button text-align-start">❮&nbsp;I&#39;ve loved Wasmer, I still love Wasmer</a><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="button text-align-end">Sliding Sync at the Matrix Conference&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/i-leave-wasmer/" class="button text-align-start">❮&nbsp;I've loved Wasmer, I still love Wasmer</a><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="button text-align-end">Sliding Sync at the Matrix Conference&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -486,7 +524,7 @@ See you there!</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

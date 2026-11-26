@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,34 +180,33 @@
     
   </div>
 
-    </header>
-
-    <p>Recently, I implemented xCal and xCard formats inside the <code>sabre/dav</code> libraries.
+    </header><p>Recently, I implemented xCal and xCard formats inside the <code>sabre/dav</code> libraries.
 While testing the different RFCs against my implementation, several errata have
 been found. This article, first, quickly list them and, second, ask questions
 about how such errors can be present and how they can be easily revealed. If
 reading my dry humor about RFC errata is boring, the next sections are more
 interesting. The whole idea is: Why RFCs do not provide executable test suites?</p>
-<h2 id="what-is-xcal-and-xcard">What Is xCal and xCard?<a role="presentation" class="anchor" href="#what-is-xcal-and-xcard" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-xcal-and-xcard">What Is xCal and xCard?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-what-is-xcal-and-xcard"></span>
+<a role="presentation" class="anchor" href="#what-is-xcal-and-xcard" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The Web is a read-only media. It is based on the HTTP protocol. However,
-there is the <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> protocol,
+there is the <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> protocol,
 standing for Web Distributed Authoring and Versioning. This is an
 extension to HTTP. <em>Et voilà !</em> The Web is a read and write media.
-WebDAV is standardized in <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc2518">RFC2518</a>
-and <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc4918">RFC4918</a>.</p>
-<p>Based on WebDAV, we have <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a>
-and <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>, respectively for
+WebDAV is standardized in <a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc2518">RFC2518</a>
+and <a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc4918">RFC4918</a>.</p>
+<p>Based on WebDAV, we have <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a>
+and <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/CardDAV">CardDAV</a>, respectively for
 reading and writing calendars and addressbooks. They are standardized in
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc4791">RFC4791</a>,
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6638">RFC6638</a> and
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6352">RFC6352</a>. Good! But these
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc4791">RFC4791</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc6638">RFC6638</a> and
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc6352">RFC6352</a>. Good! But these
 protocols only explain how to read and write, not how to represent a
 real calendar or an addressbook. So let's leave protocols for formats.</p>
-<p>The <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> format
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> format
 represents calendar events, like events (<code>VEVENT</code>), tasks (<code>VTODO</code>),
 journal entry (<code>VJOURNAL</code>, very rare…), free/busy time (<code>VFREEBUSY</code>)
-etc. The <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/VCard">vCard</a> format represents
+etc. The <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/VCard">vCard</a> format represents
 cards. The formats are very similar and share a common ancestry: This is
 a <strong>horrible</strong> line-, colon- and semicolon-, randomly-escaped based
 format. For instance:</p>
@@ -224,18 +223,18 @@ format. For instance:</p>
 <span class="giallo-l"><span>END:VCALENDAR</span></span></code></pre>
 <p>Horrible, yes. You were warned. These formats are standardized in
 several RFCs, to list some of them:
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc5545">RFC5545</a>,
-<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc2426">RFC2426</a> and
-<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc6350">RFC6350</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc5545">RFC5545</a>,
+<a rel="noopener noreferrer external" target="_blank" href="http://tools.ietf.org/html/rfc2426">RFC2426</a> and
+<a rel="noopener noreferrer external" target="_blank" href="http://tools.ietf.org/html/rfc6350">RFC6350</a>.</p>
 <p>This format is impossible to read, even for a computer. That's why we
 have jCal and jCard, which are respectively another representation of
-iCalendar and vCard but in <a rel="noopener external" target="_blank" href="http://json.org/">JSON</a>. JSON is quite
+iCalendar and vCard but in <a rel="noopener noreferrer external" target="_blank" href="http://json.org/">JSON</a>. JSON is quite
 popular in the Web today, especially because it eases the manipulation
 and exchange of data in Javascript. This is just a very simple, and
 —from my point of view— human readable, serialization format. jCal and
 jCard are respectively standardized in
-<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc7265">RFC7265</a> and
-<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc7095">RFC7095</a>. Thus, the equivalent of
+<a rel="noopener noreferrer external" target="_blank" href="http://tools.ietf.org/html/rfc7265">RFC7265</a> and
+<a rel="noopener noreferrer external" target="_blank" href="http://tools.ietf.org/html/rfc7095">RFC7095</a>. Thus, the equivalent of
 the previous iCalendar example in jCal is:</p>
 <pre class="giallo z-code" ><code data-lang="json"><span class="giallo-l"><span>[</span></span>
 <span class="giallo-l"><span class="z-11">    &quot;vcalendar&quot;</span><span class="z-10">,</span></span>
@@ -258,9 +257,9 @@ the previous iCalendar example in jCal is:</p>
 <span class="giallo-l"><span>]</span></span></code></pre>
 <p>Much better. But this is JSON, which is a rather loose format, so we
 also have xCal and xCard another representation of iCalendar and vCard
-but in <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/XML">XML</a>. They are standardized
-in <a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6321">RFC6321</a> and
-<a rel="noopener external" target="_blank" href="https://tools.ietf.org/html/rfc6351">RFC6351</a>. The same example in xCal
+but in <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/XML">XML</a>. They are standardized
+in <a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc6321">RFC6321</a> and
+<a rel="noopener noreferrer external" target="_blank" href="https://tools.ietf.org/html/rfc6351">RFC6351</a>. The same example in xCal
 looks like this:</p>
 <pre class="giallo z-code" ><code data-lang="xml"><span class="giallo-l"><span class="z-2">&lt;</span><span class="z-1">icalendar</span><span class="z-19"> xmlns</span><span>=</span><span class="z-11">&quot;urn:ietf:params:xml:ns:icalendar-2.0&quot;</span><span class="z-2">&gt;</span></span>
 <span class="giallo-l"><span class="z-2">  &lt;</span><span class="z-1">vcalendar</span><span class="z-2">&gt;</span></span>
@@ -299,7 +298,7 @@ looks like this:</p>
 namespaces… It is very easy to <strong>embed</strong> xCal and xCard inside other XML
 formats.</p>
 <p>Managing all these formats is an extremely laborious task. I suggest you
-to take a look at <a rel="noopener external" target="_blank" href="http://sabre.io/vobject/"><code>sabre/vobject</code></a> (see <a rel="noopener external" target="_blank" href="https://github.com/fruux/sabre-vobject/">the
+to take a look at <a rel="noopener noreferrer external" target="_blank" href="http://sabre.io/vobject/"><code>sabre/vobject</code></a> (see <a rel="noopener noreferrer external" target="_blank" href="https://github.com/fruux/sabre-vobject/">the
 Github repository of
 <code>sabre/vobject</code></a>). This is a
 PHP library to manage all the weird formats. The following example shows
@@ -316,26 +315,27 @@ how to read from iCalendar and write to jCal and xCal:</p>
 <span class="giallo-l"><span class="z-15">echo</span><span> Sabre</span><span class="z-10">\</span><span>VObject</span><span class="z-10">\</span><span class="z-1">Writer</span><span class="z-16">::</span><span class="z-19">writeXml</span><span>($document)</span><span class="z-10">;</span></span></code></pre>
 <p>Magic when you know the complexity of these formats (in both term of
 parsing and validation)!</p>
-<h2 id="list-of-errata">List of Errata<a role="presentation" class="anchor" href="#list-of-errata" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="list-of-errata">List of Errata<span class="toc-anchor" style="view-timeline-name: --toc-timeline-list-of-errata"></span>
+<a role="presentation" class="anchor" href="#list-of-errata" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Now, let's talk about all the errata I submited recently:</p>
 <ul>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4241">4241, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4241">4241, in
 RFC6351</a>
 (xCard),</li>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4243">4243, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4243">4243, in
 RFC6351</a>
 (xCard),</li>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4246">4246, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4246">4246, in
 RFC6350</a>
 (vCard),</li>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4247">4247, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4247">4247, in
 RFC6351</a>
 (xCard),</li>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4245">4245, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4245">4245, in
 RFC6350</a>
 (vCard),</li>
-<li><a rel="noopener external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4261">4261, in
+<li><a rel="noopener noreferrer external" target="_blank" href="http://www.rfc-editor.org/errata_search.php?eid=4261">4261, in
 RFC6350</a>
 (vCard).</li>
 </ul>
@@ -345,7 +345,7 @@ under-statement when you are reading RFCs for days straight, you have 10
 of them opened in your browser and trying to figure out how everything
 fits together and if you are doing everything correctly. Finding typos
 at that point in your process can be very confusing…</p>
-<p>4247 is more subtle. The RFC about xCard comes with an <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/XML_Schema_%28W3C%29">XML
+<p>4247 is more subtle. The RFC about xCard comes with an <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/XML_Schema_%28W3C%29">XML
 Schema</a>. That's
 great! It will help us to test our documents and see if they are valid
 or not! No? No.</p>
@@ -365,10 +365,11 @@ get me wrong: Everyone makes mistakes, but not this kind of error. I
 will explain why in the next section.</p>
 <p>4245 is not an editorial error but a technical one, under review.</p>
 <p>4261 is crazy. It deserves a whole sub-section.</p>
-<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the Crazy World of Date and Time Formats<a role="presentation" class="anchor" href="#welcome-in-the-crazy-world-of-date-and-time-formats" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="welcome-in-the-crazy-world-of-date-and-time-formats">Welcome in the Crazy World of Date and Time Formats
+<a role="presentation" class="anchor" href="#welcome-in-the-crazy-world-of-date-and-time-formats" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>There are two major popular date and time format:
-<a rel="noopener external" target="_blank" href="http://tools.ietf.org/html/rfc2822">RFC2822</a> and ISO.8601. Examples:</p>
+<a rel="noopener noreferrer external" target="_blank" href="http://tools.ietf.org/html/rfc2822">RFC2822</a> and ISO.8601. Examples:</p>
 <ul>
 <li><code>Fri, 27 Feb 2015 16:06:58 +0100</code> and</li>
 <li><code>2015-02-27T16:07:16+01:00</code>.</li>
@@ -376,7 +377,7 @@ will explain why in the next section.</p>
 <p>The second one is a good candidate for a computer representation: no
 locale, only digits, all information are present…</p>
 <p>Maybe you noticed there is no link on ISO.8601. Why? Because ISO
-standards are not free and I don't want <a rel="noopener external" target="_blank" href="http://www.iso.org/iso/catalogue_detail?csnumber=40874">to pay
+standards are not free and I don't want <a rel="noopener noreferrer external" target="_blank" href="http://www.iso.org/iso/catalogue_detail?csnumber=40874">to pay
 140€</a> to buy a
 standard…</p>
 <p>The date and time format adopted by iCalendar and vCard (and the rest of
@@ -417,7 +418,8 @@ is always October. Nevertheless, if we have a time value, <code>--10</code> is
 standardized. Why should we drag this crazy format along?</p>
 <p>Oh, and I assume every format depending on ISO.8601.2004 has this bug.
 But I am not sure because ISO standards are not free.</p>
-<h2 id="how-can-rfcs-have-such-errors">How Can RFCs Have Such Errors?<a role="presentation" class="anchor" href="#how-can-rfcs-have-such-errors" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="how-can-rfcs-have-such-errors">How Can RFCs Have Such Errors?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-how-can-rfcs-have-such-errors"></span>
+<a role="presentation" class="anchor" href="#how-can-rfcs-have-such-errors" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>So far, RFCs are textual standards. Great. But they are just text.
 Written by humans, and thus they are subject to errors or failures. It
@@ -428,10 +430,11 @@ will try to create a test suite on its own.</p>
 few people read the RFC and tried to write an implementation. This is my
 guess. However, it does not avoid the fact an executable test suite
 should (must?) be provided.</p>
-<h2 id="how-did-i-find-them">How Did I Find Them?<a role="presentation" class="anchor" href="#how-did-i-find-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="how-did-i-find-them">How Did I Find Them?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-how-did-i-find-them"></span>
+<a role="presentation" class="anchor" href="#how-did-i-find-them" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This is how I found these errors. I wrote
-<a rel="noopener external" target="_blank" href="https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php">a test suite for xCal and xCard in <code>sabre/vobject</code></a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/fruux/sabre-vobject/blob/master/tests/VObject/Parser/XmlTest.php">a test suite for xCal and xCard in <code>sabre/vobject</code></a>.
 I would love to write a test suite agnostic of the implementation, but I ran out
 of time. This is basically format transformation: R:x→y where R can be a
 reflexive operator or not (depending of the versions of iCalendar and vCard we
@@ -440,12 +443,17 @@ consider).</p>
 and 4261 (with the regular expressions), I found the error by applying the
 algorithms presented in
 <a href="https://mnt.io/articles/generate-strings-based-on-regular-expressions/">Generate strings based on regular expressions</a>.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>sabre/vobject</code> supports xCal and xCard.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/control-the-terminal-the-right-way/" class="button text-align-start">❮&nbsp;Control the terminal, the right way</a><a href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" class="button text-align-end">sabre/katana&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/control-the-terminal-the-right-way/" class="button text-align-start">❮&nbsp;Control the terminal, the right way</a><a href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" class="button text-align-end">sabre/katana&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -520,7 +528,7 @@ algorithms presented in
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

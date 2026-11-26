@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -181,17 +181,38 @@
   </div>
 
     </header>
+  
 
-    <p>Sit down comfortably. Take a cushion if you wish. This is, <i>clear its
-throat</i>, the story of a funny performance quest. The <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a> is a
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-incredibly-slow-sync"><a href="#incredibly-slow-sync">Incredibly slow sync</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-the-slow-query"><a href="#the-slow-query">The Slow Query</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-12-6x-faster"><a href="#12-6x-faster">12.6× Faster</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-211x-faster"><a href="#211x-faster">211× Faster</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-lessons"><a href="#lessons">Lessons</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+<p>Sit down comfortably. Take a cushion if you wish. This is, <i>clear its
+throat</i>, the story of a funny performance quest. The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a> is a
 set of crates aiming at providing all the necessary tooling to develop robust
-and safe <a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> clients. Of course, it involves databases to persist some
-data. The Matrix Rust SDK supports multiple databases: in-memory, <a rel="noopener external" target="_blank" href="https://sqlite.org/">SQLite</a>, and
-<a rel="noopener external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a>. This story is about the SQLite database.</p>
+and safe <a rel="noopener noreferrer external" target="_blank" href="https://matrix.org/">Matrix</a> clients. Of course, it involves databases to persist some
+data. The Matrix Rust SDK supports multiple databases: in-memory, <a rel="noopener noreferrer external" target="_blank" href="https://sqlite.org/">SQLite</a>, and
+<a rel="noopener noreferrer external" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a>. This story is about the SQLite database.</p>
 <p>The structure we want to persist is a novel type we have designed specifically
-for the Matrix Rust SDK: a <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/linked_chunk/index.html"><code>LinkedChunk</code></a>. It's the underlying structure that
+for the Matrix Rust SDK: a <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/linked_chunk/index.html"><code>LinkedChunk</code></a>. It's the underlying structure that
 holds all events manipulated by the Matrix Rust SDK. It is somewhat similar to
-a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Linked_List">linked list</a>; the differences are subtle and the goal of this article is
+a <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Linked_List">linked list</a>; the differences are subtle and the goal of this article is
 <em>not</em> to present all the details. We have developed many API around this type
 to make all operations fast and efficient in the context of the Matrix protocol.
 What we need to know is that in a <code>LinkedChunk&lt;_, Item, Gap&gt;</code>, each node
@@ -273,14 +294,14 @@ and <code>ChunkContent::Gap</code>. In <code>event_chunks</code>, each row corre
 position, <i>roll its eyes</i>… let's digress a bit, should we? Why is that? To
 handle out-of-band events. In the Matrix protocol, we can receive events via:</p>
 <ul>
-<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3sync">the <code>/sync</code> endpoint</a>, it's the main source of inputs, we get most
+<li><a rel="noopener noreferrer external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3sync">the <code>/sync</code> endpoint</a>, it's the main source of inputs, we get most
 of the events via this API,</li>
-<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidmessages">the <code>/messages</code> endpoint</a>, when we need to get events around a
+<li><a rel="noopener noreferrer external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidmessages">the <code>/messages</code> endpoint</a>, when we need to get events around a
 particular events; this is helpful if we need to paginate backwards or
 forwards around an event,</li>
-<li><a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidcontexteventid">the <code>/context</code> endpoint</a>, if we need to get more context about
+<li><a rel="noopener noreferrer external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#get_matrixclientv3roomsroomidcontexteventid">the <code>/context</code> endpoint</a>, if we need to get more context about
 an event.</li>
-<li>but there is more, like <a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#mroompinned_events">pinned events</a>, and so on.</li>
+<li>but there is more, like <a rel="noopener noreferrer external" target="_blank" href="https://spec.matrix.org/v1.15/client-server-api/#mroompinned_events">pinned events</a>, and so on.</li>
 </ul>
 <p>When an event is fetched but cannot be positioned regarding other events, it is
 considered <em>out-of-band</em>: it belongs to zero linked chunk, but we keep it in the
@@ -308,9 +329,10 @@ events, however we need:</p>
 </ul>
 <p>A first implementation has landed in the Matrix Rust SDK. All good. When
 suddenly…</p>
-<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="incredibly-slow-sync"><q cite="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">Incredibly slow sync</q><span class="toc-anchor" style="view-timeline-name: --toc-timeline-incredibly-slow-sync"></span>
+<a role="presentation" class="anchor" href="#incredibly-slow-sync" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fn-power-user">[1]</a></sup> was <a rel="noopener external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
+<p>A power-user<sup class="footnote-reference" id="fr-power-user-1"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/#fn-power-user">[1]</a></sup> was <a rel="noopener noreferrer external" target="_blank" href="https://github.com/element-hq/element-x-ios-rageshakes/issues/4248">experiencing slowness</a>. It's always
 a delicate situation. How to know the reason of the slowness? Is it the device?
 The network? The asynchronous runtime? A lock contention? The file system? …
 The database?</p>
@@ -319,11 +341,11 @@ nice and willing to help! We have added a bunch of logs, then the user has
 reproduced the problem, and shared their logs (via a rageshake) with us. Logs
 are never trivial to analyse. However, here is a tip we use in the Matrix Rust
 SDK: we have a special tracing type that logs the time spent in a portion of the
-code; called <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/tracing_timer/struct.TracingTimer.html"><code>TracingTimer</code></a>.</p>
+code; called <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/tracing_timer/struct.TracingTimer.html"><code>TracingTimer</code></a>.</p>
 <p>Basically, when a <code>TracingTimer</code> is created, it keeps its creation time in
 memory. And when the <code>TracingTimer</code> is dropped, it emits a log containing the
 elapsed time since its creation. It looks like this (it uses
-<a rel="noopener external" target="_blank" href="https://docs.rs/tracing/">the <code>tracing</code> library</a>):</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/tracing/">the <code>tracing</code> library</a>):</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub struct</span><span class="z-4"> TracingTimer</span><span> {</span></span>
 <span class="giallo-l"><span>    id</span><span class="z-16">:</span><span class="z-4"> String</span><span>,</span></span>
 <span class="giallo-l"><span>    callsite</span><span class="z-16">: &amp;</span><span>&#39;</span><span class="z-4">static DefaultCallsite</span><span>,</span></span>
@@ -360,7 +382,7 @@ elapsed time since its creation. It looks like this (it uses
 <span class="giallo-l"><span class="z-4">        tracing</span><span class="z-16">::</span><span class="z-4">Event</span><span class="z-16">::</span><span class="z-19">dispatch</span><span>(metadata,</span><span class="z-16"> &amp;</span><span>values);</span></span>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>And with that, let's use its companion macro <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/macro.timer.html"><code>timer!</code></a> (I won't copy-paste it
+<p>And with that, let's use its companion macro <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-common/0.14.0/matrix_sdk_common/macro.timer.html"><code>timer!</code></a> (I won't copy-paste it
 here, it's pretty straightforward):</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span>{</span></span>
 <span class="giallo-l"><span class="z-18">    let</span><span> _timer</span><span class="z-16"> =</span><span class="z-19"> timer!</span><span>(</span><span class="z-11">&quot;built something important&quot;</span><span>);</span></span>
@@ -387,8 +409,8 @@ in your code, and refine if necessary.</p>
 far superior at analysing performance problems, compared to your… rustic
 <code>TracingTimer</code> (pun intended!). Such programs can provide flamegraphs, call
 trees etc.</p>
-<p>I'm personally a regular user of <a rel="noopener external" target="_blank" href="https://github.com/mstange/samply">samply</a>, a command line CPU profiler relying
-on the <a rel="noopener external" target="_blank" href="https://github.com/firefox-devtools/profiler">Firefox profiler</a> for its UI. It works on macOS, Linux and Windows.</p>
+<p>I'm personally a regular user of <a rel="noopener noreferrer external" target="_blank" href="https://github.com/mstange/samply">samply</a>, a command line CPU profiler relying
+on the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/firefox-devtools/profiler">Firefox profiler</a> for its UI. It works on macOS, Linux and Windows.</p>
   </div>
 </div>
 <p>I do also use <code>samply</code> pretty often! But you need an access to the processes
@@ -397,7 +419,7 @@ clients. We have no access to it. It lives on devices everywhere around the
 world. We may use better log analysers to infer “call trees”, but supporting
 asynchronous logs (because the code is asynchronous) makes it very difficult.
 And I honestly don't know if such a thing exists.</p>
-<p>So. Yes. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5407">We found the culprit</a>. With <a rel="noopener external" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, we were able to scan
+<p>So. Yes. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5407">We found the culprit</a>. With <a rel="noopener noreferrer external" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, we were able to scan
 megabytes of logs and find the culprit pretty quickly. I was looking for lags of
 the order of a second. I wasn't disappointed:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> rg </span><span class="z-11">&#39;_method_ finished in.*&gt; load_all_chunks_metadata&#39;</span><span> all.log </span><span class="z-16">|</span><span class="z-4"> rg</span><span class="z-11"> &#39;\d+(\.\d+)?s&#39;</span><span class="z-8"> --only-matching</span><span class="z-16"> |</span><span class="z-4"> sort</span><span class="z-8"> --numeric-sort --reverse</span></span>
@@ -414,7 +436,8 @@ the order of a second. I wasn't disappointed:</p>
 <span class="giallo-l"><span>3.689340667s</span></span>
 <span class="giallo-l"><span>3.661383208s</span></span></code></pre>
 <p>107 seconds. Be 1 minute and 47 seconds. Hello sweety.</p>
-<h2 id="the-slow-query">The Slow Query<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-slow-query">The Slow Query<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-slow-query"></span>
+<a role="presentation" class="anchor" href="#the-slow-query" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p><code>load_all_chunks_metadata</code> is a method that runs this SQL query:</p>
 <pre class="giallo z-code" ><code data-lang="sql"><span class="giallo-l"><span class="z-18">SELECT</span></span>
@@ -444,9 +467,10 @@ are 300 gaps for this linked chunk, and 5000 events, 1.5 millions events will
 be scanned for <strong>no reason</strong>!</li>
 </ol>
 <p>How lovingly inefficient.</p>
-<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> Faster<a role="presentation" class="anchor" href="#12-6x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="12-6x-faster"><math><mn>12.6</mn><mo>×</mo></math> Faster<span class="toc-anchor" style="view-timeline-name: --toc-timeline-12-6x-faster"></span>
+<a role="presentation" class="anchor" href="#12-6x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p><q>Let's use an <a rel="noopener external" target="_blank" href="https://sqlite.org/lang_createindex.html"><code>INDEX</code></a></q> I hear you say (let's pretend
+<p><q>Let's use an <a rel="noopener noreferrer external" target="_blank" href="https://sqlite.org/lang_createindex.html"><code>INDEX</code></a></q> I hear you say (let's pretend
 you're saying that, please, for the sake of the narrative!).</p>
 <p>A database index provides rapid lookups after all. It has become a reflex
 amongst the developer community.</p>
@@ -478,19 +502,19 @@ to a logarithmic lookup,
 <mo>)</mo>
 <mo>)</mo>
 </math>.
-See <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Database_index">Database index</a> to learn more.</p>
+See <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Database_index">Database index</a> to learn more.</p>
   </div>
 </div>
 <p>That's correct. But we didn't want to use an index here. The reason is twofold:</p>
 <ol>
 <li><strong>More spaces</strong>. Remember that <em>Le Procureur</em> said an index contains a
-<em>copy</em> of the data. Here, the data is <a rel="noopener external" target="_blank" href="https://spec.matrix.org/v1.15/appendices/#event-ids">the event ID</a>. It's not
+<em>copy</em> of the data. Here, the data is <a rel="noopener noreferrer external" target="_blank" href="https://spec.matrix.org/v1.15/appendices/#event-ids">the event ID</a>. It's not
 heavy, but it's not nothing. Moreover, we are not counting the <em>key</em> to
 associate the <em>copied data</em> to the row containing the real data in the source
 table.</li>
 <li><strong>Still extra useless time</strong>. We would still need to traverse the index for
 gaps, which is pointless.
-<a rel="noopener external" target="_blank" href="https://sqlite.org/arch.html">SQLite implements indexes as B-Trees</a>, which is really
+<a rel="noopener noreferrer external" target="_blank" href="https://sqlite.org/arch.html">SQLite implements indexes as B-Trees</a>, which is really
 efficient, but still, we already know that a gap has zero event because…
 it's… a gap between events!</li>
 </ol>
@@ -509,7 +533,7 @@ events—, and <code>G</code> when of kind <code>ChunkContent::Gap</code> —it 
   </div>
   <div class="conversation--message">
     <p>May I interrupt?</p>
-<p>Do you know that SQLite provides <a rel="noopener external" target="_blank" href="https://sqlite.org/lang_expr.html#the_case_expression">a <code>CASE</code> expression</a>? I know it's
+<p>Do you know that SQLite provides <a rel="noopener noreferrer external" target="_blank" href="https://sqlite.org/lang_expr.html#the_case_expression">a <code>CASE</code> expression</a>? I know it's
 unusual. SQL designers prefer to think in terms of sets, sub-sets, joins,
 temporal tables, partial indexes… but honestly, for what I'm concerned, in
 our case, it's simple enough and it can be powerful. It's a maddeningly
@@ -543,6 +567,7 @@ A set of data we consider <em>realistic</em> somehow for a normal user (not for 
 power-user though, because a power-user has usually more gaps than events). Here
 are the before/after results.</p>
 <figure>
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -594,6 +619,7 @@ are the before/after results.</p>
   <figcaption>
 <p>Benchmark's results for the original query with <code>COUNT</code> and <code>LEFT JOIN</code>.</p>
   </figcaption>
+</div>
 </figure>
 <details>
   <summary>
@@ -614,6 +640,7 @@ the <code>LEFT JOIN</code> approach</p>
   </figure>
 </details>
 <figure>
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -665,6 +692,7 @@ the <code>LEFT JOIN</code> approach</p>
   <figcaption>
 <p>Benchmark's results for the new query with the <code>CASE</code> expression.</p>
   </figcaption>
+</div>
 </figure>
 <details>
   <summary>
@@ -685,10 +713,11 @@ for the <code>CASE</code> approach</p>
   </figure>
 </details>
 <p>The throughput and the time are <math><mn>12.6</mn><mo>×</mo></math> better. No
-<code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
+<code>INDEX</code>. No more <code>LEFT JOIN</code>. Just a simple <code>CASE</code> expression. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5411">You can see the
 patches containing the benchmark and the fix</a>.</p>
 <p>But that's not all…</p>
-<h2 id="211x-faster"><math><mn>211</mn><mo>×</mo></math> Faster<a role="presentation" class="anchor" href="#211x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="211x-faster"><math><mn>211</mn><mo>×</mo></math> Faster<span class="toc-anchor" style="view-timeline-name: --toc-timeline-211x-faster"></span>
+<a role="presentation" class="anchor" href="#211x-faster" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It's clearly better, but we couldn't stop ourselves. Having spotted the problem,
 and having found this solution, it has made us creative! We have noticed that
@@ -761,6 +790,7 @@ in the <code>HashMap</code>.</li>
 <p>Only two queries. All tests are passing. Now let's see what the benchmark has to
 say!</p>
 <figure>
+<div class="overflow-inline">
   <table>
     <thead>
       <tr>
@@ -812,6 +842,7 @@ say!</p>
   <figcaption>
 <p>Benchmark's results for the two queries approach.</p>
   </figcaption>
+</div>
 </figure>
 <details>
   <summary>
@@ -834,18 +865,19 @@ for the two queries approach</p>
 <p><strong>It is <math><mn>16.7</mn><mo>×</mo></math> faster compared to the previous
 solution, so <math><mn>211</mn><mo>×</mo></math> faster than the first query!
 We went from 502ms to 2ms. That's mental! From a throughput of 19.9 Kelem/s
-to 4.2 Melem/s!</strong> <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5425">You can see the patches containing the improvement</a>.</p>
+to 4.2 Melem/s!</strong> <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/pull/5425">You can see the patches containing the improvement</a>.</p>
 <p>The throughput is measured by <em>element</em>, where an <em>element</em> here represents
 a Matrix event. Consequently, 4 Melem/s means 4 millions events per second,
 which means that <code>load_all_chunks_metadata</code> can do its computation at a rate of
 4 millions events per second.</p>
 <p>I think we can stop here. Performance are finally acceptable.</p>
-<h2 id="lessons">Lessons<a role="presentation" class="anchor" href="#lessons" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="lessons">Lessons<span class="toc-anchor" style="view-timeline-name: --toc-timeline-lessons"></span>
+<a role="presentation" class="anchor" href="#lessons" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <ul>
-<li><a rel="noopener external" target="_blank" href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>
+<li><a rel="noopener noreferrer external" target="_blank" href="https://bheisler.github.io/criterion.rs/book/index.html">Write benchmarks (with Criterion)</a>.</li>
 <li>Run benchmarks.</li>
-<li>Be aware of <a rel="noopener external" target="_blank" href="https://sqlite.org/queryplanner-ng.html">the SQL query planner</a>.</li>
+<li>Be aware of <a rel="noopener noreferrer external" target="_blank" href="https://sqlite.org/queryplanner-ng.html">the SQL query planner</a>.</li>
 <li>Be careful with joins.</li>
 <li>Know your data.</li>
 <li>Take a step back and count.</li>
@@ -854,7 +886,7 @@ which means that <code>load_all_chunks_metadata</code> can do its computation at
 <p>Notice how the SQL tables layout didn't change. Notice how the <code>LinkedChunk</code>
 implementation didn't change. Only the SQL queries have changed, and it has
 dramatically improved the situation.</p>
-<p>This is joint effort between <a rel="noopener external" target="_blank" href="https://bouvier.cc/">Benjamin Bouvier</a>, <a rel="noopener external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> and
+<p>This is joint effort between <a rel="noopener noreferrer external" target="_blank" href="https://bouvier.cc/">Benjamin Bouvier</a>, <a rel="noopener noreferrer external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> and
 I.</p>
 <section class="footnotes">
 <ol class="footnotes-list">
@@ -873,7 +905,11 @@ Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped 
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="button text-align-start">❮&nbsp;Sliding Sync at the Matrix Conference</a><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-end">About memory pressure, lock contention, and Data-oriented Design&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/sliding-sync-at-the-matrix-conference/" class="button text-align-start">❮&nbsp;Sliding Sync at the Matrix Conference</a><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-end">About memory pressure, lock contention, and Data-oriented Design&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -948,7 +984,7 @@ Rust types, like <code>u64</code> or <code>Option&lt;u64&gt;</code>, are mapped 
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

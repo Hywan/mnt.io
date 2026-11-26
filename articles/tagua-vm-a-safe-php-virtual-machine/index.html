@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,9 +180,7 @@
     
   </div>
 
-    </header>
-
-    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ymy8qAEe0kQ?si=_7IlrTO1VzOriUKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </header><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ymy8qAEe0kQ?si=_7IlrTO1VzOriUKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
 </iframe>
 <p>PHPTour Nantes 2017 (in French):</p>
 <blockquote>
@@ -215,11 +213,15 @@ pourquoi il reçoit le soutient d'une communauté grandissante et de
 développeurs notables (avec un rôle important dans le développement de
 PHP).</p>
 </blockquote>
-<p><a rel="noopener external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">View
+<p><a rel="noopener noreferrer external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">View
 slides</a>.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/faster-find-algorithms-in-nom/" class="button text-align-start">❮&nbsp;Faster find algorithms in nom</a><a href="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/" class="button text-align-end">Finite-State Machine as a Type System illustrated with a store product&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/faster-find-algorithms-in-nom/" class="button text-align-start">❮&nbsp;Faster find algorithms in nom</a><a href="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/" class="button text-align-end">Finite-State Machine as a Type System illustrated with a store product&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -294,7 +296,7 @@ slides</a>.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

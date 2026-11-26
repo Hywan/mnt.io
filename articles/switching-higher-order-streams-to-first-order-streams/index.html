@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -181,8 +181,27 @@
   </div>
 
     </header>
+  
 
-    <p><em>Stream</em> is to <em>Future</em> what <em>Iterator</em> is to <em>value</em>:</p>
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-gesta-non-verba-flatten"><a href="#gesta-non-verba-flatten">Gesta non verba — Flatten</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-ad-astra-switching-between-streams-dynamically"><a href="#ad-astra-switching-between-streams-dynamically">Ad astra — Switching Between Streams Dynamically</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-acta-fabula-est"><a href="#acta-fabula-est">Acta fabula est</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+<p><em>Stream</em> is to <em>Future</em> what <em>Iterator</em> is to <em>value</em>:</p>
 <ul>
 <li>An iterator produces values synchronously,</li>
 <li>A stream produces values asynchronously,</li>
@@ -216,7 +235,7 @@
 <span class="giallo-l"><span class="z-7 z-i">    /// The value is immediately ready!</span></span>
 <span class="giallo-l"><span class="z-19">    Ready</span><span>(</span><span class="z-4">T</span><span>),</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>(Let's ignore <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/pin/struct.Pin.html"><code>Pin</code></a> and <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/struct.Context.html"><code>Context</code></a> in this article<sup class="footnote-reference" id="fr-pin-1"><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/#fn-pin">[1]</a></sup>).</p>
+<p>(Let's ignore <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/pin/struct.Pin.html"><code>Pin</code></a> and <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/task/struct.Context.html"><code>Context</code></a> in this article<sup class="footnote-reference" id="fr-pin-1"><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/#fn-pin">[1]</a></sup>).</p>
 <p><code>Poll::Pending</code> means that no value is ready yet: the <code>Stream</code> must be polled
 later. When is the best time to poll the <code>Stream</code> again is not the topic of this
 article and won't be discussed. <code>Poll::Ready(Some(T))</code> means the value is ready
@@ -325,7 +344,8 @@ type <code>Stream::Item</code>) to a new type <code>U</code>, resulting in anoth
 <p>The method <code>filter</code> takes a function <code>F</code> that tells if the items of the <code>Stream</code>
 should be kept or not, resulting in another <code>Stream</code> with the same type for
 the items.</p>
-<h2 id="gesta-non-verba-flatten"><q lang="la">Gesta non verba</q> — Flatten<a role="presentation" class="anchor" href="#gesta-non-verba-flatten" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="gesta-non-verba-flatten"><q lang="la">Gesta non verba</q> — Flatten<span class="toc-anchor" style="view-timeline-name: --toc-timeline-gesta-non-verba-flatten"></span>
+<a role="presentation" class="anchor" href="#gesta-non-verba-flatten" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Okay. Another one? Just like <code>Iterator::flatten</code>, <code>Stream::flatten</code> can exist
 too. The idea is to flatten a stream of streams, i.e. an outer stream yielding
@@ -470,7 +490,7 @@ see a bit of Rust code to understand how it would work:</p>
 <span class="giallo-l"><span>    }</span></span>
 <span class="giallo-l"><span>}</span></span>
 <span class="giallo-l"></span></code></pre>
-<p>A cakewalk. Thanks to <code>Poll</code> being an enum, and <code>match</code> being <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/reference/expressions/match-expr.html"><code>match</code></a>, this
+<p>A cakewalk. Thanks to <code>Poll</code> being an enum, and <code>match</code> being <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/expressions/match-expr.html"><code>match</code></a>, this
 code is easy to read and to understand. No surprise. Almost boring.</p>
 <p>We notice that each newly polled inner stream —i.e. produced by the outer
 stream— is consumed <strong>entirely</strong> until it's closed. Then, a new inner stream is
@@ -572,7 +592,7 @@ stream <em>B</em>, which itself produces 4 and 5. It keeps going with the outer 
 producing the inner stream <em>C</em>, which itself produces 6 and 7.</p>
 </figcaption>
 </figure>
-<p>Action time via a basic example, this time with the help of <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/">the <code>futures</code>
+<p>Action time via a basic example, this time with the help of <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/">the <code>futures</code>
 crate</a>.</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// `StreamExt` is the trait that “extends” the `Stream` trait.</span></span>
 <span class="giallo-l"><span class="z-7 z-i">// It contains all the combinators.</span></span>
@@ -602,18 +622,18 @@ crate</a>.</p>
 <code>block_on</code> function is a special executor that runs a future to completion on
 the current thread. It's perfect in our case as we just want to run a single
 asynchronous block, i.e. a future.</li>
-<li><a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html"><code>stream::iter</code></a> builds a special stream called
-<a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html"><code>Iter</code></a>. It converts an <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>Iterator</code></a> into a <code>Stream</code>. One can argue this is
+<li><a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html"><code>stream::iter</code></a> builds a special stream called
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.iter.html"><code>Iter</code></a>. It converts an <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>Iterator</code></a> into a <code>Stream</code>. One can argue this is
 a bit useless as all items are already known. To whom I would gently remind…
 it's an example! It's here to illustrate the behaviour of <code>flatten</code>.</li>
 <li>So. <code>stream::iter</code>. We are building the outer stream that produces three inner
 streams. These inner streams are all <code>stream::iter</code> streams too. How lovingly
 pleasant.</li>
-<li>Finally, <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.flatten"><code>flatten</code></a> is called right before
+<li>Finally, <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.flatten"><code>flatten</code></a> is called right before
 returning the flattened <code>stream</code>.</li>
 </ul>
 <p>To test what the stream will return, we use the combinator
-<a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.collect"><code>collect</code></a>, which collects all items, here in a
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/trait.StreamExt.html#method.collect"><code>collect</code></a>, which collects all items, here in a
 <code>Vec</code>. Since <code>collect</code> does <em>not</em> return a <code>Stream</code> but a <code>Future</code>: it produces
 a single value, not many. That's why we can simply <code>await</code> for the result. And
 speaking of result: it displays…</p>
@@ -660,7 +680,8 @@ if it produces non-stream items, and a stream is a higher-order stream if:</p>
 of <code>T</code>. We go from a higher-order stream to a first-order stream.</p>
   </div>
 </div>
-<h2 id="ad-astra-switching-between-streams-dynamically"><q lang="la">Ad astra</q> — Switching Between Streams Dynamically<a role="presentation" class="anchor" href="#ad-astra-switching-between-streams-dynamically" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="ad-astra-switching-between-streams-dynamically"><q lang="la">Ad astra</q> — Switching Between Streams Dynamically<span class="toc-anchor" style="view-timeline-name: --toc-timeline-ad-astra-switching-between-streams-dynamically"></span>
+<a role="presentation" class="anchor" href="#ad-astra-switching-between-streams-dynamically" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Good news: this is the end of the introduction. Another good news: now we can
 talk about the <code>switch</code> combinator!</p>
@@ -975,11 +996,11 @@ the list must be reset (with <code>Reset</code>), and then new updates can be pr
 <p>Excellent idea! Let's write it.</p>
 <p>First off, we need a way to have a stream that produces values coming from
 another channel. <i>head is getting warm</i> Eh, <em>channel</em>! The <code>futures</code> crate
-provides a <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/channel/mpsc/index.html"><code>channel::mpsc</code></a> module! <code>mpsc</code> stands
+provides a <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/channel/mpsc/index.html"><code>channel::mpsc</code></a> module! <code>mpsc</code> stands
 for <em>multi-producer, single-consumer</em>, that's one kind of queue for sending
 values across asynchronous tasks. Basically, we have one or many <em>senders</em> (the
 <em>producers</em>) and a <em>receiver</em> (the <em>consumer</em>). <i>scroll the documentation</i>.
-<a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/channel/mpsc/struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E">The <code>Receiver</code> type implements <code>Stream</code></a>! Okay,
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/channel/mpsc/struct.Receiver.html#impl-Stream-for-Receiver%3CT%3E">The <code>Receiver</code> type implements <code>Stream</code></a>! Okay,
 it's official, the <em>receiver</em> part is our outer stream here:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">use</span><span class="z-4"> futures</span><span class="z-16">::</span><span class="z-4">channel</span><span class="z-16">::</span><span>mpsc;</span></span>
 <span class="giallo-l"></span>
@@ -1013,7 +1034,7 @@ wait a second, how do we create a <code>Stream</code> quickly without having to 
   <div class="conversation--message">
     <p><q lang="la">Aut disce aut discede</q> (see, I know Latin too!). <i>clear his
 throat</i>. Hum hum. Once again, the <code>futures</code> crate has got you covered! There
-is this excellent <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html"><code>stream::poll_fn</code></a> function: it
+is this excellent <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.32/futures/stream/fn.poll_fn.html"><code>stream::poll_fn</code></a> function: it
 creates a <code>Stream</code> that runs the given function when polled.</p>
   </div>
 </div>
@@ -1083,30 +1104,35 @@ these two streams and —come on!— let's use the <code>switch</code> combinato
 <span class="giallo-l"><span>);</span></span></code></pre>
 <p>Tadaa! It's the same <code>stream</code>. We keep polling it. But the inner stream is reset
 <em>dynamically</em>. How cool is that?</p>
-<h2 id="acta-fabula-est"><q lang="la">Acta fabula est</q><a role="presentation" class="anchor" href="#acta-fabula-est" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="acta-fabula-est"><q lang="la">Acta fabula est</q><span class="toc-anchor" style="view-timeline-name: --toc-timeline-acta-fabula-est"></span>
+<a role="presentation" class="anchor" href="#acta-fabula-est" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>In this journey, we played with streams. We can even brag we understand
 what first-order and higher-order streams mean. We introduced a new kind
 of stream: <code>Switch</code>. We also saw how the <code>futures</code> crate contains <em>many</em>
-useful tools. That's why I've opened the <a rel="noopener external" target="_blank" href="https://github.com/rust-lang/futures-rs/pull/2997">pull request #2997, <em>feat: Add
+useful tools. That's why I've opened the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/futures-rs/pull/2997">pull request #2997, <em>feat: Add
 <code>StreamExt::switch</code></em> on <code>rust-lang/futures-rs</code></a>. This
-is a port of the <a rel="noopener external" target="_blank" href="https://github.com/jplatte/async-rx"><code>async_rx::Switch</code></a> implementation, written by <a rel="noopener external" target="_blank" href="https://social.tchncs.de/@jplatte">Jonas
+is a port of the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/async-rx"><code>async_rx::Switch</code></a> implementation, written by <a rel="noopener noreferrer external" target="_blank" href="https://social.tchncs.de/@jplatte">Jonas
 Platte</a> and maintained by Jonas and I, initially for the purpose of the
-<a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. We thought it could be useful for other
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. We thought it could be useful for other
 persons, so here we are. This was the motivation behind this article: explaining
 how <code>switch</code> differs from <code>flatten</code>, and how useful it can be.</p>
 <p>Hope you had fun!</p>
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-pin">
-<p>I recommend to read <a rel="noopener external" target="_blank" href="https://without.boats/blog/pin/"><em>Pin</em></a>, it's an excellent article that goes in
+<p>I recommend to read <a rel="noopener noreferrer external" target="_blank" href="https://without.boats/blog/pin/"><em>Pin</em></a>, it's an excellent article that goes in
 depth about pinning. <a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/#fr-pin-1">↩</a></p>
 </li>
 </ol>
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-start">❮&nbsp;About memory pressure, lock contention, and Data-oriented Design</a><a href="https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/" class="button text-align-end">Speedrun a client at the Matrix Conference&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/" class="button text-align-start">❮&nbsp;About memory pressure, lock contention, and Data-oriented Design</a><a href="https://mnt.io/articles/speedrun-a-client-at-the-matrix-conference/" class="button text-align-end">Speedrun a client at the Matrix Conference&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -1181,7 +1207,7 @@ depth about pinning. <a href="https://mnt.io/articles/switching-higher-order-str
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

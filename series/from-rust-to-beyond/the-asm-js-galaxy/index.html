@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -186,6 +186,30 @@
 
     </header>
 
+    
+  
+
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-what-is-asm-js-and-why"><a href="#what-is-asm-js-and-why">What Is ASM.js, and Why?</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-rust-rocket-asm-js"><a href="#rust-rocket-asm-js">Rust 🚀 ASM.js</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-asm-js-rocket-javascript"><a href="#asm-js-rocket-javascript">ASM.js 🚀 Javascript</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-conclusion"><a href="#conclusion">Conclusion</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+
+
     <p>The second galaxy that our Rust parser will explore is the ASM.js galaxy. This
 post will explain what ASM.js is, how to compile the parser into ASM.js, and how
 to use the ASM.js module with Javascript in a browser. The goal is to use ASM.js
@@ -193,7 +217,8 @@ as a fallback to WebAssembly when it is not available. I highly recommend to
 read
 <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the previous episode</a>
 about WebAssembly since they have a lot in common.</p>
-<h2 id="what-is-asm-js-and-why">What Is ASM.js, and Why?<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-asm-js-and-why">What Is ASM.js, and Why?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-what-is-asm-js-and-why"></span>
+<a role="presentation" class="anchor" href="#what-is-asm-js-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The main programming language on the Web is Javascript. Applications
 that want to exist on the Web had to compile to Javascript, like for
@@ -205,7 +230,7 @@ Javascript is a compilation target, and as such, some language
 constructions are useless (like <code>eval</code>).</p>
 <p>So what if a “new” language can be a compilation target and still be
 executed by Javascript virtual machines? This is WebAssembly today, but
-in 2013, the solution was <a rel="noopener external" target="_blank" href="http://asmjs.org/">ASM.js</a>:</p>
+in 2013, the solution was <a rel="noopener noreferrer external" target="_blank" href="http://asmjs.org/">ASM.js</a>:</p>
 <blockquote>
 <p><strong>asm.js</strong>, a strict subset of Javascript that can be used as a
 low-level, efficient target language for compilers. This sublanguage
@@ -259,7 +284,7 @@ to the Web looks like this:</p>
 <p>Classical ASM.js compilation and execution pipeline from C or C++ to the Web.</p>
   </figcaption>
 </figure>
-<p><a rel="noopener external" target="_blank" href="http://kripken.github.io/emscripten-site/">Emscripten</a>, as seen in the
+<p><a rel="noopener noreferrer external" target="_blank" href="http://kripken.github.io/emscripten-site/">Emscripten</a>, as seen in the
 schema above, is a very important project in this whole evolution of the
 Web platform. Emscripten is:</p>
 <blockquote>
@@ -270,14 +295,15 @@ plugins.</p>
 <p>You are very likely to see this name one day or another if you work with
 ASM.js or WebAssembly.</p>
 <p>I will not explain deeply what ASM.js is with a lot of examples. I
-recommend instead to read <a rel="noopener external" target="_blank" href="https://johnresig.com/blog/asmjs-javascript-compile-target/">Asm.js: The Javascript Compile
+recommend instead to read <a rel="noopener noreferrer external" target="_blank" href="https://johnresig.com/blog/asmjs-javascript-compile-target/">Asm.js: The Javascript Compile
 Target</a> by
-John Resig, or <a rel="noopener external" target="_blank" href="http://kripken.github.io/mloc_emscripten_talk/">Big Web app? Compile
+John Resig, or <a rel="noopener noreferrer external" target="_blank" href="http://kripken.github.io/mloc_emscripten_talk/">Big Web app? Compile
 it!</a> by Alon Zakai.</p>
 <p>Our process will be different though. We will not compile our Rust code
 directly to ASM.js, but instead, we will compile it to WebAssembly,
 which in turn will be compiled into ASM.js.</p>
-<h2 id="rust-rocket-asm-js">Rust 🚀 ASM.js<a role="presentation" class="anchor" href="#rust-rocket-asm-js" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rust-rocket-asm-js">Rust 🚀 ASM.js<span class="toc-anchor" style="view-timeline-name: --toc-timeline-rust-rocket-asm-js"></span>
+<a role="presentation" class="anchor" href="#rust-rocket-asm-js" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/./rust-to-asm-js.png" alt="Rust to ASM.js" loading="lazy" decoding="async" /></p>
@@ -295,7 +321,7 @@ our program on the Web.</p>
 <li>Compile your WebAssembly binary into an ASM.js module,</li>
 <li>Optimise and shrink the ASM.js module.</li>
 </ol>
-<p><a rel="noopener external" target="_blank" href="https://github.com/WebAssembly/binaryen">The wasm2js tool</a> will be your
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/WebAssembly/binaryen">The wasm2js tool</a> will be your
 best companion to compile the WebAssembly binary into an ASM.js module.
 It is part of Binaryen project. Then, assuming we have the WebAssembly
 binary of our program, all we have to do is:</p>
@@ -303,7 +329,7 @@ binary of our program, all we have to do is:</p>
 <p>At this step, the <code>gutenberg_post_parser.asm.js</code> weights 212kb. The file
 contains ECMAScript 6 code. And remember that old browsers are
 considered, like Internet Explorer, so the code needs to be transformed
-a little bit. To optimise and shrink the ASM.js module, we will use <a rel="noopener external" target="_blank" href="https://github.com/mishoo/UglifyJS2/tree/harmony">the
+a little bit. To optimise and shrink the ASM.js module, we will use <a rel="noopener noreferrer external" target="_blank" href="https://github.com/mishoo/UglifyJS2/tree/harmony">the
 <code>uglify-es</code> tool</a>,
 like this:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> # Transform code, and embed in a</span><span class="z-18"> function</span><span class="z-19">.</span></span>
@@ -314,8 +340,8 @@ like this:</p>
 <span class="giallo-l"><span class="z-10">$</span><span> uglifyjs --compress --mangle --output .temp.asm.js gutenberg_post_parser.asm.js</span></span>
 <span class="giallo-l"><span class="z-10">$</span><span> mv .temp.asm.js gutenberg_post_parser.asm.js</span></span></code></pre>
 <p>Just like we did for the WebAssembly binary, we can compress the
-resulting files with <a rel="noopener external" target="_blank" href="http://www.gzip.org/"><code>gzip</code></a> and
-<a rel="noopener external" target="_blank" href="https://github.com/google/brotli"><code>brotli</code></a>:</p>
+resulting files with <a rel="noopener noreferrer external" target="_blank" href="http://www.gzip.org/"><code>gzip</code></a> and
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/google/brotli"><code>brotli</code></a>:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> # Compress.</span></span>
 <span class="giallo-l"><span class="z-10">$</span><span> gzip --best --stdout gutenberg_post_parser.asm.js </span><span class="z-16">&gt;</span><span> gutenberg_post_parser.asm.js.gz</span></span>
 <span class="giallo-l"><span class="z-10">$</span><span> brotli --best --stdout --lgwin</span><span class="z-16">=</span><span class="z-11">24</span><span class="z-4"> gutenberg_post_parser.asm.js</span><span class="z-16"> &gt;</span><span class="z-11"> gutenberg_post_parser.asm.js.br</span></span></code></pre>
@@ -341,7 +367,8 @@ once compiled to Javascript? See bellow:</p>
   </figcaption>
 </figure>
 <p>I like it probably too much.</p>
-<h2 id="asm-js-rocket-javascript">ASM.js 🚀 Javascript<a role="presentation" class="anchor" href="#asm-js-rocket-javascript" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="asm-js-rocket-javascript">ASM.js 🚀 Javascript<span class="toc-anchor" style="view-timeline-name: --toc-timeline-asm-js-rocket-javascript"></span>
+<a role="presentation" class="anchor" href="#asm-js-rocket-javascript" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The resulting <code>gutenberg_post_parser.asm.js</code> file contains a single
 function named <code>GUTENBERG_POST_PARSER_ASM_MODULE</code> which returns an
@@ -361,12 +388,13 @@ the code of the boundary layer is strictly the same. Do you remember the
 <code>Module</code> object in our WebAssembly Javascript boundary? This is exactly what the
 <code>GUTENBERG_POST_PARSER_ASM_MODULE</code> function returns. You can replace <code>Module</code> by
 the returned object, <em>et voilà</em>!</p>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands here</a>.
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/asmjs/bin/gutenberg_post_parser.asm.mjs">The entired code lands here</a>.
 It completely reuses the Javascript boundary layer for WebAssembly. It just sets
 the <code>Module</code> differently, and it does not load the WebAssembly binary.
 Consequently, the ASM.js boundary layer is made of 34 lines of code, only 🙃. It
 compresses to 218 bytes.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We have seen that ASM.js can be fallback to WebAssembly in environments
 that only support Javascript (like Internet Explorer), with or without
@@ -384,13 +412,13 @@ implementations. Let's run the same benchmark but use the Rust parser as
 an ASM.js module:</p>
 <figure>
 <table><thead><tr><th>Document</th><th>Javascript parser (ms)</th><th>Rust parser as an ASM.js module (ms)</th><th>speedup</th></tr></thead><tbody>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>15.368</td><td>2.718</td><td>× 6</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>31.022</td><td>8.004</td><td>× 4</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>106.416</td><td>19.223</td><td>× 6</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>82.92</td><td>27.197</td><td>× 3</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>119.880</td><td>38.321</td><td>× 3</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>349.075</td><td>23.656</td><td>× 15</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>2,543.75</td><td>361.423</td><td>× 7</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>15.368</td><td>2.718</td><td>× 6</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>31.022</td><td>8.004</td><td>× 4</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>106.416</td><td>19.223</td><td>× 6</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>82.92</td><td>27.197</td><td>× 3</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>119.880</td><td>38.321</td><td>× 3</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>349.075</td><td>23.656</td><td>× 15</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>2,543.75</td><td>361.423</td><td>× 7</td></tr>
 </tbody></table>
   <figcaption>
 <p>Benchmark between Javascript parser and Rust parser as an ASM.js module.</p>
@@ -407,7 +435,11 @@ lot of galaxies, and the more it travels, the more it gets interesting.</p>
 <p>Thanks for reading!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-webassembly-galaxy">❮&nbsp;The WebAssembly galaxy</a><a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-c-galaxy">The C galaxy&nbsp;❯</a></nav>
+    <nav class="previous-next-episodes">
+      <h2>Read other episodes</h2>
+
+      <p><a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-webassembly-galaxy">❮&nbsp;The WebAssembly galaxy</a><a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="button text-align-end" style="view-transition-name: series-episode-title-the-c-galaxy">The C galaxy&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -482,7 +514,7 @@ lot of galaxies, and the more it travels, the more it gets interesting.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

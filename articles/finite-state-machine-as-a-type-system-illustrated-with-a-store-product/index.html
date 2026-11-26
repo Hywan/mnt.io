@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,23 +180,22 @@
     
   </div>
 
-    </header>
-
-    <p>Hello fellow coders!</p>
+    </header><p>Hello fellow coders!</p>
 <p>In this article, I would like to talk about how to implement a
-<a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-State
+<a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-State
 Machine</a> (FSM) with
 the PHP type system. The example is a store product (in an e-commerce
 solution for instance), something we are likely to meet once in our
 lifetime. Our goal is to simply <strong>avoid impossible states and
 transitions</strong>.</p>
-<p>I am in deep love with <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Type_theory">Type
+<p>I am in deep love with <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Type_theory">Type
 theory</a>, however I will try
 to keep the formulas away from this article to focus on the code.
 Moreover, you might be aware that the PHP <em>runtime</em> type system is
 somewhat very permissive and “poor” (this is not a formal definition),
 hopefully some tricks can help us to express nice constraints.</p>
-<h2 id="the-product-fsm">The Product FSM<a role="presentation" class="anchor" href="#the-product-fsm" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-product-fsm">The Product FSM<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-product-fsm"></span>
+<a role="presentation" class="anchor" href="#the-product-fsm" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A product in a store might have the following states:</p>
 <ul>
@@ -207,7 +206,7 @@ longer be purchased),</li>
 <li>Purchased and not renewable,</li>
 <li>Purchased and cancellable.</li>
 </ul>
-<p>The transitions between these states can be viewed as a <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-State
+<p>The transitions between these states can be viewed as a <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Finite-state_machine">Finite-State
 Machine</a> (FSM).</p>
 <figure>
 <p><img src="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/./schema1.png" alt="First schema" loading="lazy" decoding="async" /></p>
@@ -221,7 +220,8 @@ the <code>cancel</code> action is called, it transitions to the <code>D</code> s
 </figure>
 <p>Our goal is to respect this FSM. Invalid actions must be impossible to
 do.</p>
-<h2 id="finite-state-machine-as-a-type-system">Finite-State Machine as a Type System<a role="presentation" class="anchor" href="#finite-state-machine-as-a-type-system" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="finite-state-machine-as-a-type-system">Finite-State Machine as a Type System<span class="toc-anchor" style="view-timeline-name: --toc-timeline-finite-state-machine-as-a-type-system"></span>
+<a role="presentation" class="anchor" href="#finite-state-machine-as-a-type-system" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Having a FSM is a good thing to define the states and the transitions
 between them: It is formal and clear. However, it is tested at runtime,
@@ -229,7 +229,7 @@ not at compile-time, i.e. <code>if</code> statements are required to test if the
 state of a product can transition into another state, or else throw an
 exception, and this is decided at runtime. Note that PHP does not really
 have a compile-time because it is an online compiler (learn more by
-reading <a rel="noopener external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">Tagua VM, a safe PHP virtual
+reading <a rel="noopener noreferrer external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">Tagua VM, a safe PHP virtual
 machine</a>,
 at slide 29). Our goal is to prevent illegal/invalid states at
 parse-/compile-time so that the PHP virtual machine, IDE or static
@@ -241,7 +241,8 @@ it. We replace an interface on this product, and boom, the IDE tells us
 that the code is broken in <em>x</em> places. It <strong>detects impossible scenarios
 ahead of code execution</strong>.</p>
 <p>No more talking. Here is the code.</p>
-<h3 id="the-mighty-product">The Mighty Product<a role="presentation" class="anchor" href="#the-mighty-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-mighty-product">The Mighty Product
+<a role="presentation" class="anchor" href="#the-mighty-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
@@ -251,7 +252,8 @@ ahead of code execution</strong>.</p>
 <span class="giallo-l"><span class="z-18">interface</span><span class="z-4"> Product</span><span> {}</span></span></code></pre>
 <p>A product is a class implementing the <code>Product</code> interface. It allows to
 type a generic product, with no regards about its state.</p>
-<h3 id="active-and-inactive">Active and Inactive<a role="presentation" class="anchor" href="#active-and-inactive" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="active-and-inactive">Active and Inactive
+<a role="presentation" class="anchor" href="#active-and-inactive" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
@@ -282,7 +284,8 @@ our FSM.</p>
 express the following constraint: “A valid product cannot be invalid,
 and vice-versa”, i.e. both interfaces cannot be implemented by the same
 value.</p>
-<h3 id="purchase-renew-and-cancel">Purchase, Renew, and Cancel<a role="presentation" class="anchor" href="#purchase-renew-and-cancel" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="purchase-renew-and-cancel">Purchase, Renew, and Cancel
+<a role="presentation" class="anchor" href="#purchase-renew-and-cancel" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
@@ -328,7 +331,8 @@ is a reflexive transition from the state <code>B</code> to <code>B</code>.</p>
 <p>Finally, a once-off purchasable product has one action: <code>purchase</code> that
 produces a <code>Cancellable</code> product, and it transitions from the state <code>A</code>
 to <code>C</code>.</p>
-<h3 id="take-a-breath">Take a Breath<a role="presentation" class="anchor" href="#take-a-breath" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="take-a-breath">Take a Breath
+<a role="presentation" class="anchor" href="#take-a-breath" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <figure role="presentation">
 <p><img src="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/./schema2.png" alt="Second schema" loading="lazy" decoding="async" /></p>
@@ -338,7 +342,8 @@ to <code>C</code>.</p>
 provides a constraint but also <strong>defines type capabilities</strong>: <strong>What
 operations can be performed on a value implementing a particular
 interface</strong>.</p>
-<h3 id="secretproduct">SecretProduct<a role="presentation" class="anchor" href="#secretproduct" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="secretproduct">SecretProduct
+<a role="presentation" class="anchor" href="#secretproduct" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let's consider the <code>SecretProduct</code> as a new super secret product that
 will revolutionise our store:</p>
@@ -429,7 +434,8 @@ interface, and the real cancel action is done in the constructor.</li>
 </ul>
 </li>
 </ul>
-<h3 id="assert-possible-and-impossible-actions">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="assert-possible-and-impossible-actions">Assert Possible and Impossible Actions
+<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Let's try some valid and invalid actions. Those followings are
 <strong>possible actions</strong>:</p>
@@ -474,7 +480,8 @@ compatible.</p>
 impossible actions or impossible states</strong>. No warnings or notices: Fatal
 errors. Most of them are correctly inferred by IDE, so… follow the red
 crosses in your IDE.</p>
-<h2 id="restoring-a-product">Restoring a Product<a role="presentation" class="anchor" href="#restoring-a-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="restoring-a-product">Restoring a Product<span class="toc-anchor" style="view-timeline-name: --toc-timeline-restoring-a-product"></span>
+<a role="presentation" class="anchor" href="#restoring-a-product" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>One major thing is missing: The state of a product is stored in the
 database. When loading the product, we must be able to get an instance
@@ -485,7 +492,8 @@ composition of traits.</p>
 is possible to achieve the same behavior with final named classes. Also
 we are using a repository, which is convenient for this article, but not
 necessarily the best solution.</p>
-<h3 id="repository">Repository<a role="presentation" class="anchor" href="#repository" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="repository">Repository
+<a role="presentation" class="anchor" href="#repository" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The following <code>ProductRepository\load</code> function is just here to give you
 an idea of how it works.</p>
@@ -533,7 +541,8 @@ an idea of how it works.</p>
 <span class="giallo-l"><span class="z-18">        default</span><span class="z-10">:</span></span>
 <span class="giallo-l"><span class="z-18">            throw new</span><span class="z-1"> RuntimeException</span><span>(</span><span class="z-11">&#39;Invalid product state.&#39;</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="traits">Traits<a role="presentation" class="anchor" href="#traits" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="traits">Traits
+<a role="presentation" class="anchor" href="#traits" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The code must look familiar because this is just a split from the
 <code>SecretProduct</code> implementation.</p>
@@ -585,7 +594,8 @@ an idea of how it works.</p>
 <span class="giallo-l"><span class="z-18">    public function</span><span class="z-19"> getProduct</span><span>()</span><span class="z-16">:</span><span class="z-1"> Inactive</span><span> {</span></span>
 <span class="giallo-l"><span class="z-18">        return</span><span class="z-1 z-i"> $this</span><span class="z-16">-&gt;</span><span>product</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>    }</span></span>
-<span class="giallo-l"><span>}</span></span></code></pre><h3 id="assert-possible-and-impossible-actions-1">Assert Possible and Impossible Actions<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="assert-possible-and-impossible-actions-1">Assert Possible and Impossible Actions
+<a role="presentation" class="anchor" href="#assert-possible-and-impossible-actions-1" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The <strong>possible actions</strong> are:</p>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
@@ -608,7 +618,8 @@ can renew and cancel it.</p>
 so it has already been purchased. It is impossible to cancel a product
 twice.</p>
 <p><strong>Same garantees apply here</strong>!</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to re-implement <code>SecretProduct</code> with the traits we have
 defined for the <code>ProductRepository</code>, or to use named classes. I let this
@@ -623,17 +634,18 @@ or renewing a once-off purchased product. It is also detected by PHP.</p>
 <p>The product repository is an example of how to restore a product at a
 particular state, with the help of the defined interfaces, and new small
 and simple traits.</p>
-<h2 id="one-more-thing">One More Thing<a role="presentation" class="anchor" href="#one-more-thing" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="one-more-thing">One More Thing<span class="toc-anchor" style="view-timeline-name: --toc-timeline-one-more-thing"></span>
+<a role="presentation" class="anchor" href="#one-more-thing" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>It is possible to integrate product categories in this type system (like
 bundles). It is more complex, but possible.</p>
 <p>I would highly recommend these following readings:</p>
 <ul>
-<li><a rel="noopener external" target="_blank" href="http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html">What to know before debating type systems</a>
+<li><a rel="noopener noreferrer external" target="_blank" href="http://blogs.perl.org/users/ovid/2010/08/what-to-know-before-debating-type-systems.html">What to know before debating type systems</a>
 to have an overview of different systems,</li>
-<li><a rel="noopener external" target="_blank" href="https://sdleffler.github.io/RustTypeSystemTuringComplete/">Rust's Type System is Turing-Complete</a>
+<li><a rel="noopener noreferrer external" target="_blank" href="https://sdleffler.github.io/RustTypeSystemTuringComplete/">Rust's Type System is Turing-Complete</a>
 to see how powerful a type system can be,</li>
-<li><a rel="noopener external" target="_blank" href="https://speakerdeck.com/willroth/fear-not-the-machine-of-state">Fear Not the Machine of State!</a>
+<li><a rel="noopener noreferrer external" target="_blank" href="https://speakerdeck.com/willroth/fear-not-the-machine-of-state">Fear Not the Machine of State!</a>
 to see how to integrate an FSM into an object without using a type system.</li>
 </ul>
 <p>I would like to particularly emphasize a paragraph from the first
@@ -646,11 +658,15 @@ whole program, then it succeeds in its proof; otherwise it fails and
 points out why it failed.</p>
 </blockquote>
 <p>Seeing types as labels is a very smart way of approaching them.</p>
-<p>I would like to thanks <a rel="noopener external" target="_blank" href="https://ocramius.github.io/">Marco Pivetta</a> for
+<p>I would like to thanks <a rel="noopener noreferrer external" target="_blank" href="https://ocramius.github.io/">Marco Pivetta</a> for
 the reviews!</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="button text-align-start">❮&nbsp;Tagua VM, a safe PHP virtual machine</a><a href="https://mnt.io/articles/export-functions-in-php-a-la-javascript/" class="button text-align-end">Export functions in PHP à la Javascript&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="button text-align-start">❮&nbsp;Tagua VM, a safe PHP virtual machine</a><a href="https://mnt.io/articles/export-functions-in-php-a-la-javascript/" class="button text-align-end">Export functions in PHP à la Javascript&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -725,7 +741,7 @@ the reviews!</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

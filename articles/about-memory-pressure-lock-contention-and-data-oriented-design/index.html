@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -181,8 +181,29 @@
   </div>
 
     </header>
+  
 
-    <p>I'm here to narrate you a story about performance. Recently, I was in the same
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-on-a-beautiful-morning"><a href="#on-a-beautiful-morning">On a Beautiful Morning…</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-randomness"><a href="#randomness">Randomness</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-memory-pressure"><a href="#memory-pressure">Memory Pressure</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-lock-contention"><a href="#lock-contention">Lock Contention</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-the-dessert"><a href="#the-dessert">The Dessert</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+<p>I'm here to narrate you a story about performance. Recently, I was in the same
 room as some Memory Pressure and some Lock Contention. It took me a while to
 recognize them. Legend says it only happens in obscure, low-level systems, but
 I'm here to refute the legend. While exploring, I had the pleasure of fixing a
@@ -191,15 +212,16 @@ sweet treat! This story is also a pretext to introduce you to Data-oriented
 Design, and to show how it improved execution time by 98.7% and throughput by
 7718.5%. I believe we have all the ingredients for a juicy story. Let's cook,
 and <em lang="fr">bon appétit!</em></p>
-<h2 id="on-a-beautiful-morning">On a Beautiful Morning…<a role="presentation" class="anchor" href="#on-a-beautiful-morning" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="on-a-beautiful-morning">On a Beautiful Morning…<span class="toc-anchor" style="view-timeline-name: --toc-timeline-on-a-beautiful-morning"></span>
+<a role="presentation" class="anchor" href="#on-a-beautiful-morning" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>While powering on my <a rel="noopener external" target="_blank" href="https://dygma.com/pages/defy">Dygma Defy</a>, unlocking my computer, and checking
+<p>While powering on my <a rel="noopener noreferrer external" target="_blank" href="https://dygma.com/pages/defy">Dygma Defy</a>, unlocking my computer, and checking
 messages from my colleagues, I suddenly come across this one:</p>
 <blockquote>
 <p>Does anyone also experience a frozen room list?</p>
 </blockquote>
-<p>Ah yeah, for some years now, I've been employed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a> to work on the
-<a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. If one needs to write a complete, modern, cross-platform,
+<p>Ah yeah, for some years now, I've been employed by <a rel="noopener noreferrer external" target="_blank" href="https://element.io/">Element</a> to work on the
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>. If one needs to write a complete, modern, cross-platform,
 fast Matrix client or bot, this SDK is an excellent choice. The SDK is composed
 of many crates. Some are very low in the stack and are not aimed at being used
 directly by developers, like <code>matrix_sdk_crypto</code>. Some others are higher in the
@@ -222,7 +244,7 @@ precisely a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;Room&gt;&gt;&gt;</code>.
 stream yields a vector of “diffs” of rooms. I'm writing <a href="https://mnt.io/series/reactive-programming-in-rust/">a series about reactive
 programming</a> — you might be
 interested to read more about it. Otherwise, here is what you need to know.</p>
-<p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/enum.VectorDiff.html">The <code>VectorDiff</code> type</a> comes from <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/">the <code>eyeball-im</code>
+<p><a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/enum.VectorDiff.html">The <code>VectorDiff</code> type</a> comes from <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/">the <code>eyeball-im</code>
 crate</a>, initially created for the Matrix Rust SDK as a solid
 foundation for reactive programming. It looks like this:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub enum</span><span class="z-4"> VectorDiff</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
@@ -256,8 +278,8 @@ foundation for reactive programming. It looks like this:</p>
 <span class="giallo-l"><span>        values</span><span class="z-16">:</span><span class="z-4"> Vector</span><span>&lt;</span><span class="z-4">T</span><span>&gt;,</span></span>
 <span class="giallo-l"><span>    },</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
-<p>It represents a <em>change</em> in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html">an <code>ObservableVector</code></a>.
-This is like a <code>Vec</code>, but <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html#method.subscribe">one can subscribe to the
+<p>It represents a <em>change</em> in <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html">an <code>ObservableVector</code></a>.
+This is like a <code>Vec</code>, but <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.8.0/eyeball_im/struct.ObservableVector.html#method.subscribe">one can subscribe to the
 changes</a>, and will receive… well… <code>VectorDiff</code>s!</p>
 <p>The Room List type merges several streams into a single stream representing the
 list of rooms. For example, let's imagine the room at index 3 receives a new
@@ -284,11 +306,11 @@ the Room List.</li>
   </div>
   <div class="conversation--message">
     <p>I did my calculation: the size of <code>VectorDiff&lt;Room&gt;</code> is 72 bytes (mostly because
-<code>Room</code> contains <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html">an <code>Arc</code></a> over the real struct type). This is pretty
+<code>Room</code> contains <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html">an <code>Arc</code></a> over the real struct type). This is pretty
 small for an update. Not only it brings a small memory footprint, but it crosses
 the FFI boundary pretty easily, making it easy to map to other languages like
-Swift or Kotlin — languages that provide UI components, like <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
-<a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>.</p>
+Swift or Kotlin — languages that provide UI components, like <a rel="noopener noreferrer external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a> or
+<a rel="noopener noreferrer external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>.</p>
   </div>
 </div>
 <p>Absolutely! These are two popular UI components where a <code>VectorDiff</code> maps
@@ -363,12 +385,12 @@ List stream is computed, shall we?</p>
 <p>There is a lot going on here. Sadly, we are not going to explain everything in
 this beautiful piece of art<sup class="footnote-reference" id="fr-switch-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-switch">[2]</a></sup>.</p>
 <p>The <code>.filter()</code>, <code>.sort_by()</code> and <code>.dynamic_head_with_initial_value()</code> methods
-are part of <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/">the <code>eyeball-im-util</code> crate</a>. They are used
+are part of <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/">the <code>eyeball-im-util</code> crate</a>. They are used
 to filter, sort etc. a stream: They are essentially mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code>. In
 other terms, they “change” the <code>VectorDiff</code>s on-the-fly to simulate filtering,
-sorting, or something else. Let's see a very concrete example with <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/vector/struct.Sort.html">the <code>Sort</code>
+sorting, or something else. Let's see a very concrete example with <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im-util/0.10.0/eyeball_im_util/vector/struct.Sort.html">the <code>Sort</code>
 higher-order stream</a> (the following example is
-mostly a copy of the documentation of <code>Sort</code>, but <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/43">since I wrote this algorithm,
+mostly a copy of the documentation of <code>Sort</code>, but <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/eyeball/pull/43">since I wrote this algorithm,
 I guess you, dear reader, will find it acceptable</a>).</p>
 <p>Let's imagine we have a vector of <code>char</code>. We want a <code>Stream</code> of <em>changes</em> about
 this vector (the famous <code>VectorDiff</code>). We also want to <em>simulate</em> a sorted
@@ -450,7 +472,7 @@ streams of <code>VectorDiff</code>s: light and —more importantly— <strong>co
 myself: we are always mapping a <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code> to another
 <code>Stream&lt;Item = Vec&lt;VectorDiff&lt;T&gt;&gt;&gt;</code>. That's the same type! The whole collection
 is never computed entirely, except for the initial values: only the changes are
-handled and trigger a computation. Knowing that, in the manner of <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>,
+handled and trigger a computation. Knowing that, in the manner of <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>,
 <code>Stream</code> is lazy —i.e. it does something only when polled—, it makes things
 pretty efficient. And…</p>
 <div class="conversation" data-character="comte">
@@ -473,7 +495,8 @@ Happy? Short enough?</p>
 <p>These details were important. Kind of. I hope you've learned something along the
 way. Next, let's see how a sorter works, and how it could be responsible for our
 memory pressure and lock contention.</p>
-<h2 id="randomness">Randomness<a role="presentation" class="anchor" href="#randomness" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="randomness">Randomness<span class="toc-anchor" style="view-timeline-name: --toc-timeline-randomness"></span>
+<a role="presentation" class="anchor" href="#randomness" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Taking a step back, I was asking myself: <q>Is it really frozen?</q>. The
 cherry on the cake: I was unable to reproduce the problem! Even the reporters
@@ -488,7 +511,7 @@ Fortunately, two of the reporters are obstinate. Ultimately, we got analysis.</p
   <figcaption>
   <p>Memory analysis of Element X in Android Studio (Element X is based on the Matrix
 Rust SDK). It presents a callback tree, with the number of allocations and
-deallocations for each node in this tree. Thanks <a rel="noopener external" target="_blank" href="https://github.com/jmartinesp">Jorge</a>!</p>
+deallocations for each node in this tree. Thanks <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jmartinesp">Jorge</a>!</p>
 <p>And, holy cow, we see <strong>a lot</strong> of memory allocations, exactly 322'042 to be
 precise, counting for 743MiB, for the <code>eyeball_im_util::vector::sort::SortBy</code>
 type! I don't remember exactly how many rooms are part of the Room List, but
@@ -515,9 +538,9 @@ like so:</p>
 <span class="giallo-l"><span class="z-4">        Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_recency</span><span>()),</span></span>
 <span class="giallo-l"><span class="z-4">        Box</span><span class="z-16">::</span><span class="z-19">new</span><span>(</span><span class="z-19">new_sorter_name</span><span>()),</span></span>
 <span class="giallo-l"><span>    ]))</span></span></code></pre>
-<p><code>sort_by</code> receives a sorter: <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html"><code>new_sorter_lexicographic</code></a>. It's from
-<a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/"><code>matrix_sdk_ui::room_list::sorters</code></a>, and it's a constructor for a…
-lexicographic sorter. All sorters must implement <a rel="noopener external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/trait.Sorter.html">the <code>Sorter</code> trait</a>.
+<p><code>sort_by</code> receives a sorter: <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/fn.new_sorter_lexicographic.html"><code>new_sorter_lexicographic</code></a>. It's from
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/"><code>matrix_sdk_ui::room_list::sorters</code></a>, and it's a constructor for a…
+lexicographic sorter. All sorters must implement <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/matrix-sdk-ui/0.16.0/matrix_sdk_ui/room_list_service/sorters/trait.Sorter.html">the <code>Sorter</code> trait</a>.
 Once again, it's a trait from <code>matrix_sdk_ui</code>, nothing fancy, it's simply this:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// Trait “alias”.</span></span>
 <span class="giallo-l"><span class="z-18">pub trait</span><span class="z-4"> Sorter</span><span class="z-16">:</span><span class="z-19"> Fn</span><span>(</span><span class="z-16">&amp;</span><span class="z-4">Room</span><span>,</span><span class="z-16"> &amp;</span><span class="z-4">Room</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> Ordering</span><span> {}</span></span>
@@ -545,7 +568,7 @@ here is turning into a tragedy.</p>
 <math><msup><mi>n</mi><mtext>th</mtext></msup></math> sorter returns
 <code>Ordering::Equal</code>, the next sorter is called. It stops as soon as a sorter
 returns <code>Ordering::Greater</code> or <code>Ordering::Less</code>.</p>
-<p>This is an implementation of a lexicographic order as defined for <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products">cartesian
+<p>This is an implementation of a lexicographic order as defined for <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Lexicographic_order#Cartesian_products">cartesian
 products</a>.</p>
   </div>
 </div>
@@ -555,14 +578,14 @@ and by <em>name</em>.</p>
 lang="fr">cul-de-sac</em>. Let's take a step back by looking at <code>SortBy</code> in
 <code>eyeball_im_util</code> itself maybe? <i>Scroll the documentation</i>, not here,
 <i>read the initial patch</i>, hmm, I see a mention of a binary search, <i>jump
-into the code</i>, ah, <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318">here, look at the comment</a>:</p>
+into the code</i>, ah, <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L315-L318">here, look at the comment</a>:</p>
 <blockquote>
 <p>When looking for the <em>position</em> of a value (e.g. where to insert a new
 value?), <code>Vector::binary_search_by</code> is used — it is possible because the
 <code>Vector</code> is sorted. When looking for the <em>unsorted index</em> of a value,
 <code>Iterator::position</code> is used.</p>
 </blockquote>
-<p><a rel="noopener external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.binary_search_by"><code>Vector::binary_search_by</code></a> doesn't mention any form of randomness in its
+<p><a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.binary_search_by"><code>Vector::binary_search_by</code></a> doesn't mention any form of randomness in its
 documentation. Another <em lang="fr">cul-de-sac</em>.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
@@ -583,11 +606,11 @@ which indicates that “the vector” (I guess it's a buffer somewhere) <em>has 
 sorted</em> one way or another. What do you think?</p>
   </div>
 </div>
-<p>Ah! Brilliant. That's correct! Looking at <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L261">the constructor of
+<p>Ah! Brilliant. That's correct! Looking at <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/eyeball/blob/b7dc6fde71e507459ecbd7519a8a22f12bf2a8de/eyeball-im-util/src/vector/sort.rs#L261">the constructor of
 <code>SortBy</code></a> (or its implementation), we notice it's using
-<a rel="noopener external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.sort_by"><code>Vector::sort_by</code></a>. And guess what? It's relying on… <i>drum roll</i>…
-<a rel="noopener external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/vector/mod.rs#L1575-L1583">quicksort</a>! Following the path, we see
-<a rel="noopener external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/sort.rs#L177-L185">it actually creates a pseudo random number generator (PRNG) to do the
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl/7.0.0/imbl/type.Vector.html#method.sort_by"><code>Vector::sort_by</code></a>. And guess what? It's relying on… <i>drum roll</i>…
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/vector/mod.rs#L1575-L1583">quicksort</a>! Following the path, we see
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/jneem/imbl/blob/6feb48d04ed9bd2a004968541d1a90d61c423d31/src/sort.rs#L177-L185">it actually creates a pseudo random number generator (PRNG) to do the
 quicksort</a>.</p>
 <p>Phew. Finally. Time for a cup of tea and a biscuit<sup class="footnote-reference" id="fr-biscuit-1"><a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fn-biscuit">[4]</a></sup>.</p>
 <p>My guess here is the following. Depending on the (pseudo randomly) generated
@@ -595,7 +618,8 @@ pivot index, the number of comparisons may vary each time this runs. We can
 enter a pathological case where more comparisons means more memory pressure,
 which means slower sorting, which means… A Frozen Room List<sup><abbr
 title="Trademark">TM</abbr></sup>, <i>play horror movie music</i>!</p>
-<h2 id="memory-pressure">Memory Pressure<a role="presentation" class="anchor" href="#memory-pressure" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="memory-pressure">Memory Pressure<span class="toc-anchor" style="view-timeline-name: --toc-timeline-memory-pressure"></span>
+<a role="presentation" class="anchor" href="#memory-pressure" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A memory allocator is responsible for… well… allocating the memory. If you
 believe this is a simple problem, please retract this offensive thought quickly:
@@ -608,7 +632,7 @@ etc.</p>
 could be mitigated by implementing a custom memory allocator maybe—, but there
 is also <strong>a hardware cost</strong>, and it's comparatively more difficult to mitigate.
 Memory is allocated on the heap, i.e. <em>the RAM</em>, also called <em>the main memory</em>
-(not be confused with <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/CPU_cache">CPU caches: L1, L2…</a>). The RAM is nice and
+(not be confused with <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/CPU_cache">CPU caches: L1, L2…</a>). The RAM is nice and
 all, but it lives far from the CPU. It <em>takes time</em> to allocate something on the
 heap and…</p>
 <div class="conversation" data-character="comte">
@@ -641,7 +665,7 @@ on your hardware, but the important part is <strong>the scale</strong>: keep tha
 </tbody></table>
 <figcaption>
 <p>Latency numbers for the year 2020 for various operations (source:
-<a rel="noopener external" target="_blank" href="https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html"><cite>Latency Numbers Every Programmer Should Know</cite> from Colin Scott (UC
+<a rel="noopener noreferrer external" target="_blank" href="https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html"><cite>Latency Numbers Every Programmer Should Know</cite> from Colin Scott (UC
 Berkeley)</a>).</p>
 <p>The time in the second column is given in nanoseconds, i.e.
 <math><mfrac><mn>1</mn><mn>1'000'000'000</mn></mfrac></math> second. The time in
@@ -732,7 +756,7 @@ fragment of it?</li>
 the sorter that was recently modified: <code>latest_event</code>. In short, this sorter
 compares the <code>LatestEventValue</code> of two rooms: the idea is that rooms with a
 <code>LatestEventValue</code> representing a <em>local event</em>, i.e. an event that is not sent
-yet, or is sending, must be at the top of the Room List. Alright, <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-ui/src/room_list_service/sorters/latest_event.rs#L64C1-L69C2">let's look at
+yet, or is sending, must be at the top of the Room List. Alright, <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-ui/src/room_list_service/sorters/latest_event.rs#L64C1-L69C2">let's look at
 its core part</a>:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> new_sorter</span><span>()</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Sorter</span><span> {</span></span>
 <span class="giallo-l"><span class="z-18">    let</span><span> latest_events</span><span class="z-16"> =</span></span>
@@ -741,18 +765,18 @@ its core part</a>:</p>
 <span class="giallo-l"><span class="z-18">    move</span><span class="z-16"> |</span><span>left, right</span><span class="z-16">| -&gt;</span><span class="z-4"> Ordering</span><span> {</span><span class="z-19"> cmp</span><span>(latest_events, left, right) }</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Alright. For each sorting iteration, the <code>Room::latest_event</code> method is called
-twice. <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-base/src/room/latest_event.rs#L38">This method is as follows</a>:</p>
+twice. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-base/src/room/latest_event.rs#L38">This method is as follows</a>:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> latest_event</span><span>(</span><span class="z-16">&amp;</span><span class="z-1 z-i">self</span><span>)</span><span class="z-16"> -&gt;</span><span class="z-4"> LatestEventValue</span><span> {</span></span>
 <span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span class="z-19">clone</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Oh, there it is. We are acquiring a read lock over the <code>info</code> value, then we
 are reading the <code>latest_event</code> field, and we are cloning the value. Cloning
 is important here as we don't want to hold the read lock for too long. This
-is our culprit. The size of the <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-base/src/latest_event.rs#L29"><code>LatestEventValue</code></a> type
+is our culprit. The size of the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/3eb693acadb08db8e41de90ef51730d206168e7c/crates/matrix-sdk-base/src/latest_event.rs#L29"><code>LatestEventValue</code></a> type
 is 144 bytes (it doesn't count the size of the event itself, because this size
 is dynamic).</p>
 <p>Before going further, let's check whether another sorter has a similar problem,
-shall we? <i>Look at the other sorters</i>, oh!, turns out <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/01c0775e5974ad8a8690f5c580e79612ddcdfa2d/crates/matrix-sdk-ui/src/room_list_service/sorters/recency.rs#L90">the <code>recency</code>
+shall we? <i>Look at the other sorters</i>, oh!, turns out <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/blob/01c0775e5974ad8a8690f5c580e79612ddcdfa2d/crates/matrix-sdk-ui/src/room_list_service/sorters/recency.rs#L90">the <code>recency</code>
 sorter</a> also uses the <code>latest_event</code> method! Damn, this is
 becoming really annoying.</p>
 <p>Question: do we need the entire <code>LatestEventValue</code>? Probably not!</p>
@@ -772,7 +796,7 @@ two sorters, let's try to write more specific methods:</p>
 <span class="giallo-l"><span class="z-1 z-i">    self</span><span class="z-16">.</span><span>info</span><span class="z-16">.</span><span class="z-19">read</span><span>()</span><span class="z-16">.</span><span>latest_event</span><span class="z-16">.</span><span class="z-19">timestamp</span><span>()</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Just like that, <strong>the throughput has been improved by 18%</strong> according to the
-<code>room_list</code> benchmark. You can see <a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/62eb1996d917fb1928bdb9bba40d78a6eefe0bbd">the patch in “action”</a>. Can we
+<code>room_list</code> benchmark. You can see <a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/62eb1996d917fb1928bdb9bba40d78a6eefe0bbd">the patch in “action”</a>. Can we
 declare victory over memory pressure?</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
@@ -788,8 +812,8 @@ declare victory over memory pressure?</p>
 of allocations, but not the number of allocations itself.</p>
 <p>Well, actually, <code>latest_event_is_local</code> returns a <code>bool</code>: it
 can fit in the stack. And <code>latest_event_timestamp</code> returns an
-<code>Option&lt;MilliSecondsSinceUnixEpoch&gt;</code>, where <a rel="noopener external" target="_blank" href="https://docs.rs/ruma/0.14.1/ruma/struct.MilliSecondsSinceUnixEpoch.html"><code>MilliSecondsSinceUnixEpoch</code> is a
-<code>Uint</code></a>, which <a rel="noopener external" target="_blank" href="https://docs.rs/js_int/0.2.2/js_int/struct.UInt.html">itself is a <code>f64</code></a>: it can
+<code>Option&lt;MilliSecondsSinceUnixEpoch&gt;</code>, where <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/ruma/0.14.1/ruma/struct.MilliSecondsSinceUnixEpoch.html"><code>MilliSecondsSinceUnixEpoch</code> is a
+<code>Uint</code></a>, which <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/js_int/0.2.2/js_int/struct.UInt.html">itself is a <code>f64</code></a>: it can
 also fit in the stack.</p>
 <p>So, yes, we may have reduced the number of allocations greatly, that's agreed,
 it explains the 18% throughput improvement. However, issue reporters were
@@ -800,7 +824,8 @@ remaining 4 minutes 6 seconds then? This is still unacceptable, right?</p>
 <p>Definitely yes! Everything above 200ms (from our napkin maths) is unacceptable
 here. Memory pressure was an important problem, and it's now solved, but it
 wasn't the only problem.</p>
-<h2 id="lock-contention">Lock Contention<a role="presentation" class="anchor" href="#lock-contention" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="lock-contention">Lock Contention<span class="toc-anchor" style="view-timeline-name: --toc-timeline-lock-contention"></span>
+<a role="presentation" class="anchor" href="#lock-contention" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The assiduous reader may have noticed that we are still dealing with a lock
 here.</p>
@@ -852,7 +877,7 @@ the sorters run again.</p>
   <div class="conversation--message">
     <p>The idea here is to organise the data around a specific layout. The focus on the
 data layout aims at being CPU cache friendly as much as possible. This kind of
-approach is called <a rel="noopener external" target="_blank" href="https://en.wikipedia.org/wiki/Data-oriented_design"><em>Data-oriented Design</em></a>.</p>
+approach is called <a rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Data-oriented_design"><em>Data-oriented Design</em></a>.</p>
   </div>
 </div>
 <p>That's correct. If the type is small enough, it can fit more easily in the
@@ -876,7 +901,7 @@ more about Data-oriented Design (DoD)</p>
     loading="lazy"></iframe>
   <figcaption>
   <p>Video: Data-Oriented Design and C++, by Mike Acton, at the CppCon 2014</p>
-  <p>The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. <a rel="noopener external" target="_blank" href="https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B">View the slides</a>.</p>
+  <p>The transformation of data is the only purpose of any program. Common approaches in C++ which are antithetical to this goal will be presented in the context of a performance-critical domain (console game development). Additionally, limitations inherent in any C++ compiler and how that affects the practical use of the language when transforming that data will be demonstrated. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/CppCon/CppCon2014/tree/master/Presentations/Data-Oriented%20Design%20and%20C%2B%2B">View the slides</a>.</p>
   </figcaption>
 </figure>
 <figure>
@@ -935,7 +960,7 @@ We start by putting all our data in a single type:</p>
   </div>
   <div class="conversation--message">
     <p>The L1 and L2 caches nowadays have a size of several kilobytes. You can try to
-run <a rel="noopener external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=sysctl"><code>sysctl</code></a> or <a rel="noopener external" target="_blank" href="https://linux.die.net/man/1/getconf"><code>getconf</code></a> in a shell to see how much your hardware supports
+run <a rel="noopener noreferrer external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=sysctl"><code>sysctl</code></a> or <a rel="noopener noreferrer external" target="_blank" href="https://linux.die.net/man/1/getconf"><code>getconf</code></a> in a shell to see how much your hardware supports
 (look for an entry like “cache line”, or “cache line size” for example).</p>
 <p>On my system for example, the L1 (data) cache size is 65KB, and the cache line
 size is 128 bytes.</p>
@@ -946,7 +971,7 @@ reaching the main memory. So the cost of a cache miss is: look up in L1, plus
 cache miss, plus look up in L2, etc.</p>
   </div>
 </div>
-<p><a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4">A bit of plumbing later</a>, this new <code>RoomListItem</code> type is
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk/commit/a84c97b292c658109bfb40391b5f10b0708276d4">A bit of plumbing later</a>, this new <code>RoomListItem</code> type is
 used everywhere by the Room List, by all its filters and all its sorters. For
 example, the <code>latest_event</code> sorter now looks like:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> new_sorter</span><span>()</span><span class="z-16"> -&gt;</span><span class="z-18"> impl</span><span class="z-4"> Sorter</span><span> {</span></span>
@@ -1069,7 +1094,8 @@ summarise Wikipedia entries.</p>
   </div>
 </div>
 <p>Of course you're valuable! Now, the surprise.</p>
-<h2 id="the-dessert">The Dessert<a role="presentation" class="anchor" href="#the-dessert" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-dessert">The Dessert<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-dessert"></span>
+<a role="presentation" class="anchor" href="#the-dessert" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Of course, let's not forget about our dessert! I won't dig too much: the
 patch contains all the necessary gory details. In short, it's about how
@@ -1095,7 +1121,7 @@ types such as:</p>
 update the original value.</p>
 <p>Just like that, it was possible to systematically create… <strong>an infinite loop</strong>.
 Funky isn't it?</p>
-<p>You can view the patch <a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/pull/80">Fix an infinite loop when <code>SortBy&lt;Stream&lt;Item = T&gt;&gt;</code> handles a <code>VectorDiff::Set</code> where <code>T</code> is a shallow clone
+<p>You can view the patch <a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/eyeball/pull/80">Fix an infinite loop when <code>SortBy&lt;Stream&lt;Item = T&gt;&gt;</code> handles a <code>VectorDiff::Set</code> where <code>T</code> is a shallow clone
 type</a> to learn more.</p>
 <p>I think this is a concrete example of when jumping on an optimisation can lead
 to a bug. I'm not saying we should not prematurely optimise our programs: I'm
@@ -1103,35 +1129,35 @@ a partisan of the “we should” camp. I'm saying that bugs can be pretty subtl
 sometimes, and this bug would have been avoided if we hadn't taken a shortcut in
 this algorithm. It's important to be correct first, then measure, then improve.</p>
 <p>I hope you've learned a couple of things, and you've enjoyed your reading.</p>
-<p>I would like to thank <a rel="noopener external" target="_blank" href="https://artificialworlds.net/blog/">Andy Balaam</a> and <a rel="noopener external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> for the
+<p>I would like to thank <a rel="noopener noreferrer external" target="_blank" href="https://artificialworlds.net/blog/">Andy Balaam</a> and <a rel="noopener noreferrer external" target="_blank" href="https://github.com/poljar">Damir Jelić</a> for the
 reviews and the feedback!</p>
 <section class="footnotes">
 <ol class="footnotes-list">
 <li id="fn-vectordiff_on_other_uis">
-<p>On <a rel="noopener external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a>, there is the
-<a rel="noopener external" target="_blank" href="https://developer.apple.com/documentation/swift/collectiondifference/change"><code>CollectionDifference.Change</code></a> enum. For example: <code>VectorDiff::PushFront</code>
-is equivalent to <code>Change.insert(offset: 0)</code>. On <a rel="noopener external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>, there is
-<a rel="noopener external" target="_blank" href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-list/"><code>MutableList</code></a> object. For example: <code>VectorDiff::Clear</code> is equivalent to
+<p>On <a rel="noopener noreferrer external" target="_blank" href="https://developer.apple.com/swiftui/">SwiftUI</a>, there is the
+<a rel="noopener noreferrer external" target="_blank" href="https://developer.apple.com/documentation/swift/collectiondifference/change"><code>CollectionDifference.Change</code></a> enum. For example: <code>VectorDiff::PushFront</code>
+is equivalent to <code>Change.insert(offset: 0)</code>. On <a rel="noopener noreferrer external" target="_blank" href="https://developer.android.com/compose">Jetpack Compose</a>, there is
+<a rel="noopener noreferrer external" target="_blank" href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-list/"><code>MutableList</code></a> object. For example: <code>VectorDiff::Clear</code> is equivalent to
 <code>MutableList.clear()</code>! <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-vectordiff_on_other_uis-1">↩</a></p>
 </li>
 <li id="fn-switch">
 <p>I would <em>love</em> to talk about how this <code>Stream</code> produces a <code>Stream</code>,
 how the outer stream and the inner stream are switched (with
-<code>.switch()</code>!), how we've implemented that from scratch, but <del>it's
+<code>.switch()</code>!), how we've implemented that from scratch, but <s>it's
 probably for another article!. Meanwhile, you can take a look at
-<a rel="noopener external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></del> Wait no more, the article is here:
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/async-rx/0.1.3/async_rx/struct.Switch.html"><code>async_rx::Switch</code></a></s> Wait no more, the article is here:
 <a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/"><em>Switching higher-order stream to first-order stream</em></a>! <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-switch-1">↩</a></p>
 </li>
 <li id="fn-stream_assert">
-<p>Do you know <a rel="noopener external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It's another crate we've
+<p>Do you know <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/stream_assert/0.1.1/stream_assert/"><code>stream_assert</code></a>? It's another crate we've
 written to easily apply assertions on <code>Stream</code>s. Pretty convenient. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-stream_assert-1">↩</a></p>
 </li>
 <li id="fn-biscuit">
-<p>Yes, <a rel="noopener external" target="_blank" href="https://www.biscuitsec.org/">biscuit</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-biscuit-1">↩</a></p>
+<p>Yes, <a rel="noopener noreferrer external" target="_blank" href="https://www.biscuitsec.org/">biscuit</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-biscuit-1">↩</a></p>
 </li>
 <li id="fn-napkin-math">
-<p>I highly recommend to read the <a rel="noopener external" target="_blank" href="https://github.com/sirupsen/napkin-math/">Napkin Math</a> project, with
-the great talk at <a rel="noopener external" target="_blank" href="https://www.youtube.com/watch?v=IxkSlnrRFqc">SRECON'19, <cite>Advanced Napkin Math: Estimating System
+<p>I highly recommend to read the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/sirupsen/napkin-math/">Napkin Math</a> project, with
+the great talk at <a rel="noopener noreferrer external" target="_blank" href="https://www.youtube.com/watch?v=IxkSlnrRFqc">SRECON'19, <cite>Advanced Napkin Math: Estimating System
 Performance from First Principles</cite> by Simon Eskildsen</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-napkin-math-1">↩</a></p>
 </li>
 <li id="fn-suspens">
@@ -1140,7 +1166,7 @@ the story, I wasn't aware we had a lock contention yet. <a href="https://mnt.io/
 </li>
 <li id="fn-talks">
 <p>If you are curious and enjoy watching talks, I'm maintaining
-<a rel="noopener external" target="_blank" href="https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf">a playlist of interesting talks I've watched</a>. Also
+<a rel="noopener noreferrer external" target="_blank" href="https://www.youtube.com/playlist?list=PLOkMRkzDhWGX_4YWI4ZYGbwFPqKnDRudf">a playlist of interesting talks I've watched</a>. Also
 you can read this old article
 <a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/">Once conference per day, for one year (2017)</a>. <a href="https://mnt.io/articles/about-memory-pressure-lock-contention-and-data-oriented-design/#fr-talks-1">↩</a></p>
 </li>
@@ -1148,7 +1174,11 @@ you can read this old article
 </section>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="button text-align-start">❮&nbsp;From 19k to 4.2M events/sec: story of a SQLite query optimisation</a><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/" class="button text-align-end">Switching higher-order streams to first-order streams&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/from-19k-to-4-2m-events-per-sec-story-of-a-sqlite-query-optimisation/" class="button text-align-start">❮&nbsp;From 19k to 4.2M events/sec: story of a SQLite query optimisation</a><a href="https://mnt.io/articles/switching-higher-order-streams-to-first-order-streams/" class="button text-align-end">Switching higher-order streams to first-order streams&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -1223,7 +1253,7 @@ you can read this old article
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

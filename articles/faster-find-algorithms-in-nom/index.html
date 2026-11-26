@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,16 +180,14 @@
     
   </div>
 
-    </header>
-
-    <p><a rel="noopener external" target="_blank" href="https://github.com/tagua-vm/">Tagua VM</a> is an experimental PHP virtual
+    </header><p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/tagua-vm/">Tagua VM</a> is an experimental PHP virtual
 machine written in Rust and LLVM. It is composed as a set of libraries.
 One of them that keeps me busy these days is
-<a rel="noopener external" target="_blank" href="https://github.com/tagua-vm/parser"><code>tagua-parser</code></a>. It contains the
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/tagua-vm/parser"><code>tagua-parser</code></a>. It contains the
 lexical and syntactic analysers for the PHP language, in addition to the
 AST (Abstract Syntax Tree). If you would like to know more about this
 project, you can see this conference I gave at the PHPTour last week:
-<a rel="noopener external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">Tagua VM, a safe PHP virtual
+<a rel="noopener noreferrer external" target="_blank" href="https://speakerdeck.com/hywan/tagua-vm-a-safe-php-virtual-machine">Tagua VM, a safe PHP virtual
 machine</a>.</p>
 <p>The library <code>tagua-parser</code> is built with parser combinators. Instead of
 having a classical grammar, compiled to a parser, we write pure
@@ -197,7 +195,7 @@ functions acting as small parsers. We then combine them together. This
 post does not explain why this is a sane approach in our context, but
 keep in mind this is much easier to test, to maintain, and to optimise.</p>
 <p>Because this project is complex enought, we are delegating the parser
-combinator implementation to <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/">nom</a>.</p>
+combinator implementation to <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Geal/nom/">nom</a>.</p>
 <blockquote>
 <p>nom is a parser combinators library written in Rust. Its goal is to
 provide tools to build safe parsers without compromising the speed or
@@ -215,7 +213,7 @@ and <code>FindSubstring</code> really is about finding a substring, so a token o
 any length.</p>
 <p>It appeared that these methods can be optimised in some cases. Both
 default implementations are using Rust iterators: Regular iterator for
-<code>FindToken</code>, and <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/slice/struct.Windows.html">window
+<code>FindToken</code>, and <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/slice/struct.Windows.html">window
 iterator</a> for
 <code>FindSubstring</code>, i.e. an iterator over overlapping subslices of a given
 length. We have benchmarked big PHP comments, which are analysed by
@@ -224,9 +222,9 @@ parsers actively using these two trait implementations.</p>
 <pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>test …::bench_span ... bench:      73,433 ns/iter (+/- 3,869)</span></span>
 <span class="giallo-l"><span>test …::bench_span ... bench:      15,986 ns/iter (+/- 3,068)</span></span></code></pre>
 <p>A boost of 78%! Nice!</p>
-<p>The <a rel="noopener external" target="_blank" href="https://github.com/Geal/nom/pull/507">pull request has been merged</a>
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/Geal/nom/pull/507">pull request has been merged</a>
 today, thank you Geoffroy Couprie! The new algorithms heavily rely on
-<a rel="noopener external" target="_blank" href="https://github.com/BurntSushi/rust-memchr">the <code>memchr</code> crate</a>. So all
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/BurntSushi/rust-memchr">the <code>memchr</code> crate</a>. So all
 the credits should really go to Andrew Gallant! This crate provides a
 safe interface <code>libc</code>'s <code>memchr</code> and <code>memrchr</code>. It also provides
 fallback implementations when either function is unavailable.</p>
@@ -235,13 +233,17 @@ the implementation for <code>&amp;str</code> fallbacks to the former.</p>
 <p>This is small contribution, but it brings a very nice boost. Hope it
 will benefit to other projects!</p>
 <p>I am also blowing the dust off of
-<a rel="noopener external" target="_blank" href="https://www.amazon.com/Algorithms-Strings-Maxime-Crochemore/dp/0521848997">Algorithms on Strings</a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://www.amazon.com/Algorithms-Strings-Maxime-Crochemore/dp/0521848997">Algorithms on Strings</a>,
 by M. Crochemore, C. Hancart, and T. Lecroq. I am pretty sure it should be
 useful for nom and <code>tagua-parser</code>. If you haven't read this book yet, I can only
 encourage you to do so!</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/welcome-to-chaos/" class="button text-align-start">❮&nbsp;Welcome to Chaos</a><a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="button text-align-end">Tagua VM, a safe PHP virtual machine&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/welcome-to-chaos/" class="button text-align-start">❮&nbsp;Welcome to Chaos</a><a href="https://mnt.io/articles/tagua-vm-a-safe-php-virtual-machine/" class="button text-align-end">Tagua VM, a safe PHP virtual machine&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -316,7 +318,7 @@ encourage you to do so!</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

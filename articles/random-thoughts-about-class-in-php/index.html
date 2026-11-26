@@ -5,7 +5,7 @@
   <meta http-equiv="content-security-policy" content="default-src 'self'; child-src 'self' https://www.youtube-nocookie.com https://media.ccc.de; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
   <meta name="viewport" content="width=device-width, minimum-scale=1">
 
-  <title>Random thoughts about `::class` in PHP</title>
+  <title>Random thoughts about ::class in PHP</title>
 
   <link
     rel="icon"
@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,13 +180,11 @@
     
   </div>
 
-    </header>
-
-    <blockquote>
+    </header><blockquote>
 <p>The special <strong><code>::class</code></strong> constant allows for fully qualified class
 name resolution at compile, this is useful for namespaced classes.</p>
 </blockquote>
-<p>I'm quoting <a rel="noopener external" target="_blank" href="http://php.net/manual/en/language.oop5.constants.php">the PHP
+<p>I'm quoting <a rel="noopener noreferrer external" target="_blank" href="http://php.net/manual/en/language.oop5.constants.php">the PHP
 manual</a>. But
 things can be funny sometimes. Let's go through some examples.</p>
 <ul>
@@ -271,7 +269,11 @@ of error because the value can be dynamic (and remember, <code>::class</code> is
 resolved at compile time, not at run time).</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/automattic-grand-meetup-2017/" class="button text-align-start">❮&nbsp;Automattic, Grand Meetup 2017</a><a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/" class="button text-align-end">One conference per day, for one year (2017)&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/automattic-grand-meetup-2017/" class="button text-align-start">❮&nbsp;Automattic, Grand Meetup 2017</a><a href="https://mnt.io/articles/one-conference-per-day-for-one-year-2017/" class="button text-align-end">One conference per day, for one year (2017)&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -346,7 +348,7 @@ resolved at compile time, not at run time).</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

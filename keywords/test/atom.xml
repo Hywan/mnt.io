@@ -11,7 +11,7 @@
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/"/>
     <id>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</id>
-    <summary type="html">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</summary>
+    <summary type="html">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</summary>
   </entry><entry xml:lang="en">
     <title>atoum supports TeamCity</title>
     <published>2017-11-06T00:00:00+00:00</published>
@@ -19,7 +19,7 @@
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/atoum-supports-teamcity/"/>
     <id>https://mnt.io/articles/atoum-supports-teamcity/</id>
-    <summary type="html">&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt; gains a new extension: &lt;code&gt;atoum/teamcity-extension&lt;/code&gt; to get full integration with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt;!</summary>
+    <summary type="html">&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt; gains a new extension: &lt;code&gt;atoum/teamcity-extension&lt;/code&gt; to get full integration with &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt;!</summary>
   </entry><entry xml:lang="en">
     <title>RFCs should provide executable test suites</title>
     <published>2015-02-27T00:00:00+00:00</published>

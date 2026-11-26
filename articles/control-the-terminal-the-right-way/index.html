@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,15 +180,14 @@
     
   </div>
 
-    </header>
-
-    <p>Nowadays, there are plenty of terminal emulators in the wild. Each one has
+    </header><p>Nowadays, there are plenty of terminal emulators in the wild. Each one has
 a specific way to handle controls. How many colours does it support? How to
 control the style of a character? How to control more than style, like the
 cursor or the window? In this article, we are going to explain and show in
 action the right ways to control your terminal with a portable and an easy
 to maintain API. We are going to talk about <code>stat</code>, <code>tput</code>, <code>terminfo</code>, <code>hoa/ console</code>… but do not be afraid, it's easy and fun!</p>
-<h2 id="introduction">Introduction<a role="presentation" class="anchor" href="#introduction" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="introduction">Introduction<span class="toc-anchor" style="view-timeline-name: --toc-timeline-introduction"></span>
+<a role="presentation" class="anchor" href="#introduction" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Terminals. They are the ancient interfaces, still not old fashioned yet.
 They are fast, efficient, work remotely with a low bandwidth, secured
@@ -207,9 +206,10 @@ wonder:</p>
 <p>Well, this article is going to explain how a terminal works and how we
 interact with it. We are going to talk about terminal capabilities,
 terminal information (stored in database) and
-<a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Console"><code>Hoa\Console</code></a>,
+<a rel="noopener noreferrer external" target="_blank" href="http://github.com/hoaproject/Console"><code>Hoa\Console</code></a>,
 a PHP library that provides advanced terminal controls.</p>
-<h2 id="the-basis-of-a-terminal">The Basis of a Terminal<a role="presentation" class="anchor" href="#the-basis-of-a-terminal" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="the-basis-of-a-terminal">The Basis of a Terminal<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-basis-of-a-terminal"></span>
+<a role="presentation" class="anchor" href="#the-basis-of-a-terminal" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A terminal, or a console, is an interface that allows to interact with
 the computer. This interface is textual. Like a graphical interface,
@@ -217,16 +217,16 @@ there are inputs: The keyboard and the mouse, and ouputs: The screen or
 a file (a real file, a socket, a FIFO, something else…).</p>
 <p>There is a ton of terminals. The most famous ones are:</p>
 <ul>
-<li><a rel="noopener external" target="_blank" href="http://invisible-island.net/xterm/xterm.html">xterm</a>,</li>
-<li><a rel="noopener external" target="_blank" href="http://iterm2.com/">iTerm2</a>,</li>
-<li><a rel="noopener external" target="_blank" href="http://software.schmorp.de/pkg/rxvt-unicode.html">urxvt</a>,</li>
-<li><a rel="noopener external" target="_blank" href="http://ttssh2.sourceforge.jp/">TeraTerm</a>.</li>
+<li><a rel="noopener noreferrer external" target="_blank" href="http://invisible-island.net/xterm/xterm.html">xterm</a>,</li>
+<li><a rel="noopener noreferrer external" target="_blank" href="http://iterm2.com/">iTerm2</a>,</li>
+<li><a rel="noopener noreferrer external" target="_blank" href="http://software.schmorp.de/pkg/rxvt-unicode.html">urxvt</a>,</li>
+<li><a rel="noopener noreferrer external" target="_blank" href="http://ttssh2.sourceforge.jp/">TeraTerm</a>.</li>
 </ul>
 <p>Whatever the terminal you use, inputs are handled by programs (or
 processus) and outputs are produced by these latters. We said outputs
 can be the screen or a file. Actually, everything is a file, so the
 screen is also a file. However, the user is able to use
-<a rel="noopener external" target="_blank" href="http://gnu.org/software/bash/manual/bashref.html#Redirections">redirections</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://gnu.org/software/bash/manual/bashref.html#Redirections">redirections</a>
 to choose where the ouputs must go.</p>
 <p>Let's consider the <code>echo</code> program that prints all its options/arguments
 on its output. Thus, in the following example, <code>foobar</code> is printed on
@@ -244,7 +244,8 @@ adds a new-line (<code>\n</code>) after each line; so:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> echo -n </span><span class="z-11">&#39;foobar&#39;</span><span class="z-16"> |</span><span class="z-4"> wc</span><span class="z-8"> -c</span></span>
 <span class="giallo-l"><span>6</span></span></code></pre>
 <p>This is more correct!</p>
-<h2 id="detecting-type-of-pipes">Detecting Type of Pipes<a role="presentation" class="anchor" href="#detecting-type-of-pipes" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="detecting-type-of-pipes">Detecting Type of Pipes<span class="toc-anchor" style="view-timeline-name: --toc-timeline-detecting-type-of-pipes"></span>
+<a role="presentation" class="anchor" href="#detecting-type-of-pipes" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Inputs and outputs are called <strong>pipes</strong>. Yes, trivial, this is nothing
 more than basic pipes!</p>
@@ -258,7 +259,7 @@ more than basic pipes!</p>
 output”. Why is it important? Because if we stylize a text, this is
 <strong>only for the screen</strong>, not for a file. A file should receive regular
 text, not all the decorations and styles.</p>
-<p>Hopefully, the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Console.php"><code>Hoa\Console\Console</code>
+<p>Hopefully, the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Console.php"><code>Hoa\Console\Console</code>
 class</a>
 provides the <code>isDirect</code>, <code>isPipe</code> and <code>isRedirection</code> static methods to
 know whether the pipe is respectively direct, a pipe or a redirection
@@ -292,9 +293,9 @@ know whether the pipe is respectively direct, a pipe or a redirection
 direct. The second execution redirects the output to another program,
 then <code>STDOUT</code> is of kind pipe. Finally, the last execution redirects the
 output to a file called <code>/tmp/foo</code>, so <code>STDOUT</code> is a redirection.</p>
-<p>How does it work? We use <a rel="noopener external" target="_blank" href="http://php.net/fstat"><code>fstat</code></a> to read the
+<p>How does it work? We use <a rel="noopener noreferrer external" target="_blank" href="http://php.net/fstat"><code>fstat</code></a> to read the
 <code>mode</code> of the file. The underlying <code>fstat</code> implementation is defined in
-C, so let's take a look at the <a rel="noopener external" target="_blank" href="http://man.cx/fstat%282%29">documentation of
+C, so let's take a look at the <a rel="noopener noreferrer external" target="_blank" href="http://man.cx/fstat%282%29">documentation of
 <code>fstat(2)</code></a>. <code>stat</code> is a C structure that
 looks like:</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-4">struct</span><span> stat {</span></span>
@@ -348,7 +349,7 @@ the file data. Then we just have to check whether it is a named pipe
 attached to the screen (in our case),</li>
 <li><code>isPipe</code> checks that the mode is equal to <code>S_IFIFO</code>: This is a special file
 that behaves like a FIFO stack (see the
-<a rel="noopener external" target="_blank" href="http://www.freebsd.org/cgi/man.cgi?query=mkfifo&amp;sektion=1">documentation of <code>mkfifo(1)</code></a>), everything which is written is
+<a rel="noopener noreferrer external" target="_blank" href="http://www.freebsd.org/cgi/man.cgi?query=mkfifo&amp;sektion=1">documentation of <code>mkfifo(1)</code></a>), everything which is written is
 directly read just after and the reading order is defined by the writing order
 (first-in, first-out!),</li>
 <li><code>isRedirection</code> checks that the mode is equal to <code>S_IFREG</code> , <code>S_IFDIR</code> ,
@@ -358,7 +359,7 @@ which we can apply a redirection. Why? Because the <code>STDOUT</code> (or anoth
 redirection destination and it can be only a file, a directory, a link, a
 socket or a block file.</li>
 </ul>
-<p>I encourage you to read the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Console.php">implementation of the
+<p>I encourage you to read the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Console.php">implementation of the
 <code>Hoa\Console\Console::getMode</code>
 method</a>.</p>
 <p>So yes, this is useful to enable styles on text but also to define the
@@ -385,7 +386,8 @@ the lowest level would output only the result. Let's try with the
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> php toUpperCase.php </span><span class="z-11">&#39;Hello world!&#39;</span><span class="z-16"> |</span><span class="z-4"> xargs</span><span class="z-8"> -I@</span><span class="z-11"> echo @</span></span>
 <span class="giallo-l"><span>HELLO WORLD!</span></span></code></pre>
 <p>Useful and very simple, isn't it?</p>
-<h2 id="terminal-capabilities">Terminal Capabilities<a role="presentation" class="anchor" href="#terminal-capabilities" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="terminal-capabilities">Terminal Capabilities<span class="toc-anchor" style="view-timeline-name: --toc-timeline-terminal-capabilities"></span>
+<a role="presentation" class="anchor" href="#terminal-capabilities" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We can control the terminal with the inputs, like the keyboard, but we
 can also control the outputs. How? With the text itself. Actually, an
@@ -395,7 +397,7 @@ specifying that the text is a link. It's exactly the same for terminals!
 To specify that a text must be in red, we must add a control function
 around it.</p>
 <p>Hopefully, these control functions have been standardized in the
-<a rel="noopener external" target="_blank" href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf">ECMA-48</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf">ECMA-48</a>
 document: Control Functions for Coded Character Set. However, not all terminals
 implement all this standard, and for historical reasons, some terminals use
 slightly different control functions. Moreover, some information do not belong
@@ -419,13 +421,14 @@ called <code>max_colors</code> where its value can be <code>2</code>, <code>8</c
 <li>the “move the cursor one column to the right” is also a string capability
 called <code>cursor_right</code> where its value might be <code>\e[C</code> .</li>
 </ul>
-<p>All the capabilities can be found in the <a rel="noopener external" target="_blank" href="http://www.freebsd.org/cgi/man.cgi?query=terminfo&amp;sektion=5">documentation of
+<p>All the capabilities can be found in the <a rel="noopener noreferrer external" target="_blank" href="http://www.freebsd.org/cgi/man.cgi?query=terminfo&amp;sektion=5">documentation of
 <code>terminfo(5)</code></a>
-or in the <a rel="noopener external" target="_blank" href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html">documentation of
+or in the <a rel="noopener noreferrer external" target="_blank" href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html">documentation of
 xcurses</a>.
 I encourage you to follow these links and see how rich the terminal
 capabilities are!</p>
-<h2 id="terminal-information">Terminal Information<a role="presentation" class="anchor" href="#terminal-information" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="terminal-information">Terminal Information<span class="toc-anchor" style="view-timeline-name: --toc-timeline-terminal-information"></span>
+<a role="presentation" class="anchor" href="#terminal-information" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Terminal capabilities are stored as <strong>information</strong> in <strong>databases</strong>.
 Where are these databases located? In files with a binary format.
@@ -449,7 +452,7 @@ environment variable. For instance, on my computer:</p>
 <span class="giallo-l"><span>xterm-256color</span></span>
 <span class="giallo-l"><span class="z-10">$</span><span> file /usr/share/terminfo/78/xterm-256color</span></span>
 <span class="giallo-l"><span>/usr/share/terminfo/78/xterm-256color: Compiled terminfo entry</span></span></code></pre>
-<p>We can use the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Tput.php"><code>Hoa\Console\Tput</code>
+<p>We can use the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Tput.php"><code>Hoa\Console\Tput</code>
 class</a>
 to retrieve these information. The <code>getTerminfo</code> static method allows to
 get the path of the terminal information file. The <code>getTerm</code> static
@@ -474,7 +477,8 @@ have:</p>
 <span class="giallo-l"><span class="z-7 z-i">/**</span></span>
 <span class="giallo-l"><span class="z-7 z-i"> * Will output:</span></span>
 <span class="giallo-l"><span class="z-7 z-i"> *     int(8)</span></span>
-<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The Power in Your Hand: Control the Cursor<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre><h2 id="the-power-in-your-hand-control-the-cursor">The Power in Your Hand: Control the Cursor<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-power-in-your-hand-control-the-cursor"></span>
+<a role="presentation" class="anchor" href="#the-power-in-your-hand-control-the-cursor" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Let's summarize. We are able to parse and know all the terminal
 capabilities of a specific terminal (including the one of the current
@@ -482,10 +486,11 @@ user). If we would like a powerful terminal API, we need to control the
 basis, like the cursor.</p>
 <p>Remember. We said that the terminal is a canvas of columns and lines.
 The cursor is like a pen. We can move it and write something. We are
-going to (partly) see how the <a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php"><code>Hoa\Console\Cursor</code>
+going to (partly) see how the <a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php"><code>Hoa\Console\Cursor</code>
 class</a>
 works.</p>
-<h3 id="i-like-to-move-it">I Like to Move It!<a role="presentation" class="anchor" href="#i-like-to-move-it" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="i-like-to-move-it">I Like to Move It!
+<a role="presentation" class="anchor" href="#i-like-to-move-it" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>The <code>moveTo</code> static method allows to move the cursor to an absolute
 position. For example:</p>
@@ -515,7 +520,7 @@ to move the cursor several times.</p>
 <p>The <code>getPosition</code> static method returns the position of the cursor. This
 way to interact is a little bit different. We must write a control
 function on the output, and then, the terminal replies on the input.
-<a rel="noopener external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php">See the implementation by
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/hoaproject/Console/blob/master/Source/Cursor.php">See the implementation by
 yourself</a>.</p>
 <pre class="giallo z-code" ><code data-lang="php"><span class="giallo-l"><span class="z-16">&lt;?</span><span class="z-8">php</span></span>
 <span class="giallo-l"></span>
@@ -570,8 +575,9 @@ screen, <code>clr_eol</code> to clear everything on the right of the cursor,
 <p>The resulting API is portable, clean, simple to read and very easy to
 maintain! This is the right way to do.</p>
 <p>To get more information, please
-<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Literature/Hack/Console.html#Cursor">read the documentation</a>.</p>
-<h3 id="colours-and-decorations">Colours and Decorations<a role="presentation" class="anchor" href="#colours-and-decorations" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Literature/Hack/Console.html#Cursor">read the documentation</a>.</p>
+<h3 id="colours-and-decorations">Colours and Decorations
+<a role="presentation" class="anchor" href="#colours-and-decorations" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>Now: Colours. This is mainly the reason why I decided to write this
 article. We see the same and the same libraries, again and again, doing
@@ -583,7 +589,7 @@ by the <code>max_colors</code> number capability. Usually, a palette contains 1,
 <figure>
 <p><img src="https://mnt.io/articles/control-the-terminal-the-right-way/./xterm_256color_chart.svg" alt="xterm-256color palette" loading="lazy" decoding="async" /></p>
   <figcaption>
-<p>The <code>xterm-256color</code> palette (<a rel="noopener external" target="_blank" title="Source of the `xterm-256color` palette" href="https://commons.wikimedia.org/wiki/File:Xterm_256color_chart.svg">source</a>).</p>
+<p>The <code>xterm-256color</code> palette (<a rel="noopener noreferrer external" target="_blank" title="Source of the `xterm-256color` palette" href="https://commons.wikimedia.org/wiki/File:Xterm_256color_chart.svg">source</a>).</p>
   </figcaption>
 </figure>
 <p>So first thing to do is to check whether we have more than 1 colour. If
@@ -624,12 +630,13 @@ in my actual palette! This is the right way to do.</p>
 <code>Hoa\Console\Cursor::changeColor</code> static method. You can also change the
 style of the cursor, like <code>▋</code>, <code>_</code> or <code>|</code>.</p>
 <p>To get more information, please
-<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content">read the documentation</a>.</p>
-<h2 id="the-power-in-your-hand-readline">The Power in Your Hand: Readline<a role="presentation" class="anchor" href="#the-power-in-your-hand-readline" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" title="Documentation of Hoa\Console\Cursor" href="http://hoa-project.net/Fr/Literature/Hack/Console.html#Content">read the documentation</a>.</p>
+<h2 id="the-power-in-your-hand-readline">The Power in Your Hand: Readline<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-power-in-your-hand-readline"></span>
+<a role="presentation" class="anchor" href="#the-power-in-your-hand-readline" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>A more complete usage of <code>Hoa\Console\Cursor</code> and even <code>Hoa\Console\Window</code> is
 the
-<a rel="noopener external" target="_blank" href="http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php"><code>Hoa\Console\Readline</code> class</a>
+<a rel="noopener noreferrer external" target="_blank" href="http://central.hoa-project.net/Resource/Library/Console/Readline/Readline.php"><code>Hoa\Console\Readline</code> class</a>
 that is a powerful readline. More than autocompleters, history, key bindings
 etc., it has an advanced use of cursors. See this in action:</p>
 <figure>
@@ -643,8 +650,9 @@ etc., it has an advanced use of cursors. See this in action:</p>
 <code>Hoa\Console\Window</code> to get the dimensions of the window, scroll some
 text in it etc. I encourage you to read the implementation.</p>
 <p>To get more information, please
-<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Readline" href="http://hoa-project.net/Literature/Hack/Console.html#Readline">read the documentation</a>.</p>
-<h2 id="the-power-in-your-hand-sound-musical-note">The Power in Your Hand: Sound 🎵<a role="presentation" class="anchor" href="#the-power-in-your-hand-sound-musical-note" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" title="Documentation of Hoa\Console\Readline" href="http://hoa-project.net/Literature/Hack/Console.html#Readline">read the documentation</a>.</p>
+<h2 id="the-power-in-your-hand-sound-musical-note">The Power in Your Hand: Sound 🎵<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-power-in-your-hand-sound-musical-note"></span>
+<a role="presentation" class="anchor" href="#the-power-in-your-hand-sound-musical-note" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Yes, even sound is defined by terminal capabilities. The famous bip is
 given by the <code>bell</code> string capability. You would like to make a bip?
@@ -654,7 +662,8 @@ Easy:</p>
 <span class="giallo-l"><span>$tput</span><span class="z-16"> =</span><span class="z-18"> new</span><span> Hoa</span><span class="z-10">\</span><span>Console</span><span class="z-10">\</span><span class="z-1">Tput</span><span>()</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span class="z-15">echo</span><span> $tput</span><span class="z-16">-&gt;</span><span class="z-19">get</span><span>(</span><span class="z-11">&#39;bell&#39;</span><span>)</span><span class="z-10">;</span></span></code></pre>
 <p>That's it!</p>
-<h2 id="bonus-window">Bonus: Window<a role="presentation" class="anchor" href="#bonus-window" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="bonus-window">Bonus: Window<span class="toc-anchor" style="view-timeline-name: --toc-timeline-bonus-window"></span>
+<a role="presentation" class="anchor" href="#bonus-window" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As a bonus, a quick demo of <code>Hoa\Console\Window</code> because it's fun.</p>
 <p>The video shows the execution of the following code:</p>
@@ -683,8 +692,9 @@ other windows just before raising it.</p>
 <iframe src="https://player.vimeo.com/video/115901611?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="aspect-ratio: 16/9; width: 100%;" title="Hoa\Console\Window in action">
 </iframe>
 <p>To get more information, please
-<a rel="noopener external" target="_blank" title="Documentation of Hoa\Console\Window" href="http://hoa-project.net/Literature/Hack/Console.html#Window">read the documentation</a>.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" title="Documentation of Hoa\Console\Window" href="http://hoa-project.net/Literature/Hack/Console.html#Window">read the documentation</a>.</p>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>In this article, we saw how to control the terminal by: Firstly,
 detecting the type of pipes, and secondly, reading and using the
@@ -694,12 +704,16 @@ we saw few of them in action.</p>
 and <strong>easy to use</strong>. The portability is very important because, like
 browsers and user devices, we have a lot of terminal emulators released
 in the wild. We have to care about them.</p>
-<p>I encourage you to take a look at the <a rel="noopener external" target="_blank" href="http://github.com/hoaproject/Console"><code>Hoa\Console</code>
+<p>I encourage you to take a look at the <a rel="noopener noreferrer external" target="_blank" href="http://github.com/hoaproject/Console"><code>Hoa\Console</code>
 library</a> and to contribute to make
 it even more awesome 😄.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/atoum-has-two-release-managers/" class="button text-align-start">❮&nbsp;atoum has two release managers</a><a href="https://mnt.io/articles/rfcs-should-provide-executable-test-suites/" class="button text-align-end">RFCs should provide executable test suites&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/atoum-has-two-release-managers/" class="button text-align-start">❮&nbsp;atoum has two release managers</a><a href="https://mnt.io/articles/rfcs-should-provide-executable-test-suites/" class="button text-align-end">RFCs should provide executable test suites&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -774,7 +788,7 @@ it even more awesome 😄.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

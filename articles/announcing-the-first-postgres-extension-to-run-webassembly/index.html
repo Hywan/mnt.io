@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -180,9 +180,7 @@
     
   </div>
 
-    </header>
-
-    <p><em>This is a copy of <a rel="noopener external" target="_blank" href="https://medium.com/wasmer/announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1">an article I wrote for
+    </header><p><em>This is a copy of <a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/announcing-the-first-postgres-extension-to-run-webassembly-561af2cfcb1">an article I wrote for
 Wasmer</a>.</em></p>
 <hr />
 <p>WebAssembly is a portable binary format. That means the same program can
@@ -191,39 +189,40 @@ run anywhere.</p>
 <p>To uphold this bold statement, each language, platform and system must
 be able to run WebAssembly — as fast and safely as possible.</p>
 </blockquote>
-<p>Let’s say it again. <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> is a
+<p>Let’s say it again. <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer">Wasmer</a> is a
 WebAssembly runtime. We have successfully embedded the runtime in other
 languages:</p>
 <ul>
 <li>In Rust, as it is written in Rust</li>
-<li>Using <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
+<li>Using <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/wasmer/tree/master/lib/runtime-c-api">C and C++
 bindings</a></li>
 <li>In PHP, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/php-ext-wasm"><code>php-ext-wasm</code></a></li>
 <li>In Python, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
-<a rel="noopener external" target="_blank" href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/python-ext-wasm"><code>python-ext-wasm</code></a> —
+<a rel="noopener noreferrer external" target="_blank" href="https://pypi.org/project/wasmer/">wasmer package on PyPI</a></li>
 <li>In Ruby, using
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a rel="noopener external" target="_blank" href="https://rubygems.org/gems/wasmer">wasmer
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/ruby-ext-wasm"><code>ruby-ext-wasm</code></a> — <a rel="noopener noreferrer external" target="_blank" href="https://rubygems.org/gems/wasmer">wasmer
 gem on RubyGems</a></li>
-<li>In Go, using <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm"><code>go-ext-wasm</code></a> — see
-<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">the announcement</a>.</li>
+<li>In Go, using <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/go-ext-wasm"><code>go-ext-wasm</code></a> — see
+<a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/announcing-the-fastest-webassembly-runtime-for-go-wasmer-19832d77c050">the announcement</a>.</li>
 </ul>
 <p>The community has also embedded Wasmer in awesome projects:</p>
 <ul>
 <li>.NET/C#, using
-<a rel="noopener external" target="_blank" href="https://github.com/migueldeicaza/WasmerSharp">WasmerSharp</a></li>
-<li>R, using <a rel="noopener external" target="_blank" href="https://github.com/dirkschumacher/wasmr">Wasmr</a>.</li>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/migueldeicaza/WasmerSharp">WasmerSharp</a></li>
+<li>R, using <a rel="noopener noreferrer external" target="_blank" href="https://github.com/dirkschumacher/wasmr">Wasmr</a>.</li>
 </ul>
 <p><strong>It is now time to continue the story and to hang around…
-<a rel="noopener external" target="_blank" href="https://www.postgresql.org/">Postgres</a>!</strong></p>
+<a rel="noopener noreferrer external" target="_blank" href="https://www.postgresql.org/">Postgres</a>!</strong></p>
 <p>We are so happy to announce a newcrazy idea: <strong>WebAssembly on
 Postgres</strong>. Yes, you read that correctly. On
-<a rel="noopener external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm">Postgres</a>.</p>
-<h2 id="calling-a-webassembly-function-from-postgres">Calling a WebAssembly Function from Postgres<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-postgres" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm">Postgres</a>.</p>
+<h2 id="calling-a-webassembly-function-from-postgres">Calling a WebAssembly Function from Postgres<span class="toc-anchor" style="view-timeline-name: --toc-timeline-calling-a-webassembly-function-from-postgres"></span>
+<a role="presentation" class="anchor" href="#calling-a-webassembly-function-from-postgres" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As usual, we have to go through the installation process. There is no
-package manager for Postgres, so it’s a manual step. The <a rel="noopener external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm#installation">Installation
+package manager for Postgres, so it’s a manual step. The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/wasmerio/postgres-ext-wasm#installation">Installation
 Section of the
 documentation</a>
 explains the details; here is a summary:</p>
@@ -272,7 +271,8 @@ and call the exported <code>sum</code> function:</p>
 <span class="giallo-l"><span class="z-7 z-i">-- (1 row)</span></span></code></pre>
 <p><em>Et voilà !</em> The <code>ns_sum</code> function calls the Rust <code>sum</code> function through
 WebAssembly! How fun is that 😄?</p>
-<h2 id="inspect-a-webassembly-instance">Inspect a WebAssembly Instance<a role="presentation" class="anchor" href="#inspect-a-webassembly-instance" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="inspect-a-webassembly-instance">Inspect a WebAssembly Instance<span class="toc-anchor" style="view-timeline-name: --toc-timeline-inspect-a-webassembly-instance"></span>
+<a role="presentation" class="anchor" href="#inspect-a-webassembly-instance" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>This section shows how to inspect a WebAssembly instance. At the same
 time, it quickly explains how the extension works under the hood.</p>
@@ -313,10 +313,11 @@ and its output types (already formatted for Postgres).</li>
 <p>Based on these information, the <code>wasm</code> Postgres extension is able to
 generate the SQL function to call the WebAssembly exported functions.</p>
 <p>It sounds simplistic, and… to be honest, it is! The trick is to use
-<a rel="noopener external" target="_blank" href="https://www.postgresql.org/docs/current/fdwhandler.html">foreign data
+<a rel="noopener noreferrer external" target="_blank" href="https://www.postgresql.org/docs/current/fdwhandler.html">foreign data
 wrappers</a>,
 which is an awesome feature of Postgres.</p>
-<h2 id="how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql">How Fast Is It, Or: Is It an Interesting Alternative to PL/pgSQL?<a role="presentation" class="anchor" href="#how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql">How Fast Is It, Or: Is It an Interesting Alternative to PL/pgSQL?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql"></span>
+<a role="presentation" class="anchor" href="#how-fast-is-it-or-is-it-an-interesting-alternative-to-pl-pgsql" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>As we said, the extension API is rather small for now. The idea is to
 explore, to experiment, to have fun with WebAssembly inside a database.
@@ -324,7 +325,7 @@ It is particularly interesting in two cases:</p>
 <ol>
 <li>To write extensions or procedures with any languages that compile to
 WebAssembly in place of
-<a rel="noopener external" target="_blank" href="https://www.postgresql.org/docs/10/plpgsql.html">PL/pgSQL</a>,</li>
+<a rel="noopener noreferrer external" target="_blank" href="https://www.postgresql.org/docs/10/plpgsql.html">PL/pgSQL</a>,</li>
 <li>To remove a potential performance bottleneck where speed is
 involved.</li>
 </ol>
@@ -335,8 +336,8 @@ must be taken with a grain of salt.</p>
 PL/pgSQL, and see how both approaches scale.</p>
 </blockquote>
 <p>The Postgres WebAssembly extension uses
-<a rel="noopener external" target="_blank" href="https://www.postgresql.org/docs/current/fdwhandler.html">Wasmer</a> as the
-runtime, compiled with the Cranelift backend (<a rel="noopener external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the
+<a rel="noopener noreferrer external" target="_blank" href="https://www.postgresql.org/docs/current/fdwhandler.html">Wasmer</a> as the
+runtime, compiled with the Cranelift backend (<a rel="noopener noreferrer external" target="_blank" href="https://medium.com/wasmer/a-webassembly-compiler-tale-9ef37aa3b537">learn more about the
 different
 backends</a>).
 We run the benchmark with Postgres 10, on a MacBook Pro 15" from 2016,
@@ -363,7 +364,8 @@ with n=50, 500 and 5000.</p>
 <p>We notice that the Postgres WebAssembly extension is faster to run
 numeric computations. The WebAssembly approach scales pretty well
 compared to the PL/pgSQL approach, <em>in this situation</em>.</p>
-<h3 id="when-to-use-the-webassembly-extension">When to Use the WebAssembly Extension?<a role="presentation" class="anchor" href="#when-to-use-the-webassembly-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="when-to-use-the-webassembly-extension">When to Use the WebAssembly Extension?
+<a role="presentation" class="anchor" href="#when-to-use-the-webassembly-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>So far, the extension only supports integers (on 32- and 64-bits). The
 extension doesn’t support strings <em>yet</em>. It also doesn’t support
@@ -373,17 +375,22 @@ first step.</p>
 to PL/pgSQL. But regarding the benchmark results above, we are sure they
 can live side-by-side, WebAssembly has clearly a place in the ecosystem!
 And we want to continue to pursue this exploration.</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are already talking with people that are interested in using
 WebAssembly inside databases. If you have any particular use cases,
-please reach us at <a rel="noopener external" target="_blank" href="https://wasmer.io/">wasmer.io</a>, or on Twitter at
-<a rel="noopener external" target="_blank" href="https://twitter.com/wasmerio">@wasmerio</a> directly or me
-<a rel="noopener external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a>.</p>
+please reach us at <a rel="noopener noreferrer external" target="_blank" href="https://wasmer.io/">wasmer.io</a>, or on Twitter at
+<a rel="noopener noreferrer external" target="_blank" href="https://twitter.com/wasmerio">@wasmerio</a> directly or me
+<a rel="noopener noreferrer external" target="_blank" href="https://twitter.com/mnt_io">@mnt_io</a>.</p>
 <p>Everything is open source, as usual! Happy hacking.</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/" class="button text-align-start">❮&nbsp;Announcing the fastest WebAssembly runtime for Go: wasmer</a><a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="button text-align-end">Announcing the first Java library to run WebAssembly: Wasmer JNI&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/announcing-the-fastest-webassembly-runtime-for-go-wasmer/" class="button text-align-start">❮&nbsp;Announcing the fastest WebAssembly runtime for Go: wasmer</a><a href="https://mnt.io/articles/announcing-the-first-java-library-to-run-webassembly-wasmer-jni/" class="button text-align-end">Announcing the first Java library to run WebAssembly: Wasmer JNI&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -458,7 +465,7 @@ please reach us at <a rel="noopener external" target="_blank" href="https://wasm
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

@@ -27,7 +27,7 @@
     <author><name>Ivan Enderlin</name></author>
     <link rel="alternate" type="text/html" href="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/"/>
     <id>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</id>
-    <summary type="html">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</summary>
+    <summary type="html">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</summary>
   </entry><entry xml:lang="en">
     <title>Random thoughts about `::class` in PHP</title>
     <published>2018-01-24T00:00:00+00:00</published>

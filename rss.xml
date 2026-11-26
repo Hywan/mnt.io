@@ -145,7 +145,7 @@
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</link>
       <guid>https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/</guid>
-      <description xml:base="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</description>
+      <description xml:base="https://mnt.io/articles/how-automattic-partly-moved-away-from-phpunit-to-atoum/">Automattic has partly moved away from PHPUnit to use &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt;. This article describes the pros and cons, the difficulties, the benefits, the tooling we had to write to integrate to the continous integration workflows etc.</description>
     </item><item>
       <title>One conference per day, for one year (2017)</title>
       <pubDate>Thu, 25 Jan 2018 00:00:00 +0000</pubDate>
@@ -173,7 +173,7 @@
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/atoum-supports-teamcity/</link>
       <guid>https://mnt.io/articles/atoum-supports-teamcity/</guid>
-      <description xml:base="https://mnt.io/articles/atoum-supports-teamcity/">&lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt; gains a new extension: &lt;code&gt;atoum/teamcity-extension&lt;/code&gt; to get full integration with &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt;!</description>
+      <description xml:base="https://mnt.io/articles/atoum-supports-teamcity/">&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://atoum.org&quot;&gt;atoum&lt;/a&gt; gains a new extension: &lt;code&gt;atoum/teamcity-extension&lt;/code&gt; to get full integration with &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt;!</description>
     </item><item>
       <title>Export functions in PHP à la Javascript</title>
       <pubDate>Mon, 30 Oct 2017 00:00:00 +0000</pubDate>
@@ -187,7 +187,7 @@
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/</link>
       <guid>https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/</guid>
-      <description xml:base="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/">In this article, I would like to talk about how to implement a &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;https://en.wikipedia.org/wiki/Finite-state_machine&quot;&gt;Finite-State Machine&lt;/a&gt; (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply &lt;strong&gt;avoid impossible states and transitions&lt;/strong&gt;.</description>
+      <description xml:base="https://mnt.io/articles/finite-state-machine-as-a-type-system-illustrated-with-a-store-product/">In this article, I would like to talk about how to implement a &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://en.wikipedia.org/wiki/Finite-state_machine&quot;&gt;Finite-State Machine&lt;/a&gt; (FSM) with the PHP type system. The example is a store product (in an e-commerce solution for instance), something we are likely to meet once in our lifetime. Our goal is to simply &lt;strong&gt;avoid impossible states and transitions&lt;/strong&gt;.</description>
     </item><item>
       <title>Tagua VM, a safe PHP virtual machine</title>
       <pubDate>Mon, 19 Jun 2017 00:00:00 +0000</pubDate>
@@ -271,7 +271,7 @@
       <author>ivan@mnt.io (Ivan Enderlin)</author>
       <link>https://mnt.io/articles/rush-release/</link>
       <guid>https://mnt.io/articles/rush-release/</guid>
-      <description xml:base="https://mnt.io/articles/rush-release/">Since 2 years, at &lt;a rel=&quot;noopener external&quot; target=&quot;_blank&quot; href=&quot;http://hoa-project.net/&quot;&gt;Hoa&lt;/a&gt;, we are looking for the perfect release process. Today, we have finalized the last thing related to this new process: we have found a name. It is called &lt;strong&gt;Rüsh Release&lt;/strong&gt;, standing for &lt;em&gt;Rolling Ünd ScHeduled Release&lt;/em&gt;.</description>
+      <description xml:base="https://mnt.io/articles/rush-release/">Since 2 years, at &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;http://hoa-project.net/&quot;&gt;Hoa&lt;/a&gt;, we are looking for the perfect release process. Today, we have finalized the last thing related to this new process: we have found a name. It is called &lt;strong&gt;Rüsh Release&lt;/strong&gt;, standing for &lt;em&gt;Rolling Ünd ScHeduled Release&lt;/em&gt;.</description>
     </item>
   </channel>
 </rss>

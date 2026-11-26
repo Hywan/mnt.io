@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -156,7 +156,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -176,9 +176,8 @@
     
   </div>
 
-    </header>
-
-    <h2 id="the-tip">The Tip<a role="presentation" class="anchor" href="#the-tip" title="Anchor link to this header" data-pagefind-ignore>#</a>
+    </header><h2 id="the-tip">The Tip<span class="toc-anchor" style="view-timeline-name: --toc-timeline-the-tip"></span>
+<a role="presentation" class="anchor" href="#the-tip" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>When I go outside my terminal, I am kind of lost. I control everything
 from my terminal and I hate clicking. That's why I found a small tip
@@ -196,16 +195,20 @@ expected behavior.</p>
 <p>And here we (duckduck) go!</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span class="z-16"> ?</span><span class="z-11"> &quot;foo bar&#39;s baz&quot;</span></span></code></pre>
 <p>You can
-<a rel="noopener external" target="_blank" href="https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c">see the commit</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/Dotfiles/commit/fab6d98448240a787eb0e34ab836c5c43d50379c">see the commit</a>
 that adds this to my “shell home framework”.</p>
 <p>Oh, and to open the default browser, I use
-<a rel="noopener external" target="_blank" href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/open.1.html"><code>open (1)</code></a>,
+<a rel="noopener noreferrer external" target="_blank" href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/open.1.html"><code>open (1)</code></a>,
 like this:</p>
 <pre class="giallo z-code" ><code data-lang="shellscript"><span class="giallo-l"><span class="z-18">alias</span><span> open</span><span class="z-16">=</span><span class="z-11">&#39;open -g&#39;</span></span></code></pre>
 <p>Hope it helps!</p>
 
 
-    <nav class="previous-next-articles"><a href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" class="button text-align-start">❮&nbsp;sabre/katana</a><a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/" class="button text-align-end">Bye bye Liip, hello Automattic&nbsp;❯</a></nav>
+    <nav class="previous-next-articles">
+      <h2>Read other articles</h2>
+
+      <p><a href="https://mnt.io/articles/sabre-katana-a-contact-calendar-task-list-and-file-server/" class="button text-align-start">❮&nbsp;sabre/katana</a><a href="https://mnt.io/articles/bye-bye-liip-hello-automattic/" class="button text-align-end">Bye bye Liip, hello Automattic&nbsp;❯</a></p>
+    </nav>
   </article>
 
 </main>
@@ -280,7 +283,7 @@ like this:</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

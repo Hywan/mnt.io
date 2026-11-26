@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -186,12 +186,37 @@
 
     </header>
 
+    
+  
+
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-what-is-php-and-why"><a href="#what-is-php-and-why">What Is PHP, and Why?</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-rust-rocket-c-rocket-php"><a href="#rust-rocket-c-rocket-php">Rust 🚀 C 🚀 PHP</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-php-extension-rocket-php-userland"><a href="#php-extension-rocket-php-userland">PHP Extension 🚀 PHP Userland</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-conclusion"><a href="#conclusion">Conclusion</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+
+
     <p>The galaxy we will explore today is the PHP galaxy. This post will
 explain what PHP is, how to compile any Rust program to C and then to a
 PHP native extension.</p>
-<h2 id="what-is-php-and-why">What Is PHP, and Why?<a role="presentation" class="anchor" href="#what-is-php-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="what-is-php-and-why">What Is PHP, and Why?<span class="toc-anchor" style="view-timeline-name: --toc-timeline-what-is-php-and-why"></span>
+<a role="presentation" class="anchor" href="#what-is-php-and-why" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p><a rel="noopener external" target="_blank" href="https://secure.php.net/">PHP</a> is a:</p>
+<p><a rel="noopener noreferrer external" target="_blank" href="https://secure.php.net/">PHP</a> is a:</p>
 <blockquote>
 <p>popular general-purpose scripting language that is especially suited
 to Web development. Fast, flexible, and pragmatic, PHP powers
@@ -203,24 +228,25 @@ and many cleanups, which are excessively ignored by haters. PHP is also
 a fast scripting language, and is very flexible. PHP now has declared
 types, traits, variadic arguments, closures (with explicit scopes!),
 generators, and a <em>huge</em> backward compatibility. The development of PHP
-is led by <a rel="noopener external" target="_blank" href="https://wiki.php.net/rfc">RFCs</a>, which is an open and
+is led by <a rel="noopener noreferrer external" target="_blank" href="https://wiki.php.net/rfc">RFCs</a>, which is an open and
 democratic process.</p>
 <p>The Gutenberg project is a new editor for WordPress. The latter is
 written in PHP. This is naturally that we want a native extension for
 PHP to parse the Gutenberg post format.</p>
-<p>PHP is a language with <a rel="noopener external" target="_blank" href="https://github.com/php/php-langspec">a
+<p>PHP is a language with <a rel="noopener noreferrer external" target="_blank" href="https://github.com/php/php-langspec">a
 specification</a>. The most popular
-virtual machine is <a rel="noopener external" target="_blank" href="http://php.net/manual/en/internals2.php">Zend
+virtual machine is <a rel="noopener noreferrer external" target="_blank" href="http://php.net/manual/en/internals2.php">Zend
 Engine</a>. Other virtual machines
-exist, like <a rel="noopener external" target="_blank" href="https://hhvm.com/">HHVM</a> (but the PHP support has been
+exist, like <a rel="noopener noreferrer external" target="_blank" href="https://hhvm.com/">HHVM</a> (but the PHP support has been
 dropped recently in favor of their own PHP fork, called Hack),
-<a rel="noopener external" target="_blank" href="https://www.peachpie.io/">Peachpie</a>, or <a rel="noopener external" target="_blank" href="https://github.com/tagua-vm/tagua-vm">Tagua
+<a rel="noopener noreferrer external" target="_blank" href="https://www.peachpie.io/">Peachpie</a>, or <a rel="noopener noreferrer external" target="_blank" href="https://github.com/tagua-vm/tagua-vm">Tagua
 VM</a> (under development).</p>
 <p>In this post, we will create an extension for Zend Engine. This virtual
 machine is written in C. Great, we have visited <a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/">the C galaxy in the
 previous
 episode</a>!</p>
-<h2 id="rust-rocket-c-rocket-php">Rust 🚀 C 🚀 PHP<a role="presentation" class="anchor" href="#rust-rocket-c-rocket-php" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="rust-rocket-c-rocket-php">Rust 🚀 C 🚀 PHP<span class="toc-anchor" style="view-timeline-name: --toc-timeline-rust-rocket-c-rocket-php"></span>
+<a role="presentation" class="anchor" href="#rust-rocket-c-rocket-php" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <figure role="presentation">
 <p><img src="https://mnt.io/series/from-rust-to-beyond/the-php-galaxy/./rust-to-php.png" alt="Rust to PHP" loading="lazy" decoding="async" /></p>
@@ -229,12 +255,13 @@ episode</a>!</p>
 been done in the previous episode. Two files result from this port to
 C: <code>libgutenberg_post_parser.a</code> and <code>gutenberg_post_parser.h</code>,
 respectively a static library, and the header file.</p>
-<h3 id="bootstrap-with-a-skeleton">Bootstrap with a Skeleton<a role="presentation" class="anchor" href="#bootstrap-with-a-skeleton" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="bootstrap-with-a-skeleton">Bootstrap with a Skeleton
+<a role="presentation" class="anchor" href="#bootstrap-with-a-skeleton" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
-<p>PHP comes with <a rel="noopener external" target="_blank" href="http://php.net/manual/en/internals2.buildsys.skeleton.php">a script to create an extension
+<p>PHP comes with <a rel="noopener noreferrer external" target="_blank" href="http://php.net/manual/en/internals2.buildsys.skeleton.php">a script to create an extension
 skeleton</a>/template,
 called
-<a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/master/ext/ext_skel.php"><code>ext_skel.php</code></a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/php/php-src/blob/master/ext/ext_skel.php"><code>ext_skel.php</code></a>.
 This script is accessible from the source of the Zend Engine virtual
 machine (which we will refer to as <code>php-src</code>). One can invoke the script
 like this:</p>
@@ -284,7 +311,7 @@ our case! We will use it like this :</p>
 <span class="giallo-l"><span class="z-10">$</span><span> make install</span></span></code></pre>
 <p>In this post, we will not show all the edits we have done, but we will rather
 focus on the extension binding.
-<a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser">All the sources can be found here</a>.
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/tree/master/bindings/php/extension/gutenberg_post_parser">All the sources can be found here</a>.
 Shortly, here is the <code>config.m4</code> file:</p>
 <pre class="giallo z-code" ><code data-lang="plain"><span class="giallo-l"><span>PHP_ARG_ENABLE(gutenberg_post_parser, whether to enable gutenberg_post_parser support,</span></span>
 <span class="giallo-l"><span>[  --with-gutenberg_post_parser          Include gutenberg_post_parser support], no)</span></span>
@@ -318,7 +345,8 @@ perfect), to get a structure such as:</p>
 <p>The core of the extension is the <code>gutenberg_post_parser.c</code> file. This
 file is responsible to create the module, and to bind our Rust code to
 PHP.</p>
-<h3 id="the-module-aka-the-extension">The Module, Aka the Extension<a role="presentation" class="anchor" href="#the-module-aka-the-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-module-aka-the-extension">The Module, Aka the Extension
+<a role="presentation" class="anchor" href="#the-module-aka-the-extension" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>As said, we will work in the <code>gutenberg_post_parser.c</code> file. First,
 let's include everything we need:</p>
@@ -361,7 +389,8 @@ selected:</p>
 kind <code>Gutenberg_Parser_Block</code> or <code>Gutenberg_Parser_Phrase</code>, i.e. our
 AST.</p>
 <p>So, let's declare those classes!</p>
-<h3 id="declare-the-classes">Declare the Classes<a role="presentation" class="anchor" href="#declare-the-classes" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="declare-the-classes">Declare the Classes
+<a role="presentation" class="anchor" href="#declare-the-classes" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p><em>Note: The next 4 code blocks are not the core of the post, it is just
 code that needs to be written, you can skip it if you are not about to
@@ -375,7 +404,7 @@ write a PHP extension.</em></p>
 <span class="giallo-l"><span>} gutenberg_parser_node</span><span class="z-10">;</span></span></code></pre>
 <p>A class entry represents a specific class type. A handler is associated
 to a class entry. The logic is somewhat complicated. If you need more
-details, I recommend to read the <a rel="noopener external" target="_blank" href="http://www.phpinternalsbook.com/">PHP Internals
+details, I recommend to read the <a rel="noopener noreferrer external" target="_blank" href="http://www.phpinternalsbook.com/">PHP Internals
 Book</a>.</p>
 <p>Then, let's create a function to instanciate those objects:</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-18">static</span><span> zend_object </span><span class="z-16">*</span><span class="z-19">create_parser_node_object</span><span>(zend_class_entry </span><span class="z-16">*</span><span class="z-13">class_entry</span><span>)</span></span>
@@ -454,14 +483,15 @@ their attributes etc.</p>
 <p>Then, there is a <code>PHP_RINIT_FUNCTION</code> and a <code>PHP_MINFO_FUNCTION</code>
 functions that are already generated by the <code>ext_skel.php</code> script. Same
 for the module entry definition and other module configuration details.</p>
-<h3 id="the-gutenberg-post-parse-function">The <code>gutenberg_post_parse</code> Function<a role="presentation" class="anchor" href="#the-gutenberg-post-parse-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-gutenberg-post-parse-function">The <code>gutenberg_post_parse</code> Function
+<a role="presentation" class="anchor" href="#the-gutenberg-post-parse-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>We will now focus on the <code>gutenberg_post_parse</code> PHP function. This function
 takes a string as a single argument and returns either <code>false</code> if the parsing
 failed, or an array of objects of kind <code>Gutenberg_Parser_Block</code> or
 <code>Gutenberg_Parser_Phrase</code> otherwise. Let's write it! Notice that it is declared
 with
-<a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/main/php.h#L400">the <code>PHP_FUNCTION</code> macro</a>.</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/main/php.h#L400">the <code>PHP_FUNCTION</code> macro</a>.</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-19">PHP_FUNCTION</span><span>(gutenberg_post_parse)</span></span>
 <span class="giallo-l"><span>{</span></span>
 <span class="giallo-l"><span class="z-4">    char</span><span class="z-16"> *</span><span>input</span><span class="z-10">;</span></span>
@@ -505,7 +535,8 @@ of the Gutenberg classes. Let's go:</p>
 <span class="giallo-l"><span class="z-19">    into_php_objects</span><span>(return_value</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">nodes</span><span>)</span><span class="z-10">;</span></span>
 <span class="giallo-l"><span>}</span></span></code></pre>
 <p>Done 😁! Oh wait… the <code>into_php_objects</code> function need to be written!</p>
-<h3 id="the-into-php-objects-function">The <code>into_php_objects</code> Function<a role="presentation" class="anchor" href="#the-into-php-objects-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h3 id="the-into-php-objects-function">The <code>into_php_objects</code> Function
+<a role="presentation" class="anchor" href="#the-into-php-objects-function" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h3>
 <p>This function is not terribly complex: It's just full of Zend Engine
 specific API as expected. We are going to explain how to map a <code>Block</code>
@@ -554,10 +585,10 @@ with the child nodes and the new array,</li>
 <code>Slice_c_char</code>? It's just a structure with a pointer and a length. The pointer
 points to the original input string, so that there is no copy (and this is the
 definition of a slice actually). Well, Zend Engine has
-<a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_API.h#L563-L565">a <code>ZVAL_STRINGL</code> macro</a>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_API.h#L563-L565">a <code>ZVAL_STRINGL</code> macro</a>
 that allows to create a string from a pointer and a length, great! Unfortunately
 for us, Zend Engine does
-<a rel="noopener external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_string.h#L152-L159">a copy behind the scene</a>…
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/php/php-src/blob/52d91260df54995a680f420884338dfd9d5a0d49/Zend/zend_string.h#L152-L159">a copy behind the scene</a>…
 There is no way to keep the pointer and the length only, but it keeps the number
 of copies small. I think it is to take the full ownership of the data, which is
 required for the garbage collector.</p>
@@ -608,8 +639,9 @@ let's continue with children.</p>
 <p>Finally, add the block instance into the array to be returned:</p>
 <pre class="giallo z-code" ><code data-lang="c"><span class="giallo-l"><span class="z-7 z-i">    // 8. Insert the object in the collection.</span></span>
 <span class="giallo-l"><span class="z-19">    add_next_index_zval</span><span>(php_array</span><span class="z-10">,</span><span class="z-16"> &amp;</span><span class="z-13">php_block</span><span>)</span><span class="z-10">;</span></span></code></pre>
-<p><a rel="noopener external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/php/extension/gutenberg_post_parser/gutenberg_post_parser.c">The entire code lands here</a>.</p>
-<h2 id="php-extension-rocket-php-userland">PHP Extension 🚀 PHP Userland<a role="presentation" class="anchor" href="#php-extension-rocket-php-userland" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<p><a rel="noopener noreferrer external" target="_blank" href="https://github.com/Hywan/gutenberg-parser-rs/blob/master/bindings/php/extension/gutenberg_post_parser/gutenberg_post_parser.c">The entire code lands here</a>.</p>
+<h2 id="php-extension-rocket-php-userland">PHP Extension 🚀 PHP Userland<span class="toc-anchor" style="view-timeline-name: --toc-timeline-php-extension-rocket-php-userland"></span>
+<a role="presentation" class="anchor" href="#php-extension-rocket-php-userland" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>Now the extension is written, we have to compile it. That's the
 repetitive set of commands we have shown above with <code>phpize</code>. Once the
@@ -733,7 +765,8 @@ in this blog post!</p>
 <span class="giallo-l"><span class="z-7 z-i"> *     }</span></span>
 <span class="giallo-l"><span class="z-7 z-i"> */</span></span></code></pre>
 <p>It works very well!</p>
-<h2 id="conclusion">Conclusion<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="conclusion">Conclusion<span class="toc-anchor" style="view-timeline-name: --toc-timeline-conclusion"></span>
+<a role="presentation" class="anchor" href="#conclusion" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The journey is:</p>
 <ul>
@@ -774,17 +807,17 @@ faster (see
 <a href="https://mnt.io/series/from-rust-to-beyond/the-webassembly-galaxy/">the WebAssembly galaxy</a>,
 and
 <a href="https://mnt.io/series/from-rust-to-beyond/the-asm-js-galaxy/">the ASM.js galaxy</a>).
-For PHP, <a rel="noopener external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code> is used</a>: It reads the
+For PHP, <a rel="noopener noreferrer external" target="_blank" href="https://github.com/nylen/phpegjs"><code>phpegjs</code> is used</a>: It reads the
 grammar written for PEG.js and compiles it to PHP. Let's see how they compare:</p>
 <figure>
 <table><thead><tr><th>Document</th><th>PEG PHP parser (ms)</th><th>Rust parser as a PHP extension (ms)</th><th>speedup</th></tr></thead><tbody>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>30.409</td><td>0.0012</td><td>× 25341</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>76.39</td><td>0.096</td><td>× 796</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>225.824</td><td>0.399</td><td>× 566</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>173.495</td><td>0.275</td><td>× 631</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>280.433</td><td>0.298</td><td>× 941</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>377.392</td><td>0.052</td><td>× 7258</td></tr>
-<tr><td><a rel="noopener external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>5,437.630</td><td>5.037</td><td>× 1080</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/demo-post.html"><code>demo-post.html</code></a></td><td>30.409</td><td>0.0012</td><td>× 25341</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/shortcode-shortcomings.html"><code>shortcode-shortcomings.html</code></a></td><td>76.39</td><td>0.096</td><td>× 796</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/redesigning-chrome-desktop.html"><code>redesigning-chrome-desktop.html</code></a></td><td>225.824</td><td>0.399</td><td>× 566</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/web-at-maximum-fps.html"><code>web-at-maximum-fps.html</code></a></td><td>173.495</td><td>0.275</td><td>× 631</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/early-adopting-the-future.html"><code>early-adopting-the-future.html</code></a></td><td>280.433</td><td>0.298</td><td>× 941</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/pygmalian-raw-html.html"><code>pygmalian-raw-html.html</code></a></td><td>377.392</td><td>0.052</td><td>× 7258</td></tr>
+<tr><td><a rel="noopener noreferrer external" target="_blank" href="https://raw.githubusercontent.com/dmsnell/gutenberg-document-library/master/library/moby-dick-parsed.html"><code>moby-dick-parsed.html</code></a></td><td>5,437.630</td><td>5.037</td><td>× 1080</td></tr>
 </tbody></table>
   <figcaption>
 <p>Benchmarks between PEG PHP parser and Rust parser as a PHP extension.</p>
@@ -800,12 +833,16 @@ parser as a PHP extension, memory stays constant and close to the size
 of the parsed document.</p>
 <p>I reckon we can optimise the extension further to generate an iterator
 instead of an array. This is something I want to explore and analyse the
-impact on the performance. The PHP Internals Book has a <a rel="noopener external" target="_blank" href="http://www.phpinternalsbook.com/classes_objects/iterators.html">chapter about
+impact on the performance. The PHP Internals Book has a <a rel="noopener noreferrer external" target="_blank" href="http://www.phpinternalsbook.com/classes_objects/iterators.html">chapter about
 Iterators</a>.</p>
 <p>Thanks for reading!</p>
 
 
-    <nav class="previous-next-episodes"><a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-c-galaxy">❮&nbsp;The C galaxy</a></nav>
+    <nav class="previous-next-episodes">
+      <h2>Read other episodes</h2>
+
+      <p><a href="https://mnt.io/series/from-rust-to-beyond/the-c-galaxy/" class="button text-align-start" style="view-transition-name: series-episode-title-the-c-galaxy">❮&nbsp;The C galaxy</a></p>
+    </nav>
   </article>
 
 </main>
@@ -880,7 +917,7 @@ Iterators</a>.</p>
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,

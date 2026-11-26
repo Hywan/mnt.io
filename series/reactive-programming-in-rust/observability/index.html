@@ -13,8 +13,8 @@
     integrity="sha512-VAjmezC71gAQwwfBfnBnDviiV2KgB2gRs7563623d6s9q38ilpiRR/jLalLU2F8Z5e8VLGRMz5clXxu/JG+E2A==">
   <link
     rel="stylesheet"
-    href="https://mnt.io/style/min/main.css?h=d904d99dd302b853778a"
-    integrity="sha512-dhaNKiyEZzV0DjsocQIrZu9j2OOUxrjB5r9AukyagC6MikzJ2SaANskHuD76HojSLoVuLUWHhabNE3xw9OilaA==">
+    href="https://mnt.io/style/min/main.css?h=77d4792cebd9dbc917df"
+    integrity="sha512-XnN/2u7Bo09lY8Qv8bZ3sNEkHen6lHRAlEmdE2uy7noifvAkzB5itseeEpwSJOlOaJEAJ8SAuVCf9mEi4ll1Ow==">
   <link
     rel="stylesheet"
     href="https://mnt.io/style/min/syntax-theme.css?h=39e2e93d96483e84c18d"
@@ -23,7 +23,7 @@
     rel="stylesheet"
     href="https://mnt.io/style/min/search.css"
     fetchpriority="low"
-    integrity="sha512-Cj3Iuvi21/udKgFKRxMbB3QsLUWkW7j4ooMr+uLm8axmQRIwVj8bdTMojmK/cZCbCIgSnYFBaeVoOaf+7X/8Dw==">
+    integrity="sha512-pRNkcxoENOjsPIiIxCKvtyDnP0tsNhLft5BXUtQtwwS6wb0QvuzzrY4Xk4ImYvSNBXQtGv496/VmnsAD53MO6A==">
   <link
     rel="alternate"
     type="application/rss+xml"
@@ -157,7 +157,7 @@
   theme();
 </script>
 
-<dialog id="search" tabindex="-1" closedby="any"></dialog>
+<dialog id="search" tabindex="-1" closedby="any"><search></search></dialog>
 
 <main vocab="https://schema.org">
 
@@ -186,9 +186,34 @@
 
     </header>
 
+    
+  
+
+  <nav class="toc" data-pagefind-ignore="all">
+    <div class="toc-content">
+      <h2>
+        <svg viewBox="0 0 16 16" class="icon" height="1em" role="presentation">
+          <path fill-rule="evenodd" fill="currentColor" d="M4.5 11.5 5 11h10a.5.5 0 0 1 0 1H5zm-2-4L3 7h10a.5.5 0 0 1 0 1H3zm-2-4L1 3h10a.5.5 0 0 1 0 1H1z"/>
+        </svg><!--
+        -->In this page
+      </h2>
+
+      <ol title="Jump to the following section in this page">
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-baby-steps-with-reactive-programming"><a href="#baby-steps-with-reactive-programming">Baby Steps with Reactive Programming</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-attack-of-the-clones"><a href="#attack-of-the-clones">Attack of the Clones</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-observable-immutable-collection"><a href="#observable-immutable-collection">Observable (Immutable) Collection</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-observable-differences"><a href="#observable-differences">Observable Differences</a></li>
+      <li style="anchor-name: --self; animation-timeline: --toc-timeline-filtering-and-sorting-with-higher-order-streams"><a href="#filtering-and-sorting-with-higher-order-streams">Filtering and Sorting with Higher-Order Streams</a></li>
+      
+      </ol>
+    </div>
+  </nav>
+  
+
+
     <p>Imagine a collection of values <code>T</code>. This collection can be updated by inserting
 new values, removing existing ones, or the collection can be truncated, cleared…
-This collection acts as <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html">the standard <code>Vec</code></a>. However, there is a
+This collection acts as <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html">the standard <code>Vec</code></a>. However, there is a
 subtlety: This collection is <em>observable</em>. It is possible for someone to
 <em>subscribe</em> to this collection and to receive its updates.</p>
 <p>This observability pattern is the basis of reactive programming. It applies to
@@ -196,12 +221,12 @@ any kind of type. Actually, it can be generalised as a single <code>Observable&l
 type. For collections though, we will see that an <code>ObservableVector&lt;T&gt;</code> type is
 more efficient.</p>
 <p>I’ve recently played a lot with this pattern as part of my work inside the
-<a rel="noopener external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>, a set of Rust libraries that aim at developing robust
-<a rel="noopener external" target="_blank" href="https://matrix.org/">Matrix</a> clients or bridges. It is notoriously used by the next generation
-Matrix client developed by <a rel="noopener external" target="_blank" href="https://element.io/">Element</a>, namely <a rel="noopener external" target="_blank" href="https://element.io/labs/element-x">Element X</a>. The Matrix Rust SDK is
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/matrix-org/matrix-rust-sdk">Matrix Rust SDK</a>, a set of Rust libraries that aim at developing robust
+<a rel="noopener noreferrer external" target="_blank" href="https://matrix.org/">Matrix</a> clients or bridges. It is notoriously used by the next generation
+Matrix client developed by <a rel="noopener noreferrer external" target="_blank" href="https://element.io/">Element</a>, namely <a rel="noopener noreferrer external" target="_blank" href="https://element.io/labs/element-x">Element X</a>. The Matrix Rust SDK is
 cross-platform. Element X has two implementations: on iOS, iPadOS, and macOS
 with Swift, and on Android with Kotlin. Both languages are using our Rust
-bindings to <a rel="noopener external" target="_blank" href="https://www.swift.org/">Swift</a> and <a rel="noopener external" target="_blank" href="https://kotlinlang.org/">Kotlin</a>. This is the story for another series (how we
+bindings to <a rel="noopener noreferrer external" target="_blank" href="https://www.swift.org/">Swift</a> and <a rel="noopener noreferrer external" target="_blank" href="https://kotlinlang.org/">Kotlin</a>. This is the story for another series (how we
 have automated this, how we support asynchronous flows from Rust to foreign
 languages etc.), but for the moment, let’s keep focus on reactive programming.</p>
 <p>Taking the Element X use case, the room list –which is the central piece of the
@@ -240,9 +265,10 @@ maybe we can start with examples.</p>
   </div>
 </div>
 <p>Alrighty. Fair. Before digging into the really fun bits, we need some basis.</p>
-<h2 id="baby-steps-with-reactive-programming">Baby Steps with Reactive Programming<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="baby-steps-with-reactive-programming">Baby Steps with Reactive Programming<span class="toc-anchor" style="view-timeline-name: --toc-timeline-baby-steps-with-reactive-programming"></span>
+<a role="presentation" class="anchor" href="#baby-steps-with-reactive-programming" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>Everything we are going to share with you has been implemented in <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball">a library
+<p>Everything we are going to share with you has been implemented in <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball">a library
 called <code>eyeball</code></a>. To give you a good idea of what reactive
 programming in Rust can look like, let's create a Rust program:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo new --bin playground</span></span>
@@ -302,7 +328,7 @@ is this thing reactive? I only see synchronous code for the moment.</p>
 </div>
 <p>Hold on. You told me to start slow. You're right though: the <code>Observable</code> owns
 the value. The <code>Subscriber</code> is able to read the value from the <code>Observable</code>.
-However, <code>Subscriber::next</code> returns a <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>! Let's add this:</p>
+However, <code>Subscriber::next</code> returns a <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>! Let's add this:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-7 z-i">// …</span></span>
@@ -321,7 +347,7 @@ However, <code>Subscriber::next</code> returns a <a rel="noopener external" targ
 <span class="giallo-l"><span>16 |     dbg!(subscriber.next().await);</span></span>
 <span class="giallo-l"><span>   |                            ^^^^^ only allowed inside `async` functions and blocks</span></span></code></pre>
 <p>Indeed. Almighty <code>rustc</code> is correct. The <code>main</code> function is not <code>async</code>. We need
-an asynchronous runtime. Let's use <a rel="noopener external" target="_blank" href="https://docs.rs/smol">the <code>smol</code> project</a>, I enjoy it a
+an asynchronous runtime. Let's use <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/smol">the <code>smol</code> project</a>, I enjoy it a
 lot: it's a small, fast, and well-written async runtime:</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo add smol</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
@@ -358,8 +384,8 @@ lot: it's a small, fast, and well-written async runtime:</p>
 <span class="giallo-l"><span>    13,</span></span>
 <span class="giallo-l"><span>)</span></span></code></pre>
 <p>Hurray!</p>
-<p>We can even have a bit more ergonomics by using <a rel="noopener external" target="_blank" href="https://docs.rs/smol-macros">the <code>smol-macros</code>
-crate</a> which sets up a default <a rel="noopener external" target="_blank" href="https://docs.rs/smol/2.0.2/smol/struct.Executor.html">async runtime
+<p>We can even have a bit more ergonomics by using <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/smol-macros">the <code>smol-macros</code>
+crate</a> which sets up a default <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/smol/2.0.2/smol/struct.Executor.html">async runtime
 <code>Executor</code></a> for us. It's useful in our case as we want to play
 with something else (reactive programming), and don't want to focus on the async
 runtime itself:</p>
@@ -431,7 +457,7 @@ result:</p>
     <p>I believe I start to appreciate it. However, I foresee you might hide something
 behind these <code>Time::after</code>. Am I right?</p>
 <p>And this <code>task.await</code> at the end makes the program to never finish. It explains
-the need to send <a rel="noopener external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=signal">a <code>SIGINT</code> signal</a> to the program to interrupt it,
+the need to send <a rel="noopener noreferrer external" target="_blank" href="https://man.freebsd.org/cgi/man.cgi?query=signal">a <code>SIGINT</code> signal</a> to the program to interrupt it,
 right?</p>
   </div>
 </div>
@@ -449,7 +475,7 @@ is not always the case as we will see with <code>ObservableVector</code> later, 
 moment, that's the case.</p>
 <p>And yes, if we want the <code>task</code> to get a chance to consume more updates, we need
 to tell the executor we will wait while the current other tasks are waken up. To
-do that, we can use <a rel="noopener external" target="_blank" href="https://docs.rs/smol/2.0.2/smol/future/fn.yield_now.html">the <code>smol::yield_now</code> function</a>:</p>
+do that, we can use <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/smol/2.0.2/smol/future/fn.yield_now.html">the <code>smol::yield_now</code> function</a>:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">    // Now, let&#39;s update `observable`.</span></span>
 <span class="giallo-l"><span class="z-4">    Observable</span><span class="z-16">::</span><span class="z-19">set</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span> observable,</span><span class="z-13"> 13</span><span>);</span></span>
 <span class="giallo-l"><span class="z-7 z-i">    // Eh `executor`: `task` can run now, we will wait!</span></span>
@@ -476,14 +502,15 @@ won't be able to read any value from it, so it's going to close itself, and the
 <code>task</code> will end. That's why waiting on the task with <code>task.await</code> will terminate
 this time. And thus, the program will finish gracefully.</p>
 <p>And that's it. That's the basis of reactive programming. Also note that
-<code>Subscriber&lt;T&gt;</code> implements <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/marker/trait.Send.html"><code>Send</code></a> and <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/marker/trait.Sync.html"><code>Sync</code></a> if <code>T</code> implements <code>Send</code> and
+<code>Subscriber&lt;T&gt;</code> implements <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/marker/trait.Send.html"><code>Send</code></a> and <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/marker/trait.Sync.html"><code>Sync</code></a> if <code>T</code> implements <code>Send</code> and
 <code>Sync</code>, i.e. if the observed type implements these traits. That's pretty useful
 actually: it is possible to send the subscriber in a different thread, and keep
 waiting for new updates.</p>
-<h2 id="attack-of-the-clones">Attack of the Clones<a role="presentation" class="anchor" href="#attack-of-the-clones" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="attack-of-the-clones">Attack of the Clones<span class="toc-anchor" style="view-timeline-name: --toc-timeline-attack-of-the-clones"></span>
+<a role="presentation" class="anchor" href="#attack-of-the-clones" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>However, at the beginning of this episode, we were talking about a collection.
-Let's focus on <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html"><code>Vec</code></a>.</p>
+Let's focus on <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html"><code>Vec</code></a>.</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
     <span lang="fr">Le Comte</span>
@@ -504,11 +531,11 @@ time and work to support other collections, it's definitely not impossible but
 you will see that it's not trivial neither to support all these collections for
 a simple reason: Did you notice that <code>Subscriber</code> produces an owned <code>T</code>? Not a
 <code>&amp;T</code>, but a <code>T</code>. That's because
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a> requires <code>T: Clone</code>. It means
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a> requires <code>T: Clone</code>. It means
 that the observed value will be cloned every time it is broadcasted to a
 subscriber.</p>
-<p><a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/clone/trait.Clone.html">Cloning a value</a> may be expensive. Here we are manipulating <code>usize</code>,
-which is a primitive type, so it's all fine (it boils down to a <a rel="noopener external" target="_blank" href="https://en.cppreference.com/w/c/string/byte/memcpy"><code>memcpy</code></a>).
+<p><a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/clone/trait.Clone.html">Cloning a value</a> may be expensive. Here we are manipulating <code>usize</code>,
+which is a primitive type, so it's all fine (it boils down to a <a rel="noopener noreferrer external" target="_blank" href="https://en.cppreference.com/w/c/string/byte/memcpy"><code>memcpy</code></a>).
 But imagine an <code>Observable&lt;Vec&lt;BigType&gt;&gt;</code> where <code>BigType</code> is 512 bytes: the
 memory impact is going to be quickly noticeable. So th…</p>
 <div class="conversation" data-character="comte">
@@ -524,7 +551,7 @@ memory impact is going to be quickly noticeable. So th…</p>
     <p>… Excuse my interruption! You know how I love reading books. I like
 defining myself as a bibliophile. Anyway. During my perusal of the <code>eyeball</code>
 documentation, I have found
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next_ref-1"><code>Subscriber::next_ref</code></a>. The documentation
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next_ref-1"><code>Subscriber::next_ref</code></a>. The documentation
 says:</p>
 <blockquote>
 <p>Wait for an update and get a read lock for the updated value.</p>
@@ -555,8 +582,8 @@ have the responsibility to make our programs use as few resources as possible,
 so that hardwares can be used longer. The hardware is the most polluting segment
 of our digital world.</p>
 <p>So. How a data structure like <code>Vec</code> can be cloned cheaply? We could put
-it inside an <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html"><code>Arc</code></a> right? Cloning an <em>Atomically Reference Counted</em> value
-is really cheap: <a rel="noopener external" target="_blank" href="https://github.com/rust-lang/rust/blob/f6bcd094abe174a218f7cf406e75521be4199f88/library/alloc/src/sync.rs#L2118-L2170">it increases the counter by 1 atomically</a>,
+it inside an <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/sync/struct.Arc.html"><code>Arc</code></a> right? Cloning an <em>Atomically Reference Counted</em> value
+is really cheap: <a rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rust/blob/f6bcd094abe174a218f7cf406e75521be4199f88/library/alloc/src/sync.rs#L2118-L2170">it increases the counter by 1 atomically</a>,
 the inner value is untouched. Nonetheless, we have a mutation problem now.
 If we have <code>Observable&lt;Arc&lt;Vec&lt;_&gt;&gt;&gt;</code>, it means that the subscribers will be
 <code>Subscriber&lt;Arc&lt;Vec&lt;_&gt;&gt;&gt;</code>. In this case, every time the observable wants to
@@ -579,7 +606,7 @@ extremely powerful.</p>
 <p>If two data structures are mostly copies of each other, most of the memory
 they take up will be shared between them. This implies that making copies of
 an immutable data structure is cheap: it's really only a matter of copying
-a pointer and increasing a reference counter, where in the case of <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html"><code>Vec</code></a> you
+a pointer and increasing a reference counter, where in the case of <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/vec/index.html"><code>Vec</code></a> you
 have to allocate the same amount of memory all over again and make a copy of
 every element it contains. For immutable data structures, extra memory isn't
 allocated until you modify either the copy or the original, and then only the
@@ -617,18 +644,19 @@ Immutable Sequence</cite><sup class="footnote-reference" id="fr-SRUB2015-1"><a h
 not necessary at all for what we are talking now. It's a great tool we are going
 to use, no matter how it works internally.</p>
 <p>Do you know the other good news? We don't have to implement it by ourselves,
-because some nice people already did it! Enter <a rel="noopener external" target="_blank" href="https://docs.rs/imbl">the <code>imbl</code> crate</a>. This
-crate provides <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. It can be used like a regular
+because some nice people already did it! Enter <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl">the <code>imbl</code> crate</a>. This
+crate provides <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. It can be used like a regular
 <code>Vec</code>. (Side note: it's even smarter than a <code>Vec</code> because it implements smart
 head and tail chunking<sup class="footnote-reference" id="fr-UCR2014-1"><a href="https://mnt.io/series/reactive-programming-in-rust/observability/#fn-UCR2014">[4]</a></sup>, and allocates in the stack or on the heap
-depending on the size of the collection, similarly to <a rel="noopener external" target="_blank" href="https://docs.rs/smallvec">the <code>smallvec</code>
+depending on the size of the collection, similarly to <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/smallvec">the <code>smallvec</code>
 crate</a>. End of digression)</p>
-<h2 id="observable-immutable-collection">Observable (Immutable) Collection<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="observable-immutable-collection">Observable (Immutable) Collection<span class="toc-anchor" style="view-timeline-name: --toc-timeline-observable-immutable-collection"></span>
+<a role="presentation" class="anchor" href="#observable-immutable-collection" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
-<p>The <code>imbl</code> crate then. It provides <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. <code>eyeball</code>
+<p>The <code>imbl</code> crate then. It provides <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html">a <code>Vector</code> type</a>. <code>eyeball</code>
 provides a crate for working with immutable data structures (how surprising
-huh?): <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im">this crate is <code>eyeball-im</code></a>.</p>
-<p>Instead of providing an <code>Observable&lt;T&gt;</code> type, it provides <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html">an
+huh?): <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im">this crate is <code>eyeball-im</code></a>.</p>
+<p>Instead of providing an <code>Observable&lt;T&gt;</code> type, it provides <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html">an
 <code>ObservableVector&lt;T&gt;</code> type</a> which is a <code>Vector</code>,
 but an observable one! Let's see… what do we have… <i>scroll the
 documentation</i>, hmm, interesting, <i>scroll more…</i>, okay, that's
@@ -641,10 +669,10 @@ take a <code>&amp;mut self</code>, cool.</li>
 <li>Then, there is a <code>with_capacity</code> method, this is intriguing, <i>add to
 notes</i>,</li>
 <li>Finally, we find our not-so-ol' friend <code>subscribe</code>, but this time it returns a
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html"><code>VectorSubscriber&lt;T&gt;</code></a>.</li>
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html"><code>VectorSubscriber&lt;T&gt;</code></a>.</li>
 </ul>
 <p>Let's explore <code>VectorSubscriber</code> a bit more, would you? <i>Scroll the
-document</i>, contrary to <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a>,
+document</i>, contrary to <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball/0.8.8/eyeball/struct.Subscriber.html#method.next-1"><code>Subscriber::next</code></a>,
 there is no <code>next</code> method. How are we supposed to wait on an update?</p>
 <div class="conversation" data-character="comte">
   <div class="conversation--character">
@@ -665,7 +693,7 @@ trait such as <code>futures::StreamExt</code> or <code>tokio_stream::StreamExt</
   </div>
 </div>
 <p>… fair enough. So <code>Subscriber::next</code> mimics <code>StreamExt::next</code>. Okay. Let's look
-at <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html"><code>Stream</code></a> first, it's from <a rel="noopener external" target="_blank" href="https://docs.rs/futures">the <code>futures</code>
+at <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html"><code>Stream</code></a> first, it's from <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures">the <code>futures</code>
 crate</a>. <code>Stream</code> defines itself as:</p>
 <blockquote>
 <p>A stream of values produced asynchronously.</p>
@@ -677,11 +705,11 @@ exhausted.</p>
 </blockquote>
 <p>We aren't going to teach everything about <code>Stream</code>: why this design, its
 pros and cons… However, <i>wave its hand to ask you to come
-closer</i>, did you notice how <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll"><code>Future::poll</code></a> returns <code>Poll&lt;Self::Output&gt;</code>,
-whilst <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html#tymethod.poll_next"><code>Stream::poll_next</code></a> returns
-<code>Poll&lt;Option&lt;Self::Item&gt;&gt;</code>? It's really similar to <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next"><code>Iterator::next</code></a> which
+closer</i>, did you notice how <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll"><code>Future::poll</code></a> returns <code>Poll&lt;Self::Output&gt;</code>,
+whilst <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.Stream.html#tymethod.poll_next"><code>Stream::poll_next</code></a> returns
+<code>Poll&lt;Option&lt;Self::Item&gt;&gt;</code>? It's really similar to <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.next"><code>Iterator::next</code></a> which
 returns <code>Option&lt;Self::Item&gt;</code>.</p>
-<p>Let's have a look at <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/task/enum.Poll.html"><code>Poll&lt;T&gt;</code></a> don't you mind? It's an enum with 2
+<p>Let's have a look at <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/task/enum.Poll.html"><code>Poll&lt;T&gt;</code></a> don't you mind? It's an enum with 2
 variants:</p>
 <ul>
 <li><code>Ready(value)</code> means a <code>value</code> is immediately ready,</li>
@@ -699,9 +727,9 @@ not be called anymore),</li>
 produces multiple values, and <code>Poll::Ready(None)</code> represents the termination of
 the stream, similarly to <code>None</code> to represent the termination of an <code>Iterator</code>.
 Ahh, I love consistency.</p>
-<p>We have the basis. Now let's see <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html"><code>StreamExt</code></a>.
+<p>We have the basis. Now let's see <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/stream/trait.StreamExt.html"><code>StreamExt</code></a>.
 It's a trait extending <code>Stream</code> to add convenient combinator methods. Amongst
-other things, we find <a rel="noopener external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next"><code>StreamExt::next</code></a>!
+other things, we find <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/futures/0.3.30/futures/prelude/stream/trait.StreamExt.html#method.next"><code>StreamExt::next</code></a>!
 Ah ha! It returns a <code>Next</code> type which implements a <code>Future</code>, exactly what
 <code>eyeball</code> does actually. Remember our:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// from `main.rs`</span></span>
@@ -723,14 +751,14 @@ Ah ha! It returns a <code>Next</code> type which implements a <code>Future</code
 <p>Pieces start to come together, don't they?</p>
 <p>End of the detour. Back to <code>eyeball_im::VectorSubscriber&lt;T&gt;</code> . It is possible to
 transform this type into a <code>Stream</code> with its
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html#method.into_stream"><code>into_stream</code></a> method. It returns
-a <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html"><code>VectorSubscriberStream</code></a>. Naming is
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriber.html#method.into_stream"><code>into_stream</code></a> method. It returns
+a <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html"><code>VectorSubscriberStream</code></a>. Naming is
 hard, but if I would have to guess, I would say it implements… a… <code>Stream</code>?</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// from `eyeball-im`</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-18">impl</span><span>&lt;</span><span class="z-4">T</span><span class="z-16">:</span><span class="z-4"> Clone</span><span class="z-16"> +</span><span class="z-4"> Send</span><span class="z-16"> +</span><span class="z-4"> Sync</span><span class="z-16"> +</span><span> &#39;</span><span class="z-4">static</span><span>&gt;</span><span class="z-4"> Stream</span><span class="z-18"> for</span><span class="z-4"> VectorSubscriberStream</span><span>&lt;</span><span class="z-4">T</span><span>&gt; {</span></span>
 <span class="giallo-l"><span class="z-18">    type</span><span class="z-4"> Item</span><span class="z-16"> =</span><span class="z-4"> VectorDiff</span><span>&lt;</span><span class="z-4">T</span><span>&gt;;</span></span></code></pre>
-<p><a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html#impl-Stream-for-VectorSubscriberStream%3CT%3E">Yes, it does</a>!</p>
+<p><a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.VectorSubscriberStream.html#impl-Stream-for-VectorSubscriberStream%3CT%3E">Yes, it does</a>!</p>
 <p>Dust blown away, the puzzle starts to appear clearly. Let's back on coding!</p>
 <pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo add eyeball-im futures</span></span>
 <span class="giallo-l"><span>    Updating crates.io index</span></span>
@@ -821,17 +849,17 @@ when asked for. However, with <code>ObservableVector</code>, things are differen
 missing values. There are all here. As if there… was a buffer!</p>
 <p>And the values returned by the subscriber are not the raw <code>T</code>:
 we see <code>PushBack</code>. It comes from, <i>check the documentation</i>,
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>VectorDiff::PushBack</code></a>!</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>VectorDiff::PushBack</code></a>!</p>
   </div>
 </div>
 <p>Good eyes, well done.</p>
 <p>First off, that's correct that <code>PushBack</code> comes from
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>VectorDiff</code></a>. Let's come back to this piece in
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>VectorDiff</code></a>. Let's come back to this piece in
 a second: it is the cornerstone of the entire series, it deserves a bit of
 explanations.</p>
 <p>Second, yes, <code>VectorSubscriber</code> returns <strong>all values</strong>! There is actually a
 buffer. It's a bit annoying to continue with a <code>task</code> as we did so far, let's
-use <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/macro.assert_eq.html"><code>assert_eq!</code></a> instead.</p>
+use <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/macro.assert_eq.html"><code>assert_eq!</code></a> instead.</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-7 z-i">// in `src/main.rs`</span></span>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-18">use</span><span class="z-4"> eyeball_im</span><span class="z-16">::</span><span>{</span><span class="z-4">ObservableVector</span><span>,</span><span class="z-4"> VectorDiff</span><span>};</span></span>
@@ -1045,7 +1073,7 @@ We would need to look at the implementation to be sure.</p>
 <span class="giallo-l"><span>note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span></span></code></pre>
 <p>Oh! An error, great! Our <code>assert_next_eq!</code> has failed. <code>subscriber</code> does not
 receive a <code>VectorDiff::PopBack</code> but a <code>VectorDiff::Reset</code>. Let's play with
-<a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html#method.with_capacity"><code>ObservableVector::with_capacity</code></a>
+<a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/struct.ObservableVector.html#method.with_capacity"><code>ObservableVector::with_capacity</code></a>
 a moment, maybe it's related to the buffer capacity? Let's change a single line:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">let mut</span><span> observable</span><span class="z-16"> =</span><span class="z-4"> ObservableVector</span><span class="z-16">::</span><span class="z-19">with_capacity</span><span>(</span><span class="z-13">32</span><span>);</span></span>
 <span class="giallo-l"><span class="z-7 z-i">//                                     ^^^^^^^^^^^^^^^^^ new!</span></span></code></pre><pre class="giallo z-code" ><code data-lang="shellsession"><span class="giallo-l"><span class="z-10">$</span><span> cargo run --quiet</span></span>
@@ -1066,17 +1094,18 @@ a moment, maybe it's related to the buffer capacity? Let's change a single line:
     <p>We have learned that <code>ObservableVector::with_capacity</code> controls the size of
 the buffer.</p>
 <p>The name could suggest that it controls the capacity of the observed <code>Vector</code>,
-<em>à la</em> <a rel="noopener external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity"><code>Vec::with_capacity</code></a>, but it must not be confused.</p>
+<em>à la</em> <a rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/vec/struct.Vec.html#method.with_capacity"><code>Vec::with_capacity</code></a>, but it must not be confused.</p>
 <p>For a reason we ignore so far, when the buffer is full, we receive a
 <code>VectorDiff::Reset</code>. We need to learn more about this type.</p>
   </div>
 </div>
-<h2 id="observable-differences">Observable Differences<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="observable-differences">Observable Differences<span class="toc-anchor" style="view-timeline-name: --toc-timeline-observable-differences"></span>
+<a role="presentation" class="anchor" href="#observable-differences" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>The previous section was explaining how immutable data structures could save us
 by cheaply and efficiently cloning the data between the observable and its
-subscribers. However, we see that <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im"><code>eyeball-im</code></a>, despite using <a rel="noopener external" target="_blank" href="https://docs.rs/imbl"><code>imbl</code></a>, does
-not share an <a rel="noopener external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html"><code>imbl::Vector</code></a> but an <a rel="noopener external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>eyeball_im::VectorDiff</code></a>. Why such
+subscribers. However, we see that <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im"><code>eyeball-im</code></a>, despite using <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl"><code>imbl</code></a>, does
+not share an <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/imbl/3.0.0/imbl/struct.Vector.html"><code>imbl::Vector</code></a> but an <a rel="noopener noreferrer external" target="_blank" href="https://docs.rs/eyeball-im/0.5.0/eyeball_im/enum.VectorDiff.html"><code>eyeball_im::VectorDiff</code></a>. Why such
 design? It looks like a drama. A betrayal. An act of treachery!</p>
 <p>Well. Firstly, <code>eyeball-im</code> is relying on some immutable properties of <code>Vector</code>.
 And secondly, the reason for which <code>VectorDiff</code> exists is simple. If a
@@ -1112,7 +1141,7 @@ The user is manipulating the <code>ObservableVector</code> in a special way, and
 ideally not change that.</p>
 <p>These <code>VectorDiff</code> actually comes from <code>ObservableVector</code> itself! Let's look at
 the implementation of
-<a rel="noopener external" target="_blank" href="https://github.com/jplatte/eyeball/blob/4254403e385715380753bb0def20fb0398e91ebd/eyeball-im/src/vector.rs#L107-L114"><code>ObservableVector::push_back</code></a>:</p>
+<a rel="noopener noreferrer external" target="_blank" href="https://github.com/jplatte/eyeball/blob/4254403e385715380753bb0def20fb0398e91ebd/eyeball-im/src/vector.rs#L107-L114"><code>ObservableVector::push_back</code></a>:</p>
 <pre class="giallo z-code" ><code data-lang="rust"><span class="giallo-l"><span class="z-18">pub fn</span><span class="z-19"> push_back</span><span>(</span><span class="z-16">&amp;</span><span class="z-18">mut</span><span class="z-1 z-i"> self</span><span>, value</span><span class="z-16">:</span><span class="z-4"> T</span><span>) {</span></span>
 <span class="giallo-l"><span class="z-7 z-i">    // [ … snip … ]</span></span>
 <span class="giallo-l"></span>
@@ -1171,7 +1200,8 @@ current state!</q>. This is not ideal, but the subscriber is responsible to not
 lag, and this design avoids having missing values. If a subscriber receives
 too much <code>VectorDiff::Reset</code>s, the user may consider increasing the capacity of
 the <code>ObservableVector</code>.</p>
-<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and Sorting with Higher-Order <code>Stream</code>s<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header" data-pagefind-ignore>#</a>
+<h2 id="filtering-and-sorting-with-higher-order-streams">Filtering and Sorting with Higher-Order <code>Stream</code>s<span class="toc-anchor" style="view-timeline-name: --toc-timeline-filtering-and-sorting-with-higher-order-streams"></span>
+<a role="presentation" class="anchor" href="#filtering-and-sorting-with-higher-order-streams" title="Anchor link to this header" data-pagefind-ignore>#</a>
 </h2>
 <p>We are reaching the end of this episode. And you know what? We have set all the
 parts to talk about higher-order <code>Stream</code>, <i>chante victory and dance at the
@@ -1233,7 +1263,11 @@ Symposium, Wroclaw, Poland, September 8-10, 2014. Proceedings 21 (pp.
 </section>
 
 
-    <nav class="previous-next-episodes"><div class="button button--disabled text-align-end">(coming soon)&nbsp;❯</div></nav>
+    <nav class="previous-next-episodes">
+      <h2>Read other episodes</h2>
+
+      <p><div class="button button--disabled text-align-end">(coming soon)&nbsp;❯</div></p>
+    </nav>
   </article>
 
 </main>
@@ -1308,7 +1342,7 @@ Symposium, Wroclaw, Poland, September 8-10, 2014. Proceedings 21 (pp.
 
         if (!search_initialized) {
           new PagefindUI({
-            element: "#search",
+            element: "#search > search",
             resetStyles: false,
             showSubResults: true,
             showImages: false,
