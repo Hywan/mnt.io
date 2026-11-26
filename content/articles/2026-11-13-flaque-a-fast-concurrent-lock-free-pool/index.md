@@ -80,9 +80,9 @@ Now, the big table.
   <tr>
     <th scope="col" rowspan="2">Pool size</th>
     <th scope="col" rowspan="2">Number of readers</th>
-    <th scope="row" rowspan="2">Library</th>
-    <th scope="row" colspan="6">Time (ms)</th>
-    <th scope="row" colspan="6">Throughput (M<sub>object</sub>/sec)</th>
+    <th scope="col" rowspan="2">Library</th>
+    <th scope="col" colspan="6">Time (ms)</th>
+    <th scope="col" colspan="6">Throughput (M<sub>object</sub>/sec)</th>
   </tr>
   <tr>
     <th scope="col">1</th>
