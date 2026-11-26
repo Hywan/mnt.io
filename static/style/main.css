@@ -827,6 +827,7 @@ footer {
 }
 
 @keyframes toc-progress {
+  from { --toc-progress: 0 }
   to { --toc-progress: 1 }
 }
 
@@ -878,6 +879,7 @@ article {
 
   &:has(.toc) {
     position: relative;
+    timeline-scope: all;
   }
 
   .toc {
