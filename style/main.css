@@ -187,6 +187,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 html {
   scroll-padding-top: var(--space-very-large);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -199,8 +200,6 @@ body {
   color: var(--color-light);
   accent-color: var(--color-accent);
   background: var(--color-canvas);
-
-  scroll-behavior: smooth;
 }
 
 a {
